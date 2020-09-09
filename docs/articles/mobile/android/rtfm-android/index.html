@@ -398,6 +398,15 @@ sh bc.sh
 <p>How to install tcpdump on Android: <a href="https://www.andreafortuna.org/2018/05/28/how-to-install-and-run-tcpdump-on-android-devices/">tcpdump</a></p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb push
 chmod tcpdump -v -s <span class="m">0</span> -w eccouncil.pc tcpdump -v -s <span class="m">0</span> -w insecurebank.v2
+</code></pre></div><h2 id="script-for-data-leak-autocheck">Script for data leak autocheck</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s2">&#34;not implemented&#34;</span><span class="p">)</span>
+</code></pre></div><h2 id="sensitive-info-greps">Sensitive info greps</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -rP  <span class="s1">&#39;(https?):\/\/(www\.)?[a-z0-9.:].*?(?=\s)&#39;</span> .&gt; ../links.txt <span class="c1"># links</span>
+grep -r -E -o <span class="s2">&#34;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b&#34;</span> . <span class="c1"># email</span>
+grep <span class="o">[</span>login<span class="o">]</span> <span class="p">|</span> <span class="o">[</span>password<span class="o">]</span> <span class="c1"># logins/passwords etc</span>
+grep -r -E -o <span class="s2">&#34;4[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> .  <span class="c1"># visa cards numbers</span>
+mstercard grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> . <span class="c1"># mastercard</span>
 </code></pre></div>
 </div>
 </div>
