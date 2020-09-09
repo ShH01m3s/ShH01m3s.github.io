@@ -264,6 +264,7 @@
 <h1 class="title">Rtfm Android</h1>
 <div class="content ">
   <h2 id="adb">ADB</h2>
+<p>Over USB:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb devices
 adb shell
 su
@@ -272,21 +273,50 @@ adb kill-server
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb logcat &gt; log.txt
 </code></pre></div><p>Port forwarding example:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
+</code></pre></div><p>Connecting over WiFi:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell ifconfig <span class="c1"># get mobile device IP</span>
+adb tcpip <span class="m">5555</span> <span class="c1"># start adb in tcpip mode</span>
+adb connect <span class="o">[</span>mobile_IP<span class="o">]</span>:5555 <span class="c1"># disconnect USB before that</span>
+adb shell <span class="c1"># to check</span>
 </code></pre></div><h2 id="jdb">JDB</h2>
-<p>Useful to watch regarding debugging in Android applications:
-<a href="https://www.youtube.com/watch?v=fVZXeZ07tS4">https://www.youtube.com/watch?v=fVZXeZ07tS4</a>
-Get PID list:
-Either</p>
+<p>Useful to <a href="https://www.youtube.com/watch?v=fVZXeZ07tS4">watch</a> regarding debugging in Android applications.</p>
+<p>Get PID list:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb jdwp, либо frida-ps -U <span class="p">|</span> Select-String <span class="s2">&#34;[partialname]&#34;</span> <span class="c1">#windows</span>
 frida-ps -U <span class="p">|</span> grep <span class="s2">&#34;[partialname]&#34;</span> <span class="c1">#linux</span>
-</code></pre></div><p>Or</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
 </code></pre></div><p>Forward in adb:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:12345 jdwp:<span class="o">[</span>PID_of_app<span class="o">]</span>
 </code></pre></div><p>Connect to process:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1">#windows</span>
 jdb -attach localhost:12345 //не проверялось <span class="c1">#linux</span>
-</code></pre></div><h2 id="android-tamer">Android Tamer</h2>
+</code></pre></div><h2 id="runtime-attacks">Runtime Attacks</h2>
+<p>On mobile device:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /sbin
+<span class="c1"># to use frida over USB</span> 
+./frida
+<span class="c1"># to use frida over WiFi</span>
+./frida -l 192.168.125.108
+</code></pre></div><p>On PC:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-trace -U -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over USB</span> 
+
+frida-trace -H <span class="o">[</span>mobile phone IP<span class="o">]</span> -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over WiFi</span>
+
+frida-trace –U “<span class="o">[</span>package_name or PID<span class="o">]</span>” -m <span class="s2">&#34;-[NSURL* *HTTP*]&#34;</span> <span class="c1"># for functions workimg with HTTP</span>
+</code></pre></div><h2 id="memory-dumps">Memory dumps</h2>
+<p><strong>Option 1.</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python C:<span class="se">\P</span>ython37<span class="se">\S</span>cripts<span class="se">\f</span>ridump.py --usb -r -s --max-size <span class="m">1000000000</span> -o . <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><p>Result in <code>string.txt</code></p>
+<p><strong>Option 2.</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su /sbin
+./frida-server
+
+objection -g <span class="o">[</span>package_name<span class="o">]</span> explore 
+memory dumpall <span class="o">[</span>dump_name<span class="o">]</span>
+strings.exe <span class="o">[</span>dump_name<span class="o">]</span> &gt; strings.txt
+</code></pre></div><p>Result in <code>string.txt</code></p>
+<h2 id="android-tamer">Android Tamer</h2>
 <p>Useful VM for mobile pentesting and forensics with all tools needed preinstalled is  Android Tamer. To get it work, after VM import, one needs to install several packages:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">install metasploit, zipalign and apache2
 ​<span class="sb">```</span><span class="c1">## Drozer</span>

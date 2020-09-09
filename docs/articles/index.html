@@ -273,9 +273,11 @@
 <div class="summary mb-2">
   
   <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/rtfm-android/">Rtfm Android</a></h2>
-  <p>ADB adb devices adb shell su adb kill-server See logs:
+  <p>ADB Over USB:
+adb devices adb shell su adb kill-server See logs:
 adb logcat &gt; log.txt Port forwarding example:
-adb forward tcp:31415 tcp:31415 JDB Useful to watch regarding debugging in Android applications: https://www.</p>
+adb forward tcp:31415 tcp:31415 Connecting over WiFi:
+adb shell ifconfig # get mobile device IP adb tcpip 5555 # start adb in tcpip mode adb connect [mobile_IP]:5555 # disconnect USB before that adb shell # to check JDB Useful to watch regarding debugging in Android applications.</p>
 </div>
 
 
