@@ -151,6 +151,10 @@
   <ul>
     
     <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/btfm-android/">Btfm Android</a>
+    </li>
+    
+    <li class="">
       <a href="https://bakerst221b.com/docs/articles/mobile/android/complex-attacks/">Complex Attacks</a>
     </li>
     
@@ -273,6 +277,10 @@
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb install <span class="o">[</span>appname<span class="o">]</span>.apk
 adb devices
 adb kill-server
+adb shell getprop ro.build.version.release <span class="c1"># get Android version</span>
+adb shell getprop ro.build.version.sdk <span class="c1"># get API version</span>
+adb shell getprop <span class="c1"># all device info</span>
+adb shell cat /system/build.prop <span class="c1"># another way to get this info</span>
 </code></pre></div><p>Over USB:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb devices
 adb shell
@@ -428,7 +436,9 @@ mstercard grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4
 <span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">&#34;:android:show_fragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MyFragment&#34;</span><span class="o">);</span>
 <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&#34;https://security.claudio.pt&#34;</span><span class="o">));</span>
 <span class="n">startActivity</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="err">#</span> <span class="n">here</span> <span class="n">is</span> <span class="n">supposed</span> <span class="n">to</span> <span class="n">be</span> <span class="n">the</span> <span class="n">malicious</span> <span class="n">data</span> <span class="n">passed</span>
-</code></pre></div>
+</code></pre></div><h2 id="exploiter">Exploiter</h2>
+<p><a href="">Here</a> is the link to my Android application, which implements all common attacks as a &ldquo;malicous&rdquo; application as is described in <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/">Mobile Security Testing Guide</a>. For example, it contains exploit for <a href="/docs/articles/mobile/android/complex-attacks/">this</a> vulnerability.</p>
+
 </div>
 </div>
 
