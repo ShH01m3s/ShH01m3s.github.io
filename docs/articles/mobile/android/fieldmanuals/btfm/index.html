@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Articles - Observer</title>
+  <title>Btfm Android - Observer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -154,7 +154,7 @@
       <a href="https://bakerst221b.com/docs/articles/mobile/android/fundamentals/activities/">Activities</a>
     </li>
     
-    <li class="">
+    <li class="active ">
       <a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/btfm/">Btfm Android</a>
     </li>
     
@@ -273,115 +273,37 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-<span class="overview">Overview</span>
-<h1 class="title">Articles</h1>
-<div class="content">
-  <p>Here I&rsquo;m posting articles (which are bigger than blog posts and are written in a diffferent style). Also, articles cover a topic rather than a case.</p>
+<h1 class="title">Btfm Android</h1>
+<div class="content ">
+  <h2 id="adb">ADB</h2>
+<p>On mobile <a href="https://tunesgo.wondershare.com/android/enable-android-developer-options.html?gclid=EAIaIQobChMI5qTXtM3c6wIViqkYCh3TOQy4EAAYASAAEgIZsvD_BwE">enable</a> developer&rsquo;s mode and USB debugging. Trust the PC with adb when prompted on mobile.</p>
+<p>Usefull commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb install <span class="o">[</span>appname<span class="o">]</span>.apk
+adb devices
+adb kill-server
+adb shell getprop ro.build.version.release <span class="c1"># get Android version</span>
+adb shell getprop ro.build.version.sdk <span class="c1"># get API version</span>
+adb shell getprop <span class="c1"># all device info</span>
+adb shell cat /system/build.prop <span class="c1"># another way to get this info</span>
+</code></pre></div><p>Over USB:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb devices
+adb shell
+su
+adb kill-server
+</code></pre></div><p>See logs:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb logcat &gt; log.txt
+</code></pre></div><p>Port forwarding example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
+</code></pre></div><p>Connecting over WiFi:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell ifconfig <span class="c1"># get mobile device IP</span>
+adb tcpip <span class="m">5555</span> <span class="c1"># start adb in tcpip mode</span>
+adb connect <span class="o">[</span>mobile_IP<span class="o">]</span>:5555 <span class="c1"># disconnect USB before that</span>
+adb shell <span class="c1"># to check</span>
+adb usb <span class="c1"># disable tcpip mode</span>
+</code></pre></div><h2 id="heading"></h2>
 
 </div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/fundamentals/activities/">Activities</a></h2>
-  <p></p>
 </div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/btfm/">Btfm Android</a></h2>
-  <p>ADB On mobile enable developer&rsquo;s mode and USB debugging. Trust the PC with adb when prompted on mobile.
-Usefull commands:
-adb install [appname].apk adb devices adb kill-server adb shell getprop ro.</p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/attacks/complex-attacks/">Complex Attacks</a></h2>
-  <p>Fragment Injection  To read: https://securityintelligence.com/new-vulnerability-android-framework-fragment-injection/
- Preamble: Reflection Fragments require Reflection API. What&rsquo;s that?
-Compare two ways of instanciating a class:
-// option 1 Class testClass = new CatsClass(); // option 2 String sClassName = &#34;android.</p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/rtfm/">Rtfm Android</a></h2>
-  <p>ADB On mobile enable developer&rsquo;s mode and USB debugging. Trust the PC with adb when prompted on mobile.
-Usefull commands:
-adb install [appname].apk adb devices adb kill-server adb shell getprop ro.</p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/linux/plan/">Linux</a></h2>
-  <p>Plan for Linux Forensics </p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/macos/plan/">MacOSX Forensics Plan</a></h2>
-  <p>Plan Apple Hardware and Tech Introduction to the macOS and the Desktop Understanding CoreStorage, Fusion, FileVault and APFS Imaging Mac RAM Understanding the Mac File System Mac Security Issues and Encryption Password Recovery Building a Mac Forensic Workstation Macintosh Search and Seizure Safely Obtaining System Information Firmware Passwords Volatile Data Collection Manual and Automated Imaging and Acquisition Verifying and Safely Mounting Forensic Images Indexing Forensic Images Search Techniques Using macOS Locating Evidence (Email, Graphics, Internet Artifacts, Documents, System Artifacts, Instant Messaging, logs and more) Recovering Deleted Files Examining SQLite Databases and PLIST files Using macOS for Forensics Reporting Review of Recommended Applications Review of Automated Forensic Tools Recommended Macintosh Hardware Requirements for Forensics and much more!</p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/memory/plan/">Plan for Memory Forensics</a></h2>
-  <p>Plan   Intro (#data)
-  Physical drives:
-a. HDDs (#hdd #data)
-b. Flash memory (#flash #data)
-  RAM
-a. How it works
-  File Systems
-a. FAT (#fat #data)</p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/reveng/plan/">Plan for Reverse Engineering</a></h2>
-  <p>Plan for Reverse Engineering </p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/net/plan/">Windows Forensics Plan</a></h2>
-  <p>Plan for Network Forensics   </p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/win/plan/">Windows Forensics Plan</a></h2>
-  <p>Plan for Windows Forensics Done (Udemy watched, tools installed and used, conclusions made) is bolded:
-  Prefetch
-  LNK
-  Shellbag
-  Memory
-  </p>
-</div>
-
-
-<div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/rtfm/"></a></h2>
-  <p>title: &ldquo;Rtfm for Mobiles (iOS)&rdquo; date: 2020-07-08T10:49:24+03:00
- RTFM for mobiles #pentest #mobile #fieldmanual
-ADB adb devices adb shell su adb kill-server See logs:
-adb logcat &gt; log.txt Port forwarding example:</p>
-</div>
-
-
-
 
         </div>
       </div>
