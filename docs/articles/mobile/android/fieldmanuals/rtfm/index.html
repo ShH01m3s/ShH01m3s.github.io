@@ -159,7 +159,7 @@
     </li>
     
     <li class="">
-      <a href="https://bakerst221b.com/docs/articles/mobile/android/attacks/complex-attacks/">Complex Attacks</a>
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/attacks/ipc-attacks/">IPC Attacks</a>
     </li>
     
     <li class="">
@@ -284,6 +284,7 @@ adb kill-server
 adb shell getprop ro.build.version.release <span class="c1"># get Android version</span>
 adb shell getprop ro.build.version.sdk <span class="c1"># get API version</span>
 adb shell getprop <span class="c1"># all device info</span>
+adb shell getprop ro.product.cpu.abi <span class="c1"># cpu arch</span>
 adb shell cat /system/build.prop <span class="c1"># another way to get this info</span>
 </code></pre></div><p>Over USB:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb devices
@@ -337,6 +338,19 @@ su
 frida-trace -H <span class="o">[</span>mobile phone IP<span class="o">]</span> -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over WiFi</span>
 
 frida-trace –U “<span class="o">[</span>package_name or PID<span class="o">]</span>” -m <span class="s2">&#34;-[NSURL* *HTTP*]&#34;</span> <span class="c1"># for functions workimg with HTTP</span>
+</code></pre></div><h2 id="objection">Objection</h2>
+<p>Install</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">pip install frida frida-tools
+pip install objection
+</code></pre></div><p><a href="https://github.com/frida/frida/releases">Download</a> and install <code>frida-server-XX.XX.YY-[platform]-[arch].[extention]</code> where <code>XX.XX</code> is equal to the one installed on PC with pip command and <code>platform</code> is <code>android</code> (get <code>arch</code> from adb <code>adb shell cat /proc/cpuinfo</code> or <code>adb shell getprop ro.product.cpu.abi</code>. Launch:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore <span class="c1"># launch</span>
+android sslpinning disable <span class="c1"># disable sslpinning for the app</span>
+android root disable <span class="c1"># disable root detect for the app</span>
+memory dumpall <span class="o">[</span>dump_name<span class="o">]</span> <span class="c1"># memory dump</span>
+</code></pre></div><p>Turn off root-detect:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><p>Turn off ssl-pinning:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
 </code></pre></div><h2 id="memory-dumps">Memory dumps</h2>
 <p><strong>Option 1.</strong></p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python C:<span class="se">\P</span>ython37<span class="se">\S</span>cripts<span class="se">\f</span>ridump.py --usb -r -s --max-size <span class="m">1000000000</span> -o . <span class="o">[</span>package_name<span class="o">]</span>
