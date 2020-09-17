@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Overview - Observer</title>
+  <title>Apple Devices Encryption - Observer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -29,7 +29,7 @@
       </a>
     </li>
     
-    <li class="menu-item-docs active">
+    <li class="menu-item-docs">
       <a href="/docs/">
         <span>Docs</span>
       </a>
@@ -86,7 +86,7 @@
       </a>
     </li>
     
-    <li class="menu-item-docs active">
+    <li class="menu-item-docs">
       <a href="/docs/">
         <span>Docs</span>
       </a>
@@ -147,17 +147,9 @@
           <div class="sidebar">
             
 <div class="docs-menu">
-  <h4>Overview</h4>
+  <h4>Low level stuff</h4>
   <ul>
     
-    
-    <li class="">
-      <a href="https://bakerst221b.com/docs/articles/">Articles</a>
-    </li>
-    
-    <li class="">
-      <a href="https://bakerst221b.com/docs/blog/">Blog</a>
-    </li>
     
   </ul>
 </div>
@@ -166,62 +158,44 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-<h1 class="title">Overview</h1>
+<h1 class="title">Apple Devices Encryption</h1>
+<div class="content ">
+  <p>The main idea behind the scenes is that applications or even OS itself doesn&rsquo;t know the keys. OS only sees Keychain, but the Security Enclave is separated. It&rsquo;s asked to decrypt the information and it does just that returning the decrypted information.</p>
+<ol>
+<li>T2 vs T1</li>
+<li>Security Enclave - coprocessor with a Keymanager</li>
+</ol>
+<p>Devices which have the SE:</p>
 <ul>
-  
-  <li class="">
-    Articles
-   <br />
-    <ul>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/articles/forensics/">Forensics</a>
-      </li>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/articles/mobile/">Mobile</a>
-      </li>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/articles/lowlevel/">Low Level Stuff</a>
-      </li>
-      
-    </ul>
-    <br />
-    <br />  
-  </li>
-
-  <li class="">
-    Blog
-   <br />
-    <ul>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/blog/2018/04/dot-net-confuser/">.NET Confuser</a>
-      </li>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/blog/2018/07/analytic-protiv-khishnika/">Analytic Protiv Khishnika</a>
-      </li>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/blog/2018/07/undesirable-mail/">Undesirable Mail</a>
-      </li>
-      
-      <li>
-        <a href="https://bakerst221b.com/docs/blog/2020/09/how-i-met-hugo/">How I Met Hugo</a>
-      </li>
-      
-    </ul>
-    <br />
-    <br />  
-  </li>
-
+<li>iPhone 5s (or later)</li>
+<li>iPad Air (or later)</li>
+<li>Mac computers that contain the T1 chip or the Apple T2 Security Chip</li>
+<li>Apple TV 4th generation (or later)</li>
+<li>Apple Watch Series 1 (or later)</li>
+<li>HomePod</li>
 </ul>
+<p>Let&rsquo;s observe this scheme from Apple website</p>
+<p><img src="/images/articles/ios/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
+<p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
+<p>Boot process:</p>
+<ol>
+<li>Boot ROM is run like Big Bang</li>
+<li>Boot ROM creates a key
+<ol>
+<li>User&rsquo;s key + device&rsquo;s UID = ephemeral memory protection key</li>
+<li>Now, ephemeral memory protection key is used to protect Security Enclave&rsquo;s memory.</li>
+</ol>
+</li>
+</ol>
+<h3 id="questions">Questions</h3>
+<blockquote>
+<p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
+</blockquote>
+<h3 id="references">References</h3>
+<p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
 
-
-
+</div>
+</div>
 
         </div>
       </div>
