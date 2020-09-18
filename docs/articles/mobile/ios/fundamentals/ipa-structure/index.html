@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Encryption - Observer</title>
+  <title>Ipa Structure - Observer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -147,7 +147,7 @@
           <div class="sidebar">
             
 <div class="docs-menu">
- <h4>Encryption</h4>
+ <h4>Ipa Structure</h4>
  <ul>
   
 </ul>
@@ -157,41 +157,32 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Encryption</h1>
+<h1 class="title">Ipa Structure</h1>
 <div class="content ">
-  <p>The main idea behind the scenes is that applications or even OS itself doesn&rsquo;t know the keys. OS only sees Keychain, but the Security Enclave is separated. It&rsquo;s asked to decrypt the information and it does just that returning the decrypted information.</p>
-<ol>
-<li>T2 vs T1</li>
-<li>Security Enclave - coprocessor with a Keymanager</li>
-</ol>
-<p>Devices which have the SE:</p>
+  <p>When installed on the device, <code>*.ipa</code> is unzipped into a corresponding folder. That&rsquo;s the contents:</p>
 <ul>
-<li>iPhone 5s (or later)</li>
-<li>iPad Air (or later)</li>
-<li>Mac computers that contain the T1 chip or the Apple T2 Security Chip</li>
-<li>Apple TV 4th generation (or later)</li>
-<li>Apple Watch Series 1 (or later)</li>
-<li>HomePod</li>
+<li><code>Payload</code></li>
+<li><code>Payload/Application.app</code></li>
+<li><code>iTunesArtwork</code></li>
+<li><code>iTunesMetadata.plist</code></li>
+<li><code>WatchKitSupport/WK</code></li>
 </ul>
-<p>Let&rsquo;s observe this scheme from Apple website</p>
-<p><img src="/images/articles/ios/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
-<p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
-<p>Boot process:</p>
-<ol>
-<li>Boot ROM is run like Big Bang</li>
-<li>Boot ROM creates a key
-<ol>
-<li>User&rsquo;s key + device&rsquo;s UID = ephemeral memory protection key</li>
-<li>Now, ephemeral memory protection key is used to protect Security Enclave&rsquo;s memory.</li>
-</ol>
-</li>
-</ol>
-<h3 id="questions">Questions</h3>
-<blockquote>
-<p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
-</blockquote>
-<h3 id="references">References</h3>
-<p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
+<p>The <code>*.ipa</code>'s Payload is made of:</p>
+<ul>
+<li><code>MyApp</code></li>
+<li><code>Application</code></li>
+<li><code>Info.plist</code></li>
+<li><code>Launch images</code></li>
+<li><code>MainWindow.nib</code></li>
+<li><code>Settings.bundle</code></li>
+<li>Custom resource files</li>
+</ul>
+<p>Project folder <code>language.lproj</code>:</p>
+<ul>
+<li><code>Base.lproj</code> - for storyboards</li>
+<li><code>en.lproj</code> - for English strings</li>
+<li><code>de.proj</code> - for German strings</li>
+</ul>
 
 </div>
 </div>
