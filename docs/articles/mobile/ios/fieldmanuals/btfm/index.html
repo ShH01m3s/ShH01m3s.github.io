@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Btfm - Observer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+
+  
+  
+  <link rel="stylesheet" href="/css/style.min.aad43d4ecb69a264f2539b89d7f779d5f3cdff22e7585fe5fc3c77272f1c2696.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-docs">
+      <a href="/docs/">
+        <span>Docs</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-docs">
+      <a href="/docs/">
+        <span>Docs</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+ <h4>Btfm</h4>
+ <ul>
+  
+</ul>
+</div>
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Btfm</h1>
+<div class="content ">
+  <h2 id="device-info">Device Info</h2>
+<p>Get UDID in different ways (using MacOS):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 
+idevice_id -l <span class="c1"># get UDID with ideviceinstaller</span>
+system_profiler SPUSBDataType <span class="p">|</span> sed -n -e <span class="s1">&#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39;</span> <span class="p">|</span> grep <span class="s2">&#34;Serial Number:&#34;</span> # 
+instruments -s devices
+</code></pre></div><p>Get BootROM version (old or new):</p>
+<p><strong>iPod touch</strong>: if the second character of the Model is <strong>B</strong> - old BootROM with 0x24000 Segment Overflow, if <strong>C</strong> - new BootROM. iPhone 3GS: The third digit if serial number is the year, the 4th and 5th - week. 40-45 week of 2009 - can be either old or new one. After - new.</p>
+<h2 id="dfu-mode">DFU mode</h2>
+<p>DFU mode device descriptors with BootROM version:</p>
+<ul>
+<li>
+<p>Enter DFU mode</p>
+</li>
+<li>
+<p>Windows:</p>
+<ul>
+<li>Device Manager &ndash;&gt; USB Controller &ndash;&gt; Apple Mobile Device USB Driver &ndash;&gt; Properties &ndash;&gt; Details tab &ndash;&gt; Device Instance Path &ndash;&gt; the end of the drop-down menu.</li>
+</ul>
+</li>
+<li>
+<p>Mac:</p>
+<ul>
+<li>System Profiler &ndash;&gt; Hardware Category &ndash;&gt; USB &ndash;&gt; Apple Mobile Device &ndash;&gt; the end of the serial string</li>
+</ul>
+</li>
+<li>
+<p>Linux:</p>
+<ul>
+<li>
+<p>Install usbutils on Linux</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo lsusb -v
+</code></pre></div></li>
+<li>
+<p>Find <code>iSerial</code> and at the end is the version</p>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
