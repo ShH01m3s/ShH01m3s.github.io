@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>BTFM - Observer</title>
+  <title>BTFM iOS - Observer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -135,12 +135,15 @@
           <div class="sidebar">
             
 <div class="docs-menu">
-  <h4>BTFM</h4>
+  <h4>BTFM iOS</h4>
   <aside>
    <nav id="TableOfContents">
   <ul>
     <li><a href="#device-info">Device Info</a></li>
+    <li><a href="#connecting">Connecting</a></li>
     <li><a href="#dfu-mode">DFU mode</a></li>
+    <li><a href="#keychain">Keychain</a></li>
+    <li><a href="#logs">Logs</a></li>
   </ul>
 </nav>
  </aside>
@@ -152,7 +155,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">BTFM</h1>
+<h1 class="title">BTFM iOS</h1>
 <div class="content ">
   <h2 id="device-info">Device Info</h2>
 <p>Get UDID in different ways (using MacOS):</p>
@@ -162,6 +165,9 @@ system_profiler SPUSBDataType <span class="p">|</span> sed -n -e <span class="s1
 instruments -s devices
 </code></pre></div><p>Get BootROM version (old or new):</p>
 <p><strong>iPod touch</strong>: if the second character of the Model is <strong>B</strong> - old BootROM with 0x24000 Segment Overflow, if <strong>C</strong> - new BootROM. iPhone 3GS: The third digit if serial number is the year, the 4th and 5th - week. 40-45 week of 2009 - can be either old or new one. After - new.</p>
+<h2 id="connecting">Connecting</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
+</code></pre></div><p>Works only for jailbroken devices.</p>
 <h2 id="dfu-mode">DFU mode</h2>
 <p>DFU mode device descriptors with BootROM version:</p>
 <ul>
@@ -193,7 +199,32 @@ instruments -s devices
 </ul>
 </li>
 </ul>
+<h2 id="keychain">Keychain</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Dump keychain with Objection</span>
+objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> explore
+ios keychain dump
+ios keychain dump --json &lt;myfile.json&gt; <span class="c1"># including access modifiers. The result will be written to the host in myfile.json</span>
 
+<span class="c1"># Dump keychain with Keychain Dumper</span>
+./updateEntitlements.sh <span class="c1"># to add entitlements explicitly to work on later devices</span>
+chmod +x ./keychain_dumper
+./keychain_dumper
+chmod +r /private/var/Keychains/keychain-2.db <span class="c1"># to validate that keychain-2.db is world-readable</span>
+
+</code></pre></div><p>About Keychain Dumper.</p>
+<blockquote>
+<p>Note: iOS 11 devices using Electra (or other jailbreaks) may still require a trick to bypass the native sandbox. Compile the binary with the included <em>entitlements.xml</em>, sign it with the developer account certificate/priv_key and copy the binary to <em>/bin</em> or <em>/sbin</em> (which already allows execution). See <a href="https://github.com/ptoomey3/Keychain-Dumper">here</a> for more detailed instructions.</p>
+</blockquote>
+<p>Another important note:</p>
+<blockquote>
+<p>Some keychain entries are available regardless of whether the iOS is locked or not, while other entries will <strong>only be accessible if the iOS device is unlocked</strong> (i.e. a user has entered their pin)&hellip;. <strong>By default</strong> keychain_dumper only dumps <strong>&ldquo;Generic&rdquo; and &ldquo;Internet&rdquo;</strong> passwords&hellip;</p>
+</blockquote>
+<p>Download <a href="https://github.com/ptoomey3/Keychain-Dumper/releases/tag/1.0.0">here</a>.</p>
+<h2 id="logs">Logs</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">socat  - UNIX-CONNECT:/var/run/lockdown/syslog.sock <span class="c1"># check syslog</span>
+<span class="nb">cd</span> /var/mobile/Applications <span class="c1"># check here for appspecific logs</span>
+sdsiosloginfo.exe -d -u <span class="o">[</span>UDID<span class="o">]</span> &gt; .<span class="se">\c</span>onsole.txt <span class="c1"># drop device logs on Windows</span>
+</code></pre></div>
 </div>
 </div>
 
