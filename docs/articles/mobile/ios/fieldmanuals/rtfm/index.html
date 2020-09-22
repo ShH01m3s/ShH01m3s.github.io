@@ -200,10 +200,10 @@
 </code></pre></div><h2 id="application-info">Application Info</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-ps -Ua <span class="p">|</span> grep -i Telegram <span class="c1"># get application name</span>
 </code></pre></div><h2 id="device-info">Device Info</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/usr/bin/arch <span class="c1"># get CPU arch</span>
+ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 
 idevice_id -l <span class="c1"># get UDID with ideviceinstaller</span>
-<span class="s2">&#34;system_profiler SPUSBDataType | sed -n -e &#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39; | grep &#34;&#34;Serial Number:&#34;&#34; # 
-</span><span class="s2">&#34;</span>
+system_profiler SPUSBDataType <span class="p">|</span> grep <span class="s2">&#34;Serial Number&#34;</span>
 instruments -s devices
 </code></pre></div><h2 id="file-transfer">File Transfer</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp &lt;file_to_transfer&gt; root@&lt;device_ip&gt;:~
