@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.f01354131727ea8108b74bb454b759bfd372e504798be24c41cece6875f1cb80.css">
+  <link rel="stylesheet" href="/css/style.min.b528a5e54ef8aea96352d22711636e424bb3125e9f996097f0156998a4d782ec.css">
   
 
   
@@ -157,7 +157,62 @@
         <div class="col-12 col-md-9">
           
 <h1 class="title">Apple Devices Encryption</h1>
-<div class="content ">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      <div class="postdate">
+        
+        <time datetime="2020-09-17 12:18:10 &#43;0300 MSK" itemprop="datePublished">2020-09-17</time>
+        
+      </div>
+      
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p>About Secure Enclave:</p>
+<p><a href="https://www.youtube.com/watch?v=7UNeUT_sRos">https://www.youtube.com/watch?v=7UNeUT_sRos</a></p>
+<p><a href="https://support.apple.com/guide/security/welcome/web">https://support.apple.com/guide/security/welcome/web</a></p>
+<p>The main idea behind the scenes is that applications or even OS itself doesn&rsquo;t know the keys. OS only sees Keychain, but the Security Enclave is separated. It&rsquo;s asked to decrypt the information and it does just that returning the decrypted information.</p>
+<ol>
+<li>T2 vs T1</li>
+<li>Security Enclave - coprocessor with a Keymanager</li>
+</ol>
+<p>Devices which have the SE:</p>
+<ul>
+<li>iPhone 5s (or later)</li>
+<li>iPad Air (or later)</li>
+<li>Mac computers that contain the T1 chip or the Apple T2 Security Chip</li>
+<li>Apple TV 4th generation (or later)</li>
+<li>Apple Watch Series 1 (or later)</li>
+<li>HomePod</li>
+</ul>
+<p>Let&rsquo;s observe this scheme from Apple website</p>
+<p><img src="/images/articles/ios/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
+<p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
+<p><a href="https://www.theiphonewiki.com/wiki/Bootrom">https://www.theiphonewiki.com/wiki/Bootrom</a></p>
+<p>Boot process:</p>
+<ol>
+<li>Boot ROM is run like Big Bang</li>
+<li>Boot ROM creates a key
+<ol>
+<li>User&rsquo;s key + device&rsquo;s UID = ephemeral memory protection key</li>
+<li>Now, ephemeral memory protection key is used to protect Security Enclave&rsquo;s memory.</li>
+</ol>
+</li>
+</ol>
+<h3 id="questions">Questions</h3>
+<blockquote>
+<p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
+</blockquote>
+<h3 id="references">References</h3>
+<p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
+
+  </div>
+</article>
   <p>About Secure Enclave:</p>
 <p><a href="https://www.youtube.com/watch?v=7UNeUT_sRos">https://www.youtube.com/watch?v=7UNeUT_sRos</a></p>
 <p><a href="https://support.apple.com/guide/security/welcome/web">https://support.apple.com/guide/security/welcome/web</a></p>

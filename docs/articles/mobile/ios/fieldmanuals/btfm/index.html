@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.f01354131727ea8108b74bb454b759bfd372e504798be24c41cece6875f1cb80.css">
+  <link rel="stylesheet" href="/css/style.min.b528a5e54ef8aea96352d22711636e424bb3125e9f996097f0156998a4d782ec.css">
   
 
   
@@ -156,7 +156,92 @@
         <div class="col-12 col-md-9">
           
 <h1 class="title">BTFM iOS</h1>
-<div class="content ">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      <div class="postdate">
+        
+        <time datetime="2020-09-18 15:30:57 &#43;0300 MSK" itemprop="datePublished">2020-09-18</time>
+        
+      </div>
+      
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="device-info">Device Info</h2>
+<p>Get UDID in different ways (using MacOS):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 
+idevice_id -l <span class="c1"># get UDID with ideviceinstaller</span>
+system_profiler SPUSBDataType <span class="p">|</span> sed -n -e <span class="s1">&#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39;</span> <span class="p">|</span> grep <span class="s2">&#34;Serial Number:&#34;</span> # 
+instruments -s devices
+</code></pre></div><p>Get BootROM version (old or new):</p>
+<p><strong>iPod touch</strong>: if the second character of the Model is <strong>B</strong> - old BootROM with 0x24000 Segment Overflow, if <strong>C</strong> - new BootROM. iPhone 3GS: The third digit if serial number is the year, the 4th and 5th - week. 40-45 week of 2009 - can be either old or new one. After - new.</p>
+<h2 id="connecting">Connecting</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
+</code></pre></div><p>Works only for jailbroken devices.</p>
+<h2 id="dfu-mode">DFU mode</h2>
+<p>DFU mode device descriptors with BootROM version:</p>
+<ul>
+<li>
+<p>Enter DFU mode</p>
+</li>
+<li>
+<p>Windows:</p>
+<ul>
+<li>Device Manager &ndash;&gt; USB Controller &ndash;&gt; Apple Mobile Device USB Driver &ndash;&gt; Properties &ndash;&gt; Details tab &ndash;&gt; Device Instance Path &ndash;&gt; the end of the drop-down menu.</li>
+</ul>
+</li>
+<li>
+<p>Mac:</p>
+<ul>
+<li>System Profiler &ndash;&gt; Hardware Category &ndash;&gt; USB &ndash;&gt; Apple Mobile Device &ndash;&gt; the end of the serial string</li>
+</ul>
+</li>
+<li>
+<p>Linux:</p>
+<ul>
+<li>
+<p>Install usbutils on Linux</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo lsusb -v
+</code></pre></div></li>
+<li>
+<p>Find <code>iSerial</code> and at the end is the version</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="keychain">Keychain</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Dump keychain with Objection</span>
+objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> explore
+ios keychain dump
+ios keychain dump --json &lt;myfile.json&gt; <span class="c1"># including access modifiers. The result will be written to the host in myfile.json</span>
+
+<span class="c1"># Dump keychain with Keychain Dumper</span>
+./updateEntitlements.sh <span class="c1"># to add entitlements explicitly to work on later devices</span>
+chmod +x ./keychain_dumper
+./keychain_dumper
+chmod +r /private/var/Keychains/keychain-2.db <span class="c1"># to validate that keychain-2.db is world-readable</span>
+
+</code></pre></div><p>About Keychain Dumper.</p>
+<blockquote>
+<p>Note: iOS 11 devices using Electra (or other jailbreaks) may still require a trick to bypass the native sandbox. Compile the binary with the included <em>entitlements.xml</em>, sign it with the developer account certificate/priv_key and copy the binary to <em>/bin</em> or <em>/sbin</em> (which already allows execution). See <a href="https://github.com/ptoomey3/Keychain-Dumper">here</a> for more detailed instructions.</p>
+</blockquote>
+<p>Another important note:</p>
+<blockquote>
+<p>Some keychain entries are available regardless of whether the iOS is locked or not, while other entries will <strong>only be accessible if the iOS device is unlocked</strong> (i.e. a user has entered their pin)&hellip;. <strong>By default</strong> keychain_dumper only dumps <strong>&ldquo;Generic&rdquo; and &ldquo;Internet&rdquo;</strong> passwords&hellip;</p>
+</blockquote>
+<p>Download <a href="https://github.com/ptoomey3/Keychain-Dumper/releases/tag/1.0.0">here</a>.</p>
+<h2 id="logs">Logs</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">socat  - UNIX-CONNECT:/var/run/lockdown/syslog.sock <span class="c1"># check syslog</span>
+<span class="nb">cd</span> /var/mobile/Applications <span class="c1"># check here for appspecific logs</span>
+sdsiosloginfo.exe -d -u <span class="o">[</span>UDID<span class="o">]</span> &gt; .<span class="se">\c</span>onsole.txt <span class="c1"># drop device logs on Windows</span>
+</code></pre></div>
+  </div>
+</article>
   <h2 id="device-info">Device Info</h2>
 <p>Get UDID in different ways (using MacOS):</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 
