@@ -206,29 +206,6 @@ $ ios plist cat &lt;myfile.plist&gt;
 
   </div>
 </article>
-  <h2 id="connecting">Connecting</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
-</code></pre></div><h2 id="objection">Objection</h2>
-<p>Inject objection to test applications on non-jailbroken devices:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection patchipa --source my-app.ipa --codesign-signature 0C2E8200Dxxxx
-</code></pre></div><p>Commands when using objection:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Show the different storage locations belonging to the app</span>
-$ env
-
-<span class="c1"># Disable popular ssl pinning methods</span>
-$ ios sslpinning disable
-
-<span class="c1"># Dump the Keychain. Alternative - Keychain Dumper</span>
-$ ios keychain dump
-
-<span class="c1"># Dump the Keychain, including access modifiers. The result will be written to the host in myfile.json</span>
-$ ios keychain dump --json &lt;myfile.json&gt;
-
-<span class="c1"># Show the content of a plist file</span>
-$ ios plist cat &lt;myfile.plist&gt;
-</code></pre></div><h2 id="keychain">Keychain</h2>
-<p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain Dumper</a> or Objection. Download <a href="https://github.com/ptoomey3/Keychain-Dumper/releases/tag/1.0.0">here</a>.</p>
-
 </div>
 </div>
 
