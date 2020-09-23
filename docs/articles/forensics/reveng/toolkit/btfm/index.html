@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Reverse Engineering - Analyst</title>
+  <title>Btfm - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -135,10 +135,16 @@
           <div class="sidebar">
             
 <div class="docs-menu">
-  <h4>Section's About</h4>
-  
- </div> 
-
+  <h4>Btfm</h4>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#rabin2">Rabin2</a></li>
+    <li><a href="#r2">R2</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -146,39 +152,45 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Btfm</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      <div class="postdate">
+        
+        <time datetime="2020-09-23 10:26:29 &#43;0300 MSK" itemprop="datePublished">2020-09-23</time>
+        
+      </div>
+      
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="rabin2">Rabin2</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -I <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># main info about the prog</span>
+rabin2 -z <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># the strings from the binary&#39;s data section</span>
+rabin2 -zz <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># all strings from the binary</span>
+rabin2 -zqq <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># strings only without additional info</span>
+</code></pre></div><h2 id="r2">R2</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">r2 <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># launch radare2</span> 
+&gt; s main <span class="c1"># seak main function and go to it</span>
+&gt; aa <span class="c1"># find all strings</span>
+&gt; v <span class="c1"># psedu GUI mode (Hex editor)</span>
+&gt; VV <span class="c1"># graph mode</span>
+&gt; afvn user_input input <span class="c1"># rename local var and all the places it was referenced</span>
+<span class="c1"># rename function</span>
+&gt; s function_old_name
+&gt; afn function_new_name
+&gt; c <span class="c1"># show cursor in visual mode</span>
+</code></pre></div><p>Test this <a href="https://r2wiki.readthedocs.io/en/latest/tools/radare2/">https://r2wiki.readthedocs.io/en/latest/tools/radare2/</a>. One good <a href="https://gist.github.com/williballenthin/6857590dab3e2a6559d7">reference</a> and another <a href="https://ben.the-collective.net/my-notes/radare2-cheatsheet/">here</a>.</p>
 
-<h1 class="title">Reverse Engineering</h1> 
-    
-      <div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/reveng/toolkit/overview/"> Overview</a></h2>
-  <p>https://labs.detectify.com/2016/05/19/7-tools-that-have-influenced-the-reversing-community/#:~:text=Radare2%20is%20similar%20to%20IDA,from%20Linux%20ELIF%20to%20ARM.</p>
+  </div>
+</article>
 </div>
-  
-    
-      <div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/reveng/toolkit/plan/"> Plan</a></h2>
-  <p>Workshop for refresh https://malwareunicorn.org/#/workshops
-Todo Python scripts for IDA
-Describe the crackme 1 and 2 solution</p>
 </div>
-  
-    
-      <div class="summary mb-2">
-  
-  <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/reveng/toolkit/btfm/"> Btfm</a></h2>
-  <p>Rabin2 rabin2 -I [progname] # main info about the prog rabin2 -z [progname] # the strings from the binary&#39;s data section rabin2 -zz [progname] # all strings from the binary rabin2 -zqq [progname] # strings only without additional info R2 r2 [progname] # launch radare2 &gt; s main # seak main function and go to it &gt; aa # find all strings &gt; v # psedu GUI mode (Hex editor) &gt; VV # graph mode &gt; afvn user_input input # rename local var and all the places it was referenced # rename function &gt; s function_old_name &gt; afn function_new_name &gt; c # show cursor in visual mode Test this https://r2wiki.</p>
-</div>
-  
-    
-
-
-
-
-
 
         </div>
       </div>
