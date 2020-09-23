@@ -196,7 +196,13 @@
 <span class="nb">cd</span> /var/containers/Bundle/Application/<span class="o">[</span>application_GUID<span class="o">]</span>/<span class="o">[</span>application_name<span class="o">]</span>.app/<span class="o">[</span>application_name<span class="o">]</span> <span class="c1"># application binary, some iOS versions (presumably, newer)</span>
 <span class="nb">cd</span> /usr/sbin <span class="c1"># here frida-server is usually located when installed with Cydia</span>
 </code></pre></div><h2 id="connecting">Connecting</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># over WiFi</span>
+ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
+
+<span class="c1"># over USB</span>
+brew install libimobiledevice
+iproxy <span class="m">2222</span> <span class="m">22</span> <span class="c1"># map 22 port of iDevice to 2222 port on PC</span>
+ssh -p <span class="m">2222</span> root@localhost <span class="c1"># connect</span>
 </code></pre></div><h2 id="application-info">Application Info</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-ps -Ua <span class="p">|</span> grep -i Telegram <span class="c1"># get application name</span>
 </code></pre></div><h2 id="device-info">Device Info</h2>
