@@ -144,6 +144,8 @@
     <li><a href="#application-info">Application Info</a></li>
     <li><a href="#device-info">Device Info</a></li>
     <li><a href="#file-transfer">File Transfer</a></li>
+    <li><a href="#get-ipa">Get IPA</a></li>
+    <li><a href="#install-ipa">Install IPA</a></li>
     <li><a href="#binary-analysis">Binary Analysis</a></li>
     <li><a href="#frida">Frida</a></li>
     <li><a href="#objection">Objection</a></li>
@@ -203,6 +205,10 @@ ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
 brew install libimobiledevice
 iproxy <span class="m">2222</span> <span class="m">22</span> <span class="c1"># map 22 port of iDevice to 2222 port on PC</span>
 ssh -p <span class="m">2222</span> root@localhost <span class="c1"># connect</span>
+
+<span class="c1"># reverse shell</span>
+ssh -R 2222:localhost:22 mstg@192.168.197.235 <span class="c1"># on iDevice</span>
+ssh -p <span class="m">2222</span> root@localhost <span class="c1"># on PC</span>
 </code></pre></div><h2 id="application-info">Application Info</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-ps -Ua <span class="p">|</span> grep -i Telegram <span class="c1"># get application name</span>
 </code></pre></div><h2 id="device-info">Device Info</h2>
@@ -211,9 +217,39 @@ ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial
 idevice_id -l <span class="c1"># get UDID with ideviceinstaller</span>
 system_profiler SPUSBDataType <span class="p">|</span> grep <span class="s2">&#34;Serial Number&#34;</span>
 instruments -s devices
+
+brew install libimobiledevice <span class="c1"># install the tool</span>
+ideviceinfo
+
+brew install libimobiledevice <span class="c1"># install the tool</span>
+idevicedebug -d run <span class="o">[</span>app_name<span class="o">]</span>
 </code></pre></div><h2 id="file-transfer">File Transfer</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp &lt;file_to_transfer&gt; root@&lt;device_ip&gt;:~
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp &lt;file_to_transfer&gt; root@&lt;device_ip&gt;:~ <span class="c1"># on iDevice</span>
+scp -P <span class="m">2222</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> . <span class="c1"># from iDevice</span>
+
+<span class="c1"># with objection</span>
+objection -g <span class="o">[</span>app_name<span class="o">]</span> explore
+file download <span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span>
+file upload <span class="o">[</span>/path/to/file/on/PC<span class="o">]</span>
 </code></pre></div><p>Alternatively, GUI Cyberduck.</p>
+<h2 id="get-ipa">Get IPA</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># via OTA</span>
+npm install -g itms-services <span class="c1"># install the tool</span>
+itms-services -u <span class="s2">&#34;itms-services://?action=download-manifest&amp;url=https://s3-ap-southeast-1.amazonaws.com/test-uat/manifest.plist&#34;</span> -o - &gt; out.ipa
+</code></pre></div><h2 id="install-ipa">Install IPA</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># with ideviceinstaller</span>
+brew install libimobiledevice <span class="c1"># install the tool</span>
+ideviceinstaller - <span class="o">[</span>ipa_file<span class="o">]</span>
+
+<span class="c1"># with ipainstaller</span>
+ipainstaller App_name.ipa
+
+<span class="c1"># with ios-deploy</span>
+brew install ios-deploy <span class="c1"># install the tool</span>
+unzip <span class="o">[</span>app_name<span class="o">]</span>.ipa
+ios-deploy --bundle <span class="s1">&#39;Payload/[app_name].ipa&#39;</span> -W -d -v
+ios-deploy --bundle <span class="s1">&#39;Payload/Name.app&#39;</span> -W -d -v -m <span class="c1"># debug the application</span> 
+</code></pre></div><p>Alternatively - iFunBox or Xcode.</p>
 <h2 id="binary-analysis">Binary Analysis</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /var/mobile/Containers/Bundle/Application/<span class="o">[</span>application_folder_GUID<span class="o">]</span>/<span class="o">[</span>appname<span class="o">]</span>.app/<span class="o">[</span>appname<span class="o">]</span>
 <span class="c1"># or</span>
