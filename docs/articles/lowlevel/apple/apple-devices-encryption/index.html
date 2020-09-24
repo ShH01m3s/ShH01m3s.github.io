@@ -173,7 +173,18 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>About Secure Enclave:</p>
+    <p>All this resembles a sad story of a businessman from <em>Eine Woche volle Samstage (1973)</em> by Paul Maar, when a man was so afraid of thieves that he hid the office key in a sock, the sock - in a boot, the boot in a wardrobe locked with a key, the key to the wardrobe hid in his table&rsquo;s drawer, and the key from the last had lost and by doing so arranged an unscheduled day-off for his employees. So is with the encryption on iOS devices:</p>
+<p><img src="/images/articles/ios/device_encr_scheme.png" alt="device_encr_scheme"></p>
+<p>File contents&rsquo;s is encrypted with its key, which is stored in the metadata. The metadata is enctypted with file system key and wrapped in class key and all of it is finally protected by a alianz of user&rsquo;s passcode key and a hardware key. Wow. Let&rsquo;s dive a bit deeper, cause it all seems to be too messed up and confusing.</p>
+<p>Class key represent protection classes. Each one except of <strong>NSFileProtectionNone</strong></p>
+<p>are protected with the alianz of hardware key and user passcode key:</p>
+<ol>
+<li><strong>Complete Protection (NSFileProtectionComplete)</strong> Data is inaccessible until the user unlocks the device.</li>
+<li><strong>Protected Unless Open (NSFileProtectionCompleteUnlessOpen)</strong>: Data is accessible after the user unlocks the device.</li>
+<li><strong>Protected Until First User Authentication (NSFileProtectionCompleteUntilFirstUserAuthentication)</strong>: The file can be accessed as soon as the user unlocks the device for the first time after booting. It can be accessed even if the user subsequently locks the device and the class key is not removed from memory.</li>
+<li><strong>No Protection (NSFileProtectionNone)</strong>: Protected with the UID only. The class key is stored in &ldquo;Effaceable Storage&rdquo;, which is a region of flash memory on the iOS device that allows the storage of small amounts of data. Used for remote wiping.</li>
+</ol>
+<p>About Secure Enclave:</p>
 <p><a href="https://www.youtube.com/watch?v=7UNeUT_sRos">https://www.youtube.com/watch?v=7UNeUT_sRos</a></p>
 <p><a href="https://support.apple.com/guide/security/welcome/web">https://support.apple.com/guide/security/welcome/web</a></p>
 <p>The main idea behind the scenes is that applications or even OS itself doesn&rsquo;t know the keys. OS only sees Keychain, but the Security Enclave is separated. It&rsquo;s asked to decrypt the information and it does just that returning the decrypted information.</p>
@@ -209,7 +220,6 @@
 <p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
 </blockquote>
 <h3 id="references">References</h3>
-<p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
 
   </div>
 </article>
