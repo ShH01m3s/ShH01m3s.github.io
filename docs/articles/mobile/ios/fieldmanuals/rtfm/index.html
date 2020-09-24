@@ -153,6 +153,8 @@
     <li><a href="#install-application">Install application</a></li>
     <li><a href="#introspy">Introspy</a></li>
     <li><a href="#useful-greps">Useful greps</a></li>
+    <li><a href="#binary-exploits">Binary Exploits</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -290,7 +292,18 @@ python -m introspy -p ios -o output -f 192.168.1.12
 grep -r -E -o <span class="s2">&#34;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b&#34;</span> . <span class="c1"># get emails</span>
 grep -r -E -o <span class="s2">&#34;4[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> .  <span class="c1"># get visa card numbers</span>
 grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> . <span class="c1"># get mc card numbers</span>
-</code></pre></div>
+</code></pre></div><h2 id="binary-exploits">Binary Exploits</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">r2 -Ad <span class="o">[</span>binary_to_check<span class="o">]</span>
+<span class="c1"># check whether the protection was enabled during compilation</span>
+iI~canary,nx,pic
+
+<span class="c1"># alternatively with otools on iDevice</span>
+
+
+</code></pre></div><h2 id="references">References</h2>
+<p><a href="https://monosource.gitbooks.io/radare2-explorations/content/tut4/tut4_-_exploit.html">https://monosource.gitbooks.io/radare2-explorations/content/tut4/tut4_-_exploit.html</a></p>
+<p><a href="https://bananamafia.dev/post/rop-arm-1/">https://bananamafia.dev/post/rop-arm-1/</a></p>
+
   </div>
 </article>
 </div>
