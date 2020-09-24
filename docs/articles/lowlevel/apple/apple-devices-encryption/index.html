@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.6881cb4526946818abd57a26357b671855061dfaa6cbde2c2da93b2f2d9afb27.css">
+  <link rel="stylesheet" href="/css/style.min.3fc41d46037c8bcc743f3d6ed7ae0a55dab90d445bdc551fb1c414bcdcdd6a98.css">
   
 
   
@@ -139,12 +139,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#questions">Questions</a></li>
-        <li><a href="#references">References</a></li>
-      </ul>
-    </li>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#class-keys">Class keys</a></li>
+    <li><a href="#boot-process">Boot process:</a></li>
+    <li><a href="#questions">Questions</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -173,9 +172,11 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>All this resembles the sad story of a businessman from <em>Eine Woche volle Samstage (1973)</em> by Paul Maar, when a man was so afraid of thieves that he hid the office key in a sock, the sock - in a boot, the boot in a wardrobe locked with a key, the key to the wardrobe hid in his table&rsquo;s drawer, and the key from the last had lost and by doing so arranged an unscheduled day-off for his employees. So is with the encryption on iOS devices:</p>
+    <h2 id="intro">Intro</h2>
+<p>All this resembles the sad story of a businessman from <em>Eine Woche volle Samstage (1973)</em> by Paul Maar, when a man was so afraid of thieves that he hid the office key in a sock, the sock - in a boot, the boot in a wardrobe locked with a key, the key to the wardrobe hid in his table&rsquo;s drawer, and the key from the last had lost and by doing so arranged an unscheduled day-off for his employees. So is with the encryption on iOS devices:</p>
 <p><img src="/images/articles/ios/device_encr_scheme.png" alt="device_encr_scheme"></p>
 <p>File contents&rsquo;s is encrypted with its key, which is stored in the metadata. The metadata is enctypted with file system key and wrapped in class key and all of it is finally protected by a alianz of user&rsquo;s passcode key and a hardware key. Wow. Let&rsquo;s dive a bit deeper, cause it all seems to be too messed up and confusing.</p>
+<h2 id="class-keys">Class keys</h2>
 <p>Class key represent protection classes. Each one except of <strong>NSFileProtectionNone</strong></p>
 <p>are protected with the alianz of hardware key and user passcode key:</p>
 <ol>
@@ -205,7 +206,7 @@
 <p><img src="/images/articles/ios/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
 <p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
 <p><a href="https://www.theiphonewiki.com/wiki/Bootrom">https://www.theiphonewiki.com/wiki/Bootrom</a></p>
-<p>Boot process:</p>
+<h2 id="boot-process">Boot process:</h2>
 <ol>
 <li>Boot ROM is run like Big Bang</li>
 <li>Boot ROM creates a key
@@ -215,11 +216,11 @@
 </ol>
 </li>
 </ol>
-<h3 id="questions">Questions</h3>
+<h2 id="questions">Questions</h2>
 <blockquote>
 <p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
 </blockquote>
-<h3 id="references">References</h3>
+<h2 id="references">References</h2>
 <p><a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage">https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage</a></p>
 <p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
 
