@@ -139,8 +139,10 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#preamble-reflection">Preamble: Reflection</a></li>
-    <li><a href="#vulnerable-app">Vulnerable app</a></li>
+    <li><a href="#preamble">Preamble</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#lucky-me">&ldquo;Lucky me&rdquo;</a></li>
+    <li><a href="#research-results">Research results</a></li>
     <li><a href="#recommendations">Recommendations</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -198,7 +200,7 @@
 <p><strong>Tools:</strong> Android Studio 4.0.1, built on June, 25, 2020 (Runtime version: 1.8.0_242-release-1644-b3-6222593 X86_64, VM: OpenJDK 64-bit Server VM by JetbBrains s.r.o.)</p>
 <p><strong>05:35 am</strong> 😪 Even though I went to sleep too late yesterday (due to my wushu 🧎🏽‍♀️practice and a bath I had to take to help my muscles overcome the shock of such an unusual physical activity after almoust a year of turning into a very pretty and round stump of a tree and covering with moss after several months of coronavirus-driven self-isolation), I couldn&rsquo;t keep my eyes shut because I was so obsesed by and absorbed with the idea of my new project: Android Exploiter. So, I tried to fall asleep (just for appearance&rsquo;s sake) for about 40 minutes, but since my husband has already gotten up and my little three-year old daughter as well, seemed no use to insist. So, I got up and was about to go to the kitchen, but was stuck by my laptop once again&hellip; Why this stupid application is not running? What am I doing wrong. 😡 That day I&rsquo;ve hardly left the table&hellip;👩🏽‍💻</p>
 <p><strong>Environment:</strong> macOS Catalina, 10.15.6 (19G2021)</p>
-<h2 id="preamble-reflection">Preamble: Reflection</h2>
+<h2 id="preamble">Preamble</h2>
 <p>The story began with the attempt (I can&rsquo;t stress that enough: attempt) to reproduce an exploit that was demostrated several years ago on PhDays and was also mentioned on Mobile Security Guide: fragment injection. Of course, it took me a while to get how fragments work and how to make a simple Android application with some Activity, Broadcast Receiver, Fragment and WebView, but I&rsquo;ve managed.</p>
 <p><strong>6:00 am</strong> So, Fragments require Reflection API, but what are you exactly, Reflection? I&rsquo;ve found the below snippet to figure that out. Let&rsquo;s compare two ways of instanciating a class:</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// option 1
@@ -208,7 +210,7 @@
 </span><span class="c1"></span><span class="n">String</span> <span class="n">sClassName</span> <span class="o">=</span> <span class="s">&#34;android.app.CatsClass&#34;</span><span class="o">;</span>
 <span class="n">Class</span> <span class="n">classToInvestigate</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">sClassName</span><span class="o">);</span>
 </code></pre></div><p>The second way uses a string with a class name to create a class. When using the regular (the first way), if <code>CatsClass</code> is not in Android SDK of certain version at runtime, the app crashes.  So, developers, as Google states, use reflection to check whether certain class/method/field etc exists at runtime. <a href="https://code.tutsplus.com/tutorials/learn-java-for-android-development-reflection-basics--mobile-3203">Here</a> is a good reference on that topic 📖.</p>
-<h2 id="vulnerable-app">Vulnerable app</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 <p><strong>7:14 am</strong> Mmmm&hellip; refreshing cup of coffee prepared and flavoured with love&hellip; ☕ I feel my spirits raising &hellip;☄️</p>
 <p>So, what&rsquo;s next&hellip; I need to outline the plan for that attack, just a general idea. Just to prevent all possible grudge and complaints, I&rsquo;ll mention that almoust all the code below was copied from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile Security Guide</a>. However, I&rsquo;ve edited the exploit. The basic idea behind the scenes is as follows. To acomplish this attack I need:</p>
 <ol>
@@ -227,7 +229,8 @@
         <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div><p><strong>8:36 am</strong> What the hell&hellip; 😠 Why every time I try to reproduce some exploit or install an application, I run into some error!!!  It seems like I am under some sort of curse  that makes my installing of even a simple two line program a difficult and tedious process full of nested installations and error fixes. 😫That&rsquo;s why I am no big friends with Linux and usually use it on VM or Bootable USB, since it&rsquo;s the OS the most prone to errors during installations and it&rsquo;s also possible to unwillingly break something while installing some minor 💩 Much safer to use in an isolated environment given that I&rsquo;m &ldquo;<em>enchanted</em>&rdquo; ⭐.</p>
+</code></pre></div><h2 id="lucky-me">&ldquo;Lucky me&rdquo;</h2>
+<p><strong>8:36 am</strong> What the hell&hellip; 😠 Why every time I try to reproduce some exploit or install an application, I run into some error!!!  It seems like I am under some sort of curse  that makes my installing of even a simple two line program a difficult and tedious process full of nested installations and error fixes. 😫That&rsquo;s why I am no big friends with Linux and usually use it on VM or Bootable USB, since it&rsquo;s the OS the most prone to errors during installations and it&rsquo;s also possible to unwillingly break something while installing some minor 💩 Much safer to use in an isolated environment given that I&rsquo;m &ldquo;<em>enchanted</em>&rdquo; ⭐.</p>
 <p>This piece of &hellip; code crashes on all devices (physical and emulators). I suppose, there appears to be some sort of protection: I cannot use <code>PreferenceActivity</code> extension on <code>MainActivity</code>. So, let&rsquo;s create a separate <code>ExportedActivity</code> class. with a Fragment without protection. For example, a fragment below parses input string and opens the URL in WebView&hellip; let&rsquo;s learn to java-code! ❗</p>
 <p><strong>8:55 am</strong> Ok, here&rsquo;s what I&rsquo;ve got so far. Seems pretty to me 😊</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
@@ -270,6 +273,7 @@
 <span class="o">}</span>
 </code></pre></div><p>Why 4.3 Android? Bevause beware of the prerequisited to this attack. Even though the chap from the <a href="https://www.youtube.com/watch?v=Q9g2FQO8gds">video</a> above claimed that though it was patched with 4.4 Android (API 19), you still can make it fly on Android 6. I don&rsquo;t know how he managed to get it flying or at least crawling, but my story was as usual not that easy&hellip; No easy ways for me&hellip; Let&rsquo;s investigate, that&rsquo;s all what&rsquo;s left other than giving up (that I&rsquo;m not going to do right now) 🕵️‍♀️</p>
 <p>So,  the compiled version of the vulnerable app is working on 4.3 Android and the problem is that I can&rsquo;t build my own. I&rsquo;ve even tried reverse engineering the vulnerable application by Mobile Security Guide team in case I&rsquo;ve overlooked some little detail, but all for vain&hellip; Need more than 1 cup of ☕ that&rsquo;s for sure.</p>
+<h2 id="research-results">Research results</h2>
 <p><strong>10:03 pm</strong> Oh! What a difficult day that was! I didn&rsquo;t have any time or even the desire for ☕ since I was too devoted to that task. But it seems to find the answer to this peculiar and irritating behaviour.</p>
 <p>When downloading and installing the latest available version of <strong>Android Studio</strong>, I&rsquo;m forced to install the latest possible <strong>sdk</strong>, build-tools and <strong>gradle</strong>. Also, there appears a connection between the above three components: build-tools need to be approximately the same version as sdk and not all versions of <strong>build-tools</strong> are supported by <strong>gradle</strong>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">AppCompatActivity</span> <span class="o">{</span>
