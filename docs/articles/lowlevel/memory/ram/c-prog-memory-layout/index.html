@@ -222,9 +222,32 @@
 <li>function arguments (<code>char domain_name[]</code>)</li>
 <li>Local variables (<code>bool result</code>, <code>int i</code>)</li>
 </ol>
-<p>Going below (to assembly code):</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">
-</code></pre></div><p><a href="http://eleceng.dit.ie/frank/IntroToC/Memory.html">Here</a> is an interesting article about different layers of memory of a C-program. The author, inter alia, states that we cannot use local variables to return values, due to the fact that the stack is freed after program execution. But the the thing (is far as I know) that the return values are put into eax register before returning, so they are not technically on the stack any more. Of course, if you use not the value from the returned function, but an address of the local variable (which would be utterly weird), then yes, there is no garantee it wasn&rsquo;t overwritten.</p>
+<p>Depending on archetecture and calling conventions, the code may differ a little, but I would like to show a snippet of C and corresponding assembly below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">function</span> <span class="kt">void</span> <span class="nf">_func1</span><span class="p">(){</span>
+  <span class="c1">//assembly equivalent
+</span><span class="c1"></span>  <span class="c1">//push 3
+</span><span class="c1"></span>	<span class="c1">//push 2
+</span><span class="c1"></span>	<span class="c1">//call _func2
+</span><span class="c1"></span>  <span class="n">_func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="kt">int</span> <span class="nf">_func2</span><span class="p">(</span><span class="kt">int</span> <span class="n">arg1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">arg2</span><span class="p">){</span>
+  <span class="c1">//function prologue (behind the curtain --&gt; no equivalent in C)
+</span><span class="c1"></span>  <span class="c1">//push ebp
+</span><span class="c1"></span>	<span class="c1">//mov ebp, esp
+</span><span class="c1"></span>  
+  <span class="c1">//mov eax, [ebp + 8]
+</span><span class="c1"></span>	<span class="c1">//mov edx, [ebp + 12]
+</span><span class="c1"></span>	<span class="c1">//add eax, edx
+</span><span class="c1"></span>  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">arg1</span> <span class="o">+</span> <span class="n">arg2</span><span class="p">;</span>
+  
+  <span class="c1">//pop ebp
+</span><span class="c1"></span>	<span class="c1">//ret
+</span><span class="c1"></span>  <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>What goes on the stack (in assembly)? Everything that was <code>push</code>ed (<code>_func1</code>: <code>3</code> and <code>2</code>; <code>_func2</code>: <code>ebp</code>). So, in assemblu it&rsquo;s obvious what goes on the stack.</p>
+<p><a href="http://eleceng.dit.ie/frank/IntroToC/Memory.html">Here</a> is an interesting article about different layers of memory of a C-program. The author, inter alia, states that we cannot use local variables to return values, due to the fact that the stack is freed after program execution. But the the thing (is far as I know) that the return values are put into eax register before returning, so they are not technically on the stack any more. Of course, if you use not the value from the returned function, but an address of the local variable (which would be utterly weird), then yes, there is no garantee it wasn&rsquo;t overwritten.</p>
 <p>What I&rsquo;d also like to mention in the context of stack, is that even though they say it&rsquo;s freed, it not actually freed per se. There is a esp register, which is very interesting. More about this in my article about .</p>
 <h3 id="heap">Heap</h3>
 <p>Stack vs Heap <a href="https://gribblelab.org/CBootCamp/7_Memory_Stack_vs_Heap.html">article</a>.</p>
