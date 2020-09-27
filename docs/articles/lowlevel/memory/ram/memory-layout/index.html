@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Mobile - Analyst</title>
+  <title>Memory Layout - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -135,11 +135,16 @@
           <div class="sidebar">
             
 <div class="docs-menu">
-  <h4>Section's About</h4>
-  <p>Forensics section</p>
-
- </div> 
-
+  <h4>Memory Layout</h4>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#cmd-args-and-env-vars">Cmd args and env vars</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -147,108 +152,36 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-
-
-  
-  <h1 class="title">Android</h1>
-  <p>Below are all the articles about attacking and investigating Android device and applications.</p>
-
-  
-    <ul>
+<h1 class="title">Memory Layout</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      <div class="postdate">
+        
+        <time datetime="2020-09-27 12:16:50 &#43;0300 MSK" itemprop="datePublished">2020-09-27</time>
+        
+      </div>
       
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/attacks/"> Attacks</a></h1>
-  <p></p>
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="intro">Intro</h2>
+<p>At the very beginning of my career I found it hard to grasp the notion of memory layout and stack. Even when I read about it several times, it didn&rsquo;t feel solid. That&rsquo;s why I drew drew and drew. Because my mind prefers pictures, analogies, metaphors and examples! So, I&rsquo;ve made that. May be someone finds it useful.</p>
+<p><img src="/Users/veronicazvereva/Documents/Website/observer/themes/hugo-whisper-theme/static/images/articles/lowlevel/memoryLayoutC.png" alt="memoryLayoutC"></p>
+<p>A little preamble. We will go from the top to the bottom, from the highest address (<code>0xffffffff</code>) to the lowest (<code>0x00000000</code>). As an example, I&rsquo;ll use <code>ping</code> program. So, we have 6 bricks (let&rsquo;s call them bricks to make the explanation contain at least one metaphor 🤔 )&hellip; 🧱</p>
+<h2 id="cmd-args-and-env-vars">Cmd args and env vars</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ping ya.ru
+</code></pre></div><p><img src="/Users/veronicazvereva/Documents/Website/observer/themes/hugo-whisper-theme/static/images/articles/lowlevel/brick.png" alt="brick"></p>
+<p>The argument, passed</p>
+
+  </div>
+</article>
 </div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/"> Field Manuals</a></h1>
-  <p></p>
 </div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/android/fundamentals/"> Fundamentals</a></h1>
-  <p></p>
-</div>
-
-      
-    </ul>
-  
-  <h1 class="title">iOS</h1>
-  <p>Forensics section</p>
-
-  
-    <ul>
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/fieldmanuals/"> Field Manuals</a></h1>
-  <p></p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/fundamentals/"> Fundamentals</a></h1>
-  <p>Below are all the articles about attacking and investigating iOS device and applications.</p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/toolkit/forensic-lab-setup/"> Forensic Lab Setup</a></h1>
-  <p>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/toolkit/pentest-lab-setup/"> Pentest Lab Setup</a></h1>
-  <p>In this article I will walk you through the process of setting up the lab for pentesting iOS applications.</p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/toolkit/idevice-as-forensic-tool/"> Idevice as Forensic Tool</a></h1>
-  <p>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/toolkit/idevice-as-pentest-tool/"> Idevice as Pentest Tool</a></h1>
-  <p>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/toolkit/on-device-ios-toolkit/"> On-Device Ios Toolkit</a></h1>
-  <p>Tools For each tool in the list there will be a corresponding page with installation guides or usage if I&rsquo;ve encountered some problems.</p>
-</div>
-
-      
-        <div class="summary mb-2">
-  
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/mobile/ios/forensics/acquisition-methods/"> Acquisition Methods</a></h1>
-  <p>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</p>
-</div>
-
-      
-    </ul>
-  
-
-
-
-
-
 
         </div>
       </div>

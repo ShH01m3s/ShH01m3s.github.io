@@ -150,7 +150,6 @@
     <li><a href="#frida">Frida</a></li>
     <li><a href="#objection">Objection</a></li>
     <li><a href="#keychain">Keychain</a></li>
-    <li><a href="#install-application">Install application</a></li>
     <li><a href="#introspy">Introspy</a></li>
     <li><a href="#useful-greps">Useful greps</a></li>
     <li><a href="#binary-exploits">Binary Exploits</a></li>
@@ -273,9 +272,26 @@ $ ios keychain dump --json &lt;myfile.json&gt;
 <span class="c1"># Show the content of a plist file</span>
 $ ios plist cat &lt;myfile.plist&gt;
 </code></pre></div><h2 id="keychain">Keychain</h2>
-<p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain Dumper</a> or Objection. Download <a href="https://github.com/ptoomey3/Keychain-Dumper/releases/tag/1.0.0">here</a>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">./keychain_dumper <span class="c1"># simplest command</span>
-</code></pre></div><h2 id="install-application">Install application</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Dump keychain with Objection</span>
+objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> explore
+ios keychain dump
+ios keychain dump --json &lt;myfile.json&gt; <span class="c1"># including access modifiers. The result will be written to the host in myfile.json</span>
+
+<span class="c1"># Dump keychain with Keychain Dumper</span>
+./updateEntitlements.sh <span class="c1"># to add entitlements explicitly to work on later devices</span>
+chmod +x ./keychain_dumper
+./keychain_dumper
+chmod +r /private/var/Keychains/keychain-2.db <span class="c1"># to validate that keychain-2.db is world-readable</span>
+
+</code></pre></div><p>About Keychain Dumper.</p>
+<blockquote>
+<p>Note: iOS 11 devices using Electra (or other jailbreaks) may still require a trick to bypass the native sandbox. Compile the binary with the included <em>entitlements.xml</em>, sign it with the developer account certificate/priv_key and copy the binary to <em>/bin</em> or <em>/sbin</em> (which already allows execution). See <a href="https://github.com/ptoomey3/Keychain-Dumper">here</a> for more detailed instructions.</p>
+</blockquote>
+<p>Another important note:</p>
+<blockquote>
+<p>Some keychain entries are available regardless of whether the iOS is locked or not, while other entries will <strong>only be accessible if the iOS device is unlocked</strong> (i.e. a user has entered their pin)&hellip;. <strong>By default</strong> keychain_dumper only dumps <strong>&ldquo;Generic&rdquo; and &ldquo;Internet&rdquo;</strong> passwords&hellip;</p>
+</blockquote>
+<p>Download <a href="https://github.com/ptoomey3/Keychain-Dumper/releases/tag/1.0.0">here</a>. Install application</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ios-deploy --bundle Payload/my-app.app -W -d
 </code></pre></div><h2 id="introspy">Introspy</h2>
 <p>Installation guide for <a href="https://github.com/iSECPartners/Introspy-iOS">Tracer</a> and <a href="https://github.com/iSECPartners/Introspy-Analyzer">Analyzer</a>. Introduction <a href="http://isecpartners.github.io/Introspy-iOS/">here</a>. Couldn&rsquo;t run on iOS 13.4.1.</p>

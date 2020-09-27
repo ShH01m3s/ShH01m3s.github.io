@@ -140,10 +140,12 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#device-info">Device Info</a></li>
-    <li><a href="#connecting">Connecting</a></li>
     <li><a href="#dfu-mode">DFU mode</a></li>
+    <li><a href="#connecting">Connecting</a></li>
+    <li><a href="#file-transfer">File Transfer</a></li>
     <li><a href="#keychain">Keychain</a></li>
     <li><a href="#logs">Logs</a></li>
+    <li><a href="#artifacts">Artifacts</a></li>
   </ul>
 </nav>
  </aside>
@@ -184,11 +186,7 @@ ideviceinfo
 
 brew install libimobiledevice <span class="c1"># install the tool</span>
 idevicedebug -d run <span class="o">[</span>app_name<span class="o">]</span>
-</code></pre></div><p>Get BootROM version (old or new):</p>
-<p><strong>iPod touch</strong>: if the second character of the Model is <strong>B</strong> - old BootROM with 0x24000 Segment Overflow, if <strong>C</strong> - new BootROM. iPhone 3GS: The third digit if serial number is the year, the 4th and 5th - week. 40-45 week of 2009 - can be either old or new one. After - new.</p>
-<h2 id="connecting">Connecting</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
-</code></pre></div><p>Works only for jailbroken devices.</p>
+</code></pre></div><p>Get BootROM version (old or new). <strong>iPod touch</strong>: if the second character of the Model is <strong>B</strong> - old BootROM with 0x24000 Segment Overflow, if <strong>C</strong> - new BootROM. iPhone 3GS: The third digit if serial number is the year, the 4th and 5th - week. 40-45 week of 2009 - can be either old or new one. After - new.</p>
 <h2 id="dfu-mode">DFU mode</h2>
 <p>DFU mode device descriptors with BootROM version:</p>
 <ul>
@@ -220,7 +218,18 @@ idevicedebug -d run <span class="o">[</span>app_name<span class="o">]</span>
 </ul>
 </li>
 </ul>
-<h2 id="keychain">Keychain</h2>
+<h2 id="connecting">Connecting</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@&lt;<span class="c1">#phone_ip&gt;, password: alpine</span>
+</code></pre></div><p>Works only for jailbroken devices.</p>
+<h2 id="file-transfer">File Transfer</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp &lt;file_to_transfer&gt; root@&lt;device_ip&gt;:~ <span class="c1"># on iDevice</span>
+scp -P <span class="m">2222</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> . <span class="c1"># from iDevice</span>
+
+<span class="c1"># with objection</span>
+objection -g <span class="o">[</span>app_name<span class="o">]</span> explore
+file download <span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span>
+file upload <span class="o">[</span>/path/to/file/on/PC<span class="o">]</span>
+</code></pre></div><h2 id="keychain">Keychain</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Dump keychain with Objection</span>
 objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> explore
 ios keychain dump
@@ -245,7 +254,9 @@ chmod +r /private/var/Keychains/keychain-2.db <span class="c1"># to validate tha
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">socat  - UNIX-CONNECT:/var/run/lockdown/syslog.sock <span class="c1"># check syslog</span>
 <span class="nb">cd</span> /var/mobile/Applications <span class="c1"># check here for appspecific logs</span>
 sdsiosloginfo.exe -d -u <span class="o">[</span>UDID<span class="o">]</span> &gt; .<span class="se">\c</span>onsole.txt <span class="c1"># drop device logs on Windows</span>
-</code></pre></div>
+</code></pre></div><h2 id="artifacts">Artifacts</h2>
+<p>Taken from <a href="https://docs.google.com/spreadsheets/d/1z-44BUA2AVf8uqnoiDDSi7UxbyWy8KJqK4uaYq_0YYg/edit#gid=9">here</a>.</p>
+
   </div>
 </article>
 </div>
