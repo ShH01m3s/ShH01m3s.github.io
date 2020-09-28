@@ -211,6 +211,13 @@ display wizard:
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">scapy</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">rdpcap</span><span class="p">(</span><span class="s2">&#34;smb-direct-man-in-the-middle-02-reassemble-frames9.pcap&#34;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">pcap</span> <span class="o">=</span> <span class="n">rdpcap</span><span class="p">(</span><span class="s2">&#34;smb-direct-man-in-the-middle-02-reassemble-frames9.pcap&#34;</span><span class="p">)</span>
+</code></pre></div><p>A very useful little script, print all the src addresses (no repeat):</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">pkt</span> <span class="ow">in</span> <span class="n">pcap</span><span class="p">:</span>
+<span class="o">...</span><span class="p">:</span>     <span class="n">src_ips</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pkt</span><span class="p">[</span><span class="n">IP</span><span class="p">]</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+<span class="o">...</span><span class="p">:</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span>
+<span class="p">{</span><span class="s1">&#39;192.168.0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;192.168.0.253&#39;</span><span class="p">}</span>
 </code></pre></div>
   </div>
 </article>
