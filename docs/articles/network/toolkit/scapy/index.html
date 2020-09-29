@@ -141,6 +141,7 @@
   <ul>
     <li><a href="#install">Install</a></li>
     <li><a href="#use">Use</a></li>
+    <li><a href="#my-modules">My modules</a></li>
   </ul>
 </nav>
  </aside>
@@ -218,6 +219,15 @@ display wizard:
 <span class="o">...</span><span class="p">:</span> 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span>
 <span class="p">{</span><span class="s1">&#39;192.168.0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;192.168.0.253&#39;</span><span class="p">}</span>
+</code></pre></div><h2 id="my-modules">My modules</h2>
+<p>To study network forensics and feel more comfortable with scapy and other tools, I&rsquo;ve started writing a Packet Investigator module that can be downloaded via this <a href="/files/python/packet_investigator">link</a>.</p>
+<p>How to use:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># make sure scapy&#39;s installed</span>
+<span class="n">python</span> <span class="n">packet_investigator</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">file_name</span><span class="p">]</span><span class="o">.</span><span class="n">pcap</span> <span class="p">[</span><span class="o">-</span><span class="n">unique_ips</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">susp_ips</span> <span class="p">[</span><span class="n">suspicious_IP</span><span class="p">]]</span>
+
+<span class="n">Options</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">unique_ips</span> <span class="o">-</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">IPs</span> <span class="n">that</span> <span class="n">are</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">pcap</span> <span class="p">(</span><span class="n">both</span> <span class="n">src</span> <span class="ow">and</span> <span class="n">dst</span><span class="p">),</span> <span class="n">but</span> <span class="n">no</span> <span class="n">duplicates</span>
+  <span class="o">-</span><span class="n">susp_ips</span> <span class="o">-</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">packets</span><span class="p">,</span> <span class="n">which</span> <span class="n">src</span> <span class="ow">or</span> <span class="n">dst</span> <span class="n">IP</span> <span class="ow">is</span> <span class="p">[</span><span class="n">suspicious_IP</span><span class="p">]</span>
 </code></pre></div>
   </div>
 </article>
