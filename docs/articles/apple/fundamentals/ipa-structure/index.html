@@ -189,6 +189,72 @@
 <li><code>de.proj</code> - for German strings</li>
 </ul>
 <p>To <a href="https://medium.com/@lucideus/understanding-the-structure-of-an-ios-application-a3144f1140d4">read</a>.</p>
+<p><code>Info.plist</code> contains configuration information for the application, such as its bundle ID, version number, and display name.</p>
+<p><code>_CodeSignature/</code> contains a plist file with a signature over all files in the bundle.</p>
+<p><code>Frameworks/</code> contains the app native libraries as .dylib or .framework files.</p>
+<p><code>PlugIns/</code> may contain app extensions as .appex files (not present in the example).</p>
+<p><code>iGoat-Swift</code> is the app binary containing the app’s code. Its name is the same as the bundle&rsquo;s name minus the .app extension.</p>
+<p>Various resources such as images/icons, <code>*.nib</code> files (storing the user interfaces of iOS app), localized content (<code>&lt;language&gt;.lproj</code>), text files, audio files, etc.</p>
+<p>Data directory:</p>
+<ul>
+<li><strong>Documents/</strong>
+<ul>
+<li>Contains all the user-generated data. The application end user initiates the creation of this data.</li>
+<li>Visible to users and users can write to it.</li>
+<li>Content in this directory is backed up.</li>
+<li>The app can disable paths by setting <code>NSURLIsExcludedFromBackupKey</code>.</li>
+</ul>
+</li>
+<li><strong>Library/</strong>
+<ul>
+<li>Contains all files that aren&rsquo;t user-specific, such as caches, preferences, cookies, and property list (plist) configuration files.</li>
+<li>iOS apps usually use the <code>Application Support</code> and <code>Caches</code> subdirectories, but the app can create custom subdirectories.</li>
+</ul>
+</li>
+<li><strong>Library/Caches/</strong>
+<ul>
+<li>Contains semi-persistent cached files.</li>
+<li>Invisible to users and users can&rsquo;t write to it.</li>
+<li>Content in this directory is not backed up.</li>
+<li>The OS may delete this directory&rsquo;s files automatically when the app is not running and storage space is running low.</li>
+</ul>
+</li>
+<li><strong>Library/Application Support/</strong>
+<ul>
+<li>Contains persistent files necessary for running the app.</li>
+<li>Invisible to users and users can&rsquo;t write to it.</li>
+<li>Content in this directory is backed up.</li>
+<li>The app can disable paths by setting <code>NSURLIsExcludedFromBackupKey</code>.</li>
+</ul>
+</li>
+<li><strong>Library/Preferences/</strong>
+<ul>
+<li>Used for storing properties that can persist even after an application is restarted.</li>
+<li>Information is saved, unencrypted, inside the application sandbox in a plist file called [BUNDLE_ID].plist.</li>
+<li>All the key/value pairs stored using <code>NSUserDefaults</code> can be found in this file.</li>
+</ul>
+</li>
+<li><strong>tmp/</strong>
+<ul>
+<li>Use this directory to write temporary files that do not need to persist between app launches.</li>
+<li>Contains non-persistent cached files.</li>
+<li>Invisible to users.</li>
+<li>Content in this directory is not backed up.</li>
+<li>The OS may delete this directory&rsquo;s files automatically when the app is not running and storage space is running low.</li>
+</ul>
+</li>
+</ul>
+<p>Bundle directory:</p>
+<ul>
+<li><strong>AppName.app</strong>
+<ul>
+<li>This is the Application Bundle as seen before in the IPA, it contains essential application data, static content as well as the application&rsquo;s compiled binary.</li>
+<li>This directory is visible to users, but users can&rsquo;t write to it.</li>
+<li>Content in this directory is not backed up.</li>
+<li>The contents of this folder are used to validate the code signature.</li>
+</ul>
+</li>
+</ul>
 
   </div>
 </article>

@@ -157,8 +157,9 @@
       
         <div class="summary mb-2">
   
-  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/apple/attacks/rtfm/"> RTFM iOS</a></h1>
-  <p>Paths cd /private/var/mobile/Containers/Data/Application/[application_GUID] # application local storage cd /var/mobile/Containers/Bundle/Application/[application_GUID]/[application_name].app/[application_name] # application binary, some iOS versions cd /var/containers/Bundle/Application/[application_GUID]/[application_name].</p>
+  <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/apple/attacks/ios-rtfm/"> RTFM iOS</a></h1>
+  <p>Application OSINT Table:
+   Information ANSWER     iDevice UDID    Package name    App&rsquo;s folder with bin (UUID)    App&rsquo;s folder with data (UUID)     Paths # get App&#39;s folder with data (UUID) and App&#39;s folder with bin (UUID).</p>
 </div>
 
       
@@ -196,7 +197,7 @@ Syslog According to Apple docs, NSLog now doesn&rsquo;t write to syslog, therefo
   
   <h1 class="title-summary"><a href="https://bakerst221b.com/docs/articles/apple/forensics/ios-btfm/"> BTFM iOS</a></h1>
   <p>Device Info Get UDID in different ways (using MacOS):
-ioreg -p IOUSB -l | grep &#34;USB Serial&#34; idevice_id -l # get UDID with ideviceinstaller system_profiler SPUSBDataType | sed -n -e &#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39; | grep &#34;Serial Number:&#34; # instruments -s devices brew install libimobiledevice # install the tool ideviceinfo brew install libimobiledevice # install the tool idevicedebug -d run [app_name] Get BootROM version (old or new).</p>
+ioreg -p IOUSB -l | grep &#34;USB Serial&#34; idevice_id -l # get UDID with ideviceinstaller system_profiler SPUSBDataType | sed -n -e &#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39; | grep &#34;Serial Number:&#34; # instruments -s devices Get BootROM version (old or new).</p>
 </div>
 
       
