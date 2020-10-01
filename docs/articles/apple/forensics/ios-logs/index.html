@@ -152,7 +152,7 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#syslog">Syslog</a></li>
-    <li><a href="#oslog-api">Oslog API</a></li>
+    <li><a href="#nslog">NSlog</a></li>
   </ul>
 </nav>
  </aside>
@@ -196,8 +196,8 @@ socat<span class="o">[</span>2520<span class="o">]</span> E connect<span class="
 </code></pre></div><p>ondeviceconsole tool won&rsquo;t help either, since it uses the same socket (see <a href="https://github.com/eswick/ondeviceconsole/blob/master/main.m">main.c</a>):</p>
 <div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define SOCKET_PATH &#34;/var/run/lockdown/syslog.sock&#34;
 </span></code></pre></div><p>There is a socket file <code>syslog</code> (checked by trying to <code>cp</code> it), but using the above techniques with it didn&rsquo;t work.</p>
-<h2 id="oslog-api">Oslog API</h2>
-<p>With newer versions of iOS the Oslog API is used. To see the logs, use <code>oslog</code> utility from Cydia repository. Can pipe to grep to filter output.</p>
+<h2 id="nslog">NSlog</h2>
+<p>With newer versions of iOS the Oslog API is used. To see the logs, use <code>oslog</code> utility from Cydia repository or <code>Passionfruit</code> multitool. Can pipe to grep to filter output.</p>
 
   </div>
 </article>

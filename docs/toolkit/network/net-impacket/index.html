@@ -187,7 +187,7 @@ pip install impacket
 </code></pre></div><h2 id="usage">Usage</h2>
 <blockquote>
 <p>❌ Error: <code>ip.get_th_sport</code> doesn&rsquo;t display ports</p>
-<p>❔ Explanation: port number belongs to the transport layer. Impacket used to use it on IP layer, but now they&rsquo;ve fixed it. Also, <code>th</code> in the function name means TCP, which is not always a case with transport layer (remember, UDP, ICMP).</p>
+<p>❔ Explanation: port number belongs to the transport layer. Impacket used to use it on IP layer, but now they&rsquo;ve fixed it. Also, <code>th</code> in the function name means TCP, which is not always the case with transport layer (remember, UDP, ICMP).</p>
 <p>✅ Fix:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">decoder</span> <span class="o">=</span> <span class="n">EthDecoder</span><span class="p">()</span>
 <span class="n">ether</span> <span class="o">=</span>  <span class="n">decoder</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>

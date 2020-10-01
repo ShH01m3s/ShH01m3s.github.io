@@ -213,22 +213,19 @@
 </tbody>
 </table>
 <h2 id="get-package-name">Get package name:</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># on Android</span> 
-./frida-server-XX
-
-<span class="c1"># on PC, option 1</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
 frida-ps -U <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
-<span class="c1"># on PC, option 2</span>
+<span class="c1"># option 2</span>
 drozer console connect
 run app.package.list
-<span class="c1"># on PC, option 3</span>
+<span class="c1"># option 3</span>
 adb shell
 <span class="nb">cd</span> /data/data/
 ls <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
 </code></pre></div><h2 id="get-path-to-apk">Get path to apk</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># on PC, option 1</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
 adb shell pm path <span class="o">[</span>package_name<span class="o">]</span>
-<span class="c1"># on PC, option 2</span>
+<span class="c1"># option 2</span>
 drozer console connect
 run app.package.info –a <span class="o">[</span>package_name<span class="o">]</span>
 </code></pre></div><h2 id="heading"></h2>
