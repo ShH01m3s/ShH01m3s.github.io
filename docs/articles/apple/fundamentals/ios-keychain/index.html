@@ -218,7 +218,7 @@
 <p><code>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</code> - 🔐💼</p>
 </li>
 <li>
-<p><code>kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly</code> - same as <code>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</code> (previous) but available only if a passcode is set on the device.</p>
+<p><code>kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly</code> - same as <code>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</code> (previous) but available only if a passcode is set on the device. ❗ Keep in mind, that key will be deleted when the device passcode has been removed. ❓ Private key is stored in SecureEnclave 🛡️</p>
 </li>
 </ol>
 <h2 id="accesscontrolflags">AccessControlFlags</h2>
@@ -231,7 +231,45 @@
 </ol>
 <h2 id="security-concerns">Security concerns</h2>
 <p>Keychain is retained when application is uninstalled. So, it&rsquo;s generally a bad idea to store something very valuable there.</p>
+<p>As far as I understand, you can&rsquo;t just store any rubbish in Secure Enclave. It supports only 256</p>
+<blockquote>
+<p><a href="https://developer.apple.com/documentation/security/ksecattrtokenidsecureenclave">https://developer.apple.com/documentation/security/ksecattrtokenidsecureenclave</a></p>
+<p>The only keychain items supported by the Secure Enclave are 256-bit elliptic curve private keys (those that have key type <a href="https://developer.apple.com/documentation/security/ksecattrkeytypeec"><code>kSecAttrKeyTypeEC</code></a>). Such keys must be generated directly on the Secure Enclave using the <a href="https://developer.apple.com/documentation/security/1395339-seckeygeneratepair"><code>SecKeyGeneratePair(_:_:_:)</code></a> function with the <a href="https://developer.apple.com/documentation/security/ksecattrtokenid"><code>kSecAttrTokenID</code></a> key set to <a href="https://developer.apple.com/documentation/security/ksecattrtokenidsecureenclave"><code>kSecAttrTokenIDSecureEnclave</code></a> in the parameters dictionary.</p>
+<p>Important</p>
+<p>It is not possible to import pre-existing keys into the Secure Enclave.</p>
+</blockquote>
+<p>So, same as with Apple in general, in that not even Apple knows your super-duper secret device key and therefore can&rsquo;t decrypt the data without a passcode, the same is here: not even the application itself know the key, it only asks to generate one and then subsequently asks to decrypt something or sign.</p>
+<p>Generating keys <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage">example</a>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="c1">// private key parameters</span>
+<span class="kd">let</span> <span class="nv">privateKeyParams</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">kSecAttrLabel</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="s">&#34;privateLabel&#34;</span><span class="p">,</span>
+    <span class="n">kSecAttrIsPermanent</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> 
+    <span class="n">kSecAttrApplicationTag</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="s">&#34;applicationTag&#34;</span><span class="p">,</span>
+<span class="p">]</span> <span class="k">as</span> <span class="n">CFDictionary</span>
 
+<span class="c1">// public key parameters</span>
+<span class="kd">let</span> <span class="nv">publicKeyParams</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">kSecAttrLabel</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="s">&#34;publicLabel&#34;</span><span class="p">,</span>
+    <span class="n">kSecAttrIsPermanent</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="n">kSecAttrApplicationTag</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="s">&#34;applicationTag&#34;</span><span class="p">,</span>
+<span class="p">]</span> <span class="k">as</span> <span class="n">CFDictionary</span>
+
+<span class="c1">// global parameters</span>
+<span class="kd">let</span> <span class="nv">parameters</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">kSecAttrKeyType</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="n">kSecAttrKeyTypeEC</span><span class="p">,</span>
+    <span class="n">kSecAttrKeySizeInBits</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+    <span class="n">kSecAttrTokenID</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="n">kSecAttrTokenIDSecureEnclave</span><span class="p">,</span>
+    <span class="n">kSecPublicKeyAttrs</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="n">publicKeyParams</span><span class="p">,</span>
+    <span class="n">kSecPrivateKeyAttrs</span> <span class="k">as</span> <span class="nb">String</span><span class="p">:</span> <span class="n">privateKeyParams</span><span class="p">,</span>
+<span class="p">]</span> <span class="k">as</span> <span class="n">CFDictionary</span>
+
+<span class="kd">var</span> <span class="nv">pubKey</span><span class="p">,</span> <span class="n">privKey</span><span class="p">:</span> <span class="n">SecKey</span><span class="p">?</span>
+<span class="kd">let</span> <span class="nv">status</span> <span class="p">=</span> <span class="n">SecKeyGeneratePair</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">pubKey</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">privKey</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">status</span> <span class="o">!=</span> <span class="n">errSecSuccess</span> <span class="p">{</span>
+    <span class="c1">// Keys created successfully</span>
+<span class="p">}</span>
+</code></pre></div>
   </div>
 </article>
 </div>
