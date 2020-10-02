@@ -213,7 +213,25 @@ ssh -R 8080:localhost:8080 root@localhost -p <span class="m">2222</span>
 </code></pre></div><p><strong>iOS Device</strong>: WiFi &ndash;&gt; Any WiFi SSID &ndash;&gt; Configure Proxy &ndash;&gt; Server 127.0.0.1 Port 8080</p>
 <p><strong>NB!</strong> For intercepting HTTPS traffic in both cases, on iDevice using Safari go to http://burp, download certificate, install (Settings → General → Profile and managment → PortSwigger CA) and switch on (General → About → Certificate Trust Settings → PortSwigger CA). For more details see configuring iOS to work with Burp <a href="https://portswigger.net/support/configuring-an-ios-device-to-work-with-burp">here</a> and Installing certificate <a href="https://portswigger.net/support/installing-burp-suites-ca-certificate-in-an-ios-device">here</a>.</p>
 <h3 id="whats-going-on-1">What&rsquo;s going on?</h3>
-<p>While it&rsquo;s pretty obvous for interception over WiFi, I&rsquo;ve found it confusing figuring out how the USB interception works. Here are a diagram and explanation.</p>
+<p>While it&rsquo;s pretty obvous for interception over WiFi, I&rsquo;ve found it confusing figuring out how the USB interception works. Here are a diagram and explanation. And since a love pictures, I&rsquo;ve made my own:</p>
+<p><img src="/images/articles/ios/ios-intercept-traffic-usb.png" alt="ios-intercept-traffic-usb"></p>
+<p>So, we have:</p>
+<ol>
+<li>PC with IP <code>192.168.1.80</code> (network 1) with Burp Suite Proxy up and listening on <code>127.0.0.1:8080</code>. I will use 🥕 to mark PC&rsquo;s ports and interfaces.​</li>
+<li>iPad with IP <code>10.18.2.82</code> (network 2). Also has its own <code>127.0.0.1</code> <code>localhost</code> interface, but is not listetning on any ports yet. I will use 🍏  to mark iDevices&rsquo;s ports and interfaces.</li>
+</ol>
+<p>Let&rsquo;s issue the first command on our 🥕 (​<code>iproxy</code>🥕 &ndash;&gt; 🍏):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">iproxy <span class="m">1234</span> <span class="m">22</span>
+</code></pre></div><p>This command instructs <code>usbmuxd</code> daemon to search for 🍏 connected via USB and map its <code>ssh</code> port <code>22</code> to <code>1234</code> port of 🥕 (green arrow on the picture above). So now we don&rsquo;t need WiFi connection in order to talk to 🍏 over <code>ssh</code>. Our requests and responses will be ralayed by <code>usbmuxd</code> to 🥕 <code>1234</code> port.</p>
+<p>If then we wanted to use USB connection to <code>ssh</code> into 🍏, we would issue the following command (<code>ssh -p</code> 🥕 <code>root@</code>🍏):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh -p <span class="m">1234</span> root@localhost
+</code></pre></div><p>This command issued from 🥕  says <em>&ldquo;Please 😇 , connect to 🍏 <code>22</code> port using my <code>1234</code> port over USB&rdquo;</em>. Well, may be there is no <em>please</em>, but nevertheless 😸. But we need not just establish the ssh connection. We need to relay HTTP(S) traffic from 🍏 to 🥕  with proxy up and running already. Our proxy is listening on 🥕's <code>localhost</code> interface (<code>127.0.0.1:8080</code>). However, the port could be any.</p>
+<p>The next command we need to issue is (<code>ssh -R</code> 🍏<code>:</code> 🥕   <code>root@</code>🍏 -p 🥕):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh -R 5678:localhost:8080 root@localhost -p <span class="m">1234</span>
+</code></pre></div><p>This command is issued over over USB using port <code>1234</code>. This command instructs <code>ssh</code> to map 🍏<code>127.0.0.1:5678</code> to 🥕 <code>127.0.0.1:8080</code> . So, now when 🍏 sends anythyng to 🍏 <code>127.0.0.1:5678</code>, it will be sent over USB, over ssh connection (port <code>22</code>) to 🥕  <code>127.0.0.1:8080</code>. The packet flow would be as follows: 🍏 <code>127.0.0.1:5678</code> &ndash;&gt; 🍏  <code>22</code> ssh &ndash;&gt; 🥕<code>1234</code> usbmuxd  &ndash;&gt; 🥕<code>127.0.0.1:1234</code>. And vice versa.</p>
+<p>But why would 🍏  send anything to <code>5678</code> port? When sending something over HTTP, the client can use any port, for each HTTP connection it can be different. How to tell the 🍏  to send all its HTTP requests to <code>5678</code> port? The answer is: by configuring global proxy. For this we go to 🍏  Settings &ndash;&gt; WiFi &ndash;&gt; choose any WiFi hotspot (we are connected to 🥕 over USB, we don&rsquo;t need to be on the same network). Then <em>Configure Proxy</em>: server <code>127.0.0.1</code> and port &hellip;. guess&hellip;.  Yes! 🎯port is <code>5678</code> the very port mapped to 🥕 <code>127.0.0.1:8080</code>.</p>
+<p>Now, everytime some HTTP(S) request is sent or received, it&rsquo;s sent or received via 🍏 <code>127.0.0.1:5678</code>. But since <code>127.0.0.1:5678</code> is mapped to 🥕 <code>127.0.0.1:1234</code>, our Proxy will successfully intercept the traffics.</p>
+<p>Yay! I&rsquo;ve figured that out finally 😌 .</p>
 
   </div>
 </article>
