@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>iOS Introduction - Analyst</title>
+  <title>Ios Loggs - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -148,10 +148,15 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/articles/platforms/apple/"> Back to Apple Section </a>
+   <a href="/docs/articles/forensics/analysis/mobile/"> Back to Mobile Forensics Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#syslog">Syslog</a></li>
+    <li><a href="#nslog">NSlog</a></li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -161,7 +166,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">iOS Introduction</h1>
+<h1 class="title">Ios Loggs</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -170,9 +175,14 @@
       <div class="article-category">
           
               
-                <i class="fab fa-hive"></i>
+                <i class="fas fa-search"></i>
               
-          <a class="category-link" href="/categories/general">general</a>
+          <a class="category-link" href="/categories/forensics">forensics</a>
+          
+              
+                <i class="fas fa-hammer"></i>
+              
+          <a class="category-link" href="/categories/pentest">pentest</a>
           
       </div> <br />
       
@@ -180,7 +190,9 @@
           
             
               
-          <a class="platform-link" href="/types/article">article</a>
+                <i class="fas fa-microscope"></i>
+              
+          <a class="platform-link" href="/types/research">research</a>
           
       </div> <br />
       
@@ -207,10 +219,23 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><code>UID</code> - key that is fused into Application processor. No one know it and can get from the device. Used to encrypt the contents.</p>
-<p><code>GUID</code> -</p>
-<p><code>UDID</code> - device identifier. It can be retrived with iTunes.</p>
-<p>Home button - sapfire crystal for scratch resistance. Capacitive touch for detection.</p>
+    <p>About iOS logs <a href="https://www.theiphonewiki.com/wiki/System_Log">here</a>.</p>
+<h2 id="syslog">Syslog</h2>
+<p>According to <a href="https://developer.apple.com/documentation/os/logging">Apple docs</a>, NSLog now doesn&rsquo;t write to syslog, therefore I didn&rsquo;t find a <code>syslog.sock</code> or <code>syslog</code> file itself.</p>
+<blockquote>
+<p>Important</p>
+<p>The unified logging system is available in iOS 10. and later, macOS 10.12 and later, tvOS 10.0 and later, and watchOS 3.0 and later. This system supersedes the Apple System Logger (ASL) and Syslog APIs.</p>
+</blockquote>
+<p>That&rsquo;s why now with newer devices you can&rsquo;t view logs with</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
+
+<span class="c1"># gives an error</span>
+socat<span class="o">[</span>2520<span class="o">]</span> E connect<span class="o">(</span>5, <span class="nv">LEN</span><span class="o">=</span><span class="m">31</span> <span class="nv">AF</span><span class="o">=</span><span class="m">1</span> <span class="s2">&#34;/var/run/lockdown/syslog.sock&#34;</span>, 31<span class="o">)</span>: No such file or directory
+</code></pre></div><p>ondeviceconsole tool won&rsquo;t help either, since it uses the same socket (see <a href="https://github.com/eswick/ondeviceconsole/blob/master/main.m">main.c</a>):</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define SOCKET_PATH &#34;/var/run/lockdown/syslog.sock&#34;
+</span></code></pre></div><p>There is a socket file <code>syslog</code> (checked by trying to <code>cp</code> it), but using the above techniques with it didn&rsquo;t work.</p>
+<h2 id="nslog">NSlog</h2>
+<p>With newer versions of iOS the Oslog API is used. To see the logs, use <code>oslog</code> utility from Cydia repository or <code>Passionfruit</code> multitool. Can pipe to grep to filter output.</p>
 
   </div>
 </article>

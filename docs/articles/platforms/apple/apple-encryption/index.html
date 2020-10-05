@@ -162,6 +162,8 @@
     <li><a href="#intro">Intro</a></li>
     <li><a href="#class-keys">Class keys</a></li>
     <li><a href="#boot-process">Boot process:</a></li>
+    <li><a href="#filevault">FileVault</a></li>
+    <li><a href="#touchid">TouchID</a></li>
     <li><a href="#questions-1">Questions</a></li>
     <li><a href="#references-1">References</a></li>
   </ul>
@@ -309,7 +311,7 @@
 <p><a href="https://www.theiphonewiki.com/wiki/Bootrom">https://www.theiphonewiki.com/wiki/Bootrom</a></p>
 <h2 id="boot-process">Boot process:</h2>
 <ol>
-<li>Boot ROM is run like Big Bang</li>
+<li>Boot ROM is executed like the Big Bang, out of nowhere</li>
 <li>Boot ROM creates a key
 <ol>
 <li>User&rsquo;s key + device&rsquo;s UID = ephemeral memory protection key</li>
@@ -317,6 +319,19 @@
 </ol>
 </li>
 </ol>
+<h2 id="filevault">FileVault</h2>
+<h2 id="touchid">TouchID</h2>
+<p>2012 - AuthenTec?</p>
+<p>Tied at the hardware level to A chip. <code>LAContext</code> and User Presence/ACLs.</p>
+<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="k">if</span><span class="p">(</span><span class="n">touchIdIsSet</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">checkcredentials</span><span class="p">()){</span>
+    <span class="c1">//authenticated</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">//error</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p><a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript/">http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript/</a></p>
 <h2 id="questions-1">Questions</h2>
 <blockquote>
 <p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
@@ -324,6 +339,7 @@
 <h2 id="references-1">References</h2>
 <p><a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage">https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage</a></p>
 <p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
+<p><a href="https://www.youtube.com/watch?v=XhXIHVGCFFM">https://www.youtube.com/watch?v=XhXIHVGCFFM</a></p>
 
   </div>
 </article>

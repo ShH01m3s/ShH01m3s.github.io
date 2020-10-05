@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>iOS Introduction - Analyst</title>
+  <title>Phases - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -148,10 +148,20 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/articles/platforms/apple/"> Back to Apple Section </a>
+   <a href="/docs/articles/forensics/analysis/mobile/"> Back to Mobile Forensics Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intake">Intake</a></li>
+    <li><a href="#identification">Identification</a></li>
+    <li><a href="#preparation">Preparation</a></li>
+    <li><a href="#isolation">Isolation</a></li>
+    <li><a href="#processing">Processing</a></li>
+    <li><a href="#verification-phase">Verification phase</a></li>
+    <li><a href="#documenting-and-reporting">Documenting and reporting</a></li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -161,43 +171,13 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">iOS Introduction</h1>
+<h1 class="title">Phases</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     <div class="meta">
       
-      <div class="article-category">
-          
-              
-                <i class="fab fa-hive"></i>
-              
-          <a class="category-link" href="/categories/general">general</a>
-          
-      </div> <br />
       
-      <div class="article-category">
-          
-            
-              
-          <a class="platform-link" href="/types/article">article</a>
-          
-      </div> <br />
-      
-      
-      
-      
-      <div class="article-category">
-          
-            
-            
-            
-            
-              <i class="fas fa-mobile"></i>
-            
-          <a class="platform-link" href="/platforms/ios">ios</a>
-          
-      </div> <br />
       
       
 
@@ -207,10 +187,37 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><code>UID</code> - key that is fused into Application processor. No one know it and can get from the device. Used to encrypt the contents.</p>
-<p><code>GUID</code> -</p>
-<p><code>UDID</code> - device identifier. It can be retrived with iTunes.</p>
-<p>Home button - sapfire crystal for scratch resistance. Capacitive touch for detection.</p>
+    <p><em>This article is about the phases of mobile forensics.</em></p>
+<h2 id="intake">Intake</h2>
+<p>The starting phase which included paper work on ownership and request forms. Everything boring and the most important from the court perspective goes here. Also, it&rsquo;s critical not to damage the evidence. Answering the questions:</p>
+<ol>
+<li>What type of information the requestor is seeking?</li>
+<li>What is needed?</li>
+<li>What&rsquo;s the scope</li>
+</ol>
+<p>For example, I&rsquo;m aquiring a mobile phone 📱 for analysis. I&rsquo;m asked to find the evidence, that the person called number +12345679 (1,3). I take the phone but it&rsquo;s locked. I ask to unlock it, because circumventing this limitation would take a lot of time and might corrupt the data (2).</p>
+<h2 id="identification">Identification</h2>
+<p><strong>Legal authority</strong>👨‍⚖️ First, one should keep in mind the legal  aspects such as if the device is under warrant, then not all information can be analyzed 🚫.</p>
+<p><strong>Goals</strong>🎯 Then I&rsquo;m supposed to determine the goals. Skip data irrelevant for the investigation.</p>
+<p><strong>Identification</strong>📱 Make, model and other id information, carrier, phone number. <em>#todo:</em> make a list of the required information.</p>
+<p><strong>Storages</strong> 💾. Removable and external data <strong>storage</strong>. If such storage exists (such as sdcard for Android), it should be removed and analysed separately with the traditional tools. But this card should be in the phone to ensure that the link between evidence is not broken.</p>
+<p>❗ Don&rsquo;t forget that mobile phones are physical devices which might contain physical evidence (for example, fingerprints).</p>
+<h2 id="preparation">Preparation</h2>
+<p>When the device was identified and the scope determined, make a list of tools, techniques and possible pitfols for that specific device.</p>
+<h2 id="isolation">Isolation</h2>
+<p>In case of mobile devices it&rsquo;s very important, because mobile phones continuously collect different garbage 🗑️ like dogs which collect all sorts of crap 💩 while being walked. Some evidence might be overwritten. Also, keep in mind that many phones can be remotely wiped 🧹.</p>
+<p>The first thing to do, is to put the phone in airplane ✈️ mode or a special radio frequency shielding cloth 👝 . Faraday bags block signals.</p>
+<h2 id="processing">Processing</h2>
+<p>The phone should be aquired with a method that is repeatable and forensically sound. This phase starts only after the devices was isolated.</p>
+<p>Physical acquisition is preferred, but when it&rsquo;s not possible - logical acquisition. During logical acquisition (so that the evidences acquired will be admissable in court) it&rsquo;s a good practice to have this process taped.</p>
+<h2 id="verification-phase">Verification phase</h2>
+<p>Handset data - RAM and ROM data from the phone. Extracted data sould be compared to handset data. Methods:</p>
+<ol>
+<li>Hashing algorithms. Every individually extracted file should be hashed. Every descrepancy should be explainable.</li>
+<li>Compare manually</li>
+<li>Compare with tools. Use multiple data to extract data and compare the results.</li>
+</ol>
+<h2 id="documenting-and-reporting">Documenting and reporting</h2>
 
   </div>
 </article>
