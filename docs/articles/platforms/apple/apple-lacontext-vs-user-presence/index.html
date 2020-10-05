@@ -151,7 +151,12 @@
    <a href="/docs/articles/platforms/apple/"> Back to Apple Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#lacontext">LAContext</a></li>
+    <li><a href="#user-presence">User Presence</a></li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -217,7 +222,17 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>In this article I&rsquo;n going to research this: how LAContext is different from User Presence, in what way it&rsquo;s better. I&rsquo;m going to start with dissecitng each mechanism and see the data flow and potential risks.</p>
+    <p><em>In this article I&rsquo;n going to research this: how LAContext is different from User Presence, in what way it&rsquo;s better. I&rsquo;m going to start with dissecitng each mechanism and see the data flow and potential risks.</em></p>
+<h2 id="lacontext">LAContext</h2>
+<h2 id="user-presence">User Presence</h2>
+<p>User Presence works with TouchID through Keychain. While LAContext just delegates the credentials check to the system, here Keychain services will present the authentication dialog to the user and return <strong>data</strong> or nil depending on whether a suitable fingerprint was provided or not. LAContext will present success or failure.</p>
+<p><img src="/images/articles/ios/local-auth-framework.png" alt="local-auth-framework"></p>
+<p><a href="https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id">https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id</a></p>
+<p>Both using LocalAuthentication framework.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">otool -L &lt;AppName&gt;.app/&lt;AppName&gt;
+</code></pre></div><p>❓ Unlike macOS and Android, iOS currently (at iOS 12) does not support temporariness of an item&rsquo;s accessibility in the keychain: when there is no additional security check when entering the keychain (e.g. <code>kSecAccessControlUserPresence</code> or similar is set), then once the device is unlocked, a key will be accessible.</p>
+<p>MSTG-AUTH-8: &ldquo;Biometric authentication, if any, is not event-bound (i.e. using an API that simply returns &ldquo;true&rdquo; or &ldquo;false&rdquo;). Instead, it is based on unlocking the keychain/keystore.&rdquo;</p>
+<p>MSTG-STORAGE-11: &ldquo;The app enforces a minimum device-access-security policy, such as requiring the user to set a device passcode.&rdquo;</p>
 
   </div>
 </article>
