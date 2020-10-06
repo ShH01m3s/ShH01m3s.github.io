@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Articles - Analyst</title>
+  <title>Ios Intro - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -146,9 +146,18 @@
         <div class="col-12 col-md-3 mb-3">
           <div class="sidebar">
             
-  <div class="docs-menu">
-    
-   </div> 
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/forensics/analysis/mobile/"> Back to Mobile Forensics Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tool-leveling-pyramid">Tool leveling pyramid</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -156,81 +165,36 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Ios Intro</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="tool-leveling-pyramid">Tool leveling pyramid</h2>
+<p>The methods are placed in the order from the easiest to the hardest and most time-consuming:</p>
+<ol>
+<li><strong>Micro read</strong>. Physical extraction. Manually viewing and interpreting data as seen on the memory chip using 🔬 microscope and translating gate status to 💯 zeroes and ones and then interpret them as ASCII chars. Usually done when national security is at risk. Otherwise it&rsquo;s too hard, expensive and no commercial tools available. <a href="https://www.oreilly.com/library/view/practical-mobile-forensics/9781788839198/ac5758e4-e433-46e9-b396-c5cd29638a82.xhtml">Link</a>. Interesting <a href="https://www.cl.cam.ac.uk/~mgk25/sc99-tamper.pdf">article</a>.</li>
+<li><strong>Chip-off</strong>. Physical extraction. Chip is removed, the second phone is used to extract data. Requires soldering and heating of chips, may render the data unsalvageable 💩 . Useless with iOS &gt;= 5S due to SecEnclave 👮‍♂️ . Try below methods before trying this. When it&rsquo;s important to preserve memory or when the device is damaged and the chip is the only thing that survived. ❗ Usable when the device is screenlocked.</li>
+<li><strong>Hex Dump</strong>. Physical extraction. Connect to forensic machine, push unsigned code/bootloader. Extract memory in binary format. ❗ Usable when the device is screenlocked.  <a href="https://habr.com/ru/post/190012/">JTAG</a>.</li>
+<li><strong>Logical Analysis</strong>. Logical extraction. Connect to forensic machine (USB, Bluetooth, SSH ❓ etc). Might change the integrity of the evidence. Deleted data is not accessible.</li>
+<li><strong>Manual Extraction</strong>. ✋ 📱 Manual extraction. Scroll through data on the phone, see everything that mobile&rsquo;s GUI offers you, using touchscreen, buttons and keypad (messages 💌 , photos 🌄 , videos 📹 , notes 🗒 , browser history 📖 etc).</li>
+</ol>
 
-
-  
-  <h1 class="title"><a style="font-weight: normal; color: black;" href="https://bakerst221b.com/docs/articles/platforms/">OS Fundamentals</a></h1>
-  
-    <ul>
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/apple/"> Apple</a></h2>
-        </li>
-        
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/android/"> Android</a></h2>
-        </li>
-        
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/windows/"> Windows</a></h2>
-        </li>
-        
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/linux/"> Linux</a></h2>
-        </li>
-        
-      
-    </ul>
-  
-  <h1 class="title"><a style="font-weight: normal; color: black;" href="https://bakerst221b.com/docs/articles/datahiding/">Data Hiding and Carving</a></h1>
-  <p><em>This section comprises two very importnant topic for any forensics investigation: cryptography and steganography. In this section I&rsquo;ll make an overview of the both, as well as certain pecularities and techniques to both hide, and carve data.</em></p>
-
-    <ul>
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/datahiding/cryptography/"> Cryptography</a></h2>
-        </li>
-        
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/datahiding/steganography/"> Steganography</a></h2>
-        </li>
-        
-      
-    </ul>
-  
-  <h1 class="title"><a style="font-weight: normal; color: black;" href="https://bakerst221b.com/docs/articles/forensics/">Forensics</a></h1>
-  <p>All techniques of forensic investigations.</p>
-
-    <ul>
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/legal/"> Legal Aspects</a></h2>
-        </li>
-        
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/acquisition/"> Aquisition Methods</a></h2>
-        </li>
-        
-      
-        <li>
-          <h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/forensics/analysis/"> Forensics Analysis Process</a></h2>
-        </li>
-        
-      
-    </ul>
-  
-
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
