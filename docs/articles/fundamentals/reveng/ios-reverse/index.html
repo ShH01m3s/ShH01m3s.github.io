@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>iOS Introduction - Analyst</title>
+  <title>Ios Reverse - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -148,13 +148,12 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/articles/platforms/apple/"> Back to Apple Section </a>
+   <a href="/docs/articles/fundamentals/reveng/"> Back to Reverse Engineering Section </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#low-level-security">Low Level Security</a></li>
-    <li><a href="#application-sandbox">Application Sandbox</a></li>
+    <li><a href="#analysis-flow">Analysis flow</a></li>
     <li><a href="#entitlements">Entitlements</a></li>
   </ul>
 </nav>
@@ -167,7 +166,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">iOS Introduction</h1>
+<h1 class="title">Ios Reverse</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -176,14 +175,9 @@
       <div class="article-category">
           
               
-                <i class="fas fa-archive"></i>
+                <i class="fas fa-search"></i>
               
-          <a class="category-link" href="/categories/general">general</a>
-          
-              
-                <i class="fas fa-hammer"></i>
-              
-          <a class="category-link" href="/categories/appsec">appsec</a>
+          <a class="category-link" href="/categories/forensics">forensics</a>
           
       </div> <br />
       
@@ -191,7 +185,9 @@
           
             
               
-          <a class="platform-link" href="/types/article">article</a>
+                <i class="fas fa-microscope"></i>
+              
+          <a class="platform-link" href="/types/research">research</a>
           
       </div> <br />
       
@@ -218,19 +214,39 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="low-level-security">Low Level Security</h2>
-<p><code>UID</code> - key that is fused into Application processor. No one know it and can get from the device. Used to encrypt the contents.</p>
-<p><code>GUID</code> -</p>
-<p><code>UDID</code> - device identifier. It can be retrived with iTunes.</p>
-<p>Home button - sapfire crystal for scratch resistance. Capacitive touch for detection.</p>
-<h2 id="application-sandbox">Application Sandbox</h2>
-<p>There are two users on iOS: <code>mobile</code> and <code>root</code>. When the device is not jailbroken, all applications and processes run by user are in <code>mobile</code>'s context. Each application is sandboxed and certain policies are implemented (they are called <em>profiles</em> in iOS). Hence, an application can&rsquo;t access other apps&rsquo; protected resources. This system is called <em>TrustedBSD Mandatory Access Control (MAC) Framework</em>.  To access other apps&rsquo; resources, entitlements are specified for each application and checked by <code>securityd</code>.</p>
-<h2 id="entitlements">Entitlements</h2>
-<p>Consider some Russian 🇷🇺 👩 woman willing to travel to Japan 🇯🇵, EU 🇪🇺 and USA 🇺🇸.  Since October Revolution in 1917 and WWI it&rsquo;s no longer possible to do it so simply as that. For travelling one needs a visa 🎫, and usually each for each country one&rsquo;s planning to attend.</p>
-<p>So, this Russian woman has two visas yet: Shengen and US, but has not aquired Japanese visa. On passport control 🛂 (<code>securityd</code>) these visas in her passport are checked and corresponding gates are opened if the visa is present. If not, the access to the country&rsquo;s gate is restricted 🚫. Since she doesn&rsquo;t have a Japanese visa, she is not <em>entitled</em> to travel to Japan. Since she has EU and US visas, she can travel there freely. There are, of course, dozens of other people, who can have EU or US visa, so she&rsquo;s not the only one entitled to get there. Basically, they are all in the same <em>entitlement group</em>.</p>
-<p>The same is here: each application has &ldquo;passport&rdquo; 🔖 with entitlements (an array of strings), based on which an access is denied 🚫 or allowed ✅ by 🛂 <code>securityd</code> (passport control).</p>
-<p>All entitlements are added before or during signing the application, hence they cannot be changed.</p>
+    <p><em>During forensic analysis it&rsquo;s not too rare to run into some suspicious application. In this article I&rsquo;m going to learn to reverse engineer iOS applications.</em></p>
+<h2 id="analysis-flow">Analysis flow</h2>
+<p>First, we need to get IPA file from the device. There are different ways to do so (please, refer to <a href="/docs/toolkit/mobile/ios-btfm-rtfm">BTFM and RTFM</a>). Here I&rsquo;m going to use the easiest one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipainstaller -i <span class="k">$(</span>ipainstaller -l <span class="p">|</span> grep -i lassen<span class="k">)</span> <span class="p">|</span> grep Bundle
 
+scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/Bundle/ . 
+</code></pre></div><p>Then open the Bundle folder on PC and look for <code>Info.plist</code>. Let&rsquo;s find any strings that start with <code>NS</code> and end with <code>UsageDescription</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> *.ipa/<span class="o">[</span>package_name<span class="o">]</span>.app
+grep <span class="s1">&#39;UsageDescription&#39;</span> Info.plist -A1
+</code></pre></div><p>You sould see something like that:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSPhotoLibraryUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>You can choose a profile picture from your photo library<span class="nt">&lt;/string&gt;</span>
+	<span class="nt">&lt;key&gt;</span>NSPhotoLibraryAddUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>Allow Kindle to access your photos to save images.<span class="nt">&lt;/string&gt;</span>
+--
+	<span class="nt">&lt;key&gt;</span>NSCameraUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>Kindle would like to access the camera<span class="nt">&lt;/string&gt;</span>
+--
+	<span class="nt">&lt;key&gt;</span>NSAppleMusicUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>We use this to play audio in certain interactive books or magazines<span class="nt">&lt;/string&gt;</span>
+</code></pre></div><p>Inspect the application and make sense of all its entitlements. Why, for example, Kindle application needs to access my Camera? May be to set Avatar. And what if it was a simple game? Anyway, always check this since it might be an indication of malware application (although it&rsquo;s very hard to get one uploaded to AppStore, it&rsquo;s still possible. Besides, there are ways to sideload applications).</p>
+<h2 id="entitlements">Entitlements</h2>
+<p><a href="/docs/articles/platforms/apple/ios-intro#entitlements">Here</a> is an article which contains a section about iOS entitlements.</p>
+<p>To decode certificate</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl x509 -in certificate.crt -text -noout
+</code></pre></div><p>Extract xml from <code>Info.plist</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">binwalk -e -y<span class="o">=</span>xml ./Telegram<span class="se">\ </span>X
+r2 -qc <span class="s1">&#39;izz~PropertyList&#39;</span> ./Telegram<span class="se">\ </span>X
+grep -a -A <span class="m">5</span> <span class="s1">&#39;PropertyList&#39;</span> /var/containers/Bundle/Application/
+    15E6A58F-1CA7-44A4-A9E0-6CA85B65FA35/Telegram X.app/Telegram<span class="se">\ </span>X
+</code></pre></div><p>Custom URL schemes and Unviersal URL schemes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -zq Telegram<span class="se">\ </span>X.app/Telegram<span class="se">\ </span>X <span class="p">|</span> grep openURL
+</code></pre></div>
   </div>
 </article>
 </div>

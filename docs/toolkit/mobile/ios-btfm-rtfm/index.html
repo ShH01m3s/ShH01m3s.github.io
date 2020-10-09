@@ -157,20 +157,29 @@
     <li><a href="#dfu-mode">DFU mode</a></li>
     <li><a href="#connecting">Connecting</a></li>
     <li><a href="#file-transfer">File Transfer</a></li>
-    <li><a href="#keychain">Keychain</a></li>
+    <li><a href="#keychain-dump">Keychain dump</a></li>
     <li><a href="#logs">Logs</a></li>
     <li><a href="#artifacts">Artifacts</a></li>
     <li><a href="#application-info">Application Info</a></li>
     <li><a href="#decrypting-application">Decrypting Application</a></li>
     <li><a href="#debugging">Debugging</a></li>
-    <li><a href="#get-ipa">Get IPA</a></li>
-    <li><a href="#install-ipa">Install IPA</a></li>
-    <li><a href="#infoplist">Info.plist</a></li>
+    <li><a href="#ipa">IPA</a>
+      <ul>
+        <li><a href="#get-ipa">Get IPA</a></li>
+        <li><a href="#install-ipa">Install IPA</a></li>
+        <li><a href="#infoplist">Info.plist</a></li>
+      </ul>
+    </li>
     <li><a href="#network">Network</a></li>
     <li><a href="#binary-analysis">Binary Analysis</a></li>
-    <li><a href="#frida">Frida</a></li>
-    <li><a href="#objection">Objection</a></li>
-    <li><a href="#introspy">Introspy</a></li>
+    <li><a href="#runtime-analysis">Runtime analysis</a>
+      <ul>
+        <li><a href="#frida">Frida</a></li>
+        <li><a href="#objection">Objection</a></li>
+        <li><a href="#cycript">Cycript</a></li>
+        <li><a href="#introspy">Introspy</a></li>
+      </ul>
+    </li>
     <li><a href="#useful-greps">Useful greps</a></li>
     <li><a href="#binary-exploits">Binary Exploits</a></li>
     <li><a href="#references">References</a></li>
@@ -307,13 +316,17 @@ iproxy <span class="m">2222</span> <span class="m">22</span>
 ssh -R &lt;remote_port&gt;:localhost:22 &lt;username&gt;@&lt;host_computer_ip&gt;
 </code></pre></div><h2 id="file-transfer">File Transfer</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp &lt;file_to_transfer&gt; root@&lt;device_ip&gt;:~ <span class="c1"># on iDevice</span>
-scp -P <span class="m">2222</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> . <span class="c1"># from iDevice</span>
+scp root@<span class="o">[</span>device_ip<span class="o">]</span> /path/to/file <span class="c1"># from iDevice via WiFi</span>
+
+iproxy <span class="m">2222</span> <span class="m">22</span>
+scp -P <span class="m">2222</span> &lt;file_to_transfer&gt; root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> <span class="c1"># to iDevide via USB</span>
+scp -P <span class="m">2222</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> . <span class="c1"># from iDevice via USB</span>
 
 <span class="c1"># with objection</span>
 objection -g <span class="o">[</span>app_name<span class="o">]</span> explore
 file download <span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span>
 file upload <span class="o">[</span>/path/to/file/on/PC<span class="o">]</span>
-</code></pre></div><h2 id="keychain">Keychain</h2>
+</code></pre></div><h2 id="keychain-dump">Keychain dump</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Dump keychain with Objection</span>
 objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> explore
 ios keychain dump
@@ -371,20 +384,32 @@ iproxy <span class="m">2222</span> <span class="m">22</span>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /var/mobile/Documents/CrackerXI/
 </code></pre></div><h2 id="debugging">Debugging</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># prerequisite</span>
-brew install ios-deploy
 unzip <span class="o">[</span>app_name<span class="o">]</span>.ipa
 ios-deploy --bundle <span class="s1">&#39;Payload/[app_name].app&#39;</span> -W -d -v
 ios-deploy --bundle <span class="s1">&#39;Payload/Name.app&#39;</span> -W -d -v -m
 
 <span class="c1"># prerequisite</span>
-brew install libimobiledevice
 idevicedebug run <span class="o">[</span>Bundle_Name<span class="o">]</span>
+
+<span class="c1"># install cycript and gawk on iDevice first</span>
+cycript -p <span class="k">$(</span>ps aux <span class="p">|</span> grep -i <span class="o">[</span>partial_app_name<span class="o">]</span> <span class="p">|</span> awk -F <span class="s2">&#34; &#34;</span> <span class="s1">&#39;{print $2}&#39;</span> <span class="p">|</span> head -n 1<span class="k">)</span> 
 </code></pre></div><p>GUI - Xcode</p>
-<h2 id="get-ipa">Get IPA</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># via OTA</span>
+<h2 id="ipa">IPA</h2>
+<h3 id="get-ipa">Get IPA</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># via OTA (not installed on iDevice)</span>
 npm install -g itms-services <span class="c1"># install the tool</span>
 itms-services -u <span class="s2">&#34;itms-services://?action=download-manifest&amp;url=https://s3-ap-southeast-1.amazonaws.com/test-uat/manifest.plist&#34;</span> -o - &gt; out.ipa
-</code></pre></div><h2 id="install-ipa">Install IPA</h2>
+
+<span class="c1"># get ipa from device</span>
+ipainstaller -l <span class="c1"># get package name</span>
+ipainstaller -i <span class="o">[</span>app_name<span class="o">]</span> <span class="c1"># get paths to bin and data</span>
+<span class="c1"># or</span>
+objection
+env
+
+scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/file .
+</code></pre></div><p>See other ways to download file from device in <a href="docs/toolkit/mobile/btfm-rtfm-ios#file-transfer">File Transfer</a> section.</p>
+<h3 id="install-ipa">Install IPA</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># with ideviceinstaller</span>
 brew install libimobiledevice <span class="c1"># install the tool</span>
 ideviceinstaller - <span class="o">[</span>ipa_file<span class="o">]</span>
@@ -403,7 +428,7 @@ itms-services://?action<span class="o">=</span>download-manifest<span class="p">
 
 itms-services -u <span class="s2">&#34;itms-services://?action=download-manifest&amp;url=https://s3-ap-southeast-1.amazonaws.com/test-uat/manifest.plist&#34;</span> -o - &gt; out.ipa
 </code></pre></div><p>Alternatively GUI - iFunBox or Xcode.</p>
-<h2 id="infoplist">Info.plist</h2>
+<h3 id="infoplist">Info.plist</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">plutil -convert xml1 Info.plist <span class="c1"># if bplist</span>
 
 <span class="c1"># App permissions Purpose Strings</span>
@@ -429,13 +454,14 @@ sudo /Applications/Wireshark.app/Contents/MacOS/Wireshark
 <span class="nb">cd</span> /var/containers/Bundle/Application/<span class="o">[</span>application_folder_GUID<span class="o">]</span>/<span class="o">[</span>appname<span class="o">]</span>.app/<span class="o">[</span>appname<span class="o">]</span>
 otool -hv <span class="o">[</span>appname<span class="o">]</span>
 ./dsdump --objc --color --verbose<span class="o">=</span><span class="m">5</span> --defined  /var/containers/Bundle/Application/<span class="o">[</span>application_folder_GUID<span class="o">]</span>/<span class="o">[</span>appname<span class="o">]</span>.app/<span class="o">[</span>appname<span class="o">]</span> &gt; /tmp/OBJC.txt
-</code></pre></div><h2 id="frida">Frida</h2>
+</code></pre></div><h2 id="runtime-analysis">Runtime analysis</h2>
+<h3 id="frida">Frida</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># on iDevice</span>
 ./frida-server -L 192.168.1.72 
 
 <span class="c1"># on PC</span> 
 frida-trace -U YourApp -m <span class="s2">&#34;*[NSURL* *HTTP*]&#34;</span> <span class="c1"># trace all functions starting with NSURL and with HTTP in their names</span>
-</code></pre></div><h2 id="objection">Objection</h2>
+</code></pre></div><h3 id="objection">Objection</h3>
 <p>Inject objection to test applications on non-jailbroken devices:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection patchipa --source my-app.ipa --codesign-signature 0C2E8200Dxxxx
 ios-deploy --bundle Payload/my-app.app -W -d
@@ -454,7 +480,8 @@ $ ios keychain dump --json &lt;myfile.json&gt;
 
 <span class="c1"># Show the content of a plist file</span>
 $ ios plist cat &lt;myfile.plist&gt;
-</code></pre></div><h2 id="introspy">Introspy</h2>
+</code></pre></div><h3 id="cycript">Cycript</h3>
+<h3 id="introspy">Introspy</h3>
 <p>Installation guide for <a href="https://github.com/iSECPartners/Introspy-iOS">Tracer</a> and <a href="https://github.com/iSECPartners/Introspy-Analyzer">Analyzer</a>. Introduction <a href="http://isecpartners.github.io/Introspy-iOS/">here</a>. Couldn&rsquo;t run on iOS 13.4.1.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install</span>
 pip install git+https://github.com/iSECPartners/Introspy-Analyzer.git
