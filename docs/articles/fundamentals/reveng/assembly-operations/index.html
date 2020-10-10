@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Operations - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.ecc32bb487cde825685b3dd0d4ae819ae41c622561b20adbcc12ea4ab0d344e4.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/fundamentals/reveng/"> Back to Reverse Engineering Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#moving-data">Moving Data</a>
+      <ul>
+        <li><a href="#mov">MOV</a></li>
+        <li><a href="#lea">LEA</a></li>
+        <li><a href="#mov-vs-lea">MOV vs LEA</a></li>
+      </ul>
+    </li>
+    <li><a href="#arithmetic">Arithmetic</a>
+      <ul>
+        <li><a href="#add">ADD</a></li>
+        <li><a href="#sub">SUB</a></li>
+        <li><a href="#sbb">SBB</a></li>
+        <li><a href="#mul-and-div">MUL and DIV</a></li>
+        <li><a href="#imul-and-idiv">IMUL and IDIV</a></li>
+      </ul>
+    </li>
+    <li><a href="#bitwise">Bitwise</a>
+      <ul>
+        <li><a href="#ror-and-rol">ROR and ROL</a></li>
+        <li><a href="#rcr-and-rcl">RCR and RCL</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Operations</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/categories/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">
+          
+            
+              
+          <a class="platform-link" href="/types/article">article</a>
+          
+      </div> <br />
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+          <a class="platform-link" href="/platforms/mac">mac</a>
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+          <a class="platform-link" href="/platforms/ios">ios</a>
+          
+            
+              <i class="fab fa-windows"></i>          
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/windows">windows</a>
+          
+            
+            
+              <i class="fab fa-linux"></i>
+            
+            
+            
+          <a class="platform-link" href="/platforms/linux">linux</a>
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p>In this article I&rsquo;m describing all assembly operations that I&rsquo;ve encountered myseld and also wasn&rsquo;t lazy anough to put down an explanation about here. However, I won&rsquo;t be paying much attention to some operation that I consider straightforward, like <code>ADD</code>. I&rsquo;m going to put a flag for each operation indicating corresponding arch: <code>arm</code> or <code>x86</code> (just learning ARM myself for iOS analysis).</p>
+<p>Most of instruction have the following anatomy: <code>instruction &lt;destination operand&gt;, &lt;source operand&gt;</code>. Some operations look like this: <code>instruction &lt;source operand&gt;</code> when <code>&lt;destination operand&gt;</code> is always the same register (default). An example: <code>MUL</code>. When <code>MUL</code>ing, you always multiply <code>eax</code> on some value.</p>
+<h2 id="moving-data">Moving Data</h2>
+<h3 id="mov">MOV</h3>
+<p><code>x86</code></p>
+<p>The god of assembly operations. Its main purpose is pretty obvious: to move stuff from one place to another (like the Tower of Hanoi). Let&rsquo;s suppose that initially we have EAX = <strong>0x89</strong>, EBX = <strong>0x11</strong> and ESI = <strong>0x4037C0</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mov eax, ebx</code></td>
+<td>Copy data from EBX into EAX. Now EAX = EBX = <strong>0x89</strong>.</td>
+</tr>
+<tr>
+<td><code>mov ebx, 0x4037C4</code></td>
+<td>Copy <strong>0x4037C4</strong> and put it into EBX. Now EAX = <strong>0x89</strong> and EBX =  <strong>0x4037C4</strong></td>
+</tr>
+<tr>
+<td><code>mov eax, [ebx]</code></td>
+<td>Copy data from address stored in EBX into EAX. If EBX = <strong>0x4037C4</strong>, CPU goes to <strong>0x4037C4</strong> address, looks out for the data at this address, say, <strong>0x77</strong> and put it into EAX. Now EBX = <strong>0x4037C4</strong> and EAX is now <strong>0x77</strong>.</td>
+</tr>
+<tr>
+<td><code>mov eax, [0x4037C4]</code></td>
+<td>Since EBX = <strong>0x4037C4</strong>, this operation is equivalent to the previous one.</td>
+</tr>
+<tr>
+<td><code>mov ebx, [esi+eax*4]</code></td>
+<td>First, CPU calculates the address: ESI + EAX*4 = 0x4037C4 + 0x77*4 = 0x4037C4 + 1DC = 4039A0. Then, CPU goes to 0x4039A0 and copies the value at this address into EBX. Say, we have 0x33 there. So, EBX is not <strong>0x33</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>So, to conclude, you can <code>MOV</code>  a value directly, a value at address, a value in another register, an address itself (which is technically also a value) or a value at address using expression (the last example). Whenever there is an address &ldquo;in assembly&rsquo;s mind&rdquo;, you&rsquo;ll see square brackets []. Whenever the value - no brackets. It&rsquo;s something that in the higher levels of abstraction is usually called a reference type ([address]) when a reference is copies and a value type (value) when the value is copied. In case of reference types, whenever you change it, it changes elsewhere. For example, consider <code>mov eax, 0x4037C4</code> and <code>mov ebx, 0x4037C4</code>. If we <code>mov [eax], 0x42</code>, the <code>ebx</code> is also <code>0x42</code> now since it point to the same memory address.</p>
+<h3 id="lea">LEA</h3>
+<p><code>x86</code></p>
+<p>For smarties, it&rsquo;s called &ldquo;load effective address&rdquo;. Usually used for arrays and complex address calculations. Let&rsquo;s assume that initially we have EAX = <strong>0x89</strong>, EBX = <strong>0x11</strong> and ESI = <strong>0x4037C0</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lea ebx, [eax*5 + 5]</code></td>
+<td><code>eax*5 + 5</code> is equivalent to <code>5*(eax+1)</code> (ordinary mathematical manipulation). <code>(0x89 + 1 )*5 = 0x99 * 5 = 2FD</code>. In not <code>lea</code> it would require 4 operations instead: <code>inc eax</code> (0x89 + 1); <code>mov ecx, 5</code> <code>mul ecx</code> (0x99 * 5); <code>mov ebx, eax</code>. For <code>mul</code> operation see below in <a href="#Arithmetic">Arithmetic</a> section.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mov-vs-lea">MOV vs LEA</h3>
+<p><img src="/images/articles/lowlevel/anakin-vs-obiwan.png" alt="anakin-vs-obiwan"></p>
+<p>Let&rsquo;s compare these two:</p>
+<table>
+<thead>
+<tr>
+<th>MOV</th>
+<th>LEA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mov eax,[ebx+8]</code></td>
+<td><code>lea eax,[ebx+8]</code></td>
+</tr>
+</tbody>
+</table>
+<p>The first instruction (the one with <code>mov</code>) does the following: &ldquo;<em>Add 8 to the value at <code>ebx</code>, go to this address and store the value found in <code>eax</code></em>&rdquo;. So, it calculates the address and gets the value at this address to store in <code>eax</code>.</p>
+<p>The second instruction (the one with <code>lea</code>) does the following: &ldquo;Add 8 to the value at <code>ebx</code> and store the result in <code>eax</code>&rdquo;. So, it calculates the address and puts the address into <code>eax</code>.</p>
+<p>To conclude, <code>lea</code> stores address (reference types) and <code>mov</code> usually stores values (value types). However, note that <code>mov</code> can move addresses as well, since address is also just an integer, i.e. value.</p>
+<h2 id="arithmetic">Arithmetic</h2>
+<h3 id="add">ADD</h3>
+<p><code>x86</code></p>
+<p><code>add eax, 5</code> - adds a value to a value in register, address or to another value.</p>
+<h3 id="sub">SUB</h3>
+<p><code>x86</code></p>
+<p>Let&rsquo;s assume that <code>EAX</code> = <strong><code>0x99</code></strong> and <code>EBX</code> = <strong><code>0x2</code></strong>.</p>
+<p>Affected flags:</p>
+<p><code>CF</code> =1 if <code>&lt;destination operand&gt;</code> is <!-- raw HTML omitted -->less<!-- raw HTML omitted --> than the <code>&lt;source operand&gt;</code>, i.e. after substraction there is a negative number.</p>
+<p><code>ZF</code> = <code>1</code> if <code>&lt;destination operand&gt;</code> = <code>&lt;source operand&gt;</code> and the result is zero.</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sub eax, 0x99</code></td>
+<td>Now <code>eax</code> is <code>0</code>, therefore <code>ZF</code> = <code>1</code>.</td>
+</tr>
+<tr>
+<td><code>sub ebx, 0x10</code></td>
+<td>This results in negative number, therefore, <code>CF</code> = <code>1</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sbb">SBB</h3>
+<p><code>x86</code></p>
+<p>Almoust the same but a little tricky. It&rsquo;s affected by <code>CF</code> flag. If <code>CF</code> = 0, then <code>sbb eax, 0x10</code> is equivalent to <code>sub eax, 0x10</code> (which is <code>eax - 0x10</code>). If <code>CF</code> = 1, then it means: <code>eax = eax - 0x10 - 1</code>.</p>
+<h3 id="mul-and-div">MUL and DIV</h3>
+<p><code>x86</code></p>
+<p>Affected flags:</p>
+<p><code>CF</code> = <code>OF</code> = <code>0</code> if the high-order bits of the product are 0.</p>
+<p>Both of these instructions operate on a predefined register. For example, <code>mul ecx</code> is actually <code>mul eax, ecx</code> i.e. <code>eax</code> * <code>ecx</code>. The result is stored in register <code>AX</code>, <code>DX:AX</code>, or <code>EDX:EAX</code> (depending on the operand size). The high-order bits of the product are in <code>AH</code>, <code>DX</code>, or <code>EDX</code>, respectively.</p>
+<h3 id="imul-and-idiv">IMUL and IDIV</h3>
+<p><code>x86</code></p>
+<p>Same as <code>MUL</code> and <code>DIV</code> but operate on signed values.</p>
+<p>Affected flags:</p>
+<p><code>CF</code> = <code>OF</code> = <code>1</code> if significant bits are carried into the upper half of the result.</p>
+<p><code>cdq</code> instruction is usully used before <code>IDIV</code>. It converts a double to quad, <a href="http://faydoc.tripod.com/cpu/cdq.htm">quote</a>:</p>
+<blockquote>
+<p>The CDQ instruction copies the sign (bit 31) of the value in the EAX register into every bit position in the EDX register.</p>
+</blockquote>
+<p>Forms:</p>
+<ol>
+<li>Like <code>MUL</code> and <code>DIV</code> when the <code>&lt;src operand&gt;</code> is used inly.</li>
+<li><code>imul edi, esi</code> when both  <code>&lt;dst operand&gt;</code> and <code>&lt;src operand&gt;</code> are used</li>
+<li><code>imul edi, esi, edx</code>, when beside the <code>&lt;dst operand&gt;</code> there are two <code>&lt;src operand&gt;</code>. The operations are as follows: <code>esi</code>*<code>edx</code> = <code>edi</code>.</li>
+</ol>
+<p><code>&lt;dst operand&gt;</code> is always a register or memory address. <code>&lt;src operand&gt;</code> can be a register, an address or a value. When a value is used, it is sign-extended to the length of the destination operand format.</p>
+<p>NB ❗ The length of the product is calculated to twice the length of the operands. With the one-operand form, the product is stored exactly in the destination. With the two- and three- operand forms, however, result is truncated to the length of the destination before it is stored in the destination register. This is why the <code>CF</code> or <code>OF</code> flag should be tested to ensure that no significant bits are lost.</p>
+<p>If this instruction is used for unsigned operations (since the lower half of the product is the same regardless if the operands are signed or unsigned. ), the <code>CF</code> and <code>OF</code> flags cannot be used to determine if the upper half of the result is non-zero.</p>
+<h2 id="bitwise">Bitwise</h2>
+<h3 id="ror-and-rol">ROR and ROL</h3>
+<p>When you see such an instruction, very often it is an indication of encryption. To better understand both I need an example. Let&rsquo;s take an 8-bit binary value. The <strong>initial</strong> state is:</p>
+<p><code>0 1 0 0   1 1 1 0 </code></p>
+<p>See the <code>1</code> at the beginning of this number, <!-- raw HTML omitted -->second<!-- raw HTML omitted --> bit from the left (let&rsquo;s call him Matt). We will then locate him after <code>ROR</code> and <code>ROL</code>.</p>
+<p>Let&rsquo;s now <code>ROR</code> (rotate bits right) by 1. Every bit is moved to the right by one position. Our <strong>first</strong> state (for future reference):</p>
+<p><code>0 0 1 0   0 1 1 1</code></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? Now, this bit is the <!-- raw HTML omitted -->third<!-- raw HTML omitted --> bit from the left.</p>
+<p>Let&rsquo;s now <code>ROL</code> (rotate bits left) by 1. Every bit is moved to the left  by one position. Our <strong>second</strong> state:</p>
+<p><code>1 0 0 1   1 1 0 0</code></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? This bit is the <!-- raw HTML omitted -->first<!-- raw HTML omitted --> bit from the left, so, he&rsquo;s become the most significant bit in this number 👑 .</p>
+<p>Let&rsquo;s now <code>ROL</code> the last number by 1 again. Every bit is again moved to the left. But Matt has nowhere to move! He&rsquo;s falling nowhere&hellip;</p>
+<p><img src="https://media.giphy.com/media/1i6zbhYXV1kRO/giphy.gif" alt="img"></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? He seemed to have got drowned, but he managed it through the swamp and emerged&hellip; But now&hellip;Matt used to be the most significant bit 👑when in the <strong>second</strong> state , but now he&rsquo;s just a 💩, the least significant bit. As you can see, he&rsquo;s the first from the end.This is the <strong>third</strong> state:</p>
+<p><code>0 0 1 1  1 0 0 1</code></p>
+<p>Let&rsquo;s make him worthy again and give him his newly acquired and recently lost regalia. Let&rsquo;s <code>ROR</code> him by 1 again and get back to the <strong>second</strong> state (unforunately he&rsquo;ll have to dive into the swamp again):</p>
+<p><code>1 0 0 1   1 1 0 0</code></p>
+<p>When moving from the <strong>second</strong> to the <strong>third</strong> state Matt has been in a swamp, or in a wormhole 🐛 if you prefer a space metaphor. Let me introduce our wormhole -  <code>CF</code> flag. The spirit of Matt was printed on this flag. In other, less eloquent words, when falling from the edge into the swamp, his value (<code>1</code>) was copied into <code>CF</code>. So as any other bit that would &ldquo;fall&rdquo;. For example, if we get back to the <strong>third</strong> (and the most unfortunate for Matt) state (<code>0 0 1 1  1 0 0 1</code>). Matt&rsquo;s spirit is still there, therefore <code>CF</code> is still <code>1</code>.  Let&rsquo;s <code>ROL</code> this number by 1 once again, Martha (who&rsquo;s now the most significant, i.e. the first bit of the number) falls into the swamp, gets copied into <code>CF</code> and emerges at the end as the least significant bit 💩, making Matt now the second least significant bit, i.e. the second bit from the end (which is not that bad now)​. Now we have the forth state:</p>
+<p><code>0 1 1 1  0 0 1 0</code></p>
+<p>and the <code>CF</code> = 0 now bearing Martha&rsquo;s spirit.</p>
+<blockquote>
+<p>The processor restricts the count to a number between 0 and 31 by masking all the bits in the count operand except the 5 least-significant bits.</p>
+</blockquote>
+<h3 id="rcr-and-rcl">RCR and RCL</h3>
+<p>Affected flags:</p>
+<p><code>CF</code></p>
+<p>It&rsquo;s pretty much the same, with just one small difference. <code>CF</code> flag is now taken into account, it&rsquo;s not just a wormhole 🐛 anymore. Let&rsquo;s consider the <strong>third</strong> state from the previous examples:</p>
+<p><code>0 0 1 1  1 0 0 1</code></p>
+<p>Let <code>CF</code> be 1 now (may be it was set by some preceding operation like <code>ROL</code>).</p>
+<p>If we now <code>RCL</code>, the fourth state will be as follows:</p>
+<p><code>CF</code> = Martha = 0.</p>
+<p><code>0 1 1 1  0 0 1 1</code></p>
+<p>The value that was in <code>CF</code> is not at the end (<code>1</code>), the most significant bit of the third state <code>0</code> is now in <code>CF</code>. It&rsquo;s as if we were operating not on a 8-bit value, but on a 9 bit value.</p>
+<p>The RCL and RCR instructions include the CF flag in the rotation. The RCL instruction shifts the CF flag into the least-significant bit and shifts the most-significant bit into the CF flag (see Figure 6-10 in the Intel Architecture Software Developer&rsquo;s Manual, Volume 1). The RCR instruction shifts the CF flag into the most-significant bit and shifts the least-significant bit into the CF flag (see Figure 6-10 in the Intel Architecture Software Developer&rsquo;s Manual, Volume 1).</p>
+<p>The OF flag is defined only for the 1-bit rotates; it is undefined in all other cases (except that a zero-bit rotate does nothing, that is affects no flags). For left rotates, the OF flag is set to the exclusive OR of the CF bit (after the rotate) and the most-significant bit of the result. For right rotates, the OF flag is set to the exclusive OR of the two most-significant bits of the result.</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
