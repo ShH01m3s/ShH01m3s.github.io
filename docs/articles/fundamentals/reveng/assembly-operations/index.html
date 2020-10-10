@@ -452,7 +452,38 @@
 <p>For RCR operation leading us back to the <strong>third</strong> state: <code>0 0 1 1 1 0 0 1</code>. Never mind <code>CF</code> since it&rsquo;s not included in the calculations. The two most significant bits after rotation are <code>0</code> and <code>0</code> (the first two digits). <code>OF</code> = <code>0 XOR 0</code> = again <code>0</code>.</p>
 <h3 id="shl-and-shr">SHL and SHR</h3>
 <p><code>x86</code></p>
-<p>Shifts bits by the value specified in second operand to the  left or to the right.</p>
+<p><strong>Affected flags</strong>: <code>CF</code></p>
+<p>Shifts bits by the value specified in second operand to the  left or to the right.  The last bit dropped off is written to <code>CF</code> &ldquo;before death ☠️ &ldquo;. Example:</p>
+<p><code>1 0 1 0  1 1 0 1</code></p>
+<p>Let&rsquo;s <code>SHR</code> the above number: <code>0 1 0 1  0 1 1 0 </code>.</p>
+<p>Let&rsquo;s now <code>SHR</code> once again: <code>0 0 1 0  1 0 1 1 </code>.</p>
+<p>The main rule here: for each <code>SHR</code> add a <code>0</code> at the beginning and remove one digit from the end. The same is for <code>SHL</code>: for each  <code>SHL</code> add <code>0</code> to the end and remove one digit from the beginning.</p>
+<p>Above number is 8 bit long. So we can pop 8 bits by shifting in one direction (<code>SHR</code> for example only). When the last digit is poped off its value is written to <code>CF</code>, in the example above it was <code>1</code>, hence now <code>CF</code> = <code>1</code>.</p>
+<h4 id="useful-tip">Useful tip</h4>
+<p><code>SHL</code> can be used as an optimized multiplication by <code>2^n</code>&rdquo;. Here is an example:</p>
+<table>
+<thead>
+<tr>
+<th>SHL</th>
+<th>equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shl eax, 1</code></td>
+<td>eax * 2</td>
+</tr>
+<tr>
+<td><code>shl eax, 2</code></td>
+<td>eax * 4</td>
+</tr>
+<tr>
+<td><code>shl eax, 3</code></td>
+<td>eax * 8</td>
+</tr>
+</tbody>
+</table>
+<p>To read more about this and how this really works, read <a href="/docs/blog/2020/10/a-few-good-bits">here</a>.</p>
 <h3 id="rolror-vs-shlshr">ROL/ROR vs SHL/SHR</h3>
 <p>What&rsquo;s the difference between the two (well, even four)? When I inspected my old notes, I&rsquo;ve got a little confused because I&rsquo;d totally forgotten that. Tha&rsquo;ts why I&rsquo;ve included this section for future, should my memory fail me once again.</p>
 <p>The difference between the two is pretty much the same as the difference between &ldquo;rolling&rdquo; and &ldquo;shifting&rdquo;. Say, we have a password padlock for a suitcase and set our passcode to <code>1234</code>.</p>
