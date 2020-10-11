@@ -158,6 +158,7 @@
         <li><a href="#mov">MOV</a></li>
         <li><a href="#lea">LEA</a></li>
         <li><a href="#mov-vs-lea">MOV vs LEA</a></li>
+        <li><a href="#movsxd">MOVSXD</a></li>
       </ul>
     </li>
     <li><a href="#arithmetic">Arithmetic</a>
@@ -343,6 +344,10 @@
 <p>The first instruction (the one with <code>mov</code>) does the following: &ldquo;<em>Add 8 to the value at <code>ebx</code>, go to this address and store the value found in <code>eax</code></em>&rdquo;. So, it calculates the address and gets the value at this address to store in <code>eax</code>.</p>
 <p>The second instruction (the one with <code>lea</code>) does the following: &ldquo;Add 8 to the value at <code>ebx</code> and store the result in <code>eax</code>&rdquo;. So, it calculates the address and puts the address into <code>eax</code>.</p>
 <p>To conclude, <code>lea</code> stores address (reference types) and <code>mov</code> usually stores values (value types). However, note that <code>mov</code> can move addresses as well, since address is also just an integer, i.e. value.</p>
+<h3 id="movsxd">MOVSXD</h3>
+<p><code>x86</code></p>
+<p>Example: <code>movsxd rsi, [rbp+8h]</code></p>
+<p>Copies the contents of the <code>&lt;src_operand&gt;</code> to the <code>&lt;dst_operand&gt;</code> and sign extends the value to 16 or 32 bits. The size of the converted value depends on the operand-size attribute. In 64-bit mode, the instruction’s default operation size is 32 bits.</p>
 <h2 id="arithmetic">Arithmetic</h2>
 <h3 id="add">ADD</h3>
 <p><code>x86</code></p>
