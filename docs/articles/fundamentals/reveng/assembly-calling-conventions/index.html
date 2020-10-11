@@ -158,6 +158,7 @@
     <li><a href="#stdcall">STDCALL</a></li>
     <li><a href="#fastcall">FASTCALL</a></li>
     <li><a href="#thiscall">THISCALL</a></li>
+    <li><a href="#system-v-amd64-abi">System V AMD64 ABI</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -291,6 +292,29 @@ call _MyMethod
 <p><img src="https://media.giphy.com/media/hkik4ac9sSqaY/giphy.gif" alt="img"></p>
 <p>developers may put some functions in <code>extern &quot;C&quot;</code> block to protect them from mangling.</p>
 <p>Name-mangled functions sometimes include the name of that function&rsquo;s class and almost always - the number and type of the arguments (so that overloaded functions can be differentiated by the arguments passed to it). But when disassembling, there will be no name decorations and mangling as well unless the function is exported.</p>
+<h2 id="system-v-amd64-abi">System V AMD64 ABI</h2>
+<p>Used on MacOS, FreeBSD.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">:_mysteriousFunction
+push rbp
+mov rbp, rsp
+mov rax, [rbp + 8]
+mov rdx, [rbp + 12]
+add rax, rdx
+pop rbp
+retn
+
+mov rdi, 3
+mov rsi, 2
+call _mysteriousFunction
+</code></pre></div><p>The below in taken from <a href="https://en.wikipedia.org/wiki/X86_calling_conventions">here</a> and not yet fully digested:</p>
+<p>The first six integer or pointer arguments are passed in registers RDI, RSI, RDX, RCX, R8, R9 (R10 is used as a static chain pointer in case of nested functions[<a href="https://en.wikipedia.org/wiki/X86_calling_conventions#cite_note-AMD-24">24]</a>:21), while XMM0, XMM1, XMM2, XMM3, XMM4, XMM5, XMM6 and XMM7 are used for the first floating point arguments. Additional arguments are passed on the stack.</p>
+<p>Integer return values up to 64 bits in size are stored in RAX while values up to 128 bit are stored in RAX and RDX.</p>
+<p>Floating-point return values are similarly stored in XMM0 and XMM1.</p>
+<p>The wider YMM and ZMM registers are used for passing and returning wider values in place of XMM when they exist.</p>
+<p>If the callee wishes to use registers RBX, RBP, and R12–R15, it must restore their original values before returning control to the caller. All other registers must be saved by the caller if it wishes to preserve their values.</p>
+<p>For leaf-node functions (functions which do not call any other function(s)), a 128-byte space is stored just beneath the stack pointer of the function. The space is called the <strong><a href="https://en.wikipedia.org/wiki/Red_zone_(computing)">red zone</a></strong>. This zone will not be clobbered by any signal or interrupt handlers. Compilers can thus utilize this zone to save local variables. Compilers may omit some instructions at the starting of the function (adjustment of RSP, RBP) by utilizing this zone. However, other functions may clobber this zone. Therefore, this zone should only be used for leaf-node functions. <code>gcc</code> and <code>clang</code> offer the <code>-mno-red-zone</code> flag to disable red-zone optimizations.</p>
+<p>If the callee is a <a href="https://en.wikipedia.org/wiki/Variadic_function">variadic function</a>, then the number of floating point arguments passed to the function in vector registers must be provided by the caller in the AL register.</p>
+<p>Unlike the Microsoft calling convention, a shadow space is not provided; on function entry, the return address is adjacent to the seventh integer argument on the stack.</p>
 <h2 id="conclusion">Conclusion</h2>
 <table>
 <thead>
@@ -341,7 +365,8 @@ call _MyMethod
 </tbody>
 </table>
 <h2 id="references">References</h2>
-<p>[1] <a href="https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions#:~:text=Calling%20conventions%20specify%20how%20arguments,is%20converted%20into%20assembly%20language">Wikibooks</a></p>
+<p>[1] <a href="https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions#:~:text=Calling%20conventions%20specify%20how%20arguments,is%20converted%20into%20assembly%20language">Wikibook1</a></p>
+<p>[2] <a href="https://en.wikipedia.org/wiki/X86_calling_conventions">Wikibook2</a></p>
 
   </div>
 </article>
