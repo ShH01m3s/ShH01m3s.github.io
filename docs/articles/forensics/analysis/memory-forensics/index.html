@@ -158,7 +158,7 @@
     <li><a href="#volatility">Volatility</a></li>
     <li><a href="#supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</a></li>
     <li><a href="#aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</a></li>
-    <li><a href="#hiberfilsys">hiberfil.sys</a></li>
+    <li><a href="#hiberfilsys-and-crash-dumps">hiberfil.sys and crash dumps</a></li>
     <li><a href="#vm-hosts--memory"><strong>VM</strong> hosts &amp; memory</a></li>
   </ul>
 </nav>
@@ -235,9 +235,38 @@ brew install volatile
 <p>Python tool. CLI and GUI. Plugins which target specifica artifact or process. Plugin recipes to combine plugins to automate some analysis vector. That&rsquo;s what I was thinking of doing 😔.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py <span class="o">[</span>plugin<span class="o">]</span> -f <span class="o">[</span>image<span class="o">]</span> --profile<span class="o">=[</span>profile<span class="o">]</span>
 </code></pre></div><h2 id="supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</h2>
+<ol>
+<li>raw</li>
+<li>firewire</li>
+<li>EWF (Expert Witness)</li>
+<li>Hibernation files</li>
+<li>Crash dump</li>
+<li>MachO</li>
+<li>Virtual machines (vbox core dumps, vmware .vmss and .vmsn)</li>
+<li>HPAK (FastDump)</li>
+<li>LiME</li>
+<li>QEMU VM memoryy dumps</li>
+</ol>
 <h2 id="aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</h2>
-<h2 id="hiberfilsys">hiberfil.sys</h2>
-<p>Not as common, but just as good</p>
+<p>If this system is running, capture memory. Should be the first task. Memory stomping issues. Benchmark testing to determine RAM footprint, speed, writes etc.</p>
+<p>Benchmark the tools. DumpIt - lightweight, Magnet RAM, Belkasoft, FTK (slow, highest footprint), Redline, Fast Dump (fdpro.exe).</p>
+<p>Media matters. SSD, USB vs Magnetic media evidence disk (HDD)? USB 3 is cool. Storage check at least 1/3 more then the collected. Magnetic cheap, 2-4 Gb.</p>
+<p>VM vs physical. Different concerns.</p>
+<h2 id="hiberfilsys-and-crash-dumps">hiberfil.sys and crash dumps</h2>
+<p>Not as common, but just as good. Imagecopy plugin cinverts different formats into raw format to speed up. Hiberfile - compressed. Determine the OS profile and run the plugin.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
+vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
+</code></pre></div><p>C:\hiberfil.sys</p>
+<p>C:\Memory.dmp</p>
+<p>What is <a href="https://www.howtogeek.com/howto/15140/what-is-hiberfil.sys-and-how-do-i-delete-it/">hyberfil.sys</a>. Two types of compression.</p>
+<p><code>imageinfo</code> - to identify the profile for memory image. Running <code>vol.py imageinfo -f hiberfil.sys</code> is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
+<p><img src="/images/articles/memory/vol_py_imageinfo_mem_udemy.png" alt="vol_py_imageinfo_mem_udemy"></p>
+<p>Purple square - Service pack. Green - correct profile with the correct service pack.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
+</code></pre></div><p>Then validate the file by listing processes that were run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.raw pslist --profile<span class="o">=</span>Win7SP0x86
+</code></pre></div><p>Size up to 75% of memory size.</p>
+<p><img src="/images/articles/memory/vol_py_pslist_udemy.png" alt="vol_py_pslist_udemy"></p>
 <h2 id="vm-hosts--memory"><strong>VM</strong> hosts &amp; memory</h2>
 
   </div>
