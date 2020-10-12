@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Memory Forensics - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.ecc32bb487cde825685b3dd0d4ae819ae41c622561b20adbcc12ea4ab0d344e4.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/forensics/analysis/"> Back to Forensics Analysis Process Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#processes">Processes</a></li>
+    <li><a href="#volatility">Volatility</a></li>
+    <li><a href="#supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</a></li>
+    <li><a href="#aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</a></li>
+    <li><a href="#hiberfilsys">hiberfil.sys</a></li>
+    <li><a href="#vm-hosts--memory"><strong>VM</strong> hosts &amp; memory</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Memory Forensics</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/categories/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">
+          
+            
+              
+          <a class="platform-link" href="/types/coursenotes">coursenotes</a>
+          
+      </div> <br />
+      
+      
+      
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/sdf" rel="tag">sdf</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/volatile" rel="tag">volatile</a>
+          
+      </div> 
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This is my course notes from SDF series, Memory Forensics, Part 1.</em></p>
+<h2 id="intro">Intro</h2>
+<p>Installed volatile on mac:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># brew was already installed, but just in case</span>
+ruby -e <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&#34;</span> &lt; /dev/null 2&gt; /dev/null
+brew install volatile
+</code></pre></div><p>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</p>
+<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
+<p>Memory forensics used for:</p>
+<p><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</p>
+<p><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</p>
+<p><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</p>
+<h2 id="processes">Processes</h2>
+<p>Application run in memory. PID - Process ID when being executed. Different for every program run each time it&rsquo;s run. Each has it&rsquo;s own virtual address space. Process Hacker or Explorer to explore live memory.</p>
+<p>Exe path, parent, when started (system boot or not).</p>
+<h2 id="volatility">Volatility</h2>
+<p>Python tool. CLI and GUI. Plugins which target specifica artifact or process. Plugin recipes to combine plugins to automate some analysis vector. That&rsquo;s what I was thinking of doing 😔.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py <span class="o">[</span>plugin<span class="o">]</span> -f <span class="o">[</span>image<span class="o">]</span> --profile<span class="o">=[</span>profile<span class="o">]</span>
+</code></pre></div><h2 id="supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</h2>
+<h2 id="aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</h2>
+<h2 id="hiberfilsys">hiberfil.sys</h2>
+<p>Not as common, but just as good</p>
+<h2 id="vm-hosts--memory"><strong>VM</strong> hosts &amp; memory</h2>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
