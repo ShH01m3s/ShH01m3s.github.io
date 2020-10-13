@@ -282,6 +282,204 @@
 <li>Continuous monitoring vs snapshot</li>
 <li>Artifacts vs full images</li>
 </ol>
+<p><a href="https://github.com/meirwah/awesome-incident-response">https://github.com/meirwah/awesome-incident-response</a></p>
+<h2 id="analysis">Analysis</h2>
+<p>Pivot between artifacts, score them, context about an artifact.</p>
+<p>Challenges</p>
+<p>Example 1. Logging in remotely to collect artifacts and run preinstalled UI admin tools:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Hard 🧱: Many non-DFIR tools</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Easy 💸: if remote connection is allowed</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Hard 🧱: not DFIR specific</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Hard 🍯-🧱: Depends</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Hard 🧱: one at a time</td>
+</tr>
+</tbody>
+</table>
+<p>Example 2. Logging in remotely to collect artifacts with cmd tools:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Medium 🍯. Many tools, but can be scripted. Generally free.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Hard 🧱: have to copy tools to the system.</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Hard 🧱: not DFIR specific</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Hard 🧱: Many output files</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Hard 🧱: one at a time</td>
+</tr>
+</tbody>
+</table>
+<p>Example 3. Continuous monitoring:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Easy 💸: for artifacts being monitored. Hard 🧱: for others.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Easy 💸: if configured.</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Medium 🍯: depends on the tools.</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Medium 🍯: depends on the tools.</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Easy 💸: if monitoring is enabled</td>
+</tr>
+</tbody>
+</table>
+<p>Example 4. Full image:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Hard 🧱to get full image and also there is a need to parse it. But reliable.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Medium 🍯: depends</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Medium 🍯: depends on the parser tool.</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Medium 🍯: depends on the parser tool.</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Medium 🍯: depends on aquisition tools.</td>
+</tr>
+</tbody>
+</table>
+<p>Example 5. Cyber Triage:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Easy 💸: one exe for local or remote.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Easy 💸: easy to send over network.</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Medium 🍯: scores data.</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Easy 💸: navigation via UI.</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Multiple</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cyber-triage">Cyber Triage</h2>
+<p>Live, remote or image. Steps:</p>
+<ol>
+<li>Collect artifacts</li>
+<li>Score</li>
+<li>Review</li>
+<li>Deep Dive (optional)</li>
+<li>Report</li>
+</ol>
+<h2 id="user-activity">User Activity</h2>
+<p>Lot&rsquo;s of attacks involve account compromise. In this case sometimes malware is not even needed.</p>
+<p>Is there maluser activity? Breaking down:</p>
+<ol>
+<li>Computer fundamentals</li>
+<li>User lifecycle. Is there maluser activity
+<ol>
+<li>Are there suspicious accounts? SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs.
+<ol>
+<li>User Name: does it match conventions</li>
+<li>Provoledges</li>
+<li>Scope (local or domain)</li>
+<li>creation time and date.</li>
+</ol>
+</li>
+<li>Suspicious logins? Event logs, domain logs.
+<ol>
+<li>Should this user use this account</li>
+<li>Are they new to the computer</li>
+<li>If remote, does the acc usually come from that computer?</li>
+<li>Is the time expected</li>
+<li>Does the acc have lots of failed logins?</li>
+</ol>
+</li>
+<li>Suspicious activity?
+1.</li>
+</ol>
+</li>
+</ol>
+<p>Account needs to exist. Login. Do stuff.  Enumerate users. Attacker could create an account, grant admin rights, domain accounts.</p>
 <h2 id="dfir-samples">DFIR Samples</h2>
 <p><a href="https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e">https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e</a></p>
 
