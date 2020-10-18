@@ -212,7 +212,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is my lecture notes of DFIR intro <a href="https://dfir-training.basistech.com/courses/take/intro-to-divide-and-conquer/lessons/16973448-part-1-overview-video">course</a>. As I learn more that was provided in the course, I&rsquo;ll add a reference and data.</em></p>
+    <p><em>This is my lecture notes of DFIR intro <a href="https://dfir-training.basistech.com/courses/take/intro-to-divide-and-conquer/">course</a>. As I learn more that was provided in the course, I&rsquo;ll add a reference and data.</em></p>
 <h2 id="intro">Intro</h2>
 <p>Main idea is to concentrate on some areas, answer some specific questions, like:</p>
 <ol>
@@ -457,7 +457,8 @@
 <li>Computer fundamentals</li>
 <li>User lifecycle. Is there maluser activity
 <ol>
-<li>Are there suspicious accounts? SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs.
+<li>
+<p>Are there suspicious accounts? SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs.</p>
 <ol>
 <li>User Name: does it match conventions</li>
 <li>Provoledges</li>
@@ -465,7 +466,8 @@
 <li>creation time and date.</li>
 </ol>
 </li>
-<li>Suspicious logins? Event logs, domain logs.
+<li>
+<p>Suspicious logins? Event logs, domain logs.</p>
 <ol>
 <li>Should this user use this account</li>
 <li>Are they new to the computer</li>
@@ -474,12 +476,139 @@
 <li>Does the acc have lots of failed logins?</li>
 </ol>
 </li>
-<li>Suspicious activity?
-1.</li>
+<li>
+<p>Suspicious activity?</p>
+<ol>
+<li>
+<p>User started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch)</p>
+<ol>
+<li>Is it malware?</li>
+<li>Is it signed?</li>
+<li>Atypical location?</li>
+<li>Suspicious time?</li>
+<li>Created at suspicious time?</li>
+<li>Recon?</li>
+</ol>
+</li>
+<li>
+<p>Search. Terms and times when the search was performed. Web artifacts and saved previous searches.</p>
+<ol>
+<li>Search relevant to job role?</li>
+<li>Search for malicious progs or techniques?</li>
+</ol>
+</li>
+<li>
+<p>access resources Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
+<ol>
+<li>Accessed malwebsite?</li>
+<li>network shares?</li>
+<li>mass copy?</li>
+</ol>
+</li>
+<li>
+<p>remotely execute code. remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.</p>
+<ol>
+<li>Remote = local?</li>
+<li>Expected?</li>
+<li>Prog expected?</li>
 </ol>
 </li>
 </ol>
-<p>Account needs to exist. Login. Do stuff.  Enumerate users. Attacker could create an account, grant admin rights, domain accounts.</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>Account needs to exist. Login. Do stuff.  Enumerate users. Attacker could create an account, grant admin rights, domain accounts. <em>#todo: for each platform make a table of artifacts.</em></p>
+<h2 id="malware">Malware</h2>
+<p>APT - smarter malware.</p>
+<p>Needs to start (one time or regulary on startup or schedule; or trick the user), hides itself, wicked stuff done. Launch malware instead of leg prog by placing it in the same directory if the full path is specified. Trick process to launch malicious library. For example, DLL injection. See the presentation <a href="/files/presentations/Injects_p1.pptx">here</a> and <a href="/files/presentations/Injects_p2.pptx">here</a>.  Data injection (exploit).</p>
+<p>Hide itself, modify OS data structs to make itself invisble from some APIs. Parasite (Hijack another process with malthreads). Hollowing etc.</p>
+<p>Triggered, trick launch and trick load.</p>
+<p>Is it malicious?</p>
+<ul>
+<li>Hash (Threat Intelligence)</li>
+<li>Byte-level signatures from previous malware?</li>
+<li>Mal behaviour?</li>
+<li>Reverse - mal instructions</li>
+</ul>
+<h3 id="persistence">Persistence</h3>
+<p><strong>Startup</strong>. Are there mal persistence mechanisms?</p>
+<ol>
+<li>Are there mal <strong>triggered</strong> programs? Path to progs launched, when triggered (login, startup, schedule), user priv (service), creating date (unreliable). Run/RunOnce Registry, scheduled task, malicious service, WMI action that triggers based on some local event. AutoRuns, Startup folders, WMI Actions. Sandboxing, hashing or reverse. Prioritisation
+<ol>
+<li>Normally there?</li>
+<li>Suspicious location?</li>
+<li>Times similar to the event</li>
+<li>Leg sign?</li>
+<li>Do you find it on other machines withing the enterprise?</li>
+</ol>
+</li>
+<li>Are there mal accidentally run (<strong>trick launch</strong>)?
+1.</li>
+<li>Are there libs accidentally loaded?
+<ol>
+<li><strong>LoadLibraryPathFile</strong> - set of folders for finding and resolving libraries.</li>
+<li>The same folder as the exe.</li>
+</ol>
+</li>
+</ol>
+<h3 id="running">Running</h3>
+<p>Are there mal processes running? Harderst part of IR ❗ Processes, Network ports, active network connections.</p>
+<ol>
+<li>Did any process start from a malexe?
+<ol>
+<li>Do any exe get flagged as malware?</li>
+<li>unexpected folders?</li>
+<li>signed?</li>
+</ol>
+</li>
+<li>Did any process load mallib?
+<ol>
+<li>flagged as malware?</li>
+<li>unexpected?</li>
+</ol>
+</li>
+<li>Strange name similar to leg one? svchosts for example.</li>
+<li>unexpected owners</li>
+<li>Processes hidden by WinAPI?</li>
+<li>Process taken over?
+<ol>
+<li>contents on disk and in memory should match</li>
+<li>Behaviour unusual for this executable?</li>
+</ol>
+</li>
+<li>Memory content flagged by malware engines?</li>
+<li>Suspicious files opened, netwrk ports and connections, OS resources (mutexes, hooks etc), significant amount of CPU or RAM?</li>
+<li></li>
+</ol>
+<p><strong>Memory forensics</strong>. Sometimes is the only way to detect malware. It&rsquo;s difficult, I should do that.</p>
+<h3 id="remnants">Remnants</h3>
+<p>Are there signs that the malware was run? May be it was removed or it&rsquo;s stealthy. Or may be it&rsquo;ll be too hard. Things that are left behind. The same artifacts that with processes in general (User Activity).</p>
+<ul>
+<li>Remnants that it was <strong>started</strong>. AutoRuns, schedule scripts, Run, RunOnce etc.</li>
+<li>Remnants that it was <strong>running</strong>. Depends on the process. IOC (Indicator of Compromise). File artifacts, network cache (based on past incidents). Memory - unallocated memory that contains malware signatures.</li>
+<li>Remnants that it was <strong>shutdown</strong>. Program Ended Artifact Category: name + time + reason*. Event logs, audit logs (not enabled by default).</li>
+</ul>
+<h3 id="key-list">Key list</h3>
+<ul>
+<li>Suspicious name or path</li>
+<li>Exes or libs for the program are found? Are they malicious?</li>
+<li>Time corresponds to the incident time?</li>
+<li>Crashed? Did it crash before? Does it have known vulnerabilities?</li>
+</ul>
+<p>Cyber Triage uses WinAPI to answer questions about malware. Also uses SleuthKit to answer questions about rootkits.  Can work on memory image and run different volatility modules in UI.</p>
+<p><a href="https://medium.com/bugbountywriteup/intro-to-malware-detection-using-yara-eacab8373cf4">Yara</a>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">brew install yara
+pip install yara-python
+</code></pre></div><p>Repo for <a href="https://github.com/InQuest/awesome-yara">malware</a> and <a href="https://github.com/Xumeiquer/yara-forensics">forensics</a>. YaraGen.</p>
+<h2 id="os-configurations">OS configurations</h2>
+<p>Configs have only one place to set thing. Attacker motivation:</p>
+<ul>
+<li>Get access</li>
+<li>Avoid detection</li>
+<li>Make the response harder</li>
+<li>Make malware to work</li>
+</ul>
 <h2 id="dfir-samples">DFIR Samples</h2>
 <p><a href="https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e">https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e</a></p>
 
