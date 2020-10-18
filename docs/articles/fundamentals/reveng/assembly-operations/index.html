@@ -201,6 +201,26 @@
         <li><a href="#rep">REP</a></li>
       </ul>
     </li>
+    <li><a href="#jumps">Jumps</a>
+      <ul>
+        <li><a href="#jmp-and-friends">JMP and friends</a></li>
+      </ul>
+    </li>
+    <li><a href="#logical">Logical</a>
+      <ul>
+        <li><a href="#and">AND</a></li>
+        <li><a href="#or">OR</a></li>
+        <li><a href="#not">NOT</a></li>
+        <li><a href="#xor">XOR</a></li>
+      </ul>
+    </li>
+    <li><a href="#unsorted">Unsorted</a>
+      <ul>
+        <li><a href="#pushpop">PUSH/POP</a></li>
+        <li><a href="#pushapushadpopapopad">PUSHA/PUSHAD/POPA/POPAD</a></li>
+        <li><a href="#nop">NOP</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -528,7 +548,7 @@
 </tr>
 </tbody>
 </table>
-<p>The above operations are identical, but the second takes less CPU cycles. It&rsquo;s usually used to test, whether the value is <code>0</code>.</p>
+<p><strong>Interesting</strong>! 😮 ​The above operations are identical, but the second takes less CPU cycles. It&rsquo;s usually used to test, whether the value is <code>0</code>.</p>
 <h3 id="cmp">CMP</h3>
 <p><code>x86</code></p>
 <p><strong>Affected flags</strong>: <code>CF</code>, <code>ZF</code></p>
@@ -590,6 +610,205 @@
 </tr>
 </tbody>
 </table>
+<p><code>REP</code> family is never seen alone. It&rsquo;s <strong>always</strong> followed by some operation. Why? Because basically it&rsquo;s a repetition. You can&rsquo;t repeat <strong>nothing</strong>. There repeatiotions are performed on buffers (strings, for example). There are 4 possible operations seen with <code>rep</code>:</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+<th>C++ analogr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>repe cmpsb</code></td>
+<td>Compare two buffers</td>
+<td><code>memcmp</code></td>
+</tr>
+<tr>
+<td><code>rep stosb</code></td>
+<td>Set all bytes to some value in <code>AL</code></td>
+<td><code>memset</code></td>
+</tr>
+<tr>
+<td><code>rep movsb</code></td>
+<td>Copy a buffer</td>
+<td><code>memcpy</code></td>
+</tr>
+<tr>
+<td><code>repne scasb</code></td>
+<td>Search for a byte</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>repe cmpsb</code>. To better illustrate, I&rsquo;ve written the below pseudocode:</p>
+<div class="highlight"><pre class="chroma"><code class="language-C#" data-lang="C#"><span class="n">function</span> <span class="kt">bool</span> <span class="n">compare</span><span class="p">(){</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
+	<span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">!=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">])</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><code>ECX</code>  is set to the buffer&rsquo;s length,  <code>ESI</code> - is a pointer to the first buffer, <code>EDI</code> - the pointer to the second. The loop runs until <code>ECX</code> = 0 or the bytes compared are different. The above loop will run 2 times and return false when <code>ecx</code> = <code>2</code> since <code>edi[2]='t'</code> and <code>esi[2] = 'c'</code> which means that the buffers are different and there is no need to run the loop further.</p>
+<p><code>rep stosb</code>. Destination buffer - <code>EDI</code>, source - <code>AH</code>. <code>ECX</code> is a counter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="n">buffer</span><span class="p">[]</span> <span class="n">init</span><span class="p">(){</span>
+  <span class="n">ah</span> <span class="p">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
+    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">ah</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">edi</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times. Upon function return <code>edi</code> = <code>['a', 'a', 'a']</code>. Very often is seen after <code>xor eax, eax</code>, since <code>xor</code> something on itself returns that something being filled with <code>0</code>, i.e. it means <em>zeroing out</em> a value. And we need to make sure there is no garbage lurking in <code>EAX</code> before setting it the desired value (in our example, <code>'a'</code>) to be later used to set <code>edi</code> to <code>a</code>. Just to remind, <code>al</code> is the lowerst byte of <code>EAX</code> register.</p>
+<p><code>rep movsb</code>. <code>ESI</code> - source buffer, <code>EDI</code> - destination buffer, <code>ECX</code> - counter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="k">void</span> <span class="n">copy</span><span class="p">(){</span>
+  <span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">];</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
+  
+  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
+    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times. At the end, <code>edi=esi = ['s', 'r', 'c']</code>.</p>
+<p><code>repne scasb</code>. <code>EDI</code> - buffer address, <code>AL</code> - byte to search. <code>ECX</code> - counter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-C#" data-lang="C#"><span class="n">function</span> <span class="kt">bool</span> <span class="n">search</span><span class="p">(){</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
+  <span class="n">al</span> <span class="p">=</span> <span class="sc">&#39;d&#39;</span><span class="p">;</span>
+  
+  <span class="c1">// len(edi) = 3
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
+    <span class="c1">//this will return true on the 3rd iteration, when ecx = 1
+</span><span class="c1"></span>    <span class="k">if</span> <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">==</span> <span class="n">al</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times, and on the 3rd time being run it&rsquo;ll return <code>true</code>, because <code>edi[1]</code> = <code>'t'</code>.</p>
+<h2 id="jumps">Jumps</h2>
+<h3 id="jmp-and-friends">JMP and friends</h3>
+<p><code>x86</code></p>
+<p><strong>Affected by flags</strong>: <code>ZF</code>, <code>OF</code></p>
+<p>In general, these instruction have this skeleton: <code>jmp location</code>.</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jmp</code></td>
+<td>unconditional jump, meaning &ldquo;Jump Forest, jump!&rdquo; no matter what</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jz</code></td>
+<td>Jump if <code>ZF</code> = 1 (the result of previous instruction was <code>0</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jnz</code></td>
+<td>opposite to <code>jz</code>. Jump if <code>ZF</code> = 0 (the result of previous instruction was <strong>not</strong> <code>0</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>je</code></td>
+<td>if the result of preceding <code>cmp op1, op2</code> was 0 (the operands were equal)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jne</code></td>
+<td>opposite to <code>je</code>. Jump if the result of preceding <code>cmp op1, op2</code> was <strong>not</strong> 0 (the operands were <strong>not</strong> equal)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jg</code>, <code>ja</code></td>
+<td>Jump if the result of preceding <code>cmp op1, op2</code> was a positive integer (op1 &gt; op2, is <strong>greater</strong>). <code>ja</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jge</code>, <code>jae</code></td>
+<td>like <code>jg</code> or <code>ja</code> combined with <code>je</code>. Jump if the result of preceding <code>cmp op1, op2</code> was a positive integer or 0 (op1 &gt;= op2, is <strong>greater</strong> or <strong>equal</strong>). <code>jae</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jl</code>, <code>jb</code></td>
+<td>opposite to <code>jg</code>, <code>ja</code>. Jump if the result of preceding <code>cmp op1, op2</code> was a negative integer (op1 &lt; op2, is <strong>less</strong>). <code>jb</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jle</code>, <code>jbe</code></td>
+<td>like <code>jl</code> or <code>jb</code> combined with <code>je</code>. Jump if the result of preceding <code>cmp op1, op2</code> was a positive integer or 0 (op1 &lt;= op2, is less or <strong>equal</strong>). <code>jbe</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jo</code></td>
+<td>jump if the result of the previous instruction set <code>OF</code> to <code>1</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>js</code></td>
+<td>jump if the result of the previous instruction set <code>SF</code> to <code>1</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>jecxz</code></td>
+<td>jump if <code>ecx</code> = 0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Getting familiar with jumps. Below is the table of examples. Try to quickly determine the location of the jump. Answers are listed right below the table, so spoiler alert! ❗</p>
+<h2 id="logical">Logical</h2>
+<h3 id="and">AND</h3>
+<p><code>x86</code></p>
+<p><strong>Interesting</strong>! :open_mouth :Can be used to clear some bits with a mask. For example, if you have <code>1100 1011</code> and you need to zero all bits out. All you need to do, is to <code>and</code> with <code>0000 0000</code>. To determine whether an integer is even or not, mask it with <code>0000 0001</code>. Even numbers have <code>0</code> at the end, and uneven - <code>1</code>. <code>and</code>ing an even number with <code>0000 0001</code> will result in <code>0</code> and <code>and</code>ing an uneven - with <code>1</code>.  Also, you can make a number less by 2, 4, 8 etc by applying a corresponding mask:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1101</code></td>
+<td>substract 2</td>
+</tr>
+<tr>
+<td><code>0111</code></td>
+<td>Subtract 8</td>
+</tr>
+<tr>
+<td><code>1011</code></td>
+<td>substract 4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="or">OR</h3>
+<p>Set to <code>1</code> if either of the bits is <code>1</code>. Repeat for each bit of the first operand and the second operand. Writes to the destination operand.</p>
+<p><strong>Interesting</strong>! 😮 Can be used to set all bits to <code>1</code> with <code>1111</code>. ​ For example, we have <code>1110 or 1111</code> = <code>1111</code>. Basically, any value <code>or</code>ed by <code>1111</code> is <code>1111</code>.</p>
+<h3 id="not">NOT</h3>
+<h3 id="xor">XOR</h3>
+<p><strong>Ex</strong>clusive <strong>OR</strong>. 1 if the first operand&rsquo;s bit is <strong>not</strong> equal to the second&rsquo;s.</p>
+<p><strong>Interesting</strong>! 😮 A quick way to set <code>eax</code> to <code>0</code>. Operation&rsquo;s <code>xor eax, eax</code> opcode is <code>33 C0</code> (2 bytes) while <code>mov eax, 0</code> - opcode <code>b8 00 00 00 00  </code> which is 5 bytes (costy 💴 ).</p>
+<p>Also, an interesting observation to investigate further: If I mask any value with <code>1111</code> , I get an operation equal to substraction (unsigned):</p>
+<p><code>1010 xor 1111</code> is <code>0101</code> (5 in decimal)</p>
+<p><code>1011 xor 1111</code> is <code>0100</code> (4d)</p>
+<p><code>1100 xor 1111</code> is <code>0011</code> (3d)</p>
+<h2 id="unsorted">Unsorted</h2>
+<h3 id="pushpop">PUSH/POP</h3>
+<h3 id="pushapushadpopapopad">PUSHA/PUSHAD/POPA/POPAD</h3>
+<p>Save stack order.</p>
+<p><strong>Interesting</strong>! 😮 Often seen in shellcodes and custom packers. Compilers rarely use these instructions.</p>
+<h3 id="nop">NOP</h3>
+<p>Do nothing. Used for padding and controlling the time of program execution.</p>
+<p><strong>Interesting</strong>! 😮 ​Often seen in shellcodes and when attempting a buffer overflow.</p>
 
   </div>
 </article>
