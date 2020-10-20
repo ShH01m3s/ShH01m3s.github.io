@@ -602,13 +602,117 @@
 pip install yara-python
 </code></pre></div><p>Repo for <a href="https://github.com/InQuest/awesome-yara">malware</a> and <a href="https://github.com/Xumeiquer/yara-forensics">forensics</a>. YaraGen.</p>
 <h2 id="os-configurations">OS configurations</h2>
-<p>Configs have only one place to set thing. Attacker motivation:</p>
+<p>Can be hard (no consistency). Are they different by accident or from malicous intent. Baseline reference (what the settings should be). Configs have only one place to set thing. Attacker motivation:</p>
 <ul>
 <li>Get access</li>
 <li>Avoid detection</li>
 <li>Make the response harder</li>
 <li>Make malware to work</li>
 </ul>
+<p>Are there changes &hellip; (see above).  Why remote?</p>
+<ul>
+<li>Windows Remote Desktop feature enabled. RAT installed - malware-related question</li>
+<li>enable ps remote exe</li>
+<li>backdoor (launch cmd.exe)</li>
+</ul>
+<p>Answering questions:</p>
+<ol>
+<li>to ease access
+<ol>
+<li>has the remote access been enabled?</li>
+<li>file sharing enabled?</li>
+<li>config to launch different progs?</li>
+</ol>
+</li>
+<li>prevent detection (disable firewalls, anti-virus). Rootkits are in malware section.
+<ol>
+<li>have any prevention tools been disabled?</li>
+<li>installed mal certificates to trick prevention tools?</li>
+<li>have many detection tools been disabled?</li>
+</ol>
+</li>
+<li>Response harder (disable endpoint visibility, accounts (or reduce privs), reduce or disable logs, backups, volume shadow)
+<ol>
+<li>Were any accs disabled?</li>
+<li>Visibility tools disabled?</li>
+<li>Settings to record less data
+<ol>
+<li>audit settings changed?</li>
+<li>logs cleared</li>
+<li>Backup disabled?</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Changes needed by malware? Change exe path, lib path, hosts file.</li>
+</ol>
+<p>Locations: lots of.</p>
+<ul>
+<li>Registry</li>
+<li>Congif files (app specific or OS)</li>
+</ul>
+<p>Need to have a baseline of settings. Compare. Categories:</p>
+<ul>
+<li>remote</li>
+<li>Detections avoidance</li>
+<li>response prevention</li>
+</ul>
+<h2 id="prioritization-and-process">Prioritization and Process</h2>
+<p>There are different paths to follow to answer the same questions. Some are more efficitent.</p>
+<p>Pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
+<ul>
+<li>Looking for malware and find program run entry for malware</li>
+<li>Stop looking for other malware and focus on that one
+<ul>
+<li>What happened before and after?</li>
+<li>What else is in the same folder?</li>
+<li>What does it do?</li>
+</ul>
+</li>
+<li>Repeat for each you find</li>
+</ul>
+<p>How to find the first evidence? Prioritize or brute force.</p>
+<ul>
+<li><strong>Prioritize</strong> (Manual). You never know where the evidence are going to be.
+<ul>
+<li>impact on investigation result</li>
+<li>likelyhood to find anything</li>
+<li>false poisitive?</li>
+<li>time required</li>
+</ul>
+</li>
+<li><strong>Brute force</strong> (Automated). Let tools and software to find evidence.</li>
+</ul>
+<blockquote>
+<p>Cyber Triage: can I mark something as bad and run analysis for this piece of evidence again. - yes</p>
+</blockquote>
+<h2 id="conclusion">Conclusion</h2>
+<p>Break into smaller questions up to the point where you can answer with a specific artifact category.</p>
+<ul>
+<li>users
+<ul>
+<li>accs</li>
+<li>logins</li>
+<li>activity</li>
+</ul>
+</li>
+<li>malware
+<ul>
+<li>persistence / start-up mechanisms</li>
+<li>running processes</li>
+<li>remnants left</li>
+</ul>
+</li>
+<li>os config
+<ul>
+<li>remote access</li>
+<li>detection prevention</li>
+<li>response challenges</li>
+<li>malware enablement</li>
+</ul>
+</li>
+</ul>
+<p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
 <h2 id="dfir-samples">DFIR Samples</h2>
 <p><a href="https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e">https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e</a></p>
 
