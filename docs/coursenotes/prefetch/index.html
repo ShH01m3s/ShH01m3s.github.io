@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Hands-on Experience - Analyst</title>
+  <title> - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -167,29 +167,11 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Hands-on Experience</h1>
+<h1 class="title"></h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     <div class="meta">
-      
-      <div class="article-category">
-          
-              
-                <i class="fas fa-archive"></i>
-              
-          <a class="category-link" href="/categories/general">general</a>
-          
-      </div> <br />
-      
-      <div class="article-category">
-          
-            
-              
-          <a class="platform-link" href="/types/list">list</a>
-          
-      </div> <br />
-      
       
       
       
@@ -201,34 +183,105 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>*All the courses I&rsquo;ve completed 👀 - in process, ✔️ - done, watched and now being digested into articles on the website - 🍔 *</p>
-<h2 id="forensics">Forensics</h2>
-<ul>
-<li>Autopsy 8-Hour Course  ✔️</li>
-<li>Inro to DFIR: Divide and Conquer Process ✔️🍔</li>
-<li>Udemy Mobile Forensics ✔️🍔</li>
-<li>Udemy Compute Forensics</li>
-<li>Udemy Network Forensics</li>
-<li>Udemy SDF Prefetch Forensics ✔️🍔</li>
-<li>Udemy SDF Memory Forensics 1 ✔️</li>
-<li>Udemy SDF Memory Forensics 2 👀</li>
-<li>Udemy SDF LNK</li>
-<li>Udemy SDF Windows Shellbags</li>
-<li>Udemy SDF Shimcache</li>
-<li>Udemy SDF Weblog</li>
-<li>Udemy SDF Windows Explorer</li>
-<li>Udemy SDF Shadow Copy</li>
-<li>Udemy SDF Resolving Attached USBs</li>
-<li>Udemy SDF Imaging a Mac Fusion Drive</li>
-<li>Udemy SDF Understanding OSX Timestamps</li>
-<li>Udemy Python for Forensics  👀</li>
-</ul>
-<h2 id="other">Other</h2>
-<ul>
-<li>Coursera Maryland University Software Security ✔️</li>
-<li>Coursera Maryland University Cryptography ✔️</li>
-<li>Udemy AWS Tutorial</li>
-</ul>
+    <h2 id="tools">Tools</h2>
+<h3 id="winprefetchview">WinPrefetchView</h3>
+<p>To view pretech files (decompressed as well) in GUI.</p>
+<h3 id="fred---forensic-registry-editor">Fred - Forensic Registry Editor</h3>
+<p>To view exported hives.</p>
+<h3 id="ftk-imager-lite">FTK Imager Lite</h3>
+<p>Fairly heavy footprint - 15-16Mb.</p>
+<h3 id="cdqr">CDQR</h3>
+<p>This tool focuses on the <code>pf</code> intself rather than on a data it contains. It&rsquo;s useful for making timelines.</p>
+<h3 id="regripper-gui-and-cui">RegRipper (GUI and CUI)</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</code></pre></div><h3 id="prefetch-parser">Prefetch parser</h3>
+<p>More info than with WinPrefetchView</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prefetch.py -c -d -e
+prefetch.py -c -d &gt; pf.csv
+prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
+</code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter,</p>
+<h2 id="intro">Intro</h2>
+<p>If collecting prfethc on a live system, run volatile collection tools before that.</p>
+<p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Filename, Creation time, Modified time, File Size, Process EXE, Process Path, Run Counter, Last Run Time, Missing Process + libraries and resources for each process.</p>
+<p>Forensics value - tracks the execution of programs. Central repository of what was run on the system. File size can be used to search for the same process with a different name on a different machine.</p>
+<p>C:\Windows\Prefetch.</p>
+<p>All prefetch have a signature at offset 4th byte. MAM - compressed and SCCA - plain text.</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Signature1 (version)</th>
+<th>signature2 (type)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WinXP &amp; 2003</td>
+<td>0x00000011 or 17</td>
+<td>SCCA</td>
+</tr>
+<tr>
+<td>Vista</td>
+<td>0x00000023 or 23</td>
+<td>SCCA</td>
+</tr>
+<tr>
+<td>W8</td>
+<td>0x0000001a or 26</td>
+<td>SCCA</td>
+</tr>
+<tr>
+<td>W10</td>
+<td>MAM</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>W10</td>
+<td>0x0000001e or 30</td>
+<td>SCCA</td>
+</tr>
+</tbody>
+</table>
+<p>Prefetch can be disabled in registry C:\Windows\System32\config\SYSTEM. Export it and open, for example, in Fred. CurrentControlSet -&gt; SessionManager -&gt; Memory Managment -&gt; Prefetch Parameters -&gt; Enable Prefetcher:</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>disabled</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>enabled for apps only</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>enabled for boot only</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>boot and app enabled (default)</td>
+</tr>
+</tbody>
+</table>
+<p>You can check it with <code>rip.exe</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</code></pre></div><h2 id="caveats">Caveats</h2>
+<p>On servers is usually turned off. And starting with Win10 - compressed. For systems with solid state drives it&rsquo;s also disabled. With Win8 - additional run times recorded. Also, there is latency issue - some apps are not closed upon clicking X, but remain running in background. Hence, the last time run might be different.</p>
+<blockquote>
+<p>If the app was deleted and then reinstalled? What the firtst run time will be?</p>
+<p>What if I rename an executable?</p>
+<p>If the exe is substitued?</p>
+</blockquote>
+<p>If the same exe was run from different locations - different <code>.pf</code> files. If the application was deleted, the info remains in prefetch.</p>
+<blockquote>
+<p>Write a sctipt to determine deleted files</p>
+</blockquote>
 
   </div>
 </article>
