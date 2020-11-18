@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Network Protocols - Analyst</title>
+  <title>3D Secure - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -160,9 +160,22 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/articles/fundamentals/network/"> Back to Network Section </a>
+   <a href="/docs/articles/fundamentals/network/protocols/"> Back to Network Protocols Section </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#non-3ds">Non 3DS</a></li>
+      </ul>
+    </li>
+    <li><a href="#3d-secure-transactions">3D Secure Transactions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -170,103 +183,89 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">3D Secure</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/categories/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">
+          
+            
+              
+          <a class="platform-link" href="/types/article">article</a>
+          
+      </div> <br />
+      
+      
+      
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/network" rel="tag">network</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/protocol" rel="tag">protocol</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/3ds" rel="tag">3ds</a>
+          
+      </div> 
+      
+    </div>
+  </header>
 
 
- 
- 
-
-<h1 class="title">Network Protocols</h1> 
-
+  <div class="content" itemprop="articleBody">
+    <p><em>This article is about 3DS protocol (XML-based) which is used to secure online payments. There are three parties in this process: merchant, aquirer and the bank (the issuer of the card). It&rsquo;s an additional authentication step. Invented by VISA.</em></p>
+<p>Commercial names:</p>
 <ul>
-
-<li class="post-item" style="margin-left: 12px";>
-
-  type: 
-      
-        <a class="types-link" href="/types/article">article</a> | 
-      
-
-
-  category: 
-    
-      <a class="category-link" href="/categories/general">general</a>
-      
-
-</li>
-<li>
- 
-</li>
+<li>Verified by Visa (Visa)</li>
+<li>SecureCode (MasterCard)</li>
+<li>J/Secure (JCB)</li>
+<li>SafeKey (American Express)</li>
+<li>ProtectBuy (Diners/Discover)</li>
 </ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/fundamentals/network/protocols/3ds/"> 3D Secure</a></h2> 
-<p><i>This article is about 3DS protocol (XML-based) which is used to secure online payments. There are three parties in this process: merchant, aquirer and the bank (the issuer of the card).</i>
-<ul>
-  <li>
-    
-    tags: 
-    
-      
-      <a class="tag-link" href="/tags/network" rel="tag">#network</a>
-      
-       , 
-      <a class="tag-link" href="/tags/protocol" rel="tag">#protocol</a>
-      
-       , 
-      <a class="tag-link" href="/tags/3ds" rel="tag">#3ds</a>
-      
-    
-  </li>
-</ul>
-</p>
-<br/>
+<h3 id="non-3ds">Non 3DS</h3>
+<p><img src="/docs/articles/fundamentals/network/protocols/images/no-3ds.png" alt="no-3ds"></p>
+<p><img src="/Users/veronicazvereva/Documents/Website/analyst/content/docs/articles/fundamentals/network/protocols/images/no-3ds.png" alt="no-3ds"></p>
+<p><img src="/Users/veronicazvereva/Documents/Website/analyst/content/docs/articles/fundamentals/network/protocols/images/3ds.png" alt="3ds"></p>
+<p><strong>Liability shift</strong>. If there is fraud, the merchant is to be blamed. He&rsquo;s monitoring and detecting frad without 3DS.</p>
+<p><img src="/Users/veronicazvereva/Documents/Website/analyst/content/docs/articles/fundamentals/network/protocols/images/liability-shift.png" alt="liability-shift"></p>
+<p>There are three domains:</p>
+<p><img src="/Users/veronicazvereva/Documents/Website/analyst/content/docs/articles/fundamentals/network/protocols/images/domains.png" alt="domains"></p>
+<h2 id="3d-secure-transactions">3D Secure Transactions</h2>
+<ol>
+<li>Card number</li>
+<li>Expiry date</li>
+<li>Name</li>
+<li>Address</li>
+<li>CVV</li>
+<li>OTP</li>
+</ol>
+<h2 id="references">References</h2>
+<p><a href="https://www.youtube.com/watch?v=bSrw4o1Jy5E">https://www.youtube.com/watch?v=bSrw4o1Jy5E</a></p>
+<p><a href="https://www.youtube.com/watch?v=z-5kGQOfpk0">https://www.youtube.com/watch?v=z-5kGQOfpk0</a></p>
+<p><a href="https://www.youtube.com/watch?v=m57aq9A6LnI">https://www.youtube.com/watch?v=m57aq9A6LnI</a></p>
 
-<ul>
-
-<li class="post-item" style="margin-left: 12px";>
-
-  type: 
-      
-        <a class="types-link" href="/types/article">article</a> | 
-      
-
-
-  category: 
-    
-      <a class="category-link" href="/categories/general">general</a>
-      
-
-</li>
-<li>
- 
-</li>
-</ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/fundamentals/network/protocols/tcp/"> TCP</a></h2> 
-<p><i>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</i>
-<ul>
-  <li>
-    
-    tags: 
-    
-      
-      <a class="tag-link" href="/tags/network" rel="tag">#network</a>
-      
-       , 
-      <a class="tag-link" href="/tags/protocol" rel="tag">#protocol</a>
-      
-       , 
-      <a class="tag-link" href="/tags/transport" rel="tag">#transport</a>
-      
-    
-  </li>
-</ul>
-</p>
-<br/>
-
-
-
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
