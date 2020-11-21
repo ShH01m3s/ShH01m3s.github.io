@@ -279,7 +279,11 @@ xxd memory2.img <span class="p">|</span> grep -v <span class="s2">&#34;0000 0000
 <p>Try <code>strings.exe</code>. Try scanning plugins. Try hex editor. Try <code>bulk_extractor</code> <a href="https://github.com/simsong/bulk_extractor">https://github.com/simsong/bulk_extractor</a>. Try <code>mftparser</code> for vol2.</p>
 <p>When something is broken, but not everything you get this:</p>
 <p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory2.png" alt="osdf-troubleshooting-memory2"></p>
-<p>Try <code>psscan</code>. If it renders any output, try using a DTB (PDB) from a different process. ❓ What is DTB (PDB)? DTB - Directory Table Base and Process Table Base. Volatility uses some default process to get the base of this table. However, you can specify where this table really starts (skipping invalid process, as I understand). Running <code>psscan</code> we can determing any valid process and use its address as the new base.</p>
+<p>Try <code>psscan</code>. If it renders any output, try using a DTB (PDB) from a different process.</p>
+<blockquote>
+<p>❓ What is DTB (PDB)? DTB - Directory Table Base and Process Table Base. Volatility uses some default process to get the base of this table. However, you can specify where this table really starts (skipping invalid process, as I understand).</p>
+</blockquote>
+<p>Running <code>psscan</code> we can determing any valid process and use its address as the new base.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">messed</span><span class="o">.</span><span class="n">dmp</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win</span> <span class="n">psscan</span>
 <span class="c1"># note the address of any system proces</span>
 <span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">messed</span><span class="o">.</span><span class="n">dmp</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win</span> <span class="o">--</span><span class="n">dtb</span><span class="o">=</span><span class="mh">0xb</span><span class="n">lahblah</span> <span class="n">pslist</span>
@@ -353,6 +357,15 @@ xxd memory2.img <span class="p">|</span> grep -v <span class="s2">&#34;0000 0000
 <p>Based on the <strong>compression signature</strong> of the cloned image, it generates a list of devices/software, which could have been used for taking the image or creating it. Track the device and model (when no EXIF especially).</p>
 <h3 id="limitation">Limitation</h3>
 <p>Magnification blurs the colors so difficult to detect tampering. GPS might not be available with the image was taken from the device which either hasn&rsquo;t or disabled GPS tracking. Social media strip-off metadata. ❗ JPEG Analysis can identify quantization tables only if image is processed and edited using Adobe.</p>
+<h2 id="autopsy-update">Autopsy Update</h2>
+<p>APFS Disk images support, XRY Text File Reports. Chromium support. More Windows artifacts. New Picture Analyzer (former EXIF Module) + converts HEIC to JPEG and adds as children.</p>
+<blockquote>
+<p>❓ what&rsquo;s HEIC?</p>
+</blockquote>
+<p>Flags files based on name and path. For example, <code>googlesync.exe</code> goes under category <code>Cloud Storage</code>. Contribute rules.</p>
+<p><strong>Central Repository</strong>. Enabled by default. Doesn&rsquo;t correlate by default.</p>
+<p><strong>Drone analyser</strong>. New, based on DHS S&amp;T Contact (DAtCon to parse DJI drone data and creates track points for where the drone was). GPX module creates track points, way points, etc from non-drones. Can be displayed in the new Map viewer.</p>
+<p><strong>iOS Analyzer</strong>! Finally! Uses iLEAPP. <code>.tar</code> as input file. 4.18 should support disk images, more artifacts and aLEAPP.</p>
 
   </div>
 </article>
