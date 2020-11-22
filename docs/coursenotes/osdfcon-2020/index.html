@@ -333,8 +333,9 @@ xxd memory2.img <span class="p">|</span> grep -v <span class="s2">&#34;0000 0000
 <p>The second green square - DTB.</p>
 <p>And get the <code>KernelBase</code> with <code>vol2.py kdbgscan</code>. And <code>dtb</code> is needed as well.</p>
 <p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory9.png" alt="osdf-troubleshooting-memory9"></p>
-<p>New config file:</p>
 <p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory10.png" alt="osdf-troubleshooting-memory10"></p>
+<p>New config file:</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory11.png" alt="osdf-troubleshooting-memory11"></p>
 <p>added line (the last one), created symbols file.</p>
 <p>Now run:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="n">windows</span><span class="o">.</span><span class="n">pslist</span><span class="o">.</span><span class="n">PsList</span>
@@ -362,10 +363,56 @@ xxd memory2.img <span class="p">|</span> grep -v <span class="s2">&#34;0000 0000
 <blockquote>
 <p>❓ what&rsquo;s HEIC?</p>
 </blockquote>
-<p>Flags files based on name and path. For example, <code>googlesync.exe</code> goes under category <code>Cloud Storage</code>. Contribute rules.</p>
+<p>Flags files based on name and path. For example, <code>googlesync.exe</code> goes under category <code>Cloud Storage</code>. Contribute rules. Incorprorating scoring from CyberTriage.</p>
 <p><strong>Central Repository</strong>. Enabled by default. Doesn&rsquo;t correlate by default.</p>
 <p><strong>Drone analyser</strong>. New, based on DHS S&amp;T Contact (DAtCon to parse DJI drone data and creates track points for where the drone was). GPX module creates track points, way points, etc from non-drones. Can be displayed in the new Map viewer.</p>
 <p><strong>iOS Analyzer</strong>! Finally! Uses iLEAPP. <code>.tar</code> as input file. 4.18 should support disk images, more artifacts and aLEAPP.</p>
+<p>New <strong>Context Viewer</strong>. Where did it come from (downloads, attachments)? When or where was it used (MRU keys, Prefetch, etc)?</p>
+<p><strong>Data Source Summary</strong>. About this data source, about user activity ❗.</p>
+<p><strong>Discovery</strong>. Search navigation. Items are organized in groups. See copies of the artifacts.</p>
+<p><strong>Maps.</strong> Geo from iOS, Android, Drone, EXIF.Uses Bing or OpenStreetMap.</p>
+<p>Interesting modules:</p>
+<ol>
+<li><strong>W10-FaceMesanger@Autopsy</strong> is Data Source Module. SQLlite DB can be queried to retrieve deleted items ❗<code>Undark</code>. For Win10.</li>
+<li><strong>LabCIF DOI</strong> - Detection of Objects in Images. YOLOv3 - You only look once. Uses Darknet in GPU mode (if CUDA available) or OpenCV in CPU mode for best performance. <a href="https://github.com/labcif/doi">https://github.com/labcif/doi</a>.</li>
+<li><strong>Camera Fingerprint PRNU</strong>. To determine that the photo was taken by the suspect camera. Uses photo response non-uniformity of camera sensor: <code>photo - noise = PRNU</code>. Physical analysis of camera sensor + PRNU. Each sensor pixel is unique. Creates a description of camera sensor (fingerprint). To create a fingerprint, at least 30 photos are needed (white surface such as walls and clouds). Add evidence photos to data source. Select a folder with reference photos in ingest config. If the suspect photo was edited or resized, the information might be inaccurate (check tampering with other tools).</li>
+<li><strong>SpeechToText</strong>. Type identifiaction module should be run before using this.</li>
+<li><strong>BlackVue Geolocation</strong>.</li>
+<li><strong>Android Usagestats</strong>. XML with user interatcion, moving apps to fore- and background and config changes. <code>data/system/usagestats</code>, protobuf files.</li>
+<li><strong>TikTok for Android Analyzer</strong>. Contacts and Messages. <code>tiktok.py</code>. Move it to <code>InternalPythonModules/android</code>. Open <code>module.py</code> and import the tiptok.py and add the analyzer to the exisiting list.</li>
+<li>Forensic Analysis for Mobile Apps (<strong>FAMA</strong>). Extract user data from a connected Android device (using adb). Produce detailed reports (maps, timelines,multimedia). Recover rows from SQLite (Undark and SQL Deleted Records Parser). Https://github.com/labcif/FAMA. Clone repo, copy contents to <code>autopsy/python_modules</code>. Select <code>live extraction with ADB</code>.</li>
+<li><strong>Notification analyser</strong>. Windows 10 Notification with &ldquo;Your Phone&rdquo; integration. <code>%LOCALAPPDATA%\Microsoft\Windows\Notifications</code>. SQLite3 DB produces WAL (Write Ahead Log) and SHM files. Notifications live for 3 days. Deleted rows can be recovered. YPA (anothe Autopsy plugin - <a href="https://github.com/labcif/ypa)">https://github.com/labcif/ypa)</a>.</li>
+<li><strong>Tinder for Android</strong>. Contacts and messages. <code>tinder.py</code>.</li>
+<li><strong>Document Metadata</strong>.</li>
+<li><strong>Nintendo Switch Forensics</strong>.</li>
+<li><strong>iOS_sysdiagnose</strong>.</li>
+<li><strong>Mass Export</strong>. Export of files of certain types into Case folder.</li>
+<li><strong>Ring central</strong>.</li>
+<li><strong>Wordlist</strong>. After keyword search.</li>
+<li><strong>Google Takeout</strong>.</li>
+<li><strong>AD1_Extractor.</strong></li>
+<li><strong>LevelDB</strong>.</li>
+</ol>
+<h2 id="apollo">Apollo</h2>
+<p><a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a></p>
+<p>Artifact gathering added.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python3 apollo.py gather_macos modules / --ignore /System/Data/Volume --ignore ~/miphone
+
+python3 apollo.py gather_ios --ip <span class="o">[</span>ip<span class="o">]</span> --port <span class="o">[</span>port<span class="o">]</span> modules /private/var
+</code></pre></div><p><code>root</code> username is hardcoded in</p>
+<p>Extraction</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python3 apollo.py extract -o sql_json -v <span class="m">14</span> -k modules tmp_folder
+<span class="c1"># -v - version</span>
+<span class="c1"># -k - extract some geo info and export to use for example with Google Earth, kmz files</span>
+
+</code></pre></div><h2 id="regripper">RegRipper</h2>
+<p><a href="https://github.com/keydet89/RegRipper3.0">https://github.com/keydet89/RegRipper3.0</a></p>
+<p>Use profiles (ex. USB or mic&amp;cam)</p>
+<h2 id="wsl">WSL</h2>
+<p>Windows Subsystem for Linux.</p>
+<p><img src="/docs/coursenotes/pics/wsl1.png" alt="wsl1"></p>
+<p>Attacks</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/coursenotes/pics/wsl2.png" alt="wsl2"></p>
 
   </div>
 </article>
