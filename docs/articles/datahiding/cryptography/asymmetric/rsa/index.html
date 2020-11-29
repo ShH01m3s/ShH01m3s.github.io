@@ -189,6 +189,8 @@
       <div class="article-category">
           
               
+                <i class="fa fa-magic"></i>
+              
           <a class="category-link" href="/categories/crypto">crypto</a>
           
       </div> <br />
@@ -196,6 +198,8 @@
       <div class="article-category">
           
             
+              
+                <i class="fa fa-graduation-cap"></i>
               
           <a class="platform-link" href="/types/article">article</a>
           
@@ -213,6 +217,7 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>To my utter embarrassment I had to admit that I&rsquo;ve recently realized I didn&rsquo;t remember how the RSA worked&hellip;. What I though to be RSA turned out to be Diffie-Hellman algorithm&hellip; Oops 😬. So, I&rsquo;ve rewatched Khan&rsquo;s video about RSA and was surprised I could every confuse the two. This article and another one about Diffie-Hellman is my way of explaining cryptographic notions: visual representation, verbal explanation and&hellip; code. Thanks to Python 🐍.</em></p>
+<p><img src="images/_109474861_angrycat-index-getty3-3.jpg" alt="_109474861_angrycat-index-getty3-3"></p>
 <p>Diffie Hellman key exchange 🔑 is based on the following mathmetical laws and theorems:</p>
 <ol>
 <li>modulus arithmetics</li>
@@ -238,7 +243,8 @@
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">01001110</span> <span class="m">01101111</span> <span class="m">01110100</span> <span class="m">01101000</span> <span class="m">01101001</span> <span class="m">01101110</span> <span class="m">01100111</span> <span class="m">00100000</span> <span class="m">01111001</span> <span class="m">01100101</span> <span class="m">01110100</span>
 </code></pre></div><p>Binary data is hard for a human to operate with, so I&rsquo;ll use hex (16 base integers):</p>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">0x4e 0x6f 0x74 0x68 0x69 0x6e 0x67 0x20 0x79 0x65 0x74
-</code></pre></div><p>At this point we have a message we are going to encrypt. Try to write down some code that takes a string (this message as an input) and generates an array of  integers <code>secret</code> as an output. Express it in your prefered language, I&rsquo;ll use my beloved Python 🐍:</p>
+</code></pre></div><p><img src="images/maxresdefault.jpg" alt="maxresdefault"></p>
+<p>At this point we have a message we are going to encrypt. Try to write down some code that takes a string (this message as an input) and generates an array of  integers <code>secret</code> as an output. Express it in your prefered language, I&rsquo;ll use my beloved Python 🐍:</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">message_str</span> <span class="o">=</span> <span class="s2">&#34;Nothing yet&#34;</span>
 <span class="n">message_int</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">secret_message</span><span class="p">:</span>
@@ -312,6 +318,7 @@
   <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
   <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
 </code></pre></div><p>Now, since we know the formula and the numbers, we can finally encrypt the message. Let&rsquo;s edit the <code>Detective</code> class now:</p>
+<p><img src="images/maxresdefault2.jpg" alt="maxresdefault2"></p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
   <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Veronica&#34;</span>
   <span class="n">message_str</span> <span class="o">=</span> <span class="s2">&#34;Nothing yet&#34;</span>

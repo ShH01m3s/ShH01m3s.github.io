@@ -208,6 +208,8 @@
           
             
               
+                <i class="fa fa-graduation-cap"></i>
+              
           <a class="platform-link" href="/types/article">article</a>
           
       </div> <br />
@@ -269,7 +271,7 @@
 <li>HomePod</li>
 </ul>
 <p>Let&rsquo;s observe this scheme from Apple website</p>
-<p><img src="/images/articles/ios/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
+<p><img src="images/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
 <p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
 <p>Boot process:</p>
 <ol>
@@ -289,7 +291,7 @@
 <p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
 <h2 id="intro">Intro</h2>
 <p>All this resembles the sad story of a businessman from <em>Eine Woche volle Samstage (1973)</em> by Paul Maar, when a man was so afraid of thieves that he hid the office key in a sock, the sock - in a boot, the boot in a wardrobe locked with a key, the key to the wardrobe hid in his table&rsquo;s drawer, and the key from the last had lost and by doing so arranged an unscheduled day-off for his employees. So is with the encryption on iOS devices:</p>
-<p><img src="/images/articles/ios/device_encr_scheme.png" alt="device_encr_scheme"></p>
+<p><img src="images/device_encr_scheme.png" alt="device_encr_scheme"></p>
 <p>File contents&rsquo;s is encrypted with its key, which is stored in the metadata. The metadata is enctypted with file system key and wrapped in class key and all of it is finally protected by a alianz of user&rsquo;s passcode key and a hardware key. Wow. Let&rsquo;s dive a bit deeper, cause it all seems to be too messed up and confusing.</p>
 <h2 id="class-keys">Class keys</h2>
 <p>Class key represent protection classes. Each one except of <strong>NSFileProtectionNone</strong></p>
@@ -318,7 +320,7 @@
 <li>HomePod</li>
 </ul>
 <p>Let&rsquo;s observe this scheme from Apple website</p>
-<p><img src="/images/articles/ios/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
+<p><img src="images/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
 <p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
 <p><a href="https://www.theiphonewiki.com/wiki/Bootrom">https://www.theiphonewiki.com/wiki/Bootrom</a></p>
 <h2 id="boot-process">Boot process:</h2>
