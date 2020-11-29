@@ -259,17 +259,37 @@
 <span class="n">Sec</span><span class="o">-</span><span class="n">Fetch</span><span class="o">-</span><span class="n">Dest</span><span class="p">:</span> <span class="n">document</span>
 <span class="n">Accept</span><span class="o">-</span><span class="n">Encoding</span><span class="p">:</span> <span class="n">gzip</span><span class="p">,</span> <span class="n">deflate</span>
 <span class="n">Accept</span><span class="o">-</span><span class="n">Language</span><span class="p">:</span> <span class="n">en</span><span class="o">-</span><span class="n">US</span><span class="p">,</span><span class="n">en</span><span class="p">;</span><span class="n">q</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span><span class="n">ru</span><span class="p">;</span><span class="n">q</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">es</span><span class="p">;</span><span class="n">q</span><span class="o">=</span><span class="mf">0.7</span>
-</code></pre></div><p><img src="images/http-request.png" alt="http-request"></p>
-<h2 id="network-architecture">Network Architecture</h2>
+</code></pre></div><h2 id="network-architecture">Network Architecture</h2>
 <p>There is a nice family of Jack and Mary. They like pears 🍐 so let&rsquo;s mark their realm with one. The like this website and use it pretty often (grapes realm 🍇). But since these realms are quite far from each other, they can only communicate over some intermediary networks (network A ruled by <code>Router A</code> and network B ruled by <code>Router B</code>).</p>
 <p>Let&rsquo;s just asume that our PC with IP <code>192.168.1.70</code> and the website with IP <code>185.199.110.153</code> are on two different VLAN&rsquo;s that are connected via three routers and let&rsquo;s also assume our PC had to acquire MAC itseld. What would happen? Here is our current network architecture:</p>
 <p><img src="images/network-architecture.png" alt="network-architecture"></p>
 <p>Green arrows and green names with IP addresses (🍐 realm) is Mary&rsquo;s and Jack&rsquo;s home network. You can see lots of devices connected. Mary wants to connect to <code>bakerst221b.com</code>  using her laptop. Her requests will go to the <code>Jack's and Mary's Router</code>, then to the <code>Router A</code>, then <code>Router B</code> and get to <code>Bakerst221b.com's Router</code>. The latter will then forward the request to <code>bakerst221b.com</code>. So the route is 🍐 -&gt; 🍊 -&gt; 🍇. The response will go the same route but reversed (🍇 -&gt; 🍊 -&gt; 🍐).</p>
+<p>Let&rsquo;s see this work in more details using an example. One sunny day Mary decides to visit <code>bakerst221b.com</code> and check it for updates. She opens her laptop and opens a web browser. Then she types in the address bar <code>https://bakerst221b.com</code> and hits <code>Enter</code>. Her laptop is not panicking. It knows what to do. It needs to pack the following parcel:</p>
+<p><img src="images/http-request.png" alt="http-request"></p>
+<p><code>XXX</code> in red stand for some data that the PC 🖥️ doesn&rsquo;t know at the moment:</p>
+<ul>
+<li><code>bakerst221b.com</code>'s IP address</li>
+<li><code>bakerst221b.com</code>'s port number</li>
+<li>Its own port number that it will use to send the request (it was not assigned yet)</li>
+<li><code>bakerst221b.com</code>'s MAC address</li>
+</ul>
+<p>It sends two separate request to fill in the fields in question.</p>
 <h2 id="step-1-get-the-ip-address">Step 1. Get the IP address</h2>
-<p>One sunny day Mary decides to visit <code>bakerst221b.com</code> and check it for updates. She opens her laptop and opens a web browser. Then she types in the address bar <code>https://bakerst221b.com</code> and hits <code>Enter</code>. Her laptop is not panicking. It knows what to do. It needs to pack the following parcel:</p>
-<p>Using DNS protocol (standart way of asking &ldquo;Whose IP is that?&quot;) it finds out the IP address of <code>bakerst221b.com</code>. As it turns out, 🖥️ first tries doing this over IPv6 (red square) and fails. Two requests: for A and AAAA records (see <a href="#">DNS article</a>) to get both IPv4 and IPv6 addresses for <code>bakerst221b.com</code>. For both requests it (computer 🖥️ got a <code>Refused</code> response). After that it tries to ask over IPv4 for the same both records (A and AAAA) and get the addresses:</p>
+<p>Using DNS protocol her PC asks the following:</p>
+<blockquote>
+<p>💻 ​ &ldquo;I have a human readable garbage (<code>bakerst221b.com</code>), I need a hardcore machine equivalent (IP address). Does anyone know who the heck <code>bakerst221b.com</code> is?&rdquo;.</p>
+</blockquote>
+<p>&ndash; Whom is it asking?</p>
+<p>&ndash; A DNS server.</p>
+<p>&ndash; Where is it?</p>
+<p>&ndash; Her internet provider has it.</p>
+<p>&ndash; Does Internet Provider&rsquo;s DNS server has all the domain names?</p>
+<p>&ndash; Of course not. It would blow up. It asks its fellow DNS buddies until the right one is found.</p>
+<p>As it turns out,  Mary&rsquo;s laptop first tries doing this over IPv6 (red square) and fails. Two requests: for A and AAAA records (see <a href="#">DNS article</a>) to get both IPv4 and IPv6 addresses for <code>bakerst221b.com</code>. For both requests itgot a <code>Refused</code> response - I don&rsquo;t understand the whole internals of this, but guess IPv6 connection is not supported for my hosting server 💡 .</p>
+<p>Then it tries to ask over IPv4 for the same both records (A and AAAA) and gets the addresses it needed (purple square):</p>
 <p>![Screenshot 2020-11-29 at 6.27.07 PM](images/Screenshot 2020-11-29 at 6.27.07 PM.png)</p>
-<p>Since there are no IPv6 addresses assigned, 🖥️ PC only needs the response for A record. Actually, there are 4 IPv4 addresses that <code>bakerst221b.com</code> uses. Ok, not that 🖥️ gets its IPs, he can finally sign his first envelope (the IP header). But there are also transport and datalink layers.</p>
+<p>Since there are no IPv6 addresses assigned, 🖥️ PC only needs the response for A record. Actually, there are 4 IPv4 addresses that <code>bakerst221b.com</code> uses. Ok, not that 🖥️ gets its IPs, he can finally sign his first envelope (the IP header). But there are also transport and datalink layers&hellip;. His parcel now looks like this (see the outer envelope ✉  <code>To</code> field filled in):</p>
+<p><img src="images/http-request2.png" alt="http-request2"></p>
 <h2 id="step-2-get-the-mac-address">Step 2. Get the MAC address</h2>
 <p>As for Data Link layer, it&rsquo;s a tricky one. The 🖥️ itself doesn&rsquo;t do that dirty job. It just puts its router&rsquo;s MAC address, knowing that the router will know what to do. Let see, what that little chap is doing. To determine MAC address (to sign the second envelope with MAC addresses) the router sends an ARP request. The below is ARP request</p>
 <p>![Screenshot 2020-11-29 at 7.17.15 PM](images/Screenshot 2020-11-29 at 7.17.15 PM.png)</p>
