@@ -163,7 +163,20 @@
    <a href="/docs/articles/fundamentals/network/protocols/osi/"> Back to OSI model Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#analogy">Analogy</a></li>
+    <li><a href="#get-a-microscope">Get a microscope</a></li>
+    <li><a href="#getting-hands-dirty">Getting hands dirty</a>
+      <ul>
+        <li><a href="#mac-flooding">MAC flooding</a></li>
+        <li><a href="#span-port">Span port</a></li>
+        <li><a href="#arp-poisoning">ARP poisoning</a></li>
+        <li><a href="#mac-spoofing">MAC spoofing</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -221,6 +234,30 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>This article is about ARP protocol. It&rsquo;s used to map IP addresses to physical (MAC) addresses. Devices usually keep an ARP cache not to send ARP request continuously. Also there are certain attacks on ARP that exploit its internals.</em></p>
+<h2 id="analogy">Analogy</h2>
+<p>If we were to compare a device to a human body, we could say that CPU is a brain, battery power is a heart, camera is an eye and NIC is a mouth. What&rsquo;s a NIC? It stands for (Network Interface Controller) and each device which was designed to connect to the Internet is supposed to have one. This device inside a device is responsible for establishing connection to other devices. It has MAC (Media Access Control) which is basically six groups of two hexadecimal digits and is assigned to each NIC during manufacturing. This address is the heart of Ethernet II (Data link layer of TCP/IP stack).</p>
+<p>To get a packet to another computer one needs to know the following things:</p>
+<ul>
+<li>IP address (its own and the recipient&rsquo;s)</li>
+<li>MAC address (its own and the recipient&rsquo;s)</li>
+<li>TCP or UDP port number (its own and the recipient&rsquo;s)</li>
+<li>Data to send</li>
+</ul>
+<p>While IP, port and data is out of the intended scope of this article, I&rsquo;ll leave it unexplained here (see corresponding articles in the section and also an overview of TCP/IP stack). For now I am devotin my full attention to MAC addresses and how PCs get them when composing a packet for another PC.</p>
+<h2 id="get-a-microscope">Get a microscope</h2>
+<p>Devices that talk in terms of MACs are: hubs, repeaters and switches. The thing you have at home to access the internet is most likely not a switch, but a router (which works on higher levels).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">arp -a 
+arp -d 
+netdiscover
+</code></pre></div><h2 id="getting-hands-dirty">Getting hands dirty</h2>
+<h3 id="mac-flooding">MAC flooding</h3>
+<h3 id="span-port">Span port</h3>
+<p>Everytime you receive messages fir these ports (say 1 to 10), also send them to the span port 25. But to turn it on, you need an access to switch&rsquo;s config. Moreover, some switches are made in a way not to let span port talk, only listen. It&rsquo;s a useful option for admins (basically turning a switch into some sort of lame hub).</p>
+<h3 id="arp-poisoning">ARP poisoning</h3>
+<p>ARP poisoning aka ARP spoofing is an attacking technique when a hacker broadcasts their MAC address and other devices write this into their ARP cache. Since ARP cache is not persistent, in order to keep their spoofed MAC in the devices&rsquo; caches, one would need to send this broadcast continuously.</p>
+<p>Why is this useful? Well, in a simple world (simple for hackers), every network device would be a hub. Hubs simply don&rsquo;t care. But switches are very meticulous, they are checking the destination MAC address before relaying the packet. To overcome this, an attacker needs such attack.</p>
+<p><em>#todo: more</em></p>
+<h3 id="mac-spoofing">MAC spoofing</h3>
 
   </div>
 </article>
