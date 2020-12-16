@@ -345,9 +345,87 @@ B - block ?
 </li>
 <li>
 <p>checking files. Searching for files that had the metadata changed withing the last 5 days: <code>find / -type f -newermt 2019-10-04</code> or <code>find / -type f -newerct 2019-10-04</code>. Failed logins: <code>/var/log/faillog</code>, <code>/var/www/html/jabc/scripts</code>, <code>/var/www/html/jabc/scripts/update.php</code>, <code>/etc/gshadow</code>, <code>/etc/group</code> etc. Home dirs of suspicious users.</p>
-<p>![Screenshot 2020-12-15 at 1.28.57 PM](images/Screenshot 2020-12-15 at 1.28.57 PM.png)</p>
 </li>
 </ol>
+<p>![Screenshot 2020-12-15 at 1.28.57 PM](images/Screenshot 2020-12-15 at 1.28.57 PM.png)</p>
+<ol start="5">
+<li>Checking user bash history (<code>.bashrc_history</code> ) <code>.bashrc</code> for certain commands and the order of exe.</li>
+</ol>
+<p>![Screenshot 2020-12-16 at 10.17.42 PM](images/Screenshot 2020-12-16 at 10.17.42 PM.png)</p>
+<ol start="6">
+<li>Suspicious directories. <code>sudo debugfs -R 'stat &lt;1835263&gt;' /dev..</code>, <code>ls -lhat /usr/php</code>.</li>
+</ol>
+<p>![Screenshot 2020-12-16 at 10.22.29 PM](images/Screenshot 2020-12-16 at 10.22.29 PM.png)</p>
+<ol start="7">
+<li>
+<p>Last logged in users:</p>
+<ol>
+<li><code>last</code>, <code>w</code>, <code>lastlog</code>, <code>sudo last -f /var/log/wtmp</code>, <code>sudo last -f /var/log/btmp</code> (failed logins).</li>
+<li>dump <code>wtmp</code>:</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo debugfs /dev/..
+debugfs &gt; <span class="nb">cd</span> /var/log/
+debugfs &gt; ls
+debugfs &gt; imap &lt;524275&gt;
+debugfs &gt; dump_inode wtmp /media/extdrv/case/wtmp.dump
+   
+strings wtmp.dump
+</code></pre></div><ol start="8">
+<li><code>sudo cat /var/log/auth.log</code> showed failed attempts to bruteforce root password. Then:</li>
+</ol>
+<p>![Screenshot 2020-12-16 at 10.35.52 PM](images/Screenshot 2020-12-16 at 10.35.52 PM.png)</p>
+</li>
+</ol>
+<blockquote>
+<p>The /<strong>etc</strong>/<strong>skel</strong> directory contains <strong>files</strong> and directories that are automatically copied over to a new user&rsquo;s when it is created from useradd command. This will ensure that all the users gets same intial settings and environment.</p>
+</blockquote>
+<p>​		![Screenshot 2020-12-16 at 10.40.17 PM](images/Screenshot 2020-12-16 at 10.40.17 PM.png)</p>
+<ol start="8">
+<li>Examine <code>error.log</code> of Apache server for IPs that was spotted before:</li>
+</ol>
+<p>![Screenshot 2020-12-16 at 10.42.32 PM](images/Screenshot 2020-12-16 at 10.42.32 PM.png)</p>
+<ol start="9">
+<li>Checking Apache <code>access.log</code></li>
+</ol>
+<p>![Screenshot 2020-12-16 at 10.45.41 PM](images/Screenshot 2020-12-16 at 10.45.41 PM.png)</p>
+<p>decoded payload</p>
+<p>![Screenshot 2020-12-16 at 10.51.09 PM](images/Screenshot 2020-12-16 at 10.51.09 PM.png)</p>
+<p>And there was revealed that <code>/jabs/scripts/update.php</code> was actually a webshell:</p>
+<p>![Screenshot 2020-12-16 at 10.52.04 PM](images/Screenshot 2020-12-16 at 10.52.04 PM.png)</p>
+<p>Lots of files were deleted from <code>/tmp</code> folder. Except for only <code>apache-xTRhUVX</code>.</p>
+<p>Getting deleted files back:</p>
+<p><code>sudo debugfs -R 'dump &lt;8&gt; ./journal' /dev/</code> and then <code>sudo ext4magic -a DATE -b DATE -j ./journal -m -d output/ </code></p>
+<p>![Screenshot 2020-12-16 at 10.55.57 PM](images/Screenshot 2020-12-16 at 10.55.57 PM.png)</p>
+<p>![Screenshot 2020-12-16 at 10.59.12 PM](images/Screenshot 2020-12-16 at 10.59.12 PM.png)</p>
+<p>![Screenshot 2020-12-16 at 11.01.32 PM](images/Screenshot 2020-12-16 at 11.01.32 PM.png)</p>
+<p>Use Timeline explorer.</p>
+<h2 id="case-3-kali-linux-user-profiling">Case 3. Kali Linux User Profiling</h2>
+<blockquote>
+<p>IP theft and Kali Linux is a suspect. Has the user exfiltrated pictures or documents?</p>
+</blockquote>
+<p>Can look for info in xdg directories:</p>
+<ul>
+<li>~/.cache ($XDG_CACHE_HOME)</li>
+<li>~/.local/share ($XDG_DATA_HOME)</li>
+<li>~/.config ($XDG_CONFIG_HOME)</li>
+</ul>
+<p>Can look for info in non-xdg dirs:</p>
+<ul>
+<li>~/.&lt;application_name&gt;</li>
+<li>~ (user home dir)</li>
+</ul>
+<p><code>cat .bash_history</code> and defaults in <code>./bashrc</code>. For Kali <code>~/.msf4/history</code> (doesn&rsquo;t log commands for the remote shell), <code>~/.nc_history</code> (created if <code>rlwrap </code> was used to run <code>nc</code>. Also <code>~/.viminfo</code>: cmd history, string search history, input-line history, contents of non-empty regs, marks for several files, file marks pointing to locs in files, last search/sub pattern for &lsquo;n&rsquo; or &lsquo;&amp;&rsquo;, buffer list, global vars. <code>~/.cache/sessions</code> - by xfce-session and only if sessions are saved: list of open progs that were saved from last session (when the user last logged out) for recent Kalis. Xfce-session-[hostname]:0 and <code>.bak</code> - prev version of it. Client - prog or windows that needs to be opened. At the end of the file the amount of progs that are to be run and last time this session was last saved (not opened by user ). XFWM - xfce window manager.</p>
+<p>xfwm4-[xfwm-GUID-for-session].state - saves position for all opened windows. WINDOW_ROLE. URI - the path to the file</p>
+<p><code>~/.xsessions-errors</code> - logs all errors, starts with session start date, includes user intial env variables. Useful to see what progs were run through GUI:</p>
+<p>![Screenshot 2020-12-16 at 11.32.15 PM](images/Screenshot 2020-12-16 at 11.32.15 PM.png)</p>
+<p><code>~/.cache/thumbnails</code> - generated when viewing dirs with pics, docs, videos etc. what&rsquo;s thumbnailed depends on systems installed thumbnailers and configs. Run <code>debugfs</code> against thumbnails to see the files&rsquo; first view date.</p>
+<p>Thumbnail actually creates a jpeg text keys to store some data (URI to the file thumbnailed and modified time).</p>
+<p>Xfce uses Thunar as its file explorer. Thunar uses Tumbler as its thumbnails. Its configs are here: $XDG_CONFIG_DIRS/tumbler/tumbler.rc (default $XDG_CONFIG_DIRS=/etc/xdg) and  $XDG_CONFIG_HOME/tumbler/tumbler.rc (by default $XDG_CONFIG_HOME=~/.config) and /usr/share/thumbnailers.</p>
+<p>Examples:</p>
+<p>![Screenshot 2020-12-16 at 11.43.40 PM](images/Screenshot 2020-12-16 at 11.43.40 PM.png)</p>
+<p>![Screenshot 2020-12-16 at 11.43.59 PM](images/Screenshot 2020-12-16 at 11.43.59 PM.png)</p>
+<p><code>~/.local/share/recently-used.xbel</code> - shows recently opened documents, what app was used to open them, configs in $XDG_CONFIG_DIRS/gtk-3.0/settings.ini.</p>
+<p>![Screenshot 2020-12-16 at 11.46.41 PM](images/Screenshot 2020-12-16 at 11.46.41 PM.png)</p>
 
   </div>
 </article>
