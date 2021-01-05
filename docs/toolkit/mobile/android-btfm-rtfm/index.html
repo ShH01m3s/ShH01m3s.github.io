@@ -304,7 +304,7 @@ adb backup -f mybackup.ab -apk <span class="c1"># for one app</span>
 java -jar <span class="o">[</span>path_to_abe.jar<span class="o">]</span>/abe.jar mybackup.tar mybackup.ab <span class="o">[</span>password_optional<span class="o">]</span> <span class="c1"># win</span>
 
 dd <span class="k">if</span><span class="o">=</span>backup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">1</span> <span class="nv">skip</span><span class="o">=</span><span class="m">24</span> <span class="p">|</span> python -c <span class="s2">&#34;import zlib,sys;sys.stdout.write(zlib.decompress(sys.stdin.read()))&#34;</span> &gt; backup.tar <span class="c1"># linux option1</span>
-dd <span class="k">if</span><span class="o">=</span>mybackup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">24</span> <span class="nv">skip</span><span class="o">=</span>1<span class="p">|</span>openssl zlib -d &gt; mybackup.tar <span class="c1"># linux option1</span> 
+dd <span class="k">if</span><span class="o">=</span>mybackup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">24</span> <span class="nv">skip</span><span class="o">=</span>1<span class="p">|</span>openssl zlib -d &gt; mybackup.tar <span class="c1"># linux option1 </span>
 </code></pre></div><p><a href="https://github.com/nelenkov/android-backup-extractor">abe.jar</a></p>
 <h2 id="debugging">Debugging</h2>
 <h3 id="jdb">JDB</h3>
@@ -322,12 +322,12 @@ jdb -attach localhost:12345 //не проверялось <span class="c1">#linu
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
 su
 <span class="nb">cd</span> /sbin
-<span class="c1"># to use frida over USB</span> 
+<span class="c1"># to use frida over USB </span>
 ./frida
 <span class="c1"># to use frida over WiFi</span>
 ./frida -l <span class="o">[</span>device_ip<span class="o">]</span>
 </code></pre></div><h3 id="trace">Trace</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-trace -U -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over USB</span> 
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-trace -U -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over USB </span>
 
 frida-trace -H <span class="o">[</span>mobile phone IP<span class="o">]</span> -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over WiFi</span>
 

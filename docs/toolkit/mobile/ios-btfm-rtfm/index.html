@@ -270,7 +270,7 @@ ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial
 idevice_id -l <span class="c1"># get UDID with ideviceinstaller</span>
 
 <span class="c1"># option 3</span>
-system_profiler SPUSBDataType <span class="p">|</span> sed -n -e <span class="s1">&#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39;</span> <span class="p">|</span> grep <span class="s2">&#34;Serial Number:&#34;</span> # 
+system_profiler SPUSBDataType <span class="p">|</span> sed -n -e <span class="s1">&#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39;</span> <span class="p">|</span> grep <span class="s2">&#34;Serial Number:&#34;</span> <span class="c1"># </span>
 
 <span class="c1"># option 4</span>
 instruments -s devices
@@ -433,7 +433,7 @@ ipainstaller App_name.ipa
 brew install ios-deploy <span class="c1"># install the tool</span>
 unzip <span class="o">[</span>app_name<span class="o">]</span>.ipa
 ios-deploy --bundle <span class="s1">&#39;Payload/[app_name].ipa&#39;</span> -W -d -v
-ios-deploy --bundle <span class="s1">&#39;Payload/Name.app&#39;</span> -W -d -v -m <span class="c1"># debug the application</span> 
+ios-deploy --bundle <span class="s1">&#39;Payload/Name.app&#39;</span> -W -d -v -m <span class="c1"># debug the application </span>
 
 <span class="c1"># itms-services</span>
 itms-services://?action<span class="o">=</span>download-manifest<span class="p">&amp;</span><span class="nv">url</span><span class="o">=</span>https://s3-ap-southeast-1.amazonaws.com/test-uat/manifest.plist
@@ -449,7 +449,7 @@ grep -i UsageDescription Info.plist
 <span class="c1"># Custom URL schemes</span>
 grep -i CFBundleURLTypes Info.plist
 
-<span class="c1"># Exported/imported custom document types:</span> 
+<span class="c1"># Exported/imported custom document types: </span>
 grep -i UTExportedTypeDeclarations <span class="p">|</span> UTImportedTypeDeclarations Info.plist
 
 <span class="c1"># App Transport Security (ATS) configuration</span>
@@ -471,7 +471,7 @@ otool -hv <span class="o">[</span>appname<span class="o">]</span>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># on iDevice</span>
 ./frida-server -L 192.168.1.72 
 
-<span class="c1"># on PC</span> 
+<span class="c1"># on PC </span>
 frida-trace -U YourApp -m <span class="s2">&#34;*[NSURL* *HTTP*]&#34;</span> <span class="c1"># trace all functions starting with NSURL and with HTTP in their names</span>
 </code></pre></div><h3 id="objection">Objection</h3>
 <p>Inject objection to test applications on non-jailbroken devices:</p>

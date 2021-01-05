@@ -284,7 +284,7 @@ nth paddr      vaddr      len size section <span class="nb">type</span>  string
 <p>Basically, the idea is as follows (more detailed walkthrough&rsquo;s can be found in the articles mentioned above):</p>
 <ol>
 <li>find a vulnerable function (such that uses, for example, <code>puts</code> or <code>gets</code>)</li>
-<li>pass this function a ridiculously huge garbage-string where symbols&rsquo; sequences do not repeat (smart people say <em>De Bruijn Pattern</em>) so that given 4 symbols it&rsquo;s can be easily and unambiguously located within that garbage string</li>
+<li>pass this function a ridiculously huge garbage-string where symbols' sequences do not repeat (smart people say <em>De Bruijn Pattern</em>) so that given 4 symbols it&rsquo;s can be easily and unambiguously located within that garbage string</li>
 <li>this string will overwrite the stack and will most likely overwrite the return address. When the function get&rsquo;s the return address from the stack, it puts its value into <code>eip</code>. We get the <code>eip</code> value and ask <code>r2</code> with <code>wop0</code> command to locate the position of these symbols inside the garbage string</li>
 <li>Now we now the exact amount of garbage to pass the program in order to overwrite the <code>ret addr</code>.</li>
 </ol>
