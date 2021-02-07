@@ -167,24 +167,34 @@
   <ul>
     <li><a href="#debuggers">Debuggers</a>
       <ul>
-        <li><a href="#ollydbg-">OllyDbg 🌈</a></li>
-        <li><a href="#x64dbg-">x64dbg 🌈</a></li>
-        <li><a href="#radare2-----">radare2 🍏, 🐧, 🌈 , 📱</a></li>
-        <li><a href="#ida-prodocstoolkitgeneralreverse-toolkitstatic-code-analysis"><a href="/docs/toolkit/general/reverse-toolkit#Static-code-analysis">IDA Pro</a></a></li>
-        <li><a href="#hopper-disassemblerdocstoolkitgeneralreverse-toolkitstatic-code-analysis"><a href="/docs/toolkit/general/reverse-toolkit#Static-code-analysis">Hopper Disassembler</a></a></li>
+        <li><a href="#ollydbg">OllyDbg</a></li>
+        <li><a href="#x64dbg">x64dbg</a></li>
         <li><a href="#gdb">gdb</a></li>
+        <li><a href="#other">Other</a></li>
       </ul>
     </li>
     <li><a href="#static-code-analysis">Static code analysis</a>
       <ul>
-        <li><a href="#ida-pro---">IDA Pro 🍏, 🐧, 🌈</a></li>
-        <li><a href="#hopper-disassembler-">Hopper Disassembler 🍏</a></li>
-        <li><a href="#radare2docstoolkitgeneralreverse-toolkitdebuggers"><a href="/docs/toolkit/general/reverse-toolkit#Debuggers">radare2</a></a></li>
+        <li><a href="#ida-pro">IDA Pro</a></li>
+        <li><a href="#hopper-disassembler">Hopper Disassembler</a></li>
+        <li><a href="#radare2">radare2</a></li>
+        <li><a href="#other-1">Other</a></li>
       </ul>
     </li>
     <li><a href="#utilities">Utilities</a>
       <ul>
-        <li><a href="#rundll32dll-">rundll32.dll 🌈</a></li>
+        <li><a href="#rundll32dll">rundll32.dll</a></li>
+      </ul>
+    </li>
+    <li><a href="#pe-analysis">PE Analysis</a>
+      <ul>
+        <li><a href="#peview">PEView</a></li>
+        <li><a href="#dependency-walker">Dependency Walker</a></li>
+      </ul>
+    </li>
+    <li><a href="#activity-analysis">Activity Analysis</a>
+      <ul>
+        <li><a href="#procmon">Procmon</a></li>
       </ul>
     </li>
   </ul>
@@ -269,30 +279,92 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="debuggers">Debuggers</h2>
-<h3 id="ollydbg-">OllyDbg 🌈</h3>
+<h3 id="ollydbg">OllyDbg</h3>
 <p>One of the veterans.</p>
 <p><strong>Install</strong>:</p>
 <p><strong>Common commands</strong>:</p>
 <p><strong>Keywords</strong>:</p>
-<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit#Debuggers">x64dbg</a>, radare2</p>
-<h3 id="x64dbg-">x64dbg 🌈</h3>
-<h3 id="radare2-----">radare2 🍏, 🐧, 🌈 , 📱</h3>
-<p>Absoultely free that&rsquo;s why it&rsquo;s such a darling for many people. However its a command line tool with lots of commands to keep in mind which might make the analysis slower if you are not using it pretty oftern. Also, I am not sure whether they have some scripting functionality included. One of the advantages is that it has several additional tools in the package (like <code>rabin</code>). The main advantage is that it can be install on ANY platform (mobile phones or PCs, Macs, Windows, Linux). You can statically examine, for example, an ARM binary on a PC for free, but you need to install <code>radare</code> on some ARM device to debug it.</p>
-<p><strong>Keywords</strong>: multiplatform, debugging, free, static analysis</p>
-<h3 id="ida-prodocstoolkitgeneralreverse-toolkitstatic-code-analysis"><a href="/docs/toolkit/general/reverse-toolkit#Static-code-analysis">IDA Pro</a></h3>
-<h3 id="hopper-disassemblerdocstoolkitgeneralreverse-toolkitstatic-code-analysis"><a href="/docs/toolkit/general/reverse-toolkit#Static-code-analysis">Hopper Disassembler</a></h3>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#x64dbg">x64dbg</a>, <a href="/docs/toolkit/general/reverse-toolkit/#radare2">radare2</a></p>
+<p>**Possible issues: **</p>
+<h3 id="x64dbg">x64dbg</h3>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>:</p>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#x64dbg">x64dbg</a>, <a href="/docs/toolkit/general/reverse-toolkit/#radare2">radare2</a></p>
+<p><strong>Possible issues:</strong></p>
 <h3 id="gdb">gdb</h3>
+<p><strong>Host platforms</strong>: 🍏, 🐧, 🌈</p>
+<p><strong>Target platforms</strong>: 🍏, 🐧, 🌈, 📱</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: multiplatform, debugging, free, static analysis</p>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#x64dbg">x64dbg</a>, <a href="/docs/toolkit/general/reverse-toolkit/#radare2">radare2</a></p>
+<p><strong>Possible issues:</strong></p>
+<h3 id="other">Other</h3>
+<ul>
+<li><a href="/docs/toolkit/general/reverse-toolkit/#ida-pro">IDA Pro</a></li>
+<li>[Hopper Disassembler](/docs/toolkit/general/reverse-toolkit/#hopper disassembler)</li>
+</ul>
 <h2 id="static-code-analysis">Static code analysis</h2>
-<h3 id="ida-pro---">IDA Pro 🍏, 🐧, 🌈</h3>
+<h3 id="ida-pro">IDA Pro</h3>
+<p><strong>Host platforms</strong>: 🍏, 🐧, 🌈</p>
+<p><strong>Target platforms</strong>: 🍏, 🐧, 🌈, 📱</p>
 <p>One of the best static analysis tools. However, it might be too much functionality for a beginner. It also has a scripting engine, so you can run your own Python scripts or scripts written on Ida&rsquo;s proprietary language. ARM disassembling, hex rays (transforming the code to relatively human readable C++-like format) are available in the commercial version only.</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
 <p><strong>Keywords</strong>: scripting, code translation, multiplatform, debugging</p>
-<h3 id="hopper-disassembler-">Hopper Disassembler 🍏</h3>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#x64dbg">x64dbg</a>, <a href="/docs/toolkit/general/reverse-toolkit/#radare2">radare2</a>, [Hopper Disassembler](/docs/toolkit/general/reverse-toolkit/#Hopper Disassembler)</p>
+<p>**Possible issues: **</p>
+<h3 id="hopper-disassembler">Hopper Disassembler</h3>
+<p><strong>Host platforms</strong>: 🍏</p>
+<p><strong>Target platforms</strong>: 🍏, 🐧, 🌈, 📱</p>
 <p>Works on Mac. Has a limited functionality for 30 minutes for Demo version. You can reopen the file after 30 minutes, but nothing is saved. Available for about 10k rubles. But it&rsquo;s a life-time deal, which has all functionality (like hex rays analog - assembly translated into C++) included.</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
 <p><strong>Keywords</strong>: scripting, code translation, multiplatform, debugging</p>
-<h3 id="radare2docstoolkitgeneralreverse-toolkitdebuggers"><a href="/docs/toolkit/general/reverse-toolkit#Debuggers">radare2</a></h3>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#radare2">radare2</a>, <a href="/docs/toolkit/general/reverse-toolkit/#ida-pro">IDA Pro</a></p>
+<p><strong>Possible issues:</strong></p>
+<h3 id="radare2">radare2</h3>
+<p><strong>Host platforms</strong>: 🍏, 🐧, 🌈 ,📱</p>
+<p><strong>Target platforms</strong>: 🍏, 🐧, 🌈, 📱</p>
+<p>Absoultely free that&rsquo;s why it&rsquo;s such a darling for many people. However its a command line tool with lots of commands to keep in mind which might make the analysis slower if you are not using it pretty oftern. Also, I am not sure whether they have some scripting functionality included. One of the advantages is that it has several additional tools in the package (like <code>rabin</code>). The main advantage is that it can be install on ANY platform (mobile phones or PCs, Macs, Windows, Linux). You can statically examine, for example, an ARM binary on a PC for free, but you need to install <code>radare</code> on some ARM device to debug it.</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: multiplatform, debugging, free, static analysis</p>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#x64dbg">x64dbg</a>, <a href="/docs/toolkit/general/reverse-toolkit/#ollydbg">OllyDbg</a>, <a href="/docs/toolkit/general/reverse-toolkit/#ida-pro">IDA Pro</a>, <a href="/docs/toolkit/general/reverse-toolkit/#hopper-disassembler">Hopper Disassembler</a></p>
+<p><strong>Possible issues:</strong></p>
+<h3 id="other-1">Other</h3>
+<ul>
+<li><a href="/docs/toolkit/general/reverse-toolkit/#radare2">radare2</a></li>
+</ul>
 <h2 id="utilities">Utilities</h2>
-<h3 id="rundll32dll-">rundll32.dll 🌈</h3>
-<p><strong>Keywords</strong>: dll to exe, utility</p>
+<h3 id="rundll32dll">rundll32.dll</h3>
+<p><strong>Host platforms</strong>: 🌈</p>
+<p><strong>Target platforms</strong>:  🌈</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>: <code>rundll32 dllname.dll dllexportedfunction</code></p>
+<p><strong>Keywords</strong>: dll to exe, utility, wincmd</p>
+<p><strong>Analogues</strong>:</p>
+<p><strong>Possible issues:</strong></p>
+<h2 id="pe-analysis">PE Analysis</h2>
+<h3 id="peview">PEView</h3>
+<p><strong>Host platforms</strong>: 🌈</p>
+<p><strong>Target platforms</strong>:  🌈</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: dll to exe, utility, wincmd</p>
+<p><strong>Analogues</strong>:</p>
+<p><strong>Possible issues:</strong></p>
+<h3 id="dependency-walker">Dependency Walker</h3>
+<h2 id="activity-analysis">Activity Analysis</h2>
+<h3 id="procmon">Procmon</h3>
+<p><strong>Host platforms</strong>: 🌈</p>
+<p><strong>Target platforms</strong>:  🌈</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: dll to exe, utility, wincmd</p>
+<p><strong>Analogues</strong>:</p>
+<p><strong>Possible issues:</strong> Can miss driver activity of user-mode component talking to a rootkit via I/O controls, can miss some GUI calls (<code>SetWindowsHookEx</code>). Works inconsistently across Win versions, that&rsquo;s why network activity logs are anrealiable.</p>
 
   </div>
 </article>
