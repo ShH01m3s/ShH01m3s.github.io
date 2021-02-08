@@ -195,6 +195,9 @@
     <li><a href="#activity-analysis">Activity Analysis</a>
       <ul>
         <li><a href="#procmon">Procmon</a></li>
+        <li><a href="#process-explorer">Process Explorer</a></li>
+        <li><a href="#process-hacker">Process Hacker</a></li>
+        <li><a href="#regshot">RegShot</a></li>
       </ul>
     </li>
   </ul>
@@ -358,13 +361,42 @@
 <h3 id="dependency-walker">Dependency Walker</h3>
 <h2 id="activity-analysis">Activity Analysis</h2>
 <h3 id="procmon">Procmon</h3>
+<p>This tools captures almoust all Win API calls (see <strong>Possible issues</strong> below for exceptions) while being run. When using it, take advantage of the filter (separate menu). For example, choose <code>Operation</code> + condition <code>is</code> + API call <code>RegSetValue</code> + what to do then <code>include</code> will show all calls that are named eaxctly <code>RegSetValue</code>.</p>
+<p>There are also some additional filters by category (on the top menu bar): Registry, File system, Process Activity, Network turned on by default.</p>
 <p><strong>Host platforms</strong>: 🌈</p>
 <p><strong>Target platforms</strong>:  🌈</p>
 <p><strong>Install</strong>:</p>
 <p><strong>Common commands</strong>:</p>
-<p><strong>Keywords</strong>: dll to exe, utility, wincmd</p>
+<p><strong>Keywords</strong>: activity, winapi, logging</p>
 <p><strong>Analogues</strong>:</p>
 <p><strong>Possible issues:</strong> Can miss driver activity of user-mode component talking to a rootkit via I/O controls, can miss some GUI calls (<code>SetWindowsHookEx</code>). Works inconsistently across Win versions, that&rsquo;s why network activity logs are anrealiable.</p>
+<h3 id="process-explorer">Process Explorer</h3>
+<p>This is the tool to examine RAM (i.e. processes run at the moment). It also visualizes the parent-child relations (which program ran which). Services - pink 🐽, processes - blue 🐳, new processes - green 🌿, terminated - red 🍎. Green and red are temp and these highlights are removed shortly after the processes has started (green) or terminated (red). Can show all dls, that were loaded by the process. <code>Handles</code> window shows all files, mutexes, connections opened by this process. The <code>Verify</code> option that checks the developer (signed 🔑) checks the file on disk, not in memory. Therefore, if the malware uses process replacement, it will not be detected by Process Explorer, but in this case the code in memory and code on disk will differ. Using Strings Tab (Image vs Memory radio button) can help identifying this. Can run <a href="/docs/toolkit/general/reverse-toolkit/#dependency-walker">Dependency Walker</a> on a running process. Search for handle - <code>Find -&gt; Find Handle or Dll</code>.</p>
+<p><strong>Host platforms</strong>: 🌈</p>
+<p><strong>Target platforms</strong>:  🌈</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: activity, winapi</p>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#process-hacker">Process Hacker</a></p>
+<p><strong>Possible issues:</strong> Won&rsquo;t show rootkits and other malware that use hiding functionality. The <code>Verify</code> option that checks the developer (signed 🔑) checks the file on disk, not in memory. Therefore, if the malware uses process replacement, it will not be detected by Process Explorer, but in this case the code in memory and code on disk will differ.</p>
+<h3 id="process-hacker">Process Hacker</h3>
+<p>This is the tool to examine RAM (i.e. processes run at the moment). It also visualizes the parent-child relations (which program ran which).</p>
+<p><strong>Host platforms</strong>: 🌈</p>
+<p><strong>Target platforms</strong>:  🌈</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: activity, winapi</p>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#process-explorer">Process Explorer</a></p>
+<p><strong>Possible issues:</strong></p>
+<h3 id="regshot">RegShot</h3>
+<p>This is the tool to examine RAM (i.e. processes run at the moment). It also visualizes the parent-child relations (which program ran which).</p>
+<p><strong>Host platforms</strong>: 🌈</p>
+<p><strong>Target platforms</strong>:  🌈</p>
+<p><strong>Install</strong>:</p>
+<p><strong>Common commands</strong>:</p>
+<p><strong>Keywords</strong>: activity, winapi</p>
+<p><strong>Analogues</strong>: <a href="/docs/toolkit/general/reverse-toolkit/#process-explorer">Process Explorer</a></p>
+<p><strong>Possible issues:</strong></p>
 
   </div>
 </article>
