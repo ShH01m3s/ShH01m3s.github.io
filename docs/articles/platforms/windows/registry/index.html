@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Windows - Analyst</title>
+  <title>Important Registry Keys - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -160,9 +160,23 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/articles/platforms/"> Back to OS Fundamentals Section </a>
+   <a href="/docs/articles/platforms/windows/"> Back to Windows Section </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a>
+      <ul>
+        <li><a href="#top-level-hives">Top-level hives</a></li>
+        <li><a href="#data-types">Data types</a></li>
+        <li><a href="#tools">Tools</a></li>
+      </ul>
+    </li>
+    <li><a href="#heap">Heap</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -170,128 +184,81 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-
- 
- 
-
-<h1 class="title">Windows</h1> 
-
-<ul>
-
-<li class="post-item" style="margin-left: 12px";>
-
-
-</li>
-<li>
- 
-</li>
-</ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/windows/dns-cache/"> Dns Cache</a></h2> 
-<p><i>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</i>
-<ul>
-  <li>
-    
-  </li>
-</ul>
-</p>
-<br/>
-
-<ul>
-
-<li class="post-item" style="margin-left: 12px";>
-
-
-</li>
-<li>
- 
-</li>
-</ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/windows/registry/"> Important Registry Keys</a></h2> 
-<p><i>In this list I collect all the registry keys that I learned about or had experience with in the past and that are useful for forensics purposes (or may be not).</i>
-<ul>
-  <li>
-    
-  </li>
-</ul>
-</p>
-<br/>
-
-<ul>
-
-<li class="post-item" style="margin-left: 12px";>
-
-
-</li>
-<li>
- 
-</li>
-</ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/windows/local-authentication/"> Local Authentication</a></h2> 
-<p><i>This article is all about such scary terms as LSA, local authentication, SAM etc. Also, I&rsquo;ve tries to highlight the updates on the implementation for different Windows versions.</i>
-<ul>
-  <li>
-    
-    tags: 
-    
+<h1 class="title">Important Registry Keys</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
       
-      <a class="tag-link" href="/tags/lsa" rel="tag">#lsa</a>
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
       
-       , 
-      <a class="tag-link" href="/tags/auth" rel="tag">#auth</a>
+      <div class="article-category">doctype:
+          
+            
+              
+          <a class="platform-link" href="/doctype/list">list</a>
+          
+      </div> <br />
       
-    
-  </li>
-</ul>
-</p>
-<br/>
+      
+      
+      
+      <div class="article-category">
+          
+            
+              <i class="fab fa-windows"></i>          
+            
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/windows">windows</a>
+          
+      </div> <br />
+      
+      
 
-<ul>
-
-<li class="post-item" style="margin-left: 12px";>
-
-
-</li>
-<li>
- 
-</li>
-</ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/windows/pe-file/"> Pe File</a></h2> 
-<p><i></i>
-<ul>
-  <li>
-    
-  </li>
-</ul>
-</p>
-<br/>
-
-<ul>
-
-<li class="post-item" style="margin-left: 12px";>
+      
+    </div>
+  </header>
 
 
-</li>
-<li>
- 
-</li>
-</ul>
-<h2 class="title-summary"><a href="https://bakerst221b.com/docs/articles/platforms/windows/plan/"> Windows Forensics Plan</a></h2> 
-<p><i>Plan for Windows Forensics Done (Udemy watched, tools installed and used, conclusions made) is bolded:</i>
-<ul>
-  <li>
-    
-  </li>
-</ul>
-</p>
-<br/>
+  <div class="content" itemprop="articleBody">
+    <p><em>In this list I collect all the registry keys that I learned about or had experience with in the past and that are useful for forensics purposes (or may be not). I&rsquo;ve had an idea to log all the keys since Windows regisrty is not fully documented still, but I don&rsquo;t want to yet. May be after I retire. I will also add some interesting tips and manipulations with the registries or exploites. May contain errors.</em></p>
+<h2 id="intro">Intro</h2>
+<h3 id="top-level-hives">Top-level hives</h3>
+<p><code>HKLM</code> = <code>HKEY_LOCAL_MACHINE</code></p>
+<p><code>HKCR</code> = <code>HKEY_CLASSES_ROOT</code></p>
+<p><code>HKCU</code> = <code>HKEY_CURRENT_USER</code></p>
+<p><code>HKU</code> = <code>HKEY_USERS</code></p>
+<p><code>HKCC</code> = <code>HKEY_CURRENT_CONFIG</code></p>
+<h3 id="data-types">Data types</h3>
+<p><code>REG_SZ</code></p>
+<p><code>REG_EXPAND_SZ</code></p>
+<p><code>REG_BINARY</code></p>
+<p><code>REG_DWORD</code></p>
+<p><code>REG_LINK</code></p>
+<p><code>REG_MULTI_SZ</code></p>
+<h3 id="tools">Tools</h3>
+<p>RegRipper - links to toolkit</p>
+<p>RegShot</p>
+<p>regedit.exe</p>
+<h2 id="heap">Heap</h2>
+<p><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\RecentDoc\ComputerDescription</code> - systems this PC has recently talked to. Keywords: activity</p>
+<p><code>USB_STORE</code> - vendor name, type, unique id for all USBs ever used on PC.</p>
+<p><code>HKLM\Security\Policy\Secrets</code> - may contain RAS/VPN passwords, auto logon passwords and other sys passwords/keys. Also contains LSA secrets???</p>
 
-
-
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

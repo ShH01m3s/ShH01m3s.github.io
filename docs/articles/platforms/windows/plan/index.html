@@ -163,7 +163,15 @@
    <a href="/docs/articles/platforms/windows/"> Back to Windows Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#useful-commands">Useful commands</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#networking-api">Networking API</a></li>
+    <li><a href="#artifacts-list">Artifacts list</a></li>
+    <li><a href="#netbios">NetBIOS</a></li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -225,19 +233,70 @@
     <h1 id="plan-for-windows-forensics">Plan for Windows Forensics</h1>
 <p>Done (Udemy watched, tools installed and used, conclusions made) is <strong>bolded</strong>:</p>
 <ol>
-<li>
-<p>Prefetch</p>
-</li>
-<li>
-<p>LNK</p>
-</li>
-<li>
-<p>Shellbag</p>
-</li>
-<li>
-<p>Memory</p>
-</li>
+<li>Prefetch</li>
+<li>LNK</li>
+<li>Shellbag</li>
+<li>Memory</li>
 </ol>
+<h2 id="useful-commands">Useful commands</h2>
+<p>Potentially to BTFM or RTFM</p>
+<p><code>net user administrator /active:yes</code> - activate default admin or <code>lnsrmgr.msc</code> -&gt; enable.</p>
+<p><code>psexec -i -s cmd.exe</code> - escalate to System priviledges.</p>
+<p><code>pwdump7 -d &lt;path_to_protected_file&gt; &lt;where_to_copy&gt;</code></p>
+<h2 id="services">Services</h2>
+<p>Processes running in the background and sometimes have SYSTEM privileges. May not even be listed in Task Manager, but Autorun tool will probably show them.</p>
+<p>Types of services:</p>
+<ul>
+<li><code>WIN32_SHARE_PROCESS</code> -several instances of 1 service run within 1 process (code in dll) like <code>svchost.exe</code>.</li>
+<li><code>WIN32_OWN_PROCESS</code> - run as an independent process (code in exe).</li>
+<li><code>KERNEL_DRIV</code> - load in kernel</li>
+</ul>
+<p><code>se</code> - command for managing services on Windows machine. Example: <code>se gc &quot;VMware NAT service&quot;</code>.</p>
+<p><code>HKLM\SYSTEM\CurrentControlSet\Services\VMware...</code> ???</p>
+<h2 id="networking-api">Networking API</h2>
+<table>
+<thead>
+<tr>
+<th>client</th>
+<th>server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>socket(family, type, protocol)</code>. Creates a socket. Returns ID that is then passed to other functions.</td>
+<td><code>socket(family, type, protocol)</code>. Creates a socket. Returns ID that is then passed to other functions.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>bind(socket_id)</code>. Binds a socket to specific IP+port.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>listen(socket_id)</code>. Converts the socket to a passive one.  Kernel accepts connection to it now.</td>
+</tr>
+<tr>
+<td><code>connect()</code>. TCP handshake &mdash;&mdash;&mdash;&mdash;&ndash;&gt;</td>
+<td><code>accept(socket_id)</code>. Retrieve connection request and convert to a request??</td>
+</tr>
+<tr>
+<td></td>
+<td><code>recv()</code>. Receives data.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>send()</code>. Sends data.</td>
+</tr>
+<tr>
+<td><code>close()</code>. Closes connection.</td>
+<td><code>close()</code>. Closes connection.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="artifacts-list">Artifacts list</h2>
+<p><code>%SystemRoot%\NTDS\Ntds.dit</code> and <code>%SystemRoot%\System32\Ntds.dit</code> on domain controller contain lots of information.</p>
+<p><code>C:\Windows\System32\Config</code> - SAM</p>
+<p>Windows Prefetch. Can help in identifying malware initial infector. Used to speed the boot process and application startup by mounting the data and code accessed at startup and using it at subsequent startups.</p>
+<h2 id="netbios">NetBIOS</h2>
 
   </div>
 </article>
