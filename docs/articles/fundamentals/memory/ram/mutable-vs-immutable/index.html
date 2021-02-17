@@ -163,7 +163,15 @@
    <a href="/docs/articles/fundamentals/memory/ram/"> Back to RAM Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -181,6 +189,8 @@
       
       
       
+
+      
       
 
       
@@ -189,9 +199,44 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum
-de obside ut laniavit arbor palmis, cum quin. Rupes vetat videndo, armigerae
-crimen habet Priamum nec.</p>
+    <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">address</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">address</span>
+<span class="mi">4307917216</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+<span class="mi">5</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+<span class="mi">5</span>
+</code></pre></div><p>Similarly, regardless of whether you flag some <code>UITextField</code> as <em>Secure Text Entry</em> or not, it always returns data in the form of a <code>String</code> or <code>NSString</code>.</p>
+<p>On the other hand, using the overwritten data outside the compiler&rsquo;s scope (e.g., serializing it in a temp file) guarantees that it will be overwritten but obviously impacts performance and maintenance. You should try to overwrite critical objects with random data or content from non-critical objects. This will make it really difficult to construct scanners that can identify sensitive data on the basis of its management. This can be only done by low-level languages because the compilers and just-in-time virtual machines will ignore those operations for performance reasons if the optimization routines detect that the buffer is no longer used after being overwritten.</p>
+<p>Android:</p>
+<ul>
+<li>✅ <code>byte[]</code></li>
+<li>✅ <code>char[]</code></li>
+<li>🚫 <code>String</code></li>
+<li>🚫 <code>BigInteger</code></li>
+<li>⚠️ <code>StringBuffer</code> - mutable, but non-primitive. Use immutable types.</li>
+<li>⚠️ <code>StringBuilder</code> - mutable, but non-primitive. Use immutable types.</li>
+</ul>
+<p>iOS:</p>
+<ul>
+<li>✅ <code>int[]</code></li>
+<li>✅ <code>char[]</code></li>
+<li>🚫 <code>NSString</code></li>
+<li>🚫 <code>String</code></li>
+<li>🚫 non-collections even if claimed to be mutable</li>
+<li>✅ <code>Array</code> with <code>char</code> or <code>int</code></li>
+<li>✅ <code>Set</code> with <code>char</code> or <code>int</code></li>
+<li>✅ <code>Dictionary</code> with <code>char</code> or <code>int</code></li>
+</ul>
+<h3 id="references">References</h3>
+<p>Mutable vs immutable - <a href="https://freecontent.manning.com/mutable-and-immutable-objects/">https://freecontent.manning.com/mutable-and-immutable-objects/</a>.</p>
+<p><a href="https://stackoverflow.com/questions/52553910/how-to-get-value-from-an-address-in-python/52554027">https://stackoverflow.com/questions/52553910/how-to-get-value-from-an-address-in-python/52554027</a></p>
+<p><a href="https://stackify.com/python-garbage-collection/">https://stackify.com/python-garbage-collection/</a></p>
+<p><a href="https://books.nowsecure.com/secure-mobile-development/en/coding-practices/securely-store-sensitive-data-in-ram.html">https://books.nowsecure.com/secure-mobile-development/en/coding-practices/securely-store-sensitive-data-in-ram.html</a></p>
 
   </div>
 </article>
