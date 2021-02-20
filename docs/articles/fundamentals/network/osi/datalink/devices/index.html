@@ -163,7 +163,17 @@
    <a href="/docs/articles/fundamentals/network/osi/datalink/"> Back to Dala Link Layer Section </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#switch">Switch</a>
+      <ul>
+        <li><a href="#step-1-address-learning">Step 1 Address Learning</a></li>
+        <li><a href="#step-2-forwarding-and-filtering">Step 2 Forwarding and Filtering</a></li>
+        <li><a href="#step-3-loop-avoidance-optional">Step 3 Loop avoidance (optional)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -225,7 +235,27 @@
 
 
   <div class="content" itemprop="articleBody">
-    
+    <p><em>This article is about the network devices that operate on the Data Link layer.</em></p>
+<h2 id="switch">Switch</h2>
+<p>Unlike a <a href="/docs/articles/fundamentals/network/osi/physical/devices#hubs-and-repeaters">hub</a>, a switch diffirentiates between the packets and forwards the packets according to the MACs specified in the frame. Use ASIC&rsquo;s (Application Specific Integrated Curcuits). They are faster than routers, cause they don&rsquo;t analyse IP layer =&gt; 1 thing less to do, 1 second faster 😸. So they work at wire speed.</p>
+<p><strong>Types</strong>:</p>
+<ul>
+<li>Store &amp; Forward</li>
+<li>Cut-through</li>
+<li>Fragment free</li>
+</ul>
+<p><strong>Steps</strong>:</p>
+<ul>
+<li>Learn the addresses</li>
+<li>Forward and filter decisions</li>
+<li>Loop avoidance</li>
+</ul>
+<h3 id="step-1-address-learning">Step 1 Address Learning</h3>
+<h3 id="step-2-forwarding-and-filtering">Step 2 Forwarding and Filtering</h3>
+<p>The destination is known, forward to the correct port. If the destination is not known yet, find out and assing a port to that address.</p>
+<h3 id="step-3-loop-avoidance-optional">Step 3 Loop avoidance (optional)</h3>
+<p>For redundant switches (additional switches to provide redundancy in case one fails). STP (spanning tree protocol provides protection for such cases). STP finds redundant links and shuts them down.</p>
+
   </div>
 </article>
 </div>

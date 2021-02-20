@@ -169,6 +169,8 @@
     <li><a href="#ksecattraccessible">kSecAttrAccessible</a></li>
     <li><a href="#accesscontrolflags">AccessControlFlags</a></li>
     <li><a href="#security-concerns">Security concerns</a></li>
+    <li><a href="#sharing-keychain">Sharing KeyChain</a></li>
+    <li><a href="#touchid-and-secure-enclave">TouchID and Secure Enclave</a></li>
   </ul>
 </nav>
  </aside>
@@ -286,7 +288,7 @@
 </ol>
 <h2 id="security-concerns">Security concerns</h2>
 <p>Keychain is retained when application is uninstalled. So, it&rsquo;s generally a bad idea to store something very valuable there.</p>
-<p>As far as I understand, you can&rsquo;t just store any rubbish in Secure Enclave. It supports only 256</p>
+<p>As far as I understand, you can&rsquo;t just store any rubbish in Secure Enclave. It supports only 256-bit elliptic curve private keys.</p>
 <blockquote>
 <p><a href="https://developer.apple.com/documentation/security/ksecattrtokenidsecureenclave">https://developer.apple.com/documentation/security/ksecattrtokenidsecureenclave</a></p>
 <p>The only keychain items supported by the Secure Enclave are 256-bit elliptic curve private keys (those that have key type <a href="https://developer.apple.com/documentation/security/ksecattrkeytypeec"><code>kSecAttrKeyTypeEC</code></a>). Such keys must be generated directly on the Secure Enclave using the <a href="https://developer.apple.com/documentation/security/1395339-seckeygeneratepair"><code>SecKeyGeneratePair(_:_:_:)</code></a> function with the <a href="https://developer.apple.com/documentation/security/ksecattrtokenid"><code>kSecAttrTokenID</code></a> key set to <a href="https://developer.apple.com/documentation/security/ksecattrtokenidsecureenclave"><code>kSecAttrTokenIDSecureEnclave</code></a> in the parameters dictionary.</p>
@@ -332,6 +334,9 @@
 <p><code>kSecAccessControlPrivateKeyUsage</code></p>
 <p><code>kSecAccessControlTouchIDAny</code></p>
 <p><code>kSecAccessControlTouchIDCurrentSet</code></p>
+<h2 id="sharing-keychain">Sharing KeyChain</h2>
+<p>Sandboxing on iOS is accomplished via entitlements, but this sandboxing environment can be loosen a bit. The same developer can share KeyChain items and Shared Preferences with other applications. This does violate &ldquo;sandboxing&rdquo;, but this allows different applications share information, including credentials. As usual, there is always balancing between usability and security.</p>
+<h2 id="touchid-and-secure-enclave">TouchID and Secure Enclave</h2>
 
   </div>
 </article>

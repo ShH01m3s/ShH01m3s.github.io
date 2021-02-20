@@ -165,19 +165,13 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#questions">Questions</a></li>
-        <li><a href="#references">References</a></li>
-      </ul>
-    </li>
     <li><a href="#intro">Intro</a></li>
     <li><a href="#class-keys">Class keys</a></li>
     <li><a href="#boot-process">Boot process:</a></li>
     <li><a href="#filevault">FileVault</a></li>
     <li><a href="#touchid">TouchID</a></li>
-    <li><a href="#questions-1">Questions</a></li>
-    <li><a href="#references-1">References</a></li>
+    <li><a href="#questions">Questions</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -260,43 +254,30 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>The main idea behind the scenes is that applications or even OS itself doesn&rsquo;t know the keys. OS only sees Keychain, but the Security Enclave is separated. It&rsquo;s asked to decrypt the information and it does just that returning the decrypted information.</p>
-<ol>
-<li>T2 vs T1</li>
-<li>Security Enclave - coprocessor with a Keymanager</li>
-</ol>
-<p>Devices which have the SE:</p>
-<ul>
-<li>iPhone 5s (or later)</li>
-<li>iPad Air (or later)</li>
-<li>Mac computers that contain the T1 chip or the Apple T2 Security Chip</li>
-<li>Apple TV 4th generation (or later)</li>
-<li>Apple Watch Series 1 (or later)</li>
-<li>HomePod</li>
-</ul>
-<p>Let&rsquo;s observe this scheme from Apple website</p>
-<p><img src="images/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
-<p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
-<p>Boot process:</p>
-<ol>
-<li>Boot ROM is run like Big Bang</li>
-<li>Boot ROM creates a key
-<ol>
-<li>User&rsquo;s key + device&rsquo;s UID = ephemeral memory protection key</li>
-<li>Now, ephemeral memory protection key is used to protect Security Enclave&rsquo;s memory.</li>
-</ol>
-</li>
-</ol>
-<h3 id="questions">Questions</h3>
-<blockquote>
-<p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
-</blockquote>
-<h3 id="references">References</h3>
-<p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
+    <p><em>Applications or even OS itself doesn&rsquo;t know the keys that are protected by Secure Enclave. OS only sees Keychain, but the Security Enclave is separated. It&rsquo;s asked to decrypt the information and it does just that returning the decrypted information.</em></p>
 <h2 id="intro">Intro</h2>
+<p>When the device is manufactured, a 256-bit AES key is written to Secure Enclave. There is no API (neither software, nor hardware) is able to get it from there, used only by the processor’s hardware AES engine. This is called device&rsquo;s UID and it&rsquo;s unique for each device.</p>
+<p>Also, when user creates a passcode, it is turned into a cryptographic key and strengthened with the device’s UID.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">PBKDF2</span><span class="p">(</span><span class="n">user_pass_derived_crypto_key</span><span class="p">,</span> <span class="n">device_uid</span><span class="p">):</span>
+	<span class="n">aes_key</span> <span class="o">=</span> <span class="n">device_uid</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pseudorandom_func</span><span class="p">(</span><span class="n">aes</span><span class="p">,</span> <span class="n">aes_key</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">user_pass_derived_crypto_key</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">user_passcode</span> <span class="o">=</span> <span class="s2">&#34;secret&#34;</span>
+<span class="n">device_uid</span> <span class="o">=</span> <span class="s2">&#34;123456...0&#34;</span>
+
+<span class="n">user_pass_derived_crypto_key</span> <span class="o">=</span> <span class="n">crypto</span><span class="p">(</span><span class="n">user_passcode</span><span class="p">)</span>
+<span class="n">se_mem_key</span> <span class="o">=</span> <span class="n">PBKDF2</span><span class="p">(</span><span class="n">user_pass_derived_crypto_key</span><span class="p">,</span> <span class="n">device_uid</span><span class="p">)</span>
+</code></pre></div><p><code>se_mem_key</code> encrypts Secure Enclave&rsquo;s memory space.</p>
+<blockquote>
+<p>In iOS and iPadOS, files are encrypted with a key entangled with the Secure Enclave’s UID and an anti-replay nonce as they are written to the data volume. On A9 (and newer) SoCs, the anti-replay nonce uses entropy generated by the hardware random number generator. The anti-replay nonce support is rooted in a dedicated nonvolatile memory <a href="https://support.apple.com/guide/security/aside/sec3256b5f8c/1/web/1">integrated circuit (IC)</a>. In Mac computers with the Apple T2 Security Chip, the FileVault key hierarchy is similarly linked to the UID of the Secure Enclave. In devices with A12 (and newer) and S4 SoCs, the Secure Enclave is paired with a secure storage IC for anti-replay nonce storage. The secure storage IC is designed with immutable ROM code, a hardware random number generator, cryptography engines, and physical tamper detection. To read and update nonces, the Secure Enclave and storage IC employ a secure protocol that ensures exclusive access to the nonces.</p>
+</blockquote>
+<p><a href="https://support.apple.com/guide/security/dedicated-aes-engine-sec4ea70a303/1/web/1">https://support.apple.com/guide/security/dedicated-aes-engine-sec4ea70a303/1/web/1</a></p>
 <p>All this resembles the sad story of a businessman from <em>Eine Woche volle Samstage (1973)</em> by Paul Maar, when a man was so afraid of thieves that he hid the office key in a sock, the sock - in a boot, the boot in a wardrobe locked with a key, the key to the wardrobe hid in his table&rsquo;s drawer, and the key from the last had lost and by doing so arranged an unscheduled day-off for his employees. So is with the encryption on iOS devices:</p>
 <p><img src="images/device_encr_scheme.png" alt="device_encr_scheme"></p>
 <p>File contents&rsquo;s is encrypted with its key, which is stored in the metadata. The metadata is enctypted with file system key and wrapped in class key and all of it is finally protected by a alianz of user&rsquo;s passcode key and a hardware key. Wow. Let&rsquo;s dive a bit deeper, cause it all seems to be too messed up and confusing.</p>
+<p>User passcode if fed to RNG. It&rsquo;s also to entangled with UID.</p>
 <h2 id="class-keys">Class keys</h2>
 <p>Class key represent protection classes. Each one except of <strong>NSFileProtectionNone</strong></p>
 <p>are protected with the alianz of hardware key and user passcode key:</p>
@@ -326,10 +307,9 @@
 <p>Let&rsquo;s observe this scheme from Apple website</p>
 <p><img src="images/SEP_scheme_Apple.png" alt="SEP_scheme_Apple"></p>
 <p>Secure Enclave and Application Processor (the main CPU) have separate boot processes and even separate starting code (BootROM) and separate OS. SE has its own light-weight OS (based on L4-family microkernel). And even update process is isolated. With each boot an ephemeral memory protection key is created.</p>
-<p><a href="https://www.theiphonewiki.com/wiki/Bootrom">https://www.theiphonewiki.com/wiki/Bootrom</a></p>
 <h2 id="boot-process">Boot process:</h2>
 <ol>
-<li>Boot ROM is executed like the Big Bang, out of nowhere</li>
+<li>Boot ROM (<strong>R</strong>ead <strong>O</strong>nly <strong>M</strong>emory) is executed like the Big Bang, out of nowhere. It&rsquo;s called read-only because it can not be changes and therefore is hardware root of trust. It&rsquo;s implicitly trusted. So they say, you know, if you can&rsquo;t trust Boot ROM, whom can you trust then? Than would be a crazy world. Phew! 😅 It&rsquo;s such a relief that ROM can be ultimately trusted. It contains the Apple Root CA 🔖 public key 🔑.</li>
 <li>Boot ROM creates a key
 <ol>
 <li>User&rsquo;s key + device&rsquo;s UID = ephemeral memory protection key</li>
@@ -350,14 +330,16 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p><a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript/">http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript/</a></p>
-<h2 id="questions-1">Questions</h2>
+<h2 id="questions">Questions</h2>
 <blockquote>
 <p>But I don&rsquo;t enter the passcode at the very beginning. Where does SE get it from during the very first steps of its boot?</p>
 </blockquote>
-<h2 id="references-1">References</h2>
+<h2 id="references">References</h2>
 <p><a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage">https://mobile-security.gitbook.io/mobile-security-testing-guide/ios-testing-guide/0x06d-testing-data-storage</a></p>
 <p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
 <p><a href="https://www.youtube.com/watch?v=XhXIHVGCFFM">https://www.youtube.com/watch?v=XhXIHVGCFFM</a></p>
+<p><a href="https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web">https://support.apple.com/guide/security/secure-enclave-overview-sec59b0b31ff/web</a></p>
+<p><a href="https://www.theiphonewiki.com/wiki/Bootrom">https://www.theiphonewiki.com/wiki/Bootrom</a></p>
 
   </div>
 </article>
