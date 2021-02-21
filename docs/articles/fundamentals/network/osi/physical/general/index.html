@@ -267,9 +267,9 @@
 <li><strong>Signal reflection</strong>. Unterminated cable, imdence mismatch, too high band radius of the cable. Electrons are &ldquo;bouncing back&rdquo; when there is no resistor to absorb the voltage potential OR when there are several wires with different impedence.</li>
 </ol>
 <p>Below is the depiction of a cable that does not contain a resistor at the end:</p>
-<p>![Screenshot 2021-02-20 at 15.01.11](images/Screenshot 2021-02-20 at 15.01.11.png)</p>
+<p><img src="images/8.png" alt="Screenshot 2021-02-20 at 15.01.11"></p>
 <p>Below is the depiction of two cables with different impedence being connected:</p>
-<p>![Screenshot 2021-02-20 at 14.43.42](images/Screenshot 2021-02-20 at 14.43.42.png)</p>
+<p><img src="images/9.png" alt="Screenshot 2021-02-20 at 14.43.42"></p>
 <p>Expert Sniffer is the tool to detect runt and corrupted frames. Can of course also be examined with a hex editor.</p>
 <ul>
 <li>very short frames (typically less than 16-32 bytes),</li>
@@ -291,26 +291,26 @@
 <h2 id="early-collisions">Early Collisions</h2>
 <p>Let&rsquo;s imagine that two NICs (netword card of different PCs) want to talk to each other. The wire is idle at the moment. Both Bob 👨‍🎨 and Alice 🤸‍♀️ want to send something on the wire and ask the wire approximately the same moment:</p>
 <p><em>Hey, wire, are you busy?</em></p>
-<p>![Screenshot 2021-02-20 at 11.18.42](images/Screenshot 2021-02-20 at 11.18.42.png)</p>
+<p><img src="images/1.png" alt="Screenshot 2021-02-20 at 11.18.42"></p>
 <p>The wire is not busy and that&rsquo;s why it replies <em>I&rsquo;m free as a bird</em> to each one of them.</p>
-<p>![Screenshot 2021-02-20 at 11.19.07](images/Screenshot 2021-02-20 at 11.19.07.png)</p>
+<p><img src="images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
 <blockquote>
 <p>Why, by the way, the wire replies with such a precise time? 9.6 ms? The sole reason for the 9.6 microsecond interframe gap is to allow the station that last transmitted to cycle its circuitry from transmit mode to receive mode. Without the interframe gap, it is possible that a station would miss a frame that was destined for it because it had not yet cycled back into receive mode. From <a href="http://www.firewall.cx/networking-topics/ethernet/198-ethernet-interframe-spacing.html">firewall.cx</a>.</p>
 </blockquote>
 <p>Since both think that the wire is free (and so it actually is at the moment), both send some stream of bits (green ball).</p>
-<p>![Screenshot 2021-02-20 at 11.19.25](images/Screenshot 2021-02-20 at 11.19.25.png)</p>
+<p><img src="images/3.png" alt="Screenshot 2021-02-20 at 11.19.25"></p>
 <p>The balls are approaching each other&hellip;</p>
-<p>![Screenshot 2021-02-20 at 11.19.30](images/Screenshot 2021-02-20 at 11.19.30.png)</p>
+<p><img src="images/4.png" alt="Screenshot 2021-02-20 at 11.19.30"></p>
 <p>&hellip; and babam! 💥 When they meet, there appears an abnormal voltage  (collision). This interrupted frame is called <strong>Runt</strong>.</p>
-<p>![Screenshot 2021-02-20 at 11.19.37](images/Screenshot 2021-02-20 at 11.19.37.png)</p>
+<p><img src="images/5.png" alt="Screenshot 2021-02-20 at 11.19.37"></p>
 <p>This abnormal voltage then propagates back to both Bob 👨‍🎨 and Alice 🤸‍♀️.</p>
-<p>![Screenshot 2021-02-20 at 11.19.48](images/Screenshot 2021-02-20 at 11.19.48.png)</p>
+<p><img src="images/6.png" alt="Screenshot 2021-02-20 at 11.19.48"></p>
 <p>Their NICs both understand that there was a collision and therefore their data was not sent. Both of them send 32 bit jam and let. TBEBA (<strong>T</strong>runcated <strong>B</strong>inary <strong>E</strong>xponential <strong>B</strong>ackoff <strong>A</strong>lgo) takes it from there to determine the best time when to retry. All this takes at max 2-3 ms usually.</p>
 <p>This is a normal flow. But sometimes when the wire is longer that it should be or a malfunctioning adapter, for example, or there was some other reason (can&rsquo;t think for any), late collision can happen (this is very bad). A collision can be detected only if NIC&rsquo;s in transmit mode.</p>
 <h2 id="late-collisions">Late Collisions</h2>
 <p>For 10BASE5 thick Ethernet the recommended wire length is 500 meters. For 10BASE2 think Ethernet - 185 meters. A problem can happen if the wire is longer than that.</p>
 <p>Say, the collision took place very close to Alice 🤸‍♀️ and very far from Bob 👨‍🎨.</p>
-<p>![Screenshot 2021-02-20 at 12.12.57](images/Screenshot 2021-02-20 at 12.12.57.png)</p>
+<p><img src="images/7.png" alt="Screenshot 2021-02-20 at 12.12.57"></p>
 <p>As usual, as soon as the collision takes place, an abnormal voltage propagetes in both directions: to Alice 🤸‍♀️ and Bob 👨‍🎨. Alice sends jam bits upon detecting this collision as it should have, but Bob 👨‍🎨 is no longer listening. When Bob&rsquo;s NIC gets this signal, it doesn&rsquo;t understand what is that and does not resend the frame. Such collisions are only fixed on the upper layers, which can take 10-100 times as much.</p>
 <h2 id="explanations">Explanations</h2>
 <p><strong>the speed of light</strong> 🌞 ~ <code>300 000 000 m/sec</code></p>

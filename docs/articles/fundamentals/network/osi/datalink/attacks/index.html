@@ -265,7 +265,7 @@ monitor session <span class="m">1</span> destination interface fastethernet 0/24
 - destination port 
 </code></pre></div><p><strong>ARP poisoning</strong>. This attack poisons an ARP cache of a target machine. If attacker succeeds in overwriting an ARP entry for the default gateway with its own MAC, all traffic will be redirectied to the attacker.</p>
 <p>ARP cache is not the same as CAM table.</p>
-<p>![Screenshot 2021-02-16 at 11.35.40](images/Screenshot 2021-02-16 at 11.35.40.png)</p>
+<p><img src="images/1.png" alt="Screenshot 2021-02-16 at 11.35.40"></p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># flood Bob (192.168.1.4) with ARP replies stating that the attacker has 192.168.1.1</span>
 arpspoof -i eth0 -t 192.168.1.4 192.168.1.1
 <span class="c1"># ARP cache of 192.168.1.4 is now as follows: cc:cc:cc:cc:cc:cc = 192.168.1.1.</span>
