@@ -166,6 +166,7 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#sniffing">Sniffing</a></li>
+    <li><a href="#stp-mangling">STP-mangling</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -294,6 +295,14 @@ ifconfig wlan1 up
 <span class="c1"># or </span>
 ip link <span class="nb">set</span> wlan1 up
 </code></pre></div><p><strong>IRDR spoofing</strong>. Send spoofed ICMP Router Discover Protocol advertising GW (gateway) to start routing through for victims.</p>
+<h2 id="stp-mangling">STP-mangling</h2>
+<p>❓❓❓❓</p>
+<p>Attacker is elected as the new root bridge of the spanning tree:</p>
+<ol>
+<li>forge BPDUs (Bridge Protocol Data Unit) with high priority assuming to be the new root</li>
+<li>Broadcast STP Config/Topolgy Change ACK BPDUs to get his host elected as the new root bridge.</li>
+</ol>
+<p>Being the bridge root Eve can intercept all traffic.</p>
 <h2 id="references">References</h2>
 
   </div>

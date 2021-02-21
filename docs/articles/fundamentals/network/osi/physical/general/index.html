@@ -294,6 +294,9 @@
 <p>![Screenshot 2021-02-20 at 11.18.42](images/Screenshot 2021-02-20 at 11.18.42.png)</p>
 <p>The wire is not busy and that&rsquo;s why it replies <em>I&rsquo;m free as a bird</em> to each one of them.</p>
 <p>![Screenshot 2021-02-20 at 11.19.07](images/Screenshot 2021-02-20 at 11.19.07.png)</p>
+<blockquote>
+<p>Why, by the way, the wire replies with such a precise time? 9.6 ms? The sole reason for the 9.6 microsecond interframe gap is to allow the station that last transmitted to cycle its circuitry from transmit mode to receive mode. Without the interframe gap, it is possible that a station would miss a frame that was destined for it because it had not yet cycled back into receive mode. From <a href="http://www.firewall.cx/networking-topics/ethernet/198-ethernet-interframe-spacing.html">firewall.cx</a>.</p>
+</blockquote>
 <p>Since both think that the wire is free (and so it actually is at the moment), both send some stream of bits (green ball).</p>
 <p>![Screenshot 2021-02-20 at 11.19.25](images/Screenshot 2021-02-20 at 11.19.25.png)</p>
 <p>The balls are approaching each other&hellip;</p>
@@ -313,12 +316,14 @@
 <p><strong>the speed of light</strong> 🌞 ~ <code>300 000 000 m/sec</code></p>
 <p><strong>the speed of electrons in copper</strong> ~ 2/3 ~ <code>200 000 000 m/sec</code></p>
 <p>Ethernet operates on 10Mbps (<code>10 000 000 bit/sec</code>)</p>
-<p>the speed of electrons  / 10 Mbps = <code>20 m/bit</code> =&gt; one bit occupies approximately 20 meters. Therefore, the minimum size of the wire is <code>20 m/bit * 512 bit = 10240 m</code>.</p>
+<p>the speed of electrons  / 10 Mbps = <code>20 m/bit</code> =&gt; one bit occupies approximately 20 meters. One frame is at least 64 bytes (512 bits) in size. Therefore, the minimum size of the wire is <code>20 m/bit * 512 bit = 10240 m</code>.</p>
 <p>500 m/20 m/bit = is approximately 25 bits. We have a wire 500 m long. Suppose, a collision happended max close to Alice 🤸‍♀️, almoust 500 m far from Bob 👨‍🎨. At any given time (assuming, all of the wire is accupied with bits). So, it&rsquo;s fair to say that the 500 meter wire is approximately 25 bits. So, as we have assumed, our collision happened max close to Alice 🤸‍♀️. The time the abnormal voltage propagates back to Bob 👨‍🎨, it will have sent another 25 bits already, which is 50 bits in total. So, Bob 👨‍🎨 would have sent 50 bits in total before he detects the collision. The collision is considered <strong>late</strong>, if 512 bits have already been sent by one or both of the parties.</p>
 <p>Let&rsquo;s do the reverse math: <em>How long does the wire has to be to cause the late collision?</em></p>
 <p>Since max amount of bits transfered before the collision is considered &ldquo;late&rdquo; is 512 bits:</p>
 <p>500 m/20m/bits = 25 bits. X m / 20m/bits = 512 bits = &gt; x = 512 * 20 m/b = 5000 m.</p>
-<p>That hell too much. Why? Simple precautions.</p>
+<p>That hell too much. Why? Simple precautions?</p>
+<p>The first reason is that it is possible to extend that length with up to 4 repeaters before the IEEE 802.3 spec is violated. This means that the signal may have to travel through as much as 2500 metres of cable to reach Station B, or 5000 metres of cable round trip.</p>
+<p>The second reason is, yes, precautions. The specifications are twice as strict as needed, allowing ample room for errors 🤪.</p>
 <h2 id="troubleshooting-cheatsheet">Troubleshooting cheatsheet</h2>
 <p>For a COAXIAL Ethernet. This is taken from <a href="http://www.firewall.cx/networking-topics/ethernet/197-ethernet-troubleshooting.html">here</a>.</p>
 <p><em>Is a preamble (less than 8 bytes of AA or 55) visible at the very end of the frame?</em></p>
