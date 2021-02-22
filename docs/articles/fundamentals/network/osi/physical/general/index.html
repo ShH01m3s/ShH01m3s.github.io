@@ -172,8 +172,9 @@
     <li><a href="#troubleshooting-cheatsheet">Troubleshooting cheatsheet</a></li>
     <li><a href="#signal-encoding">Signal Encoding</a>
       <ul>
+        <li><a href="#rz">RZ</a></li>
         <li><a href="#npz-l">NPZ-L</a></li>
-        <li><a href="#nrzi">NRZI</a></li>
+        <li><a href="#nrz-i">NRZ-I</a></li>
         <li><a href="#bipolar-ami">Bipolar-AMI</a></li>
         <li><a href="#psedoternary">Psedoternary</a></li>
         <li><a href="#manchester">Manchester</a></li>
@@ -344,26 +345,52 @@
 <h2 id="signal-encoding">Signal Encoding</h2>
 <p>It&rsquo;s the format of voltage transmission. Defines how to encode bits as electrical signals. Some of them are differencial, some are not. <strong>Differential</strong> - when the bit&rsquo;s representation depends on the previous bit. Differential encoding schemes are good in the presence of the noise. Detecting a voltage transition is easier than assuring voltage maintains at a certain level. Bipolar AMI and Pseudoternary - alterations in <code>1</code>s provide extra sunc info for the receiver =&gt; long sequence can be distorted and clocks may drift, but <code>1</code>s each tells the receiver when the transition occur and help resync. But the problem&rsquo;s when lot&rsquo;s of <code>0</code>s follow.</p>
 <p>For example, lets send this value using different encoding schemes: <code>0 0 1 1 0 1 0 1</code>.</p>
+<h3 id="rz">RZ</h3>
+<p>RZ stands for <em>&ldquo;return to zero&rdquo;</em>.</p>
+<blockquote>
+<p>With RZ a &lsquo;0&rsquo; bit is represented by 0 volts whereas a &lsquo;1&rsquo; data bit is represented by +V volts for half the cycle and 0 volts for the second half of the cycle. This means that the average DC voltage is reduced to 1/4V plus there is the added benefit of there always being a voltage change even if there are a series of &lsquo;1&rsquo;s. Unfortunately, the efficiency of bandwidth usage decreases if there are a series of &lsquo;1&rsquo;s since now a &lsquo;1&rsquo; uses a whole cycle.</p>
+</blockquote>
 <h3 id="npz-l">NPZ-L</h3>
-<p>Non return to zero level.</p>
+<p>NPZ-L means <em>&ldquo;non return to zero level&rdquo;</em>. When a <code>1</code> is transmitted, higher voltage is detected and when a lower voltage is detected (zero volts) - means <code>0</code> is being transimitted. With this signal encoding scheme it is difficult to distinguish a series of <code>1</code>s or <code>0</code>s due to clock synchronisation issues. Since <code>0</code> is 0 voltage and <code>1</code> is uses a higher voltage the average voltage is 1/2 volts =&gt; high power output.</p>
+<blockquote>
+<p>In addition, the bandwidth is large i.e. from 0Hz to half the data rate because for every full signal wave, two bits of data can be transmitted (remember that with MPE the data rate equals the bit rate which is even more inefficient!) i.e. two bits of information are transmitted for every cycle (or hertz). ❓ After 50m of cable attenuation the signal amplitude may have been reduced to 100mV giving an induced noise tolerance of 100mV.</p>
+</blockquote>
+<p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
 <p><img src="images/10.png" alt="10"></p>
-<h3 id="nrzi">NRZI</h3>
-<p>Non return to zero invert. Each <code>1</code> is represented as a change in voltage level, while <code>0</code>s are representing with no voltage chaning.</p>
+<h3 id="nrz-i">NRZ-I</h3>
+<p>NRZ-I stands for <em>&ldquo;non return to zero invert&rdquo;</em>. Each <code>1</code> is represented as a change in voltage level (from 0 to +V or from +V to 0 volts, depending on the previous level), while <code>0</code>s are representing with no voltage change. Therefore, <code>1</code>s <em>invert</em> the voltage while <code>0</code>s do not.</p>
+<p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
 <p><img src="images/11.png" alt="11"></p>
 <h3 id="bipolar-ami">Bipolar-AMI</h3>
 <p>Zero is already encoded with no-line signal (moddle level <code>0</code> voltage). <code>1</code> - either <code>+</code> or <code>-</code>.</p>
+<p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
 <p><img src="images/12.png" alt="12"></p>
 <h3 id="psedoternary">Psedoternary</h3>
+<p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
 <p><img src="images/13.png" alt="13"></p>
 <h3 id="manchester">Manchester</h3>
-<p>Additional trnasition in the middle, which is cost but provides sync. Manchester encoding is used in all 10 Megabit per second Ethernets; for example, 10BASE2 Thin Ethernet, 10BASE5 Thick Ethernet and 10BASE-T Twisted-Pair Ethernet.</p>
+<p>Additional trnasition in the middle, which is cost but provides sync. Manchester encoding is used in all 10 Megabit per second Ethernets; for example, 10BASE2 Thin Ethernet, 10BASE5 Thick Ethernet and 10BASE-T Twisted-Pair Ethernet. <code>1</code>s are represented with a voltage change from low to high, while <code>0</code>s are represented with a voltage change from high 0.85v to low -0.85v.</p>
+<blockquote>
+<p>The master clock speed for Manchester encoding always matches the data speed and this determines the carrier signal frequency, so for 10Mbps Ethernet the carrier is 10MHz.</p>
+</blockquote>
+<p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
 <p><img src="images/14.png" alt="14"></p>
 <h3 id="differenctial-manchester">Differenctial Manchester</h3>
 <p>There&rsquo;s always a transition in the 1/2 of the interval. <code>0</code> - transition at the beginning if each interval, <code>1</code> - no transition at the beginning of each interval.</p>
+<p>If we divide all the chain of <code>0</code>s and <code>1</code>s into equal intervals and put each separate bit within the boundaries of each interval (see the green dashed vertical line on the picture), we would distinguish <code>0</code>s from <code>1</code>s when we detected transition at the very start of the interval. Whenever there is no transition at the very start of the interval and only in the middle - it&rsquo;s a <code>1</code>.</p>
+<blockquote>
+<p>A &lsquo;1&rsquo; bit is indicated by making the first half of the signal, equal to the last half of the previous bit&rsquo;s signal i.e. no transition at the start of the bit-time. A &lsquo;0&rsquo; bit is indicated by making the first half of the signal opposite to the last half of the previous bit&rsquo;s signal i.e. a zero bit is indicated by a transition at the beginning of the bit-time. In the middle of the bit-time there is always a transition, whether from high to low, or low to high. Each bit transmitted means a voltage change <em>always</em> occurs in the middle of the bit-time to ensure clock synchronisation. Token Ring uses DME and this is why a preamble is not required in Token Ring, compared to Ethernet which uses Manchester encoding.</p>
+</blockquote>
+<p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
 <p><img src="images/15.png" alt="15"></p>
+<blockquote>
+<p>❓ What&rsquo;s clock synchronisation?</p>
+</blockquote>
+<p>More about this and other encoding schemes <a href="http://www.mathcs.emory.edu/~cheung/Courses/455/Syllabus/2-physical/1-Others/Encoding.htm">here</a>.</p>
 <h2 id="refernces">Refernces</h2>
-<p>firewall.cx</p>
-<p><a href="https://www.youtube.com/watch?v=du_boiwX1yU">https://www.youtube.com/watch?v=du_boiwX1yU</a></p>
+<p>[1] firewall.cx</p>
+<p>[2] <a href="https://www.youtube.com/watch?v=du_boiwX1yU">https://www.youtube.com/watch?v=du_boiwX1yU</a></p>
+<p>[3] About signal encoding - <a href="http://www.mathcs.emory.edu/~cheung/Courses/455/Syllabus/2-physical/1-Others/Encoding.htm">http://www.mathcs.emory.edu/~cheung/Courses/455/Syllabus/2-physical/1-Others/Encoding.htm</a></p>
 
   </div>
 </article>
