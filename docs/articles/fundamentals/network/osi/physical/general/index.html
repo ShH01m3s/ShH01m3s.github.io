@@ -346,7 +346,7 @@
 <p>It&rsquo;s the format of voltage transmission. Defines how to encode bits as electrical signals. Some of them are differencial, some are not. <strong>Differential</strong> - when the bit&rsquo;s representation depends on the previous bit. Differential encoding schemes are good in the presence of the noise. Detecting a voltage transition is easier than assuring voltage maintains at a certain level. Bipolar AMI and Pseudoternary - alterations in <code>1</code>s provide extra sunc info for the receiver =&gt; long sequence can be distorted and clocks may drift, but <code>1</code>s each tells the receiver when the transition occur and help resync. But the problem&rsquo;s when lot&rsquo;s of <code>0</code>s follow.</p>
 <p>For example, lets send this value using different encoding schemes: <code>0 0 1 1 0 1 0 1</code>.</p>
 <h3 id="rz">RZ</h3>
-<p>RZ stands for <em>&ldquo;return to zero&rdquo;</em>.</p>
+<p>RZ stands for <em>&ldquo;return to zero&rdquo;</em>. No signal - <code>0</code>, signal - <code>1</code>.</p>
 <blockquote>
 <p>With RZ a &lsquo;0&rsquo; bit is represented by 0 volts whereas a &lsquo;1&rsquo; data bit is represented by +V volts for half the cycle and 0 volts for the second half of the cycle. This means that the average DC voltage is reduced to 1/4V plus there is the added benefit of there always being a voltage change even if there are a series of &lsquo;1&rsquo;s. Unfortunately, the efficiency of bandwidth usage decreases if there are a series of &lsquo;1&rsquo;s since now a &lsquo;1&rsquo; uses a whole cycle.</p>
 </blockquote>

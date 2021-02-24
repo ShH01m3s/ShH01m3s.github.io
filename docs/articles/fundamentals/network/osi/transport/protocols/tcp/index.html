@@ -165,7 +165,17 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#packer-structure">Packer structure</a></li>
+    <li><a href="#segment-structure">Segment structure</a>
+      <ul>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#source-port">Source Port</a></li>
+        <li><a href="#destination-port">Destination Port</a></li>
+        <li><a href="#sequence-number">Sequence number</a></li>
+        <li><a href="#acknowledgement-number">Acknowledgement number</a></li>
+      </ul>
+    </li>
+    <li><a href="#tcp-handshake">TCP handshake</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -207,6 +217,13 @@
       
 
       
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          <a class="platform-link" href="/tools/wireshark">wireshark</a>
+          
+      </div> <br />
+      
       
 
       
@@ -229,9 +246,34 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="packer-structure">Packer structure</h2>
-<p><img src="images/1.png" alt="Screenshot 2021-02-20 at 16.29.22"></p>
-<p>![photo_2021-02-20 16.32.07](images/photo_2021-02-20 16.32.07.jpeg)</p>
+    <p><em>This article collects the basics of TCP protocol. Its friend UDP (transport layer protocol as well) is faster but less reliable.</em></p>
+<h2 id="segment-structure">Segment structure</h2>
+<p><img src="images/1.png" alt="1"></p>
+<h3 id="intro">Intro</h3>
+<p>This part is probably the easiest one to explain. One PC can communicate with many other PC simultaneously. To precise, different applications on the same PC can communicate with their servers or other PCs at the same time. How&rsquo;s the NIC (network card of the PC) distinguishes between the packets? For example, the user is running <em>Instagram</em> 🌅 and <em>Facebook</em> at the same time. <em>Facebook</em> is reading feed from the server, while <em>Instagram</em> is posting a new photo.  Here is when the port numbers are needed (the same purpose that the switch and hubs and router have their ports). PC assigns <em>Instagram</em> to port 1 and <em>Facebook</em> to port 2.</p>
+<p><em>A few minutes have passed&hellip; ⏲️</em></p>
+<p>Both applications receive a response. But how to decide, which one goes to which application?</p>
+<p>The first message has <em>port 1</em> written on the envelope ✉, and the second - <em>port 2</em>. So, when the application sends a request, it is asssigned a port. Roughly speaking, this port identifies this application when the response is received.</p>
+<p>Some applications have their <em>&ldquo;favourite&rdquo;</em> ports, which are usually assigned to them (like, ssh is usually at <code>22</code>, and ftp <code>21</code>, and web <code>80</code> or <code>8080</code>). Even some malware 🕷️ might have prerferences. But whatever the preferences are, a user can usually change them. Below is an example of a packet with a TCP segment expanded and the source port (the first screenshot) and the destination port (the second screenshot) highlighted both in raw bytes (the lowest part of the window) and interpreted by Wireshark (the middle part).</p>
+<p>First, it&rsquo;s recommented to read about data structures. A very good book that I&rsquo;ve accidenatlly stumbled upon is Brian&rsquo;s Carrier <em>File System Forensic Analysis</em> (see the Amazon link [<a href="#references">3</a>]). In a word, computers only see an almoust endless sequence of <code>1</code>s and <code>0</code>s. A data structure difines how a PC interprets this or that sequence of <code>1</code>s or <code>0</code>s. If you tell the PC that <code>01000001</code> is an integer, it will leave it like this and if you open this file in hex you&rsquo;ll probably see <code>0x41</code>.  If you tell the PC that <code>01000001</code> is an ASCII letter, it will output <code>A</code>. If you, for example, feed it as a part of TCP header and tell that these are TCP flags, the PC will interpret these as <code>ECN-Echo</code> and <code>FIN</code> flags 🎏 set and etc (I hope you get the point). So, TCP header is just another data structure that tells the PC how it should interpret and use these particular sequence of bits (<code>1</code>s or <code>0</code>s).</p>
+<p>TCP is just one of the headers that you message ✉ sent over the network 🕸️ has to provide in order to be delievered. You can read about this in my article <a href="/docs/articles/fundamentals/network/osi/overview">here</a>. Its main purpose as pointed out above is to specify the port (i.e. application or process) that this message should be delievered to. Its secondary purpose it to ensure data integrity (more on that below). I&rsquo;ve marked the TCP header on the screenshot below with purple curly brackets. The upper curly bracket shows the TCP header after being enterpreted by Wireshark and the below one (highlighted in blue as well) - raw bytes (before being interpreted by Wireshark): <code>ea a3 01 bb 69 10 a9 e2 a0 71 33 51 50 10 0f ed 1e b9 00 00</code>. Yes, that&rsquo;s it, 20 bytes is the length of a TCP header (if an optional field <em>Options</em> is not filled out).</p>
+<p><img src="images/11.jpg" alt="11"></p>
+<h3 id="source-port">Source Port</h3>
+<p>The first two bytes are <code>eaa3</code>. These bytes are to be interpreted as a decimal value (<code>60067</code>) and stand for the source port. You can use a converter online (for example, <a href="https://www.rapidtables.com/convert/number/hex-to-decimal.html">here</a>).  Now check the <em>Source port:</em> field value (bytes as they were interpreted by Wireshark) on the screenshot below - <code>60067</code> as well! Amazing 🤩!</p>
+<p><img src="images/2.jpg" alt="2"></p>
+<p>Note, that on the lower part of the window there are some letters <code>t</code>, <code>q3QP</code> etc. They don&rsquo;t make sense, do they? Well, they should not. Wireshark attempts to interpret these bytes as ASCII characters (text). Since this is a TCP header and not text, the result is total garbage. You might ask why Wireshark is doing that? Well, the reason is probably because on other layers this is handy and was more difficult to turn it off for this field. Besides, who know, may there might be some covert channel there&hellip; . But I&rsquo;m getting off the topic here.</p>
+<h3 id="destination-port">Destination Port</h3>
+<p>Now, let&rsquo;s take the next 2 bytes: <code>01bb</code>. Let&rsquo;s use the same hex-to-decimal converter <a href="https://www.rapidtables.com/convert/number/hex-to-decimal.html">here</a> to figure oyt the value - <code>443</code>. Check against the Wireshark&rsquo;s interpretation below (value highlighted in yellow):</p>
+<p><img src="images/3.jpg" alt="3"></p>
+<p>Bingo 🎉  !</p>
+<h3 id="sequence-number">Sequence number</h3>
+<p>The next four bytes are a bit harder to explain, but I will try 😊. As the paragraph&rsquo;s title states, we are going to talk about a <em>sequence number</em>.</p>
+<h3 id="acknowledgement-number">Acknowledgement number</h3>
+<h2 id="tcp-handshake">TCP handshake</h2>
+<h2 id="references">References</h2>
+<p>[<a href="https://nmap.org/misc/split-handshake.pdf">1</a>] TCP split-handshake attack, pdf document</p>
+<p>[<a href="https://tools.ietf.org/html/rfc793">2</a>] RFC 793 about TCP protocol and TCP handshake</p>
+<p>[<a href="https://www.amazon.com/System-Forensic-Analysis-Brian-Carrier/dp/0321268172">3</a>] File System Forensic Analysis 1st Edition by <a href="https://www.amazon.com/Brian-Carrier/e/B001KDJ2KK/ref=dp_byline_cont_book_1">Brian Carrier</a> (Author)</p>
 
   </div>
 </article>
