@@ -175,6 +175,8 @@
       </ul>
     </li>
     <li><a href="#tcp-handshake">TCP handshake</a></li>
+    <li><a href="#exchanging--data">Exchanging  data</a></li>
+    <li><a href="#four-way-handshake">Four-way Handshake</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -267,9 +269,40 @@
 <p><img src="images/3.jpg" alt="3"></p>
 <p>Bingo 🎉  !</p>
 <h3 id="sequence-number">Sequence number</h3>
-<p>The next four bytes are a bit harder to explain, but I will try 😊. As the paragraph&rsquo;s title states, we are going to talk about a <em>sequence number</em>.</p>
+<p>The next four bytes are a bit harder to explain, but I will try 😊. As the paragraph&rsquo;s title states, we are going to talk about a <em>sequence number</em>.  Since TCP protocol was developed in order to ensure that no data is lost in transit, there must be a way to track parcels 📦. What can be easier than put a number on each package 📦.</p>
+<p>For example, Marge needs to send 10 packages to Homer. She numbers all packages from 1 to 10.</p>
+<p><img src="images/marge.png" alt="12"></p>
+<p>Now, let&rsquo;s assume the following option. Marge sends them in turn: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>5</code>  📦-&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦-<code>10</code>📦. <em>What happens if Homer receives them like this: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦-<code>10</code>📦</em> Well, Homer detects (hopefully 🙏 ) that the fifth packages 📦 is missing.</p>
+<p><img src="images/homer.png" alt="13"></p>
+<p>Everything is fine, until for some reason, packets come in the wrong order. Homer will have to wait until Marge stops talking and then check that there are no gaps. That&rsquo;s time-costy, it would be much better to able to detect missing packages before the connection is closed. But that not the only problem.</p>
+<p>Imagine, Homer receives these packages in the right order: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>5</code>  📦-&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦 . He didn&rsquo;t know that there were supposed to be 10 packages in total. He might notice the mistake if he then opens them all and finds something in the wrong state.</p>
+<p>The best solution to track packages 📦 and to detect errors 🛑 right away is for Marge to send a package along with the number of the next package. For example,  <code>1</code> 📦 (the next is <code>2</code>)-&gt; <code>2</code> 📦 (the next is <code>3</code>)-&gt; <code>3</code> 📦 (the next is <code>4</code>)-&gt; <code>4</code>📦 (the next is <code>5</code>) -&gt; <code>5</code>  📦 (the next is <code>6</code>)-&gt; <code>6</code> 📦 (the next is <code>7</code>)-&gt; <code>7</code> 📦(the next is <code>8</code>)-&gt; <code>8</code> 📦 (the next is <code>9</code>)-&gt; <code>9</code> 📦 (the next is <code>10</code>)-<code>10</code>📦 (it&rsquo;s the last).</p>
+<p>The problem with this is that these numbers are predictable and someone malicious might interfere and substitue a legitimate package 📦 with his/her package 🕷️📦. Consider this scenario:</p>
+<p><img src="images/14.png" alt="14"></p>
+<ol>
+<li>A pervert puppy 🐕  (don&rsquo;t judge the puppy) wants to get a picture of naked dogs from the server (arrow #1) and after establishing the connection, the server sends the first picture to the puppy with a sequence number 1.</li>
+<li>A genius hacker has been listening and now knows that the next sequence number is <code>2</code>.</li>
+<li>To prevent the server from sending the second picture, he keeps it busy with requests and meanwhile sends a picture with number <code>2</code> on it to the pervert puppy 🐕 . And on this picture, oh horror! Let&rsquo;s not tell. Now puppy will wait until his 18-21 year to look at the naked ladies.</li>
+</ol>
+<p><img src="images/15.png" alt="15"></p>
+<p>When the servere is finally free and ready, it, of course, might send the pictire <code>2</code> (the one originally requested by the puppy), but since the puppy has already received picture #2, he&rsquo;ll ignore it.</p>
+<p>That&rsquo;s why these sequence numbers are supposed to be unpredictable or at least very hard to predict. On Windows machines they were just incremented by one after the first sequence number was generated for the connection. That&rsquo;s why the attacker only had to intercept one request to calculate the next sequence number.</p>
+<p>So, to summarize, sequence numbers are like tracking number used by postal services. It tells what is the next package&rsquo;s number is supposed to be. That helps both parties to synchronize with each other.</p>
 <h3 id="acknowledgement-number">Acknowledgement number</h3>
+<p>An acknowledgment number simply shows, what is the sequence number of the next segment expected by the receiver.</p>
 <h2 id="tcp-handshake">TCP handshake</h2>
+<p>Let&rsquo;s return to the pervert puppy. Before he was scared off by this hideous picture, he used to visit this <em>El Barto</em> website quite often. Let&rsquo;s dissect one of these sessions. At this moment no data is being sent. It&rsquo;s just the connection establishment.</p>
+<p>The pervert puppy comes up with an initial sequence number (ISN). For the simplicity sake I&rsquo;ll choose a very small one, when in reality they are a little longer (as was shown in this article <a href="#sequence-number">before</a>).</p>
+<p>Say, the puppy 🐕 came up with the number <code>10</code>. He sends this number and sets the <code>SYN</code> flag.</p>
+<p>The server receives this sequence number and now knows, that the next segment it will receive will have the number <code>11</code>. Also, the server comes up with his own ISN. For example, <code>100</code>. The server sends his sequence number <code>100</code>, along with the client&rsquo;s next expected sequence number specified as an acknowledgment number and sets both <code>SYN</code> and <code>ACK</code> flags.</p>
+<p>The pervert puppy receives the response. It first increments <strong><em>El Barto</em> server&rsquo;s</strong> sequence number by one. This is going to be his <em>acknowledgment number</em> which indicates that the next segment from the server should have the sequence number <code>101</code>. Then, the puppy increments its <strong>own</strong> sequence number by one (<code>11</code>). This is his new <em>sequence number</em>. He also sets the <code>ACK</code> flag and sends this all to the <em>El Barto</em> server.</p>
+<p><em>El Barto</em> server is expecting sequence number <code>11</code> from the pervert puppy and it gets this very number, so everything is in order, the connection has been established and the pictures can be finally transferred. The server enters a listening state and waits for the request: <em>Which picture do you want?</em>, - it asks.</p>
+<h2 id="exchanging--data">Exchanging  data</h2>
+<p>So, the pervert puppy 🐕 is changing neither sequence nor acknowledgment numbers. It only &ldquo;copies&rdquo; the previous header and adds some data to it. The data part is an HTTP GET request.</p>
+<p>Observe the below two pictures: the first one shows the <code>ACK</code> segment from the client, note the sequence and acknowledgment numbers. The second picture shows the first segment with data (the numbers are the same).</p>
+<h2 id="four-way-handshake">Four-way Handshake</h2>
+<p>That&rsquo;s how the connection is terminated.</p>
+<p><img src="images/fin.png" alt="fin"></p>
 <h2 id="references">References</h2>
 <p>[<a href="https://nmap.org/misc/split-handshake.pdf">1</a>] TCP split-handshake attack, pdf document</p>
 <p>[<a href="https://tools.ietf.org/html/rfc793">2</a>] RFC 793 about TCP protocol and TCP handshake</p>
