@@ -174,6 +174,9 @@
         <li><a href="#acknowledgement-number">Acknowledgement number</a></li>
         <li><a href="#data-offset-aka-header-length">Data Offset aka Header Length</a></li>
         <li><a href="#reserved--flags">Reserved + Flags</a></li>
+        <li><a href="#window-size">Window Size</a></li>
+        <li><a href="#checksum">Checksum</a></li>
+        <li><a href="#urgent-pointer">Urgent Pointer</a></li>
       </ul>
     </li>
     <li><a href="#tcp-handshake">TCP handshake</a></li>
@@ -301,9 +304,25 @@
 <p>An acknowledgment number simply shows, what is the sequence number of the next segment that is expected by the receiver. It&rsquo;s like saying: <em>I have received your segment #1 and I know that since the numbers increment by one, the next is supposed to be #2. I&rsquo;m incredibly smart&hellip;. 🤓.</em></p>
 <p><img src="images/5.jpg" alt="5"></p>
 <h3 id="data-offset-aka-header-length">Data Offset aka Header Length</h3>
-<p>If no Options at the end of the header are specified, its length is always <strong>20 bytes</strong>.</p>
+<p>If no Options at the end of the header are specified, its length is always <strong>20 bytes</strong>. The value specified in this case (5) needs to be multiplied by 32 and divided by 8 to have bytes. The formula is: <code>x * 32 / 8</code>.</p>
 <h3 id="reserved--flags">Reserved + Flags</h3>
-<p>There were 9 flags there.</p>
+<p>There were 9 flags there. Each flag can be either <code>1</code> or <code>0</code> thus occupying precisely 1 bit. For 9 flags we need exactly 9 bits. Probably, just in case, this field is extented to 12, that&rsquo;s why the first 3 bits are marked as reserved. May be, it looked weired to allocate 9 (uneven number) of bits to this. Who knows, as they say, who knows.</p>
+<p><img src="images/6.jpg" alt="6"></p>
+<p>Below is the list of possible flags and what they are for (if I understood it correctly myself 😝).</p>
+<p><code>SYN</code></p>
+<p><code>ACK</code></p>
+<p><code>PUSH</code></p>
+<p><img src="images/push-f.png" alt="push-f"></p>
+<p><code>U</code></p>
+<p><img src="images/ur-f.png" alt="ur-f"></p>
+<p><code>RST</code></p>
+<p><code>FIN</code></p>
+<h3 id="window-size">Window Size</h3>
+<p><img src="images/9.jpg" alt="9"></p>
+<h3 id="checksum">Checksum</h3>
+<p><img src="images/8.jpg" alt="8"></p>
+<h3 id="urgent-pointer">Urgent Pointer</h3>
+<p><img src="images/10.jpg" alt="10"></p>
 <h2 id="tcp-handshake">TCP handshake</h2>
 <p>Let&rsquo;s return to the pervert puppy. Before he was scared off by this hideous picture, he used to visit this <em>El Barto</em> website quite often. Let&rsquo;s dissect one of these sessions. At this moment no data is being sent. It&rsquo;s just the connection establishment.</p>
 <p>The pervert puppy comes up with an initial sequence number (ISN). For the simplicity sake I&rsquo;ll choose a very small one, when in reality they are a little longer (as was shown in this article <a href="#sequence-number">before</a>).</p>
@@ -311,9 +330,20 @@
 <p>The server receives this sequence number and now knows, that the next segment it will receive will have the number <code>11</code>. Also, the server comes up with his own ISN. For example, <code>100</code>. The server sends his sequence number <code>100</code>, along with the client&rsquo;s next expected sequence number specified as an acknowledgment number and sets both <code>SYN</code> and <code>ACK</code> flags.</p>
 <p>The pervert puppy receives the response. It first increments <strong><em>El Barto</em> server&rsquo;s</strong> sequence number by one. This is going to be his <em>acknowledgment number</em> which indicates that the next segment from the server should have the sequence number <code>101</code>. Then, the puppy increments its <strong>own</strong> sequence number by one (<code>11</code>). This is his new <em>sequence number</em>. He also sets the <code>ACK</code> flag and sends this all to the <em>El Barto</em> server.</p>
 <p><em>El Barto</em> server is expecting sequence number <code>11</code> from the pervert puppy and it gets this very number, so everything is in order, the connection has been established and the pictures can be finally transferred. The server enters a listening state and waits for the request: <em>Which picture do you want?</em>, - it asks.</p>
+<p>To be brief, if <code>x</code> is the ISN (initial sequence number) of the client, and <code>y</code> is the ISN of the server, then the process looks like this:</p>
+<ol>
+<li>client -&gt; server: <code>SYN</code>, <code>SEQ</code> = x;</li>
+<li>client &lt;- server: <code>SYN</code>+<code>ACK</code>, <code>SEQ</code> = y, <code>ACKN</code> = x+1</li>
+<li>client -&gt; server: <code>ACK</code>, <code>SEQ</code> = x+1, <code>ACKN</code> = y+1</li>
+</ol>
 <h2 id="exchanging--data">Exchanging  data</h2>
-<p>So, the pervert puppy 🐕 is changing neither sequence nor acknowledgment numbers. It only &ldquo;copies&rdquo; the previous header and adds some data to it. The data part is an HTTP GET request.</p>
-<p>Observe the below two pictures: the first one shows the <code>ACK</code> segment from the client, note the sequence and acknowledgment numbers. The second picture shows the first segment with data (the numbers are the same).</p>
+<p>So, the pervert puppy 🐕 is changing neither sequence nor acknowledgment numbers. It only &ldquo;copies&rdquo; the previous header and adds some data to it. The data part is an HTTP GET request. So, the last step from the list above is repeated with data attached:</p>
+<ol start="4">
+<li>client -&gt; server: <code>ACK</code>, <code>SEQ</code> = x+1, <code>ACKN</code> = y+1, data 📃</li>
+</ol>
+<p>Observe the below two pictures: the first one shows the <code>ACK</code> segment from the client (note the sequence and acknowledgment numbers).</p>
+<p>The second picture shows the first segment with data (the numbers are the same).</p>
+<p>The server</p>
 <h2 id="four-way-handshake">Four-way Handshake</h2>
 <p>That&rsquo;s how the connection is terminated.</p>
 <p><img src="images/fin.png" alt="fin"></p>
