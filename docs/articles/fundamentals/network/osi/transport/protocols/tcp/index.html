@@ -213,9 +213,9 @@
           
             
               
-                <i class="fa fa-graduation-cap"></i>
+                <i class="fas fa-microscope"></i>
               
-          <a class="platform-link" href="/doctype/article">article</a>
+          <a class="platform-link" href="/doctype/research">research</a>
           
       </div> <br /><br/>
       
@@ -261,7 +261,7 @@
 <p>Off we go ✈️.</p>
 <p>This part is probably the easiest one to explain. One PC 💻 can communicate with many other PCs simultaneously. To be precise, different applications on a same PC can communicate with their servers or other PCs at the same time. For example, a user is running <em>Facebook</em> app 🌅 and some application for work, for example, <em>Excel</em>, at the same time (😬 oops). <em>Facebook</em> is reading feed from the server, while <em>Excel</em> is synching with the Cloud 🌩.</p>
 <p><em>How does the NIC (network card of the PC) distinguish between the packets?</em></p>
-<p>The answer is simple serial numbers aks <strong>port number</strong>. PC assigns <em>Excel</em> port #1 and <em>Facebook</em> to port #2.</p>
+<p>The answer is simple serial numbers aka <strong>port number</strong>. PC assigns <em>Excel</em> port #1 and <em>Facebook</em> to port #2.</p>
 <p>A few minutes have passed&hellip; ⏲️</p>
 <p>Both applications receive a response 📨 .</p>
 <p><em>But how to tell, which one goes to which application?</em></p>
@@ -310,19 +310,46 @@
 <p><img src="images/6.jpg" alt="6"></p>
 <p>Below is the list of possible flags and what they are for (if I understood it correctly myself 😝).</p>
 <p><code>SYN</code></p>
+<p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.syn==1</code>. To see packets that both have <code>SYN</code> and <code>ACK</code> (TCP handshake, last step): <code>tcp.flags.syn==1 &amp;&amp; tcp.flags.ack==1 &amp;&amp; tcp.len==0</code>.</p>
 <p><code>ACK</code></p>
+<p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.ack==1</code>.</p>
 <p><code>PUSH</code></p>
+<p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.push==1</code>.</p>
 <p><img src="images/push-f.png" alt="push-f"></p>
-<p><code>U</code></p>
+<p><code>URG</code></p>
+<p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.urg==1</code>. This flag is not too frequent to encounter. I only managed to capture it when I crafted it myself with python <code>scapy</code> module from terminal:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ip</span> <span class="o">=</span> <span class="n">IP</span><span class="p">(</span><span class="n">ttl</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="s1">&#39;192.168.1.1&#39;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s1">&#39;192.168.1.2&#39;</span><span class="p">)</span>
+<span class="n">tcp</span> <span class="o">=</span> <span class="n">TCP</span><span class="p">(</span><span class="n">flags</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">,</span><span class="n">dport</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sport</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">send</span><span class="p">(</span><span class="n">ip</span><span class="o">/</span><span class="n">tcp</span><span class="p">)</span>
+</code></pre></div><p>Or using a script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">scapy.all</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">send</span><span class="p">(</span><span class="n">IP</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="s2">&#34;192.168.1.1&#34;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&#34;192.168.1.1&#34;</span><span class="p">)</span><span class="o">/</span><span class="n">TCP</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sport</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">ack</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">))</span>
+</code></pre></div><p>The below picture is inaccurate as it turned out:w</p>
 <p><img src="images/ur-f.png" alt="ur-f"></p>
 <p><code>RST</code></p>
+<p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.rst==1</code>.</p>
 <p><code>FIN</code></p>
+<p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.fin==1</code>.</p>
 <h3 id="window-size">Window Size</h3>
+<p>Now, what&rsquo;s important is that each packet exchanged has its limits, you cannot stuff it infinitely with data. If the data is big, you&rsquo;ll have to divide it into portions. But even in this case, you send packs of these portions, wait for the client to acknowledge that all of them were received and then send the next portion.</p>
+<p><img src="images/homer-eating.png" alt="homer-eating"></p>
+<p><strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize is the maximum&hellip;. well&hellip; segment size 😊. A unit of information for TCP protocol is <em>segment</em>. That includes the TCP header + the actual data. According to RFC [<a href="#references">6</a>], if the client doesn&rsquo;t tell how much it can digest at a time, the default value is <code>536</code> bytes (minimum packet size <code>576</code> minux <code>20</code> bytes for IP header and minus <code>20</code> bytes for TCP header). But if the client is like Homer and can digest much more, he should say so in each segment when <code>SYN</code> flag is set in the <code>Options</code> field. For example, see the picture below:</p>
 <p><img src="images/9.jpg" alt="9"></p>
+<p>I&rsquo;ve marked the <code>TCP Option - Maximum segment size: 1460 bytes</code>. That means, that if, say, Mulder 👽 wants to send Scully 💃 a picture of his &hellip; cat 700 Kb in size (<code>716800</code> bytes), then he would have to divide this picture in</p>
+<p>26720 bytes = 26Kb</p>
 <h3 id="checksum">Checksum</h3>
 <p><img src="images/8.jpg" alt="8"></p>
 <h3 id="urgent-pointer">Urgent Pointer</h3>
 <p><img src="images/10.jpg" alt="10"></p>
+<p>This one is tricky&hellip; . Seems that none really understands what it&rsquo;s for and how to use. That&rsquo;s probably the reason, why it so hard to capture.</p>
+<blockquote>
+<p>The urgent pointer points to the <strong>sequence number</strong> of the octet following the urgent data.</p>
+</blockquote>
+<p>Another peculiar statement in RFC:</p>
+<blockquote>
+<p>The TCP urgent mechanism is NOT a mechanism for sending &ldquo;out-of-band&rdquo; data: the so-called &ldquo;urgent data&rdquo; should be delivered &ldquo;in-line&rdquo; to the TCP user.</p>
+</blockquote>
 <h2 id="tcp-handshake">TCP handshake</h2>
 <p>Let&rsquo;s return to the pervert puppy. Before he was scared off by this hideous picture, he used to visit this <em>El Barto</em> website quite often. Let&rsquo;s dissect one of these sessions. At this moment no data is being sent. It&rsquo;s just the connection establishment.</p>
 <p>The pervert puppy comes up with an initial sequence number (ISN). For the simplicity sake I&rsquo;ll choose a very small one, when in reality they are a little longer (as was shown in this article <a href="#sequence-number">before</a>).</p>
@@ -341,9 +368,14 @@
 <ol start="4">
 <li>client -&gt; server: <code>ACK</code>, <code>SEQ</code> = x+1, <code>ACKN</code> = y+1, data 📃</li>
 </ol>
-<p>Observe the below two pictures: the first one shows the <code>ACK</code> segment from the client (note the sequence and acknowledgment numbers).</p>
-<p>The second picture shows the first segment with data (the numbers are the same).</p>
-<p>The server</p>
+<p>Observe the below two pictures: the first one shows the <code>ACK</code> segment from the client (note the sequence <code>2271707856</code>  and acknowledgment <code>2307963123</code> numbers).</p>
+<p><img src="images/last-ack.png" alt="last-ack"></p>
+<p>The second picture shows the first segment with data (the sequence <code>2271707856</code> and acknowledgement <code>2307963123</code> numbers are the same and the <code>ACK</code> flag is still set):</p>
+<p><img src="images/first-http.png" alt="first-http"></p>
+<p>In the picture above I&rsquo;ve also marked HTTP protocol part (putrple). It&rsquo;s not expanded because for this discussion its contents is irrelevant. I&rsquo;ve marked it to show, that though the TCP headers are almost the same, there appears a new layer - application layer, i.e. the data it all was meant for. So, the client requests something using HTTP protocol.</p>
+<p>Diagram from RFC 793 [<a href="#references">2</a>]:</p>
+<p><img src="images/rfc-tcp-connection-diagram.png" alt="rfc-tcp-connection-diagram"></p>
+<p>Here is WinAPI that handles TCP connections:</p>
 <h2 id="four-way-handshake">Four-way Handshake</h2>
 <p>That&rsquo;s how the connection is terminated.</p>
 <p><img src="images/fin.png" alt="fin"></p>
@@ -352,6 +384,14 @@
 <p>[<a href="https://tools.ietf.org/html/rfc793">2</a>] RFC 793 about TCP protocol and TCP handshake</p>
 <p>[<a href="https://www.amazon.com/System-Forensic-Analysis-Brian-Carrier/dp/0321268172">3</a>] File System Forensic Analysis 1st Edition by <a href="https://www.amazon.com/Brian-Carrier/e/B001KDJ2KK/ref=dp_byline_cont_book_1">Brian Carrier</a> (Author)</p>
 <p>[<a href="http://www.tcpipguide.com/free/t_TCPConnectionEstablishmentProcessTheThreeWayHandsh-4.htm">4</a>]</p>
+<p>[<a href="https://www.techrepublic.com/article/tcp-hijacking/">5</a>] TCP hijacking attack</p>
+<p>[<a href="https://tools.ietf.org/html/rfc1122">6</a>] RFC 1122 about MTU</p>
+<p>[<a href="https://medium.com/@NickKaramoff/tcp-packets-from-scratch-in-python-3a63f0cd59fe">7</a>] Build a packet with python</p>
+<p>[<a href="https://scapy.readthedocs.io/en/latest/usage.html">8</a>] Scapy tutorial</p>
+<p>[<a href="https://tools.ietf.org/html/rfc6093#page-3">9</a>] RFC 6093 Updates pn 793, 1011, 1122</p>
+<p>[<a href="https://www.quora.com/What-is-the-significance-of-the-urgent-pointer-in-TCP-Are-there-any-real-examples-of-its-usage">10</a>] What is UP for?</p>
+<p>[<a href="https://viblo.asia/p/network-socket-implementation-client-iosserver-macos-zb7vDVrkMjKd">11</a>] MacOS Socket API, [<a href="http://web.mit.edu/macdev/Development/MITSupportLib/SocketsLib/Documentation/sockets.html">12</a>] BSD Socket  [<a href="https://inst.eecs.berkeley.edu//~ee122/fa09/notes/03-SocketProgrammingx6.pdf">13</a>] Socket Programming [<a href="https://handsonnetworkprogramming.com/articles/differences-windows-winsock-linux-unix-bsd-sockets-compatibility/">14</a>] Socket Programming Differences MacOS vs Win [<a href="https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/connect.2.html">15</a>] <code>connect</code> man page [<a href="https://stackoverflow.com/questions/21001028/sockets-behavior-differently-between-bsd-mac-os-x-and-openbsd-and-linux-ubunt">16</a>] Socket differences Mac vs Ubuntu</p>
+<p>[<a href="https://packetlife.net/blog/2011/mar/2/tcp-flags-psh-and-urg/">17</a>] <code>URG</code> vs <code>PSH</code> flags</p>
 
   </div>
 </article>
