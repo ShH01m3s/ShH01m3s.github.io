@@ -325,19 +325,40 @@
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">scapy.all</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">send</span><span class="p">(</span><span class="n">IP</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="s2">&#34;192.168.1.1&#34;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&#34;192.168.1.1&#34;</span><span class="p">)</span><span class="o">/</span><span class="n">TCP</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sport</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">ack</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">))</span>
-</code></pre></div><p>The below picture is inaccurate as it turned out:w</p>
+</code></pre></div><p>In the artile [<a href="#references">17</a>] the author states that he mamanged to observe these segments when using telnet. Also, it&rsquo;s stated that this mechanism is deprecated in RFC 6093 (but I have not confirmed this statement).</p>
 <p><img src="images/ur-f.png" alt="ur-f"></p>
 <p><code>RST</code></p>
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.rst==1</code>.</p>
 <p><code>FIN</code></p>
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.fin==1</code>.</p>
 <h3 id="window-size">Window Size</h3>
-<p>Now, what&rsquo;s important is that each packet exchanged has its limits, you cannot stuff it infinitely with data. If the data is big, you&rsquo;ll have to divide it into portions. But even in this case, you send packs of these portions, wait for the client to acknowledge that all of them were received and then send the next portion.</p>
+<p>Let&rsquo;s imagine that Marge wants to send a <code>24Kb</code> picture 🖼 to Homer. She sends this whole picture over the wire. It takes some time to be fully delievered and in the end Homer calculates the checksum. But the cheksum he has calculated and the one, put in the TCP header by Marge, are different! O-la-la! Marge resends this picture, but it still gets corrupted 😞.</p>
+<p>The above process is time and bandwidth consuming and that just won&rsquo;t do! How many time does Marge have to resend a <code>24Kb</code> picture before it gets safely to the other end?! And what if it were a video over <code>1Gb</code> large?</p>
+<p>Marge is smart and dicides to divide this picture into 3 parts 🍕, each <code>8Kb</code>  in size. Homer <code>ACK</code>s to the first 2 but doesn&rsquo;t <code>ACK</code> to the last one. Marge now knows that the problem is the last <code>8Kb</code> and resends them. Homer doesn&rsquo;t <code>ACK</code> (what the heck is he doing?). Marge then divides these <code>8Kb</code> into 16 smaller pieces 🍕, each piece is now <code>512</code> bytes. Homer <code>ACK</code>s to all of them except the 12th. Marge knows, that the 12th <code>512bytes</code> of the picture&rsquo;s last fragment is the problem and resends only this part. Homer <code>ACK</code>s and everyone is happy 🎊.</p>
+<p>So, Marge has cut down the size of the segment to resend from <code>24Kb</code> to <code>512</code> bytes, which is much better since we don&rsquo;t occupy so much bandwidth for this single operation and it was easier to locate the problem segment. The smaller the piece 🍕 is, the smaller the segment to resend is and the quicker the corrupted data can be restored.</p>
+<p>But we cannot cut it down to 1 byte for each segment, that would also not help in speeding up the process, since our headers occupy <code>40bytes</code> at least and that would mean <code>1/41</code> only is for data&hellip; . That&rsquo;s why IETF (<strong>I</strong>nternet <strong>E</strong>ngineering <strong>T</strong>ask <strong>F</strong>orce) has wisely calculated the recommended size for such a unit.</p>
+<p><strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize is the maximum&hellip;. well&hellip; segment size 😊. That&rsquo;s exactly what we were just talking about. A unit of information for TCP protocol is a <em>segment</em>, as you might recall. That includes the TCP header + the actual data. According to RFC [<a href="#references">6</a>], if the client doesn&rsquo;t tell how much it can digest at a time, the default value is <code>536</code> bytes (minimum packet size <code>576</code> minux <code>20</code> bytes for IP header and minus <code>20</code> bytes for TCP header). So, <code>536</code> bytes of actual <strong>data</strong> (for example, a picture, or a webpage).</p>
+<p>But we have to take two things into account.</p>
+<p><strong>Firstly</strong>, we have to acknowledge every portion 🍕. What if there were 19 segments sent? The client would have to send 19 <code>ACK</code>s in return. So much waste of bandwidth&hellip; .</p>
+<p><strong>Secondly</strong>, when a segment is received, it&rsquo;s not processed right away, it&rsquo;s waiting its turn in the TCP outgoing buffer 📨 (of the sender) and then in the TCP incoming buffer 📨 (of the receiver). This buffer also cannot be stuffed infinitely with data.</p>
 <p><img src="images/homer-eating.png" alt="homer-eating"></p>
-<p><strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize is the maximum&hellip;. well&hellip; segment size 😊. A unit of information for TCP protocol is <em>segment</em>. That includes the TCP header + the actual data. According to RFC [<a href="#references">6</a>], if the client doesn&rsquo;t tell how much it can digest at a time, the default value is <code>536</code> bytes (minimum packet size <code>576</code> minux <code>20</code> bytes for IP header and minus <code>20</code> bytes for TCP header). But if the client is like Homer and can digest much more, he should say so in each segment when <code>SYN</code> flag is set in the <code>Options</code> field. For example, see the picture below:</p>
+<p>That&rsquo;s where windows size comes into play. Look at the screenshot below:</p>
 <p><img src="images/9.jpg" alt="9"></p>
-<p>I&rsquo;ve marked the <code>TCP Option - Maximum segment size: 1460 bytes</code>. That means, that if, say, Mulder 👽 wants to send Scully 💃 a picture of his &hellip; cat 700 Kb in size (<code>716800</code> bytes), then he would have to divide this picture in</p>
-<p>26720 bytes = 26Kb</p>
+<p>I&rsquo;ve marked window size with blue - <code>65535</code> bytes it&rsquo;s the maximum value. Why? This field is only two bytes long and that&rsquo;s why the biggest possible number is <code>0xFFFF</code>  which is <code>65535</code> in decimal. Homer specifies the window size, Marge sends this amount of data and only after data within this window size was received, Homer will <code>ACK</code>.</p>
+<p>If there were no window size value, this is how it would look like:</p>
+<ol>
+<li>Homer 🌯 &lt;- seg #1 Marge 👩‍🍳</li>
+<li>Homer 🌯-&gt; <code>ACK num</code> 2 Marge 👩‍🍳*(&ldquo;Marge, I&rsquo;ve received segment #1 give me the 2nd&rdquo;)*</li>
+<li>Homer 🌯&lt;- seg #2 server Marge 👩‍🍳</li>
+<li>Homer 🌯-&gt; <code>ACK num</code> 3 Marge 👩‍🍳*(&ldquo;Marge, I&rsquo;ve received segment #2 give me the 3rd&rdquo;)*</li>
+</ol>
+<p>And this is how it looks like <strong>with</strong> Window size (if Window size holds up to two segments):</p>
+<ol>
+<li>Homer 🌯 &lt;- seg #1 Marge 👩‍🍳</li>
+<li>Homer 🌯&lt;- seg #2 server Marge 👩‍🍳</li>
+<li>Homer 🌯-&gt; <code>ACK num</code> 3 Marge 👩‍🍳 <em>(&ldquo;Marge, I&rsquo;ve received segments #1 and #2, give me the 3rd&rdquo;)</em></li>
+</ol>
+<p>But the technologies don&rsquo;t stay still, we have larger files and we have quicker PCs, so <code>64Kb</code> was not enough over time. That&rsquo;s why TCP Options field was introduced with its <code>Maximum segment size</code>. If the client wishes, they can specify this option with every <code>SYN</code> segment sent (a segment, where <code>SYN</code> flag is set). On the screenshot above I&rsquo;ve marked the <code>TCP Option - Maximum segment size: 1460 bytes</code>. That means, that Homer can digest <code>1460</code> bytes at a time (instead of the default <code>536</code>).</p>
 <h3 id="checksum">Checksum</h3>
 <p><img src="images/8.jpg" alt="8"></p>
 <h3 id="urgent-pointer">Urgent Pointer</h3>
@@ -391,7 +412,7 @@
 <p>[<a href="https://tools.ietf.org/html/rfc6093#page-3">9</a>] RFC 6093 Updates pn 793, 1011, 1122</p>
 <p>[<a href="https://www.quora.com/What-is-the-significance-of-the-urgent-pointer-in-TCP-Are-there-any-real-examples-of-its-usage">10</a>] What is UP for?</p>
 <p>[<a href="https://viblo.asia/p/network-socket-implementation-client-iosserver-macos-zb7vDVrkMjKd">11</a>] MacOS Socket API, [<a href="http://web.mit.edu/macdev/Development/MITSupportLib/SocketsLib/Documentation/sockets.html">12</a>] BSD Socket  [<a href="https://inst.eecs.berkeley.edu//~ee122/fa09/notes/03-SocketProgrammingx6.pdf">13</a>] Socket Programming [<a href="https://handsonnetworkprogramming.com/articles/differences-windows-winsock-linux-unix-bsd-sockets-compatibility/">14</a>] Socket Programming Differences MacOS vs Win [<a href="https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/connect.2.html">15</a>] <code>connect</code> man page [<a href="https://stackoverflow.com/questions/21001028/sockets-behavior-differently-between-bsd-mac-os-x-and-openbsd-and-linux-ubunt">16</a>] Socket differences Mac vs Ubuntu</p>
-<p>[<a href="https://packetlife.net/blog/2011/mar/2/tcp-flags-psh-and-urg/">17</a>] <code>URG</code> vs <code>PSH</code> flags</p>
+<p>[<a href="https://packetlife.net/blog/2011/mar/2/tcp-flags-psh-and-urg/">17</a>] [<a href="https://www.geeksforgeeks.org/tcp-flags/">18</a>] <code>URG</code> vs <code>PSH</code> flags</p>
 
   </div>
 </article>
