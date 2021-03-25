@@ -197,6 +197,11 @@
         <li><a href="#android-tamer">Android Tamer</a></li>
       </ul>
     </li>
+    <li><a href="#general-analysis">General Analysis</a>
+      <ul>
+        <li><a href="#drozer">drozer</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -410,7 +415,11 @@ chmod tcpdump -v -s <span class="m">0</span> -w eccouncil.pc tcpdump -v -s <span
 <h3 id="android-tamer">Android Tamer</h3>
 <p>Useful VM for mobile pentesting and forensics with all tools needed preinstalled is  Android Tamer. To get it work, after VM import, one needs to install several packages:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">install metasploit, zipalign and apache2
-</code></pre></div>
+</code></pre></div><h2 id="general-analysis">General Analysis</h2>
+<h3 id="drozer">drozer</h3>
+<p>For MacOS: <code>pip install drozer</code>. Better use <code>pyenv</code> and <code>pyenv-virtualenv</code> since drozer is usung python 2.7. Then fix this file <code>/Users/veronicazvereva/.pyenv/versions/2.7.18/envs/python2/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py</code> as discussed <a href="https://github.com/FSecureLABS/drozer/issues/361">here</a>.</p>
+<p>Alternatively (didn&rsquo;t work for me as expected) - download from here - <a href="https://github.com/FSecureLABS/drozer/releases/tag/2.4.3">https://github.com/FSecureLABS/drozer/releases/tag/2.4.3</a> whl version and then do <code>pip install drozer-2.4.3-py2-none-any.whl</code>. Then fix the file mentioned above.</p>
+
   </div>
 </article>
 </div>
