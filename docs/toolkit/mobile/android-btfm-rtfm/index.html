@@ -198,7 +198,18 @@
         <li><a href="#drozer-1">Drozer</a></li>
       </ul>
     </li>
-    <li><a href="#app-attacks">App Attacks</a></li>
+    <li><a href="#app-attacks">App Attacks</a>
+      <ul>
+        <li><a href="#attacks-on-activities">Attacks on activities:</a></li>
+        <li><a href="#attacks-on-broadcast-receivers">Attacks on broadcast receivers:</a></li>
+        <li><a href="#attacks-on-custom-url-schemes">Attacks on Custom URL Schemes:</a></li>
+        <li><a href="#attacks-on-content-providers">Attacks on content providers:</a></li>
+        <li><a href="#permissions-check">Permissions check</a></li>
+        <li><a href="#webviews">WebViews</a></li>
+        <li><a href="#injection">Injection</a></li>
+        <li><a href="#signatures">Signatures</a></li>
+      </ul>
+    </li>
     <li><a href="#network">Network</a>
       <ul>
         <li><a href="#burp-certificate">Burp Certificate</a></li>
@@ -213,6 +224,13 @@
       </ul>
     </li>
     <li><a href="#introspy">Introspy</a></li>
+    <li><a href="#bypasses">Bypasses</a>
+      <ul>
+        <li><a href="#root-detect">Root-detect</a></li>
+        <li><a href="#ssl-pinning">SSL pinning</a></li>
+        <li><a href="#patch">Patch</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -370,18 +388,18 @@ run app.package.info -a <span class="o">[</span>package_name<span class="o">]</s
 run app.package.manifest <span class="o">[</span>package_name<span class="o">]</span>
 run app.package.attacksurface<span class="o">[</span>package_name<span class="o">]</span>
 </code></pre></div><h2 id="app-attacks">App Attacks</h2>
-<p>Launch:</p>
+<p>Launch drozer agent on mobile device then run in terminal:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
 drozer console connect
-</code></pre></div><p>Attacks on activities:</p>
+</code></pre></div><h3 id="attacks-on-activities">Attacks on activities:</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.activity.info -a <span class="o">[</span>package_name<span class="o">]</span>
 run app.activity.start --component <span class="o">[</span>package_name<span class="o">]</span> <span class="o">[</span>activity_full_name<span class="o">]</span>
-</code></pre></div><p>Attacks on broadcast receivers:</p>
+</code></pre></div><h3 id="attacks-on-broadcast-receivers">Attacks on broadcast receivers:</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.broadcast.info -a <span class="o">[</span>package_name<span class="o">]</span>
-</code></pre></div><p>Attacks on Custom URL Schemes:</p>
+</code></pre></div><h3 id="attacks-on-custom-url-schemes">Attacks on Custom URL Schemes:</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.activity.browsable -a <span class="o">[</span>package_name<span class="o">]</span> <span class="c1"># to find browsable activities</span>
 dz&gt; run app.activity.start  --action android.intent.action.VIEW --data-uri <span class="s2">&#34;sms://0123456789&#34;</span> <span class="c1"># to launch such activity with parameters passed</span>
-</code></pre></div><p>Attacks on content providers:</p>
+</code></pre></div><h3 id="attacks-on-content-providers">Attacks on content providers:</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.provider.finduris -a <span class="o">[</span>package_name<span class="o">]</span>
 run app.provider.query content://<span class="o">[</span>URI_to_the_content<span class="o">]</span>
 run app.provider.query content:// <span class="o">[</span>package_name<span class="o">]</span>.<span class="o">[</span>provider_name<span class="o">]</span> --vertical
@@ -398,6 +416,23 @@ run app.provider.update content://settings/secure
 run app.provider.delete content://settings/secure
 --selection <span class="s2">&#34;name=?&#34;</span>
 --selection-args my_setting
+</code></pre></div><h3 id="permissions-check">Permissions check</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell dumpsys package <span class="o">[</span>package_name<span class="o">]</span> <span class="p">|</span> grep permission
+drozer agent build  --permission android.permission.REQUIRED_PERMISSION
+run app.package.attacksurface com.android.insecurebankv2
+run app.activity.info -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.broadcast.info -a <span class="o">[</span>package_name<span class="o">]</span>
+run scanner.provider.finduris -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.service.info -a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h3 id="webviews">WebViews</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">setJavaScriptEnabled<span class="o">(</span><span class="nb">true</span><span class="o">)</span>, android.permission.READ_EXTERNAL_STORAGE <span class="nv">UniversalAccessFromFileURLs</span> <span class="o">=</span> <span class="nb">true</span>
+</code></pre></div><h3 id="injection">Injection</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">фрагменты - android:targetSdkVersion &lt; 19, extends PreferenceActivity, isValidFragment. 
+&lt;script&gt;alert<span class="o">(</span>1<span class="o">)</span>&lt;/script&gt; 
+‘ or <span class="nv">1</span><span class="o">=</span><span class="m">1</span> --
+</code></pre></div><h3 id="signatures">Signatures</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apksigner verify --verbose Desktop/example.apk
+jarsigner -verify -verbose -certs example.apk
 </code></pre></div><h2 id="network">Network</h2>
 <h3 id="burp-certificate">Burp Certificate</h3>
 <p>Proxy → Options → Proxy Listeners → Import/Export CA Certificate → Export → Certificate key in Der format (1st option). Choose path and name for the certificate.</p>
@@ -482,6 +517,18 @@ sh bc.sh
 </code></pre></div><h2 id="introspy">Introspy</h2>
 <p>Launch Tracer on mobile device:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python -m introspy -p android -o output introspy-android.db
+</code></pre></div><h2 id="bypasses">Bypasses</h2>
+<h3 id="root-detect">Root-detect</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore
+android root disable
+</code></pre></div><h3 id="ssl-pinning">SSL pinning</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore
+android sslpinning disable
+</code></pre></div><h3 id="patch">Patch</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apktool d <span class="o">[</span>appfolder<span class="o">]</span>
+apktool b <span class="o">[</span>appfolder<span class="o">]</span>
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize <span class="m">2048</span> -validity <span class="m">10000</span>
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore com.myapp/dist/com.myapp.apk alias_name
 </code></pre></div>
   </div>
 </article>
