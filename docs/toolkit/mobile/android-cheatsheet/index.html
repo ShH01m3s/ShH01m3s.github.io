@@ -167,6 +167,7 @@
   <ul>
     <li><a href="#get-package-name">Get package name:</a></li>
     <li><a href="#get-path-to-apk">Get path to apk</a></li>
+    <li><a href="#get-application-local-files">Get Application Local Files</a></li>
     <li><a href="#common-artifacts">Common Artifacts</a></li>
     <li><a href="#application-vulnerability-assessment">Application Vulnerability Assessment</a></li>
   </ul>
@@ -282,6 +283,12 @@ adb shell pm path <span class="o">[</span>package_name<span class="o">]</span>
 <span class="c1"># option 2</span>
 drozer console connect
 run app.package.info –a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h2 id="get-application-local-files">Get Application Local Files</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /data/data <span class="o">&amp;&amp;</span> tar -czvf /sdcard/packagename.tar /packagename
+<span class="c1"># Ctrl+D</span>
+adb pull /sdcard/packagename.tar .
 </code></pre></div><h2 id="common-artifacts">Common Artifacts</h2>
 <h2 id="application-vulnerability-assessment">Application Vulnerability Assessment</h2>
 <p>In the process of preparing a script to automate this process (partly, wherever possible).</p>

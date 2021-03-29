@@ -168,6 +168,7 @@
     <li><a href="#get-device-info">Get Device Info</a></li>
     <li><a href="#connecting">Connecting</a></li>
     <li><a href="#install-apk">Install apk</a></li>
+    <li><a href="#local-storage">Local Storage</a></li>
     <li><a href="#backup">Backup</a></li>
     <li><a href="#debugging">Debugging</a>
       <ul>
@@ -316,6 +317,12 @@ adb shell <span class="c1"># to check</span>
 adb usb <span class="c1"># disable tcpip mode</span>
 </code></pre></div><h2 id="install-apk">Install apk</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb install <span class="o">[</span>appname<span class="o">]</span>.apk
+</code></pre></div><h2 id="local-storage">Local Storage</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /data/data <span class="o">&amp;&amp;</span> tar -czvf /sdcard/packagename.tar /packagename
+<span class="c1"># Ctrl+D</span>
+adb pull /sdcard/packagename.tar .
 </code></pre></div><h2 id="backup">Backup</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># create *.ab file with backup data</span>
 adb backup -f mybackup.ab <span class="c1"># for all</span>
