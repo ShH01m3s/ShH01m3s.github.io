@@ -228,7 +228,6 @@
 <p>🎯 Develop key sources of threat intelligence</p>
 <p>🎯 Hunt down additional breaches using knowledge of the adversary</p>
 <p>The key is to constantly look for attacks that get past security systems, and to catch intrusions in progress, rather than after attackers have completed their objectives and done significant damage to the organization. For the incident responder, this process is known as &ldquo;threat hunting&rdquo;. Threat hunting uses known adversary behaviors to proactively examine the network and endpoints in order to identify new data breaches.</p>
-<p>The course uses a hands-on enterprise intrusion lab &ndash; modeled after a real-world targeted APT attack on an enterprise network and based on APT group tactics to target a network &ndash; to lead you to challenges and solutions via extensive use of the SIFT Workstation and best-of-breed investigative tools.</p>
 <p>Topics covered in the course:</p>
 <ul>
 <li>Hunting and responding to advanced adversaries such as nation-state actors, organized crime, and hacktivists.</li>
@@ -262,66 +261,107 @@
 </ul>
 </li>
 <li>Identify and track malware beaconing outbound to its command and control (C2) channel via memory forensics, registry analysis, and network connection residue</li>
-<li>Antiforensics:
+<li>Antiforensics. Anti-forensics techniques like hidden and time-stomped malware, along with utility-ware used to move in the network and maintain an attacker&rsquo;s presence.</li>
+</ul>
+<h2 id="todo-">ToDO 🗒</h2>
+<p>🚧 <strong>Step 1.</strong> <strong>Laboratory setup.</strong></p>
+<p>Learn how to use AWS, whether I can install my own images or not. If yes - then, how. If no - use Dell laptop to install several virtual machines.</p>
+<p><strong>Step 2. Follow the plan below</strong>. Read throughly the plan. Take each topic and follow these steps:</p>
 <ul>
-<li>anti-forensics techniques like hidden and time-stomped malware, along with utility-ware used to move in the network and maintain an attacker&rsquo;s presence.</li>
+<li>Estimate my current level of training</li>
+<li>Make a list of resources</li>
+<li>Learn the material using these resources</li>
+<li>Find an appropriate lab online, or image or make it in my lab myself</li>
 </ul>
-</li>
+<p>❗ Think about how this index should be organized and make index along the way even if it incorretly.</p>
+<p><strong>Step 6. Lab compromise training</strong>. When the last topic is studied, finish the index and take a mock exam (without labs). If you get at least 60% score, buy the exam and take the first mock exam with labs 🧪.  Follow these steps to prepare for the practical part:</p>
+<ul>
+<li>Make a list of APT groups and tactics. Get the description of several cases when APT group was involved (YouTube, Habr, PhDays etc).</li>
+<li>Re-read the Digital Forensics diary and take notes.</li>
+<li>Read other lab answers to make a plan for a lab.</li>
+<li>Try finding some images of APT compromised systems.</li>
+<li>Compromise my own lab (bellow are the steps) and try answering typical lab questions.</li>
 </ul>
-<p>🗒</p>
-<ol>
-<li><em>List of APT groups and tactics</em></li>
-<li><em>Get the description of several cases when APT group was involved (YouTube, Habr, PhDays etc)</em></li>
-<li><em>Learn SIFT - best-of-breed open-source tools and the SIFT Workstation to perform incident response and digital forensics.</em></li>
-<li><em>Where are Linux security topics?</em></li>
-<li><em>Re-read the Digital Forensics diary and take notes</em></li>
-<li><em>Read Hacking playbook!!! That’s the one that will be needed here. Get 1st and 2nd edition as well (the 1st I already have somewhere)</em></li>
-</ol>
+<p>📌 <strong>VM Compromise:</strong></p>
+<p><strong>Phase 1</strong> - Patient zero compromise and malware <strong>C2 beacon</strong> installation</p>
+<p><strong>Phase 2</strong> - Privilege escalation, lateral movement to other systems, malware utilities download, installation of additional beacons, and obtaining domain admin credentials</p>
+<p><strong>Phase 3</strong> - Search for intellectual property, profile network, dump email, dump enterprise hashes</p>
+<p><strong>Phase 4</strong> - Collect data to exfiltrate and copy to staging system. Archive data using .rar and a complex passphrase</p>
+<p><strong>Phase 5</strong> - Exfiltrate .rar files from staging server, perform cleanup on staging server</p>
 <h2 id="laboratory---">Laboratory 🧪 🥼 🔬</h2>
-<p>APT case images, memory captures, SIFT, Windows machine</p>
+<p><strong>Lab Setup.</strong> I&rsquo;ve set up a small lab on AWS with 2 Windows Servers (2012 and 2019) acting DC and two other servers (2012 and 2016) acting as user 1 and user 2 respectively. <a href="/docs/blog/2021/03/how-i-have-built-my-lab">Here</a> is a blog post about some questions and problems that I&rsquo;ve faced when building my lab and <a href="/docs/blog/2021/03/how-i-got-started-with-aws">here</a> is a blog post about starting with AWS infrastructure. A separate machine running SIFT workstation is installed as well using AWS EC2 services.</p>
+<p>🚧 <strong>VM Configuration</strong>:</p>
+<p><strong>👌Windows Server 2012 DC</strong></p>
 <ul>
 <li>
-<p>Full auditing turned on per recommended Federal Information Security Management Act guidelines</p>
+<p>AD installed</p>
 </li>
 <li>
-<p>Windows domain controller (DC) set up and configured; DC hardened similarly to what is seen in real enterprise networks - <em>ask colleagues when unsure. Otherwise use online information from “Hardening Windows DC”.</em></p>
+<p>AD configured</p>
 </li>
 <li>
-<p>Install Office, Adobe, Skype, Tweetdeck, Email, Dropbox, Firefox, Chrome</p>
+<p>User1 and User 2 added</p>
 </li>
 <li>
-<p>Fully patched systems (patches are automatically installed) - no real need to work with anything other that a Windows Server (2012-2019).</p>
+<p>User1 and User 2 connected</p>
 </li>
 <li>
-<p>Endpoint Detection and Response (EDR) agents - what is it?</p>
+<p>Hardening Windows DC</p>
 </li>
 <li>
-<p>Enterprise A/V and on-scan capability based on the Department of Defense&rsquo;s Host-based Security System</p>
+<p>📌 Full auditing turned on per recommended Federal Information Security Management Act guidelines</p>
 </li>
 <li>
+<p>📌 Install Office, Adobe, Skype, Tweetdeck, Email, Dropbox, Firefox, Chrome</p>
+</li>
+<li>
+<p>📌 Fully patched systems</p>
+</li>
+<li>
+<p>📌 Endpoint Detection and Response (EDR) agents - what is it?</p>
+</li>
+<li>
+<p>📌 Enterprise A/V and on-scan capability based on the Department of Defense&rsquo;s Host-based Security System (Endpoint Protection Software - Anti-virus, Anti-spyware, Safe surfing, Anti-spam, Device Control, Onsite Management, Host Intrusion Prevention (HIPS))</p>
+</li>
+<li>
+<p>📌 Ports open:</p>
 <ul>
-<li>Endpoint Protection Software - Anti-virus, Anti-spyware, Safe surfing, Anti-spam, Device Control, Onsite Management, Host Intrusion Prevention (HIPS)</li>
+<li>
+<p>inbound 25</p>
+</li>
+<li>
+<p>outbound 25, 80, 443</p>
+</li>
 </ul>
 </li>
-<li>
-<p>Ports open:</p>
-</li>
-<li>
+</ul>
+<p><strong>👌Windows Server 2012 DC User</strong></p>
+<p>👌<strong>Windows Server 2016 DC User</strong></p>
+<p>📌 <strong>Windows Server 2019 DC</strong></p>
+<ul>
+<li>AD installed</li>
+<li>AD configured</li>
+<li>User1 and User 2 added</li>
+<li>📌 User1 and User 2 connected</li>
+<li>📌 Hardening Windows DC</li>
+<li>📌 Full auditing turned on per recommended Federal Information Security Management Act guidelines</li>
+<li>📌 Install Office, Adobe, Skype, Tweetdeck, Email, Dropbox, Firefox, Chrome</li>
+<li>📌 Fully patched systems</li>
+<li>📌 Endpoint Detection and Response (EDR) agents - what is it?</li>
+<li>📌 Enterprise A/V and on-scan capability based on the Department of Defense&rsquo;s Host-based Security System (Endpoint Protection Software - Anti-virus, Anti-spyware, Safe surfing, Anti-spam, Device Control, Onsite Management, Host Intrusion Prevention (HIPS))</li>
+<li>📌 Ports open:
 <ul>
 <li>inbound 25</li>
 <li>outbound 25, 80, 443</li>
 </ul>
 </li>
 </ul>
-<p>Note - traces across host systems, system memory, <strong>hibernation</strong>/<strong>pagefiles</strong>, and more</p>
-<p>🛠  Tools to master:</p>
-<ul>
-<li>PowerShell</li>
-<li>F-Response Enterprise</li>
-<li>SIFT Workstation (SIFT Workstation to detect hidden processes, malware, attacker command lines, rootkits, network connections, and more).</li>
-<li>Volatility</li>
-</ul>
-<p>Skills to master:</p>
+<p>👌**<a href="https://github.com/teamdfir/sift/issues/465">SIFT</a> workstation on AWS**</p>
+<p>📌  Solve the issue with the 2019 Server DC. ⚠️ Cannot ping the server 2019</p>
+<p>📌 Make snapshots of clean systems.</p>
+<p>📌 Find memory and disk images compromised or create your own exe.</p>
+<p>traces across host systems, system memory, <strong>hibernation</strong>/<strong>pagefiles</strong>, and more</p>
+<p>📌 Learn to find answers to these questions (deduced from SIFT lab answers):</p>
 <ul>
 <li>Identify logins (successful and unsuccessful) with timestamps</li>
 <li>Identify machines that were used to login</li>
@@ -342,47 +382,7 @@
 </li>
 </ul>
 <p>❓ <code>cmdscan</code> and <code>consoles</code> (lower percentage of success); <code>Cmdscan</code> = command entered
-<code>Consoles</code> = command entered and Output</p>
-<h2 id="todo-">ToDO 🗒</h2>
-<p><strong>Step 1.</strong> <strong>Laboratory setup.</strong> Learn how to use AWS, whether I can install my own images or not. If yes - then, how. If no - use Dell laptop to install several virtual machines.</p>
-<p>👌 <strong>Answer:</strong>  Yes, you can upload own images in ova, vmdk, vhd formats but not all. Most of them gave me kernel version errors (<code>&quot;StatusMessage&quot;: &quot;ClientError: Unsupported kernel version 4.18.0-15-generic&quot;,</code>). The only one I&rsquo;ve managed to upload and import was Ubuntu Desktop 16.04. But failed with Hacking the Art of Exploitation CD and official SIFT-Workstation.ova.</p>
-<p>📌<strong>Answer these questions:</strong></p>
-<ul>
-<li>❓ How to install and configure AD? <a href="https://dinika-15.medium.com/installing-active-directory-on-windows-server-2012-r2-e9e614770588">here</a>. Converting iso to vdi <a href="https://osxdaily.com/2018/06/17/convert-iso-to-vdi-virtualbox-image/">here</a>. Converting iso to ami <a href="https://forums.aws.amazon.com/message.jspa?messageID=192226">here</a>. Or <a href="https://stackoverflow.com/questions/11018747/create-new-ec2-instance-with-custom-iso">here</a>, using buckets.</li>
-<li>❓ How to connect a machine to the server? Create a user on DC and change settings as follows - <a href="https://www.edureka.co/community/51996/how-to-connect-an-ec2-linux-instance-another-linux-instance">https://www.edureka.co/community/51996/how-to-connect-an-ec2-linux-instance-another-linux-instance</a> and follows <a href="https://www.youtube.com/watch?v=z6NbfYT7oaw">https://www.youtube.com/watch?v=z6NbfYT7oaw</a>.</li>
-<li>❓ ​Connect several machines to one server? Same as above.</li>
-</ul>
-<p>🚧 <strong>VM Configuration</strong>:</p>
-<ul>
-<li>Windows Server 2012 DC
-<ul>
-<li>AD installed</li>
-<li>AD configured</li>
-<li>User1 and User 2 added</li>
-<li>User1 and User 2 connected</li>
-</ul>
-</li>
-<li>Windows Server 2012 DC User</li>
-<li>Windows Server 2016 DC User</li>
-<li>📌 Windows Server 2019 DC</li>
-<li>AD installed</li>
-<li>AD configured</li>
-<li>User1 and User 2 added</li>
-<li>📌  User1 and User 2 connected</li>
-<li><a href="https://github.com/teamdfir/sift/issues/465">SIFT</a> workstation on AWS</li>
-</ul>
-<p>📌  Solve the issue with the 2019 Server DC. ⚠️ Cannot ping the server 2019</p>
-<p>📌 Make snapshots of clean systems.</p>
-<p>📌 Find memory and disk images compromised or create your own exe.</p>
-<p><strong>Step 2. Compromising the laboratory.</strong></p>
-<p><strong>Phase 1</strong> - Patient zero compromise and malware <strong>C2 beacon</strong> installation</p>
-<p><strong>Phase 2</strong> - Privilege escalation, lateral movement to other systems, malware utilities download, installation of additional beacons, and obtaining domain admin credentials</p>
-<p><strong>Phase 3</strong> - Search for intellectual property, profile network, dump email, dump enterprise hashes</p>
-<p><strong>Phase 4</strong> - Collect data to exfiltrate and copy to staging system. Archive data using .rar and a complex passphrase</p>
-<p><strong>Phase 5</strong> - Exfiltrate .rar files from staging server, perform cleanup on staging server</p>
-<p><strong>Step 3. Index.</strong> Think about how this index should be organized.</p>
-<p><strong>Step 3. Make a plan</strong>. Follow the course plan (or exam, which one is better) and list all resources that you may use + some challenges to master certain skills. ❗ Make index along the way.</p>
-<p><strong>Step 4. Follow this plan.</strong> When the last topic is studied, finish the index and take a mock exam (without labs). If you get at least 60% score, buy the exam and take the first mock exam with labs 🧪.</p>
+❓  <code>Consoles</code> = command entered and Output</p>
 <h2 id="tools-">Tools 🛠</h2>
 <p>✅ <strong>SIFT Workstation</strong> (Ubuntu Linux LTS Base, 64-bit base system)</p>
 <p>🛑  <strong>F-Response Enterprise (Endpoint Collection Capability)</strong> Enables incident responders to access remote systems and physical memory of a remote computer via the network.</p>
@@ -390,22 +390,23 @@
 <p>🛑 SANS DFIR APT Case Electroninc Exercise Workbook</p>
 <h2 id="prep-plan-">Prep Plan 🗒</h2>
 <h3 id="advanced-incident-response--threat-hunting">Advanced Incident Response &amp; Threat Hunting</h3>
+<p>Notes <a href="/docs/notes/gcfa/advanced-incident-response-threat-hunting">here</a>.</p>
 <h5 id="exercises">Exercises</h5>
 <ul>
-<li>Forensic Lab Setup and Orientation Using the SIFT Workstation</li>
-<li>Malware Persistence Detection and Analysis</li>
-<li>Scaling Data Collection and Analysis</li>
-<li>Finding and Analyzing Malicious WMI attacks</li>
+<li>Forensic Lab Setup and Orientation Using the SIFT Workstation 🥒 - <strong>level <code>1</code></strong>.</li>
+<li>Malware Persistence Detection and Analysis 🗂 [<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>],  🌮 - <strong>level <code>3</code></strong> + 🍭</li>
+<li>Scaling Data Collection and Analysis 🫑 - <strong>level <code>0</code></strong>.</li>
+<li>Finding and Analyzing Malicious WMI attacks 🫑 - <strong>level <code>0</code></strong>.</li>
 </ul>
 <h5 id="topics">Topics</h5>
 <p><strong>Real Incident Response Tactics</strong></p>
 <ul>
-<li>Preparation: Key tools, techniques, and procedures that an incident response team needs to respond properly to intrusions</li>
-<li>Identification/Scoping: Proper scoping of an incident and detecting all compromised systems in the enterprise</li>
-<li>Containment/Intelligence Development: Restricting access, monitoring, and learning about the adversary in order to develop threat intelligence</li>
-<li>Eradication/Remediation: Determining and executing key steps that must be taken to help stop the current incident and the move to real-time remediation</li>
-<li>Recovery: Recording of the threat intelligence to be used in the event of a similar adversary returning to the enterprise</li>
-<li>Avoiding &ldquo;Whack-A-Mole&rdquo; Incident Response: Going beyond immediate eradication without proper incident scoping/containment</li>
+<li><strong>Preparation</strong>: Key tools, techniques, and procedures that an incident response team needs to respond properly to intrusions</li>
+<li><strong>Identification/Scoping</strong>: Proper scoping of an incident and detecting all compromised systems in the enterprise</li>
+<li><strong>Containment/Intelligence Development</strong>: Restricting access, monitoring, and learning about the adversary in order to develop threat intelligence</li>
+<li><strong>Eradication/Remediation</strong>: Determining and executing key steps that must be taken to help stop the current incident and the move to real-time remediation</li>
+<li><strong>Recovery</strong>: Recording of the threat intelligence to be used in the event of a similar adversary returning to the enterprise</li>
+<li><strong>Avoiding &ldquo;Whack-A-Mole&rdquo; Incident Response</strong>: Going beyond immediate eradication without proper incident scoping/containment</li>
 </ul>
 <p><strong>Threat Hunting</strong></p>
 <ul>
@@ -461,7 +462,8 @@
 <li>WMI Process Anomalies</li>
 </ul>
 <p><strong>Resources</strong> 🗂</p>
-<p><a href="https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/">https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/</a></p>
+<p>[<a href="https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/">1</a>] About some APT groups</p>
+<p>[<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>] Practical Malware Analysis book</p>
 <h3 id="intrusion-analysis">Intrusion Analysis</h3>
 <p>Application execution artifacts, account auditing is a powerful means of identifying malicious actions. An attacker also needs a means to move throughout the network, so we look for artifacts left by the relatively small number of ways there are to accomplish this part of their mission. In this section, we cover common attacker tradecraft and discuss the various data sources and forensic tools you can use to identify malicious activity in the enterprise.</p>
 <h5 id="exercises-1">Exercises</h5>
