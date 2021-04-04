@@ -65,9 +65,9 @@
       </a>
     </li>
     
-    <li class="menu-item-course notes">
+    <li class="menu-item-notes">
       <a href="/docs/notes">
-        <span>Course Notes</span>
+        <span>Notes</span>
       </a>
     </li>
     
@@ -128,9 +128,9 @@
       </a>
     </li>
     
-    <li class="menu-item-course notes">
+    <li class="menu-item-notes">
       <a href="/docs/notes">
-        <span>Course Notes</span>
+        <span>Notes</span>
       </a>
     </li>
     
@@ -215,7 +215,7 @@
 <p>🥗 - <strong>level <code>2</code></strong>. I know something about the subject, I&rsquo;ve even read something about it. But no hands-on eperience.</p>
 <p>🌮 - <strong>level <code>3</code></strong>. I know quite a lot about the subject, I&rsquo;ve read something about it and some hands-on eperience.</p>
 <p>🥘 - <strong>level <code>4</code></strong>. I know a lot about the subject and quite a decent experience. This one I will only use when I am done preparing and have the first mock exam. Bonus - 🍭 real-life expreience (not just labs).</p>
-<p>🗒- Topic specific plan.</p>
+<p>🗒- Topic specific plan. 🍻- done, 🚧 - in progress</p>
 <p>🗂 - references and <strong>resources</strong>.</p>
 <p>🎯- objectives.</p>
 <p>🏺- artifacts</p>
@@ -346,28 +346,34 @@
 <h2 id="todo-">ToDO 🗒</h2>
 <p><strong>Step 1.</strong> <strong>Laboratory setup.</strong> Learn how to use AWS, whether I can install my own images or not. If yes - then, how. If no - use Dell laptop to install several virtual machines.</p>
 <p>👌 <strong>Answer:</strong>  Yes, you can upload own images in ova, vmdk, vhd formats but not all. Most of them gave me kernel version errors (<code>&quot;StatusMessage&quot;: &quot;ClientError: Unsupported kernel version 4.18.0-15-generic&quot;,</code>). The only one I&rsquo;ve managed to upload and import was Ubuntu Desktop 16.04. But failed with Hacking the Art of Exploitation CD and official SIFT-Workstation.ova.</p>
-<p>Answer these questions:</p>
+<p>📌<strong>Answer these questions:</strong></p>
 <ul>
 <li>❓ How to install and configure AD? <a href="https://dinika-15.medium.com/installing-active-directory-on-windows-server-2012-r2-e9e614770588">here</a>. Converting iso to vdi <a href="https://osxdaily.com/2018/06/17/convert-iso-to-vdi-virtualbox-image/">here</a>. Converting iso to ami <a href="https://forums.aws.amazon.com/message.jspa?messageID=192226">here</a>. Or <a href="https://stackoverflow.com/questions/11018747/create-new-ec2-instance-with-custom-iso">here</a>, using buckets.</li>
-<li>❓ ​How to connect a machine to the server?</li>
-<li>❓ ​Connect several machines to one server?</li>
+<li>❓ How to connect a machine to the server? Create a user on DC and change settings as follows - <a href="https://www.edureka.co/community/51996/how-to-connect-an-ec2-linux-instance-another-linux-instance">https://www.edureka.co/community/51996/how-to-connect-an-ec2-linux-instance-another-linux-instance</a> and follows <a href="https://www.youtube.com/watch?v=z6NbfYT7oaw">https://www.youtube.com/watch?v=z6NbfYT7oaw</a>.</li>
+<li>❓ ​Connect several machines to one server? Same as above.</li>
 </ul>
-<p>VMs that I need:</p>
+<p>🚧 <strong>VM Configuration</strong>:</p>
 <ul>
-<li>📌 Windows Server 2012
+<li>Windows Server 2012 DC
 <ul>
 <li>AD installed</li>
 <li>AD configured</li>
+<li>User1 and User 2 added</li>
+<li>User1 and User 2 connected</li>
 </ul>
 </li>
-<li>📌 Windows Server 2019</li>
-<li>📌 Windows Server 2016</li>
-<li>📌 Windows Machine 1</li>
-<li>📌 Windows Machine 2</li>
-<li>📌Install <a href="https://github.com/teamdfir/sift/issues/465">SIFT</a> workstation on AWS.</li>
+<li>Windows Server 2012 DC User</li>
+<li>Windows Server 2016 DC User</li>
+<li>📌 Windows Server 2019 DC</li>
+<li>AD installed</li>
+<li>AD configured</li>
+<li>User1 and User 2 added</li>
+<li>📌  User1 and User 2 connected</li>
+<li><a href="https://github.com/teamdfir/sift/issues/465">SIFT</a> workstation on AWS</li>
 </ul>
-<p>Make snapshots of clean systems.</p>
-<p>Find memory and disk images compromised.</p>
+<p>📌  Solve the issue with the 2019 Server DC. ⚠️ Cannot ping the server 2019</p>
+<p>📌 Make snapshots of clean systems.</p>
+<p>📌 Find memory and disk images compromised or create your own exe.</p>
 <p><strong>Step 2. Compromising the laboratory.</strong></p>
 <p><strong>Phase 1</strong> - Patient zero compromise and malware <strong>C2 beacon</strong> installation</p>
 <p><strong>Phase 2</strong> - Privilege escalation, lateral movement to other systems, malware utilities download, installation of additional beacons, and obtaining domain admin credentials</p>
