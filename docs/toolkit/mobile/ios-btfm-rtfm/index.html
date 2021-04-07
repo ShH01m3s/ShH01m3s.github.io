@@ -337,13 +337,21 @@ iproxy <span class="m">2222</span> <span class="m">22</span>
 scp -P <span class="m">2222</span> &lt;file_to_transfer&gt; root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> <span class="c1"># to iDevide via USB</span>
 scp -P <span class="m">2222</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:<span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span> . <span class="c1"># from iDevice via USB</span>
 
-<span class="c1"># with objection</span>
+<span class="c1"># connect with objection over USB</span>
 objection -g <span class="o">[</span>app_name<span class="o">]</span> explore
+<span class="c1"># connect with objection over network</span>
+objection -g <span class="o">[</span>app_name<span class="o">]</span> -N -h <span class="o">[</span>192.168.1.XX<span class="o">]</span> explore
+
+<span class="c1"># then in objection promt:</span>
 file download <span class="o">[</span>/path/to/file/on/iDevice<span class="o">]</span>
 file upload <span class="o">[</span>/path/to/file/on/PC<span class="o">]</span>
 </code></pre></div><h2 id="keychain-dump">Keychain dump</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Dump keychain with Objection</span>
 objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> explore
+<span class="c1"># or over the network</span>
+objection --gadget<span class="o">=</span><span class="s2">&#34;[Application name]&#34;</span> -N -h 192.168.1.XX explore
+
+<span class="c1"># then in objection promt</span>
 ios keychain dump
 ios keychain dump --json &lt;myfile.json&gt; <span class="c1"># including access modifiers. The result will be written to the host in myfile.json</span>
 
@@ -422,7 +430,15 @@ ipainstaller -i <span class="o">[</span>app_name<span class="o">]</span> <span c
 objection
 env
 
+<span class="c1"># download Application folder</span>
 scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/file .
+
+<span class="c1"># create ipa from app</span>
+mkdir Payload
+<span class="c1"># move .app to Payload folder</span>
+mv <span class="o">[</span>package_name<span class="o">]</span>.app Payload
+<span class="c1"># archive the folder using some archive application</span>
+<span class="c1"># change the file extension from .zip to .ipa</span>
 </code></pre></div><p>See other ways to download file from device in <a href="docs/toolkit/mobile/btfm-rtfm-ios#file-transfer">File Transfer</a> section.</p>
 <h3 id="install-ipa">Install IPA</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># with ideviceinstaller</span>
