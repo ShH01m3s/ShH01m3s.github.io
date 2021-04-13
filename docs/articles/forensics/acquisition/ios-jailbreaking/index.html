@@ -169,6 +169,7 @@
     <li><a href="#whats-jailbreaking">What’s jailbreaking?</a></li>
     <li><a href="#why-jailbreaking">Why jailbreaking?</a></li>
     <li><a href="#how-to-jailbreak">How to jailbreak</a></li>
+    <li><a href="#exploits">Exploits</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -286,18 +287,8 @@
 <li>This will install the jailbreaking application on the device.     After the installation is complete, open the application on the iDevice     and tap “jailbreak”;</li>
 </ol>
 <p>Possible problems encountered:</p>
-<table>
-<thead>
-<tr>
-<th><strong>Problem</strong>: When trying to install an app  using Cydia, an error might pop up: provision.cpp:150.</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Fix</strong>: See here or  read below: <a href="http://www.iphonehacks.com/2016/08/fix-provision-cpp150-error-jailbreaking-ios-9-3-3.html">http://www.iphonehacks.com/2016/08/fix-provision-cpp150-error-jailbreaking-ios-9-3-3.html</a>  Log into <a href="https://appleid.apple.com/">https://appleid.apple.com</a>   Scroll       down to the Security section and click on the Edit button.   In this       section, find the “APP-SPECIFIC PASSWORDS” part and then click on       Generate Password.   Enter       a name for the password, which could be anything like “PanguJailbreak”       and then click on the Create button.   Copy       the password that is generated.   Now, when Cydia Impactor asks you to enter your Apple ID       password, use the password generated in the last step.</td>
-</tr>
-</tbody>
-</table>
+<p>🛑 <strong>Problem</strong>: When trying to install an app  using Cydia, an error might pop up: provision.cpp:150.</p>
+<p>👌 <strong>Fix</strong>: See here or  read below: <a href="http://www.iphonehacks.com/2016/08/fix-provision-cpp150-error-jailbreaking-ios-9-3-3.html">http://www.iphonehacks.com/2016/08/fix-provision-cpp150-error-jailbreaking-ios-9-3-3.html</a>  Log into <a href="https://appleid.apple.com/">https://appleid.apple.com</a>   Scroll       down to the Security section and click on the Edit button.   In this       section, find the “APP-SPECIFIC PASSWORDS” part and then click on       Generate Password.   Enter       a name for the password, which could be anything like “PanguJailbreak”       and then click on the Create button.   Copy       the password that is generated.   Now, when Cydia Impactor asks you to enter your Apple ID       password, use the password generated in the last step.</p>
 <p><strong>Option 3</strong>. Windows machine required.</p>
 <p><strong>Jailbreak detection bypass</strong>. Use xCon tool (find in Cydia). Stored in repo <a href="http://xcon.crazy.net/">http://xcon.crazy.net/</a>. <em>Note: Xcon didn’t work for me.</em></p>
 <p>Add it to Cydia repo list. <a href="https://kubadownload.com/news/jailbreak-bypass">https://kubadownload.com/news/jailbreak-bypass</a>.</p>
@@ -305,8 +296,15 @@
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh root@<span class="o">[</span>device IP<span class="o">]</span>
 <span class="c1"># enter default password &#39;alpine&#39;</span>
 passwd <span class="c1"># change default password</span>
-</code></pre></div><h2 id="references">References</h2>
+</code></pre></div><p><strong>Option 4</strong>. This one will only work up to iOS 13 at the moment of this writing (the latest OS at the moment is 14.4.2). The option requires 3UTools which is available from <a href="http://www.3u.com/">here</a>, iDevice connected via USB and a Windows machine (the only host OS supported by this tool).</p>
+<h2 id="exploits">Exploits</h2>
+<p>You may read about different exploits, used to perform jailbreak <a href="/docs/articles/fundamentals/reveng/exploits">here</a>.</p>
+<h2 id="references">References</h2>
 <p>[<a href="https://habr.com/en/company/dsec/blog/472762/">1</a>] Technical analysis of the checkm8 exploit</p>
+<p>[<a href="https://github.com/axi0mX/alloc8">2</a>] About alloc8 exploit</p>
+<p>[<a href="https://github.com/axi0mX/ipwndfu/blob/master/checkm8.py">3</a>, <a href="https://github.com/axi0mX/ipwndfu/blob/master/device_platform.py">4</a>, <a href="https://github.com/axi0mX/ipwndfu/blob/master/dfu.py">5</a>] checkm8 exploit code in python</p>
+<p>[<a href="https://habr.com/ru/company/dsec/blog/479972/">6</a>] Write-up on checkm8 (rus and eng) by Digital Security</p>
+<p>[<a href="https://habr.com/ru/company/dsec/blog/479972/">7</a>] Digital Security write-up about patch diffing and some exploits</p>
 
   </div>
 </article>
