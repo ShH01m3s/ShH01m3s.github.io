@@ -165,6 +165,13 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#cheatsheet">Cheatsheet</a>
+      <ul>
+        <li><a href="#get-idevice-udid">Get iDevice UDID</a></li>
+        <li><a href="#get-package-name">Get package name</a></li>
+        <li><a href="#get-folder-with-bin-and-with-data-uuid">Get folder with bin and with data (UUID)</a></li>
+      </ul>
+    </li>
     <li><a href="#device-info">Device Info</a></li>
     <li><a href="#dfu-mode">DFU mode</a></li>
     <li><a href="#connecting">Connecting</a></li>
@@ -262,9 +269,59 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for iOS devices and applications. I used to keep two separate field manuals at first, but since there are just too many intersections, I&rsquo;ve decided to combine them to make it easier to use. For Android RTFM and BTFM see <a href="/docs/toolkit/mobile/android-btfm-rtfm">here</a></em></p>
-<p>See cheatsheet <a href="/docs/toolkit/mobile/ios-cheatsheet">here</a>.</p>
-<h2 id="device-info">Device Info</h2>
+    <p><em>This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for iOS devices and applications. I used to keep two separate field manuals at first, but since there are just too many intersections, I&rsquo;ve decided to combine them to make it easier to use. For Android RTFM and BTFM see <a href="/docs/toolkit/manuals/android-btfm-rtfm">here</a></em></p>
+<h2 id="cheatsheet">Cheatsheet</h2>
+<p><em>This cheasheet is to ease the flow of either penetration testing analysis or forensics investigation. Fill in the form below to speed up command line tools usage.</em></p>
+<table>
+<thead>
+<tr>
+<th>Information</th>
+<th>ANSWER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iDevice UDID</td>
+<td></td>
+</tr>
+<tr>
+<td>Package name</td>
+<td></td>
+</tr>
+<tr>
+<td>App&rsquo;s folder with bin (UUID)</td>
+<td></td>
+</tr>
+<tr>
+<td>App&rsquo;s folder with data (UUID)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-idevice-udid">Get iDevice UDID</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 
+
+<span class="c1"># option 2</span>
+idevice_id -l <span class="c1"># get UDID with ideviceinstaller</span>
+
+<span class="c1"># option 3</span>
+system_profiler SPUSBDataType <span class="p">|</span> sed -n -e <span class="s1">&#39;/iPad/,/Serial/p;/iPhone/,/Serial/p;/iPod/,/Serial/p&#39;</span> <span class="p">|</span> grep <span class="s2">&#34;Serial Number:&#34;</span> <span class="c1"># </span>
+
+<span class="c1"># option 4</span>
+instruments -s devices
+</code></pre></div><h3 id="get-package-name">Get package name</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+frida-ps -U <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+ipainstaller -l <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+</code></pre></div><h3 id="get-folder-with-bin-and-with-data-uuid">Get folder with bin and with data (UUID)</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+ipainstaller -i <span class="o">[</span>package_name<span class="o">]</span>
+
+<span class="c1"># option 2</span>
+objetion -g <span class="o">[</span>package_name<span class="o">]</span> explore
+&gt; env
+</code></pre></div><h2 id="device-info">Device Info</h2>
 <p>Get UDID in different ways (using MacOS):</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
 ioreg -p IOUSB -l <span class="p">|</span> grep <span class="s2">&#34;USB Serial&#34;</span> 

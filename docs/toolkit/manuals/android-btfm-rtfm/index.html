@@ -165,6 +165,15 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#cheatsheet">Cheatsheet</a>
+      <ul>
+        <li><a href="#get-package-name">Get package name</a></li>
+        <li><a href="#get-path-to-apk">Get path to apk</a></li>
+        <li><a href="#get-application-local-files">Get Application Local Files</a></li>
+        <li><a href="#common-artifacts">Common Artifacts</a></li>
+        <li><a href="#application-vulnerability-assessment">Application Vulnerability Assessment</a></li>
+      </ul>
+    </li>
     <li><a href="#get-device-info">Get Device Info</a></li>
     <li><a href="#connecting">Connecting</a></li>
     <li><a href="#install-apk">Install apk</a></li>
@@ -299,8 +308,208 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for Android devices and applications. I used to keep two separate field manuals at first, but since there are just too many intersections, I&rsquo;ve decided to combine them to make it easier to use. For iOS RTFM and BTFM see <a href="/docs/toolkit/mobile/ios-btfm-rtfm">here</a></em></p>
-<p>Better also use a <a href="/docs/articles/toolkit/">cheatsheet</a> at the very beginning of forensic analysis or application testing.</p>
+    <p><em>This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for Android devices and applications. I used to keep two separate field manuals at first, but since there are just too many intersections, I&rsquo;ve decided to combine them to make it easier to use. For iOS RTFM and BTFM see <a href="/docs/toolkit/manuals/ios-btfm-rtfm">here</a></em></p>
+<p>I use the below cheatsheet at the very beginning of forensic analysis or application testing.</p>
+<h2 id="cheatsheet">Cheatsheet</h2>
+<table>
+<thead>
+<tr>
+<th>INFO TO GET</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>package_name</td>
+<td></td>
+</tr>
+<tr>
+<td>path to apk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-package-name">Get package name</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+frida-ps -U <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+<span class="c1"># option 2</span>
+drozer console connect
+run app.package.list
+<span class="c1"># option 3</span>
+adb shell
+<span class="nb">cd</span> /data/data/
+ls <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+</code></pre></div><h3 id="get-path-to-apk">Get path to apk</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+adb shell pm path <span class="o">[</span>package_name<span class="o">]</span>
+<span class="c1"># option 2</span>
+drozer console connect
+run app.package.info –a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h3 id="get-application-local-files">Get Application Local Files</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /data/data <span class="o">&amp;&amp;</span> tar -czvf /sdcard/packagename.tar /packagename
+<span class="c1"># Ctrl+D</span>
+adb pull /sdcard/packagename.tar .
+</code></pre></div><h3 id="common-artifacts">Common Artifacts</h3>
+<h3 id="application-vulnerability-assessment">Application Vulnerability Assessment</h3>
+<p>In the process of preparing a script to automate this process (partly, wherever possible).</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>🍎 OR🍏</th>
+<th>comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GUI</strong></td>
+<td></td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><strong>Logs</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Local Storage Info Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Backup Info Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Root-detect</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>SSL pinning</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>APK Info leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Local Authentication</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Traffic Info Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Code Obfuscation</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Runtime Attacks</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Debug</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>RAM Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Crypto</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Activities</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Broadcast Receivers</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Broadcast Senders</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Content Providers</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Custom URL Schemes</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Services</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>WebViews Check</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Injections</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Firebase configuration</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Signatures</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Third-party libraries</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Instant Applications</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Logical Bugs</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Error Handling</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="get-device-info">Get Device Info</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell getprop ro.build.version.release <span class="c1"># get Android version</span>
 adb shell getprop ro.build.version.sdk <span class="c1"># get API version</span>

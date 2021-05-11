@@ -258,6 +258,7 @@
 rabin2 -z <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># the strings from the binary&#39;s data section</span>
 rabin2 -zz <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># all strings from the binary</span>
 rabin2 -zqq <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># strings only without additional info</span>
+rabin2 -x iGoat-Swift <span class="c1"># thin the binary</span>
 </code></pre></div><h2 id="r2">R2</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">r2 <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># launch radare2 </span>
 &gt; s main <span class="c1"># seak main function and go to it</span>
@@ -274,6 +275,7 @@ rabin2 -zqq <span class="o">[</span>progname<span class="o">]</span> <span class
 &gt; fs strings<span class="p">;</span> f <span class="c1"># load flag space of strings and load them</span>
 &gt; f~bio <span class="c1"># load currently selected flag space and grep for flags containing &#34;bio&#34;</span>
 &gt; fs imports<span class="p">;</span>f~BiometricAuth <span class="c1"># select imports flag space, load it and grep for &#34;BiometricAuth&#34;</span>
+&gt; pds <span class="c1"># disassemble summary</span>
 </code></pre></div><h3 id="graph-mode">Graph mode</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">VV <span class="c1"># open Graph</span>
 

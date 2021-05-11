@@ -362,51 +362,10 @@ root@kali:/home/sherlock/Documents# python3 exploit.py
 <span class="o">[</span>+<span class="o">]</span> Starting <span class="nb">local</span> process <span class="s1">&#39;./megabeets_0x2&#39;</span>: pid <span class="m">1482</span>
 <span class="o">[</span>*<span class="o">]</span> puts is at 0xf7d6a590
 
-</code></pre></div><p>I don&rsquo;t know why on Earth would I chown this in the first place, but it&rsquo;s an interesting thing to note. But for today I guess it&rsquo;s it. I was a difficult and very efficient day and I&rsquo;ve deserved some rest 🍺.</p>
+</code></pre></div><p>I don&rsquo;t know why on Earth would I chown this in the first place, but it&rsquo;s an interesting thing to note. But for today I guess that&rsquo;s it. It was a difficult and very efficient day and I&rsquo;ve deserved some rest 🍺.</p>
 <p>Off for now!</p>
-<p>📆 <code>24/04/2021</code> , <em>Saturday</em></p>
-<p>🕰 <code>10:21 AM</code>.</p>
-<p><em>It&rsquo;s an ordinary gloomy Mordor morning. To be honest, I was hoping for a sunny one&hellip; But may be one has to live somewhere else to claim that 🤷‍♀️. It&rsquo;s been a while since I&rsquo;ve done some decent reversing and I started missing it a bit. My first whitebox project and another one with mobile vulnerability assessment have both inspired me in their own ways to getting this article from the archive and have another case being worked on in my spare time.</em></p>
-<p>Anyone, performing mobile vulnerability assessment knows pretty well, that Android is like a Christmas 🎄 tree in the scary and mysterious fog 🌫  of reverse engineering, just standing there and sparkling with its lights and luring travellers passing by for some occasional reversing 😉. The code, it&rsquo;s all there, in its pristine beauty saying <em>&ldquo;Come one! Look at these almost totally human-readable code! I am not like iOS, I am friednly&rdquo;</em>. That&rsquo;s why writing my first super primitive frida code for Android was rediculously easy (substituting package name with a made up one and tampering with the method name as well for discretion sake 😎):</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">bypassPIN</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">try</span><span class="p">{</span>
-         <span class="nx">Java</span><span class="p">.</span><span class="nx">choose</span><span class="p">(</span><span class="s2">&#34;com.example.presenters.MyLoginPresenter&#34;</span><span class="p">,</span> <span class="p">{</span>
-                <span class="nx">onMatch</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;[ * ] Instance com.example.presenters.MyLoginPresenter found in memory: &#34;</span> <span class="o">+</span> <span class="nx">instance</span><span class="p">);</span>
-                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;[ * ] Method found in memory: &#34;</span> <span class="o">+</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">ifCorrect</span><span class="p">);</span>
-                    <span class="nx">instance</span><span class="p">.</span><span class="nx">ifCorrect</span><span class="p">();</span>
-                <span class="p">},</span>
-                <span class="nx">onComplete</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> 
-                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;[ * ] Successfully bypassed PIN code&#34;</span><span class="p">);</span>
-                <span class="p">}</span>
-            <span class="p">});</span>
-
-        <span class="p">}</span>
-        <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// exceptions to handle, example:
-</span><span class="c1"></span>            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-         <span class="p">}</span>    
-       <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div><p>I am planning to write some blog post for advanced frida usage as well, but for now I am going to tell you another story.</p>
-<p>Reversing iOS (especilly those iOS applications written in Swift) is a tricky business. It&rsquo;s not a piece of cake, it a real bear 🐻! For starters, unlike Android <code>.java</code> both Obj-C and Swift for iOS are compiled to hardcore ARM assembly code which is not as welcoming as java code. Secondly, Swift code is very often mangled. I&rsquo;ve already seen this technique when analysing C++ compiled binaries. A mangled name may look something like this: <code>_TtCFCC5MyApp7MyClass10MySubClass6myFuncFS0_FT_T_L_11MySubSubClass</code>. To demangle this trash one would have to use a tool or learn this &ldquo;code&rdquo;. For example, on Mac OSX you could run <code>swift demangle _TtCFCC5MyApp7MyClass10MySubClass6myFuncFS0_FT_T_L_11MySubSubClass</code> and see that it&rsquo;s means the following: <code>MySubSubClass #1 in MyApp.MyClass.MySubClass.myFunc(MyApp.MyClass) -&gt; () -&gt; ()</code>. It resembles serialisation in a way&hellip;. . Well, this demangling is automatically performed by radare2 or some other disassemblers, so no worries just yet. Another trick that makes analysis just slightly more difficult is that iOS applications downloaded from AppStore are <strong>always</strong> (since the developers are forced) encrypted. Therefore, you need an actual device and a specified tool to decrypt it. Now that get to frida. Since there is nothing human-readable there (except for labels may be and the program name), a frida exploit would look something like that for iOS (simple bool value substution) [<a href="https://syrion.me/blog/ios-swift-antijailbreak-bypass-frida/">2</a>]:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">addr</span> <span class="o">=</span> <span class="nx">ptr</span><span class="p">(</span><span class="mh">0x100ac</span><span class="p">);</span>
-<span class="nx">moduleBase</span> <span class="o">=</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">getBaseAddress</span><span class="p">(</span><span class="nx">targetModule</span><span class="p">);</span>
-<span class="nx">targetAddress</span> <span class="o">=</span> <span class="nx">moduleBase</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">addr</span><span class="p">);</span>
-    <span class="nx">Interceptor</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">targetAddress</span><span class="p">,</span> <span class="p">{</span>
-        <span class="nx">onEnter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">x0</span> <span class="o">==</span> <span class="mh">0x01</span><span class="p">){</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">x0</span><span class="o">=</span><span class="mh">0x00</span>
-                    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Bypass checkExistenceOfSuspiciousFiles&#34;</span><span class="p">);</span>
-                <span class="p">}</span>          
-        <span class="p">},</span>
-    <span class="p">});</span>
-</code></pre></div><p>So, we need to know the virtual address of the function we want to hook, then we also need to know the register holding the value of interest and then we can (I&rsquo;ve not tried it yet) do the naughty job with this application.</p>
-<p>🕰 <code>11:03</code> So, this is where one starts thinking about learning to reverse ARM code. Even though inspiration is all over me at the moment, I am having my violin 🎻 lessons and got to go. But I hope, I will be coming back for this topic pretty soon.</p>
-<p>Chears🥂</p>
 <h2 id="references">References</h2>
-<p>[<a href="https://www.reddit.com/r/jailbreakdevelopers/comments/hh32p8/tutorial_how_to_hook_swift_method_with_frida/">1</a>], [<a href="https://syrion.me/blog/ios-swift-antijailbreak-bypass-frida/">2</a>] Hooking and tampering with Swift using frida</p>
+<p>[<a href="">1</a>] Megabeets blog (part 1 and part 2)</p>
 
   </div>
 </article>
