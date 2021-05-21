@@ -177,6 +177,7 @@
     </li>
     <li><a href="#common-ports-and-services">Common ports and services</a></li>
     <li><a href="#malware-common-ports">Malware common ports</a></li>
+    <li><a href="#email">Email</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -321,6 +322,18 @@
 <p><a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers">https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers</a></p>
 <h2 id="malware-common-ports">Malware common ports</h2>
 <p>![photo_2021-02-12 11.20.01](images/photo_2021-02-12 11.20.01.jpeg)</p>
+<h2 id="email">Email</h2>
+<p>Sending - SMTP, receiving - IMAP/POP. Examine the headers.</p>
+<p>Headers and possible manipulations with them. Get the real domains that the email has come from. You can&rsquo;t hide them.</p>
+<p>Microsoft uses <code>.pst</code> or <code>.ost</code>. Most email progs also include contact book. Web-based may save something as browser&rsquo;s cache. Also can offer IM services. Email Dossier. FortiGuard Labs for IP reputation. If the IP <em>is</em> malicious, contact the owner (<code>whois</code>, <code>domaintools</code>). <code>Email tracer</code> - paste the headers, shows all the hops. Get router and firewall logs to filter email traffic and check whether the email has passed through. Sometimes can recover deleted emails.</p>
+<p>Unix Email Server logs:</p>
+<p><code>/etc/sendmail.cf</code> - configs for Sendmail.</p>
+<p><code>/etc/syslog.conf</code> - how and which events are logged.</p>
+<p><code>/var/log/maillog</code> SMPT + POP3 (IPs and time )</p>
+<p>Outlook:</p>
+<p>Uses DBs. Based on Microsoft Extensible Storage Engine. <code>*.edb</code> (MAPI), <code>*.stm</code> (non-MAPI). <code>res#.log</code>. <code>tracking.log</code>, tmp files, email dbs, transation logs, troubleshooting and diagnostic logs, log events, WinEvent Viewer,</p>
+<p><a href="http://cyberforensics.in/OnlineEmailTracer/index.aspx">http://cyberforensics.in/OnlineEmailTracer/index.aspx</a></p>
+<p>Here about email copy and host header attacks that might infleunce the investigation.</p>
 <h2 id="references">References</h2>
 <p><a href="https://subinsb.com/default-device-ttl-values/">https://subinsb.com/default-device-ttl-values/</a></p>
 
