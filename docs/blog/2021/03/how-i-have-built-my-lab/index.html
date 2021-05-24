@@ -248,6 +248,24 @@
 <p>👌 <strong>Answer:</strong> Converting iso to vdi <a href="https://osxdaily.com/2018/06/17/convert-iso-to-vdi-virtualbox-image/">here</a>. Converting iso to ami <a href="https://forums.aws.amazon.com/message.jspa?messageID=192226">here</a>. Or <a href="https://stackoverflow.com/questions/11018747/create-new-ec2-instance-with-custom-iso">here</a>, using buckets.</p>
 <p><em><strong>❓ How to connect a machine to the server?</strong></em></p>
 <p>👌 <strong>Answer:</strong> Create a user on DC and change settings as follows - <a href="https://www.edureka.co/community/51996/how-to-connect-an-ec2-linux-instance-another-linux-instance">https://www.edureka.co/community/51996/how-to-connect-an-ec2-linux-instance-another-linux-instance</a> and follows <a href="https://www.youtube.com/watch?v=z6NbfYT7oaw">https://www.youtube.com/watch?v=z6NbfYT7oaw</a>.</p>
+<p>📆 <code>24/05/2021</code></p>
+<p>🕰 <code>09:30 PM</code></p>
+<p>Since Amazon is charging too much for my almost unexistent activity, I&rsquo;ve decided to set up the same lab locally on a Intel-based MacBook Pro. But how to connect two PCs? For that I&rsquo;ve rewatched the video above.</p>
+<p>On the DC install Active Directory and add users. Set the network settings as follows:</p>
+<ul>
+<li>IP addess: 192.168.1.82</li>
+<li>Mask: 255.255.255.0</li>
+<li>Default Gateway 192.168.1.1</li>
+<li>DNS: 127.0.0.1 (since the DNS Server is configured on the same machine)</li>
+</ul>
+<p>On another VM which is playing the role of a user:</p>
+<ul>
+<li>IP address: 192.168.1.84</li>
+<li>Mask: 255.255.255.0</li>
+<li>Default Gateway 192.168.1.82 (the IP of the Domain Controller configured above)</li>
+<li>DNS: 192.168.1.82 (the IP of the Domain Controller configured above)</li>
+</ul>
+<p>On restart, the user PC is now having two sign in options. You might need to press &ldquo;Back&rdquo; to see them. Using the regostered credentials, log into the server.</p>
 
   </div>
 </article>
