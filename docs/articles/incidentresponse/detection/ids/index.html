@@ -168,9 +168,12 @@
     <li><a href="#host-based">Host-based</a>
       <ul>
         <li><a href="#tripwire">Tripwire</a></li>
+        <li><a href="#ossec">OSSEC</a></li>
+        <li><a href="#samhain">Samhain</a></li>
+        <li><a href="#centralized-logging">Centralized logging</a></li>
+        <li><a href="#logwatch">LogWatch</a></li>
       </ul>
     </li>
-    <li><a href="#ossec">OSSEC</a></li>
     <li><a href="#network-based">Network-based:</a></li>
     <li><a href="#logs">Logs</a>
       <ul>
@@ -264,9 +267,35 @@
 <p><code>tripwire --init --cfgfile tw.cfg.enc --polfile tw.pol.enc --site-key site.key --local-keyfile local.key</code></p>
 <p>To check the system for any critical files changes: <code>tripwire --check</code>.</p>
 <p>All these files need to be updates everytime you make changes to the policy or the configuration. The database needs to be updated as well.</p>
-<h2 id="ossec">OSSEC</h2>
+<h3 id="ossec">OSSEC</h3>
 <p>Not just integrity checking (like Tripwire), but also some additional checking. It performs logs analysis and rootkit checking + process monitoring. Consists of two parts: a server and an agent. Servere can only be installed on Linux, while an agent can also be installed on Windows.</p>
+<p><strong>Install the server</strong></p>
 <p><code>tar -xfv ossec-hids-version.tar.gz &amp;&amp; cd ossec-hids-version</code> to unpack the files.</p>
+<p>To start: <code>/etc/init.d/ossec start</code>.</p>
+<p><strong>Install the agent</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /var/ossec/bin
+./manage_agents
+&gt; a
+&gt; some IP
+&gt; y
+&gt; e <span class="c1"># extract the key</span>
+&gt; <span class="m">001</span> <span class="c1"># agent id, copy the key</span>
+
+</code></pre></div><p>Install it on the Windows machine (for example). Now, connect to the server. On the server go to <code>cd ../logs &amp;&amp; less ossec.log</code>. You can <code>cd alerts</code> and see the alerts.</p>
+<h3 id="samhain">Samhain</h3>
+<p><code>apt install samhain &amp;&amp; cd /etc/samhain</code>. Open the config file.</p>
+<p><code>samhain -t init -p info</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vi /etc/samhain/samhainrc
+</code></pre></div><p>In this file go to the Trusted User option and type something like the following: <code>TrustedUser = 104</code>. Then run <code>samhain -t update</code>.</p>
+<p><strong>To run</strong></p>
+<p><code>samhain -t check</code> then <code>cd /var/log/samhain</code> and open the <code>samhain-init.log</code> and <code>samhain.log</code>.</p>
+<h3 id="centralized-logging">Centralized logging</h3>
+<p>Open a syslog file. Each system might have a sligtly different name for these. For example: <code>nano /etc/rsyslog.conf</code>. Uncomment the line for UDP syslog reception. And for the clients now to log remotely to this machine, need to go to <del>hell</del> <code>/etc/rsyslog.d/ &amp;&amp; nano 50-default.conf</code>. Add something like <code>*.* 	@@IP:port</code> to log everything remotely.</p>
+<h3 id="logwatch">LogWatch</h3>
+<p><code>apt install logwatch</code></p>
+<p>Reads all the logs and generates a summary.</p>
+<p><code>cd /etc/logwatch</code>, <code>cd /usr/share/logwatch</code>. The configs in this folder will overwrite the configs from   <code>cd /etc/logwatch</code>.</p>
+<p><code>logwatch.conf</code> - is the general config file. Separately, there is a folder with lots of file, each for each specific log.</p>
 <h2 id="network-based">Network-based:</h2>
 <ul>
 <li>Snort</li>
