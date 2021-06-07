@@ -174,15 +174,19 @@
         <li><a href="#logwatch">LogWatch</a></li>
       </ul>
     </li>
-    <li><a href="#network-based">Network-based:</a></li>
+    <li><a href="#network-based">Network-based</a>
+      <ul>
+        <li><a href="#common-filters">Common filters</a></li>
+      </ul>
+    </li>
     <li><a href="#logs">Logs</a>
       <ul>
         <li><a href="#event-viewer-">Event Viewer 🌈</a></li>
         <li><a href="#varlog-"><code>/var/log</code> 🐧</a></li>
+        <li><a href="#excersice">Excersice</a></li>
       </ul>
     </li>
     <li><a href="#file-settings">File Settings</a></li>
-    <li><a href="#excersice">Excersice</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -296,7 +300,8 @@
 <p>Reads all the logs and generates a summary.</p>
 <p><code>cd /etc/logwatch</code>, <code>cd /usr/share/logwatch</code>. The configs in this folder will overwrite the configs from   <code>cd /etc/logwatch</code>.</p>
 <p><code>logwatch.conf</code> - is the general config file. Separately, there is a folder with lots of file, each for each specific log.</p>
-<h2 id="network-based">Network-based:</h2>
+<h2 id="network-based">Network-based</h2>
+<p>A network-based IDS usually monitors the network, logs it and alerts the admin if something catches its eye. Using a span port, you can run <em>all</em> the traffic through IDS. Another way to analyse the network is to get the network capture (for example, <code>pcap</code> file) and check it with an IDS offline.</p>
 <ul>
 <li>Snort</li>
 <li>Suricata</li>
@@ -309,6 +314,25 @@
 <li>Anti-virus 🦠</li>
 <li>Data loss prevention</li>
 <li>E-mail 📮</li>
+</ul>
+<p><code>tcpdump -s 0 -w file.pcap</code></p>
+<ul>
+<li><code>-s 0</code> - grab the entire packet</li>
+<li><code>w file.pcap</code> - write to file.pcap</li>
+<li><code>host &lt;IP&gt;</code> - only capture particular IP address</li>
+<li><code>-nn</code> - don’t resolve hostnames <em>or</em> port names.</li>
+<li><code>-E</code> - decrypt IPSEC traffic by providing an encryption key.</li>
+<li><code>-tttt</code> - give maximally human-readable timestamp output.</li>
+<li><code>-X</code> or <code>e</code> - display Ethernet header as well.</li>
+</ul>
+<p>You can also use Wireshark for that. Or a Python 🐍  script. Or any other PL for that matter.</p>
+<h3 id="common-filters">Common filters</h3>
+<p>🧺 <em>I want to see all TCP packets that have <code>1.1.1.1</code> source or destination IP address. Also, I would l like to get only those packets, that have destination port 80, assuming the web server is listening on port <code>80</code>.</em></p>
+<p>For tcpdump 🌚 - <code>tcpdump src 192.168.1.65 and dst port 80</code>.</p>
+<p>For Wireshark 🦈  - <code>ip.src==192.168.1.65 and tcp.port==80</code>.</p>
+<p>For Python 🐍:</p>
+<ul>
+<li></li>
 </ul>
 <h2 id="logs">Logs</h2>
 <h3 id="event-viewer-">Event Viewer 🌈</h3>
@@ -349,10 +373,7 @@
 </li>
 </ol>
 <p>To start auditing, run the daemon: <code>service auditd start</code>. The results are stored in <code>/etc/audit.log</code>.</p>
-<h2 id="file-settings">File Settings</h2>
-<p>Hashing only applies to the file contents, but not to the file name, since the file name is stored in the file table and the file itself is stored on the file system. Running <code>ls -la</code> shows information about the files, including the hidden ones. On Windows machine you can run properties on the file to see the same data. To see hidden files on the Windows machine follow the <a href="https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-10-97fbc472-c603-9d90-91d0-1166d1d9f4b5#:~:text=Open%20File%20Explorer%20from%20the,folders%2C%20and%20drives%20and%20OK.">instructions</a>.</p>
-<p>Looking for file permissions changes is very important (owners or write/read/execute permissions added).</p>
-<h2 id="excersice">Excersice</h2>
+<h3 id="excersice">Excersice</h3>
 <p>I&rsquo;ve set up my lab as vaguely described <a href="/docs/blog/2021/03/how-i-have-built-my-lab">here</a>. Then, I&rsquo;ve logged into the user <code>sherlock</code> account. Now, I want to see this even in the Event Viewer. Most probably, it&rsquo;s the Security of System logs. I have wrong time settings on the both machines, but I don&rsquo;t think it&rsquo;s a problem for now. I&rsquo;ve noticed some Logon of type 3 in the logs, but the user is not specified. I don&rsquo;t quite remember, which id the network logon type has. I think it&rsquo;s 4&hellip; .</p>
 <p>No, logon type 3 is the network logon. Weird. It happens very often.</p>
 <p>Since there is no SID shown, I suspect that might be a system acc.</p>
@@ -365,8 +386,22 @@
 <p>Let&rsquo;s go to the user PC (sherlock) and see his logs. It says that access was denied (either the query is too long or the daemon is not running). Of course, the first thing to do was to check whether the service is really running, but it was. So, the problem was something else. Query too long? Don&rsquo;t think so, since I have not created any views so far. I tried to clear the logs, but failed. May be it&rsquo;s because the DC is shutdown, or because the user doesn&rsquo;t have the rights to do so. The only way to check that is to turn on the DC.</p>
 <p>Can&rsquo;t find the event id that is associated with this activity. Thought 5152 was, but then I saw it appeared on its own.</p>
 <p>However System logs had one interesting entry. But failing again has not triggered it.</p>
-<h2 id="references">References</h2>
+<h2 id="file-settings">File Settings</h2>
+<p>Hashing only applies to the file contents, but not to the file name, since the file name is stored in the file table and the file itself is stored on the file system. Running <code>ls -la</code> shows information about the files, including the hidden ones. On Windows machine you can run properties on the file to see the same data. To see hidden files on the Windows machine follow the <a href="https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-10-97fbc472-c603-9d90-91d0-1166d1d9f4b5#:~:text=Open%20File%20Explorer%20from%20the,folders%2C%20and%20drives%20and%20OK.">instructions</a>.</p>
+<p>Looking for file permissions changes is very important (owners or write/read/execute permissions added).</p>
+<p>Remove existing files from the repository:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+</code></pre></div><p>Add this line:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.DS_Store
+</code></pre></div><p>to the file <code>.gitignore</code>, which can be found at the top level of your repository (or create the file if it isn&rsquo;t there already). You can do this easily with this command in the top directory:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">echo .DS_Store &gt;&gt; .gitignore
+</code></pre></div><p>Then commit the file to the repo:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">git add .gitignore
+git commit -m &#39;.DS_Store banished!&#39;
+</code></pre></div><h2 id="references">References</h2>
 <p>[<a href="https://learning.oreilly.com/videos/understanding-intrusion-detection/9781491962701/9781491962701-video256435/">1</a>] Understanding Intrusion Detection Systems with Ric Messier (O&rsquo;Reilly website)</p>
+<p>[<a href="https://danielmiessler.com/study/tcpdump/">2</a>] tcmpdump tutorial</p>
+<p>[<a href="https://www.secureauth.com/labs/open-source-tools/impacket/">3</a>] About impacket</p>
 
   </div>
 </article>

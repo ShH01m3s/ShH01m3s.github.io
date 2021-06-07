@@ -165,10 +165,28 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#evidence">Evidence</a></li>
     <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#ram-acquisition-steps">RAM Acquisition Steps</a></li>
     <li><a href="#hdd">HDD</a></li>
     <li><a href="#general">General</a></li>
+    <li><a href="#volatile-artifacts">Volatile artifacts</a>
+      <ul>
+        <li><a href="#regisrers">Regisrers</a></li>
+        <li><a href="#cache">Cache</a></li>
+        <li><a href="#routing-tables">Routing tables</a></li>
+        <li><a href="#arp-cache">ARP cache</a></li>
+        <li><a href="#process-tables">Process tables</a></li>
+        <li><a href="#kernel-statistics">Kernel statistics</a></li>
+        <li><a href="#memory">Memory</a></li>
+        <li><a href="#temporary-file-systems">Temporary file systems</a></li>
+        <li><a href="#disk">Disk</a></li>
+        <li><a href="#remote-logging-and-monitoring-data-that-is-revelevant-to-the-system-in-question">Remote logging and monitoring data that is revelevant to the system in question</a></li>
+        <li><a href="#physical-configuration-network-topolgy">Physical configuration, network topolgy</a></li>
+        <li><a href="#archival-media">Archival media</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -280,7 +298,18 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="prerequisites">Prerequisites</h2>
+    <p><em>Any activity on a live-system is changing the state of it. About 96%, though, remains unchanged. That means one. should be extra careful with the system when collecting evidence.</em></p>
+<h2 id="evidence">Evidence</h2>
+<ul>
+<li>passwords</li>
+<li>runnning processes</li>
+<li>unencrypted data</li>
+<li>instant messages</li>
+<li>Currently logged-in user information</li>
+<li>open ports</li>
+<li>evidence of attached devices</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>USB with portable exes?</li>
 <li>Live USB</li>
@@ -293,6 +322,91 @@
 <h2 id="hdd">HDD</h2>
 <h2 id="general">General</h2>
 <p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
+<h2 id="volatile-artifacts">Volatile artifacts</h2>
+<p>Keep in mind the <a href="/docs/articles/forensics/acquisition/first-response">order of volatility</a>.</p>
+<ul>
+<li>Document preliminary information, including</li>
+<li>Date and time</li>
+<li>Complete log of the command history</li>
+<li>A photograph of the scene as found</li>
+<li>Operating system running on machine</li>
+<li>Document the exact time of each step in the capture process to establish an audit trail of each forensic tool or command used.</li>
+<li>Collect all types of volatile system and network information:
+<ul>
+<li>Memory dump</li>
+<li>Paging files</li>
+<li>Hibernation files</li>
+</ul>
+</li>
+<li>Document time that the process is completed.</li>
+</ul>
+<h3 id="regisrers">Regisrers</h3>
+<h3 id="cache">Cache</h3>
+<h3 id="routing-tables">Routing tables</h3>
+<p>Windows - <code>route print | more</code></p>
+<p>Linux -  <code>ip route</code></p>
+<p>Mac OSX - <code>netstat -rn</code></p>
+<p>Hibernation files contain this information as well.</p>
+<h3 id="arp-cache">ARP cache</h3>
+<p>Windows - <code>arp -a</code>. To delete ARP cahce (and the attacker might try to - <code>arp -d</code>).</p>
+<p>Linux - <code>arp</code>, but looks like the <code>arp</code> utility is not intstalled by default.</p>
+<p>Mac OS - <code>arp -a</code></p>
+<h3 id="process-tables">Process tables</h3>
+<p>Hibernation files contain this information as well. These are the files created when OS is falling asllep and needs to save some information for future waking up. It&rsquo;s a RAM dump or something very similar as far as I understand.</p>
+<p><strong>Windows.</strong> <code>hiberfil.sys</code>.</p>
+<p><strong>Linux</strong>. Better read <a href="https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation_into_swap_file">here</a>:</p>
+<blockquote>
+<p>When hibernating your RAM&rsquo;s content gets stored into swap. Out of this reason swap has to be at last as big as the amount of the installed RAM.</p>
+</blockquote>
+<p><strong>Mac OSX</strong>. Get the hibernation settings - <code>pmset -g | grep hibernatemode</code>:</p>
+<ul>
+<li><code>0</code> – Old style sleep mode, with RAM powered on while sleeping, safe sleep disabled, and super-fast wake.</li>
+<li><code>1</code> – Hibernation mode, with RAM contents written to disk, system totally shut down while “sleeping,” and slower wake up, due to reading the contents of RAM off the hard drive.</li>
+<li><code>3</code> – The default mode on machines introduced since about fall 2005. RAM is powered on while sleeping, but RAM contents are also written to disk before sleeping. In the event of total power loss, the system enters hibernation mode automatically.</li>
+<li><code>5</code> – This is the same as mode <code>1</code>, but it’s for those using secure virtual memory (in System Preferences -&gt; Security).</li>
+<li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
+</ul>
+<p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
+<h3 id="kernel-statistics">Kernel statistics</h3>
+<h3 id="memory">Memory</h3>
+<p>Link to memory acquisition or describe here if not too much.</p>
+<p>Hibernation files contain this information as well. These are the files created when OS is falling asllep and needs to save some information for future waking up. It&rsquo;s a RAM dump or something very similar as far as I understand.</p>
+<p><code>.DMP</code> files are also partial or full memory dumps, but they are only created when something goes wrong (blue screen).</p>
+<p><strong>Windows</strong>. <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited">https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited</a>.</p>
+<p><strong>Linux</strong>. <a href="https://www.chromium.org/developers/decoding-crash-dumps">https://www.chromium.org/developers/decoding-crash-dumps</a></p>
+<p><strong>MacOS</strong>. ?</p>
+<p>Tools 🛠:</p>
+<p>• Linux, Unix, and OSX: <code>/dev/mem and/dev/kmem</code></p>
+<p>• Windows 2000, XP, and so on: <code>//physicalmemory</code> ???: <code>dd if= \.\\PhysicalMemory of=F:\Evidence\memory.dd conv=noerror</code></p>
+<p><strong>Memorize</strong>:</p>
+<p>Identify running processes</p>
+<p>• Identify open ports</p>
+<p>• Identify memory handles</p>
+<p>• Find and identify loaded DLLs</p>
+<p>• Identify running device drivers</p>
+<p>• Identify all loaded modules, including executables and DLLs</p>
+<p><strong>WinDD</strong></p>
+<p>Footpring ~ 1MB (2013). Can be used over the network or USB.</p>
+<p><strong>FTK Imager</strong></p>
+<p>Does not guarantee that the utility will not make write attempts to the target drive. Looks like it does write to the device -&gt; use a write-protect device such as the Wiebetech Forensic Ultra Dock between the source and the target disks.</p>
+<p><strong>Hardware tools</strong></p>
+<p>Tribble. Only works if was in the PC prior to the incident.</p>
+<p>Memory Grabber Forensic Tool. PCMCIA card. When plugged into the suspect computer, the card provides an interface to a controlled system running forensics software that can be used to analyze the image.</p>
+<p><strong>DD</strong></p>
+<p>DD utility allows a raw dump of memory. <code>*noerror*</code> - important not to stop the acquisition on errors.</p>
+<blockquote>
+<p>!!!! Under no circumstances should an application that modifies MAC data on stored files be utilized. This includes system utilities such as COPY, XCOPY, MOVE, TAR, and several others. Before using a utility in the field, test it to verify that MAC data is left untouched. [<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>
+</blockquote>
+<h3 id="temporary-file-systems">Temporary file systems</h3>
+<p>What is it?</p>
+<h3 id="disk">Disk</h3>
+<h3 id="remote-logging-and-monitoring-data-that-is-revelevant-to-the-system-in-question">Remote logging and monitoring data that is revelevant to the system in question</h3>
+<h3 id="physical-configuration-network-topolgy">Physical configuration, network topolgy</h3>
+<h3 id="archival-media">Archival media</h3>
+<h2 id="references">References</h2>
+<p>[<a href="https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation_into_swap_file">1</a>] Linux hibernation files</p>
+<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>
+<p>[<a href="https://www.macworld.com/article/182042/sleepmode.html">3</a>], [<a href="https://osxdaily.com/2010/10/11/sleepimage-mac/">4</a>] Mac OSX hibernation files</p>
 
   </div>
 </article>
