@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Acquisition Methods - Analyst</title>
+  <title>Mobile Acquisition Methods - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -165,7 +165,14 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#methods">Methods</a></li>
+    <li><a href="#methods">Methods</a>
+      <ul>
+        <li><a href="#manual">Manual</a></li>
+        <li><a href="#logical">Logical</a></li>
+        <li><a href="#physical">Physical</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -177,7 +184,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Acquisition Methods</h1>
+<h1 class="title">Mobile Acquisition Methods</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -230,13 +237,30 @@
   <div class="content" itemprop="articleBody">
     <p><em>In this article I&rsquo;m studying different acquisition methods, tool available for each, pros and cons of each tool as well. Whenever I&rsquo;ve tried some myself, I point it out explicitly.</em></p>
 <h2 id="methods">Methods</h2>
-<ol>
-<li><strong>Physical</strong>. Bit by bit copy. Direct access to flash memory (non-volatile). Copies all data, including deleted and unallocated space. First best option.</li>
-<li><strong>Logical</strong>. Extracting logical storage objects: folders, files, directories.  Sync with computer. Most often than not doesn&rsquo;t include deleted items (other than cases when app has a bin). Doesn&rsquo;t include unallocated space. Second best option.</li>
-<li><strong>Manual</strong>. Scrolling through the phone&rsquo;s contents using GUI.</li>
-</ol>
-<p><a href="https://blog.elcomsoft.com/2019/07/the-art-of-iphone-acquisition/#:~:text=Logical%20acquisition%20is%20the%20safest,not%20limited%20to%20the%20backup">https://blog.elcomsoft.com/2019/07/the-art-of-iphone-acquisition/#:~:text=Logical%20acquisition%20is%20the%20safest,not%20limited%20to%20the%20backup</a>.</p>
-<p><a href="https://blog.elcomsoft.com/2019/12/challenges-in-computer-and-mobile-forensics-what-to-expect-in-2020/">https://blog.elcomsoft.com/2019/12/challenges-in-computer-and-mobile-forensics-what-to-expect-in-2020/</a></p>
+<h3 id="manual">Manual</h3>
+<p>Scrolling through the phone&rsquo;s contents using GUI.</p>
+<p><strong>Tools</strong> 🛠:</p>
+<h3 id="logical">Logical</h3>
+<p>Extracting logical storage objects: folders, files, directories.  Sync with computer. Most often than not doesn&rsquo;t include deleted items (other than cases when app has a bin). Doesn&rsquo;t include unallocated space. Second best option.</p>
+<p><strong>Tools</strong> 🛠:</p>
+<h3 id="physical">Physical</h3>
+<p>Bit by bit copy. Direct access to flash memory (non-volatile). Copies all data, including deleted and unallocated space. First best option.</p>
+<p><strong>Hex dumping</strong>. Requires uploading a modified boot loader into RAM on the device. The mobile devices is connected to the PC via flasher box. They were not designed for forensic purposes and one needs to know what she&rsquo;s doing. Device is places in a diagnostic mode. However, flasher boxes have some limitations: requires rebooting (-&gt; auth mechanisms activated and further analysis impossible), data encrypted, only certain ranges might be available, confisuing to use.</p>
+<p><strong>Tools</strong> 🛠:</p>
+<p><strong>JTAG</strong>. Some devices have special hardware intefaces to test hardware and firmware. One needs a JTAG adapter. One end connects to the mobile device&rsquo;s motherboard and another one - to the PC. <a href="https://gsmserver.ru/riff-box-2/">Here</a> is a tool that I might buy in fiture in order to improve my skills in mobile forensics. Special software is used to interpret the results. JTAG adapter requests memory addresses from the mobile. Works for locked or damaged devices.</p>
+<p><strong>Tools</strong> 🛠:</p>
+<p><strong>Chip-Off.</strong> The memory is physically removed and a bit-by-bit copy is made. This is like imaging good old HDDs. But to provide the examiner with contiguous binary format, wear-leveling algorithm [<a href="https://www.micron.com/-/media/client/global/documents/products/technical-note/nand-flash/tn2942_nand_wear_leveling.pdf">4</a>] must first be reverse engineered. There are lots of chip types and therefore, myrad of different raw data formats. JTAG is more preferable, since this technique (chip-off) mugh damage the device.</p>
+<p><strong>Tools</strong> 🛠:</p>
+<p><strong>Micro Read</strong>. For high profile methods only since requires an electronic microscope 🔬 and also a good technical knowledge. Using the microscope, one is observing the state of the gates of a NAND or NOR chips.</p>
+<p><strong>Tools</strong> 🛠:</p>
+<p>No commercial tools currently exist to perform this task 😔.</p>
+<h2 id="references">References</h2>
+<p>[<a href="https://www.anti-malware.ru/analytics/Technology_Analysis/Getting_data_from_mobile_devices_using_JTAG_debug_interface">1</a>] Получение данных из мобильных устройств с помощью интерфейса отладки JTAG, from <a href="https://www.anti-malware.ru/">https://www.anti-malware.ru/</a></p>
+<p>[<a href="https://blog.elcomsoft.com/2019/07/the-art-of-iphone-acquisition/#:~:text=Logical%20acquisition%20is%20the%20safest,not%20limited%20to%20the%20backup">2</a>] The Art of iPhone Acquisition</p>
+<p>[<a href="https://blog.elcomsoft.com/2019/12/challenges-in-computer-and-mobile-forensics-what-to-expect-in-2020/">3</a>] Challenges in Computer and Mobile Forensics: What to Expect in 2020</p>
+<p>[<a href="https://www.micron.com/-/media/client/global/documents/products/technical-note/nand-flash/tn2942_nand_wear_leveling.pdf">4</a>] Wear-leveraging algorithm</p>
+<p>[<a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">5</a>] Tools for mobile acquisition on different levels</p>
+<p>[<a href="https://www.notion.so/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">6</a>] My database of all forensics, ir and pentest tools on Notion</p>
 
   </div>
 </article>
