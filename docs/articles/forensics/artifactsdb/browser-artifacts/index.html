@@ -165,8 +165,14 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#electron">Electron</a></li>
     <li><a href="#indexeddb">IndexedDB</a></li>
     <li><a href="#leveldb">levelDB</a></li>
+    <li><a href="#cookies">Cookies</a></li>
+    <li><a href="#webstorage">WebStorage</a></li>
+    <li><a href="#file-system-api">File System API</a></li>
+    <li><a href="#websql">WebSQL</a></li>
+    <li><a href="#application-cache">Application Cache</a></li>
     <li><a href="#firefox">Firefox</a>
       <ul>
         <li><a href="#localstorerdf">Localstore.rdf</a></li>
@@ -232,7 +238,9 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>In the process of investigating Toy PD <a href="/docs/blog/2021/06/toy-story-pd">case</a>, I&rsquo;ve realised I lack the information about different browser files. This is an attempt to fill that gap.</em></p>
-<p>Many browsers are based on Chromium engine, that&rsquo;s why they will have similar artifacts: Chrome, Opera, new Edge, Brave, Vivaldi.</p>
+<p>Many browsers are based on Chromium engine, that&rsquo;s why they will have similar artifacts: Chrome, Opera, new Edge, Brave, Vivaldi. Also, there are lots of Electron applications that share some artifacts with them. Chrome is the point of convergence for all these application. On Magnet Summit it was suggested to explore and learn Chrome and it&rsquo;s artifacts as well as OS common artifacts due to its popularity and reusing some of its components.</p>
+<h2 id="electron">Electron</h2>
+<p>It&rsquo;s a framework that is available for building applications, cross-platform. You&rsquo;re creating a web-application that can be used as a desktop one (implementing both back- and frontend). Backend - node.js, and frontend - Chrome. So, a lot of artifacts can be shared with Chrome and buddies. It&rsquo;s in wide use. For example, WhatsApp and Skype use it.</p>
 <h2 id="indexeddb">IndexedDB</h2>
 <p>Client-side web technology and supporteed by all of the mainstream browsers. Allows storage of structured user data on the client (JavaSctipt objects). Allows caching and storing some data for offline or tracking. The database structure is as follows:</p>
 <p>Database:</p>
@@ -285,6 +293,39 @@
 <p><img src="images/google-drive-indexeddb-documents.png" alt="google-drive-indexeddb-documents"></p>
 <p>On Windows machine it&rsquo;s stored here: <code>$USER\AppData\Local\Google\Chrome\User Data\Default\IndexedDB</code>. Contains multiple folders, one for each domain. Usually have the extension <code>leveldb</code>.</p>
 <h2 id="leveldb">levelDB</h2>
+<p>Based on the ideas of BigTable. It&rsquo;s a key-value store, both are arbitrary blobs, i.e. can store any data in key or value. Looks something like the below picture.</p>
+<p><img src="images/leveldb.png" alt="leveldb"></p>
+<h2 id="cookies">Cookies</h2>
+<p>An example of creating a cookie:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span> <span class="o">=</span> <span class="s2">&#34;username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC&#34;</span><span class="p">;</span>
+</code></pre></div><p>There are several attacks on cookies (session hijaking, session fixation, reversing cookies when applicable).</p>
+<h2 id="webstorage">WebStorage</h2>
+<p>An example of using <code>localStorage</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">,</span> <span class="s1">&#39;Tom&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cat</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">);</span>
+<span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">);</span>
+<span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+</code></pre></div><p>An example of using <code>sessionStorage</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// Save data to sessionStorage
+</span><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">);</span>
+
+<span class="c1">// Get saved data from sessionStorage
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
+
+<span class="c1">// Remove saved data from sessionStorage
+</span><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
+
+<span class="c1">// Remove all saved data from sessionStorage
+</span><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+</code></pre></div><p>Data in <code>localStorage</code> doesn&rsquo;t expire, data in <code>sessionStorage</code> is cleared when the page session ends (is valid only for one particular tab). Openning the same web-application in another tab creates a new page session, which is different from the <em>cookie</em> mechanism. But! Duplicating the tab <em>copies</em> the tab&rsquo;s sessionStorage into the new tab, i.e. and from that moment forward they might start being different.</p>
+<p>As for the <code>localStorage</code>, private mode creates a new <code>localStorage</code> that&rsquo;s cleared is cleared when the last &ldquo;private&rdquo; tab is closed.</p>
+<p>Both <code>localStorage</code> and <code>sessionStorage</code> are read-only.</p>
+<h2 id="file-system-api">File System API</h2>
+<p>Psedo file system like environment for a web application.</p>
+<h2 id="websql">WebSQL</h2>
+<p>Was never really officially documented, but now it&rsquo;s deprecated (lot&rsquo;s of vendor specific stuff), but was used some time ago, containing lots of interesting artifacts. SQLite.</p>
+<h2 id="application-cache">Application Cache</h2>
+<p>Was used to cache web-application&rsquo;s data locally. It&rsquo;s deprecated but still available in most browsers.</p>
 <h2 id="firefox">Firefox</h2>
 <h3 id="localstorerdf">Localstore.rdf</h3>
 <p>No real value for the examiner here, since it contains customized data on the interface. Can be cleared in the GUI with &ldquo;Reset toolbars and controls&rdquo; option. [<a href="http://kb.mozillazine.org/Localstore.rdf">1</a>]</p>
@@ -295,6 +336,7 @@
 <p>[<a href="https://nasbench.medium.com/web-browsers-forensics-7e99940c579a">2</a>] Browser forensics</p>
 <p>[<a href="https://javascript.info/indexeddb">3</a>] Working with IndexedDB</p>
 <p>[<a href="https://www.magnetforensics.com/resources/mvs-recording-hang-on-thats-not-sqlite-chrome-electron-and-leveldb/?submission=https://go.magnetforensics.com/l/52162/2021-05-07/kynrnl">4</a>] Magnet Summit 2021, Hang On! That’s Not SQLite! Chrome, Electron, and LevelDB</p>
+<p>[<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">5</a>] About localStorage</p>
 
   </div>
 </article>
