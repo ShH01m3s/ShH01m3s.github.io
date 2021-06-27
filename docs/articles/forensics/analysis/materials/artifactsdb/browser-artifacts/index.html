@@ -167,7 +167,13 @@
   <ul>
     <li><a href="#electron">Electron</a></li>
     <li><a href="#indexeddb">IndexedDB</a></li>
-    <li><a href="#leveldb">levelDB</a></li>
+    <li><a href="#leveldb">levelDB</a>
+      <ul>
+        <li><a href="#ldb-file-format">LDB file format</a></li>
+        <li><a href="#log-file-structure">Log File Structure</a></li>
+        <li><a href="#deleted-data">Deleted Data</a></li>
+      </ul>
+    </li>
     <li><a href="#cookies">Cookies</a></li>
     <li><a href="#webstorage">WebStorage</a></li>
     <li><a href="#file-system-api">File System API</a></li>
@@ -295,6 +301,77 @@
 <h2 id="leveldb">levelDB</h2>
 <p>Based on the ideas of BigTable. It&rsquo;s a key-value store, both are arbitrary blobs, i.e. can store any data in key or value. Looks something like the below picture.</p>
 <p><img src="images/leveldb.png" alt="leveldb"></p>
+<p>There are always <code>CURRENT</code>, <code>LOCK</code>, <code>LOG</code> and at least one <code>MANIFEST</code>. Only <code>*.log</code> and <code>*.ldb</code> files contain data. Other files above contain metadata. <code>*.ldb</code> doesn&rsquo;t have to do anything with MS Access, although the OS might consider differently. As you can also notice, these files are assigned numbers which are sequential for all files in the folder, not for each file type.</p>
+<p>The data in levelDB is stored in key-value pairs. Each time a pair is created (key being updated), it&rsquo;s logged in one of those <code>*.log</code> files. When these logs are filled up, all these files (16 by default) are consolidated into a Level Zero LDB. When data is updates or deleted, these events are put into the logs. So, we are able to get those previous data values. When Level Zero LDB (4 files) are filled out, they are merged (sorted and de-duplicated) into one Level One file. All deleted data and updated will be removed.</p>
+<h3 id="ldb-file-format">LDB file format</h3>
+<p><code>.ldb</code> files are made of blocks which are structured the same way but they have different purpose:</p>
+<ul>
+<li>Data.</li>
+<li>Meta. Might not be present.</li>
+<li>Meta Index. Location and sized of Meta blocks are listed here.</li>
+<li>Index. Location and sized of Data blocks are listed here.</li>
+<li>Footer. 48 bytes, always at the end. Starts with offsets and lengths of Index and Index Meta blocks. Contains the signature: 8 bytes at the end: <code>57 FB 80 8B 24 75 47 DB</code>.</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">BlockHandle</span> <span class="p">{</span>
+	<span class="n">VarInt</span> <span class="n">offset</span><span class="p">;</span> <span class="c1">// little-endian
+</span><span class="c1"></span>  <span class="n">VarInt</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// little-endian
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p><code>BlockHandle</code> structure is used in the footer for Index Blocks and in Index Block for Data and Meta Blocks Blocks.</p>
+<p>Each block contain zero or more BlockEntry structs followed by a restart-array (for speeding-up data reading, but not mandatory).  Blocks are always followed by  a 5-byte long trailer: 1 byte defines comression (<code>0</code> - none, <code>1</code> - snappy), 4 byte (CRC32 of data). This data is not included when calculating <code>BlockHandle.size</code>. Snappy compression algorithm is fast, but not utterly efficient, so, one might even see some recognizable strings. You can even get hits when performing keyword search.</p>
+<p>Block entries contain the data for each key/value pair. Key is encoded using key sharing.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">BlockEntry</span> <span class="p">{</span>
+  <span class="n">VarInt</span> <span class="n">shared_key_length</span><span class="p">;</span>
+  <span class="n">VarInt</span> <span class="n">inline_key_length</span><span class="p">;</span>
+  <span class="n">VarInt</span> <span class="n">value_length</span><span class="p">;</span>
+  <span class="n">inline_key</span><span class="p">;</span>
+  <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>Key Sharing</strong>. Allows keys with common prefixes to be encoded efficiently. That means that a keyword search might miss some things. Example of key sharing:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">theBestGirlEva</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="nx">inline_key</span><span class="o">=</span><span class="nx">theBestGirlEva</span><span class="p">);</span>
+<span class="nx">theBestGirlNika</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="nx">inline_key</span><span class="o">=</span><span class="nx">Nika</span><span class="p">);</span>
+<span class="nx">theBestBoyAlex</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">7</span><span class="p">;</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">7</span><span class="p">;</span> <span class="nx">inline_key</span><span class="o">=</span><span class="nx">BoyAlex</span><span class="p">);</span>
+</code></pre></div><p>In the last 8 bytes of the key there is metadata (56 bit sequence number of the operation that the levelDB has already performed, and key state either deleted or live). Added by the file format, not the programmer. So, you can always order the operations in levelDB. So, if one has different interactions with this key, in levelDB it&rsquo;s going to have different sequence numbers.</p>
+<h3 id="log-file-structure">Log File Structure</h3>
+<p>Consists of multiple 32k blocks of data and the data is never compressed. Has a 7 byte header:</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4 byte</td>
+<td>CRC32</td>
+</tr>
+<tr>
+<td>2 byte</td>
+<td>int16 data length</td>
+</tr>
+<tr>
+<td>1 byte</td>
+<td>block type: <code>1</code> - full, i.e. only this block for this batch; <code>2</code> - First (first block in the batch), <code>3</code> - Middle, <code>4</code> - Last.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Batch or Record format.</strong> Data written to <code>levelDB</code> can be batched. So, different blocks of log files can be batched together. Data will flow across those blocks, but the metadata at the start of each block will interrupt the record (batch) data at boundaries. Batch header = 12 bytes. The sequence number is the same as for the key sequence number.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">Batch</span> <span class="p">{</span>
+  <span class="c1">// header
+</span><span class="c1"></span>  <span class="n">int64</span> <span class="n">seq_num</span><span class="p">;</span> <span class="c1">// 8 bytes
+</span><span class="c1"></span>  <span class="n">int32</span> <span class="n">record_count</span><span class="p">;</span> <span class="c1">// 4 bytes
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="k">struct</span> <span class="nc">Record</span> <span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">record_state</span><span class="p">;</span> <span class="c1">// 1 - deleted, 0 - live
+</span><span class="c1"></span>  <span class="n">VarInt32</span> <span class="n">key_length</span><span class="p">;</span> <span class="c1">//little-endian
+</span><span class="c1"></span>  <span class="n">key</span><span class="p">;</span>
+  <span class="n">VarInt32</span>	<span class="n">value_length</span><span class="p">;</span> <span class="c1">//little-endian
+</span><span class="c1"></span>  <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>No metadata is encoded in the key and no snappy!</p>
+<h3 id="deleted-data">Deleted Data</h3>
+<p>Logs and Level Zero LDB can potentially contain old versions of or deleted records, however, when moved at last to the Level One LDB, these records that contain deleted or updated records get erased. However Level One LDB might contain logically deleted data, if this data was marked for deletion in log or Level Zero LDB.</p>
 <h2 id="cookies">Cookies</h2>
 <p>An example of creating a cookie:</p>
 <div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span> <span class="o">=</span> <span class="s2">&#34;username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC&#34;</span><span class="p">;</span>
@@ -337,6 +414,7 @@
 <p>[<a href="https://javascript.info/indexeddb">3</a>] Working with IndexedDB</p>
 <p>[<a href="https://www.magnetforensics.com/resources/mvs-recording-hang-on-thats-not-sqlite-chrome-electron-and-leveldb/?submission=https://go.magnetforensics.com/l/52162/2021-05-07/kynrnl">4</a>] Magnet Summit 2021, Hang On! That’s Not SQLite! Chrome, Electron, and LevelDB</p>
 <p>[<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">5</a>] About localStorage</p>
+<p>[<a href="https://www.cclsolutionsgroup.com/post/hang-on-thats-not-sqlite-chrome-electron-and-leveldb">6</a>] Hang on! That’s not SQLite! Chrome, Electron and LevelDB, article</p>
 
   </div>
 </article>
