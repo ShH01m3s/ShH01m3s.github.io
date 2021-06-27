@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>OSDF conference 2020 - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.b67d7fec5daec98747a80616a05e9e1e96dc0976219c428241762578c5ae69c3.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/forensics/analysis/materials/"> Back to Materials Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#remote-desktop-connection">Remote Desktop Connection</a></li>
+    <li><a href="#volatility-troubleshooting">Volatility Troubleshooting</a>
+      <ul>
+        <li><a href="#acquisition-errors">Acquisition errors</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#generate-the-vtypes">Generate the vtypes</a></li>
+      </ul>
+    </li>
+    <li><a href="#forged-image-detection">Forged Image Detection</a>
+      <ul>
+        <li><a href="#limitation">Limitation</a></li>
+      </ul>
+    </li>
+    <li><a href="#autopsy-update">Autopsy Update</a></li>
+    <li><a href="#apollo">Apollo</a></li>
+    <li><a href="#regripper">RegRipper</a></li>
+    <li><a href="#wsl">WSL</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">OSDF conference 2020</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-sticky-note"></i>
+              
+          <a class="platform-link" href="/doctype/coursenotes">coursenotes</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+              <i class="fab fa-windows"></i>          
+            
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/windows">windows</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/osdf" rel="tag">osdf</a>
+          
+      </div> 
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>These are my notes from OSDF con (2020). I didn&rsquo;t keep the notes from all of the topics. I mainly focused on my personal interests.</em></p>
+<h2 id="remote-desktop-connection">Remote Desktop Connection</h2>
+<p>RDP Bitmap Cache. RDP was developed by Windows. Small chunks of screenshots. The size of each is <code>64x64</code> bit. And also there is 1 huge sprite with all of them.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">%</span><span class="n">USERPROFILE</span><span class="o">%</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Microsoft</span>\<span class="n">Terminal</span> <span class="n">Server</span> <span class="n">Client</span>\<span class="n">Cache</span>
+</code></pre></div><ul>
+<li>older - <code>.bmc</code></li>
+<li>newer - <code>Cache####.bin</code> where # is a number starting from <code>0</code></li>
+</ul>
+<p>A Python2-based extraction tool - <a href="https://github.com/ANSSI-FR/bmc-tools">https://github.com/ANSSI-FR/bmc-tools</a> with <code>-b</code> flag. Was with a bug (4 bytes offset mistake). <a href="https://github.com/brimorlabs/rdpieces/blob/master/modified-bmc-tools.py">https://github.com/brimorlabs/rdpieces/blob/master/modified-bmc-tools.py</a>. Powershell <a href="https://github.com/gtworek/PSBits/blob/master/DFIR/DecodeRDPCache.ps1">https://github.com/gtworek/PSBits/blob/master/DFIR/DecodeRDPCache.ps1</a>.</p>
+<ol>
+<li>Extract data from RDP Bitmap Cache</li>
+<li>Ensure output folder(s) and format correct</li>
+<li>Rearrange to make a whole screen (challenging).</li>
+</ol>
+<p>The solution is to see this process as a puzzle. You look at the edges and try to find a corresponding piece that matches. All the math is performed by Imagemagick and SQL. Trial and error showed that the edge should be 5px in width or height (depending on how we are matching: top, bottom, left or right).</p>
+<p><code>RDPieces.pl</code> gives approximately 400 ordered results instead of 6400 unordered ones.</p>
+<p>❗ Ransomware sometimes encrypts <code>bin</code> files + there is a registry key that turns this off. So, if any or both of these were done by a malicious party, this method becomes useless.</p>
+<p>❓ Registry key.</p>
+<h2 id="volatility-troubleshooting">Volatility Troubleshooting</h2>
+<p>There is a new version of Volatility out there and some changed made. So, need to update my <a href="/docs/coursenotes/memory-forensics">notes</a> on memory forensics. Older version doesn&rsquo;t support hybernation files on Win8 and newer. The format is different.</p>
+<p>Types:</p>
+<ul>
+<li>raw</li>
+<li>Hybernation (before Win8) Windows</li>
+<li>Crashdumps Windows</li>
+<li>Other file formats (vbox, vmem, vmss)</li>
+</ul>
+<h3 id="acquisition-errors">Acquisition errors</h3>
+<ul>
+<li>hard to find a good free tool</li>
+<li>failing in the middle</li>
+<li>smearing due to a long time (pointers pointing to the data that is not there anymore and written to disk)</li>
+<li>corrupted memory samples</li>
+<li>malware interference</li>
+<li>Updates leading to new memory structures</li>
+</ul>
+<p>You need the correct profile:</p>
+<ul>
+<li><code>kdbgscan</code>, <code>imageinfo</code> (slow and shows info only about the first KDBG block that it encounters) for Windows. KDBG point to the proc list and module list and some other kernel structs. This info is used to determine the profile.</li>
+<li><code>grep</code> for <code>BOOT_IMAGE</code> for Linux to find kernel info</li>
+<li><code>mac_get_profile</code> plugin for Mac</li>
+</ul>
+<p>Now we don&rsquo;t have to specify the profile. Just download all the profiles and it is going to figure it out itself. For Windows even easier.</p>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<ol>
+<li>Check whether the memory sample is even valid:</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">memory.img tr -d <span class="s1">&#39;\0&#39;</span> <span class="p">|</span> <span class="nb">read</span> -n <span class="m">1</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&#34;Empty&#34;</span>
+xxd memory2.img <span class="p">|</span> grep -v <span class="s2">&#34;0000 0000 0000 0000 0000 0000 0000 0000&#34;</span> <span class="p">|</span> less -I
+</code></pre></div><ol start="2">
+<li>Missing dependencies. For example, <code>distorm3</code>.</li>
+<li>Acquisition smearing (buggy acquisition, incomplete or changes in memory).</li>
+</ol>
+<p>When everything is broken you&rsquo;ll be likely see this:</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory1.png" alt="osdf-troubleshooting-memory"></p>
+<p>Try <code>strings.exe</code>. Try scanning plugins. Try hex editor. Try <code>bulk_extractor</code> <a href="https://github.com/simsong/bulk_extractor">https://github.com/simsong/bulk_extractor</a>. Try <code>mftparser</code> for vol2.</p>
+<p>When something is broken, but not everything you get this:</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory2.png" alt="osdf-troubleshooting-memory2"></p>
+<p>Try <code>psscan</code>. If it renders any output, try using a DTB (PDB) from a different process.</p>
+<blockquote>
+<p>❓ What is DTB (PDB)? DTB - Directory Table Base and Process Table Base. Volatility uses some default process to get the base of this table. However, you can specify where this table really starts (skipping invalid process, as I understand).</p>
+</blockquote>
+<p>Running <code>psscan</code> we can determing any valid process and use its address as the new base.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">messed</span><span class="o">.</span><span class="n">dmp</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win</span> <span class="n">psscan</span>
+<span class="c1"># note the address of any system proces</span>
+<span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">messed</span><span class="o">.</span><span class="n">dmp</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win</span> <span class="o">--</span><span class="n">dtb</span><span class="o">=</span><span class="mh">0xb</span><span class="n">lahblah</span> <span class="n">pslist</span>
+<span class="c1"># if one fails, try the next one. May be you will get lucky</span>
+</code></pre></div><ol start="4">
+<li>Multiple KDBG blocks. Some are valid and some not.</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">mem</span><span class="o">.</span><span class="n">raw</span> <span class="n">kdbgscan</span>
+</code></pre></div><p>To determine whether the profile is the correct, note <code>Build string</code>, <code>KDBGHeader, Profile Suggestion</code>, <code>Kernel base</code>.</p>
+<p><code>PsActiveProcessHead</code>, <code>PsLoadedModuleList</code> must have some processes and modules:</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory3.png" alt="osdf-troubleshooting-memory3"></p>
+<p><code>KdCopyDataBlock (V)</code> - address of KDBG block in memory. Put that on the cmd to speed up since <code>vol.py</code> looks for KDBG block internally each time it&rsquo;s run. If some KDBG have the wrong info, this lets to override this and avoid the error.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">mem</span><span class="o">.</span><span class="n">raw</span> <span class="o">--</span><span class="n">kdbg</span><span class="o">=</span><span class="mh">0xf805784bb744</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win10x64_18362</span> <span class="n">pslist</span>
+</code></pre></div><ol start="5">
+<li>If the machine was updated and the structures are different. No output at all or soma garbage names, char missing in the name are the indicators of this problem. Create a new profile or new vtypes (🗒 <em>learn how to do this</em>). <code>pslist</code> works well since it uses kdbg to look for the processes based on the pointers. <code>psscan</code> uses signatures and will therefore fail.</li>
+</ol>
+<h3 id="generate-the-vtypes">Generate the vtypes</h3>
+<p>These are the steps to generate vtypes:</p>
+<ol>
+<li>get the kernel file (<code>ntoskrnl.exe</code>) from the memory</li>
+<li>rename it to <code>ntoskrnl.exe</code></li>
+<li>use <code>pdbparse</code> to generate vtype (<a href="https://github.com/moyix/pdbparse">https://github.com/moyix/pdbparse</a>)</li>
+</ol>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory4.png" alt="osdf-troubleshooting-memory4"></p>
+<p>With Volatility 3.0 you don&rsquo;t have to specify profiles and generate vtypes. There are some cases when the override is needed. In order to do so, follow the steps below. The error might be something like this:</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory5.png" alt="osdf-troubleshooting-memory5"></p>
+<p>It can&rsquo;t find the symbols is because couldn&rsquo;t find win kernel offset (buggy acquisition tool). use volatility to see whether it works and what needs to be overwritten. Solution:</p>
+<ol>
+<li>pull ntos file (like before when generating vtypes)</li>
+<li>get the pdb file <code>symchk.py -e ntoskrnl.exe</code></li>
+<li>pdb -&gt; json with <code>pdbconv.py -f ntkrnlmp.pdb -o new_symbols.json</code></li>
+</ol>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory6.png" alt="osdf-troubleshooting-memory6"></p>
+<ol start="4">
+<li>cat new_symbols.json | less -I`</li>
+</ol>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory7.png" alt="osdf-troubleshooting-memory7"></p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory8.png" alt="osdf-troubleshooting-memory8"></p>
+<ol start="5">
+<li>
+<p>get a config file to override the different thing that we need to override. Use the memory sample, that works with <code>vol3</code> and create a config with <code>configwriter.ConfigWriter</code> plugin.</p>
+</li>
+<li>
+<p>override the info</p>
+</li>
+</ol>
+<p>The second green square - DTB.</p>
+<p>And get the <code>KernelBase</code> with <code>vol2.py kdbgscan</code>. And <code>dtb</code> is needed as well.</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory9.png" alt="osdf-troubleshooting-memory9"></p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory10.png" alt="osdf-troubleshooting-memory10"></p>
+<p>New config file:</p>
+<p><img src="/docs/coursenotes/pics/osdf-troubleshooting-memory11.png" alt="osdf-troubleshooting-memory11"></p>
+<p>added line (the last one), created symbols file.</p>
+<p>Now run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="n">windows</span><span class="o">.</span><span class="n">pslist</span><span class="o">.</span><span class="n">PsList</span>
+</code></pre></div><p>Best to use a good commercial tool to avoid all this obscurantism with vtypes and configs. <code>surge</code> is a commercial tool, but the developers also contribute to vol that&rsquo;s why there is a higher level of compatibility.</p>
+<h2 id="forged-image-detection">Forged Image Detection</h2>
+<p><a href="https://29a.ch/photo-forensics/#forensic-magnifier">https://29a.ch/photo-forensics/#forensic-magnifier</a></p>
+<p>Images can be forged or cloned. Regions can be manipulated with. Hard to detect with naked eye. ❗ Social Media strips-off metadata from uploaded images which makes tracking of the image difficult.</p>
+<p>Main goals are: detect whether the image was cloned and track the source of the image. Forensically and JPEGSnoop open-source tools.  They detect tampering.</p>
+<ol>
+<li><strong>Magnification</strong>. <code>Autocontrast</code> will not disturb the colors too much. <code>Autocontrast by channel</code> will.</li>
+<li><strong>Clone Detection</strong>. The most important. <code>Minimal similariyt</code> ~ <code>0.5</code>. <code>Minimal detail</code> ~ <code>0.1</code>. <code>Minimal cluster size</code> - the number of blocks that two regions need to share in order to be considered clones ~ <code>14</code>.</li>
+<li><strong>Error-level analysis</strong>. Tells that something was compressed multiple times. For example, when you paste an image on another image and save, the are several compressions in place: for the original image and for the pasted one. Use noise to determine that. Spot the artifacts that have been implanted on an image by compressing it multiple times. Because of the noise these parts can&rsquo;t be compressed much.</li>
+<li><strong>Noise analysis</strong>. Self-explanatory.</li>
+<li><strong>JPEG analysis</strong>. Computes the Quantization table, which specify the way an image has been compressed. Each cell <code>0-255</code>.  To compress an image the pixel intestines are modified by the software app in the range of <code>-128</code> to <code>127</code> and new quantization table is calculated. The value of standart - <code>95</code>, which is auto value when the image is not processed. Adobe (Photoshop quality) uses <code>85</code>. The order of different sections. <code>SOI</code> - image start,  <code>EOI</code>- end of image. Multiple <code>SOI</code> and <code>EOI</code> are indicative of pasting other images. Application segments, <code>APP0</code>(JPEG version, screen and printing resolution), <code>APP1</code> (date/time, focal length, aperture), <code>APP13</code> (if processed with Adobe Photoshop). <code>SOS</code> - image was compressed.</li>
+<li><strong>Structural and String Analysis</strong>. When there is no EXIF is useful. <code>FBMD01000a9...</code> indicated web upload (Facebook).</li>
+</ol>
+<p><img src="/docs/coursenotes/pics/osdf-fakeimages1.png" alt="osdf-fakeimages1"></p>
+<p>This one was processed with Adope, since <code>APP13</code> is there. Also, JPEG images sometimes contain Comment section.</p>
+<p><strong>JPEGSnoop</strong> for image tracking extracts embedded info. Identifies &ldquo;Original Transmission Reference&rdquo; (number or an id embedded in the image, provided by the creator or image provider used for transmission and tracking purposes).</p>
+<p>Based on the <strong>compression signature</strong> of the cloned image, it generates a list of devices/software, which could have been used for taking the image or creating it. Track the device and model (when no EXIF especially).</p>
+<h3 id="limitation">Limitation</h3>
+<p>Magnification blurs the colors so difficult to detect tampering. GPS might not be available with the image was taken from the device which either hasn&rsquo;t or disabled GPS tracking. Social media strip-off metadata. ❗ JPEG Analysis can identify quantization tables only if image is processed and edited using Adobe.</p>
+<h2 id="autopsy-update">Autopsy Update</h2>
+<p>APFS Disk images support, XRY Text File Reports. Chromium support. More Windows artifacts. New Picture Analyzer (former EXIF Module) + converts HEIC to JPEG and adds as children.</p>
+<blockquote>
+<p>❓ what&rsquo;s HEIC?</p>
+</blockquote>
+<p>Flags files based on name and path. For example, <code>googlesync.exe</code> goes under category <code>Cloud Storage</code>. Contribute rules. Incorprorating scoring from CyberTriage.</p>
+<p><strong>Central Repository</strong>. Enabled by default. Doesn&rsquo;t correlate by default.</p>
+<p><strong>Drone analyser</strong>. New, based on DHS S&amp;T Contact (DAtCon to parse DJI drone data and creates track points for where the drone was). GPX module creates track points, way points, etc from non-drones. Can be displayed in the new Map viewer.</p>
+<p><strong>iOS Analyzer</strong>! Finally! Uses iLEAPP. <code>.tar</code> as input file. 4.18 should support disk images, more artifacts and aLEAPP.</p>
+<p>New <strong>Context Viewer</strong>. Where did it come from (downloads, attachments)? When or where was it used (MRU keys, Prefetch, etc)?</p>
+<p><strong>Data Source Summary</strong>. About this data source, about user activity ❗.</p>
+<p><strong>Discovery</strong>. Search navigation. Items are organized in groups. See copies of the artifacts.</p>
+<p><strong>Maps.</strong> Geo from iOS, Android, Drone, EXIF.Uses Bing or OpenStreetMap.</p>
+<p>Interesting modules:</p>
+<ol>
+<li><strong>W10-FaceMesanger@Autopsy</strong> is Data Source Module. SQLlite DB can be queried to retrieve deleted items ❗<code>Undark</code>. For Win10.</li>
+<li><strong>LabCIF DOI</strong> - Detection of Objects in Images. YOLOv3 - You only look once. Uses Darknet in GPU mode (if CUDA available) or OpenCV in CPU mode for best performance. <a href="https://github.com/labcif/doi">https://github.com/labcif/doi</a>.</li>
+<li><strong>Camera Fingerprint PRNU</strong>. To determine that the photo was taken by the suspect camera. Uses photo response non-uniformity of camera sensor: <code>photo - noise = PRNU</code>. Physical analysis of camera sensor + PRNU. Each sensor pixel is unique. Creates a description of camera sensor (fingerprint). To create a fingerprint, at least 30 photos are needed (white surface such as walls and clouds). Add evidence photos to data source. Select a folder with reference photos in ingest config. If the suspect photo was edited or resized, the information might be inaccurate (check tampering with other tools).</li>
+<li><strong>SpeechToText</strong>. Type identifiaction module should be run before using this.</li>
+<li><strong>BlackVue Geolocation</strong>.</li>
+<li><strong>Android Usagestats</strong>. XML with user interatcion, moving apps to fore- and background and config changes. <code>data/system/usagestats</code>, protobuf files.</li>
+<li><strong>TikTok for Android Analyzer</strong>. Contacts and Messages. <code>tiktok.py</code>. Move it to <code>InternalPythonModules/android</code>. Open <code>module.py</code> and import the tiptok.py and add the analyzer to the exisiting list.</li>
+<li>Forensic Analysis for Mobile Apps (<strong>FAMA</strong>). Extract user data from a connected Android device (using adb). Produce detailed reports (maps, timelines,multimedia). Recover rows from SQLite (Undark and SQL Deleted Records Parser). Https://github.com/labcif/FAMA. Clone repo, copy contents to <code>autopsy/python_modules</code>. Select <code>live extraction with ADB</code>.</li>
+<li><strong>Notification analyser</strong>. Windows 10 Notification with &ldquo;Your Phone&rdquo; integration. <code>%LOCALAPPDATA%\Microsoft\Windows\Notifications</code>. SQLite3 DB produces WAL (Write Ahead Log) and SHM files. Notifications live for 3 days. Deleted rows can be recovered. YPA (anothe Autopsy plugin - <a href="https://github.com/labcif/ypa)">https://github.com/labcif/ypa)</a>.</li>
+<li><strong>Tinder for Android</strong>. Contacts and messages. <code>tinder.py</code>.</li>
+<li><strong>Document Metadata</strong>.</li>
+<li><strong>Nintendo Switch Forensics</strong>.</li>
+<li><strong>iOS_sysdiagnose</strong>.</li>
+<li><strong>Mass Export</strong>. Export of files of certain types into Case folder.</li>
+<li><strong>Ring central</strong>.</li>
+<li><strong>Wordlist</strong>. After keyword search.</li>
+<li><strong>Google Takeout</strong>.</li>
+<li><strong>AD1_Extractor.</strong></li>
+<li><strong>LevelDB</strong>.</li>
+</ol>
+<h2 id="apollo">Apollo</h2>
+<p><a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a></p>
+<p>Artifact gathering added.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python3 apollo.py gather_macos modules / --ignore /System/Data/Volume --ignore ~/miphone
+
+python3 apollo.py gather_ios --ip <span class="o">[</span>ip<span class="o">]</span> --port <span class="o">[</span>port<span class="o">]</span> modules /private/var
+</code></pre></div><p><code>root</code> username is hardcoded in</p>
+<p>Extraction</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python3 apollo.py extract -o sql_json -v <span class="m">14</span> -k modules tmp_folder
+<span class="c1"># -v - version</span>
+<span class="c1"># -k - extract some geo info and export to use for example with Google Earth, kmz files</span>
+
+</code></pre></div><h2 id="regripper">RegRipper</h2>
+<p><a href="https://github.com/keydet89/RegRipper3.0">https://github.com/keydet89/RegRipper3.0</a></p>
+<p>Use profiles (ex. USB or mic&amp;cam)</p>
+<h2 id="wsl">WSL</h2>
+<p>Windows Subsystem for Linux.</p>
+<p><img src="/docs/coursenotes/pics/wsl1.png" alt="wsl1"></p>
+<p>Attacks</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/coursenotes/pics/wsl2.png" alt="wsl2"></p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
