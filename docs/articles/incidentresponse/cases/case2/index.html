@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>case study - Analyst</title>
+  <title>Case 2. Watering Hole Attack - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -149,131 +149,99 @@
     
     
     
-
     
     
 
-
- 
- <h1 class="title">case study</h1> 
-
-
-
-<h2><a href="https://bakerst221b.com/docs/articles/incidentresponse/cases/case1/"> Case 1. Famous Retailer Data Breach</a></h2> 
-<ul>
-  <li>
     
-    <b>domain:</b>
-    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/incidentresponse/cases/"> Back to Cases Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#case-overview">Case Overview</a></li>
+    <li><a href="#layout">Layout</a>
+      <ul>
+        <li><a href="#step-1-stake-out-watering-hole">Step 1. Stake out watering hole</a></li>
+        <li><a href="#step-2-catch-the-visiting-gazelles">Step 2. Catch the visiting gazelles</a></li>
+        <li><a href="#step-3-cc">Step 3. C&amp;C</a></li>
+      </ul>
+    </li>
+    <li><a href="#lessons-learned">Lessons Learned</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Case 2. Watering Hole Attack</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
       
-      <a class="category-link" href="/domain/ir" rel="domain">ir</a>
+      <div class="article-category">domain: 
+          
+              
+          <a class="category-link" href="/domain/ir">ir</a>
+          
+      </div> <br />
       
-    
-  </li>
-  <li>
-    
-    <b>doctype:</b>
-    
+      <div class="article-category">doctype:
+          
+            
+              
+          <a class="platform-link" href="/doctype/case-study">case study</a>
+          
+      </div> <br /><br/>
       
-      <a class="category-link" href="/doctype/case-study" rel="doctype">case study</a>
       
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-<br>
-<p><i>Case Overview The Target Corporation is an American retailing company, founded in 1902 and headquartered in Minneapolis, Minnesota.</i>
-<ul>
-  <li>
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-</p>
+      
+      
 
-<h2><a href="https://bakerst221b.com/docs/articles/incidentresponse/cases/case2/"> Case 2. Watering Hole Attack</a></h2> 
-<ul>
-  <li>
-    
-    <b>domain:</b>
-    
       
-      <a class="category-link" href="/domain/ir" rel="domain">ir</a>
       
-    
-  </li>
-  <li>
-    
-    <b>doctype:</b>
-    
-      
-      <a class="category-link" href="/doctype/case-study" rel="doctype">case study</a>
-      
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-<br>
-<p><i>Case Overview Watering hole is an attack strategy in which an attacker guesses or observes which websites an organization often uses and infects one or more of them with malware.</i>
-<ul>
-  <li>
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-</p>
 
-<h2><a href="https://bakerst221b.com/docs/articles/incidentresponse/cases/case3/"> Case 3. Phishing against Google and Facebook</a></h2> 
-<ul>
-  <li>
-    
-    <b>domain:</b>
-    
       
-      <a class="category-link" href="/domain/ir" rel="domain">ir</a>
-      
-    
-  </li>
-  <li>
-    
-    <b>doctype:</b>
-    
-      
-      <a class="category-link" href="/doctype/case-study" rel="doctype">case study</a>
-      
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-<br>
-<p><i>Case Overview In summary, according to the US attorney&rsquo;s office for the Southern District of New York, scammers stole over $100 million from Facebook and Google in a creative way.</i>
-<ul>
-  <li>
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-</p>
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="case-overview">Case Overview</h2>
+<p><strong>Watering hole</strong> is an attack strategy in which an attacker guesses or observes which websites an organization often uses and infects one or more of them with malware. Eventually, some member of the targeted group will become infected [<a href="https://en.wikipedia.org/wiki/Watering_hole_attack">1</a>].</p>
+<p>July, 2012. Several high-profile institutions (financial and tech sectors) were victimized by a watering hole attack.</p>
+<h2 id="layout">Layout</h2>
+<h3 id="step-1-stake-out-watering-hole">Step 1. Stake out watering hole</h3>
+<p>Insert an iframe that redirects users to a 0-day malware download (Trojan Gh0st RAT).</p>
+<h3 id="step-2-catch-the-visiting-gazelles">Step 2. Catch the visiting gazelles</h3>
+<p>People use their corporate laptops and get infected.</p>
+<h3 id="step-3-cc">Step 3. C&amp;C</h3>
+<p>Malware talks to its C&amp;C and exfiltrates the data to one of two China servers. The infected machine becomes a new lauch point for the attack. Hunt the priviledges users to gain access to serious data.</p>
+<h2 id="lessons-learned">Lessons Learned</h2>
+<h2 id="references">References</h2>
+<p>[<a href="https://en.wikipedia.org/wiki/Watering_hole_attack">1</a>] Wikipedia, Watering Hole</p>
 
+  </div>
+</article>
+</div>
+</div>
 
-
-
-
-
+        </div>
+      </div>
+    </div>
     
   </div>
 
