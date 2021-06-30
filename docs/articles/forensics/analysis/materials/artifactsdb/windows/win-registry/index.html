@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -160,9 +160,16 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/articles/forensics/analysis/materials/artifactsdb/windows/"> Back to Windows Section </a>
+   <a href="/docs/articles/forensics/analysis/materials/artifactsdb/windows/"> Back to Windows Section </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -170,103 +177,66 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-
- 
- <h1 class="title">Windows Registry</h1> 
-
-
-
-<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/materials/artifactsdb/windows/win-registry/important/"> Most Important Registry Keys</a></h2> 
-<ul>
-  <li>
-    
-    <b>domain:</b>
-    
+<h1 class="title">Windows Registry</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
       
-      <a class="category-link" href="/domain/general" rel="domain">general</a>
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
       
-    
-  </li>
-  <li>
-    
-    <b>doctype:</b>
-    
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
       
-      <a class="category-link" href="/doctype/article" rel="doctype">article</a>
       
-    
-  </li>
-  <li>
-    
-    platforms: 
-    
       
-      <a class="category-link" href="/platforms/win" rel="platforms">win</a>
       
-    
-  </li>
-</ul>
-<br>
-<p><i></i>
-<ul>
-  <li>
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-</p>
+      <div class="article-category">
+          
+            
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/win">win</a>
+          
+      </div> <br />
+      
 
-<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/materials/artifactsdb/windows/win-registry/about/"> Windows Registry</a></h2> 
-<ul>
-  <li>
-    
-    <b>domain:</b>
-    
       
-      <a class="category-link" href="/domain/general" rel="domain">general</a>
       
-    
-  </li>
-  <li>
-    
-    <b>doctype:</b>
-    
+
       
-      <a class="category-link" href="/doctype/article" rel="doctype">article</a>
-      
-    
-  </li>
-  <li>
-    
-    platforms: 
-    
-      
-      <a class="category-link" href="/platforms/win" rel="platforms">win</a>
-      
-    
-  </li>
-</ul>
-<br>
-<p><i>The registry is a dynamically expanding database of binary and ASCII data. Its primary purpose is to store configurations.</i>
-<ul>
-  <li>
-    
-  </li>
-  <li>
-    
-  </li>
-</ul>
-</p>
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <p><em>The registry is a dynamically expanding database of binary and ASCII data. Its primary purpose is to store configurations. One of the most important places to look for evidence. It&rsquo;s a good place to look for <strong>configuration changes</strong> when performing cyber triage on the system.</em></p>
+<p>Consists of hives. When a program is installed, reg entries are created. When this program is then deleted, its data not always deleted from the registry (although it&rsquo;s supposed to).</p>
+<p>Most of the tools sometime fail to show user created regisrty keys, so, it&rsquo;s better to know the search string for that. Try some case specific keywords. To see the registry in a human viewable format, use<code>regedit</code>. Open <code>Edit</code> -&gt; <code>Find</code>. Type the search word.</p>
+<p><a href="https://www.notion.so/Windows-Registry-05f763c061b94572838c6c99fdc3ffe0">Here</a> is my page in notion where I collect all the win reg keys I stumble upon in my research, study or work. I try to note its use and possible misuses as well.</p>
+<h2 id="references">References</h2>
+<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
 
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

@@ -165,6 +165,13 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li>
+      <ul>
+        <li><a href="#data-structures-and-flags">Data structures and Flags</a></li>
+      </ul>
+    </li>
+    <li><a href="#bootcode-and-booting-process">Bootcode and Booting Process</a></li>
+    <li><a href="#partitioning">Partitioning</a></li>
     <li><a href="#mbr">MBR</a></li>
     <li><a href="#gpt">GPT</a></li>
     <li><a href="#apfs">APFS</a></li>
@@ -217,7 +224,44 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Partitioning is the address range where the volume with a file system can sit. You create a partition, then you format it to create a volume with a file system. So, <em>partition</em> and <em>volume</em> are not interchangable terms. Usually, a volume occupies the whole partition, but that&rsquo;s not always the case. Sometimes, some little address sapce might be left out of the volume, so that this volume would not occupy the whole partition.</p>
+    <p>There are: file name, file metadata and the contents of the file itself. They are not in the same place. File metadata contains filename and also a ptr to the sector, where the file&rsquo;s contents starts and size of data. Theoretically, we could change the file metadata to make it point to another cluster&hellip; 🤔</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Cluster</th>
+<th>size</th>
+<th>last accessed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>malware.txt</td>
+<td>654</td>
+<td>80</td>
+<td>October 13, 2020</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Essential</strong> data - can be trusted and <strong>non</strong>-<strong>essential</strong> cannot. But if ptr to cluster is called essential data, how we can trust it? Well, it&rsquo;s much harder to tamper with.</p>
+<p><a href="https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file">https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">open <span class="o">[</span>path/to/dmg<span class="o">]</span>
+dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;/dev/disk[number]&#34;</span> <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/extract/path/file.img&#34;</span>
+fdisk -l file.img
+dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;path/to/file.img&#34;</span> <span class="nv">bs</span><span class="o">=</span>sector_size <span class="nv">skip</span><span class="o">=</span>sectors <span class="nv">count</span><span class="o">=</span>sectors &gt;&gt; output.hfs
+</code></pre></div><h3 id="data-structures-and-flags">Data structures and Flags</h3>
+<p>First, there must be some data structure identifier so that the CPU could know, how to read the subsequent data. For example, if we have the following:</p>
+<p><code>1001 1000 1001 1110 1010 1100 1000 101</code></p>
+<p>For example, the first 4 bits <code>0101</code> tell the CPU that the next bits should be interpreted as an image. Then, for example, there are other 4 bits <code>0011</code> that are 4 flags. Flag is a 1-bit value, indicating either <code>true</code> or <code>false</code>, or either <code>exists</code> or <code>doesn't</code>. This are flags, for example, that indicate: wether it&rsquo;s black-and-white (<code>0</code>) or colored (<code>1</code>); wether the image is editable <code>1</code> or <code>0</code> etc. And then the file contents.</p>
+<p>Consider the above binary sequence. To make it more compressed, convert it to hex: <code>4c 4f 56 45</code>. What is this? That depends. If you tell CPU that it&rsquo;s machine instructions, then it&rsquo;s see this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">dec esp
+dec edi
+push esi
+inc ebp
+</code></pre></div><p>But what if you tell that it&rsquo;s text? Then CPU sees&hellip; check out <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">here</a>.</p>
+<h2 id="bootcode-and-booting-process">Bootcode and Booting Process</h2>
+<h2 id="partitioning">Partitioning</h2>
+<p>Partitioning is the address range where the volume with a file system can sit. You create a partition, then you format it to create a volume with a file system. So, <em>partition</em> and <em>volume</em> are not interchangable terms. Usually, a volume occupies the whole partition, but that&rsquo;s not always the case. Sometimes, some little address sapce might be left out of the volume, so that this volume would not occupy the whole partition.</p>
 <h2 id="mbr">MBR</h2>
 <p>Primary partitions (bootable). Can have at most 4 bootable partitions. We can look at offset 440 to see which volumes are maped to which drive letter in the registry.</p>
 <h2 id="gpt">GPT</h2>
