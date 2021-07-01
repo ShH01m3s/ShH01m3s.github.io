@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.b67d7fec5daec98747a80616a05e9e1e96dc0976219c428241762578c5ae69c3.css">
+  <link rel="stylesheet" href="/css/style.min.c19bb2e52f73aa2091a451c47863c729125678ba2354504a669820a1c0258b1e.css">
   
 
   
@@ -171,10 +171,12 @@
       </ul>
     </li>
     <li><a href="#bootcode-and-booting-process">Bootcode and Booting Process</a></li>
-    <li><a href="#partitioning">Partitioning</a></li>
+    <li><a href="#partition-tables">Partition tables</a></li>
     <li><a href="#mbr">MBR</a></li>
     <li><a href="#gpt">GPT</a></li>
+    <li><a href="#file-systems">File Systems</a></li>
     <li><a href="#apfs">APFS</a></li>
+    <li><a href="#ntfs">NTFS</a></li>
   </ul>
 </nav>
  </aside>
@@ -260,12 +262,60 @@ push esi
 inc ebp
 </code></pre></div><p>But what if you tell that it&rsquo;s text? Then CPU sees&hellip; check out <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">here</a>.</p>
 <h2 id="bootcode-and-booting-process">Bootcode and Booting Process</h2>
-<h2 id="partitioning">Partitioning</h2>
+<h2 id="partition-tables">Partition tables</h2>
 <p>Partitioning is the address range where the volume with a file system can sit. You create a partition, then you format it to create a volume with a file system. So, <em>partition</em> and <em>volume</em> are not interchangable terms. Usually, a volume occupies the whole partition, but that&rsquo;s not always the case. Sometimes, some little address sapce might be left out of the volume, so that this volume would not occupy the whole partition.</p>
 <h2 id="mbr">MBR</h2>
 <p>Primary partitions (bootable). Can have at most 4 bootable partitions. We can look at offset 440 to see which volumes are maped to which drive letter in the registry.</p>
 <h2 id="gpt">GPT</h2>
 <p>Up to a 128 partitions, all of them can be set as bootable. Will still have a dummy MBR at sector 0 and it&rsquo;s there for backwards compatibility.</p>
+<h2 id="file-systems">File Systems</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Partition size (min/max)</th>
+<th>Cluster size (min/max)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FAT16</td>
+<td>16Mb/2Gb</td>
+<td>2Kb/32Kb</td>
+</tr>
+<tr>
+<td>FAT32</td>
+<td>260Mb/32Gb 🔍</td>
+<td>2Kb/32Kb</td>
+</tr>
+<tr>
+<td>NTFS 1.1</td>
+<td>500Mb/8Gb 🔍</td>
+<td>512B/8Kb</td>
+</tr>
+<tr>
+<td>NTFS 3.0</td>
+<td>500Mb/16EB</td>
+<td>512B/64Kb</td>
+</tr>
+<tr>
+<td>HFS</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>HFS+</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>APFS</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>🔍 - this is from M. Graves' book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
 <h2 id="apfs">APFS</h2>
 <p>Apple 🍏. 2006 PowerPC -&gt; Intel. They also moved to GUID partitioning (GPT). GPT replaces MPT at the end of MBR. The main difference between them is that MPT can only define 4 primary partitions, while GPT can have</p>
 <p>Partitions and volumes are slightly different than for other FS. When we see a APFS disk, think in terms of volumes.</p>
@@ -275,6 +325,8 @@ inc ebp
 <ul>
 <li><input disabled="" type="checkbox"> <a href="https://eclecticlight.co/2019/12/18/making-sense-of-disk-utility-and-disk-structure-in-macos-10-13-10-15/">Making sense of Disk Utility and disk structure in macOS 10.13-10.15</a></li>
 </ul>
+<h2 id="ntfs">NTFS</h2>
+<p>Windows OS file system for 27 years.</p>
 
   </div>
 </article>
