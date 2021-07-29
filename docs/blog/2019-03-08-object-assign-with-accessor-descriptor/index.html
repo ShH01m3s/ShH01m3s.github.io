@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Object.assign() with accessor descriptor - Observer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+
+  
+  
+  <link rel="stylesheet" href="/css/style.min.aad43d4ecb69a264f2539b89d7f779d5f3cdff22e7585fe5fc3c77272f1c2696.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-docs">
+      <a href="/docs/">
+        <span>Docs</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-docs">
+      <a href="/docs/">
+        <span>Docs</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <h4>Docs</h4>
+  <ul>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/fundamentals/activities/">Activities</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/btfm/">Btfm Android</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/attacks/ipc-attacks/">IPC Attacks</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2018/04/dot-net-confuser/">.NET Confuser</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2018/07/analytic-protiv-khishnika/">Analytic Protiv Khishnika</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2018/07/undesirable-mail/">Undesirable Mail</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/rtfm/">Rtfm Android</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020/09/how-i-met-hugo/">How I Met Hugo</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/linux/plan/">Linux</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/macos/plan/">MacOSX Forensics Plan</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/memory/plan/">Plan for Memory Forensics</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/reveng/plan/">Plan for Reverse Engineering</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/net/plan/">Windows Forensics Plan</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/win/plan/">Windows Forensics Plan</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-06-06-changes-in-java-string/">Changes to String in java (from 1.7.0_06)</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-05-01-algorithms-graphs/">Algorithms - Graphs</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-04-29-subtyping/">Programming Language - Subtyping</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-02-29-racket/">Racket notes</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-12-30-standardml-notes/">Standard ML notes</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-28-javascript-comparison/">JavaScript Comparison operation at a glance</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-22-js-tips/">Js tips I can&#39;t remember</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-08-es6-bind-trick/">Bind specific arguments of a function</a>
+    </li>
+    
+    <li class="active ">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-08-object-assign-with-accessor-descriptor/">Object.assign() with accessor descriptor</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-01-19-vue-navigation-guards/">VueのNavigation Guards</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-01-18-es6/">ES6について</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/ios/rtfm/"></a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/about/">About me</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/achievements/">Achievements</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/contact/">Contact</a>
+    </li>
+    
+  </ul>
+</div>
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Object.assign() with accessor descriptor</h1>
+<div class="content ">
+  <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Copying_accessors">MDN docs:</a></p>
+<blockquote>
+<p>The Object.assign() method only copies enumerable and own properties from a source object to a target object. It uses [[Get]] on the source and [[Set]] on the target, so it will invoke getters and setters. Therefore it assigns properties versus just copying or defining new properties. This may make it unsuitable for merging new properties into a prototype if the merge sources contain getters.</p>
+</blockquote>
+<p>For example</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Cat</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">_name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">get</span> <span class="nx">name</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_name</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">set</span> <span class="nx">name</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">_name</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">let</span> <span class="nx">nyannko</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cat</span><span class="p">(</span><span class="s2">&#34;nyannko&#34;</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span> <span class="nx">nyannko</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">nyannko</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="c1">// nyannko
+</span><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">copy</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="c1">// undefined
+</span></code></pre></div><p>The <code>name</code> property is lost.</p>
+<p>To copy accessors, we can use <code>Object.getOwnPropertyDescriptor()</code> and <code>Object.defineProperty()</code> as the MDN docs recommend:</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nx">get</span> <span class="nx">bar</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span> <span class="nx">obj</span><span class="p">);</span> 
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">copy</span><span class="p">);</span> 
+<span class="c1">// { foo: 1, bar: 2 }, the value of copy.bar is obj.bar&#39;s getter&#39;s return value.
+</span><span class="c1"></span>
+<span class="c1">// This is an assign function that copies full descriptors
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">completeAssign</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="p">...</span><span class="nx">sources</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">sources</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">source</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">descriptors</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">source</span><span class="p">).</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">descriptors</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">descriptors</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyDescriptor</span><span class="p">(</span><span class="nx">source</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">descriptors</span><span class="p">;</span>
+    <span class="p">},</span> <span class="p">{});</span>
+    <span class="c1">// by default, Object.assign copies enumerable Symbols too
+</span><span class="c1"></span>    <span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertySymbols</span><span class="p">(</span><span class="nx">source</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">sym</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">descriptor</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyDescriptor</span><span class="p">(</span><span class="nx">source</span><span class="p">,</span> <span class="nx">sym</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">descriptor</span><span class="p">.</span><span class="nx">enumerable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">descriptors</span><span class="p">[</span><span class="nx">sym</span><span class="p">]</span> <span class="o">=</span> <span class="nx">descriptor</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperties</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">descriptors</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="k">return</span> <span class="nx">target</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nx">completeAssign</span><span class="p">({},</span> <span class="nx">obj</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">copy</span><span class="p">);</span>
+<span class="c1">// { foo:1, get bar() { return 2 } }
+</span></code></pre></div><p>The other way is <code>Object.prototype.__proto__</code> (but <strong>not recommended</strong>):</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">let</span> <span class="nx">completeCopy</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({</span><span class="nx">__proto__</span><span class="o">:</span> <span class="nx">nyannko</span><span class="p">.</span><span class="nx">__proto__</span><span class="p">},</span> <span class="nx">nyannko</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">completeCopy</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// nyannko
+</span></code></pre></div><p><code>Object.prototype.__proto__</code> is deprecated so be aware that this may cease to work at any time.
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto</a></p>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

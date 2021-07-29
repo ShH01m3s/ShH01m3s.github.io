@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Memory Forensics - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/forensics/analysis/materials/"> Back to Materials Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#processes">Processes</a></li>
+    <li><a href="#volatility">Volatility</a></li>
+    <li><a href="#supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</a></li>
+    <li><a href="#aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</a></li>
+    <li><a href="#hiberfilsys-and-crash-dumps">hiberfil.sys and crash dumps</a></li>
+    <li><a href="#vm-hosts--memory"><strong>VM</strong> hosts &amp; memory</a></li>
+    <li><a href="#volatility-plugins">Volatility Plugins</a>
+      <ul>
+        <li><a href="#imageinfo">Imageinfo</a></li>
+        <li><a href="#kdbgscan">kdbgscan</a></li>
+        <li><a href="#imageinfo-vs-kdbscan"><strong>Imageinfo vs Kdbscan.</strong></a></li>
+        <li><a href="#pslist">Pslist</a></li>
+        <li><a href="#psscan">Psscan</a></li>
+      </ul>
+    </li>
+    <li><a href="#triage-of-windows-core-processes">Triage of Windows Core Processes</a>
+      <ul>
+        <li><a href="#analysis-example">Analysis Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#alternative-approaches">Alternative approaches</a></li>
+    <li><a href="#volatility-troubleshooting">Volatility Troubleshooting</a>
+      <ul>
+        <li><a href="#acquisition-errors">Acquisition errors</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#generate-the-vtypes">Generate the vtypes</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Memory Forensics</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-sticky-note"></i>
+              
+          <a class="platform-link" href="/doctype/coursenotes">coursenotes</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/sdf" rel="tag">sdf</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/volatile" rel="tag">volatile</a>
+          
+      </div> 
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li>wg data</li>
+<li>Webmail &amp; gaming chat</li>
+<li>Identify program use</li>
+</ul>
+<h2 id="intro">Intro</h2>
+<p>Installed volatile on mac:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># brew was already installed, but just in case</span>
+ruby -e <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&#34;</span> &lt; /dev/null 2&gt; /dev/null
+brew install volatile
+</code></pre></div><p>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</p>
+<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
+<p>Memory forensics used for:</p>
+<p><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</p>
+<p><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</p>
+<p><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</p>
+<h2 id="processes">Processes</h2>
+<p>Application run in memory. PID - Process ID when being executed. Different for every program run each time it&rsquo;s run. Each has it&rsquo;s own virtual address space. Process Hacker or Explorer to explore live memory.</p>
+<p>Exe path, parent, when started (system boot or not).</p>
+<h2 id="volatility">Volatility</h2>
+<p>Python tool. CLI and GUI. Plugins which target specifica artifact or process. Plugin recipes to combine plugins to automate some analysis vector. That&rsquo;s what I was thinking of doing 😔.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py <span class="o">[</span>plugin<span class="o">]</span> -f <span class="o">[</span>image<span class="o">]</span> --profile<span class="o">=[</span>profile<span class="o">]</span>
+</code></pre></div><h2 id="supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</h2>
+<ol>
+<li>raw</li>
+<li>firewire</li>
+<li>EWF (Expert Witness)</li>
+<li>Hibernation files</li>
+<li>Crash dump</li>
+<li>MachO</li>
+<li>Virtual machines (vbox core dumps, vmware .vmss and .vmsn)</li>
+<li>HPAK (FastDump)</li>
+<li>LiME</li>
+<li>QEMU VM memoryy dumps</li>
+</ol>
+<h2 id="aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</h2>
+<p>If this system is running, capture memory. Should be the first task. Memory stomping issues. Benchmark testing to determine RAM footprint, speed, writes etc.</p>
+<p>Benchmark the tools. DumpIt - lightweight, Magnet RAM, Belkasoft, FTK (slow, highest footprint), Redline, Fast Dump (fdpro.exe).</p>
+<p>Media matters. SSD, USB vs Magnetic media evidence disk (HDD)? USB 3 is cool. Storage check at least 1/3 more then the collected. Magnetic cheap, 2-4 Gb.</p>
+<p>VM vs physical. Different concerns.</p>
+<h2 id="hiberfilsys-and-crash-dumps">hiberfil.sys and crash dumps</h2>
+<p>Not as common, but just as good. Imagecopy plugin cinverts different formats into raw format to speed up. Hiberfile - compressed. Determine the OS profile and run the plugin.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
+vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
+</code></pre></div><p>C:\hiberfil.sys</p>
+<p>C:\Memory.dmp</p>
+<p>What is <a href="https://www.howtogeek.com/howto/15140/what-is-hiberfil.sys-and-how-do-i-delete-it/">hyberfil.sys</a>. Two types of compression.</p>
+<p><code>imageinfo</code> - to identify the profile for memory image. Running <code>vol.py imageinfo -f hiberfil.sys</code> is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
+<p><img src="images/vol_py_imageinfo_mem_udemy.png" alt="vol_py_imageinfo_mem_udemy"></p>
+<p>Purple square - Service pack. Green - correct profile with the correct service pack.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
+</code></pre></div><p>Then validate the file by listing processes that were run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.raw pslist --profile<span class="o">=</span>Win7SP0x86
+</code></pre></div><p>Size up to 75% of memory size.</p>
+<p><img src="images/vol_py_pslist_udemy.png" alt="vol_py_pslist_udemy"></p>
+<p>imagecopy plugin is used to convert some file type into .raw. It decreases the time, needed to analyse the file.</p>
+<h2 id="vm-hosts--memory"><strong>VM</strong> hosts &amp; memory</h2>
+<p>VMWare and Vbox. Benefit of evidence preservation. ✔️ - needed.​vmd can be used and feeded to Autopsy for example.</p>
+<ul>
+<li><strong>vmdk</strong> - virtual hard disk</li>
+<li><strong>vmss</strong> - suspended state file ✔️</li>
+<li><strong>vmsn</strong> - snapshot file ✔️</li>
+<li><strong>vmx</strong> - configuration file</li>
+<li><strong>nvram</strong> - equivalent to BIOS</li>
+</ul>
+<h2 id="volatility-plugins">Volatility Plugins</h2>
+<ul>
+<li>
+<p>Scan plugins - searching and carving from memory</p>
+</li>
+<li>
+<p>List plugins - searching for memory structures and pulling info from them</p>
+</li>
+</ul>
+<p>imageinfo and kdbgscan - analyse the memory sample o identufy the OS, hardware and version profile. Volatility needs a profile to parse the memory file correctly.</p>
+<p>Plugins:</p>
+<ul>
+<li>system process information</li>
+<li>network information</li>
+<li>file system information</li>
+<li>malware detection</li>
+</ul>
+<p><a href="https://github.com/volatilityfoundation/volatility/wiki/Command-Reference">https://github.com/volatilityfoundation/volatility/wiki/Command-Reference</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py --info <span class="p">|</span> more <span class="c1"># list all profiles</span>
+</code></pre></div><h3 id="imageinfo">Imageinfo</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f memdump.mem imageinfo
+</code></pre></div><ul>
+<li>Suggested Profile(s) : Win7SP1x86_23418, <strong>Win7SP0x86</strong>, Win7SP1x86_24000, Win7SP1x86</li>
+<li>AS Layer1 : IA32PagedMemory (Kernel AS)</li>
+<li>AS Layer2 : FileAddressSpace (/memdump.mem)</li>
+<li>PAE type : No PAE</li>
+<li>DTB : 0x185000L</li>
+<li>KDBG : 0x82953be8L</li>
+<li>Number of Processors : 1</li>
+<li><strong>Image Type (Service Pack) : 0</strong></li>
+<li>KPCR for CPU 0 : 0x82954c00L</li>
+<li>KUSER_SHARED_DATA : 0xffdf0000L</li>
+<li>Image date and time : 2002-01-20 10:18:32 UTC+0000</li>
+<li>Image local date and time : 2002-01-20 02:18:32 -0800</li>
+</ul>
+<p><em>#todo: description of each line</em></p>
+<h3 id="kdbgscan">kdbgscan</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f memdump.mem kdbgscan 
+</code></pre></div><p>Instantiating KDBG using: memdump.mem WinXPSP2x86 (5.1.0 32bit)</p>
+<ul>
+<li>
+<p>Offset (P)          : 0x2953be8</p>
+</li>
+<li>
+<p>KDBG owner tag check     : True</p>
+</li>
+<li>
+<p>Profile suggestion (KDBGHeader): Win7SP0x86</p>
+</li>
+<li>
+<p>Version64           : 0x2953bc0 (Major: 15, Minor: 7600)</p>
+</li>
+<li>
+<p>PsActiveProcessHead      : 0x8296b658</p>
+</li>
+<li>
+<p>PsLoadedModuleList      : 0x82972570</p>
+</li>
+<li>
+<p>KernelBase          : 0x82833000</p>
+</li>
+</ul>
+<h3 id="imageinfo-vs-kdbscan"><strong>Imageinfo vs Kdbscan.</strong></h3>
+<p>Imageinfo is quicker but less precise. Using both- narrow down the correct profile. A profile is usually named like WinXXxYY_UpdateVersion. Because memory structures may differ.</p>
+<h3 id="pslist">Pslist</h3>
+<p>List all the processes that were run during live capture. Simialr to Process Hacker or Process Explorer or Task Manager. Doesn&rsquo;t list hidden processes.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f memdump.mem --profile<span class="o">=</span>Win7SP0x86 pslist
+&gt; processes.txt
+</code></pre></div><h3 id="psscan">Psscan</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f memdump.mem --profile<span class="o">=</span>Win7SP0x86 psscan
+</code></pre></div><p>Looking for pull headers. Unallocated space. Find hidden, terminated, unlinked processes. May compare to <code>plist</code> to find suspicious things. Good in identifying rootkits for example.</p>
+<h2 id="triage-of-windows-core-processes">Triage of Windows Core Processes</h2>
+<p>Deviations = investigative leads. <strong>Core Processes</strong> - essential for Win, run on any Win system under examination.</p>
+<p><img src="images/standart-proc-win.png" alt="standart-proc-win"></p>
+<ul>
+<li>check names</li>
+<li>parent (for example, svchost.exe is started by services.exe)</li>
+<li>expected path</li>
+<li>Singleton?</li>
+<li>Account (local system, mane, users)</li>
+<li>start time (boot time, later)</li>
+</ul>
+<p><strong>svchost.exe</strong> - the most abused process. Check for above deviations in the result.</p>
+<p>Check <strong>parent</strong> processes of core processes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> pslist.txt &gt; pslist-all-core.txt
+
+grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> psscan.txt &gt; psscan-all-core.txt
+</code></pre></div><p>Check <strong>names</strong> of non-win processes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i -v <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span>  pslist.txt &gt; pslist-all-non-wincore.txt
+
+grep -E -i -v <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span>  psscan.txt &gt; psscan-all-non-wincore.txt
+</code></pre></div><p>Check known <strong>singletons</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i <span class="s2">&#34;(system|wininit|lsass|services|lsm)&#34;</span> pslist.txt &gt; pslist-all-singletons.txt
+
+grep -E -i <span class="s2">&#34;(system|wininit|lsass|services|lsm)&#34;</span> psscan.txt &gt; psscan-all-singletons.txt
+</code></pre></div><p><img src="images/pslist-singletons.png" alt="pslist-singletons"></p>
+<p>In the example above there are two <code>lsass.exe</code> processes which is nonsence. Obviously, some investigative lead.</p>
+<p>Check <strong>bootimes</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">grep -E -i &#34;(system|wininit|lsass|services|sms|lsm|csrss)&#34; pslist.txt &gt; pslist-all-boot.txt
+
+grep -E -i &#34;(system|wininit|lsass|services|sms|lsm|csrss)&#34; psscan.txt &gt; psscan-all-boot.txt
+</code></pre></div><p><code>System</code> is a pivot point. Other processes that should start at boot, should have approximately the same starting date and time.</p>
+<p><code>pslist</code> is pulling the information of a doubly-linked list (like a Task Manager). <code>psscan</code> - unallocated space (processes terminated or unlinked from this double-linked list).</p>
+<h3 id="analysis-example">Analysis Example</h3>
+<p>We have the result of <code>pslist</code>:</p>
+<p><img src="images/pslist-results.png" alt="pslist-results"></p>
+<p>We have several suspicious processes here: <code>scvhost.exe</code> (misspelled <code>svchost.exe</code>), some <code>xminer.exe</code> and a process with an intriguing name <code>3.exe</code>. But these are the processes that we could have seen, should we use a Task Manager on a live system. What about terminated or unlinked processes?</p>
+<p>To answer that we run <code>psscan</code>:</p>
+<p><img src="images/psscan-results.png" alt="psscan-results"></p>
+<p>We seen the same <code>3.exe</code> in the list. But also we see <code>q.exe</code> which was run for about a minute and during that time another processes was spawned - <code>xmcminer.exe</code>. <code>q.exe</code> was terminated that&rsquo;s why we don&rsquo;t see it in <code>pslist</code> results. But <code>xmcminer.exe</code> was not terminated but we still don&rsquo;t see it in <code>pslist</code>. That means that the process was unlinked from double-list of processes in memory (aka hidden).</p>
+<p>Take unique process names, sort and count:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cut -d <span class="s2">&#34; &#34;</span> -f <span class="m">2</span> <span class="s1">&#39;psscan.txt&#39;</span> <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> sort &gt; <span class="s1">&#39;psscan_proc_sorted.txt&#39;</span>
+</code></pre></div><p>Also, get all processes that did not start at boot time:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i -v 2019-01-20 <span class="s1">&#39;pslist.txt&#39;</span> &gt; pslist_not_boottime.txt
+
+grep -E -i -v 2019-01-20 <span class="s1">&#39;psscan.txt&#39;</span> &gt; psscan_not_boottime.txt
+</code></pre></div><h2 id="alternative-approaches">Alternative approaches</h2>
+<h2 id="volatility-troubleshooting">Volatility Troubleshooting</h2>
+<p>There is a new version of Volatility out there and some changed made. So, need to update my <a href="/docs/coursenotes/memory-forensics">notes</a> on memory forensics. Older version doesn&rsquo;t support hybernation files on Win8 and newer. The format is different.</p>
+<p>Types:</p>
+<ul>
+<li>raw</li>
+<li>Hybernation (before Win8) Windows</li>
+<li>Crashdumps Windows</li>
+<li>Other file formats (vbox, vmem, vmss)</li>
+</ul>
+<h3 id="acquisition-errors">Acquisition errors</h3>
+<ul>
+<li>hard to find a good free tool</li>
+<li>failing in the middle</li>
+<li>smearing due to a long time (pointers pointing to the data that is not there anymore and written to disk)</li>
+<li>corrupted memory samples</li>
+<li>malware interference</li>
+<li>Updates leading to new memory structures</li>
+</ul>
+<p>You need the correct profile:</p>
+<ul>
+<li><code>kdbgscan</code>, <code>imageinfo</code> (slow and shows info only about the first KDBG block that it encounters) for Windows. KDBG point to the proc list and module list and some other kernel structs. This info is used to determine the profile.</li>
+<li><code>grep</code> for <code>BOOT_IMAGE</code> for Linux to find kernel info</li>
+<li><code>mac_get_profile</code> plugin for Mac</li>
+</ul>
+<p>Now we don&rsquo;t have to specify the profile. Just download all the profiles and it is going to figure it out itself. For Windows even easier.</p>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<ol>
+<li>Check whether the memory sample is even valid:</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">memory.img tr -d <span class="s1">&#39;\0&#39;</span> <span class="p">|</span> <span class="nb">read</span> -n <span class="m">1</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&#34;Empty&#34;</span>
+xxd memory2.img <span class="p">|</span> grep -v <span class="s2">&#34;0000 0000 0000 0000 0000 0000 0000 0000&#34;</span> <span class="p">|</span> less -I
+</code></pre></div><ol start="2">
+<li>Missing dependencies. For example, <code>distorm3</code>.</li>
+<li>Acquisition smearing (buggy acquisition, incomplete or changes in memory).</li>
+</ol>
+<p>When everything is broken you&rsquo;ll be likely see this:</p>
+<p><img src="images/osdf-troubleshooting-memory1.png" alt="osdf-troubleshooting-memory"></p>
+<p>Try <code>strings.exe</code>. Try scanning plugins. Try hex editor. Try <code>bulk_extractor</code> <a href="https://github.com/simsong/bulk_extractor">https://github.com/simsong/bulk_extractor</a>. Try <code>mftparser</code> for vol2.</p>
+<p>When something is broken, but not everything you get this:</p>
+<p><img src="images/osdf-troubleshooting-memory2.png" alt="osdf-troubleshooting-memory2"></p>
+<p>Try <code>psscan</code>. If it renders any output, try using a DTB (PDB) from a different process.</p>
+<blockquote>
+<p>❓ What is DTB (PDB)? DTB - Directory Table Base and Process Table Base. Volatility uses some default process to get the base of this table. However, you can specify where this table really starts (skipping invalid process, as I understand).</p>
+</blockquote>
+<p>Running <code>psscan</code> we can determing any valid process and use its address as the new base.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">messed</span><span class="o">.</span><span class="n">dmp</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win</span> <span class="n">psscan</span>
+<span class="c1"># note the address of any system proces</span>
+<span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">messed</span><span class="o">.</span><span class="n">dmp</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win</span> <span class="o">--</span><span class="n">dtb</span><span class="o">=</span><span class="mh">0xb</span><span class="n">lahblah</span> <span class="n">pslist</span>
+<span class="c1"># if one fails, try the next one. May be you will get lucky</span>
+</code></pre></div><ol start="4">
+<li>Multiple KDBG blocks. Some are valid and some not.</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">mem</span><span class="o">.</span><span class="n">raw</span> <span class="n">kdbgscan</span>
+</code></pre></div><p>To determine whether the profile is the correct, note <code>Build string</code>, <code>KDBGHeader, Profile Suggestion</code>, <code>Kernel base</code>.</p>
+<p><code>PsActiveProcessHead</code>, <code>PsLoadedModuleList</code> must have some processes and modules:</p>
+<p><img src="images/osdf-troubleshooting-memory3.png" alt="osdf-troubleshooting-memory3"></p>
+<p><code>KdCopyDataBlock (V)</code> - address of KDBG block in memory. Put that on the cmd to speed up since <code>vol.py</code> looks for KDBG block internally each time it&rsquo;s run. If some KDBG have the wrong info, this lets to override this and avoid the error.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">mem</span><span class="o">.</span><span class="n">raw</span> <span class="o">--</span><span class="n">kdbg</span><span class="o">=</span><span class="mh">0xf805784bb744</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win10x64_18362</span> <span class="n">pslist</span>
+</code></pre></div><ol start="5">
+<li>If the machine was updated and the structures are different. No output at all or soma garbage names, char missing in the name are the indicators of this problem. Create a new profile or new vtypes (🗒 <em>learn how to do this</em>). <code>pslist</code> works well since it uses kdbg to look for the processes based on the pointers. <code>psscan</code> uses signatures and will therefore fail.</li>
+</ol>
+<h3 id="generate-the-vtypes">Generate the vtypes</h3>
+<p>These are the steps to generate vtypes:</p>
+<ol>
+<li>get the kernel file (<code>ntoskrnl.exe</code>) from the memory</li>
+<li>rename it to <code>ntoskrnl.exe</code></li>
+<li>use <code>pdbparse</code> to generate vtype (<a href="https://github.com/moyix/pdbparse">https://github.com/moyix/pdbparse</a>)</li>
+</ol>
+<p><img src="images/osdf-troubleshooting-memory4.png" alt="osdf-troubleshooting-memory4"></p>
+<p>With Volatility 3.0 you don&rsquo;t have to specify profiles and generate vtypes. There are some cases when the override is needed. In order to do so, follow the steps below. The error might be something like this:</p>
+<p><img src="images/osdf-troubleshooting-memory5.png" alt="osdf-troubleshooting-memory5"></p>
+<p>It can&rsquo;t find the symbols is because couldn&rsquo;t find win kernel offset (buggy acquisition tool). use volatility to see whether it works and what needs to be overwritten. Solution:</p>
+<ol>
+<li>pull ntos file (like before when generating vtypes)</li>
+<li>get the pdb file <code>symchk.py -e ntoskrnl.exe</code></li>
+<li>pdb -&gt; json with <code>pdbconv.py -f ntkrnlmp.pdb -o new_symbols.json</code></li>
+</ol>
+<p><img src="images/osdf-troubleshooting-memory6.png" alt="osdf-troubleshooting-memory6"></p>
+<ol start="4">
+<li>cat new_symbols.json | less -I`</li>
+</ol>
+<p><img src="images/osdf-troubleshooting-memory7.png" alt="osdf-troubleshooting-memory7"></p>
+<p><img src="images/osdf-troubleshooting-memory8.png" alt="osdf-troubleshooting-memory8"></p>
+<ol start="5">
+<li>
+<p>get a config file to override the different thing that we need to override. Use the memory sample, that works with <code>vol3</code> and create a config with <code>configwriter.ConfigWriter</code> plugin.</p>
+</li>
+<li>
+<p>override the info</p>
+</li>
+</ol>
+<p>The second green square - DTB.</p>
+<p>And get the <code>KernelBase</code> with <code>vol2.py kdbgscan</code>. And <code>dtb</code> is needed as well.</p>
+<p><img src="images/osdf-troubleshooting-memory9.png" alt="osdf-troubleshooting-memory9"></p>
+<p><img src="images/osdf-troubleshooting-memory10.png" alt="osdf-troubleshooting-memory10"></p>
+<p>New config file:</p>
+<p><img src="images/osdf-troubleshooting-memory11.png" alt="osdf-troubleshooting-memory11"></p>
+<p>added line (the last one), created symbols file.</p>
+<p>Now run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="n">windows</span><span class="o">.</span><span class="n">pslist</span><span class="o">.</span><span class="n">PsList</span>
+</code></pre></div><p>Best to use a good commercial tool to avoid all this obscurantism with vtypes and configs. <code>surge</code> is a commercial tool, but the developers also contribute to vol that&rsquo;s why there is a higher level of compatibility.</p>
+<h2 id="references">References</h2>
+<p>[<a href="">1</a>] Magnet</p>
+<p>[<a href="">2</a>] SDF Memory Forensics</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

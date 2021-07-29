@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Changes to String in java (from 1.7.0_06) - Observer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+
+  
+  
+  <link rel="stylesheet" href="/css/style.min.aad43d4ecb69a264f2539b89d7f779d5f3cdff22e7585fe5fc3c77272f1c2696.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-docs">
+      <a href="/docs/">
+        <span>Docs</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-docs">
+      <a href="/docs/">
+        <span>Docs</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <h4>Docs</h4>
+  <ul>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/fundamentals/activities/">Activities</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/btfm/">Btfm Android</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/attacks/ipc-attacks/">IPC Attacks</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2018/04/dot-net-confuser/">.NET Confuser</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2018/07/analytic-protiv-khishnika/">Analytic Protiv Khishnika</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2018/07/undesirable-mail/">Undesirable Mail</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/android/fieldmanuals/rtfm/">Rtfm Android</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020/09/how-i-met-hugo/">How I Met Hugo</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/linux/plan/">Linux</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/macos/plan/">MacOSX Forensics Plan</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/memory/plan/">Plan for Memory Forensics</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/reveng/plan/">Plan for Reverse Engineering</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/net/plan/">Windows Forensics Plan</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/forensics/win/plan/">Windows Forensics Plan</a>
+    </li>
+    
+    <li class="active ">
+      <a href="https://bakerst221b.com/docs/blog/2020-06-06-changes-in-java-string/">Changes to String in java (from 1.7.0_06)</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-05-01-algorithms-graphs/">Algorithms - Graphs</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-04-29-subtyping/">Programming Language - Subtyping</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2020-02-29-racket/">Racket notes</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-12-30-standardml-notes/">Standard ML notes</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-28-javascript-comparison/">JavaScript Comparison operation at a glance</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-22-js-tips/">Js tips I can&#39;t remember</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-08-es6-bind-trick/">Bind specific arguments of a function</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-03-08-object-assign-with-accessor-descriptor/">Object.assign() with accessor descriptor</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-01-19-vue-navigation-guards/">VueのNavigation Guards</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/blog/2019-01-18-es6/">ES6について</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/articles/mobile/ios/rtfm/"></a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/about/">About me</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/achievements/">Achievements</a>
+    </li>
+    
+    <li class="">
+      <a href="https://bakerst221b.com/docs/contact/">Contact</a>
+    </li>
+    
+  </ul>
+</div>
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Changes to String in java (from 1.7.0_06)</h1>
+<div class="content ">
+  <p>Before 1.7.0_06, <code>String</code> has 4 non static field:</p>
+<ul>
+<li>char[] value</li>
+<li>int[] offset</li>
+<li>int count</li>
+<li>int hash</li>
+</ul>
+<p><code>Subing.substring</code> create a String by sharing the original String&rsquo;s internal <code>char[] value</code> and setting offset. This saves memory and makes <code>String.substring</code> run in a constant time($O(1)$).
+Meanwhile, this feature may cause <strong>memory leak</strong><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p><a href="http://hg.openjdk.java.net/jdk6/jdk6/jdk/file/8deef18bb749/src/share/classes/java/lang/String.java">http://hg.openjdk.java.net/jdk6/jdk6/jdk/file/8deef18bb749/src/share/classes/java/lang/String.java</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">String</span>
+    <span class="kd">implements</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span><span class="o">,</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;,</span> <span class="n">CharSequence</span>
+<span class="o">{</span>
+    <span class="cm">/** The value is used for character storage. */</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">char</span> <span class="n">value</span><span class="o">[];</span>
+
+    <span class="cm">/** The offset is the first index of the storage that is used. */</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">offset</span><span class="o">;</span>
+
+    <span class="cm">/** The count is the number of characters in the String. */</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">count</span><span class="o">;</span>
+
+    <span class="cm">/** Cache the hash code for the string */</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">hash</span><span class="o">;</span> <span class="c1">// Default to 0
+</span><span class="c1"></span>
+    <span class="c1">// ...
+</span><span class="c1"></span>
+    <span class="c1">// Package private constructor which shares value array for speed.
+</span><span class="c1"></span>    <span class="n">String</span><span class="o">(</span><span class="kt">int</span> <span class="n">offset</span><span class="o">,</span> <span class="kt">int</span> <span class="n">count</span><span class="o">,</span> <span class="kt">char</span> <span class="n">value</span><span class="o">[])</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">offset</span> <span class="o">=</span> <span class="n">offset</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">count</span> <span class="o">=</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     * Returns a new string that is a substring of this string. The
+</span><span class="cm">     * substring begins at the specified &lt;code&gt;beginIndex&lt;/code&gt; and
+</span><span class="cm">     * extends to the character at index &lt;code&gt;endIndex - 1&lt;/code&gt;.
+</span><span class="cm">     * Thus the length of the substring is &lt;code&gt;endIndex-beginIndex&lt;/code&gt;.
+</span><span class="cm">     * &lt;p&gt;
+</span><span class="cm">     * Examples:
+</span><span class="cm">     * &lt;blockquote&gt;&lt;pre&gt;
+</span><span class="cm">     * &#34;hamburger&#34;.substring(4, 8) returns &#34;urge&#34;
+</span><span class="cm">     * &#34;smiles&#34;.substring(1, 5) returns &#34;mile&#34;
+</span><span class="cm">     * &lt;/pre&gt;&lt;/blockquote&gt;
+</span><span class="cm">     *
+</span><span class="cm">     * @param      beginIndex   the beginning index, inclusive.
+</span><span class="cm">     * @param      endIndex     the ending index, exclusive.
+</span><span class="cm">     * @return     the specified substring.
+</span><span class="cm">     * @exception  IndexOutOfBoundsException  if the
+</span><span class="cm">     *             &lt;code&gt;beginIndex&lt;/code&gt; is negative, or
+</span><span class="cm">     *             &lt;code&gt;endIndex&lt;/code&gt; is larger than the length of
+</span><span class="cm">     *             this &lt;code&gt;String&lt;/code&gt; object, or
+</span><span class="cm">     *             &lt;code&gt;beginIndex&lt;/code&gt; is larger than
+</span><span class="cm">     *             &lt;code&gt;endIndex&lt;/code&gt;.
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">substring</span><span class="o">(</span><span class="kt">int</span> <span class="n">beginIndex</span><span class="o">,</span> <span class="kt">int</span> <span class="n">endIndex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">beginIndex</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">beginIndex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">endIndex</span> <span class="o">&gt;</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">endIndex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">beginIndex</span> <span class="o">&gt;</span> <span class="n">endIndex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">endIndex</span> <span class="o">-</span> <span class="n">beginIndex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">((</span><span class="n">beginIndex</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">endIndex</span> <span class="o">==</span> <span class="n">count</span><span class="o">))</span> <span class="o">?</span> <span class="k">this</span> <span class="o">:</span>
+            <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">offset</span> <span class="o">+</span> <span class="n">beginIndex</span><span class="o">,</span> <span class="n">endIndex</span> <span class="o">-</span> <span class="n">beginIndex</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></div><p>Since Java 1.7.0_06, <code>offset</code> and <code>count</code> fields were removed. <code>String.substring</code> makes new copies of <code>value</code>, which means we can forget about the memory leak but the runtime becomes $O(N)$ at the same time.</p>
+<p><a href="http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/lang/String.java">http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/lang/String.java</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-Java" data-lang="Java">
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">String</span>
+    <span class="kd">implements</span> <span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">Serializable</span><span class="o">,</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;,</span> <span class="n">CharSequence</span> <span class="o">{</span>
+    <span class="cm">/** The value is used for character storage. */</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">char</span> <span class="n">value</span><span class="o">[];</span>
+
+    <span class="cm">/** Cache the hash code for the string */</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">hash</span><span class="o">;</span> <span class="c1">// Default to 0
+</span><span class="c1"></span>
+    <span class="c1">// ...
+</span><span class="c1"></span>
+  <span class="cm">/**
+</span><span class="cm">     * Allocates a new {@code String} that contains characters from a subarray
+</span><span class="cm">     * of the character array argument. The {@code offset} argument is the
+</span><span class="cm">     * index of the first character of the subarray and the {@code count}
+</span><span class="cm">     * argument specifies the length of the subarray. The contents of the
+</span><span class="cm">     * subarray are copied; subsequent modification of the character array does
+</span><span class="cm">     * not affect the newly created string.
+</span><span class="cm">     *
+</span><span class="cm">     * @param  value
+</span><span class="cm">     *         Array that is the source of characters
+</span><span class="cm">     *
+</span><span class="cm">     * @param  offset
+</span><span class="cm">     *         The initial offset
+</span><span class="cm">     *
+</span><span class="cm">     * @param  count
+</span><span class="cm">     *         The length
+</span><span class="cm">     *
+</span><span class="cm">     * @throws  IndexOutOfBoundsException
+</span><span class="cm">     *          If the {@code offset} and {@code count} arguments index
+</span><span class="cm">     *          characters outside the bounds of the {@code value} array
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">String</span><span class="o">(</span><span class="kt">char</span> <span class="n">value</span><span class="o">[],</span> <span class="kt">int</span> <span class="n">offset</span><span class="o">,</span> <span class="kt">int</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">offset</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">offset</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">count</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">// Note: offset or count might be near -1&gt;&gt;&gt;1.
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">offset</span> <span class="o">&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">offset</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">offset</span><span class="o">+</span><span class="n">count</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span>
+<span class="cm">/**
+</span><span class="cm">     * Returns a string that is a substring of this string. The
+</span><span class="cm">     * substring begins at the specified {@code beginIndex} and
+</span><span class="cm">     * extends to the character at index {@code endIndex - 1}.
+</span><span class="cm">     * Thus the length of the substring is {@code endIndex-beginIndex}.
+</span><span class="cm">     * &lt;p&gt;
+</span><span class="cm">     * Examples:
+</span><span class="cm">     * &lt;blockquote&gt;&lt;pre&gt;
+</span><span class="cm">     * &#34;hamburger&#34;.substring(4, 8) returns &#34;urge&#34;
+</span><span class="cm">     * &#34;smiles&#34;.substring(1, 5) returns &#34;mile&#34;
+</span><span class="cm">     * &lt;/pre&gt;&lt;/blockquote&gt;
+</span><span class="cm">     *
+</span><span class="cm">     * @param      beginIndex   the beginning index, inclusive.
+</span><span class="cm">     * @param      endIndex     the ending index, exclusive.
+</span><span class="cm">     * @return     the specified substring.
+</span><span class="cm">     * @exception  IndexOutOfBoundsException  if the
+</span><span class="cm">     *             {@code beginIndex} is negative, or
+</span><span class="cm">     *             {@code endIndex} is larger than the length of
+</span><span class="cm">     *             this {@code String} object, or
+</span><span class="cm">     *             {@code beginIndex} is larger than
+</span><span class="cm">     *             {@code endIndex}.
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">substring</span><span class="o">(</span><span class="kt">int</span> <span class="n">beginIndex</span><span class="o">,</span> <span class="kt">int</span> <span class="n">endIndex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">beginIndex</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">beginIndex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">endIndex</span> <span class="o">&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">endIndex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">subLen</span> <span class="o">=</span> <span class="n">endIndex</span> <span class="o">-</span> <span class="n">beginIndex</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">subLen</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">StringIndexOutOfBoundsException</span><span class="o">(</span><span class="n">subLen</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="o">((</span><span class="n">beginIndex</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">endIndex</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="na">length</span><span class="o">))</span> <span class="o">?</span> <span class="k">this</span>
+                <span class="o">:</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="n">beginIndex</span><span class="o">,</span> <span class="n">subLen</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ...
+</span><span class="c1"></span>
+<span class="o">}</span>
+</code></pre></div><p>The auther&rsquo;s comment<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>:
+<!-- raw HTML omitted -->Card<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="http://java-performance.info/changes-to-string-java-1-7-0_06/">http://java-performance.info/changes-to-string-java-1-7-0_06/</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://www.reddit.com/r/programming/comments/1qw73v/til_oracle_changed_the_internal_string/cdhb77f/">https://www.reddit.com/r/programming/comments/1qw73v/til_oracle_changed_the_internal_string/cdhb77f/</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

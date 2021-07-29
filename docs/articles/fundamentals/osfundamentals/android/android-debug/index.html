@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Debugging - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/fundamentals/osfundamentals/android/"> Back to Android OS Fundamentals Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#androidmanifestxml">AndroidManifest.xml</a></li>
+    <li><a href="#timing">Timing</a></li>
+    <li><a href="#isdebuggerconnected">isDebuggerConnected</a></li>
+    <li><a href="#jdwp-data-structures">JDWP Data Structures</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Debugging</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+              
+                <i class="fas fa-hammer"></i>
+              
+          <a class="category-link" href="/domain/appsec">appsec</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fas fa-microscope"></i>
+              
+          <a class="platform-link" href="/doctype/research">research</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/android">android</a>
+          
+      </div> <br />
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          <a class="platform-link" href="/tools/bytecode-viewer">Bytecode Viewer</a>
+          
+          <a class="platform-link" href="/tools/ptrace">ptrace</a>
+          
+          <a class="platform-link" href="/tools/jdwp">jdwp</a>
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>In this article I&rsquo;m assembling all possible to anti-debugging techniques and how they can be curcumvented. The question here is whether there is a silver bullet 🔫 for anti-debugging or not. There are two ways of debugging an Android application: with JDWP or using Linux <code>ptrace</code>&quot;.</em></p>
+<h2 id="intro">Intro</h2>
+<p>Some symbol definitions:</p>
+<p>⚠️ An important note from the forensics prospective.</p>
+<p>⛏ <em>How to circumvent this anti-debugging technique?</em></p>
+<p>🩹 <em>What is the corresponding anti-debugging technique?</em></p>
+<h2 id="androidmanifestxml">AndroidManifest.xml</h2>
+<p><code>AndroidManifest.xml</code> file contains different settings for the application in the <code>application</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged via JDWP, but doesn&rsquo;t prevent it from being debugged using <code>ptrace</code>.</p>
+<p>⛏ <em>How to circumvent?</em></p>
+<p>Patch <code>AndroidManifest.xml</code> by setting <code>android:debuggable</code> to <code>true</code>. If there is no such setting there, add it to the <code>application</code> tag like this:</p>
+<p><img src="images/android-debuggable.png" alt="android-debuggable"></p>
+<p>Rebuild the application and sign it with your certificate in order to get it installed properly on the device.</p>
+<blockquote>
+<p>⚠️ This technique will require reinstalling the application. All data that is deteled upon uninstalling, will be cleared and unavailable for analysis.</p>
+</blockquote>
+<p>🩹 <em>What is the corresponding anti-debugging technique?</em></p>
+<p><strong>Option 1</strong>. An application can check <code>ApplicationInfo.FLAG_DEBUGGABLE</code> and compare it to the contents of <code>AndroidManifest</code> to know when it&rsquo;s being debugged. If the application was tampered, these values will be different.</p>
+<p>⛏ <em>How to circumvent?</em></p>
+<p>Use runtime analysis tools like <code>frida</code> to hook the methods and manipulate the return values.</p>
+<h2 id="timing">Timing</h2>
+<p>Developers might check the timing. Debugging slows down the execution. An example of such code (taken from <a href="isDebuggerConnectedandroid.os.Debug">Mobile Gitbook</a>) is shown below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">detect_threadCpuTimeNanos</span><span class="o">(){</span>
+  <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
+
+  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">1000000</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
+    <span class="k">continue</span><span class="o">;</span>
+
+  <span class="kt">long</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
+
+  <span class="k">if</span><span class="o">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">10000000</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">else</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>⛏ <em>How to circumvent?</em></p>
+<p>Check for such code using <strong>ByteCode Viewer</strong>. If this is the technique used, hook the method with a runtime analysis tool like <code>frida</code> and make it always return <code>false</code>.</p>
+<h2 id="isdebuggerconnected">isDebuggerConnected</h2>
+<p>Using <code>isDebuggerConnected</code> or <code>(gDvm.debuggerConnected || gDvm.debuggerActive)</code> developers may detect whther the current process is being debugged.</p>
+<h2 id="jdwp-data-structures">JDWP Data Structures</h2>
+<p>The older versions of Android architecture included Dalvik machine. The global virtual machine state is stored in the <code>DvmGlobals</code> structure, which is pointed to by the global variable <code>gDvm</code> . This structure, among other things, determines whether the application can be debugged:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">DvmGlobals</span> <span class="p">{</span>
+    <span class="cm">/*
+</span><span class="cm">     * Some options that could be worth tampering with :)
+</span><span class="cm">     */</span>
+
+    <span class="kt">bool</span>        <span class="n">jdwpAllowed</span><span class="p">;</span>        <span class="c1">// debugging allowed for this process?
+</span><span class="c1"></span>    <span class="kt">bool</span>        <span class="n">jdwpConfigured</span><span class="p">;</span>     <span class="c1">// has debugging info been provided?
+</span><span class="c1"></span>    <span class="n">JdwpTransportType</span> <span class="n">jdwpTransport</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">jdwpServer</span><span class="p">;</span>
+    <span class="kt">char</span><span class="o">*</span>       <span class="n">jdwpHost</span><span class="p">;</span>
+    <span class="kt">int</span>         <span class="n">jdwpPort</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">jdwpSuspend</span><span class="p">;</span>
+
+    <span class="n">Thread</span><span class="o">*</span>     <span class="n">threadList</span><span class="p">;</span>
+
+    <span class="kt">bool</span>        <span class="n">nativeDebuggerActive</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">debuggerConnected</span><span class="p">;</span>      <span class="cm">/* debugger or DDMS is connected */</span>
+    <span class="kt">bool</span>        <span class="n">debuggerActive</span><span class="p">;</span>         <span class="cm">/* debugger is making requests */</span>
+    <span class="n">JdwpState</span><span class="o">*</span>  <span class="n">jdwpState</span><span class="p">;</span>
+
+<span class="p">};</span>
+</code></pre></div><p>Developers might use the following code to make use of the above structure and trigger a crash on any attempt to attach a debugger:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">JNIEXPORT</span> <span class="n">jboolean</span> <span class="n">JNICALL</span> <span class="nf">Java_poc_c_crashOnInit</span> <span class="o">(</span> <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">,</span> <span class="n">jobject</span> <span class="o">)</span> <span class="o">{</span>
+  <span class="n">gDvm</span><span class="o">.</span><span class="na">methDalvikDdmcServer_dispatch</span> <span class="o">=</span> <span class="n">NULL</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><p>Since ART doesn&rsquo;t have access to this structure, the above technique will be deemed useless. But there is something that can be done though using exported <code>vtables</code> for <code>JdwpAdbState</code> and <code>JdwpSocketState</code>. If the developer substitutes <code>jdwpAdbState::ProcessIncoming</code> with the address of <code>JdwpAdbState::Shutdown</code> and the same for <code>JdwpAdbState</code> as well, the any connected Java debugger is disconnected, further attempts will fail and without enything being written to log.</p>
+<p>An example of such code, taken from <a href="https://web.archive.org/web/20200307152820/https://www.vantagepoint.sg/blog/88-anti-debugging-fun-with-android-art">here</a> (Bernhard Mueller&rsquo;s blog, now archived 😞):</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;android/log.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;dlfcn.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;jdwp/jdwp.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cp">#define log(FMT, ...) __android_log_print(ANDROID_LOG_VERBOSE, &#34;JDWPFun&#34;, FMT, ##__VA_ARGS__)
+</span><span class="cp"></span>
+<span class="c1">// Vtable structure. Just to make messing around with it more intuitive
+</span><span class="c1"></span>
+<span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">y</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">JdwpSocketState_destructor</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">_JdwpSocketState_destructor</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">Accept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">showmanyc</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">ShutDown</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">ProcessIncoming</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">extern</span> <span class="s">&#34;C&#34;</span>
+
+<span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="n">Java_sg_vantagepoint_jdwptest_MainActivity_JDWPfun</span><span class="p">(</span>
+        <span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">jobject</span> <span class="cm">/* this */</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">void</span><span class="o">*</span> <span class="n">lib</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="s">&#34;libart.so&#34;</span><span class="p">,</span> <span class="n">RTLD_NOW</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">lib</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">log</span><span class="p">(</span><span class="s">&#34;Error loading libart.so&#34;</span><span class="p">);</span>
+        <span class="n">dlerror</span><span class="p">();</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+
+        <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="n">vtable</span> <span class="o">=</span> <span class="p">(</span> <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="p">)</span><span class="n">dlsym</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&#34;_ZTVN3art4JDWP12JdwpAdbStateE&#34;</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">vtable</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Couldn&#39;t resolve symbol &#39;_ZTVN3art4JDWP12JdwpAdbStateE&#39;.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+
+            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Vtable for JdwpAdbState at: %08x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vtable</span><span class="p">);</span>
+
+            <span class="c1">// Let the fun begin!
+</span><span class="c1"></span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pagesize</span> <span class="o">=</span> <span class="n">sysconf</span><span class="p">(</span><span class="n">_SC_PAGE_SIZE</span><span class="p">);</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">page</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">vtable</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">pagesize</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">);</span>
+
+            <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ProcessIncoming</span> <span class="o">=</span> <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ShutDown</span><span class="p">;</span>
+
+            <span class="c1">// Reset permissions &amp; flush cache
+</span><span class="c1"></span>
+            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">);</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>⛏ <em>How to circumvent?</em></p>
+<p>Well, fix the <code>vtable</code> that was broken with this function after it was run.</p>
+<h2 id="references">References</h2>
+<p>[1] <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile SecGuide</a>.</p>
+<p>[<a href="https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida">2</a>] Bernhard Mueller archived blog</p>
+<p>[<a href="https://gsec.hitb.org/materials/sg2016/whitepapers/Hacking%20Soft%20Tokens%20-%20Bernhard%20Mueller.pdf">3</a>] Advanced Android Reverse Engineering by Bernhard Mueller</p>
+<p>[<a href="https://web.archive.org/web/20200923191924if_/https://github.com/OWASP/owasp-mstg/tree/master/Crackmes">4</a>] CrackMes by Bernhard Mueller</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

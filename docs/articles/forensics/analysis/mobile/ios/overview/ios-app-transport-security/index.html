@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>App Transport Security - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.8c12c35f5536bc1a31e9f8dc7cfed978f17eb7e1180e99e5f8552cb2ed8312d1.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-course notes">
+      <a href="/docs/coursenotes">
+        <span>Course Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-course notes">
+      <a href="/docs/coursenotes">
+        <span>Course Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/forensics/analysis/mobile/ios/overview/"> Back to iOS Overview Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#what-do-we-need">What do we need?</a></li>
+    <li><a href="#example-1-too-loose">Example 1. Too loose</a></li>
+    <li><a href="#example-2-getting-tighter">Example 2. Getting tighter</a></li>
+    <li><a href="#example-3-getting-really-serious">Example 3. Getting really serious</a></li>
+    <li><a href="#example-4-this-strange-world">Example 4. This strange world</a></li>
+    <li><a href="#back-to-our-">Back to our 🐏</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">App Transport Security</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-hammer"></i>
+              
+          <a class="category-link" href="/domain/appsec">appsec</a>
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fas fa-microscope"></i>
+              
+          <a class="platform-link" href="/doctype/research">research</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/ios">ios</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/ats" rel="tag">ats</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/network" rel="tag">network</a>
+          
+      </div> 
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>In this article I&rsquo;m trying to untangle a very confusing notion for some people (myself included) - App Transport Security. We will have several examples to work with and then try to construct our own setting according to our requirements.</em></p>
+<h2 id="overview">Overview</h2>
+<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="n">NSAppTransportSecurity</span> <span class="p">:</span> <span class="nb">Dictionary</span> <span class="p">{</span>
+    <span class="n">NSAllowsArbitraryLoads</span> <span class="p">:</span> <span class="n">Boolean</span>
+    <span class="n">NSAllowsArbitraryLoadsForMedia</span> <span class="p">:</span> <span class="n">Boolean</span>
+    <span class="n">NSAllowsArbitraryLoadsInWebContent</span> <span class="p">:</span> <span class="n">Boolean</span>
+    <span class="n">NSAllowsLocalNetworking</span> <span class="p">:</span> <span class="n">Boolean</span>
+    <span class="n">NSExceptionDomains</span> <span class="p">:</span> <span class="nb">Dictionary</span> <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">domain</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">string</span><span class="p">&gt;</span> <span class="p">:</span> <span class="nb">Dictionary</span> <span class="p">{</span>
+            <span class="n">NSIncludesSubdomains</span> <span class="p">:</span> <span class="n">Boolean</span>
+            <span class="n">NSExceptionAllowsInsecureHTTPLoads</span> <span class="p">:</span> <span class="n">Boolean</span>
+            <span class="n">NSExceptionMinimumTLSVersion</span> <span class="p">:</span> <span class="nb">String</span>
+            <span class="n">NSExceptionRequiresForwardSecrecy</span> <span class="p">:</span> <span class="n">Boolean</span>   <span class="c1">// Default value is YES</span>
+            <span class="n">NSRequiresCertificateTransparency</span> <span class="p">:</span> <span class="n">Boolean</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>The above code snippet from Apple <a href="https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html">docs</a> shows the object that is responsible for loosening network security. This topic has been very confusing for me, but I&rsquo;ve finally got myself untangled 🎄 🐈  💡 !</p>
+<p>As always, nothing serves better as a good example and a good picture. Here is a picture I consider to be good:</p>
+<p><img src="https://media.giphy.com/media/OdyGA2spBFRCg/giphy.gif" alt="strictguysatapple"></p>
+<p>First, there are two ways how to enable ATS: do nothing (better one unless absolutely needed) or add <code>NSAppTransportSecurity</code> and set <code>NSAllowsArbitraryLoads</code> to key. But keep in mind that in this case Apple will make you answer for your actions 🚓 <del>in court</del>.</p>
+<h2 id="what-do-we-need">What do we need?</h2>
+<p>Begore we begin, let&rsquo;s assume that we own an application which uses API at <a href="https://bakerst221b.com">https://bakerst221b.com</a>. Also, it downloads images from <a href="http://rams.bakerst221b.com">http://rams.bakerst221b.com</a> and also periodically checks weather at <a href="http://weather.co.uk">http://weather.co.uk</a>. Let&rsquo;s first see some examples and the decide.</p>
+<h2 id="example-1-too-loose">Example 1. Too loose</h2>
+<p>Here is the first setting:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+   <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+   <span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><p>This basically means the following: &ldquo;<em>Hey, System. Allow this application to communicate over HTTP, with any TLS version of its like in case of HTTPS, with or without PFS and to local domains as well</em> (since <code>NSAllowsArbitraryLoads</code> is <code>true</code>).&rdquo; Sounds pretty bad, but how bad that is in real life? What if the application in question is a web browser? Well, in that case that option above would be the only option at all 🤷‍♀️ , since if ATS was left with default settings (no <code>NSAppTransportSecurity</code> in <code>Info.plist</code> or in <code>Info.plist</code> but <code>NSAllowsArbitraryLoads</code> set to <code>false</code>), our browser would not be able to connect to many websites, which do not correspond to its high standards.</p>
+<h2 id="example-2-getting-tighter">Example 2. Getting tighter</h2>
+<p>Now consider the second setting:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;true/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSExceptionDomains<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>bank.com<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSIncludesSubdomains<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSExceptionAllowsInsecureHTTPLoads<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+		<span class="nt">&lt;/dict&gt;</span>
+  <span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><p>It now says the following: <em>&ldquo;Turn off ATS, but keep it for <code>bank.com</code></em> (since <code>NSAllowsArbitraryLoads</code> is <code>true</code>) <em>and its subdomains</em> (since <code>NSIncludesSubdomains</code> is <code>true</code>) <em>only allowing them to communicate over HTTP</em> (since <code>NSExceptionAllowsInsecureHTTPLoads</code> is <code>true</code>)&rdquo;. When this might be handy? For example, our application communicates with different services which are not very secure 😉, but it wants to communicate securely with its own API (<code>bank.com</code>). But since there sometimes pictures on the same domain, which are loaded via HTTP, the application softens the policy and allows HTTP connection for <code>bank.com</code>, but keep in mind that other ATS restriction for <code>bank.com</code> are still in place: if it&rsquo;s HTTP - good TLS, PFS and no connection to local domains.</p>
+<h2 id="example-3-getting-really-serious">Example 3. Getting really serious</h2>
+<p>Now consider the following example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;false/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSExceptionDomains<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>rams.bank.com<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSExceptionAllowsInsecureHTTPLoads<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+  <span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><p>Now the application says to the system: &ldquo;<em>Hey, buddy, turn on ATS</em> (since <code>NSAllowsArbitraryLoads</code> is <code>false</code>). <em>I know, it&rsquo;s your default behaviour, but I need to set some exceptions. For <code>rams.bank.com</code> 🐱 only</em> (since <code>NSExceptionDomains</code> is set to <code>rams.bank.com</code>) <em>allow communication over HTTP</em> (since <code>NSExceptionAllowsInsecureHTTPLoads</code> is <code>true</code>), <em>since we don&rsquo;t care about them much.</em>&rdquo; This is considered the best option if HTTP connection is mandatory.</p>
+<p>So here we observe an opposite behaviour. While in the second example we turned ATS globally (for everyone) <!-- raw HTML omitted -->except<!-- raw HTML omitted --> <code>bank.com</code>, now we turn on it globally <!-- raw HTML omitted -->except<!-- raw HTML omitted --> for <code>rams.bank.com</code>. You can see that it really work both ways <a href="https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW34">here</a>, in the official docs.</p>
+<h2 id="example-4-this-strange-world">Example 4. This strange world</h2>
+<p>Let&rsquo;s assume this setting:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;true/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoadsForMedia<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;true/&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><p>The app says: <em>&ldquo;Hey, System, turn off ATS globally and allow crapy loads for media which uses AVFoundation framework</em> (since <code>NSAllowsArbitraryLoadsForMedia</code> is true) <em>(i.e. I need to download any 💩 of my choice).&quot;</em> Right? Well&hellip; this new key that we added to the setting is changing that all: <code>NSAllowsArbitraryLoadsForMedia</code>. For iOS 9.0 or macOS 10.11 yes, it just turns on ATS globally and ignores whether <code>NSAllowsArbitraryLoadsForMedia</code> is <code>true</code> or <code>false</code>.  For newer versions vice versa: ignores <code>NSAllowsArbitraryLoads</code> set to <code>true</code> and only lossening security for media (<code>NSAllowsArbitraryLoadsForMedia</code> set to <code>true</code>). Domains in <code>NSExceptionDomains</code> will not be affected and stick to their default values.</p>
+<p>Other keys with the same behaviour are:</p>
+<ol>
+<li><code>NSAllowsArbitraryLoadsInWebContent</code> - to loosen ATS for WebViews only (<code>WKWebView</code>, <code>UIWebView</code>, <code>WebView</code> for macOS) while for <code>NSURLSession</code> ATS will still be valid. Domains in <code>NSExceptionDomains</code> will not be affected and stick to their default values.</li>
+<li><code>NSAllowsLocalNetworking</code> - allow connection to unqualified domains and <code>.local</code>. If you need connecting via IP, set <code>NSAllowsArbitraryLoads</code> to <code>true</code> instead. In newer versions allowed by default. <code>NSExceptionDomains</code> can be used to specify exceptions for local domains.</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;true/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsLocalNetworking<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;true/&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><p>The above setting is recommended by Apple for backward compatibility. Why? Older versions ignore <code>NSAllowsLocalNetworking</code> set <code>true</code> and allow <code>NSAllowsArbitraryLoads</code> globally instead. Newer version seeing that very same setting (since <code>NSAllowsLocalNetworking</code> is enabled by default, no need to specify in <code>Info.plist</code>) ignores <code>NSAllowsArbitraryLoads</code> set to <code>true</code> and keeps other ATS requierements.</p>
+<p>One last example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;false/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoadsForMedia<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;true/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSExceptionDomains<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>bank.com<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSIncludesSubdomains<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+  <span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><p>For newer versions we have the following setting: <em>&ldquo;Hey, keep ATS turned on globally</em> (<code>NSAllowsArbitraryLoads</code> is <code>false</code>)<em>, but allow loading arbitrary media which uses AVFoundation framework</em> (<code>NSAllowsArbitraryLoadsForMedia</code> is <code>true</code>)<em>, but don&rsquo;t allow even that for <code>bank.com</code></em> (<code>NSExceptionDomains</code>) <em>and its subdomains</em> (<code>NSIncludesSubdomains</code> is <code>true</code>).&rdquo;</p>
+<h2 id="back-to-our-">Back to our 🐏</h2>
+<p>Let&rsquo;s refresh out requirements:</p>
+<blockquote>
+<p>&hellip; let&rsquo;s assume that we own an application which uses API at <a href="https://bakerst221b.com">https://bakerst221b.com</a>. Also, it downloads images from <a href="http://rams.bakerst221b.com">http://rams.bakerst221b.com</a> and also periodically checks weather at <a href="http://weather.co.uk">http://weather.co.uk</a>.</p>
+</blockquote>
+<p>Connection to <a href="https://bakerst221b.com">https://bakerst221b.com</a> is secure and all the <a href="https://developer.apple.com/documentation/security/preventing_insecure_network_connections">requirements</a> are met. But connection to a subdomain <a href="http://rams.bakerst221b.com">http://rams.bakerst221b.com</a> is insecure and requires loosening ATS. Also, we have a service which also needs HTTP.</p>
+<p>Do we need to enable or disable <code>NSAppTransportSecurity</code> globally? Since we mostly need HTTPS, it makes more sense to keep in enabled globally (<code>NSAllowsArbitraryLoads</code> we set to <code>false</code>). Then, we add a dictionary for <code>NSExceptionDomains</code> and add two domains as exceptions for this policy: <code>rams.bank.com</code> and  <code>weather.co.uk</code>. For each we only need to allow HTTP traffic, but keep other security controls, therefore, set <code>NSExceptionAllowsInsecureHTTPLoads</code> for both as <code>true</code> and that&rsquo;s pretty much it!</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;false/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>NSExceptionDomains<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>rams.bank.com<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSExceptionAllowsInsecureHTTPLoads<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>weather.co.uk<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>NSExceptionAllowsInsecureHTTPLoads<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;true/&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+  <span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>I hope that will clarify how to use ATS for you app as securely as possible. My advice is to loosen as little, as you can and separate domains, which meet the requirements and will be protected by ATS and those that don&rsquo;t. To help you with configuring ATS:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">nscurl --ats-diagnostics --verbose https://bakerst221b.com
+</code></pre></div>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

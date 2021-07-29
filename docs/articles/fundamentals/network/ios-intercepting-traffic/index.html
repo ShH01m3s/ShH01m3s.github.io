@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Ios Intercepting Traffic - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.ecc32bb487cde825685b3dd0d4ae819ae41c622561b20adbcc12ea4ab0d344e4.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-course notes">
+      <a href="/docs/coursenotes">
+        <span>Course Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-course notes">
+      <a href="/docs/coursenotes">
+        <span>Course Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/fundamentals/network/"> Back to Network Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#wireshark">Wireshark</a>
+      <ul>
+        <li><a href="#whats-going-on">What&rsquo;s going on?</a></li>
+      </ul>
+    </li>
+    <li><a href="#burp-suite">Burp Suite</a>
+      <ul>
+        <li><a href="#whats-going-on-1">What&rsquo;s going on?</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Ios Intercepting Traffic</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>There might be several reasons to intercept traffic: just sniffing or also modifying it. In this article I&rsquo;m going to describe basic techniques of intercepting traffic coming on and from iOS devices.</em></p>
+<h2 id="wireshark">Wireshark</h2>
+<p>Sometimes there is a need to intercept not just HTTP and HTTPS traffic but also inspect other layers of TCP/IP stack, and sometimes even other protocol stacks. That&rsquo;s when such tools as wireshark and tcpdump become useful.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ideviceinfo <span class="c1"># iDevice&#39;s UDID </span>
+rvictl -s &lt;UDID&gt;
+
+sudo /Applications/Wireshark.app/Contents/MacOS/Wireshark
+</code></pre></div><h3 id="whats-going-on">What&rsquo;s going on?</h3>
+<p>To analyse the traffic you can use such python frameworks as <a href="/docs/toolkit/network/scapy">scapy</a>, <a href="/docs/toolkit/network/dshell">dshell</a>, <a href="/docs/toolkit/network/impacket">impacket</a>. Also, I&rsquo;m in the process of writing a <a href="/files/python/packet_investigator.py">script</a> to partly automate the process.</p>
+<h2 id="burp-suite">Burp Suite</h2>
+<p>Even though there are plugins that allow you to watch out for other Appliation Layer protocols, this tool is mostly designed for HTTP(S). Keep in mind that it only shows Application Layer. But the main advantage of the tool is that it allows modifying the traffic.</p>
+<p>There are two modes of operation: via USB or WiFi.</p>
+<p>For interception over WiFi:</p>
+<p><strong>PC</strong>: Burp Proxy &ndash;&gt; Options &ndash;&gt; Add &ndash;&gt; All interfaces, port 8080 (any unused port, but keep in mind that then you&rsquo;ll have to change it throughout these options)</p>
+<p>**iOS Device:**WiFi &ndash;&gt; WiFi SSID &ndash;&gt; Configure Proxy &ndash;&gt; Server [PC_IP] Port 8080</p>
+<p>For interception over USB:</p>
+<p><strong>PC</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">iproxy <span class="m">2222</span> <span class="m">22</span> 
+ssh -R 8080:localhost:8080 root@localhost -p <span class="m">2222</span>
+</code></pre></div><p><strong>iOS Device</strong>: WiFi &ndash;&gt; Any WiFi SSID &ndash;&gt; Configure Proxy &ndash;&gt; Server 127.0.0.1 Port 8080</p>
+<p><strong>NB!</strong> For intercepting HTTPS traffic in both cases, on iDevice using Safari go to http://burp, download certificate, install (Settings → General → Profile and managment → PortSwigger CA) and switch on (General → About → Certificate Trust Settings → PortSwigger CA). For more details see configuring iOS to work with Burp <a href="https://portswigger.net/support/configuring-an-ios-device-to-work-with-burp">here</a> and Installing certificate <a href="https://portswigger.net/support/installing-burp-suites-ca-certificate-in-an-ios-device">here</a>.</p>
+<h3 id="whats-going-on-1">What&rsquo;s going on?</h3>
+<p>While it&rsquo;s pretty obvous for interception over WiFi, I&rsquo;ve found it confusing figuring out how the USB interception works. Here are a diagram and explanation. And since a love pictures, I&rsquo;ve made my own:</p>
+<p><img src="images/ios-intercept-traffic-usb.png" alt="ios-intercept-traffic-usb"></p>
+<p>So, we have:</p>
+<ol>
+<li>PC with IP <code>192.168.1.80</code> (network 1) with Burp Suite Proxy up and listening on <code>127.0.0.1:8080</code>. I will use 🥕 to mark PC&rsquo;s ports and interfaces.​</li>
+<li>iPad with IP <code>10.18.2.82</code> (network 2). Also has its own <code>127.0.0.1</code> <code>localhost</code> interface, but is not listetning on any ports yet. I will use 🍏  to mark iDevices&rsquo;s ports and interfaces.</li>
+</ol>
+<p>Let&rsquo;s issue the first command on our 🥕 (​<code>iproxy</code>🥕 &ndash;&gt; 🍏):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">iproxy <span class="m">1234</span> <span class="m">22</span>
+</code></pre></div><p>This command instructs <code>usbmuxd</code> daemon to search for 🍏 connected via USB and map its <code>ssh</code> port <code>22</code> to <code>1234</code> port of 🥕 (green arrow on the picture above). So now we don&rsquo;t need WiFi connection in order to talk to 🍏 over <code>ssh</code>. Our requests and responses will be ralayed by <code>usbmuxd</code> to 🥕 <code>1234</code> port.</p>
+<p>If then we wanted to use USB connection to <code>ssh</code> into 🍏, we would issue the following command (<code>ssh -p</code> 🥕 <code>root@</code>🍏):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh -p <span class="m">1234</span> root@localhost
+</code></pre></div><p>This command issued from 🥕  says <em>&ldquo;Please 😇 , connect to 🍏 <code>22</code> port using my <code>1234</code> port over USB&rdquo;</em>. Well, may be there is no <em>please</em>, but nevertheless 😸. But we need not just establish the ssh connection. We need to relay HTTP(S) traffic from 🍏 to 🥕  with proxy up and running already. Our proxy is listening on 🥕's <code>localhost</code> interface (<code>127.0.0.1:8080</code>). However, the port could be any.</p>
+<p>The next command we need to issue is (<code>ssh -R</code> 🍏<code>:</code> 🥕   <code>root@</code>🍏 -p 🥕):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh -R 5678:localhost:8080 root@localhost -p <span class="m">1234</span>
+</code></pre></div><p>This command is issued over over USB using port <code>1234</code>. This command instructs <code>ssh</code> to map 🍏<code>127.0.0.1:5678</code> to 🥕 <code>127.0.0.1:8080</code> . So, now when 🍏 sends anythyng to 🍏 <code>127.0.0.1:5678</code>, it will be sent over USB, over ssh connection (port <code>22</code>) to 🥕  <code>127.0.0.1:8080</code>. The packet flow would be as follows: 🍏 <code>127.0.0.1:5678</code> &ndash;&gt; 🍏  <code>22</code> ssh &ndash;&gt; 🥕<code>1234</code> usbmuxd  &ndash;&gt; 🥕<code>127.0.0.1:1234</code>. And vice versa.</p>
+<p>But why would 🍏  send anything to <code>5678</code> port? When sending something over HTTP, the client can use any port, for each HTTP connection it can be different. How to tell the 🍏  to send all its HTTP requests to <code>5678</code> port? The answer is: by configuring global proxy. For this we go to 🍏  Settings &ndash;&gt; WiFi &ndash;&gt; choose any WiFi hotspot (we are connected to 🥕 over USB, we don&rsquo;t need to be on the same network). Then <em>Configure Proxy</em>: server <code>127.0.0.1</code> and port &hellip;. guess&hellip;.  Yes! 🎯port is <code>5678</code> the very port mapped to 🥕 <code>127.0.0.1:8080</code>.</p>
+<p>Now, everytime some HTTP(S) request is sent or received, it&rsquo;s sent or received via 🍏 <code>127.0.0.1:5678</code>. But since <code>127.0.0.1:5678</code> is mapped to 🥕 <code>127.0.0.1:1234</code>, our Proxy will successfully intercept the traffics.</p>
+<p>Yay! I&rsquo;ve figured that out finally 😌 .</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

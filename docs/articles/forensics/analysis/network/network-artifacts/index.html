@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Network Artifacts - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.b67d7fec5daec98747a80616a05e9e1e96dc0976219c428241762578c5ae69c3.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/forensics/analysis/network/"> Back to Apple Encryption Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#os-fingerprinting">OS fingerprinting</a>
+      <ul>
+        <li><a href="#idle-scan">IDLE Scan</a></li>
+      </ul>
+    </li>
+    <li><a href="#commands">Commands</a>
+      <ul>
+        <li><a href="#most-common-complex-nmap-commands">Most common complex nmap commands</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-ports-and-services">Common ports and services</a></li>
+    <li><a href="#malware-common-ports">Malware common ports</a></li>
+    <li><a href="#email">Email</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Network Artifacts</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+          <a class="platform-link" href="/doctype/list">list</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+            
+              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
+            
+          <a class="platform-link" href="/platforms/all">all</a>
+          
+      </div> <br />
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          <a class="platform-link" href="/tools/nmap">nmap</a>
+          
+          <a class="platform-link" href="/tools/hping">hping</a>
+          
+          <a class="platform-link" href="/tools/netdiscover">netdiscover</a>
+          
+          <a class="platform-link" href="/tools/telnet">telnet</a>
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="os-fingerprinting">OS fingerprinting</h2>
+<p>![photo_2021-02-12 10.06.04](images/photo_2021-02-12 10.06.04.jpeg)</p>
+<p><code>nmap</code> scanning can also show the OS version sometimes</p>
+<p>For Windows and Linux:</p>
+<ul>
+<li>Full connect (<code>nmap -sT</code>). Send <strong>SYN</strong> flag. If <strong>SYN/ACK</strong> ✅ is received - open.  If <strong>RST</strong> 🚫 - closed. Reply with <strong>ACK</strong> if open. The most reliable and the noisiest.</li>
+<li>Stealth or Half-open (<code>nmap -sS</code>). Send SYN flag. Send <strong>SYN</strong> flag. If <strong>SYN/ACK</strong> ✅ is received - open.  If <strong>RST</strong> 🚫 - closed. <del>Reply with <strong>ACK</strong> if open.</del>  ☝️Stealthy but can be noticed by IDS. Firewalls won&rsquo;t notice since no connection was established.</li>
+<li>IDLE scan or zombie 🧟 scan (<code>nmap -sI</code>).  Used to test a machine using another machine. Conclusions are made based on IPID value. Too long to be explained here. See below.</li>
+<li>UDP scan (<code>nmap -sU</code>). A datagram is sent (zero byte message). If <strong>no response</strong> is received - open ✅. If <strong>ICMP port unreachable</strong> (3.3) - closed 🚫 .</li>
+<li>ACK scan (<code>nmap -sA -P0 10.10.0.25</code>, <code>nmap -sW</code>, <code>hping A</code>). Slow, mostly to avoid IDS. ❗ Only old BSD. Send <code>ACK</code> flag set only:
+<ul>
+<li><strong>no response</strong> ✅ - open, but behind a firewall.</li>
+<li><strong>RST</strong> - no firewall.
+<ul>
+<li><strong>RST +</strong> <strong>TTL &lt; 64</strong>  or <strong>window size != 0</strong> - ✅ the port is open.</li>
+<li><strong>RST + TTL &gt; 64</strong> or <strong>windows size = 0</strong> - 🚫 the port is closed.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>For Linux only:</p>
+<ul>
+<li>Inverse TCP scna (<code>nmap -sF</code>, <code>nmap -sN</code>, <code>hping -F</code>, <code>hping -P</code>, <code>hping -U</code>). ☝️ Win machines will claim all ports are open. Send any of the following flags: <code>FIN</code>/<code>URG</code>/<code>PUSH</code>/<code>NULL</code>. If <strong>no response</strong> is received - the port is open ✅ . If <strong>RST/ACK</strong> - 🚫 closed. See RFC 793.</li>
+<li>Xmas scan (<code>nmap -sX</code>, <code>hping -X</code>). Send all weird flags set: <strong>URG</strong>, <strong>PUSH</strong>, <strong>FIN</strong>. In case <strong>no response</strong> ✅ is received - the port is open. If <strong>RST/ACK</strong> - closed.  ☝️Windows machine will claim all open.</li>
+</ul>
+<h3 id="idle-scan">IDLE Scan</h3>
+<p>While all other scans are tampering data on Transport layer (TCP or UDP protocols), this one tampers IPID filed of IP header. This value is a random number 💯 , that is incremented with each packet ✉️ sent (no matter who the receiver is). Latest OS versions are patched and therefore are no longer vulnerable. There are several algorithms for incrementing IPID value. Sometimes it was simply incremented by one. Now let&rsquo;s assume that&rsquo;s the case.</p>
+<p>A malicious user Eva 🥷  is trying to determine whether a good boy Bob 💂 is online, but Bob doesn&rsquo;t talk to anyone except Alice. Bob 💂is suspicious and doesn&rsquo;t trust anyone, but Alice 👩‍🔬, on the other hand, is very careless and never suspects a thing. She&rsquo;s busy making a huge break-through in chemistry. Because of this carelessness, Eva  🥷 decides to probe Bob 💂 via Alice&rsquo;s 👩‍🔬 PC. Here&rsquo;s how she&rsquo;s doing it:</p>
+<ol>
+<li>Eve 🥷 sends Alice 👩‍🔬 a TCP segment with both <strong>SYN/ACK</strong> flags set.</li>
+<li>Since <strong>SYN/ACK</strong> are usually the second step of TCP handshake and Alice 👩‍🔬 did not initiate any conversation, she responds with <strong>RST</strong> (basically means &ldquo;WTF? Go to hell, I&rsquo;m busy.&quot;). In IP header of this packet the IPID value is <code>12345</code>.</li>
+<li>Now Eve 🥷 sends Bob 💂 a packet with only <strong>SYN</strong> flag. This is usually how a TCP connection starts. She spoofs Alice&rsquo;s IP. Next, there are two possible scenarios based on whether Bob is online:
+<ol>
+<li>If Bob 💂 is online ✅, here is what will happen. Remember, Bob 💂only talks to Alice 👩‍🔬.  But since Alice&rsquo;s 👩‍🔬 IP was spoofed by Eve 🥷, he responds to Alice 👩‍🔬. Eve 🥷 doesn&rsquo;t see this response, of course. But she doesn&rsquo;t need to 😊.
+<ol>
+<li>Alice knows nothing about her IP being spoofed and sends another &ldquo;WTF?&rdquo; (IP packer with <strong>RST</strong> flag set in TCP header) this time to Bob. Her IPID is incremented by <code>1</code> and now is <code>1+12345</code> which is <code>12346</code>.</li>
+<li>Now. Eve 🥷 repeats the step #1, i.e. sends Alice 👩‍🔬 a TCP segment with both <strong>SYN/ACK</strong> flags set.</li>
+<li>Poor Alice is tired of being disturbed and replies with another &ldquo;WTF?&rdquo; (IP packer with <strong>RST</strong> flag set in TCP header) to Eve 🥷. Her IPID is inceremented by 1 again and now it&rsquo;s equal to <code>1+12346</code> which is <code>12347</code>.</li>
+<li>Eve 🥷 observes this IPID and concludes that inbetween her first request to Alice and her second request to Alice, she talked to someone else. That&rsquo;s how she knows that Bob is online. Of course some innocent bystander can spoil this beatuful scheme by talking to Alice as well, but since Eve is doing this very quicly, the chances are not that high if it&rsquo;s now a server of course.</li>
+</ol>
+</li>
+<li>If Bob 💂 is <strong>not</strong> online 🚫, here is what will happen. Since he&rsquo;s not online, he doesn&rsquo;t reply to Alice.
+<ol>
+<li>Since Alice didn&rsquo;t talk to Bob, her IPID remains <code>12345</code>.</li>
+<li>Now. Eve 🥷 repeats the step #1, i.e. sends Alice 👩‍🔬 a TCP segment with both <strong>SYN/ACK</strong> flags set again.</li>
+<li>Alice 👩‍🔬 replies with another &ldquo;WTF?&rdquo; (IP packer with <strong>RST</strong> flag set in TCP header) to Eve 🥷. Her IPID is inceremented by 1 again and now it&rsquo;s equal to <code>1+12345</code> which is <code>12346</code>.</li>
+<li>Eve 🥷 observes this IPID and concludes that inbetween her first request to Alice and her second request to Alice, she didn&rsquo;t talked to anyone. That&rsquo;s how she knows that Bob is <strong>not</strong> online.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>To conclude, if Alice&rsquo;s 👩‍🔬 IPID has incremented more that by one - Bob&rsquo;s 💂 most likely online. Otherwise - he&rsquo;s not online.</p>
+<p>I have spoken.</p>
+<p><img src="images/Kuiil_Infobox.png" alt="Kuiil_Infobox"></p>
+<h2 id="commands">Commands</h2>
+<p><code>ping -l -s -t</code></p>
+<p><code>-l</code> - packet length (default is 32 bytes)</p>
+<p><code>-s</code> - timestamp</p>
+<p><code>-t</code> - count until stop</p>
+<p><code>netdiscover -i(device) -r(range) -s(sleep between requests) -n() -S() -f(fastmode, .1, .100, .254)</code></p>
+<p>Use <code>fast_ips[]</code> to override defaults</p>
+<p><code>telnet URL/PP 80</code></p>
+<p><code>GET / HTTP/1.0</code></p>
+<h3 id="most-common-complex-nmap-commands">Most common complex nmap commands</h3>
+<h2 id="common-ports-and-services">Common ports and services</h2>
+<p><a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers">https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers</a></p>
+<h2 id="malware-common-ports">Malware common ports</h2>
+<p>![photo_2021-02-12 11.20.01](images/photo_2021-02-12 11.20.01.jpeg)</p>
+<h2 id="email">Email</h2>
+<p>Sending - SMTP, receiving - IMAP/POP. Examine the headers.</p>
+<p>Headers and possible manipulations with them. Get the real domains that the email has come from. You can&rsquo;t hide them.</p>
+<p>Microsoft uses <code>.pst</code> or <code>.ost</code>. Most email progs also include contact book. Web-based may save something as browser&rsquo;s cache. Also can offer IM services. Email Dossier. FortiGuard Labs for IP reputation. If the IP <em>is</em> malicious, contact the owner (<code>whois</code>, <code>domaintools</code>). <code>Email tracer</code> - paste the headers, shows all the hops. Get router and firewall logs to filter email traffic and check whether the email has passed through. Sometimes can recover deleted emails.</p>
+<p>Unix Email Server logs:</p>
+<p><code>/etc/sendmail.cf</code> - configs for Sendmail.</p>
+<p><code>/etc/syslog.conf</code> - how and which events are logged.</p>
+<p><code>/var/log/maillog</code> SMPT + POP3 (IPs and time )</p>
+<p>Outlook:</p>
+<p>Uses DBs. Based on Microsoft Extensible Storage Engine. <code>*.edb</code> (MAPI), <code>*.stm</code> (non-MAPI). <code>res#.log</code>. <code>tracking.log</code>, tmp files, email dbs, transation logs, troubleshooting and diagnostic logs, log events, WinEvent Viewer,</p>
+<p><a href="http://cyberforensics.in/OnlineEmailTracer/index.aspx">http://cyberforensics.in/OnlineEmailTracer/index.aspx</a></p>
+<p>Here about email copy and host header attacks that might infleunce the investigation.</p>
+<h2 id="references">References</h2>
+<p><a href="https://subinsb.com/default-device-ttl-values/">https://subinsb.com/default-device-ttl-values/</a></p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

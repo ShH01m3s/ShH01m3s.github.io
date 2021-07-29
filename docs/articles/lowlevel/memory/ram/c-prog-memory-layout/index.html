@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>C Program Memory Layout - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.c5999b44f18d20d002386119ea921cc2e9eef1da5995b567c3fd9ebfd2354603.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <h4>C Program Memory Layout</h4>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#picture">Picture</a></li>
+    <li><a href="#metaphor-and-analogy">Metaphor and Analogy</a></li>
+    <li><a href="#examples">Examples</a>
+      <ul>
+        <li><a href="#cmd-args-and-env-vars">Cmd args and env vars</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#heap">Heap</a></li>
+        <li><a href="#bss">.BSS</a></li>
+        <li><a href="#data">.Data</a></li>
+        <li><a href="#text">.Text</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">C Program Memory Layout</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      <div class="postdate">
+        
+        <time datetime="2020-09-27 12:16:50 &#43;0300 MSK" itemprop="datePublished">2020-09-27</time>
+        
+      </div>
+      
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="intro">Intro</h2>
+<p>At the very beginning of my career I found it hard to grasp the notion of memory layout and stack. Even when I read about it several times, it didn&rsquo;t feel solid. That&rsquo;s why I drew drew and drew. Because my mind prefers pictures, analogies, metaphors and examples! So, I&rsquo;ve made that. May be someone finds it useful.</p>
+<h2 id="picture">Picture</h2>
+<p><img src="/images/articles/lowlevel/memoryLayoutC.png" alt="memoryLayoutC"></p>
+<h2 id="metaphor-and-analogy">Metaphor and Analogy</h2>
+<p>I was thinking about a good metaphor, but that was the extent of my imagination&hellip; Let&rsquo;s say some weirdo (let&rsquo;s call him Gargaralian) is piling up all the boring books he has 📚 under the table because the appartment is too small and the luxury of having a bookcase is not an option available for him. Besides, the table is a little loose, so that pile of books could be like the fifth leg. Something like that:</p>
+<p><img src="/images/articles/lowlevel/books_under_table.jpg" alt="books_under_table"></p>
+<p><img src="/images/articles/lowlevel/books_under_table_2.jpg" alt="books_under_table_2"></p>
+<p>He is piling them up to reach the table top. He has limited space from the floor to the table top, around <code>4294967295</code> of hydroget atoms (he&rsquo;s a weirdo, thus he counts table heights in atoms of hydrogen 🤓 ). For normal people, it&rsquo;s about 43 centimetres (around 17 inches). With each book 📘 the distance to the table top is decreased ⬇️ . So, when he puts the first book, the distance becomes smaller - 39 cm. I think, you get the main idea. The same is with memory for each program: each one of them is given a limited space and it should decide wisely how to use it. Some programs might fail that task and have an overflow (when there are more books than the table height lets us pile), some underflow (when there are on the contrary not enough books and the table gets loose), but that&rsquo;s whole another story.</p>
+<p>We will go from the top to the bottom, from the highest address (<code>0xffffffff</code>) to the lowest (<code>0x00000000</code>). As an example, I&rsquo;ll use <code>ping</code> program. So, we have 6 books&hellip;</p>
+<h2 id="examples">Examples</h2>
+<h3 id="cmd-args-and-env-vars">Cmd args and env vars</h3>
+<p>This is our first 📘, right on the floor. We are executing a program with some command line argument which now has the highest address in memory (around <code>0xffffffff</code>):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ping ya.ru
+</code></pre></div><p>This goes on the very bottom of the pile. There is pretty much of space left!</p>
+<h3 id="stack">Stack</h3>
+<p>Say, our custom ping program has a function <code>dns_request</code>. Let&rsquo;s have a closer look:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="kt">int</span> <span class="n">dns_request</span><span class="p">;</span>
+  
+  <span class="c1">//make request
+</span><span class="c1"></span>  <span class="n">dns_request</span><span class="p">(</span><span class="s">&#34;ya.ru&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">function</span> <span class="kt">bool</span> <span class="n">dns_request</span> <span class="p">(</span><span class="kt">char</span> <span class="n">domain_name</span><span class="p">[])</span> <span class="p">{</span>
+     <span class="kt">bool</span> <span class="n">result</span><span class="p">;</span>
+     <span class="k">struct</span> <span class="n">dns_request</span><span class="p">;</span>     
+     <span class="n">dns_request</span><span class="p">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain_name</span><span class="p">;</span>
+     <span class="p">...</span>
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">somefunc</span><span class="p">(</span><span class="n">dns_request</span><span class="p">);</span>
+     <span class="p">}</span>
+     <span class="p">...</span> 
+     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><blockquote>
+<p>There is an interesting article <a href="https://opensource.com/article/19/5/how-write-good-c-main-function#:~:text=The%20main()%20function%20has,(negative%20one)%20on%20failure.&amp;text=The%20argument%20vector%2C%20argv%2C%20is,line%20that%20invoked%20your%20program.">about</a> main function.</p>
+</blockquote>
+<p>What goes right on the stack? In general, everything that dies after function&rsquo;s finished executing and before it returns. Specifically (from the snippet above):</p>
+<ol>
+<li>function arguments (<code>char domain_name[]</code>)</li>
+<li>Local variables (<code>bool result</code>, <code>int i</code>)</li>
+</ol>
+<p>Depending on archetecture and calling conventions, the code may differ a little, but I would like to show a snippet of C and corresponding assembly below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">function</span> <span class="kt">void</span> <span class="nf">_func1</span><span class="p">(){</span>
+  <span class="c1">//assembly equivalent
+</span><span class="c1"></span>  <span class="c1">//push 3
+</span><span class="c1"></span>	<span class="c1">//push 2
+</span><span class="c1"></span>	<span class="c1">//call _func2
+</span><span class="c1"></span>  <span class="n">_func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">function</span> <span class="kt">int</span> <span class="nf">_func2</span><span class="p">(</span><span class="kt">int</span> <span class="n">arg1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">arg2</span><span class="p">){</span>
+  <span class="c1">//function prologue (behind the curtain --&gt; no equivalent in C)
+</span><span class="c1"></span>  <span class="c1">//push ebp
+</span><span class="c1"></span>	<span class="c1">//mov ebp, esp
+</span><span class="c1"></span>  
+  <span class="c1">//mov eax, [ebp + 8]
+</span><span class="c1"></span>	<span class="c1">//mov edx, [ebp + 12]
+</span><span class="c1"></span>	<span class="c1">//add eax, edx
+</span><span class="c1"></span>  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">arg1</span> <span class="o">+</span> <span class="n">arg2</span><span class="p">;</span>
+  
+  <span class="c1">//pop ebp
+</span><span class="c1"></span>	<span class="c1">//ret
+</span><span class="c1"></span>  <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>What goes on the stack (in assembly)? Everything that was <code>push</code>ed (<code>_func1</code>: <code>3</code> and <code>2</code>; <code>_func2</code>: <code>ebp</code>). So, in assemblu it&rsquo;s obvious what goes on the stack.</p>
+<p><a href="http://eleceng.dit.ie/frank/IntroToC/Memory.html">Here</a> is an interesting article about different layers of memory of a C-program. The author, inter alia, states that we cannot use local variables to return values, due to the fact that the stack is freed after program execution. But the the thing (is far as I know) that the return values are put into eax register before returning, so they are not technically on the stack any more. Of course, if you use not the value from the returned function, but an address of the local variable (which would be utterly weird), then yes, there is no garantee it wasn&rsquo;t overwritten.</p>
+<p>What I&rsquo;d also like to mention in the context of stack, is that even though they say it&rsquo;s freed, it not actually freed per se. There is a esp register, which is very interesting. More about this in my article about .</p>
+<h3 id="heap">Heap</h3>
+<p>Stack vs Heap <a href="https://gribblelab.org/CBootCamp/7_Memory_Stack_vs_Heap.html">article</a>.</p>
+<h3 id="bss">.BSS</h3>
+<h3 id="data">.Data</h3>
+<p><a href="https://www.studytonight.com/cpp/static-keyword.php">Here</a> you can read about static variables, functions, classes and class members.</p>
+<h3 id="text">.Text</h3>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
