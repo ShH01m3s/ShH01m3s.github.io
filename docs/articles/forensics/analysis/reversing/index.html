@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Reverse Engineering - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-list'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+    <a href="/docs/articles/forensics/analysis/"> Back to Examination and Analysis Section </a>
+  </p>
+ </div> 
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+
+
+ 
+ <h1 class="title">Reverse Engineering</h1> 
+
+
+
+<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/reversing/malware-analysis-tips/"> Malware Analysis Tips</a></h2> 
+<ul>
+  <li>
+    
+    <b>domain:</b>
+    
+      
+      <a class="category-link" href="/domain/reverse" rel="domain">reverse</a>
+      
+    
+  </li>
+  <li>
+    
+    <b>doctype:</b>
+    
+      
+      <a class="category-link" href="/doctype/article" rel="doctype">article</a>
+      
+    
+  </li>
+  <li>
+    
+    platforms: 
+    
+      
+      <a class="category-link" href="/platforms/windows" rel="platforms">windows</a>
+      
+    
+  </li>
+</ul>
+<br>
+
+<p><i>In this article I&rsquo;m collecting all the main tips for malware analysis. Some indicators of compromise, some common clues and etc.</i>
+
+<ul>
+  <li>
+    
+  </li>
+  <li>
+    
+    tools: <i class="fas fa-tools"></i>
+    
+      
+      <a class="tag-link" href="/tools/strings.exe" rel="tag">#strings.exe</a>
+      
+       , 
+      <a class="tag-link" href="/tools/rundll32.exe" rel="tag">#rundll32.exe</a>
+      
+    
+  </li>
+</ul>
+</p>
+
+<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/reversing/ios-reverse/"> Ios Reverse</a></h2> 
+<ul>
+  <li>
+    
+    <b>domain:</b>
+    
+      
+      <a class="category-link" href="/domain/forensics" rel="domain">forensics</a>
+      
+    
+  </li>
+  <li>
+    
+    <b>doctype:</b>
+    
+      
+      <a class="category-link" href="/doctype/reverse" rel="doctype">reverse</a>
+      
+    
+  </li>
+  <li>
+    
+    platforms: 
+    
+      
+      <a class="category-link" href="/platforms/ios" rel="platforms">ios</a>
+      
+    
+  </li>
+</ul>
+<br>
+
+<p><i>During forensic analysis it&rsquo;s not too rare to run into some suspicious application. In this article I&rsquo;m going to learn to reverse engineer iOS applications.</i>
+
+<ul>
+  <li>
+    
+  </li>
+  <li>
+    
+  </li>
+</ul>
+</p>
+
+<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/reversing/dynamic/"> Dynamic Analysis</a></h2> 
+<ul>
+  <li>
+    
+    <b>domain:</b>
+    
+      
+      <a class="category-link" href="/domain/reverse" rel="domain">reverse</a>
+      
+    
+  </li>
+  <li>
+    
+    <b>doctype:</b>
+    
+      
+      <a class="category-link" href="/doctype/article" rel="doctype">article</a>
+      
+    
+  </li>
+  <li>
+    
+    platforms: 
+    
+      
+      <a class="category-link" href="/platforms/mac" rel="platforms">mac</a>
+      
+       , 
+      <a class="category-link" href="/platforms/ios" rel="platforms">ios</a>
+      
+       , 
+      <a class="category-link" href="/platforms/windows" rel="platforms">windows</a>
+      
+       , 
+      <a class="category-link" href="/platforms/linux" rel="platforms">linux</a>
+      
+    
+  </li>
+</ul>
+<br>
+
+<p><i>This is more about cracking.
+Cracking lab presents&hellip;. . Staring: 🌟
+Tools 🧰: OllyDbg as a debugger, Import Reconstructors as an &hellip; wait for it &hellip;.</i>
+
+<ul>
+  <li>
+    
+  </li>
+  <li>
+    
+  </li>
+</ul>
+</p>
+
+<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/reversing/static/"> Static Analysis</a></h2> 
+<ul>
+  <li>
+    
+    <b>domain:</b>
+    
+      
+      <a class="category-link" href="/domain/reverse" rel="domain">reverse</a>
+      
+    
+  </li>
+  <li>
+    
+    <b>doctype:</b>
+    
+      
+      <a class="category-link" href="/doctype/article" rel="doctype">article</a>
+      
+    
+  </li>
+  <li>
+    
+    platforms: 
+    
+      
+      <a class="category-link" href="/platforms/mac" rel="platforms">mac</a>
+      
+       , 
+      <a class="category-link" href="/platforms/ios" rel="platforms">ios</a>
+      
+       , 
+      <a class="category-link" href="/platforms/windows" rel="platforms">windows</a>
+      
+       , 
+      <a class="category-link" href="/platforms/linux" rel="platforms">linux</a>
+      
+    
+  </li>
+</ul>
+<br>
+
+<p><i></i>
+
+<ul>
+  <li>
+    
+  </li>
+  <li>
+    
+  </li>
+</ul>
+</p>
+
+<h2><a href="https://bakerst221b.com/docs/articles/forensics/analysis/reversing/crack-me-algo/"> Crackme Algorithm</a></h2> 
+<ul>
+  <li>
+    
+    <b>domain:</b>
+    
+      
+      <a class="category-link" href="/domain/reverse" rel="domain">reverse</a>
+      
+    
+  </li>
+  <li>
+    
+    <b>doctype:</b>
+    
+      
+      <a class="category-link" href="/doctype/article" rel="doctype">article</a>
+      
+    
+  </li>
+  <li>
+    
+    platforms: 
+    
+      
+      <a class="category-link" href="/platforms/mac" rel="platforms">mac</a>
+      
+       , 
+      <a class="category-link" href="/platforms/ios" rel="platforms">ios</a>
+      
+       , 
+      <a class="category-link" href="/platforms/windows" rel="platforms">windows</a>
+      
+       , 
+      <a class="category-link" href="/platforms/linux" rel="platforms">linux</a>
+      
+    
+  </li>
+</ul>
+<br>
+
+<p><i>Look at the strings fs strings and f in radare2 or rabin -zz Find xrefs for the strings of interest axt @ str.</i>
+
+<ul>
+  <li>
+    
+  </li>
+  <li>
+    
+  </li>
+</ul>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
