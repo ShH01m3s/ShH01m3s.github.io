@@ -249,7 +249,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>*In this article I&rsquo;m assembling information about debugging applications on Android, then all possible to anti-debugging techniques and how they can be curcumvented (a little spoiler here - almpist always one way 😀) . The question I am trying to find an answer to is whether there is a silver bullet 🔫 for anti-debugging or not.</p>
+    <p><em>In this article I&rsquo;m assembling information about debugging applications on Android, then all possible to anti-debugging techniques and how they can be curcumvented (a little spoiler here - almpist always one way 😀) . The question I am trying to find an answer to is whether there is a silver bullet 🔫 for anti-debugging or not.</em></p>
 <p>Some symbol definitions:</p>
 <p>⚠️ An important note from the forensics prospective.</p>
 <p>⛏ <em>How to circumvent this anti-debugging technique?</em></p>
@@ -285,8 +285,11 @@
 <span class="p">}</span>
 
 </code></pre></div><p>This is an example of a very simple VM. It has only 4 instructions which it translates to real assembly. <code>0x12</code> means <code>0x5b</code> which in human-readable assebly means <code>pop ebx</code>, telling the CPU to put the last value from the stack into <code>ebx</code> and move the stack pointer to the next value. <code>0x13</code> means <code>0x83c201</code> in real machine code, which can be interpreted as <code>add edx, 0x1</code>, which tells the CPU to add <code>1</code> to the value stored in <code>edx</code> registy. And so on. So, basically, a VM in this case is just a switch statement that translated its own bytecode into the one that the CPU understands. I presume, Dalvik VM, Java VM and ART are based on the same principle.</p>
-<p>Here is a little sketch of how this whole thing works:</p>
+<p>So, there is this Dalvik VM (ART for the later versions) which is like a one-way interpreter: listening to one party and delivering the information to another party in the form that it understands. However, as I&rsquo;ve already mentioned, there is this <em>native</em> code part. This one is called by the Dalvik VM (which reads this plea from the Java bytecode), but it&rsquo;s run <em>natively</em>, i.e. directly by Linux kernel. Here is a little sketch of how this whole thing works:</p>
 <p><img src="images/android-process-arch.png" alt="android-process-arch"></p>
+<p>🗒</p>
+<p>Java and native code talk via a JNI bridge (an arrow on the diagram above). Now, in order to debug both parts we need to understand, how this communication really works.</p>
+<p>Native code is invoked via <code>System.load()</code> method (something similar to <code>LoadLibrary</code> for WinAPI, I guess). Android uses <code>bionic</code> instead of <code>glibc</code>, since it has some code specific to a mobile platform. JNI means Java Native Interface. <code>JNIEnv</code> is a pointer to a table containing a list of functions with their offsets. It&rsquo;s used in order to <em>talk</em> to the native code.</p>
 <h2 id="androidmanifestxml">AndroidManifest.xml</h2>
 <p><code>AndroidManifest.xml</code> file contains different settings for the application in the <code>application</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged via JDWP, but doesn&rsquo;t prevent it from being debugged using <code>ptrace</code>.</p>
 <p>⛏ <em>How to circumvent?</em></p>
