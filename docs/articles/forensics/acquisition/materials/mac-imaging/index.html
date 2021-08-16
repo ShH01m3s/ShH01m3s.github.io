@@ -165,6 +165,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#disk-arbitration">Disk Arbitration</a></li>
     <li><a href="#fusion-drives">Fusion Drives</a></li>
     <li><a href="#t2-and-fv2">T2 and FV2</a></li>
     <li><a href="#references">References</a></li>
@@ -241,6 +242,7 @@
 <p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they&rsquo;ve added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it and they had to work this out. But after T2 Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics in that there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode as well.</p>
 <p>Another interesting key point is that now the kill signal can be sent over Bluetooth as well. That means than if there is someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) can send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. Sounds made up, but Mac forensics expert said that this is what it looks like now.</p>
 <p>Also, they talked about <a href="https://sumuri.com/product/recon-itr/">ITR</a> tool that images and triages Mac devices. Supports live imaging of Apple Silicon Macs!</p>
+<h2 id="disk-arbitration">Disk Arbitration</h2>
 <h2 id="fusion-drives">Fusion Drives</h2>
 <p>Fusion drive is the combination of an ordinary drive and a small NAND flash drive as well that appear as one logical volume in the OS, but when you try imaging it, you&rsquo;ll get two different drives and the image will be somewhat corrupted for the analysis tools if you don&rsquo;t assemble it correctly. NAND flash drive stores the most often used files like system ones and also those files that are used by the user more often than others. It seems to me that the idea is pretty much the same as with prefetch in Windows 🌈.</p>
 <h2 id="t2-and-fv2">T2 and FV2</h2>

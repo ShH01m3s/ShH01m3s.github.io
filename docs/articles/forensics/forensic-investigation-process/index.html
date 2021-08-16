@@ -165,8 +165,14 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#anatomy-of-an-investigation">Anatomy of an investigation</a></li>
     <li><a href="#collection">Collection</a></li>
-    <li><a href="#examination">Examination</a></li>
+    <li><a href="#examination">Examination</a>
+      <ul>
+        <li><a href="#ip-cases-questions">IP cases questions</a></li>
+        <li><a href="#e-discovery">E-discovery</a></li>
+      </ul>
+    </li>
     <li><a href="#analysis">Analysis</a></li>
     <li><a href="#repoting">Repoting</a></li>
     <li><a href="#references">References</a></li>
@@ -219,15 +225,58 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="collection">Collection</h2>
+    <h2 id="anatomy-of-an-investigation">Anatomy of an investigation</h2>
+<p><strong>Identification/Assessment</strong>. Understand your scope (technical and legal aspects), your goals and people you are going to work with. Identify the stakeholders. Decide on the tools.</p>
+<p><strong>Collection/Acquisition</strong>. Begins with first response and arriving to the scene. Everything must be recorded and documented. Opponents will try to discredit your work. Use industry accepted tools. Know the digital footprint of these tools. Document everything.</p>
+<p><strong>Preservation</strong>. Making extra copies of all media. Don&rsquo;t examine and analyse the original. Calculate hashes. If there is no way to copy - document why.</p>
+<p><strong>Examination</strong>. Document each step taken. Might take audio notes. There is no court-approved tools: use familiar tools. If it&rsquo;s a new tool, demonstrate the proficiency and your testing of it.</p>
+<p><strong>Analysis</strong>. Art supersedes science. Know what is garbage. Unexpected places. Don&rsquo;t ignore exculpatory (proving innocence) data.</p>
+<p><strong>Reporting</strong>. Begins at the very beginning and goes on until the last day. Document EVERYTHING! Know the laws. If you don&rsquo;t know something, ask.</p>
+<p>Types of investigation:</p>
+<ul>
+<li>civil (constitutional law may not apply but privacy legislation is likely to)</li>
+<li>criminal (usually leads to arrest)</li>
+<li>Internal (not intended for others to see)</li>
+</ul>
+<p>Stakeholders - everyone investing their money 💵, time 🕰 or effort into the company. So, employees are also stakeholders. Some of them might become my opponents or proponents. Scope!</p>
+<h2 id="collection">Collection</h2>
 <p>Develop a plan to collect the data. Each type of data will require separate plan. This plan should prioritise the sources and the order. For example, if you are dealing with a system that is turned on, first, take photos of the screen, then collect the volatile data (RAM) and them make a copy of a hard drive. Then turn it off and send to the lab in a safety bag. Maintain chain of custody.</p>
 <p>Then, acquire the data, i.e. follow the plan. Use forensic tools to collect volatile data, duplicate non-volatile data, secure the original data source.</p>
 <p>Verify the integrity of this data.</p>
+<p>Keep the evidence isolated and document the scene thouruoughly. Assign IDs to the acquired evidence. Make sure, these evidence are in the scope.</p>
+<p>⚠️ It&rsquo;s a very important thing to note in case of IP (intellectual property cases). Ensure, that data and devices of the suspect are IMMEDIATLY preserved and not accessed by anyone. I guess that&rsquo;s because of the timestamps.</p>
+<p>More on first response <a href="/docs/articles/forensics/acquisition/first-response-process">here</a>.</p>
 <h2 id="examination">Examination</h2>
 <p>Bypassing controls (if, say, it&rsquo;s PIN protected, data encrypted, ACL, compression). There will be lots of data and only some is relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. This list is used by Autopsy.</p>
 <p>Testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
 <p>About SIM forensics as well <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf">here</a>.</p>
+<h3 id="ip-cases-questions">IP cases questions</h3>
+<ul>
+<li><input disabled="" type="checkbox"> <em>❓ What processes did the suspect perform in order to get IP from the building?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓How the suspect accessed email accs?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Cloud ⛅️ storage used?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Remote transfer?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓DVDs/CDs/USBs?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Suspects negotiating salary and benefits with the competitors?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Was he/she selling the information?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Mass deletion or drive wiping?</em></li>
+</ul>
+<h3 id="e-discovery">E-discovery</h3>
+<p>Electronic aspects of identifying, collecting and producing electronically stored info in response to a request for production in a lawsuit or investigation (emails, websites, docs). ❗️Focused on the metadata, not the data itself! <em>How, when and where was the doc created?</em></p>
+<ul>
+<li><input disabled="" type="checkbox"> <em>❓How, when and where was the doc created?</em></li>
+</ul>
 <h2 id="analysis">Analysis</h2>
+<ul>
+<li><input disabled="" type="checkbox"> ❓ <em>What is the case about?</em></li>
+<li><input disabled="" type="checkbox"> ❓ <em>What evidence do we expect to recover?</em></li>
+<li><input disabled="" type="checkbox"> ❓ <em>Where is the evidence most likely located?</em></li>
+<li><input disabled="" type="checkbox"> ❓ <em>What are the legal restrictions?</em></li>
+<li><input disabled="" type="checkbox"> ❓ <em>Who is involved and what&rsquo;s their role?</em></li>
+</ul>
+<blockquote>
+<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
+</blockquote>
 <h2 id="repoting">Repoting</h2>
 <p>How to write a report is <a href="https://www.sans.org/blog/intro-to-report-writing-for-digital-forensics/">here</a>.</p>
 <h2 id="references">References</h2>

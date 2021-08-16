@@ -262,8 +262,31 @@
 <p><img src="images/java-vs-assembly-decomp.png" alt="java-vs-assembly-decomp"></p>
 <p>To the left we have a piece of ARM assembly from some Swift application (ARM code was shown above) decompiled with Ghidra (residing in Cutter) and to the left we can observe what does the decompiled Java bytecode looks like (the same function we saw in the screenshot above).</p>
 <p>So, as you can see reversing ARM is no piece of cake 🍰, but reversing of Java bytecode is 😋. However, there is one thing to note&hellip; 📝. I&rsquo;ve already mentioned that Android applications, thought they mostly use human-readable-when-decompiled Java bytecode, sometimes use C/C++ code as well and those buddies are tough 💪. These parts of application are called <em>native</em> code, since they are <em>native</em> to Linux kernel which Android OS is based on, while Java code is like a wolf 🐺 in a sheep&rsquo;s 🐏 clothing, lurking all that <em>understandable</em> in the dungeons of JM.</p>
-<p>Since there are two types of code base that an Android app might use, there are two types of debugging, depending on what exactly we want to debug. If we are after the Java code - we use jdb, if we are after native code - we use gdb. The same same division applies to tracing (see below if you are not familiar with this notion).</p>
+<p>Since there are two types of code base that an Android app might use, there are two types of debugging, depending on what exactly we want to debug. If we are after the Java code - we use <code>jdb</code>, if we are after native code - we use <code>gdb</code>. The same same division applies to tracing (see below if you are not familiar with this notion).</p>
 <p>Since applications are usually debugged from the PC while being run on a mobile device, there must be two parts for the debugger. Some client-server architecture might be in place. That&rsquo;s true. Some part is running on the mobile device 📱 while the controller is on the PC. When we talk about <code>jdb</code>, JDWP (Java Debug Wire Protocol) is used to standardise the communication between the two parts: the one the controls the flow from the PC and another one that is actually doing the dirty work on the mobile device.</p>
+<p>But how does it really work under the hood? We have a Dalvik VM car or ART 🚘. That&rsquo;s not actually a VM (though it was called that way). When we talk about a VM, we almost always think of Vbox, VMWare or Parallels or whatever other tool you prefer or know. This piece of software emulates a machine with a whole OS running on its top. However, sometimes a VM is something way less complex. I am planning on writing a blog post about VMs in crackmes and malware, but for you to get a notion I&rsquo;ll leave a couple of words here. May skip it if not interested, it&rsquo;s not that crucuial to this narrative.</p>
+<p>Machine code is ugly (some might argue with that) and &hellip; well <em>machinery</em>. Meaning, it&rsquo;s takes quite a time to read it and understand. One simple program that prints &ldquo;Hello world!&rdquo; might take dozens of assembly instructions. For PC however there is really no assembly. For me it looks like (and may be it is so) was the first attempt to <em>humanise</em> the machine code which consists of <code>1</code>s and <code>0</code>s only. For example, it would certainly take ages clock 🕰 for a human being to be fluent with something like this: <code>11000111010010</code>. It&rsquo;s definetely easier to read <code>0x31d2</code> (which is nothing more than a hex equivalent of <code>11000111010010</code>), but still not very readable 😓. That&rsquo;s why humans decided that <code>11000111010010</code> can be interpreted like <code>xor edx, edx</code>, which means apply <code>xor</code> operation to <code>edx</code>, zeroing it out. Of course, it&rsquo;s much easier to read it now.</p>
+<p>You might be thinking &ldquo;<em>Where is this all going?</em>&rdquo; Well, imagine there is a piece of code inside a highly obfuscated program that has some peculiar code that translate some garbage-looking binary (hex) digits into real assembly instructions (machine code). For example, this opcode (<code>0x31d2</code>).</p>
+<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="n">array</span> <span class="p">=</span> <span class="p">[</span><span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">]</span>
+<span class="n">current_instruction</span> <span class="p">=</span> <span class="mh">0x0</span>
+<span class="k">switch</span> <span class="n">current_instruction</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="mh">0x12</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x5b</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;pop ebx&#34;</span>
+  <span class="k">case</span> <span class="mh">0x13</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x83c201</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;add edx, 0x1&#34;</span>
+  <span class="k">case</span> <span class="mh">0x14</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x31d2</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;xor edx, edx&#34;</span>
+  <span class="k">case</span> <span class="mh">0x15</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x84c9</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;test cl, cl&#34;</span>
+<span class="p">}</span>
+
+</code></pre></div><p>This is an example of a very simple VM. It has only 4 instructions which it translates to real assembly. <code>0x12</code> means <code>0x5b</code> which in human-readable assebly means <code>pop ebx</code>, telling the CPU to put the last value from the stack into <code>ebx</code> and move the stack pointer to the next value. <code>0x13</code> means <code>0x83c201</code> in real machine code, which can be interpreted as <code>add edx, 0x1</code>, which tells the CPU to add <code>1</code> to the value stored in <code>edx</code> registy. And so on. So, basically, a VM in this case is just a switch statement that translated its own bytecode into the one that the CPU understands. I presume, Dalvik VM, Java VM and ART are based on the same principle.</p>
+<p>Here is a little sketch of how this whole thing works:</p>
+<p><img src="images/android-process-arch.png" alt="android-process-arch"></p>
 <h2 id="androidmanifestxml">AndroidManifest.xml</h2>
 <p><code>AndroidManifest.xml</code> file contains different settings for the application in the <code>application</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged via JDWP, but doesn&rsquo;t prevent it from being debugged using <code>ptrace</code>.</p>
 <p>⛏ <em>How to circumvent?</em></p>
@@ -393,6 +416,7 @@
 <p>[<a href="https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida">2</a>] Bernhard Mueller archived blog</p>
 <p>[<a href="https://gsec.hitb.org/materials/sg2016/whitepapers/Hacking%20Soft%20Tokens%20-%20Bernhard%20Mueller.pdf">3</a>] Advanced Android Reverse Engineering by Bernhard Mueller</p>
 <p>[<a href="https://web.archive.org/web/20200923191924if_/https://github.com/OWASP/owasp-mstg/tree/master/Crackmes">4</a>] CrackMes by Bernhard Mueller</p>
+<p>[<a href="https://android.stackexchange.com/questions/208824/do-calls-to-java-native-interface-in-android-apps-run-within-dalvik-vm">5</a>] Does the JNI code run within Dalvik VM? StackOverflow</p>
 
   </div>
 </article>
