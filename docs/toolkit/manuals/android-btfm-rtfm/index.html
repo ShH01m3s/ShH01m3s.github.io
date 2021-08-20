@@ -182,8 +182,10 @@
     <li><a href="#debugging">Debugging</a>
       <ul>
         <li><a href="#jdb">JDB</a></li>
+        <li><a href="#dbg">DBG</a></li>
       </ul>
     </li>
+    <li><a href="#tracing">Tracing</a></li>
     <li><a href="#runtime-attacks">Runtime Attacks</a>
       <ul>
         <li><a href="#frida">Frida</a></li>
@@ -547,17 +549,49 @@ dd <span class="k">if</span><span class="o">=</span>mybackup.ab <span class="nv"
 <h3 id="jdb">JDB</h3>
 <p>Useful to <a href="https://www.youtube.com/watch?v=fVZXeZ07tS4">watch</a> regarding debugging in Android applications.</p>
 <p>Get PID list:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb jdwp, либо frida-ps -U <span class="p">|</span> Select-String <span class="s2">&#34;[partialname]&#34;</span> <span class="c1">#windows</span>
-frida-ps -U <span class="p">|</span> grep <span class="s2">&#34;[partialname]&#34;</span> <span class="c1">#linux</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the PID of the application to be debugged</span>
+<span class="c1"># option 1. List all debuggable apps</span>
+adb jdwp
+<span class="c1"># option 2</span>
+drozer console connect
+run app.package.attacksurface &lt;package_name&gt;
+<span class="c1"># option 3. List all debuggable apps </span>
+drozer console connect
+run app.package.debuggable
+<span class="c1"># option 4</span>
+frida-ps -U <span class="p">|</span> Select-String &lt;package_name_full_or_partial&gt; <span class="c1"># windows</span>
+frida-ps -U <span class="p">|</span> grep &lt;package_name_full_or_partial&gt; <span class="c1"># linux/mac</span>
 </code></pre></div><p>Forward in adb:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:12345 jdwp:<span class="o">[</span>PID_of_app<span class="o">]</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb forward tcp:12345 jdwp:&lt;PID_of_app&gt;
 </code></pre></div><p>Connect to process:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1">#windows</span>
-jdb -attach localhost:12345 //не проверялось <span class="c1">#linux</span>
-</code></pre></div><p>Check what apps are debuggable:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">drozer console connect
-&gt; run app.package.debuggable
-</code></pre></div><h2 id="runtime-attacks">Runtime Attacks</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1"># windows</span>
+jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
+
+<span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:12345 <span class="c1"># suspend the process on the Java level</span>
+</code></pre></div><p>Debugging (useful commands) for <code>jdb</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">classes <span class="c1">#list all loaded classes</span>
+class/methods/fields class id <span class="c1"># Print details about a class and list its methods and fields</span>
+locals <span class="c1"># print local variables in current stack frame</span>
+print/dump expr <span class="c1"># print information about an object</span>
+stop in method <span class="c1"># set a method breakpoint</span>
+clear method <span class="c1"># remove a method breakpoint</span>
+<span class="nb">set</span> &lt;var_name&gt; <span class="o">=</span> &lt;new value&gt; <span class="c1">#  assign new value to field/variable/array element</span>
+
+monitor &lt;command&gt; <span class="c1"># execute command each time the program stops. Proven useful when some breakpoint is hit too often and the locals need constant tampering or viewing. Example, monitor locals.</span>
+</code></pre></div><h3 id="dbg">DBG</h3>
+<p>To suspend the process on the OS level - turn on <code>Wait for Debugger</code> feauture on the mobile device.</p>
+<p>Install Android NDK on the host PC and <code>gdb</code> server on the mobile device.</p>
+<ol>
+<li><a href="https://developer.android.com/ndk/downloads/index.html#stable-downloads">Download</a> the latest stable version of NDK.</li>
+<li>Extract the downloaded 📦 <code>zip</code>, <code>cd</code> into the NDK root directory</li>
+<li>Run <code> ./build/tools/make_standalone_toolchain.py --arch arm --api 24 --install-dir /tmp/android-7-toolchain</code></li>
+</ol>
+<p>Thus, a standalone toolchain is created in <code>/tmp/android-7-toolchain</code>. To add it to the env variable and make persistent:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> ~/.zshrc &gt;&gt; <span class="nb">export</span> <span class="nv">TOOLCHAIN</span><span class="o">=</span>/tmp/android-7-toolchain <span class="c1"># linux/mac</span>
+</code></pre></div><p>For Windows, add the path to NDK to <code>$PATH</code> environment variable.</p>
+<p>Read more about debugging native application on Android <a href="">here</a>.</p>
+<h2 id="tracing">Tracing</h2>
+<h2 id="runtime-attacks">Runtime Attacks</h2>
 <h3 id="frida">Frida</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
 su
@@ -712,11 +746,12 @@ AndroidManifest.xml
 </code></pre></div><p>Open AndroidManifest.xml and add a link to that icon:</p>
 <div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;application</span> <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span> <span class="na">android:icon=</span><span class="s">&#34;@mipmap/mail&#34;</span><span class="nt">&gt;</span>
 </code></pre></div><p>Build, create a key and sign the application with that key:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apktool b mail -o mail_temp.apk
-
-keytool -genkey  -v -keystore eccouncil.Keystore -alias pentestandroid -keyalg RSA -keysize  <span class="m">2048</span> -validity <span class="m">10000</span>
-
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1  -keystore eccouncil.Keystore mail_temp.apk pentestandroid
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Rebuild the application back into an apk with</span>
+apktool b &lt;decompiled_folder_with_a_patch&gt;  -o &lt;new_apk_name&gt;.apk
+<span class="c1"># If you don&#39;t have a keystore to use for signing, create the keystore first with </span>
+keytool -genkey -v -keystore &lt;keystore_name&gt; -alias &lt;key_name&gt; -keyalg RSA -keysize <span class="m">2048</span> -validity 10000.
+<span class="c1"># Sign the application with &lt;key_name&gt; from &lt;keystore_name&gt; with </span>
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore &lt;keystore_name&gt; &lt;new_apk_name&gt;.apk &lt;key_name&gt;
 </code></pre></div><blockquote>
 <p>zipalign` is an archive alignment tool that provides important optimization to Android application (APK) files. The purpose is to ensure that all uncompressed data starts with a particular alignment relative to the start of the file. Specifically, it causes all uncompressed data within the APK, such as images or raw files, to be aligned on 4-byte boundaries. This allows all portions to be accessed directly with mmap() even if they contain binary data with alignment restrictions. The benefit is a reduction in the amount of RAM consumed when running the application. To do so:</p>
 </blockquote>
@@ -749,10 +784,15 @@ android root disable
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">objection -g <span class="o">[</span>package_name<span class="o">]</span> explore
 android sslpinning disable
 </code></pre></div><h3 id="patch">Patch</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apktool d <span class="o">[</span>appfolder<span class="o">]</span>
-apktool b <span class="o">[</span>appfolder<span class="o">]</span>
-keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize <span class="m">2048</span> -validity <span class="m">10000</span>
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore com.myapp/dist/com.myapp.apk alias_name
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 1. Decompile the application to get to the bytecode or AndroidManifest.xml </span>
+apktool d &lt;package_name&gt;.apk
+<span class="c1"># 2. New folder with the &lt;package_name&gt; name will be created. Browse the folder, patch the file you need and save.</span>
+<span class="c1"># 3. Rebuild the application back into an apk with</span>
+apktool b &lt;decompiled_folder_with_a_patch&gt;  -o &lt;new_apk_name&gt;.apk
+<span class="c1"># 4. If you don&#39;t have a keystore to use for signing, create the keystore first with </span>
+keytool -genkey -v -keystore &lt;keystore_name&gt; -alias &lt;key_name&gt; -keyalg RSA -keysize <span class="m">2048</span> -validity 10000.
+<span class="c1"># 5. Sign the application with &lt;key_name&gt; from &lt;keystore_name&gt; with </span>
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore &lt;keystore_name&gt; &lt;new_apk_name&gt;.apk &lt;key_name&gt;
 </code></pre></div>
   </div>
 </article>
