@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Diffie Hellman - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home">
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles">
+      <a href="/docs/articles">
+        <span>Articles</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog">
+      <a href="/docs/blog">
+        <span>Blog</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit">
+      <a href="/docs/toolkit">
+        <span>Toolkit</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me">
+      <a href="/docs/about">
+        <span>About me</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements">
+      <a href="/docs/achievements">
+        <span>Achievements</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts">
+      <a href="/docs/contact">
+        <span>Contacts</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes">
+      <a href="/docs/notes">
+        <span>Notes</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/articles/cryptography/asymmetric/"> Back to Assymetric Algorithms Section </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents"></nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Diffie Hellman</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fa fa-magic"></i>
+              
+          <a class="category-link" href="/domain/crypto">crypto</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>I&rsquo;ve written this article while I was untanging RSA and Deffie Hellman inside my head. What I need to stree right here, in the article description, the main difference between them is the Deffie Hellman is NOT a encryption algorithm! It&rsquo;s an algorithm of generating a symmetric key using principles of asymmetric cryptography.</em></p>
+<p>Here is the code I have written, to demostrate the internals of this algo:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">check_if_primitive_root</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">mod</span><span class="p">):</span>
+    <span class="n">hash_table</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mod</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">root</span> <span class="o">**</span> <span class="n">i</span> <span class="o">%</span> <span class="n">mod</span>
+        <span class="k">if</span> <span class="n">tmp</span> <span class="ow">in</span> <span class="n">hash_table</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hash_table</span><span class="p">[</span><span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">def</span> <span class="nf">check_if_prime</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span> <span class="p">:</span> 
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> 
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">6</span>
+  
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">class</span> <span class="nc">Victim</span><span class="p">:</span>
+    <span class="n">__private_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">__symmetric_key</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># __private_num and  __symmetric_key are not accessible for MiM (Eve)</span>
+    <span class="c1"># arguments represent public data</span>
+    <span class="k">def</span> <span class="nf">calculate_shared_step_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">public_num</span><span class="p">,</span> <span class="n">public_generator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">public_num</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">__private_num</span> <span class="o">%</span> <span class="n">public_generator</span>
+
+    <span class="k">def</span> <span class="nf">calculate_shared_step_two</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">others_pub_result</span><span class="p">,</span> <span class="n">public_generator</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__symmetric_key</span> <span class="o">=</span> <span class="n">others_pub_result</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">__private_num</span> <span class="o">%</span> <span class="n">public_generator</span>
+
+<span class="k">class</span> <span class="nc">MiM</span><span class="p">:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Eve&#34;</span>
+    <span class="n">public_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">public_generator</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">bobs_first_res</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">alices_first_res</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># all of our parties:</span>
+<span class="n">alice</span> <span class="o">=</span> <span class="n">Victim</span><span class="p">()</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Victim</span><span class="p">()</span>
+<span class="n">eve</span> <span class="o">=</span> <span class="n">MiM</span><span class="p">()</span>
+
+<span class="n">alice</span><span class="o">.</span><span class="n">private_num</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">bob</span><span class="o">.</span><span class="n">private_num</span> <span class="o">=</span> <span class="mi">13</span>
+
+<span class="c1"># public num should be a primitive root of public generator</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Is {} a primitive root of {}? {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="n">check_if_primitive_root</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">17</span><span class="p">)))</span>
+<span class="n">eve</span><span class="o">.</span><span class="n">public_num</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># public generator must be a prime number</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Is {} number a prime? {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="n">check_if_prime</span><span class="p">(</span><span class="mi">17</span><span class="p">)))</span>
+<span class="n">eve</span><span class="o">.</span><span class="n">public_generator</span> <span class="o">=</span> <span class="mi">17</span>
+
+<span class="n">eve</span><span class="o">.</span><span class="n">alices_first_res</span> <span class="o">=</span> <span class="n">alice</span><span class="o">.</span><span class="n">calculate_shared_step_one</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">public_num</span><span class="p">,</span> <span class="n">eve</span><span class="o">.</span><span class="n">public_generator</span><span class="p">)</span>
+<span class="n">eve</span><span class="o">.</span><span class="n">bobs_first_res</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">calculate_shared_step_one</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">public_num</span><span class="p">,</span> <span class="n">eve</span><span class="o">.</span><span class="n">public_generator</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Alice&#39;s Intermediate public result is {} &#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">alices_first_res</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Bob&#39;s Intermediate public result is {} &#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">bobs_first_res</span><span class="p">))</span>
+
+<span class="n">bob</span><span class="o">.</span><span class="n">calculate_shared_step_two</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">alices_first_res</span><span class="p">,</span> <span class="n">eve</span><span class="o">.</span><span class="n">public_generator</span><span class="p">)</span>
+<span class="n">alice</span><span class="o">.</span><span class="n">calculate_shared_step_two</span><span class="p">(</span><span class="n">eve</span><span class="o">.</span><span class="n">bobs_first_res</span><span class="p">,</span> <span class="n">eve</span><span class="o">.</span><span class="n">public_generator</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Bob&#39;s and Alice&#39;s private shared summetric key is {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">alice</span><span class="o">.</span><span class="n">symmetric_key</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Bob&#39;s and Alice&#39;s private shared summetric key is not accessible for Eve :-(&#34;</span><span class="p">)</span>    
+</code></pre></div><p><em>#todo: step by step description</em></p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
