@@ -166,14 +166,16 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#basics">Basics</a></li>
-    <li><a href="#debugging-java">Debugging Java</a>
+    <li><a href="#debugging-java">Debugging Java</a></li>
+    <li><a href="#debugging-native-code">Debugging Native Code</a></li>
+    <li><a href="#anti-reversing-techniques">Anti-reversing Techniques</a>
       <ul>
         <li><a href="#androidmanifestxml"><code>AndroidManifest.xml</code></a></li>
+        <li><a href="#timing">Timing</a></li>
+        <li><a href="#isdebuggerconnected">isDebuggerConnected</a></li>
+        <li><a href="#using-jdwp-data-structures">Using JDWP Data Structures</a></li>
       </ul>
     </li>
-    <li><a href="#timing">Timing</a></li>
-    <li><a href="#isdebuggerconnected">isDebuggerConnected</a></li>
-    <li><a href="#jdwp-data-structures">JDWP Data Structures</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -295,22 +297,6 @@
 <p>Java and native code talk via a JNI bridge (an arrow on the diagram above). Now, in order to debug both parts we need to understand, how this communication really works.</p>
 <p>Native code is invoked via <code>System.load()</code> method (something similar to <code>LoadLibrary</code> for WinAPI, I guess). Android uses <code>bionic</code> instead of <code>glibc</code>, since it has some code specific to a mobile platform. JNI means Java Native Interface. <code>JNIEnv</code> is a pointer to a table. This table contains a list of functions' offsets. This offsets point to their interfaces, that can be used to run a function. This is how Java code can <em>talk</em> to the native code.</p>
 <h2 id="debugging-java">Debugging Java</h2>
-<h3 id="androidmanifestxml"><code>AndroidManifest.xml</code></h3>
-<p><code>AndroidManifest.xml</code> file contains different settings for the application within the <code>&lt;application&gt;</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged over JDWP (using <code>jdb</code>), but doesn&rsquo;t prevent it from being debugged using <code>gdb</code> (from the Linux OS space).</p>
-<p>⛏ <em>How to circumvent <code>android:debuggable=false</code>?</em></p>
-<p>Patch <code>AndroidManifest.xml</code> by setting <code>android:debuggable</code> to <code>true</code>. If there is no such setting there (by default it&rsquo;s set to <code>false</code> unless there is a <code>testCoverageEnabled true</code> в <a href="https://stackoverflow.com/questions/36557070/gradle-is-generating-debuggable-apks-on-release-mode/36558588">файле</a> <code>build.gradle</code>), add it to the <code>application</code> tag like this:</p>
-<p><img src="images/android-debuggable.png" alt="android-debuggable"></p>
-<p>Rebuild the application and sign it with your certificate in order to get it installed properly on the device. To rebuild and sign the application follow <a href="https://bakerst221b.com/docs/toolkit/manuals/android-btfm-rtfm#bypasses">these</a> instructions (Android BTFTM and RTFM, bypasses section). The general idea is to follow these steps:</p>
-<ol>
-<li>Decompile the application to get to the bytecode or AndroidManifest.xml with <code>apktool d &lt;package_name&gt;.apk</code>. We are after <code>AndroidManifest.xml</code> here.</li>
-<li>Patch the file  <code>AndroidManifest.xml</code> by adding <code>android:debuggable=&quot;true&quot;</code> within the <code>application tag</code> (see the picture above).</li>
-<li>Rebuild the application back into an <code>apk</code> with <code>apktool b &lt;decompiled_folder_with_a_patch&gt;  -o &lt;new_apk_name&gt;.apk</code>.</li>
-<li>If you don&rsquo;t have a keystore to use for signing, create the keystore first with <code>keytool -genkey -v -keystore &lt;keystore_name&gt; -alias &lt;key_name&gt; -keyalg RSA -keysize 2048 -validity 10000</code>.</li>
-<li>Sign the application with <code>&lt;key_name&gt;</code> from <code>&lt;keystore_name&gt;</code> with <code>jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore &lt;keystore_name&gt; &lt;new_apk_name&gt;.apk &lt;key_name&gt;</code></li>
-</ol>
-<blockquote>
-<p>⚠️ This technique will require reinstalling the application. All data that is deteled upon uninstalling, will be cleared and unavailable for analysis.</p>
-</blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the PID of the application to be debugged</span>
 <span class="c1"># option 1. List all debuggable apps</span>
 adb jdwp
@@ -330,11 +316,67 @@ adb forward tcp:12345 jdwp:&lt;PID_of_app&gt;
 jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1"># windows</span>
 jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
 <span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:12345 <span class="c1"># suspend the process and attach</span>
-</code></pre></div><p>🩹 <em>What is the corresponding anti-debugging technique?</em></p>
-<p><strong>Option 1</strong>. An application can check <code>ApplicationInfo.FLAG_DEBUGGABLE</code> and compare it to the contents of <code>AndroidManifest</code> to know when it&rsquo;s being debugged. If the application was tampered, these values will be different.</p>
+</code></pre></div><h2 id="debugging-native-code">Debugging Native Code</h2>
+<p>I needed Adnroid NDK to be able to analyse native code. I tried using <code>brew install --cask android-ndk</code>, but this didn&rsquo;t work for me. So, I followed instructions from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/appendix/0x08-testing-tools#android-ndk">here</a>.</p>
+<p>To explore the symbols:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -s libnative-lib.so <span class="p">|</span> grep -i Java 
+&gt; <span class="m">3</span>   0x00000e78 0x00000e78 GLOBAL FUNC   <span class="m">16</span>       Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI
+</code></pre></div><p>Below are the commands to run <code>gdb</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+ps <span class="p">|</span> grep helloworld
+su
+<span class="c1"># run gdb server and attach to the target process using its PID (process ID)</span>
+/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span>
+
+<span class="c1"># in another tab</span>
+adb forward tcp:1234 tcp:1234
+
+<span class="c1"># on the PC run this command from the apk directory containing the lib in question</span>
+<span class="nv">$TOOLCHAIN</span>/bin/gdb libnative-lib.so
+<span class="c1"># connect the client gdb on PC to the gdb server on the mobile device</span>
+target remote :1234
+</code></pre></div><p>In case some native function is called right upon the start, you might need to suspend the process first in Java code (since Java code is calling the native part).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the process PID to debug</span>
+adb jdwp
+<span class="c1"># forward the port to attach the jdb </span>
+adb forward tcp:7777 jdwp:<span class="o">[</span>PID<span class="o">]</span>
+
+<span class="c1"># suspend the process and attach</span>
+<span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:7777
+</code></pre></div><p>Now, the <code>jdb</code> is attached. Set the breakpoint at <code>System.LoadLibrary()</code> call (the one that loads native code into process memory) with <code>stop in java.lang.System.loadLibrary</code> command in <code>jdb</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get there</span>
+&gt; resume
+<span class="c1"># stop right after System.LoadLibrary() returns</span>
+&gt; step up
+</code></pre></div><p>Now, it&rsquo;s time to attach the <code>gdb</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># forward the port to connect the gdb client to the gdb server</span>
+adb forward tcp:1234 tcp:<span class="o">[</span>PID<span class="o">]</span>
+<span class="c1"># start the gdb client on your PC</span>
+<span class="nv">$TOOLCHAIN</span>/arm-linux-androideabi-gdb libnative-lib.so
+<span class="c1"># attach to the process </span>
+target remote :<span class="o">[</span>PID<span class="o">]</span>
+</code></pre></div><h2 id="anti-reversing-techniques">Anti-reversing Techniques</h2>
+<h3 id="androidmanifestxml"><code>AndroidManifest.xml</code></h3>
+<p><code>AndroidManifest.xml</code> file contains different settings for the application within the <code>&lt;application&gt;</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged over JDWP (using <code>jdb</code>), but doesn&rsquo;t prevent it from being debugged using <code>gdb</code> (from the Linux OS space).</p>
+<p>⛏ <em>How to circumvent <code>android:debuggable=false</code>?</em></p>
+<p>Patch <code>AndroidManifest.xml</code> by setting <code>android:debuggable</code> to <code>true</code>. If there is no such setting there (by default it&rsquo;s set to <code>false</code> unless there is a <code>testCoverageEnabled true</code> в <a href="https://stackoverflow.com/questions/36557070/gradle-is-generating-debuggable-apks-on-release-mode/36558588">файле</a> <code>build.gradle</code>), add it to the <code>application</code> tag like this:</p>
+<p><img src="images/android-debuggable.png" alt="android-debuggable"></p>
+<p>Rebuild the application and sign it with your certificate in order to get it installed properly on the device. To rebuild and sign the application follow <a href="https://bakerst221b.com/docs/toolkit/manuals/android-btfm-rtfm#bypasses">these</a> instructions (Android BTFTM and RTFM, bypasses section). The general idea is to follow these steps:</p>
+<ol>
+<li>Decompile the application to get to the bytecode or AndroidManifest.xml with <code>apktool d &lt;package_name&gt;.apk</code>. We are after <code>AndroidManifest.xml</code> here.</li>
+<li>Patch the file  <code>AndroidManifest.xml</code> by adding <code>android:debuggable=&quot;true&quot;</code> within the <code>application tag</code> (see the picture above).</li>
+<li>Rebuild the application back into an <code>apk</code> with <code>apktool b &lt;decompiled_folder_with_a_patch&gt;  -o &lt;new_apk_name&gt;.apk</code>.</li>
+<li>If you don&rsquo;t have a keystore to use for signing, create the keystore first with <code>keytool -genkey -v -keystore &lt;keystore_name&gt; -alias &lt;key_name&gt; -keyalg RSA -keysize 2048 -validity 10000</code>.</li>
+<li>Sign the application with <code>&lt;key_name&gt;</code> from <code>&lt;keystore_name&gt;</code> with <code>jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore &lt;keystore_name&gt; &lt;new_apk_name&gt;.apk &lt;key_name&gt;</code></li>
+</ol>
+<blockquote>
+<p>⚠️ This technique will require reinstalling the application. All data that is deteled upon uninstalling, will be cleared and unavailable for analysis.</p>
+</blockquote>
+<p>🩹 <em>What is the corresponding anti-debugging technique?</em></p>
+<p>An application can check <code>ApplicationInfo.FLAG_DEBUGGABLE</code> and compare it to the contents of <code>AndroidManifest</code> to know when it&rsquo;s being debugged. If the application was tampered, these values will be different.</p>
 <p>⛏ <em>How to circumvent?</em></p>
 <p>Use runtime analysis tools like <code>frida</code> to hook the methods and manipulate the return values.</p>
-<h2 id="timing">Timing</h2>
+<h3 id="timing">Timing</h3>
 <p>Developers might check the timing. Debugging slows down the execution. An example of such code (taken from <a href="isDebuggerConnectedandroid.os.Debug">Mobile Gitbook</a>) is shown below:</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">detect_threadCpuTimeNanos</span><span class="o">(){</span>
   <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
@@ -353,9 +395,9 @@ jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
 <span class="o">}</span>
 </code></pre></div><p>⛏ <em>How to circumvent?</em></p>
 <p>Check for such code using <strong>ByteCode Viewer</strong>. If this is the technique used, hook the method with a runtime analysis tool like <code>frida</code> and make it always return <code>false</code>.</p>
-<h2 id="isdebuggerconnected">isDebuggerConnected</h2>
+<h3 id="isdebuggerconnected">isDebuggerConnected</h3>
 <p>Using <code>isDebuggerConnected</code> or <code>(gDvm.debuggerConnected || gDvm.debuggerActive)</code> developers may detect whther the current process is being debugged.</p>
-<h2 id="jdwp-data-structures">JDWP Data Structures</h2>
+<h3 id="using-jdwp-data-structures">Using JDWP Data Structures</h3>
 <p>The older versions of Android architecture included Dalvik machine. The global virtual machine state is stored in the <code>DvmGlobals</code> structure, which is pointed to by the global variable <code>gDvm</code> . This structure, among other things, determines whether the application can be debugged:</p>
 <div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">DvmGlobals</span> <span class="p">{</span>
     <span class="cm">/*
