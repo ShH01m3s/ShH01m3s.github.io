@@ -180,6 +180,7 @@
         <li><a href="#tracing-native-functions">Tracing Native Functions</a></li>
       </ul>
     </li>
+    <li><a href="#symbolic-execution">Symbolic Execution</a></li>
     <li><a href="#anti-reversing-techniques">Anti-reversing Techniques</a>
       <ul>
         <li><a href="#androidmanifestxml"><code>AndroidManifest.xml</code></a></li>
@@ -209,14 +210,9 @@
       <div class="article-category">domain: 
           
               
-                <i class="fas fa-search"></i>
+              <i class="fas fa-microchip"></i>
               
-          <a class="category-link" href="/domain/forensics">forensics</a>
-          
-              
-                <i class="fas fa-hammer"></i>
-              
-          <a class="category-link" href="/domain/appsec">appsec</a>
+          <a class="category-link" href="/domain/reverse">reverse</a>
           
       </div> <br />
       
@@ -399,11 +395,50 @@ target remote :<span class="o">[</span>PID<span class="o">]</span>
 <blockquote>
 <p>[Traceview] This tool is <strong>deprecated</strong>. To inspect <code>.trace</code> files captured by <a href="https://developer.android.com/studio/profile/generate-trace-logs">instrumenting your app</a> with the <code>Debug</code> class, record new method traces, export <code>.trace</code> files, and inspect real-time CPU usage of your app&rsquo;s processes, use the Android Studio <a href="https://developer.android.com/studio/profile/cpu-profiler"><strong>CPU profiler</strong></a>.</p>
 </blockquote>
+<p>To start instrumenting (tracing Java methods), the official documentation suggests using <code>Debug.startMethodTracing(&quot;sample&quot;)</code>. However, this is a good advice when you have source code. I&rsquo;ve decided to get the bytecode for this line to be able to patch the bytecode.</p>
+<p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>disabled</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.method protected onCreate(Landroid/os/Bundle;)V
+    .locals 2
+    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
+    .line 31
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+    .line 32
+    const-string v0, &#34;hello2&#34;
+    iput-object v0, p0, Lcom/example/vulnerableapplication18/MainActivity;-&gt;hello:Ljava/lang/String
+    .line 33
+    new-instance v0, Ljava/lang/StringBuilder;
+</code></pre></div><p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>enabled</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.method protected onCreate(Landroid/os/Bundle;)V
+    .locals 2
+    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
+    .line 31
+    const-string v0, &#34;sample&#34;
+    invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V
+    .line 32
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+    .line 33
+    const-string v0, &#34;hello2&#34;
+</code></pre></div><p>Lines added are <code> const-string v0, &quot;sample&quot;</code> and <code>invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V</code>. This resulted in shifting the line numbering. So, other than adding these lines to the smali file of the <code>MainActivity</code> (the first activity usually called), we need to fix the line numbering (if we do). When running the application with this line of code added, we are supposed to find a <code>.trace</code> file called <code>sampel</code> somewhere on <code>/sdcard</code>.</p>
+<p>However, it looks like tracing is limited by the buffer size. So, it&rsquo;s better to add this line to a <code>onCreate</code> method and adding <code>stopMethodTracing</code> to a <code>onDestroy</code> method of the same activity. Surprise&hellip; this is how the method looks in bytecode: <code>invoke-static {}, Landroid/os/Debug;-&gt;stopMethodTracing()V</code>.</p>
+<p>Pull the logs 📄 on the PC: <code>adb pull path-on-device/sample.trace ~/Documents/trace-logs/</code>. These logs then can be imported and viewed like this in Android Studio:</p>
+<blockquote>
+<p>Import your trace file by clicking <strong>Start new profiler session</strong> <img src="https://developer.android.com/studio/images/buttons/ic_plus.png" alt="img"> in the profiler’s <strong>Sessions</strong> pane and then selecting <strong>Load from file</strong>.</p>
+</blockquote>
+<p><a href="https://developer.android.com/studio/profile/cpu-profiler">Here</a> is more information about using CPU profiler for <code>.trace</code> file inspecting.</p>
+<p>New 🌟!</p>
+<p><code>frida-trace -p [PID] -j '*!*certificate*/isu'</code> - triggers a case-insensitive query (<code>i</code>), including method signatures (<code>s</code>) and excluding system classes (<code>u</code>). This is for Java tracing with <code>frida-trace</code>. The same can be accomplished with <code>Java.enumerateMethods('*youtube*!on*')</code> added to a frida scipt.</p>
 <h3 id="tracing-native-functions">Tracing Native Functions</h3>
 <p>Though reversing native functions is a much tougher process, tracing is not. Quite the contrary: it&rsquo;s way easier to trace native calls that Java ones. Tracing native calls can be performed in various of ways. On of my favourite is using <code>frida-trace</code>. Remember 📝 that Java code is compiled to machine code at some point (both in case of JIT or AOT), so when it&rsquo;s already translated into <code>1</code>s and <code>0</code>s, the native calls might (and most likely will) be made. That&rsquo;s where they can be seen even if the application doesn&rsquo;t use JNI calls from the Java code (assumption). To test this assumption, I&rsquo;ve hooked all functions, containing &ldquo;write&rdquo; in its name and ran the program from OWASP (<code>HelloWorld_JNI.apk</code>): <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*read*&quot;</code>. It took<code>frida-trace</code> around a minute or two to instrument all the functions. Then it crashed. I&rsquo;ve also tried <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*write*&quot;</code>. Took very long as well, but didn&rsquo;t crash. Resuming the process hooked with <code>jdb</code> resulted in lots of traced calls. And these are only those, containing <code>&quot;write&quot;</code>:</p>
 <p><img src="images/native-calls-2.png" alt="native-calls-2"></p>
 <p><img src="images/native-calls-1.png" alt="native-calls-1"></p>
 <p>Started at <code>82765 ms</code> and finished at <code>88812 ms</code>. So, it took around <code>6047 ms</code> ~ <code>6</code> sec in total. And this is a simple application that does nothing more than writing &ldquo;HelloWorld!&rdquo; using native code (C++), i.e. calling one custom C++ function. Obviously, this call could not generate so much stuff. Looks like my assumption was correct.</p>
+<p>It&rsquo;s also possible to trace native calls with <code>ptrace</code> system call with <code>strace</code>. <code>strace</code> can be build from source with NDK. However, if there are some anti-tampering techniques in place that detect <code>ptrace</code> - won&rsquo;t work. Another option is to use <code>ftrace</code>. To enable: <code>echo 1 &gt; /proc/sys/kernel/ftrace_enabled</code>. And view the result here: <code>/sys/kernel/debug/tracing</code>. <code>KProbes</code> allows to insert probes into arbitrary code addresses, but to use it, you need to compile your own kernel 😯.</p>
+<p>Finding JNI calls with <code>frida-trace</code>: <code>frida-trace -U -i &quot;Java_*&quot; [package.name]</code>. If symbols are unavailable, trace by address: <code>frida-trace -p [PID] -a &quot;[libname.so]!0xXXXXX&quot;</code>.</p>
+<p>Another option is to use <code>jnitrace</code>: <code>jnitrace -l [libname.so] [package.name]</code>. Install with <code>pip install jnitrace</code>.</p>
+<blockquote>
+<p>❓What&rsquo;s the difference beyween <code>frida</code> script, <code>frida-trace</code> and <code>jnitrace</code>?</p>
+</blockquote>
+<h2 id="symbolic-execution">Symbolic Execution</h2>
 <h2 id="anti-reversing-techniques">Anti-reversing Techniques</h2>
 <h3 id="androidmanifestxml"><code>AndroidManifest.xml</code></h3>
 <p><code>AndroidManifest.xml</code> file contains different settings for the application within the <code>&lt;application&gt;</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged over JDWP (using <code>jdb</code>), but doesn&rsquo;t prevent it from being debugged using <code>gdb</code> (from the Linux OS space).</p>
