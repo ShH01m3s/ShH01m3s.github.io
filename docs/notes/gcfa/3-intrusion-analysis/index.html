@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Data Recovery Techniques - Analyst</title>
+  <title>Intrusion analysis 🛠️ - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -160,13 +160,15 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/articles/forensics/data-recovery/"> Back to Data Recovery Section 👈🏼 </a>
+   <a href="/docs/notes/gcfa/"> Back to GCFA Section 👈🏼 </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#recovering-registry-entries">Recovering Registry Entries</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#legend">Legend</a></li>
+    <li><a href="#exercises">Exercises</a></li>
+    <li><a href="#topics">Topics</a></li>
+    <li><a href="#resources">Resources</a></li>
   </ul>
 </nav>
  </aside>
@@ -178,7 +180,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Data Recovery Techniques</h1>
+<h1 class="title">Intrusion analysis 🛠️</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -197,27 +199,14 @@
           
             
               
-                <i class="fa fa-graduation-cap"></i>
+                <i class="fas fa-list-ul"></i>
               
-          <a class="platform-link" href="/doctype/article">article</a>
+          <a class="platform-link" href="/doctype/plan">plan</a>
           
       </div> <br /><br/>
       
       
       
-      
-      <div class="article-category">
-          
-            
-            
-            
-            
-            
-              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
-            
-          <a class="platform-link" href="/platforms/all">all</a>
-          
-      </div> <br />
       
 
       
@@ -229,11 +218,72 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="recovering-registry-entries">Recovering Registry Entries</h2>
-<p>Registry has both unallocated space and unallocated deleted keys.</p>
-<p>Use <code>deleted.pl</code>. Example: <code>deleted.pl SAM &gt; /cases/winforensics/SAM_recovered.txt</code>. Or use <a href="https://tzworks.com/prototype_page.php?proto_id=3">YARU</a>.</p>
-<h2 id="references">References</h2>
-<p>[<a href="https://www.ufsexplorer.com/articles/chances-for-data-recovery.php">1</a>] Chances for data recovery</p>
+    <h2 id="legend">Legend</h2>
+<p>Below is the skeleton from SAN508 course description. I am using it to make up my study plan. For each step of this plan I estimate my current level of training and I am also collecting resourced for this topic under <em>Resources</em>.</p>
+<p>🫑 - <strong>level <code>0</code></strong>. I know nothing and not even where to start. I might have some embarrassingly fundamental knowledge which is not good enough even for the start.</p>
+<p>🥒 - <strong>level <code>1</code></strong>. I know something about the subject, but this only gives me an approximate plan and kind of things to look for.</p>
+<p>🥗 - <strong>level <code>2</code></strong>. I know something about the subject, I&rsquo;ve even read something about it. But no hands-on eperience.</p>
+<p>🌮 - <strong>level <code>3</code></strong>. I know quite a lot about the subject, I&rsquo;ve read something about it and some hands-on eperience.</p>
+<p>🥘 - <strong>level <code>4</code></strong>. I know a lot about the subject and quite a decent experience. This one I will only use when I am done preparing and have the first mock exam. Bonus - 🍭 real-life expreience (not just labs).</p>
+<p>🗒- Topic specific plan. 👌-done, 🚧 - in progress</p>
+<p>🗂 - references and <strong>resources</strong>.</p>
+<p>🎯- objectives.</p>
+<p>🏺- artifacts</p>
+<p>🛠 - tools to learn/use.</p>
+<h2 id="exercises">Exercises</h2>
+<ul>
+<li>Hunting and Detecting Evidence of Execution at Scale with Shimcache and Amcache</li>
+<li>Discovering Credential abuse with Event Log Collection and Analysis</li>
+<li>Tracking Lateral Movement with Event Log Analysis</li>
+<li>Hunting Malicious use of WMI and PowerShell</li>
+</ul>
+<h2 id="topics">Topics</h2>
+<p>Application execution artifacts, account auditing is a powerful means of identifying malicious actions. An attacker also needs a means to move throughout the network, so we look for artifacts left by the relatively small number of ways there are to accomplish this part of their mission. In this section, we cover common attacker tradecraft and discuss the various data sources and forensic tools you can use to identify malicious activity in the enterprise.</p>
+<p><strong>Stealing and Utilization of Legitimate Credentials</strong></p>
+<ul>
+<li>Pass the Hash</li>
+<li>Single Sign On (SSO) Dumping using Mimikatz</li>
+<li>Token Stealing</li>
+<li>Cached Credentials</li>
+<li>LSA Secrets</li>
+<li>Kerberos Attacks</li>
+<li>NTDS.DIT theft</li>
+</ul>
+<p><strong>Advanced Evidence of Execution Detection</strong></p>
+<ul>
+<li>Attacker Tactics, Techniques, and Procedures (TTPs) Observed Via Process Execution</li>
+<li>Prefetch Analysis</li>
+<li>Application Compatibility Cache (ShimCache)</li>
+<li>Amcache Registry Examination</li>
+<li>Scaling ShimCache and Amcache Investigations</li>
+</ul>
+<p><strong>Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</strong></p>
+<ul>
+<li>Compromising Credentials Techniques</li>
+<li>Remote Desktop Services Misuse</li>
+<li>Windows Admin Share Abuse</li>
+<li>PsExec and Cobalt Strike Beacon PsExec Activity</li>
+<li>Windows Remote Management Tool Techniques</li>
+<li>PowerShell Remoting/WMIC Hacking</li>
+<li>Vulnerability Exploitation</li>
+</ul>
+<p><strong>Log Analysis for Incident Responders and Hunters</strong></p>
+<ul>
+<li>Profiling Account Usage and Logons</li>
+<li>Tracking and Hunting Lateral Movement</li>
+<li>Identifying Suspicious Services</li>
+<li>Detecting Rogue Application Installation</li>
+<li>Finding Malware Execution and Process Tracking</li>
+<li>Capturing Command Lines and Scripts</li>
+<li>PowerShell Transcript and ScriptBlock Logging</li>
+<li>Discovering Cobalt Strike beacon PowerShell Import Activity</li>
+<li>PowerShell Script Obfuscation</li>
+<li>WMI Activity Logging</li>
+<li>Anti-Forensics and Event Log Clearing</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<p>[<a href="https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/">1</a>] About some APT groups</p>
+<p>[<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>] Practical Malware Analysis book</p>
 
   </div>
 </article>

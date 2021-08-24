@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Advanced Incident Response &amp; Threat Hunting - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles 🎓">
+      <a href="/docs/articles">
+        <span>Articles 🎓</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements 🏅">
+      <a href="/docs/achievements">
+        <span>Achievements 🏅</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts ☎️">
+      <a href="/docs/contact">
+        <span>Contacts ☎️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-articles 🎓">
+      <a href="/docs/articles">
+        <span>Articles 🎓</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-achievements 🏅">
+      <a href="/docs/achievements">
+        <span>Achievements 🏅</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-contacts ☎️">
+      <a href="/docs/contact">
+        <span>Contacts ☎️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/notes/gcfa/"> Back to GCFA Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#legend">Legend</a></li>
+    <li><a href="#exercises">Exercises</a></li>
+    <li><a href="#topics">Topics</a>
+      <ul>
+        <li><a href="#real-incident-response-tactics">Real Incident Response Tactics</a></li>
+        <li><a href="#threat-hunting">Threat Hunting</a></li>
+        <li><a href="#threat-hunting-in-the-enterprise">Threat Hunting in the Enterprise</a></li>
+        <li><a href="#incident-response-and-hunting-across-endpoints">Incident Response and Hunting across Endpoints</a></li>
+        <li><a href="#malware-defense-evasion-and-identification">Malware Defense Evasion and Identification</a></li>
+        <li><a href="#malware-persistence-identification">Malware Persistence Identification</a></li>
+        <li><a href="#investigating-wmi-based-attacks">Investigating WMI-Based Attacks</a></li>
+      </ul>
+    </li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Advanced Incident Response &amp; Threat Hunting</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fas fa-list-ul"></i>
+              
+          <a class="platform-link" href="/doctype/plan">plan</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="legend">Legend</h2>
+<p>Below is the skeleton from SAN508 course description. I am using it to make up my study plan. For each step of this plan I estimate my current level of training and I am also collecting resourced for this topic under <em>Resources</em>.</p>
+<p>🫑 - <strong>level <code>0</code></strong>. I know nothing and not even where to start. I might have some embarrassingly fundamental knowledge which is not good enough even for the start.</p>
+<p>🥒 - <strong>level <code>1</code></strong>. I know something about the subject, but this only gives me an approximate plan and kind of things to look for.</p>
+<p>🥗 - <strong>level <code>2</code></strong>. I know something about the subject, I&rsquo;ve even read something about it. But no hands-on eperience.</p>
+<p>🌮 - <strong>level <code>3</code></strong>. I know quite a lot about the subject, I&rsquo;ve read something about it and some hands-on eperience.</p>
+<p>🥘 - <strong>level <code>4</code></strong>. I know a lot about the subject and quite a decent experience. This one I will only use when I am done preparing and have the first mock exam. Bonus - 🍭 real-life expreience (not just labs).</p>
+<p>🗒- Topic specific plan. 👌-done, 🚧 - in progress</p>
+<p>🗂 - references and <strong>resources</strong>.</p>
+<p>🎯- objectives.</p>
+<p>🏺- artifacts</p>
+<p>🛠 - tools to learn/use.</p>
+<h2 id="exercises">Exercises</h2>
+<ul>
+<li>Forensic Lab Setup and Orientation Using the SIFT Workstation 🥒 - <strong>level <code>1</code></strong>.</li>
+<li>Malware Persistence Detection and Analysis 🗂 [<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>],  🌮 - <strong>level <code>3</code></strong> + 🍭</li>
+<li>Scaling Data Collection and Analysis 🫑 - <strong>level <code>0</code></strong>.</li>
+<li>Finding and Analyzing Malicious WMI attacks 🫑 - <strong>level <code>0</code></strong>.</li>
+</ul>
+<h2 id="topics">Topics</h2>
+<h3 id="real-incident-response-tactics">Real Incident Response Tactics</h3>
+<p><strong>Preparation</strong>: Key tools, techniques, and procedures that an incident response team needs to respond properly to intrusions</p>
+<p><strong>Identification/Scoping</strong>: Proper scoping of an incident and detecting all compromised systems in the enterprise</p>
+<p><strong>Containment/Intelligence Development</strong>: Restricting access, monitoring, and learning about the adversary in order to develop threat intelligence</p>
+<p><strong>Eradication/Remediation</strong>: Determining and executing key steps that must be taken to help stop the current incident and the move to real-time remediation</p>
+<p><strong>Recovery</strong>: Recording of the threat intelligence to be used in the event of a similar adversary returning to the enterprise</p>
+<p><strong>Avoiding &ldquo;Whack-A-Mole&rdquo; Incident Response</strong>: Going beyond immediate eradication without proper incident scoping/containment</p>
+<h3 id="threat-hunting">Threat Hunting</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> Hunting versus Reactive Response. SANS+IBM <a href="https://www.ibm.com/downloads/cas/Q3W5GYG8">brochure</a> on hunting.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Intelligence-Driven Incident Response</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Building a Continuous Incident Response/Threat Hunting Capability</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Forensic Analysis versus Threat Hunting Across Endpoints</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Threat Hunt Team Roles</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ATT&amp;CK - MITRE&rsquo;s Adversarial Tactics, Techniques, and Common Knowledge (ATT&amp;CK(TM))</p>
+</li>
+</ul>
+<h3 id="threat-hunting-in-the-enterprise">Threat Hunting in the Enterprise</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> Identification of Compromised Systems</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Finding Active and Dormant Malware</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Digitally Signed Malware</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Malware Characteristics</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Common Hiding Mechanisms</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Finding Evil by Understanding Normal</p>
+</li>
+</ul>
+<h3 id="incident-response-and-hunting-across-endpoints">Incident Response and Hunting across Endpoints</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> WMIC &amp; PowerShell</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> PowerShell Remoting Scalability</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> PowerShell Remoting Credential Safeguards</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Kansa PowerShell Remoting IR Framework</p>
+</li>
+</ul>
+<h3 id="malware-defense-evasion-and-identification">Malware Defense Evasion and Identification</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> Service Hijacking/Replacement</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Frequent Compilation</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Binary Padding</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Packing/Armoring</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Dormant Malware</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Signing Code with Valid Certificates</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Anti-Forensics/Timestomping</p>
+</li>
+</ul>
+<h3 id="malware-persistence-identification">Malware Persistence Identification</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> AutoStart Locations, RunKeys</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Service Creation/Replacement</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Service Failure Recovery</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Scheduled Tasks</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> DLL Hijacking</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> WMI Event Consumers</p>
+</li>
+</ul>
+<h3 id="investigating-wmi-based-attacks">Investigating WMI-Based Attacks</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> WMI Overview</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> WMI Attacks Across the Kill Chain</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Auditing the WMI Repository</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> WMI File System and Registry Residue</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Command-Line Analysis and WMI Logs</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> WMI Process Anomalies</p>
+</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<p>[<a href="https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/">1</a>] About some APT groups</p>
+<p>[<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>] Practical Malware Analysis book</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

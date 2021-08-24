@@ -167,7 +167,19 @@
   <ul>
     <li><a href="#basics">Basics</a></li>
     <li><a href="#debugging-java">Debugging Java</a></li>
-    <li><a href="#debugging-native-code">Debugging Native Code</a></li>
+    <li><a href="#debugging-native-code">Debugging Native Code</a>
+      <ul>
+        <li><a href="#step-1-wait-for-debugger">Step 1. Wait for Debugger</a></li>
+        <li><a href="#step-2-run-jdb-client">Step 2. Run JDB client</a></li>
+        <li><a href="#step-3-run-the-gdbserver">Step 3. Run the <code>gdbserver</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#tracing">Tracing</a>
+      <ul>
+        <li><a href="#tracing-java">Tracing Java</a></li>
+        <li><a href="#tracing-native-functions">Tracing Native Functions</a></li>
+      </ul>
+    </li>
     <li><a href="#anti-reversing-techniques">Anti-reversing Techniques</a>
       <ul>
         <li><a href="#androidmanifestxml"><code>AndroidManifest.xml</code></a></li>
@@ -323,19 +335,23 @@ jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
 &gt; <span class="m">3</span>   0x00000e78 0x00000e78 GLOBAL FUNC   <span class="m">16</span>       Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI
 </code></pre></div><p>Below are the commands to run <code>gdb</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
-ps <span class="p">|</span> grep helloworld
 su
 <span class="c1"># run gdb server and attach to the target process using its PID (process ID)</span>
+<span class="c1"># to find the process PID use frida or jdwp or something else of your liking</span>
 /data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span>
 
-<span class="c1"># in another tab</span>
+<span class="c1"># in another tab on PC</span>
 adb forward tcp:1234 tcp:1234
 
 <span class="c1"># on the PC run this command from the apk directory containing the lib in question</span>
 <span class="nv">$TOOLCHAIN</span>/bin/gdb libnative-lib.so
 <span class="c1"># connect the client gdb on PC to the gdb server on the mobile device</span>
-target remote :1234
+&gt; target remote :1234
 </code></pre></div><p>In case some native function is called right upon the start, you might need to suspend the process first in Java code (since Java code is calling the native part).</p>
+<h3 id="step-1-wait-for-debugger">Step 1. Wait for Debugger</h3>
+<p>Turn on the &ldquo;Wait for Debugger&rdquo; option. This will suspend the process from the very start.</p>
+<h3 id="step-2-run-jdb-client">Step 2. Run JDB client</h3>
+<p>Run <code>jdb</code> client, attach it to the process to be debugged.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the process PID to debug</span>
 adb jdwp
 <span class="c1"># forward the port to attach the jdb </span>
@@ -348,14 +364,42 @@ adb forward tcp:7777 jdwp:<span class="o">[</span>PID<span class="o">]</span>
 &gt; resume
 <span class="c1"># stop right after System.LoadLibrary() returns</span>
 &gt; step up
-</code></pre></div><p>Now, it&rsquo;s time to attach the <code>gdb</code>.</p>
+</code></pre></div><p>This is what success looks like:</p>
+<p><img src="images/run-jdb-client.png" alt="run-jdb-client"></p>
+<h3 id="step-3-run-the-gdbserver">Step 3. Run the <code>gdbserver</code></h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># forward the port to connect the gdb client to the gdb server</span>
-adb forward tcp:1234 tcp:<span class="o">[</span>PID<span class="o">]</span>
-<span class="c1"># start the gdb client on your PC</span>
+adb forward tcp:1234 tcp:1234
+adb shell
+su
+<span class="c1"># gdbserver should be installed on Android device</span>
+/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span> 
+</code></pre></div><p>🍀 This is what success looks like:</p>
+<p><img src="images/run-gdbserver.png" alt="run-gdbserver"></p>
+<p>Now, it&rsquo;s time to attach the <code>gdb</code> client (on PC 🖥️) to the running <code>gdbserver</code> (on mobile device📱).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># start the gdb client on your PC</span>
 <span class="nv">$TOOLCHAIN</span>/arm-linux-androideabi-gdb libnative-lib.so
 <span class="c1"># attach to the process </span>
 target remote :<span class="o">[</span>PID<span class="o">]</span>
-</code></pre></div><h2 id="anti-reversing-techniques">Anti-reversing Techniques</h2>
+</code></pre></div><p>🍀 This is what success looks like:</p>
+<p><img src="images/run-gdb-client.png" alt="run-jdb-client"></p>
+<blockquote>
+<p><strong>Problem 🛑 1.</strong> When running <code>gdb</code> client on PC at the very end, you might get a &ldquo;Remote connection closed&rdquo;. That means that for some reason it cannot connect to the target <code>gdbserver</code> on the mobile device.</p>
+<p><strong>Fix ⚒️</strong>. One of the most obvious and the easiest to fix reasons is that you have not run the <code>gdbserver</code> on the <strong>mobile</strong> device. Remember, that there are two parts of this software. Start all over and follow the steps thoroughly. First, turn on the &ldquo;Wait for debugger&rdquo; option on mobile device (settings). Then start the <code>jdb</code> (if you need to suspend the process from the start), othervise, you may skip this step. Then forward the info stream via <code>adb</code> to be able to connect. Start the <code>gdbserver</code> on mobile device and then (only then), try attaching the <code>gdb</code> client.</p>
+</blockquote>
+<p>This is not a success:</p>
+<p><img src="images/gdb-fail-1.png" alt="gdb-fail-1"></p>
+<p>&hellip; and this is not either:</p>
+<p><img src="images/gdb-fail-2.png" alt="gdb-fail-2"></p>
+<h2 id="tracing">Tracing</h2>
+<h3 id="tracing-java">Tracing Java</h3>
+<p>The easiest way I see it, is to use &ldquo;Export classes&rdquo; in ByteCode Viewer and load them into AnroidStudio. Fix all the possible errors (oh, there are going to be lots of them, if it&rsquo;s not a lab application, believe me, I&rsquo;ve been there 😓) and happy debugging with GUI.</p>
+<p>Another way mentioned in OWASP is to use some</p>
+<h3 id="tracing-native-functions">Tracing Native Functions</h3>
+<p>Though reversing native functions is a much tougher process, tracing is not. Quite the contrary: it&rsquo;s way easier to trace native calls that Java ones. Tracing native calls can be performed in various of ways. On of my favourite is using <code>frida-trace</code>. Remember 📝 that Java code is compiled to machine code at some point (both in case of JIT or AOT), so when it&rsquo;s already translated into <code>1</code>s and <code>0</code>s, the native calls might (and most likely will) be made. That&rsquo;s where they can be seen even if the application doesn&rsquo;t use JNI calls from the Java code (assumption). To test this assumption, I&rsquo;ve hooked all functions, containing &ldquo;write&rdquo; in its name and ran the program from OWASP (<code>HelloWorld_JNI.apk</code>): <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*read*&quot;</code>. It took<code>frida-trace</code> around a minute or two to instrument all the functions. Then it crashed. I&rsquo;ve also tried <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*write*&quot;</code>. Took very long as well, but didn&rsquo;t crash. Resuming the process hooked with <code>jdb</code> resulted in lots of traced calls. And these are only those, containing <code>&quot;write&quot;</code>:</p>
+<p><img src="images/native-calls-2.png" alt="native-calls-2"></p>
+<p><img src="images/native-calls-1.png" alt="native-calls-1"></p>
+<p>Started at <code>82765 ms</code> and finished at <code>88812 ms</code>. So, it took around <code>6047 ms</code> ~ <code>6</code> sec in total. And this is a simple application that does nothing more than writing &ldquo;HelloWorld!&rdquo; using native code (C++), i.e. calling one custom C++ function. Obviously, this call could not generate so much stuff. Looks like my assumption was correct.</p>
+<h2 id="anti-reversing-techniques">Anti-reversing Techniques</h2>
 <h3 id="androidmanifestxml"><code>AndroidManifest.xml</code></h3>
 <p><code>AndroidManifest.xml</code> file contains different settings for the application within the <code>&lt;application&gt;</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged over JDWP (using <code>jdb</code>), but doesn&rsquo;t prevent it from being debugged using <code>gdb</code> (from the Linux OS space).</p>
 <p>⛏ <em>How to circumvent <code>android:debuggable=false</code>?</em></p>
