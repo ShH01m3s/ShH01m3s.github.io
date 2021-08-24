@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Cracking - Analyst</title>
+  <title>Cracking 🔨 - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -160,7 +160,7 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/articles/reversing/basics/"> Back to Basics Section 👈🏼 </a>
+   <a href="/docs/articles/reversing/basics/"> Back to Basics 📚 Section 👈🏼 </a>
   </p>
   <aside>
    <nav id="TableOfContents">
@@ -178,7 +178,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Cracking</h1>
+<h1 class="title">Cracking 🔨</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -211,38 +211,11 @@
             
             
             
-              <i class="fab fa-apple"></i>
             
             
+              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
             
-          <a class="platform-link" href="/platforms/mac">mac</a>
-          
-            
-            
-            
-            
-              <i class="fas fa-mobile"></i>
-            
-            
-          <a class="platform-link" href="/platforms/ios">ios</a>
-          
-            
-              <i class="fab fa-windows"></i>          
-            
-            
-            
-            
-            
-          <a class="platform-link" href="/platforms/windows">windows</a>
-          
-            
-            
-              <i class="fab fa-linux"></i>
-            
-            
-            
-            
-          <a class="platform-link" href="/platforms/linux">linux</a>
+          <a class="platform-link" href="/platforms/all">all</a>
           
       </div> <br />
       
@@ -256,14 +229,15 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Any cracking career is supposed to start with solving simple crackme&rsquo;s. I&rsquo;ve not been doing it all the time, but I&rsquo;ve solved several of them from the simplest to a very hard one which required some math knowledge. This allowed me to craft some sort of algorithm for cracking most of the crackmes. To start with, they all are mostly all about finding some serial of code. This serial or code can be kept somewhere in memory (simple case) or generated beforehand and you will need to reverse the algorithm in order to get this done.</p>
+    <p><em>Any cracking career is supposed to start with solving simple crackme&rsquo;s. I&rsquo;ve not been doing it all the time, but I&rsquo;ve solved several of them from the simplest to a very hard one which required some math knowledge 😬. This allowed me to craft some sort of algorithm I would like to share.&quot;</em></p>
+<p>To start with, they all are mostly all about finding some serial of code. This serial or code can be kept somewhere in memory (simple case) or generated beforehand and you will need to reverse the algorithm in order to get this done.</p>
 <h2 id="crackme-algorithm">CrackMe Algorithm</h2>
 <p>Look at the strings, they are very useful sometimes. To be honest, these are the most useful for the cracker pieces of most programs. <code>fs strings</code> and <code>f</code> in <code>radare2</code> or <code>rabin -zz</code></p>
 <p>Find xrefs for the strings of interest <code>axt @ str.blahblah</code></p>
-<p>Determine the input&rsquo;s length.</p>
+<p>Determine the <strong>input&rsquo;s length</strong>. All the crackme&rsquo;s I&rsquo;ve encountered so far check the length of the imput first. And it always was a fixed length.</p>
+<p>There is always the easiest way (cheating) - patch the conditional jump to the success string. However, it&rsquo;s not that great. What is - is actually <em>reversing</em> the algorithm of serial generation and writing a keygen. I am about to post several articles about some of the crackme&rsquo;s I&rsquo;ve managed so far.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://web.archive.org/web/20160420082524/https://exelab.ru/art/?action=cat&amp;id=5">1</a>] Simple crackmes from exel@b (currently down, that&rsquo;s why the link is for web archive).</p>
-
   </div>
 </article>
 </div>
