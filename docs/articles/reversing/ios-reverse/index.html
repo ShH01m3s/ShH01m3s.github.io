@@ -232,10 +232,10 @@
     <p><em>During forensic analysis it&rsquo;s not too rare to run into some suspicious application. In this article I&rsquo;m going to learn to reverse engineer iOS applications.</em></p>
 <h2 id="analysis-flow">Analysis flow</h2>
 <p>First, we need to get IPA file from the device. There are different ways to do so (please, refer to <a href="/docs/toolkit/mobile/ios-btfm-rtfm">BTFM and RTFM</a>). Here I&rsquo;m going to use the easiest one:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipainstaller -i <span class="k">$(</span>ipainstaller -l <span class="p">|</span> grep -i lassen<span class="k">)</span> <span class="p">|</span> grep Bundle
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipainstaller -i <span class="k">$(</span>ipainstaller -l <span class="p">|</span> grep -i <span class="o">[</span>package_partial_name<span class="o">]</span><span class="k">)</span> <span class="p">|</span> grep Bundle
 scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/Bundle/ . 
-</code></pre></div><p>Then open the Bundle folder on PC and look for <code>Info.plist</code>. Let&rsquo;s find any strings that start with <code>NS</code> and end with <code>UsageDescription</code>.</p>
+</code></pre></div><p>Note that this method only works <strong>only if</strong> the application was <strong>not</strong> downloaded from AppStore, because the applications installed that way are encrypted and to get the code one needs to dump it decrpyted from memory (<code>frida-ios-dump.py</code> with <code>frida-server</code>) or decrypt it statically ().</p>
+<p>Then open the Bundle folder on PC and look for <code>Info.plist</code>. Let&rsquo;s find any strings that start with <code>NS</code> and end with <code>UsageDescription</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> *.ipa/<span class="o">[</span>package_name<span class="o">]</span>.app
 grep <span class="s1">&#39;UsageDescription&#39;</span> Info.plist -A1
 </code></pre></div><p>You sould see something like that:</p>
