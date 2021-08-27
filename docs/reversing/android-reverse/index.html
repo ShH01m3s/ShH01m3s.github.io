@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Reverse Engineering Android Applications 🤖 - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/reversing/"> Back to Reverse Engineering ⚙️ Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#basics">Basics</a></li>
+    <li><a href="#debugging-java">Debugging Java</a></li>
+    <li><a href="#debugging-native-code">Debugging Native Code</a>
+      <ul>
+        <li><a href="#step-1-wait-for-debugger">Step 1. Wait for Debugger</a></li>
+        <li><a href="#step-2-run-jdb-client">Step 2. Run JDB client</a></li>
+        <li><a href="#step-3-run-the-gdbserver">Step 3. Run the <code>gdbserver</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#tracing">Tracing</a>
+      <ul>
+        <li><a href="#tracing-java">Tracing Java</a></li>
+        <li><a href="#tracing-native-functions">Tracing Native Functions</a></li>
+      </ul>
+    </li>
+    <li><a href="#symbolic-execution">Symbolic Execution</a></li>
+    <li><a href="#anti-reversing-techniques">Anti-reversing Techniques</a>
+      <ul>
+        <li><a href="#androidmanifestxml"><code>AndroidManifest.xml</code></a></li>
+        <li><a href="#timing">Timing</a></li>
+        <li><a href="#isdebuggerconnected">isDebuggerConnected</a></li>
+        <li><a href="#using-jdwp-data-structures">Using JDWP Data Structures</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Reverse Engineering Android Applications 🤖</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+              <i class="fas fa-microchip"></i>
+              
+          <a class="category-link" href="/domain/reverse">reverse</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fas fa-microscope"></i>
+              
+          <a class="platform-link" href="/doctype/research">research</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/android">android</a>
+          
+      </div> <br />
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          <a class="platform-link" href="/tools/bytecode-viewer">Bytecode Viewer</a>
+          
+          <a class="platform-link" href="/tools/ptrace">ptrace</a>
+          
+          <a class="platform-link" href="/tools/jdwp">jdwp</a>
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>In this article I&rsquo;m assembling information about debugging applications on Android, then all possible to anti-debugging techniques and how they can be curcumvented (a little spoiler here - almoust always one way 😀) . The question I am trying to find an answer to is whether there is a silver bullet 🔫 for anti-debugging or not.</em></p>
+<p>Some symbol definitions:</p>
+<p>⚠️ An important note from the forensics prospective.</p>
+<p>⛏ <em>How to circumvent this anti-debugging technique?</em></p>
+<p>🩹 <em>What is the corresponding anti-debugging technique?</em></p>
+<h2 id="basics">Basics</h2>
+<p>Android applications are usually written in Java, but may sometimes use a pinch 🤏 of C/C++ code as well. As you might already know, Java is not compiled into machine code right away, no-no-no. It&rsquo;s compiled to Java Bytecode at first and is kept that way waiting for some magical 🧙 moment to come&hellip; . This moment the bytecode is finally turned into the machine code by JM (Java Machine).</p>
+<p>Here is a picture of Java bytecode (white background to the left) and ARM assembly (black to the right) just for you to get an idea of how different (or not that different) these two thingies are. After the magical moment (which we are going to discuss later), the code to the left will be translated into something close to the code to the right.</p>
+<p><img src="images/java-vs-assembly-raw.png" alt="javavsassembly"></p>
+<p>One major difference between them however (if no obfuscation was applied to Java code prior to compilation), is that Java bytecode can be decompiled to something very close to the original source code (the one produced by all-the-mighty-ones programmers, possibly during one of those sleepless 😴  nights). However assemly (either ARM or x86 is not decompiled that easily). Here is another comparison just FYI.</p>
+<p><img src="images/java-vs-assembly-decomp.png" alt="java-vs-assembly-decomp"></p>
+<p>To the left we have a piece of ARM assembly from some Swift application (ARM code was shown above) decompiled with Ghidra (residing in Cutter) and to the left we can observe what does the decompiled Java bytecode looks like (the same function we saw in the screenshot above).</p>
+<p>So, as you can see reversing ARM is no piece of cake 🍰, but reversing of Java bytecode is 😋. However, there is one thing to note&hellip; 📝. I&rsquo;ve already mentioned that Android applications, thought they mostly use human-readable-when-decompiled Java bytecode, sometimes use C/C++ code as well and those buddies are tough 💪. These parts of application are called <em>native</em> code, since they are <em>native</em> to Linux kernel which Android OS is based on, while Java code is like a wolf 🐺 in a sheep&rsquo;s 🐏 clothing, lurking all that <em>understandable</em> in the dungeons of JM.</p>
+<p>Since there are two types of code base that an Android app might use, there are two types of debugging, depending on what exactly we want to debug. If we are after the Java code - we use <code>jdb</code>, if we are after native code - we use <code>gdb</code>. The same same division applies to tracing (see below if you are not familiar with this notion).</p>
+<p>Since applications are usually debugged from the PC while being run on a mobile device, there must be two parts for the debugger. Some client-server architecture might be in place. That&rsquo;s true. Some part is running on the mobile device 📱 while the controller is on the PC. When we talk about <code>jdb</code>, JDWP (Java Debug Wire Protocol) is used to standardise the communication between the two parts: the one the controls the flow from the PC and another one that is actually doing the dirty work on the mobile device.</p>
+<p>But how does it really work under the hood? We have a Dalvik VM car or ART 🚘. That&rsquo;s not actually a VM (though it was called that way). When we talk about a VM, we almost always think of Vbox, VMWare or Parallels or whatever other tool you prefer or know. This piece of software emulates a machine with a whole OS running on its top. However, sometimes a VM is something way less complex. I am planning on writing a blog post about VMs in crackmes and malware, but for you to get a notion I&rsquo;ll leave a couple of words here. May skip it if not interested, it&rsquo;s not that crucuial to this narrative.</p>
+<p>Machine code is ugly (some might argue with that) and &hellip; well <em>machinery</em>. Meaning, it&rsquo;s takes quite a time to read it and understand. One simple program that prints &ldquo;Hello world!&rdquo; might take dozens of assembly instructions. For PC however there is really no assembly. For me it looks like (and may be it is so) was the first attempt to <em>humanise</em> the machine code which consists of <code>1</code>s and <code>0</code>s only. For example, it would certainly take ages clock 🕰 for a human being to be fluent with something like this: <code>11000111010010</code>. It&rsquo;s definetely easier to read <code>0x31d2</code> (which is nothing more than a hex equivalent of <code>11000111010010</code>), but still not very readable 😓. That&rsquo;s why humans decided that <code>11000111010010</code> can be interpreted like <code>xor edx, edx</code>, which means apply <code>xor</code> operation to <code>edx</code>, zeroing it out. Of course, it&rsquo;s much easier to read it now.</p>
+<p>You might be thinking &ldquo;<em>Where is this all going?</em>&rdquo; Well, imagine there is a piece of code inside a highly obfuscated program that has some peculiar code that translate some garbage-looking binary (hex) digits into real assembly instructions (machine code). For example, this opcode (<code>0x31d2</code>).</p>
+<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="n">array</span> <span class="p">=</span> <span class="p">[</span><span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">]</span>
+<span class="n">current_instruction</span> <span class="p">=</span> <span class="mh">0x0</span>
+<span class="k">switch</span> <span class="n">current_instruction</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="mh">0x12</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x5b</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;pop ebx&#34;</span>
+  <span class="k">case</span> <span class="mh">0x13</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x83c201</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;add edx, 0x1&#34;</span>
+  <span class="k">case</span> <span class="mh">0x14</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x31d2</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;xor edx, edx&#34;</span>
+  <span class="k">case</span> <span class="mh">0x15</span><span class="p">:</span>
+  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x84c9</span>
+  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;test cl, cl&#34;</span>
+<span class="p">}</span>
+
+</code></pre></div><p>This is an example of a very simple VM. It has only 4 instructions which it translates to real assembly. <code>0x12</code> means <code>0x5b</code> which in human-readable assebly means <code>pop ebx</code>, telling the CPU to put the last value from the stack into <code>ebx</code> and move the stack pointer to the next value. <code>0x13</code> means <code>0x83c201</code> in real machine code, which can be interpreted as <code>add edx, 0x1</code>, which tells the CPU to add <code>1</code> to the value stored in <code>edx</code> registy. And so on. So, basically, a VM in this case is just a switch statement that translated its own bytecode into the one that the CPU understands. I presume, Dalvik VM, Java VM and ART are based on the same principle.</p>
+<p>So, there is this Dalvik VM (ART for the later versions) which is like a one-way interpreter: listening to one party and delivering the information to another party in the form that it understands. However, as I&rsquo;ve already mentioned, there is this <em>native</em> code part. This one is called by the Dalvik VM (which reads this plea from the Java bytecode), but it&rsquo;s run <em>natively</em>, i.e. directly by Linux kernel. Here is a little sketch of how this whole thing works:</p>
+<p><img src="images/android-process-arch.png" alt="android-process-arch"></p>
+<p>🗒</p>
+<p>Java and native code talk via a JNI bridge (an arrow on the diagram above). Now, in order to debug both parts we need to understand, how this communication really works.</p>
+<p>Native code is invoked via <code>System.load()</code> method (something similar to <code>LoadLibrary</code> for WinAPI, I guess). Android uses <code>bionic</code> instead of <code>glibc</code>, since it has some code specific to a mobile platform. JNI means Java Native Interface. <code>JNIEnv</code> is a pointer to a table. This table contains a list of functions' offsets. This offsets point to their interfaces, that can be used to run a function. This is how Java code can <em>talk</em> to the native code.</p>
+<h2 id="debugging-java">Debugging Java</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the PID of the application to be debugged</span>
+<span class="c1"># option 1. List all debuggable apps</span>
+adb jdwp
+<span class="c1"># option 2</span>
+drozer console connect
+run app.package.attacksurface &lt;package_name&gt;
+<span class="c1"># option 3. List all debuggable apps </span>
+drozer console connect
+run app.package.debuggable
+<span class="c1"># option 4</span>
+frida-ps -U <span class="p">|</span> grep &lt;package_name_full_or_partial&gt;
+
+<span class="c1"># forward </span>
+adb forward tcp:12345 jdwp:&lt;PID_of_app&gt;
+
+<span class="c1"># connect</span>
+jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1"># windows</span>
+jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
+<span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:12345 <span class="c1"># suspend the process and attach</span>
+</code></pre></div><h2 id="debugging-native-code">Debugging Native Code</h2>
+<p>I needed Adnroid NDK to be able to analyse native code. I tried using <code>brew install --cask android-ndk</code>, but this didn&rsquo;t work for me. So, I followed instructions from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/appendix/0x08-testing-tools#android-ndk">here</a>.</p>
+<p>To explore the symbols:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -s libnative-lib.so <span class="p">|</span> grep -i Java 
+&gt; <span class="m">3</span>   0x00000e78 0x00000e78 GLOBAL FUNC   <span class="m">16</span>       Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI
+</code></pre></div><p>Below are the commands to run <code>gdb</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
+su
+<span class="c1"># run gdb server and attach to the target process using its PID (process ID)</span>
+<span class="c1"># to find the process PID use frida or jdwp or something else of your liking</span>
+/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span>
+
+<span class="c1"># in another tab on PC</span>
+adb forward tcp:1234 tcp:1234
+
+<span class="c1"># on the PC run this command from the apk directory containing the lib in question</span>
+<span class="nv">$TOOLCHAIN</span>/bin/gdb libnative-lib.so
+<span class="c1"># connect the client gdb on PC to the gdb server on the mobile device</span>
+&gt; target remote :1234
+</code></pre></div><p>In case some native function is called right upon the start, you might need to suspend the process first in Java code (since Java code is calling the native part).</p>
+<h3 id="step-1-wait-for-debugger">Step 1. Wait for Debugger</h3>
+<p>Turn on the &ldquo;Wait for Debugger&rdquo; option. This will suspend the process from the very start.</p>
+<h3 id="step-2-run-jdb-client">Step 2. Run JDB client</h3>
+<p>Run <code>jdb</code> client, attach it to the process to be debugged.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the process PID to debug</span>
+adb jdwp
+<span class="c1"># forward the port to attach the jdb </span>
+adb forward tcp:7777 jdwp:<span class="o">[</span>PID<span class="o">]</span>
+
+<span class="c1"># suspend the process and attach</span>
+<span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:7777
+</code></pre></div><p>Now, the <code>jdb</code> is attached. Set the breakpoint at <code>System.LoadLibrary()</code> call (the one that loads native code into process memory) with <code>stop in java.lang.System.loadLibrary</code> command in <code>jdb</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get there</span>
+&gt; resume
+<span class="c1"># stop right after System.LoadLibrary() returns</span>
+&gt; step up
+</code></pre></div><p>This is what success looks like:</p>
+<p><img src="images/run-jdb-client.png" alt="run-jdb-client"></p>
+<h3 id="step-3-run-the-gdbserver">Step 3. Run the <code>gdbserver</code></h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># forward the port to connect the gdb client to the gdb server</span>
+adb forward tcp:1234 tcp:1234
+adb shell
+su
+<span class="c1"># gdbserver should be installed on Android device</span>
+/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span> 
+</code></pre></div><p>🍀 This is what success looks like:</p>
+<p><img src="images/run-gdbserver.png" alt="run-gdbserver"></p>
+<p>Now, it&rsquo;s time to attach the <code>gdb</code> client (on PC 🖥️) to the running <code>gdbserver</code> (on mobile device📱).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># start the gdb client on your PC</span>
+<span class="nv">$TOOLCHAIN</span>/arm-linux-androideabi-gdb libnative-lib.so
+<span class="c1"># attach to the process </span>
+target remote :<span class="o">[</span>PID<span class="o">]</span>
+</code></pre></div><p>🍀 This is what success looks like:</p>
+<p><img src="images/run-gdb-client.png" alt="run-jdb-client"></p>
+<blockquote>
+<p><strong>Problem 🛑 1.</strong> When running <code>gdb</code> client on PC at the very end, you might get a &ldquo;Remote connection closed&rdquo;. That means that for some reason it cannot connect to the target <code>gdbserver</code> on the mobile device.</p>
+<p><strong>Fix ⚒️</strong>. One of the most obvious and the easiest to fix reasons is that you have not run the <code>gdbserver</code> on the <strong>mobile</strong> device. Remember, that there are two parts of this software. Start all over and follow the steps thoroughly. First, turn on the &ldquo;Wait for debugger&rdquo; option on mobile device (settings). Then start the <code>jdb</code> (if you need to suspend the process from the start), othervise, you may skip this step. Then forward the info stream via <code>adb</code> to be able to connect. Start the <code>gdbserver</code> on mobile device and then (only then), try attaching the <code>gdb</code> client.</p>
+</blockquote>
+<p>This is not a success:</p>
+<p><img src="images/gdb-fail-1.png" alt="gdb-fail-1"></p>
+<p>&hellip; and this is not either:</p>
+<p><img src="images/gdb-fail-2.png" alt="gdb-fail-2"></p>
+<h2 id="tracing">Tracing</h2>
+<h3 id="tracing-java">Tracing Java</h3>
+<p>The easiest way I see it, is to use &ldquo;Export classes&rdquo; in ByteCode Viewer and load them into AnroidStudio. Fix all the possible errors (oh, there are going to be lots of them, if it&rsquo;s not a lab application, believe me, I&rsquo;ve been there 😓) and happy debugging and tracing with GUI.</p>
+<p>Another option is to use <code>jdb</code> (patch and rebuild the application if <code>android:debuggable=&quot;false&quot;</code> is set). After attaching <code>jdb</code>, use <code>trace go methods</code> to start tracing.</p>
+<p>Both methods will deam all the information currently saved in <code>/data/data</code> for this specific application unusable. These methods are only to explore the application&rsquo;s functionality.</p>
+<p>Another way mentioned in OWASP is to use some Dalvik Debug Monitor Server (DDMS), which was included with Android Studio. But unfortunately doesn&rsquo;t work anymore (<a href="https://developer.android.com/studio/profile/monitor">deprecated</a>). Official Android <a href="https://developer.android.com/studio/profile/monitor">doc</a> lists all the dprecated methods and their current alternatives. This is what is stated about tracing:</p>
+<blockquote>
+<p>[Traceview] This tool is <strong>deprecated</strong>. To inspect <code>.trace</code> files captured by <a href="https://developer.android.com/studio/profile/generate-trace-logs">instrumenting your app</a> with the <code>Debug</code> class, record new method traces, export <code>.trace</code> files, and inspect real-time CPU usage of your app&rsquo;s processes, use the Android Studio <a href="https://developer.android.com/studio/profile/cpu-profiler"><strong>CPU profiler</strong></a>.</p>
+</blockquote>
+<p>To start instrumenting (tracing Java methods), the official documentation suggests using <code>Debug.startMethodTracing(&quot;sample&quot;)</code>. However, this is a good advice when you have source code. I&rsquo;ve decided to get the bytecode for this line to be able to patch the bytecode.</p>
+<p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>disabled</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.method protected onCreate(Landroid/os/Bundle;)V
+    .locals 2
+    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
+    .line 31
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+    .line 32
+    const-string v0, &#34;hello2&#34;
+    iput-object v0, p0, Lcom/example/vulnerableapplication18/MainActivity;-&gt;hello:Ljava/lang/String
+    .line 33
+    new-instance v0, Ljava/lang/StringBuilder;
+</code></pre></div><p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>enabled</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.method protected onCreate(Landroid/os/Bundle;)V
+    .locals 2
+    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
+    .line 31
+    const-string v0, &#34;sample&#34;
+    invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V
+    .line 32
+    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+    .line 33
+    const-string v0, &#34;hello2&#34;
+</code></pre></div><p>Lines added are <code> const-string v0, &quot;sample&quot;</code> and <code>invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V</code>. This resulted in shifting the line numbering. So, other than adding these lines to the smali file of the <code>MainActivity</code> (the first activity usually called), we need to fix the line numbering (if we do). When running the application with this line of code added, we are supposed to find a <code>.trace</code> file called <code>sampel</code> somewhere on <code>/sdcard</code>.</p>
+<p>However, it looks like tracing is limited by the buffer size. So, it&rsquo;s better to add this line to a <code>onCreate</code> method and adding <code>stopMethodTracing</code> to a <code>onDestroy</code> method of the same activity. Surprise&hellip; this is how the method looks in bytecode: <code>invoke-static {}, Landroid/os/Debug;-&gt;stopMethodTracing()V</code>.</p>
+<p>Pull the logs 📄 on the PC: <code>adb pull path-on-device/sample.trace ~/Documents/trace-logs/</code>. These logs then can be imported and viewed like this in Android Studio:</p>
+<blockquote>
+<p>Import your trace file by clicking <strong>Start new profiler session</strong> <img src="https://developer.android.com/studio/images/buttons/ic_plus.png" alt="img"> in the profiler’s <strong>Sessions</strong> pane and then selecting <strong>Load from file</strong>.</p>
+</blockquote>
+<p><a href="https://developer.android.com/studio/profile/cpu-profiler">Here</a> is more information about using CPU profiler for <code>.trace</code> file inspecting.</p>
+<p>New 🌟!</p>
+<p><code>frida-trace -p [PID] -j '*!*certificate*/isu'</code> - triggers a case-insensitive query (<code>i</code>), including method signatures (<code>s</code>) and excluding system classes (<code>u</code>). This is for Java tracing with <code>frida-trace</code>. The same can be accomplished with <code>Java.enumerateMethods('*youtube*!on*')</code> added to a frida scipt.</p>
+<h3 id="tracing-native-functions">Tracing Native Functions</h3>
+<p>Though reversing native functions is a much tougher process, tracing is not. Quite the contrary: it&rsquo;s way easier to trace native calls that Java ones. Tracing native calls can be performed in various of ways. On of my favourite is using <code>frida-trace</code>. Remember 📝 that Java code is compiled to machine code at some point (both in case of JIT or AOT), so when it&rsquo;s already translated into <code>1</code>s and <code>0</code>s, the native calls might (and most likely will) be made. That&rsquo;s where they can be seen even if the application doesn&rsquo;t use JNI calls from the Java code (assumption). To test this assumption, I&rsquo;ve hooked all functions, containing &ldquo;write&rdquo; in its name and ran the program from OWASP (<code>HelloWorld_JNI.apk</code>): <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*read*&quot;</code>. It took<code>frida-trace</code> around a minute or two to instrument all the functions. Then it crashed. I&rsquo;ve also tried <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*write*&quot;</code>. Took very long as well, but didn&rsquo;t crash. Resuming the process hooked with <code>jdb</code> resulted in lots of traced calls. And these are only those, containing <code>&quot;write&quot;</code>:</p>
+<p><img src="images/native-calls-2.png" alt="native-calls-2"></p>
+<p><img src="images/native-calls-1.png" alt="native-calls-1"></p>
+<p>Started at <code>82765 ms</code> and finished at <code>88812 ms</code>. So, it took around <code>6047 ms</code> ~ <code>6</code> sec in total. And this is a simple application that does nothing more than writing &ldquo;HelloWorld!&rdquo; using native code (C++), i.e. calling one custom C++ function. Obviously, this call could not generate so much stuff. Looks like my assumption was correct.</p>
+<p>It&rsquo;s also possible to trace native calls with <code>ptrace</code> system call with <code>strace</code>. <code>strace</code> can be build from source with NDK. However, if there are some anti-tampering techniques in place that detect <code>ptrace</code> - won&rsquo;t work. Another option is to use <code>ftrace</code>. To enable: <code>echo 1 &gt; /proc/sys/kernel/ftrace_enabled</code>. And view the result here: <code>/sys/kernel/debug/tracing</code>. <code>KProbes</code> allows to insert probes into arbitrary code addresses, but to use it, you need to compile your own kernel 😯.</p>
+<p>Finding JNI calls with <code>frida-trace</code>: <code>frida-trace -U -i &quot;Java_*&quot; [package.name]</code>. If symbols are unavailable, trace by address: <code>frida-trace -p [PID] -a &quot;[libname.so]!0xXXXXX&quot;</code>.</p>
+<p>Another option is to use <code>jnitrace</code>: <code>jnitrace -l [libname.so] [package.name]</code>. Install with <code>pip install jnitrace</code>.</p>
+<blockquote>
+<p>❓What&rsquo;s the difference beyween <code>frida</code> script, <code>frida-trace</code> and <code>jnitrace</code>?</p>
+</blockquote>
+<h2 id="symbolic-execution">Symbolic Execution</h2>
+<h2 id="anti-reversing-techniques">Anti-reversing Techniques</h2>
+<h3 id="androidmanifestxml"><code>AndroidManifest.xml</code></h3>
+<p><code>AndroidManifest.xml</code> file contains different settings for the application within the <code>&lt;application&gt;</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged over JDWP (using <code>jdb</code>), but doesn&rsquo;t prevent it from being debugged using <code>gdb</code> (from the Linux OS space).</p>
+<p>⛏ <em>How to circumvent <code>android:debuggable=false</code>?</em></p>
+<p>Patch <code>AndroidManifest.xml</code> by setting <code>android:debuggable</code> to <code>true</code>. If there is no such setting there (by default it&rsquo;s set to <code>false</code> unless there is a <code>testCoverageEnabled true</code> в <a href="https://stackoverflow.com/questions/36557070/gradle-is-generating-debuggable-apks-on-release-mode/36558588">файле</a> <code>build.gradle</code>), add it to the <code>application</code> tag like this:</p>
+<p><img src="images/android-debuggable.png" alt="android-debuggable"></p>
+<p>Rebuild the application and sign it with your certificate in order to get it installed properly on the device. To rebuild and sign the application follow <a href="https://bakerst221b.com/docs/toolkit/manuals/android-btfm-rtfm#bypasses">these</a> instructions (Android BTFTM and RTFM, bypasses section). The general idea is to follow these steps:</p>
+<ol>
+<li>Decompile the application to get to the bytecode or AndroidManifest.xml with <code>apktool d &lt;package_name&gt;.apk</code>. We are after <code>AndroidManifest.xml</code> here.</li>
+<li>Patch the file  <code>AndroidManifest.xml</code> by adding <code>android:debuggable=&quot;true&quot;</code> within the <code>application tag</code> (see the picture above).</li>
+<li>Rebuild the application back into an <code>apk</code> with <code>apktool b &lt;decompiled_folder_with_a_patch&gt;  -o &lt;new_apk_name&gt;.apk</code>.</li>
+<li>If you don&rsquo;t have a keystore to use for signing, create the keystore first with <code>keytool -genkey -v -keystore &lt;keystore_name&gt; -alias &lt;key_name&gt; -keyalg RSA -keysize 2048 -validity 10000</code>.</li>
+<li>Sign the application with <code>&lt;key_name&gt;</code> from <code>&lt;keystore_name&gt;</code> with <code>jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore &lt;keystore_name&gt; &lt;new_apk_name&gt;.apk &lt;key_name&gt;</code></li>
+</ol>
+<blockquote>
+<p>⚠️ This technique will require reinstalling the application. All data that is deteled upon uninstalling, will be cleared and unavailable for analysis.</p>
+</blockquote>
+<p>🩹 <em>What is the corresponding anti-debugging technique?</em></p>
+<p>An application can check <code>ApplicationInfo.FLAG_DEBUGGABLE</code> and compare it to the contents of <code>AndroidManifest</code> to know when it&rsquo;s being debugged. If the application was tampered, these values will be different.</p>
+<p>⛏ <em>How to circumvent?</em></p>
+<p>Use runtime analysis tools like <code>frida</code> to hook the methods and manipulate the return values.</p>
+<h3 id="timing">Timing</h3>
+<p>Developers might check the timing. Debugging slows down the execution. An example of such code (taken from <a href="isDebuggerConnectedandroid.os.Debug">Mobile Gitbook</a>) is shown below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">detect_threadCpuTimeNanos</span><span class="o">(){</span>
+  <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
+
+  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">1000000</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
+    <span class="k">continue</span><span class="o">;</span>
+
+  <span class="kt">long</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
+
+  <span class="k">if</span><span class="o">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">10000000</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span>
+  <span class="k">else</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>⛏ <em>How to circumvent?</em></p>
+<p>Check for such code using <strong>ByteCode Viewer</strong>. If this is the technique used, hook the method with a runtime analysis tool like <code>frida</code> and make it always return <code>false</code>.</p>
+<h3 id="isdebuggerconnected">isDebuggerConnected</h3>
+<p>Using <code>isDebuggerConnected</code> or <code>(gDvm.debuggerConnected || gDvm.debuggerActive)</code> developers may detect whther the current process is being debugged.</p>
+<h3 id="using-jdwp-data-structures">Using JDWP Data Structures</h3>
+<p>The older versions of Android architecture included Dalvik machine. The global virtual machine state is stored in the <code>DvmGlobals</code> structure, which is pointed to by the global variable <code>gDvm</code> . This structure, among other things, determines whether the application can be debugged:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">DvmGlobals</span> <span class="p">{</span>
+    <span class="cm">/*
+</span><span class="cm">     * Some options that could be worth tampering with :)
+</span><span class="cm">     */</span>
+
+    <span class="kt">bool</span>        <span class="n">jdwpAllowed</span><span class="p">;</span>        <span class="c1">// debugging allowed for this process?
+</span><span class="c1"></span>    <span class="kt">bool</span>        <span class="n">jdwpConfigured</span><span class="p">;</span>     <span class="c1">// has debugging info been provided?
+</span><span class="c1"></span>    <span class="n">JdwpTransportType</span> <span class="n">jdwpTransport</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">jdwpServer</span><span class="p">;</span>
+    <span class="kt">char</span><span class="o">*</span>       <span class="n">jdwpHost</span><span class="p">;</span>
+    <span class="kt">int</span>         <span class="n">jdwpPort</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">jdwpSuspend</span><span class="p">;</span>
+
+    <span class="n">Thread</span><span class="o">*</span>     <span class="n">threadList</span><span class="p">;</span>
+
+    <span class="kt">bool</span>        <span class="n">nativeDebuggerActive</span><span class="p">;</span>
+    <span class="kt">bool</span>        <span class="n">debuggerConnected</span><span class="p">;</span>      <span class="cm">/* debugger or DDMS is connected */</span>
+    <span class="kt">bool</span>        <span class="n">debuggerActive</span><span class="p">;</span>         <span class="cm">/* debugger is making requests */</span>
+    <span class="n">JdwpState</span><span class="o">*</span>  <span class="n">jdwpState</span><span class="p">;</span>
+
+<span class="p">};</span>
+</code></pre></div><p>Developers might use the following code to make use of the above structure and trigger a crash on any attempt to attach a debugger:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">JNIEXPORT</span> <span class="n">jboolean</span> <span class="n">JNICALL</span> <span class="nf">Java_poc_c_crashOnInit</span> <span class="o">(</span> <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">,</span> <span class="n">jobject</span> <span class="o">)</span> <span class="o">{</span>
+  <span class="n">gDvm</span><span class="o">.</span><span class="na">methDalvikDdmcServer_dispatch</span> <span class="o">=</span> <span class="n">NULL</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div><p>Since ART doesn&rsquo;t have access to this structure, the above technique will be deemed useless. But there is something that can be done though using exported <code>vtables</code> for <code>JdwpAdbState</code> and <code>JdwpSocketState</code>. If the developer substitutes <code>jdwpAdbState::ProcessIncoming</code> with the address of <code>JdwpAdbState::Shutdown</code> and the same for <code>JdwpAdbState</code> as well, the any connected Java debugger is disconnected, further attempts will fail and without enything being written to log.</p>
+<p>An example of such code, taken from <a href="https://web.archive.org/web/20200307152820/https://www.vantagepoint.sg/blog/88-anti-debugging-fun-with-android-art">here</a> (Bernhard Mueller&rsquo;s blog, now archived 😞):</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;android/log.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;dlfcn.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;jdwp/jdwp.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cp">#define log(FMT, ...) __android_log_print(ANDROID_LOG_VERBOSE, &#34;JDWPFun&#34;, FMT, ##__VA_ARGS__)
+</span><span class="cp"></span>
+<span class="c1">// Vtable structure. Just to make messing around with it more intuitive
+</span><span class="c1"></span>
+<span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">y</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">JdwpSocketState_destructor</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">_JdwpSocketState_destructor</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">Accept</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">showmanyc</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">ShutDown</span><span class="p">;</span>
+    <span class="kt">void</span> <span class="o">*</span> <span class="n">ProcessIncoming</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">extern</span> <span class="s">&#34;C&#34;</span>
+
+<span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="n">Java_sg_vantagepoint_jdwptest_MainActivity_JDWPfun</span><span class="p">(</span>
+        <span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">jobject</span> <span class="cm">/* this */</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kt">void</span><span class="o">*</span> <span class="n">lib</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="s">&#34;libart.so&#34;</span><span class="p">,</span> <span class="n">RTLD_NOW</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">lib</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">log</span><span class="p">(</span><span class="s">&#34;Error loading libart.so&#34;</span><span class="p">);</span>
+        <span class="n">dlerror</span><span class="p">();</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+
+        <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="n">vtable</span> <span class="o">=</span> <span class="p">(</span> <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="p">)</span><span class="n">dlsym</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&#34;_ZTVN3art4JDWP12JdwpAdbStateE&#34;</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">vtable</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Couldn&#39;t resolve symbol &#39;_ZTVN3art4JDWP12JdwpAdbStateE&#39;.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+
+            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Vtable for JdwpAdbState at: %08x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vtable</span><span class="p">);</span>
+
+            <span class="c1">// Let the fun begin!
+</span><span class="c1"></span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pagesize</span> <span class="o">=</span> <span class="n">sysconf</span><span class="p">(</span><span class="n">_SC_PAGE_SIZE</span><span class="p">);</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">page</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">vtable</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">pagesize</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">);</span>
+
+            <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ProcessIncoming</span> <span class="o">=</span> <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ShutDown</span><span class="p">;</span>
+
+            <span class="c1">// Reset permissions &amp; flush cache
+</span><span class="c1"></span>
+            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">);</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>⛏ <em>How to circumvent?</em></p>
+<p>Well, fix the <code>vtable</code> that was broken with this function after it was run.</p>
+<h2 id="references">References</h2>
+<p>[1] <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile SecGuide</a>.</p>
+<p>[<a href="https://web.archive.org/web/20181227120751/http://www.vantagepoint.sg/blog/90-the-jiu-jitsu-of-detecting-frida">2</a>] Bernhard Mueller archived blog</p>
+<p>[<a href="https://gsec.hitb.org/materials/sg2016/whitepapers/Hacking%20Soft%20Tokens%20-%20Bernhard%20Mueller.pdf">3</a>] Advanced Android Reverse Engineering by Bernhard Mueller</p>
+<p>[<a href="https://web.archive.org/web/20200923191924if_/https://github.com/OWASP/owasp-mstg/tree/master/Crackmes">4</a>] CrackMes by Bernhard Mueller</p>
+<p>[<a href="https://android.stackexchange.com/questions/208824/do-calls-to-java-native-interface-in-android-apps-run-within-dalvik-vm">5</a>] Does the JNI code run within Dalvik VM? StackOverflow</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
