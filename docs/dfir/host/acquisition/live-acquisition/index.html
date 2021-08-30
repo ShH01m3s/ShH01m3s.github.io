@@ -380,20 +380,12 @@
 <p>Mac OS - <code>arp -a</code></p>
 <h3 id="process-tables">Process tables</h3>
 <p>Hibernation files contain this information as well. These are the files created when OS is falling asllep and needs to save some information for future waking up. It&rsquo;s a RAM dump or something very similar as far as I understand.</p>
-<p><strong>Windows.</strong> <code>hiberfil.sys</code>.</p>
+<p><strong>Windows.</strong> <code>hiberfil.sys</code>. Read more about <a href="/docs//docs/dfir/host/windows/windows-hybernation">here</a>.</p>
 <p><strong>Linux</strong>. Better read <a href="https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation_into_swap_file">here</a>:</p>
 <blockquote>
 <p>When hibernating your RAM&rsquo;s content gets stored into swap. Out of this reason swap has to be at last as big as the amount of the installed RAM.</p>
 </blockquote>
-<p><strong>Mac OSX</strong>. Get the hibernation settings - <code>pmset -g | grep hibernatemode</code>:</p>
-<ul>
-<li><code>0</code> – Old style sleep mode, with RAM powered on while sleeping, safe sleep disabled, and super-fast wake.</li>
-<li><code>1</code> – Hibernation mode, with RAM contents written to disk, system totally shut down while “sleeping,” and slower wake up, due to reading the contents of RAM off the hard drive.</li>
-<li><code>3</code> – The default mode on machines introduced since about fall 2005. RAM is powered on while sleeping, but RAM contents are also written to disk before sleeping. In the event of total power loss, the system enters hibernation mode automatically.</li>
-<li><code>5</code> – This is the same as mode <code>1</code>, but it’s for those using secure virtual memory (in System Preferences -&gt; Security).</li>
-<li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
-</ul>
-<p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
+<p><strong>Mac OSX</strong>. See more in my article <a href="/docs/dfir/host/apple/apple-hybernation">here</a>. To view hibernation settings - <code>pmset -g | grep hibernate</code>.</p>
 <h3 id="kernel-statistics">Kernel statistics</h3>
 <h3 id="memory">Memory</h3>
 <p>Link to memory acquisition or describe here if not too much.</p>
