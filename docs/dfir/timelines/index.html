@@ -153,6 +153,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#timestamps">Timestamps</a>
+      <ul>
+        <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -217,6 +222,12 @@
 <li>FileList. <code>filelist &lt;directory_to_process&gt; /s /md5 /sha256 /owners /fullpath &gt; evidence.csv</code>. <code>/s</code> - recursive search, <code>/owners</code> - identify the user, <code>fullpath</code> - full directory path. Open this .csv in Excel as a delimited file, start the processing from the third row (skip the headers) and use the tab and comma as delimiters. Filters and pivot tables in Excel can be of use.</li>
 <li></li>
 </ul>
+<h2 id="timestamps">Timestamps</h2>
+<h3 id="ntfs-vs-apfs">NTFS vs APFS</h3>
+<p>Mind that APFS <a href="/docs/dfir/host/apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/dfir/host/windows/win-artifacts">timestamps</a> are different! With NTFS when you add a file to the system (for example, copy it from USB drive), the MAC times are changed. However, on APFS <em>Added</em> attribute is added, providing you with slightly more information.</p>
+<blockquote>
+<p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
+</blockquote>
 <h2 id="references">References</h2>
 <p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
 
