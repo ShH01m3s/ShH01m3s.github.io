@@ -153,14 +153,9 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#ntfs-timestamps">NTFS Timestamps</a>
-      <ul>
-        <li><a href="#accessed">Accessed</a></li>
-      </ul>
-    </li>
     <li><a href="#ntfs-metadata-files">NTFS Metadata Files</a>
       <ul>
-        <li><a href="#usnjrnl"><code>$UsnJrnl</code></a></li>
+        <li><a href="#extendusnjrnl"><code>\$Extend\$UsnJrnl</code></a></li>
       </ul>
     </li>
     <li><a href="#user-data">User Data</a>
@@ -218,43 +213,8 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="ntfs-timestamps">NTFS Timestamps</h2>
-<p>📆 <code>Jan 1, 1601</code></p>
-<p>Modified, Accessed, Created, MFT Modified.</p>
-<p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code>, <code>$I30_Index</code>.</p>
-<h3 id="accessed">Accessed</h3>
-<p>Sometimes this option might be turned off. To check, check the <code>NTFSLastAccessUpdate</code> key at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem</code> in Windows Registry.</p>
-<p>Can be changed with <code>fsutils</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">fsutil behavior <span class="nb">set</span> disablelastaccess <span class="o">[</span>0<span class="p">|</span>1<span class="p">|</span>2<span class="p">|</span>3<span class="o">]</span>
-<span class="c1"># restart the PC</span>
-</code></pre></div><table>
-<thead>
-<tr>
-<th><strong>Value</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>0</strong></td>
-<td>User Managed, Last Access Time Updates Enabled</td>
-</tr>
-<tr>
-<td>❗️<strong>1</strong></td>
-<td>❗️<strong>User Managed, Last Access Time Updates Disabled</strong></td>
-</tr>
-<tr>
-<td><strong>2</strong> (default)</td>
-<td>System Managed, Last Access Time Updates Enabled</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>System Managed, Last Access Time Updates Disabled</td>
-</tr>
-</tbody>
-</table>
-<h2 id="ntfs-metadata-files">NTFS Metadata Files</h2>
-<h3 id="usnjrnl"><code>$UsnJrnl</code></h3>
+    <h2 id="ntfs-metadata-files">NTFS Metadata Files</h2>
+<h3 id="extendusnjrnl"><code>\$Extend\$UsnJrnl</code></h3>
 <p>Journal change log for NTFS system.</p>
 <h2 id="user-data">User Data</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\

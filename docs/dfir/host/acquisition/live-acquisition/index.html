@@ -157,6 +157,7 @@
     <li><a href="#live-acquisition">Live Acquisition</a></li>
     <li><a href="#evidence">Evidence</a></li>
     <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#considerations">Considerations</a></li>
     <li><a href="#ram-acquisition-steps">RAM Acquisition Steps</a></li>
     <li><a href="#hdd">HDD</a></li>
     <li><a href="#general">General</a></li>
@@ -177,13 +178,6 @@
         <li><a href="#archival-media">Archival media</a></li>
       </ul>
     </li>
-    <li><a href="#dead-acquisition">Dead Acquisition</a>
-      <ul>
-        <li><a href="#prerequisites-1">Prerequisites</a></li>
-        <li><a href="#process">Process</a></li>
-      </ul>
-    </li>
-    <li><a href="#logs">Logs</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -317,6 +311,14 @@
 <li>RAM acquisition tools</li>
 <li>Video</li>
 </ul>
+<h2 id="considerations">Considerations</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <em>❓Are there some keys or stuff like that lurking in memory?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Can the machine be turned off (server)?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓How big is the data?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓☁️ CLoud storage/social media</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Is it within the scope 🖼?</em></li>
+</ul>
 <h2 id="ram-acquisition-steps">RAM Acquisition Steps</h2>
 <p>RAM Acquisition is the first priority since it&rsquo;s the volatile memory. Use DumpIt for Desktop or laptops, <code>frida-dump.py</code> or <code>objection</code> and <code>frida</code> for iOS or Android (sometimes the RAM acquisition on iOS might crash the application). For mobile devices RAM acquisition is performed for each process separately and requires jailbreak. If the device is not jailbroken prior to acquisition, this technique won&rsquo;t work.</p>
 <h2 id="hdd">HDD</h2>
@@ -388,59 +390,62 @@
 <p><strong>Mac OSX</strong>. See more in my article <a href="/docs/dfir/host/apple/apple-hybernation">here</a>. To view hibernation settings - <code>pmset -g | grep hibernate</code>.</p>
 <h3 id="kernel-statistics">Kernel statistics</h3>
 <h3 id="memory">Memory</h3>
-<p>Link to memory acquisition or describe here if not too much.</p>
+<blockquote>
+<p>⚠️ Some malware may exist in RAM only!</p>
+<p>❗️ IR cases heavily relly on RAM data!</p>
+<p>⚠️ Under no circumstances should an application that modifies MAC data on stored files be utilized. This includes system utilities such as COPY, XCOPY, MOVE, TAR, and several others. Before using a utility in the field, test it to verify that MAC data is left untouched. [<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>
+</blockquote>
+<p>If you see a destructive process running (check the taskbar and the tray for starters), pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
+<blockquote>
+<p>🗒 Make a list of the most popular disk-wipers and their icons.</p>
+</blockquote>
+<p>If something is encrypted, the key or unencrypted material might reside in memory. Check the taskbar and the tray for encryption software. Also, you may try to search for some knowns tools with the application search. If the volume or disk, or container is encrypted with some encryption tool (see toolkit <a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">here</a>, <code>Encryption software</code> View or filter by <code>encryption</code>), we might want to live capture the encrypted data first (while it&rsquo;s unencrypted). On restart the volume will be locked, which would be a problem in case if don&rsquo;t have a key 🔑. Also, back up the recovery key (BitLocker allows that) if possible.</p>
+<blockquote>
+<p>🗒 Make a list of the most popular disk encryption software and their icons.</p>
+</blockquote>
+<p>🛠 <strong>Tools</strong>. For more tools and information refer to the <a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">toolkit</a>. Filter by keyword <code>ram</code> + <code>ram acquisition</code> or use <code>Memory Analysis</code> View.</p>
+<ul>
+<li>Magnet RAM Capture</li>
+<li>DumpIt (MoonSols)</li>
+<li>Belkasoft Live RAM Capture</li>
+<li>FTK Imager</li>
+<li>dd</li>
+<li>WinDD</li>
+<li>Tribble (hardware)</li>
+<li>Memory Grabber Forensic Tool (hardware)</li>
+</ul>
 <p>Hibernation files contain this information as well. These are the files created when OS is falling asllep and needs to save some information for future waking up. It&rsquo;s a RAM dump or something very similar as far as I understand.</p>
 <p><code>.DMP</code> files are also partial or full memory dumps, but they are only created when something goes wrong (blue screen).</p>
 <p><strong>Windows</strong>. <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited">https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited</a>.</p>
 <p><strong>Linux</strong>. <a href="https://www.chromium.org/developers/decoding-crash-dumps">https://www.chromium.org/developers/decoding-crash-dumps</a></p>
 <p><strong>MacOS</strong>. ?</p>
-<p>Tools 🛠:</p>
-<p>• Linux, Unix, and OSX: <code>/dev/mem and/dev/kmem</code></p>
-<p>• Windows 2000, XP, and so on: <code>//physicalmemory</code> ???: <code>dd if= \.\\PhysicalMemory of=F:\Evidence\memory.dd conv=noerror</code></p>
 <p><strong>Memorize</strong>:</p>
+<ul>
+<li>
 <p>Identify running processes</p>
-<p>• Identify open ports</p>
-<p>• Identify memory handles</p>
-<p>• Find and identify loaded DLLs</p>
-<p>• Identify running device drivers</p>
-<p>• Identify all loaded modules, including executables and DLLs</p>
-<p><strong>WinDD</strong></p>
-<p>Footpring ~ 1MB (2013). Can be used over the network or USB.</p>
-<p><strong>FTK Imager</strong></p>
-<p>Does not guarantee that the utility will not make write attempts to the target drive. Looks like it does write to the device -&gt; use a write-protect device such as the Wiebetech Forensic Ultra Dock between the source and the target disks.</p>
-<p><strong>Hardware tools</strong></p>
-<p>Tribble. Only works if was in the PC prior to the incident.</p>
-<p>Memory Grabber Forensic Tool. PCMCIA card. When plugged into the suspect computer, the card provides an interface to a controlled system running forensics software that can be used to analyze the image.</p>
-<p><strong>DD</strong></p>
-<p>DD utility allows a raw dump of memory. <code>*noerror*</code> - important not to stop the acquisition on errors.</p>
-<blockquote>
-<p>!!!! Under no circumstances should an application that modifies MAC data on stored files be utilized. This includes system utilities such as COPY, XCOPY, MOVE, TAR, and several others. Before using a utility in the field, test it to verify that MAC data is left untouched. [<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>
-</blockquote>
+</li>
+<li>
+<p>Identify open ports</p>
+</li>
+<li>
+<p>Identify memory handles</p>
+</li>
+<li>
+<p>Find and identify loaded DLLs</p>
+</li>
+<li>
+<p>Identify running device drivers</p>
+</li>
+<li>
+<p>Identify all loaded modules, including executables and DLLs</p>
+</li>
+</ul>
 <h3 id="temporary-file-systems">Temporary file systems</h3>
 <p>What is it?</p>
 <h3 id="disk">Disk</h3>
 <h3 id="remote-logging-and-monitoring-data-that-is-revelevant-to-the-system-in-question">Remote logging and monitoring data that is revelevant to the system in question</h3>
 <h3 id="physical-configuration-network-topolgy">Physical configuration, network topolgy</h3>
 <h3 id="archival-media">Archival media</h3>
-<h2 id="dead-acquisition">Dead Acquisition</h2>
-<h3 id="prerequisites-1">Prerequisites</h3>
-<p>Live USB/CD?</p>
-<h3 id="process">Process</h3>
-<ul>
-<li>Connect external HDD or SSD</li>
-<li>Lauch some forensic distribution (for example, Paladin). Make an image of local HDD</li>
-<li>Analyse it with some forensic kit like autopsy, FTK, EnCase, for example.</li>
-</ul>
-<blockquote>
-<p>Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
-</blockquote>
-<h2 id="logs">Logs</h2>
-<p>Different logs might be collected depending on the case:</p>
-<ol>
-<li>Network hack: logs of all network devices (on the route to the hacked device), perimeter router (ISP), Firewall rules might be required.</li>
-<li>Unauthorised access: web server logs, application server logs, application logs, router or switch logs, firewall logs, db logs, IDS logs etc.</li>
-<li>Trojan/Virus/Worm: antivirus logs, event logs.</li>
-</ol>
 <h2 id="references">References</h2>
 <p>[<a href="https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation_into_swap_file">1</a>] Linux hibernation files</p>
 <p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>

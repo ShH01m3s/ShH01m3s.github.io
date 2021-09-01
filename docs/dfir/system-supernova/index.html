@@ -211,13 +211,44 @@
     <p><em>One of the main things to know when performing forensic analysis is knowing what&rsquo;s normal and what&rsquo;s not. It would take ages to google every single pinch of this information, that&rsquo;s why I have decided to make a clean install of several systems and capture their state to have an idea what&rsquo;s good for each of them.</em></p>
 <p>A SANS poster &ldquo;<a href="https://www.sans.org/posters/hunt-evil/">Hunt Evil</a>&rdquo;.</p>
 <h2 id="-apple-macbook">🍏 Apple MacBook</h2>
+<p>Clean install configs:</p>
+<ul>
+<li>Two internal drives (HDD500Gb for Data + SSD500Gb for OS)</li>
+<li>macOS Catalina</li>
+<li>Region selected - United Kingdom</li>
+<li>Preferred Languages are thus English (UK), Input Sources - British and Dictation English (United Kingdom)</li>
+<li>Connected over WiFi</li>
+<li>Don&rsquo;t transfer any information now</li>
+<li>Logged in with my AppleID account</li>
+<li>Set username and password for the local acc</li>
+<li>Geolocation allowed and allow analytics</li>
+<li>Share crash and usage data</li>
+<li>Screen Time and Siri enabled</li>
+<li>Do not share audio recordings (not now)</li>
+<li>Do not store files from Documents and Desktop, photos and videos in iCloud Drive</li>
+<li>Turn off FileVault</li>
+<li>Not sure that it might drastically influence the file contents, but the theme I chose was dark</li>
+</ul>
 <p>I have made a clean install on MacBook 13'' (2012) and captured the following things:</p>
-<ol>
-<li>Opened Activity Manager and put down all processes running.</li>
-<li>Opened Console and let it write down the logs for a while.</li>
-<li>Captured a list of all files in <code>/System/Library</code> and <code>/Library</code> folders and their contents. Root directory&rsquo;s folders (to view hidden - Shift+Cmd+&gt;). Make a tree of these folders in some editor or file along with a corresponding hash.</li>
-<li>View open sockets.</li>
-</ol>
+<ul>
+<li>
+<p><input checked="" disabled="" type="checkbox"> Open Activity Monitor and put down all processes running.</p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> Open Console and let it write down the logs for a while.</p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> Capture the list of all files in <code>/System/Library</code> and <code>/Library</code> folders and their contents. Root directory&rsquo;s folders (to view hidden - <code>Shift+Cmd+&gt;</code>). Optionally: make a tree of these folders in some editor or file along with a corresponding hash. Takes quite a while even on a small</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get a hash for each file in the folder </span>
+sudo find . -type f  -exec shasum <span class="o">{}</span> <span class="s1">&#39;;&#39;</span> &gt; &gt;sums.txt
+</code></pre></div></li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> View open sockets with <code>netstat -anvp tcp</code>.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Repeat all the steps except for the recursive <code>find</code> and save.</p>
+</li>
+</ul>
 <h2 id="-windows">🪟 Windows</h2>
 <p>I have made a clean install on Dell Inspiron 5770 (?). Windows 10.</p>
 <ol>
