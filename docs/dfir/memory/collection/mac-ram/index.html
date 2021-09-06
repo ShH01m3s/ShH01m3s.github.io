@@ -153,6 +153,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li>
+      <ul>
+        <li><a href="#osxpmem"><code>OSXPmem</code></a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -223,14 +228,17 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="references">References</h2>
+    <p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] there is the list of tools to be used for RAM acquisition. I&rsquo;ve tried several of them and realised, that the current problem of the forensic community is that the tools get old much faster than the information gets updated&hellip; Sadly.</em></p>
+<h3 id="osxpmem"><code>OSXPmem</code></h3>
+<p>It&rsquo;s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There a few complications though.</p>
+<p>⚠️ SIP needs to be disabled. Freboot &gt; CMD+R &gt; Terminal &gt; csrutil disbale &gt; reboot). Otherwise, might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, might run into this issue: Can&rsquo;t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn&rsquo;t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal in order to changes to take place!</p>
+<h2 id="references">References</h2>
 <p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
 <p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
 <p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
 <p>[<a href="https://support.apple.com/guide/mac-help/permission-files-a-mac-disk-mchlp1204/mac">4</a>] If you don’t have permission to use files on a Mac disk</p>
 <p>[<a href="https://www.macworld.co.uk/how-to/how-turn-off-mac-os-x-system-integrity-protection-rootless-3638975/">5</a>] How to turn off Rootless (SIP, or System Integrity Protection) in OS X</p>
 <p>[<a href="https://dfir.ru/2018/09/08/memory-compression-and-forensics/#more-368">6</a>] Memory compression and forensics</p>
-
   </div>
 </article>
 </div>
