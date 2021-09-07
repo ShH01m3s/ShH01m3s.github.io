@@ -804,6 +804,36 @@
 </li>
 </ol>
 <p>Account needs to exist. Login. Do stuff.  Enumerate users. Attacker could create an account, grant admin rights, domain accounts. <em>#todo: for each platform make a table of artifacts.</em></p>
+<p>============================================================================</p>
+<p><strong>USBs</strong></p>
+<p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
+<blockquote>
+<p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
+</blockquote>
+<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID!</p>
+<blockquote>
+<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
+</blockquote>
+<p>Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
+<p>============================================================================</p>
+<p><strong>Windows</strong></p>
+<p>Local or domain account?</p>
+<p>SAM\Domains\Accounts\Users</p>
+<p>SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList</p>
+<p>See User Activity Events from Events Manager (<a href="/docs/dfir/host/windows/event-manager#user-activity">ref</a>).</p>
+<p>============================================================================</p>
+<p><strong>macOS</strong></p>
+<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
+<p>Password hashes</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
+</code></pre></div><p>Account Info</p>
+<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
+<p>Login History</p>
+<p><code>private/var/log/asl</code> BB.date.asl - Best before.</p>
+<blockquote>
+<p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
+</blockquote>
+<p>============================================================================</p>
 <h3 id="malware">Malware</h3>
 <p>APT - smarter malware.</p>
 <p>Needs to start (one time or regulary on startup or schedule; or trick the user), hides itself, wicked stuff done. Launch malware instead of leg prog by placing it in the same directory if the full path is specified. Trick process to launch malicious library. For example, DLL injection. See the presentation <a href="/files/presentations/Injects_p1.pptx">here</a> and <a href="/files/presentations/Injects_p2.pptx">here</a>.  Data injection (exploit).</p>

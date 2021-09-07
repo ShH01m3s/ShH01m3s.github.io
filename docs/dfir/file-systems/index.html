@@ -168,13 +168,13 @@
     <li><a href="#apfs">APFS</a>
       <ul>
         <li><a href="#timestamps">Timestamps</a></li>
+        <li><a href="#metadata">Metadata</a></li>
       </ul>
     </li>
     <li><a href="#ntfs">NTFS</a>
       <ul>
         <li><a href="#timestamps-1">Timestamps</a></li>
-        <li><a href="#metadata">Metadata</a></li>
-        <li><a href="#extendusnjrnl"><code>\$Extend\$UsnJrnl</code></a></li>
+        <li><a href="#metadata-1">Metadata</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -349,6 +349,19 @@ inc ebp
 <h4 id="changed">Changed</h4>
 <h4 id="added">Added</h4>
 <p>Unique to APFS. Very useful for forensics since it differenciates between the file being actually created and it being copied from another media (USB, for example).</p>
+<h3 id="metadata">Metadata</h3>
+<h4 id="fsevents">FSEvents</h4>
+<p>Like <code>$UsnJrnl</code>. ❗️It keeps track of file ids, which is useful for <strong>sequencing</strong> events. Can be found <code>/.fseventsd</code>. Lot&rsquo;s of gzip archives.</p>
+<blockquote>
+<p>🔍 However, I couldn&rsquo;t find it on my M1 (macOS Big Sur, 11.2.3). The daemon was running (checked with Activity Monitor). Grabbing the processes path on disk (search for <code>fseventsd</code>, double-click, choose <code>Sample</code> and get the path from the result)</p>
+</blockquote>
+<p><img src="images/fseventsd-path.png" alt="fseventsd-path"></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out
+</code></pre></div><p><strong>Keywords</strong>: Mount/Volume, Safari/Chrome (web search), Renamed/.trash (trash).</p>
+<p>Lot&rsquo;s of information, so, think well whether to process it or not, since it&rsquo;ll take time.</p>
+<blockquote>
+<p>⚠️ If you insert a FAT-formatted thumb drive into a macOS machine, it will create fervents.</p>
+</blockquote>
 <h2 id="ntfs">NTFS</h2>
 <h3 id="timestamps-1">Timestamps</h3>
 <p>📆 <code>Jan 1, 1601</code></p>
@@ -388,9 +401,11 @@ inc ebp
 </tbody>
 </table>
 <h4 id="changed-1">Changed</h4>
-<h3 id="metadata">Metadata</h3>
-<h3 id="extendusnjrnl"><code>\$Extend\$UsnJrnl</code></h3>
-<p>Journal change log for NTFS system.</p>
+<h3 id="metadata-1">Metadata</h3>
+<h4 id="extendusnjrnl"><code>\$Extend\$UsnJrnl</code></h4>
+<p>Journal change log for NTFS system. EVERYTHING! File and directory deletion, creation, encryption.</p>
+<h4 id="logfile"><code>$LogFile</code></h4>
+<p>It&rsquo;s a transaction journal of $MFT. Very similar to <code>$UsnJrnl</code>, but lives less. Tracks file creation, modification, renaming and deletion. May not exist, but since Windows Vista <code>$UsnJrnl</code> is there <strong>by default</strong>.</p>
 <h2 id="references">References</h2>
 <p>[<a href="">1</a>] Windows OS file system for 27 years</p>
 <p>[<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">2</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison, Magnet Webinar</p>

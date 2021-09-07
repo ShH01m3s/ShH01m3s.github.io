@@ -156,9 +156,22 @@
     <li><a href="#user-data">User Data</a>
       <ul>
         <li><a href="#password-hashes">Password hashes</a></li>
+        <li><a href="#account-info">Account Info</a></li>
+        <li><a href="#login-history">Login History</a></li>
       </ul>
     </li>
     <li><a href="#notifications">Notifications</a></li>
+    <li><a href="#usb-devices">USB Devices</a>
+      <ul>
+        <li><a href="#0x5ac"><code>0x5ac</code></a></li>
+        <li><a href="#tracev3"><code>tracev3</code></a></li>
+        <li><a href="#systemlog"><code>system.log</code></a></li>
+        <li><a href="#comapplefinderplist"><code>com.apple.finder.plist</code></a></li>
+        <li><a href="#fsevents">FSEvents</a></li>
+        <li><a href="#dailyout-log">Daily.Out log</a></li>
+        <li><a href="#unified-log">Unified Log</a></li>
+      </ul>
+    </li>
     <li><a href="#web-browsing-activity">Web Browsing Activity</a></li>
     <li><a href="#ios-backups">iOS Backups</a></li>
     <li><a href="#icloud-data">iCloud Data</a></li>
@@ -167,7 +180,7 @@
     <li><a href="#quarantine-files">Quarantine files</a></li>
     <li><a href="#bash-history">Bash History</a></li>
     <li><a href="#spotlight-shortcuts">Spotlight shortcuts</a></li>
-    <li><a href="#fsevents">FSEvents</a></li>
+    <li><a href="#fsevents-1">FSEvents</a></li>
     <li><a href="#dailyout">Daily.out</a></li>
     <li><a href="#finder-mru">Finder MRU</a></li>
     <li><a href="#appstore-downloads">AppStore Downloads</a></li>
@@ -248,7 +261,37 @@
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/
 </code></pre></div><h3 id="password-hashes">Password hashes</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
+</code></pre></div><h3 id="account-info">Account Info</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist
+</code></pre></div><p>Contains name, profile name, password hint, account image, UID</p>
+<h3 id="login-history">Login History</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo su
+<span class="nb">cd</span> /private/var/log/asl 
+cat BB.&lt;date&gt;.asl
 </code></pre></div><h2 id="notifications">Notifications</h2>
+<h2 id="usb-devices">USB Devices</h2>
+<p>Lots of devices that are in fact built-in into the Mac, are considered as external connection by tracev3 log files. So, if you see the <code>0x5ac</code> vendor id in the logs, it might be the keyboard or trackpad.</p>
+<h3 id="0x5ac"><code>0x5ac</code></h3>
+<p>Apple&rsquo;s vendor ID.</p>
+<h3 id="tracev3"><code>tracev3</code></h3>
+<p><code>/private/var/db/diagnostics/Persist/*****.tracev3</code> binary log file. See the eForensics magazine for more information. For example, <code>000000000000057b.tracev3</code>. Contains connection start times, vendor ID, product ID.</p>
+<h3 id="systemlog"><code>system.log</code></h3>
+<p>Another place to look for USB connections. Use <code>grep -r usbmsc</code>.</p>
+<blockquote>
+<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
+</blockquote>
+<h3 id="comapplefinderplist"><code>com.apple.finder.plist</code></h3>
+<p>Full path to the artifact: <code>/Users/&lt;username&gt;/Library/Preferences/com.apple.finder.plist</code>.</p>
+<blockquote>
+<p>🔍 Not on my Mac!</p>
+</blockquote>
+<h3 id="fsevents">FSEvents</h3>
+<p>Mount, Unmount, Volume</p>
+<h3 id="dailyout-log">Daily.Out log</h3>
+<p><code>/private/var/log.daily.log</code>.</p>
+<h3 id="unified-log">Unified Log</h3>
+<p><code>USBMC</code></p>
+<p><code>Manufacturer</code></p>
 <h2 id="web-browsing-activity">Web Browsing Activity</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Application Support/Google/Chrome/Default
 /Users/%username%/Library/Caches/Chrome/Default
@@ -275,9 +318,20 @@
 /Users/%username%/.bash_history
 </code></pre></div><h2 id="spotlight-shortcuts">Spotlight shortcuts</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
-</code></pre></div><h2 id="fsevents">FSEvents</h2>
+</code></pre></div><h2 id="fsevents-1">FSEvents</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/.fseventsd <span class="c1"># root of the system partition</span>
 </code></pre></div><p>Like UsnJrnl for Windows. Contains lots of logs gzip-compressed archive files. Log entries contain file ids which is useful for sequencing files and events. Since there are dozens of entries, it&rsquo;s better to filter them. &ldquo;Renamed&rdquo; can mean the file was moved on the same volume.</p>
+<p>Like <code>$UsnJrnl</code>. ❗️It keeps track of file ids, which is useful for <strong>sequencing</strong> events. Can be found <code>/.fseventsd</code>. Lot&rsquo;s of gzip archives.</p>
+<blockquote>
+<p>🔍 However, I couldn&rsquo;t find it on my M1 (macOS Big Sur, 11.2.3). The daemon was running (checked with Activity Monitor). Grabbing the processes path on disk (search for <code>fseventsd</code>, double-click, choose <code>Sample</code> and get the path from the result)</p>
+</blockquote>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/file-systems/images/fseventsd-path.png" alt="fseventsd-path"></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out
+</code></pre></div><p><strong>Keywords</strong>: Mount/Volume, Safari/Chrome (web search), Renamed/.trash (trash).</p>
+<p>Lot&rsquo;s of information, so, think well whether to process it or not, since it&rsquo;ll take time.</p>
+<blockquote>
+<p>⚠️ If you insert a FAT-formatted thumb drive into a macOS machine, it will create fervents.</p>
+</blockquote>
 <h2 id="dailyout">Daily.out</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/private/var/log/daily.out
 </code></pre></div><h2 id="finder-mru">Finder MRU</h2>
