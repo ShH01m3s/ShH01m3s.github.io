@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Apple Basics 📚 - Analyst</title>
+  <title>Turning Off Logging - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -148,9 +148,19 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
+   <a href="/docs/dfir/antiforensics/"> Back to Anti-Forensics 🕶️ Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#macos">macOS</a></li>
+    <li><a href="#windows">Windows</a></li>
+    <li><a href="#linux">Linux</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -158,42 +168,82 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Turning Off Logging</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="macos">macOS</h2>
+<p>From Apple&rsquo;s official documentation:</p>
+<blockquote>
+<p>In some cases, the contents of a volume are sufficiently secret that it is not appropriate to log them. To disable logging on a per-volume basis (for creating a backup volume, for example), you must do the following:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Create a <code>.fseventsd</code> directory at the top level of the volume.</li>
+<li><input disabled="" type="checkbox"> Create an empty <code>no_log</code> file in that directory.</li>
+</ul>
+<p>So if your volume is mounted at <code>/Volumes/MyDisk</code>, you would create an empty file called <code>/Volumes/MyDisk/.fseventsd/no_log</code>.</p>
+</blockquote>
+<h2 id="windows">Windows</h2>
+<p><img src="images/event-viewer.png" alt="event-viewer"></p>
+<p>Switched to &ldquo;No auditing&rdquo; will disable logging of these events.</p>
+<h2 id="linux">Linux</h2>
+<blockquote>
+<p>syslog is system wide, so you can&rsquo;t disable syslog on a per session basis.</p>
+<p>However, you can</p>
+<ul>
+<li><input disabled="" type="checkbox"> copy <code>/etc/rsyslog.conf</code> to <code>/tmp/rsyslog.conf</code></li>
+<li><input disabled="" type="checkbox"> edit <code>/tmp/rsyslog.conf</code> to remove unwanted logging</li>
+<li><input disabled="" type="checkbox"> kill rsyslogd (<code>/etc/init.d/rsyslogd stop</code>)</li>
+<li><input disabled="" type="checkbox"> run <code>rsyslogd -d -f /tmp/rsyslog.conf</code> for the time of your &ldquo;session&rdquo;</li>
+</ul>
+<p>at the end of the session</p>
+<ul>
+<li><input disabled="" type="checkbox"> kill rsyslogd (find process with ps)</li>
+<li><input disabled="" type="checkbox"> run rsyslog (<code>/etc/init.d/rsyslogd start</code>)</li>
+</ul>
+</blockquote>
+<h2 id="references">References</h2>
+<p>[<a href="https://unix.stackexchange.com/questions/238689/disable-logging-to-syslog">1</a>] Disable logging to syslog, Starkexchange</p>
+<p>[<a href="https://itectec.com/superuser/how-to-disable-windows-10-system-log/#:~:text=Open%20the%20Windows%20Event%20Viewer,process%20and%20select%20Disable%20Log%20.">2</a>] Windows – How to disable Windows 10 system log</p>
+<p>[<a href="https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/FSEvents_ProgGuide/FileSystemEventSecurity/FileSystemEventSecurity.html">3</a>] Preventing File System Event Storage on macOS</p>
 
- 
- <h1 class="title">Apple Basics 📚</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-encryption/"> Apple Encryption</a></h2> 
-    <p> Applications or even OS itself doesn&rsquo;t know the keys that are protected by Secure Enclave. OS only sees Keychain, but the Security Enclave is separated.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-hibernation/"> Apple iyberbation</a></h2> 
-    <p> <p><em>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-mach-o-file/"> Apple Mach-O File</a></h2> 
-    <p> Intro Using otool we can get general info about the Mach-O file:
-otool -h [app_name] &gt; Mach header magic cputype cpusubtype caps filetype ncmds sizeofcmds flags 0xfeedfacf 16777228 0 0x00 2 115 11384 0x00218085 Quick refernce on the meaning:</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-fsevents/"> FSEvents</a></h2> 
-    <p> Intro Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: hex(last_event_id + 1).</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/macos-fundamentals/"> MacOS Basics</a></h2> 
-    <p> Firewall You can set specific rules to limit the traffic.
-FireVault No recovery once this password is lost.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-lacontext-vs-user-presence/"> Apple LAContext vs User Presence</a></h2> 
-    <p> In this article I&rsquo;n going to research this: how LAContext is different from User Presence, in what way it&rsquo;s better.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/mac-artifacts/"> Mac Artifacts</a></h2> 
-    <p> User Data /Users/%username%/ Password hashes sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist Account Info sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist Contains name, profile name, password hint, account image, UID</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-file-systems/"> Apple File Systems</a></h2> 
-    <p> HFS HFS+  Supports large files Efficient disk space usage unicode for filenames name forks file compression journaling dynamic resizing, defragmentation not only for MacOS  APFS  Clones Snapshots Space sharing encryption crash protection sparse files fast directory resizing  iOS has two partitions: system and user.</p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

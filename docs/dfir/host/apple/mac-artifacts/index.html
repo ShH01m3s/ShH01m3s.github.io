@@ -180,12 +180,7 @@
     <li><a href="#quarantine-files">Quarantine files</a></li>
     <li><a href="#bash-history">Bash History</a></li>
     <li><a href="#spotlight-shortcuts">Spotlight shortcuts</a></li>
-    <li><a href="#fsevents-1">FSEvents</a>
-      <ul>
-        <li><a href="#querying-interesting-data">Querying Interesting Data</a></li>
-        <li><a href="#010-editor-template">010 Editor Template</a></li>
-      </ul>
-    </li>
+    <li><a href="#fsevents-1">FSEvents</a></li>
     <li><a href="#dailyout">Daily.out</a></li>
     <li><a href="#finder-mru">Finder MRU</a></li>
     <li><a href="#appstore-downloads">AppStore Downloads</a></li>
@@ -291,7 +286,7 @@ cat BB.&lt;date&gt;.asl
 <p>🔍 Not on my Mac!</p>
 </blockquote>
 <h3 id="fsevents">FSEvents</h3>
-<p>Mount, Unmount, Volume</p>
+<p>Mount, Unmount, Volume. See <a href="/docs/dfir/host/apple/apple-fsevents">here</a> to know more about this artefact.</p>
 <h3 id="dailyout-log">Daily.Out log</h3>
 <p><code>/private/var/log.daily.log</code>.</p>
 <h3 id="unified-log">Unified Log</h3>
@@ -323,64 +318,7 @@ cat BB.&lt;date&gt;.asl
 </code></pre></div><h2 id="spotlight-shortcuts">Spotlight shortcuts</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
 </code></pre></div><h2 id="fsevents-1">FSEvents</h2>
-<p>Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: <code>hex(last_event_id + 1)</code>. Lots of zeroes appended at the beginning of the file name. Example: <code>000000000112f2d8</code>.</p>
-<p><img src="images/fsevents_example1.png" alt="fsevents_example1"></p>
-<blockquote>
-<p>⚠️ Records are stored alphabetically, not chronologically!!! By alphabetically I mean sorted by file/dir full path.</p>
-</blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/.fseventsd <span class="c1"># root of the system partition</span>
-</code></pre></div><p>Like <code>$UsnJrnl</code> for Windows. Contains lots of logs gzip-compressed archive files. Magic number: <code>1SLD</code> or <code>2SLD</code> in an uncompressed file marks a page.</p>
-<p>Log entries contain file ids which is useful for sequencing files and events. Since there are dozens of entries, it&rsquo;s better to filter them. &ldquo;Renamed&rdquo; can mean the file was moved on the same volume.</p>
-<p>Like <code>$UsnJrnl</code>. ❗️It keeps track of file ids, which is useful for <strong>sequencing</strong> events. Can be found <code>/.fseventsd</code>. Lot&rsquo;s of gzip archives.</p>
-<blockquote>
-<p>🔍 However, I couldn&rsquo;t find it on my M1 (macOS Big Sur, 11.2.3). The daemon was running (checked with Activity Monitor). Grabbing the processes path on disk (search for <code>fseventsd</code>, double-click, choose <code>Sample</code> and get the path from the result)</p>
-<p>🗒 I have found it here: <code>./System/Volumes/Data/.fseventsd</code>. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
-</blockquote>
-<p><img src="images/fseventsd-path.png" alt="fseventsd-path"></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out
-</code></pre></div><p><strong>Keywords</strong>: Mount/Volume, Safari/Chrome (web search), Renamed/.trash (trash).</p>
-<p>Lot&rsquo;s of information, so, think well whether to process it or not, since it&rsquo;ll take time.</p>
-<blockquote>
-<p>⚠️ If you insert a FAT-formatted thumb drive into a macOS machine, it will create fervents.</p>
-</blockquote>
-<p><strong>Tools</strong> 🛠: FSEventsParser.</p>
-<blockquote>
-<p>🛑 Getting an error when trying to run <code>FSEventsParser</code> on a M1. No excpetion when running it on an Intel machine though.
-✅  My solution was to run a windows version on a VM. Worked fine.</p>
-</blockquote>
-<p>More about FSEvents might be seen here [<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>]. Thanks to Nicole Ibrahim from OSDFCon, we have this filetype reverse engineered and documented.</p>
-<h3 id="querying-interesting-data">Querying Interesting Data</h3>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span>
-<span class="o">*</span><span class="p">,</span> <span class="n">_ROWID_</span> <span class="s2">&#34;NAVICAT_ROWID&#34;</span>
-<span class="k">FROM</span>
-<span class="s2">&#34;fsevents&#34;</span>
-<span class="k">WHERE</span>
-<span class="s2">&#34;filename&#34;</span> <span class="k">LIKE</span> <span class="s1">&#39;Users/%/.Trash/%&#39;</span>
-</code></pre></div><h3 id="010-editor-template">010 Editor Template</h3>
-<p>I&rsquo;m writing a template for parsing these files. However, the v2 seems to be a little different from the v1, which was described in the presentation mentioned above.</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">//------------------------------------------------
-</span><span class="c1">//--- 010 Editor v11.0.1 Binary Template
-</span><span class="c1">//
-</span><span class="c1">//      File: 
-</span><span class="c1">//   Authors: 
-</span><span class="c1">//   Version: 
-</span><span class="c1">//   Purpose: 
-</span><span class="c1">//  Category: 
-</span><span class="c1">// File Mask: 
-</span><span class="c1">//  ID Bytes: 
-</span><span class="c1">//   History: 
-</span><span class="c1">//------------------------------------------------
-</span><span class="c1"></span><span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cRed</span> <span class="p">);</span>
-<span class="kt">char</span>     <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
-<span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cNone</span> <span class="p">);</span>
-<span class="kt">int</span>     <span class="n">unknown</span><span class="p">;</span>
-<span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cYellow</span> <span class="p">);</span>
-<span class="kt">int</span>     <span class="n">pagesize</span><span class="p">;</span>
-<span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cPurple</span> <span class="p">);</span>
-<span class="n">string</span>  <span class="n">full_path1</span><span class="p">;</span>
-<span class="n">uint64</span> <span class="n">event_id</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">reason_flags</span><span class="p">;</span>
-</code></pre></div><p>The structure is however quite trivial. Following the header of 4 bytes and 4 bytes of some undocumented mysterious value, there</p>
+<p>More <a href="/docs/dfir/host/apple/apple-fsevents">here</a>.</p>
 <h2 id="dailyout">Daily.out</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/private/var/log/daily.out
 </code></pre></div><h2 id="finder-mru">Finder MRU</h2>
@@ -422,7 +360,6 @@ cat BB.&lt;date&gt;.asl
 <p>[<a href="https://www.youtube.com/watch?v=FOpiDSAD-Yk">7</a>] MacOS DS_Stores: Like Shellbags but for Macs - SANS DFIR Summit 2019</p>
 <p>[<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">9</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison</p>
 <p>[<a href="">9</a>] OSDF Conference 2020 - Apollo</p>
-<p>[<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>] OSDFCon, Introduction to FSEvents</p>
 
   </div>
 </article>
