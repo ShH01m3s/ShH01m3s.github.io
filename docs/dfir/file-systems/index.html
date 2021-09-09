@@ -174,7 +174,7 @@
     <li><a href="#ntfs">NTFS</a>
       <ul>
         <li><a href="#timestamps-1">Timestamps</a></li>
-        <li><a href="#metadata-1">Metadata</a></li>
+        <li><a href="#ntfs-metadata">NTFS Metadata</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -362,6 +362,7 @@ inc ebp
 <blockquote>
 <p>⚠️ If you insert a FAT-formatted thumb drive into a macOS machine, it will create fervents.</p>
 </blockquote>
+<p><strong>Tools</strong> 🛠: FSEventsParser.</p>
 <h2 id="ntfs">NTFS</h2>
 <h3 id="timestamps-1">Timestamps</h3>
 <p>📆 <code>Jan 1, 1601</code></p>
@@ -401,7 +402,8 @@ inc ebp
 </tbody>
 </table>
 <h4 id="changed-1">Changed</h4>
-<h3 id="metadata-1">Metadata</h3>
+<h3 id="ntfs-metadata">NTFS Metadata</h3>
+<p>These files cannot be opened from the user space, it&rsquo;s maintained by NTFS driver. So, even if shown by Directory Snoop, you can&rsquo;t open it on a live system. You can view the hex data though in DS-NTFS. Another option would be to make a disk image and carve the files. View some more information here [<a href="http://blog.opensecurityresearch.com/2011/10/how-to-acquire-locked-files-from.html">3</a>].</p>
 <h4 id="extendusnjrnl"><code>\$Extend\$UsnJrnl</code></h4>
 <p>Journal change log for NTFS system. EVERYTHING! File and directory deletion, creation, encryption.</p>
 <h4 id="logfile"><code>$LogFile</code></h4>
@@ -410,6 +412,8 @@ inc ebp
 <p>[<a href="">1</a>] Windows OS file system for 27 years</p>
 <p>[<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">2</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison, Magnet Webinar</p>
 <p>NTFS file system, Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2021/07/15/playing-with-case-insensitive-file-names/">1</a>] Playing with case-insensitive file names, [<a href="https://dfir.ru/2021/01/10/standard_information-vs-file_name/">2</a>] $STANDARD_INFORMATION vs. $FILE_NAME, [<a href="https://dfir.ru/2020/10/03/exporting-registry-hives-from-a-live-system/">3</a>] Exporting registry hives from a live system, [<a href="https://dfir.ru/2020/06/12/trim-and-unallocated-space/">4</a>] Trim and unallocated space, [<a href="https://dfir.ru/2020/05/23/onedrive-and-ntfs-last-access-timestamps/">5</a>] OneDrive and NTFS last access timestamps, [<a href="https://dfir.ru/2020/05/18/deceptive-ntfs-short-file-names/">6</a>] Deceptive NTFS short file names, [<a href="https://dfir.ru/2020/02/23/you-write-to-a-logical-drive-when-you-read-from-it/">7</a>] You write to a logical drive when you read from it, [<a href="https://dfir.ru/2019/04/23/ntfs-large-clusters/">8</a>] NTFS: large clusters, [<a href="https://dfir.ru/2019/02/28/ntfs-unallocated-data-marked-as-allocated/">9</a>] NTFS: unallocated data marked as allocated, [<a href="https://dfir.ru/2019/02/16/how-the-logfile-works/">10</a>] How the $LogFile works?, [<a href="https://dfir.ru/2019/01/19/ntfs-today/">11</a>] NTFS today, [<a href="https://dfir.ru/2019/01/08/hibernation-and-ntfs/">12</a>] Hibernation and NTFS, [<a href="https://dfir.ru/2018/12/16/the-inconsistency-of-last-access-timestamps/">13</a>] The (in)consistency of last access timestamps, [<a href="https://dfir.ru/2018/12/08/the-last-access-updates-are-almost-back/">14</a>] The “Last Access” updates are almost back.</p>
+<p>[<a href="http://blog.opensecurityresearch.com/2011/10/how-to-acquire-locked-files-from.html">3</a>] How to acquire &ldquo;locked&rdquo; files from a running Windows system, By Pär Österberg Medina</p>
+<p>[<a href="https://stackoverflow.com/questions/19499257/opening-mft-file-causes-access-denied-even-if-run-as-administrator">4</a>] Opening $MFT file causes Access denied even if run as administrator, StackOverflow, answered by <a href="https://stackoverflow.com/users/175201/eric-brown">Eric Brown</a></p>
 
   </div>
 </article>

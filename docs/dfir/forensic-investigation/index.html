@@ -810,11 +810,11 @@
 <blockquote>
 <p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
 </blockquote>
-<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID!</p>
+<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
 <blockquote>
 <p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
 </blockquote>
-<p>Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
+<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
 <p>============================================================================</p>
 <p><strong>Windows</strong></p>
 <p>Local or domain account?</p>
@@ -833,6 +833,8 @@
 <blockquote>
 <p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
 </blockquote>
+<p><strong>Tools</strong> 🛠: <code>plutil</code> (built-in on Macs).</p>
+<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
 <p>============================================================================</p>
 <h3 id="malware">Malware</h3>
 <p>APT - smarter malware.</p>
@@ -846,6 +848,7 @@
 <li>Mal behaviour?</li>
 <li>Reverse - mal instructions</li>
 </ul>
+<p>❓ <em>What A/V solution is being used?</em> 🦠 🛑 If it&rsquo;s Windows, there might be just Windows Defender or some third-party AV. Find the logs for this particular AV solution. More <a href="/docs/dfir/host/windows/windows-artifacts#av-logs">here</a> about this Windows artifact. As for macOS, it has a built-in gatekeeper which logs all these alerts and can even detect known malware. More <a href="/docs/dfir/host/apple/mac-artifacts#Quarantine-files">here</a> about this macOS artifact.</p>
 <h4 id="persistence">Persistence</h4>
 <p><strong>Startup</strong>. Are there mal persistence mechanisms?</p>
 <ol>
