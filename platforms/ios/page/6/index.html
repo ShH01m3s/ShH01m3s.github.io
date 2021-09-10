@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Apple Basics 📚 - Analyst</title>
+  <title>ios - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -137,70 +137,122 @@
     
     
     
+
     
     
 
+
+
+ 
+ <h1 class="title">ios</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/host/mobile/ios/ios-keychain/"> iOS Keychain</a></h2> 
+    <p> In this article I&rsquo;m trying to study how keychain works.
+Metaphor There once lived a monkey 🐒 George.</p>
+
+
+
+
+
+<style>
+    body {
+    color: #212121;
+}
+
+h2 {
+    font-weight: bold;
     
-    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
-      <div class="row">
-        <div class="col-12 col-md-3 mb-3">
-          <div class="sidebar">
+}
+
+ 
+ 
+ 
+.pagination {
+    display: flex;
+    list-style: none;
+    border-radius: .25rem;
+    margin: 20px 0;
+    padding: 0;
+    justify-content: center;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: .75rem 1rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #2bbc8a;
+    background-color: #fff;
+}
+
+.homepage .page-link,
+.listing .page-link {
+    background-color: #fff;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #2bbc8a;;
+    border-color:#2bbc8a;
+    border-radius: 30px;
+}
+
+</style>
+<nav aria-label="page navigation">
+    <ul class="pagination">
+        
+        
+        <li class="page-item"><a href="/platforms/ios/" rel="first" class="page-link">« First</a></li>
+        
+
+        
+        <li class="page-item"><a href="/platforms/ios/page/5/" rel="prev" class="page-link">‹ Prev</a></li>
+        
+
+        
+             
             
-<div class="docs-menu">
-  <p>
-    <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
-  </p>
- </div> 
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+            
+        
+            
+        
+            
+        
+            
+             
+            <li class="page-item"><a href="/platforms/ios/page/4/" class="page-link">4</a></li>
+            
+        
+            
+             
+            <li class="page-item"><a href="/platforms/ios/page/5/" class="page-link">5</a></li>
+            
+        
+             
+            <li class="page-item active"><a href="/platforms/ios/page/6/" class="page-link">6</a></li>
+            
+        
+
+        
+
+        
+        
+    </ul>
+</nav>
 
 
-
-          </div>
-        </div>
-        <div class="col-12 col-md-9">
-          
-
-
-
- 
- <h1 class="title">Apple Basics 📚</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-encryption/"> Apple Encryption</a></h2> 
-    <p> Applications or even OS itself doesn&rsquo;t know the keys that are protected by Secure Enclave. OS only sees Keychain, but the Security Enclave is separated.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-hibernation/"> Apple Hiberbation</a></h2> 
-    <p> <p><em>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-logs/"> Apple Logs</a></h2> 
-    <p> Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example).</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-mach-o-file/"> Apple Mach-O File</a></h2> 
-    <p> Intro Using otool we can get general info about the Mach-O file:
-otool -h [app_name] &gt; Mach header magic cputype cpusubtype caps filetype ncmds sizeofcmds flags 0xfeedfacf 16777228 0 0x00 2 115 11384 0x00218085 Quick refernce on the meaning:</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-fsevents/"> FSEvents</a></h2> 
-    <p> Intro Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: hex(last_event_id + 1).</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/macos-fundamentals/"> MacOS Basics</a></h2> 
-    <p> Firewall You can set specific rules to limit the traffic.
-FireVault No recovery once this password is lost.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-lacontext-vs-user-presence/"> Apple LAContext vs User Presence</a></h2> 
-    <p> In this article I&rsquo;n going to research this: how LAContext is different from User Presence, in what way it&rsquo;s better.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/mac-artifacts/"> Mac Artifacts</a></h2> 
-    <p> User Data /Users/%username%/ Password hashes sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist Account Info sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist Contains name, profile name, password hint, account image, UID</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-file-systems/"> Apple File Systems</a></h2> 
-    <p> HFS HFS+  Supports large files Efficient disk space usage unicode for filenames name forks file compression journaling dynamic resizing, defragmentation not only for MacOS  APFS  Clones Snapshots Space sharing encryption crash protection sparse files fast directory resizing  iOS has two partitions: system and user.</p>
-
-
-
-
-
-        </div>
-      </div>
-    </div>
     
   </div>
 

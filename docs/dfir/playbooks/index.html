@@ -153,6 +153,28 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#data-exfiltration">Data Exfiltration</a>
+      <ul>
+        <li><a href="#preparation-">Preparation 🔪🥒</a></li>
+        <li><a href="#nist-detection-sans-identification-">NIST Detection (SANS Identification) 🚨</a></li>
+        <li><a href="#nist-analysis-sans-identification---">NIST Analysis (SANS Identification) 🔬 🧪 🔎</a></li>
+        <li><a href="#containment-">Containment 🪤</a></li>
+        <li><a href="#eradiction-">Eradiction 🌱</a></li>
+        <li><a href="#recovery-">Recovery 💊</a></li>
+        <li><a href="#nist-post-incident-activity-sans-lessons-learned-">NIST Post-incident Activity (SANS Lessons Learned) 📚</a></li>
+      </ul>
+    </li>
+    <li><a href="#social-engineering">Social Engineering</a>
+      <ul>
+        <li><a href="#preparation--1">Preparation 🥒</a></li>
+        <li><a href="#nist-detection-sans-identification--1">NIST Detection (SANS Identification) 🚨</a></li>
+        <li><a href="#nist-analysis-sans-identification----1">NIST Analysis (SANS Identification) 🔬 🧪 🔎</a></li>
+        <li><a href="#containment--1">Containment 🪤</a></li>
+        <li><a href="#eradiction--1">Eradiction 🌱</a></li>
+        <li><a href="#recovery--1">Recovery 💊</a></li>
+        <li><a href="#nist-post-incident-activity-sans-lessons-learned--1">NIST Post-incident Activity (SANS Lessons Learned) 📚</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -203,10 +225,93 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="references">References</h2>
+    <p><em>These are my ideas on IR playbooks for training. Don&rsquo;t judge :) We don&rsquo;t evolve if we don&rsquo;t make mistakes and learn from them. And we don&rsquo;t make mistakes if we do nothing. Even if I am risking to become an object of ridicule, I am posting this article. I am planning to imporve once I learn more or gain some relevant experience.</em></p>
+<h2 id="data-exfiltration">Data Exfiltration</h2>
+<h3 id="preparation-">Preparation 🔪🥒</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Identify confidential information and limit the amount of people allowed to work with it. Remember the least privilege principle.</li>
+<li><input disabled="" type="checkbox"> Force people to sign NDA, consult with the legal department on the best ways to do so.</li>
+<li><input disabled="" type="checkbox"> Deploy some automated attachment scanning. For example, place some magic value in the metadat of all documents that contain confidential data. This will not protect against techies though.</li>
+<li><input disabled="" type="checkbox"> For every employee there must be a digital signature, which is applied to the document each time it&rsquo;s created or copied. Force every e-document to be signed with this signature.</li>
+<li><input disabled="" type="checkbox"> Restrict copying documents to the external media, such as USB drives (this sort of security mechanism was deployes at Allianz some time ago, not sure about now).</li>
+<li><input disabled="" type="checkbox"> Support high loyalty and corporate culture. People who like their company and job, who feel appreciated and well-paid, will have less temptation to sell the information, I presume. If you exfiltrate some data and this data will decrease the revenue of the company, you might have no bonus.</li>
+<li><input disabled="" type="checkbox"> Configure and IDS so that it will inspect emails to external addresses that have no BCC and CC. It&rsquo;s highly unlikely that a person exfiltrating some data will add a person in a CC field.</li>
+</ul>
+<h3 id="nist-detection-sans-identification-">NIST Detection (SANS Identification) 🚨</h3>
+<ul>
+<li><input disabled="" type="checkbox"> External parties might inform on data exfiltration or another company has announced some product that was originally invented by this company.</li>
+<li><input disabled="" type="checkbox"> Alerts received from some IDS.</li>
+</ul>
+<h3 id="nist-analysis-sans-identification---">NIST Analysis (SANS Identification) 🔬 🧪 🔎</h3>
+<ul>
+<li><input disabled="" type="checkbox"> When some data is known to be exfiltrated, refer to your policy, that states who has the access to this data.</li>
+<li><input disabled="" type="checkbox"> If you have the e-document iteslf and it&rsquo;s digitally signed, then you have some point to start.</li>
+<li><input disabled="" type="checkbox"> Review the logs to see, when the oriiginal document in question was last opened and modified and by whom. Interrogate the person.</li>
+<li><input disabled="" type="checkbox"> Review the network traffic to determine which machine is responsible for this leak (not neccessarilly the person using it).</li>
+<li><input disabled="" type="checkbox"> Check the network traffic for other possible leaks.</li>
+<li><input disabled="" type="checkbox"> Check the host for possible malware intrusion or hacking activity.</li>
+<li><input disabled="" type="checkbox"> Im case it&rsquo;s a Mac, check AirDrop logs as well.</li>
+</ul>
+<h3 id="containment-">Containment 🪤</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Isolate the host that&rsquo;s suspected to be leaking the information.</li>
+<li><input disabled="" type="checkbox"> Restrict the access to confidential information.</li>
+<li><input disabled="" type="checkbox"> Generate new digital certificate for the person whose DS was compromised (that is if this person is not guilty, of course).</li>
+</ul>
+<h3 id="eradiction-">Eradiction 🌱</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Remove the malware (if found).</li>
+<li><input disabled="" type="checkbox"> Reimage the host (if neccessary). For example, if the malware was not found but it&rsquo;s known to be there, from the IR perspective you are supposed to act fast, no time for exploring and learning. Just get the machine back to the working state as soon as possible.</li>
+</ul>
+<h3 id="recovery-">Recovery 💊</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Scan the host for vulnerabilities.</li>
+<li><input disabled="" type="checkbox"> Monitor it for anomalous traffic again.</li>
+<li><input disabled="" type="checkbox"> Review the access policy and IDS rules.</li>
+</ul>
+<h3 id="nist-post-incident-activity-sans-lessons-learned-">NIST Post-incident Activity (SANS Lessons Learned) 📚</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Think about what was wrong. May be you were not quick enough.</li>
+</ul>
+<h2 id="social-engineering">Social Engineering</h2>
+<p>Below is an example from the book [<a href="">2</a>].</p>
+<h3 id="preparation--1">Preparation 🥒</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Train the employee to detect suspocious emails and forward them to the security team.</li>
+<li><input disabled="" type="checkbox"> Deploy some automated attachment scanning.</li>
+</ul>
+<h3 id="nist-detection-sans-identification--1">NIST Detection (SANS Identification) 🚨</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Employees forward suspicios emails.</li>
+<li><input disabled="" type="checkbox"> Alerts received from some AV or HIPS.</li>
+</ul>
+<h3 id="nist-analysis-sans-identification----1">NIST Analysis (SANS Identification) 🔬 🧪 🔎</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Examine the compromised host memory.</li>
+<li><input disabled="" type="checkbox"> Examine the event logs for suspicious entries.</li>
+<li><input disabled="" type="checkbox"> Examine the network traffic going to and from the host.</li>
+</ul>
+<h3 id="containment--1">Containment 🪤</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Isolate the host if it was proved to be under attack.</li>
+</ul>
+<h3 id="eradiction--1">Eradiction 🌱</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Remove the malware identified.</li>
+<li><input disabled="" type="checkbox"> Reimage the host (if neccessary). For example, if the malware was not found but it&rsquo;s known to be there, from the IR perspective you are supposed to act fast, no time for exploring and learning. Just get the machine back to the working state as soon as possible.</li>
+</ul>
+<h3 id="recovery--1">Recovery 💊</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Scan the host for vulnerabilities.</li>
+<li><input disabled="" type="checkbox"> Monitor it for anomalous traffic.</li>
+</ul>
+<h3 id="nist-post-incident-activity-sans-lessons-learned--1">NIST Post-incident Activity (SANS Lessons Learned) 📚</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Think about what was wrong. May be you were not quick enough.</li>
+</ul>
+<h2 id="references">References</h2>
 <p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">1</a>] IBM course</p>
 <p>[<a href="">2</a>] Digital Forensics and IR, Johansen G.</p>
-
   </div>
 </article>
 </div>

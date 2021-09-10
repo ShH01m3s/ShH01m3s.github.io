@@ -153,6 +153,14 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#logs">Logs</a>
+      <ul>
+        <li><a href="#legal-considerations">Legal Considerations</a></li>
+        <li><a href="#devices">Devices</a></li>
+        <li><a href="#siem">SIEM</a></li>
+      </ul>
+    </li>
+    <li><a href="#packet-captures">Packet Captures</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -216,7 +224,28 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="references">References</h2>
+    <h2 id="logs">Logs</h2>
+<h3 id="legal-considerations">Legal Considerations</h3>
+<ol>
+<li>There should be a logging policy and users should be well aware of it, what&rsquo;s being logged. Mind the privacy issues.</li>
+<li>Logs should be close to the event, otherwise they migth be rejected in court.</li>
+<li>There should be people, who know what devices keep what logs, what structure do they have. These people should also test the software from time to time to make sure the logs are reliable. They might be asked to testify in court.</li>
+<li>It&rsquo;s also preferrable that the logs structure is consistent across the enterprise.</li>
+<li>Prolonged failures of logging should be documented and the reason determined as well.</li>
+<li>Keep in mind that in case a legal prosecution, these logs will be available to the opposing counsel.</li>
+<li>The backups and copies should be kept until the court states that they are no longer needed. For some standards there might be determined periods for keeping the logs. For example, in case of PCI-DSS it&rsquo;s 1 year.</li>
+</ol>
+<h3 id="devices">Devices</h3>
+<p>Most of the devices keep some sort of logs. As for the network related issues these are switches, routers, firewalls, IDS and IPS, web proxies, DC and authentication servers, DCHP server and application servers.</p>
+<h3 id="siem">SIEM</h3>
+<p>SIEMs are log aggregators. When configues correctly all logs and events from all systems in the enterprise flows to a cetralized repository where it can then be analysed. Sometimes these SIEM analyse what&rsquo;s normal and what&rsquo;s not. However, they are quite costy 💰.</p>
+<h2 id="packet-captures">Packet Captures</h2>
+<p>There are several ways to capture the network traffic between machines.</p>
+<p><strong>Network tap</strong> - a device that&rsquo;s place between other two or more devices on the network. I presume, hub can be considered a tap.</p>
+<p><strong>SPAN port</strong> is another <a href="/docs/dfir/network/osi/network/attacks#span-port">option</a>.</p>
+<p><strong>Packet sniffer</strong> (<code>tcpdump</code> or Wireshark 🦈) installed on the host.</p>
+<h2 id="references">References</h2>
+<p>[<a href="">1</a>] Digital forensics and Incident Response, G. Johansen</p>
 
   </div>
 </article>

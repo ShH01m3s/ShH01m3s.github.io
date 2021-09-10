@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Apple Basics 📚 - Analyst</title>
+  <title>Apple Logs - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -148,9 +148,12 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
+   <a href="/docs/dfir/host/apple/"> Back to Apple Basics 📚 Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents"></nav>
+ </aside>
+ </div>
 
 
 
@@ -158,45 +161,77 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Apple Logs</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/ios">ios</a>
+          
+            
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+            
+          <a class="platform-link" href="/platforms/mac">mac</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <p>Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example). By the way, <code>syslog</code> was replaced as well on iOS (see <a href="/docs/dfir/host/mobile/ios/ios-logs">here</a>). Some still exist: <code>daily.out</code>, cups, <code>install.log</code>.</p>
+<p>New unified log path in 2 directories:</p>
+<ul>
+<li><code>/var/db/diagnistics</code></li>
+<li><code>/var/db/uuidtext</code></li>
+</ul>
 
- 
- <h1 class="title">Apple Basics 📚</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-encryption/"> Apple Encryption</a></h2> 
-    <p> Applications or even OS itself doesn&rsquo;t know the keys that are protected by Secure Enclave. OS only sees Keychain, but the Security Enclave is separated.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-hibernation/"> Apple Hiberbation</a></h2> 
-    <p> <p><em>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-logs/"> Apple Logs</a></h2> 
-    <p> Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example).</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-mach-o-file/"> Apple Mach-O File</a></h2> 
-    <p> Intro Using otool we can get general info about the Mach-O file:
-otool -h [app_name] &gt; Mach header magic cputype cpusubtype caps filetype ncmds sizeofcmds flags 0xfeedfacf 16777228 0 0x00 2 115 11384 0x00218085 Quick refernce on the meaning:</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-fsevents/"> FSEvents</a></h2> 
-    <p> Intro Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: hex(last_event_id + 1).</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/macos-fundamentals/"> MacOS Basics</a></h2> 
-    <p> Firewall You can set specific rules to limit the traffic.
-FireVault No recovery once this password is lost.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-lacontext-vs-user-presence/"> Apple LAContext vs User Presence</a></h2> 
-    <p> In this article I&rsquo;n going to research this: how LAContext is different from User Presence, in what way it&rsquo;s better.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/mac-artifacts/"> Mac Artifacts</a></h2> 
-    <p> User Data /Users/%username%/ Password hashes sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist Account Info sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist Contains name, profile name, password hint, account image, UID</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/apple/apple-file-systems/"> Apple File Systems</a></h2> 
-    <p> HFS HFS+  Supports large files Efficient disk space usage unicode for filenames name forks file compression journaling dynamic resizing, defragmentation not only for MacOS  APFS  Clones Snapshots Space sharing encryption crash protection sparse files fast directory resizing  iOS has two partitions: system and user.</p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
