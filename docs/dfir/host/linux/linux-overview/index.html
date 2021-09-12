@@ -159,20 +159,10 @@
       </ul>
     </li>
     <li><a href="#main-directories">Main Directories</a></li>
+    <li><a href="#disks-and-devices">Disks and Devices</a></li>
     <li><a href="#shells">Shells</a>
       <ul>
         <li><a href="#shortcuts">Shortcuts</a></li>
-      </ul>
-    </li>
-    <li><a href="#fuc">FUC</a>
-      <ul>
-        <li><a href="#system">System</a></li>
-        <li><a href="#remote">Remote</a></li>
-        <li><a href="#processes">Processes</a></li>
-        <li><a href="#memory">Memory</a></li>
-        <li><a href="#files">Files</a></li>
-        <li><a href="#network">Network</a></li>
-        <li><a href="#about">About</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -296,6 +286,10 @@
 <p><code>tmp</code> - contains temprory files, which are deleted on system reboot.</p>
 <p><code>home</code> - main user directory.</p>
 <p><code>boot</code> - boot loaded files are here.</p>
+<h2 id="disks-and-devices">Disks and Devices</h2>
+<blockquote>
+<p>⚠️ If PATA and SATA are both used, PATA are listed first</p>
+</blockquote>
 <h2 id="shells">Shells</h2>
 <table>
 <thead>
@@ -335,79 +329,6 @@
 <h3 id="shortcuts">Shortcuts</h3>
 <p><code>Ctrl+A</code>, <code>Ctrl+E</code> - move the cursor to the start or end of the line.</p>
 <p><code>Ctrl+R</code>, <code>Ctrl+S</code> - search bash history (backwards and forwards). Terminate with <code>Ctrl+G</code>.</p>
-<h2 id="fuc">FUC</h2>
-<p><strong>F</strong>requently <strong>U</strong>sed <strong>C</strong>ommands.</p>
-<p><code>uname -a</code> - extended system information.</p>
-<p><code>tar cvf archive.tar folder/</code> - create archive.</p>
-<p><code>tar xvf archive.tar</code> - extract</p>
-<p><code>tar tvf archive.tar</code>  - view <code>tar</code> file.</p>
-<p><code>find iname filename</code></p>
-<p><code>find iname filename exec md5sum {} \;</code> - find all files named <code>filename</code> and execute <code>md5sum</code> against them.</p>
-<p><code>find ~ -empty</code> - find all empty files.</p>
-<p><code>ls -ltr</code> - order files based on last modified time (reverse order)</p>
-<p><code>gzip test.txt</code> - create <code>gz</code> archive</p>
-<p><code>gzip -d test.gz</code> - unzip</p>
-<p><code>unzip test.zip</code></p>
-<p><code>unzip -l test.zip</code> - view the contents of test.zip</p>
-<p><code>shutdown -h now</code>, <code>reboot</code>, <code>init 6</code>. Now they are the same, but used to be different internal process.</p>
-<p><code>shutdown -h +10</code> - shutdown in 10 minutes.</p>
-<p><code>shutdown -r now</code> - reboot</p>
-<p><code>shutdown -Fr now</code> - check the filesystem on reboot.</p>
-<h3 id="system">System</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">su - &lt;user_name&gt; <span class="c1"># switch to user_name user</span>
-su - &lt;user_name&gt; -c <span class="s1">&#39;ls&#39;</span> <span class="c1">#  run ls command as user_name user</span>
-</code></pre></div><h3 id="remote">Remote</h3>
-<p><strong>FTP</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ftp &lt;IP/hostname&gt;
-&gt; mget *.html <span class="c1"># get files</span>
-&gt; mls *.html <span class="c1"># view files</span>
-</code></pre></div><h3 id="processes">Processes</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ps -ef <span class="p">|</span> more <span class="c1"># view currently running processes</span>
-ps -Hef <span class="p">|</span> more <span class="c1"># same but in a tree structure</span>
-
-top <span class="c1"># top processes by CPU used. Type Shift+O to sort by columns</span>
-top -u &lt;usename&gt; <span class="c1"># filter by user</span>
-
-<span class="nb">kill</span> <span class="m">9</span> &lt;PID&gt; <span class="c1"># terminate a process</span>
-
-</code></pre></div><h3 id="memory">Memory</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">free <span class="c1"># show slack, free, used space</span>
-free -g <span class="c1"># show RAM capabilties</span>
-
-df <span class="c1"># system disk usage</span>
-df -h <span class="c1"># in human-readable form (Gb)</span>
-df -T <span class="c1"># file system type</span>
-</code></pre></div><h3 id="files">Files</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rm -i &lt;filename&gt; <span class="c1"># remove with confirmation</span>
-rm -r &lt;partial_or_full_name&gt; . <span class="c1"># recursive starting from the current directory</span>
-
-rmdir <span class="c1"># rm dir if it&#39;s empty</span>
-
-cp -p &lt;filename1&gt; &lt;filename2&gt; <span class="c1"># copy preserving attributes</span>
-cp -i &lt;filename1&gt; &lt;filename2&gt; <span class="c1"># confirm if file exists</span>
-
-mv -i &lt;filename1&gt; &lt;filename2&gt; <span class="c1"># rename filename1 to filename2 and ask to confirm</span>
-mv -f &lt;filename1&gt; &lt;filename2&gt; <span class="c1"># overwrite without promting</span>
-mv -v &lt;filename1&gt; &lt;filename2&gt; <span class="c1"># print what&#39;s happening during rename</span>
-
-cat &lt;filename1&gt; <span class="c1"># show the file contents (text file only)</span>
-cat &lt;filename1&gt; &lt;filename2&gt; <span class="c1"># concat filename1 and filename2</span>
-
-mkdir -p dir1/dir2/dir3 <span class="c1"># create nested directories if don&#39;t exist.</span>
-
-locate &lt;filename&gt; <span class="c1"># you will need to create index first, but that&#39;s done automatically when first run</span>
-
-tail -n &lt;number_of_lines&gt; &lt;filename&gt; <span class="c1"># view last number_of_lines lines of a filename</span>
-tail -f &lt;log_file&gt; <span class="c1"># view file in real time, useful for logs that are constantly changing</span>
-
-</code></pre></div><p>⁉️ Where is the index for <code>locate</code> locates?  Could be useful for 🔍 forensics?</p>
-<h3 id="network">Network</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ifconfig -a <span class="c1"># all interfaces + status</span>
-ifconfig eth0 up
-ifconfig eth0 down
-</code></pre></div><h3 id="about">About</h3>
-<p><code>man</code>- extensive. Better pipe to <code>more</code> or <code>less</code>.</p>
-<p><code>whatis</code> - signle line.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.liquidweb.com/kb/linux-runlevels-explained/">1</a>] About Linux run levels</p>
 

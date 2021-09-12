@@ -163,6 +163,15 @@
     <li><a href="#mbr">MBR</a></li>
     <li><a href="#gpt">GPT</a></li>
     <li><a href="#file-systems">File Systems</a></li>
+    <li><a href="#extx">ExtX</a>
+      <ul>
+        <li><a href="#2">2</a></li>
+        <li><a href="#3">3</a></li>
+        <li><a href="#4">4</a></li>
+      </ul>
+    </li>
+    <li><a href="#reiserfs">ReiserFS</a></li>
+    <li><a href="#xfs">XFS</a></li>
     <li><a href="#hfs">HFS</a></li>
     <li><a href="#hfs-1">HFS+</a></li>
     <li><a href="#apfs">APFS</a>
@@ -276,6 +285,8 @@ inc ebp
 <th>Name</th>
 <th>Partition size (min/max)</th>
 <th>Cluster size (min/max)</th>
+<th>File Max Size</th>
+<th><code>fstab</code> code</th>
 </tr>
 </thead>
 <tbody>
@@ -283,24 +294,34 @@ inc ebp
 <td>FAT16</td>
 <td>16Mb/2Gb</td>
 <td>2Kb/32Kb</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>FAT32</td>
 <td>260Mb/32Gb 🔍</td>
 <td>2Kb/32Kb</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>NTFS 1.1</td>
 <td>500Mb/8Gb 🔍</td>
 <td>512B/8Kb</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>NTFS 3.0</td>
 <td>500Mb/16EB</td>
 <td>512B/64Kb</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>HFS</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -308,15 +329,79 @@ inc ebp
 <td>HFS+</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>APFS</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ext2</td>
+<td>16Tb</td>
+<td></td>
+<td>2Tb</td>
+<td><code>ext2</code></td>
+</tr>
+<tr>
+<td>ext3</td>
+<td>16Tb</td>
+<td></td>
+<td>2Tb</td>
+<td><code>ext3</code></td>
+</tr>
+<tr>
+<td>ext4</td>
+<td>1Eb</td>
+<td></td>
+<td>16Tb</td>
+<td><code>ext4</code></td>
+</tr>
+<tr>
+<td>ReiserFS</td>
+<td>16Tb</td>
+<td></td>
+<td>8Tb</td>
+<td><code>resiserfs</code></td>
+</tr>
+<tr>
+<td>JFS</td>
+<td>32Pb</td>
+<td></td>
+<td>4Tb</td>
+<td><code>jfs</code></td>
+</tr>
+<tr>
+<td>XFS</td>
+<td>16Eb</td>
+<td></td>
+<td>8Eb</td>
+<td><code>xfs</code></td>
+</tr>
+<tr>
+<td>Btrfs</td>
+<td>16Eb</td>
+<td></td>
+<td>16Eb</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <p>🔍 - this is from M. Graves' book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
+<h2 id="extx">ExtX</h2>
+<h3 id="2">2</h3>
+<p>No journaling</p>
+<h3 id="3">3</h3>
+<p>Same but + journaling</p>
+<h3 id="4">4</h3>
+<p>New FS</p>
+<h2 id="reiserfs">ReiserFS</h2>
+<p>Allows storing multiple files in a single sector. exclamation mark ❗️Unique to this FS!</p>
+<h2 id="xfs">XFS</h2>
+<p>Good for multimedia files.</p>
 <h2 id="hfs">HFS</h2>
 <h2 id="hfs-1">HFS+</h2>
 <p>Since 1998, since macOS 8.1. Was replaced by APFS.</p>
