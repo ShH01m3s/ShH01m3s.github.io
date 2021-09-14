@@ -153,7 +153,21 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#checklist">Checklist</a></li>
     <li><a href="#on-scene-tools-">On-scene tools 🛠:</a></li>
+    <li><a href="#options">Options</a>
+      <ul>
+        <li><a href="#clone">Clone</a></li>
+        <li><a href="#copy">Copy</a></li>
+        <li><a href="#imaging">Imaging</a></li>
+      </ul>
+    </li>
+    <li><a href="#validating-the-tools">Validating the tools</a>
+      <ul>
+        <li><a href="#validate-sanitisation">Validate Sanitisation</a></li>
+        <li><a href="#validate-software-write-blocker">Validate Software Write Blocker</a></li>
+      </ul>
+    </li>
     <li><a href="#capturing-the-scene-">Capturing the scene ✍️</a>
       <ul>
         <li><a href="#prepare-documentation">Prepare documentation</a></li>
@@ -161,6 +175,10 @@
         <li><a href="#take-photos-and-videos">Take photos and videos</a></li>
         <li><a href="#documenting">Documenting</a></li>
         <li><a href="#acquisition">Acquisition</a></li>
+        <li><a href="#ftk-imager">FTK Imager</a></li>
+        <li><a href="#dd"><code>dd</code></a></li>
+        <li><a href="#write-blockers">Write Blockers</a></li>
+        <li><a href="#ram">RAM</a></li>
         <li><a href="#package-and-transport">Package and transport</a></li>
       </ul>
     </li>
@@ -229,6 +247,21 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>First responders first arrive on the scene. Not always they are digital forensic experts. But what if I get so lucky to be the first responder?</em></p>
+<h2 id="checklist">Checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <em>❓All photos taken before touching the scene?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Chain of custody properly carried out?</em></li>
+<li><input disabled="" type="checkbox"> Remove evidence drive from the PC</li>
+<li><input disabled="" type="checkbox"> Sanitize the target disk</li>
+<li><input disabled="" type="checkbox"> <em>❓Is all the write blocker to be used verified prior to this investigation?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Is the imaging software verified according to the policy or at least once a month? (the whole drive is imaged)?</em></li>
+<li><input disabled="" type="checkbox"> Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables)</li>
+<li><input disabled="" type="checkbox"> <em>❓Is the WB option on?</em></li>
+<li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
+<li><input disabled="" type="checkbox"> Image the evidence.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the image that was taken</strong> (post-hash) and make sure it matches the above ones taken previously.</li>
+</ul>
 <h2 id="on-scene-tools-">On-scene tools 🛠:</h2>
 <ul>
 <li>A PC technician&rsquo;s toolkit 🧰 (screwdrivers 🪛, squeezers, scissors✂️ , portable batteries 🔋and etc) to be able to remove HDD, lockdown cables etc) ✅.</li>
@@ -239,6 +272,29 @@
 <li>Documents (chain of custody, notes 🗒, warrants/subpoenas).</li>
 <li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilize target media, flash drives for live/dead acquisition, bootable ).</li>
 </ul>
+<h2 id="options">Options</h2>
+<h3 id="clone">Clone</h3>
+<p>Bit-by-bit copy on another drive. Can even boot from it.</p>
+<h3 id="copy">Copy</h3>
+<p>Only files and their slack space is copied.</p>
+<h3 id="imaging">Imaging</h3>
+<p>Bit-by-bit copy, but stored as a file. The image can be compressed to save space and store data on a smaller disk.</p>
+<p>Types:</p>
+<ul>
+<li><code>dd</code>. No compression.</li>
+<li><code>E01</code>. Compressed.</li>
+<li><code>AFF</code>. Compressed.</li>
+<li><code>Smart</code>. Compressed.</li>
+<li>Etc</li>
+</ul>
+<h2 id="validating-the-tools">Validating the tools</h2>
+<h3 id="validate-sanitisation">Validate Sanitisation</h3>
+<p>Check that the target disk is all <code>0</code>s. For that use <code>HxD</code> or <code>010 Editor</code> (?) and run a checksum 64 against it. It should be all zeroes.</p>
+<h3 id="validate-software-write-blocker">Validate Software Write Blocker</h3>
+<p>In order to validate the software WB, uplug the drive, turn the WriteBlocker on, plug the drive back in and run some software capable of calculating the hash of a drive (FTK Imager, for example). Then document the result. This is a <strong>pre-hash value</strong>. Remove the drive from FTK and close the tool (in order to prevent it reading from cache). Try writing something to the drive or changing a file and then follow the above steps again. The hash values should be the same!</p>
+<blockquote>
+<p>⚠️ Make sure to run the hashing funciton against the physical drive, not the logical one!</p>
+</blockquote>
 <h2 id="capturing-the-scene-">Capturing the scene ✍️</h2>
 <h3 id="prepare-documentation">Prepare documentation</h3>
 <p>Start documenting even before you get to the scene.</p>
@@ -298,6 +354,19 @@
 <li>Yes. Then transport it as is. Do not forget the charger!</li>
 <li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
 </ul>
+<h3 id="ftk-imager">FTK Imager</h3>
+<h3 id="dd"><code>dd</code></h3>
+<p>Stands for disk duplicate. <code>if</code> - input file to make an image of. <code>of</code> - where we are writing the evidence to.</p>
+<h3 id="write-blockers">Write Blockers</h3>
+<p>There are hardware and software write blockers. They both ensure that the changes are not made to target media when plugging in disks or flash drives. InfoSec course recommends using hardware blockers instead of software whenever possible. However if the hardware option is not available, software are acceptable.</p>
+<blockquote>
+<p>🔎 Why?</p>
+<p>✍️ They have a dedicated firmware which is independent of the target OS. That means they work with any OS and any BIOS version. Software writeblockers are not reliable. Some of them do not work at all, some don&rsquo;t work for specific drives.</p>
+</blockquote>
+<p>Read <a href="https://habr.com/ru/company/bizone/blog/320032/">this</a> article on habr which is a research whether software write blockers are worse than hardware ones. Write blocker needs to validated prior to imaging on a small drive in every investigation!</p>
+<h4 id="software-write-blockers">Software Write Blockers</h4>
+<p>For Windows 🛠: Safe Block 💰, FastBloc SE (EnCase module) 💰; for USB ports: <a href="https://www.softpedia.com/get/Security/Security-Related/Thumbscrew.shtml">Thuscrew</a> (flips the bit in <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\StorageDevicePolicies\WriteProtect</code>), <a href="https://sourceforge.net/projects/usbwriteblockerforwindows8/files/latest/download">USB Write Blocker for Windows</a>.</p>
+<h3 id="ram">RAM</h3>
 <p>Now, about the RAM capture. Here is the order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
 <ol>
 <li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>

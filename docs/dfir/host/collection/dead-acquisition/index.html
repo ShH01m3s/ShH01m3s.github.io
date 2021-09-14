@@ -154,8 +154,8 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#file-systems">File Systems</a></li>
+    <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
     <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
-    <li><a href="#heading"></a></li>
     <li><a href="#general">General</a></li>
     <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#process">Process</a></li>
@@ -273,8 +273,31 @@
 <p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
 <p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
 <p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
+<h2 id="sterilizing-target-media">Sterilizing Target Media</h2>
+<p>Before copying evidence or making a disk image one needs to sterelize the target media to make sure that data that was present on that disk prior to this operation would not medle with the evidence data. Several rounds of writing <code>0</code>s is usually enough. Keep in mind that flash drives work in different manner and that&rsquo;s why simple permanent deletion of a file deems to be unrecoverable.</p>
+<p>On Windows you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). To verify that the disk was indeed sterilized, run <code>Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor.</p>
+<blockquote>
+<p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
+<p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
+</blockquote>
 <h2 id="hddssd-imaging">HDD/SSD Imaging</h2>
-<h2 id="heading"></h2>
+<p>List all drives (Linux and macOS):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l <span class="c1"># Linux</span>
+lsblk
+mount
+</code></pre></div><p>On Windows:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">diskpart</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
+sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
+
+sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
+sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
+
+<span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
+<span class="c1"># to install on macOS - brew install dc3dd</span>
+sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
+</code></pre></div><p>If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
 <h2 id="general">General</h2>
 <p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
 <h2 id="prerequisites">Prerequisites</h2>
@@ -301,6 +324,7 @@
 <p>[<a href="https://www.macworld.com/article/182042/sleepmode.html">3</a>], [<a href="https://osxdaily.com/2010/10/11/sleepimage-mac/">4</a>] Mac OSX hibernation files</p>
 <p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">5</a>] Live vs Dead System Acquisition</p>
 <p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">6</a>] Live vs Dead System Acquisition</p>
+<p>[<a href="https://helpdeskgeek.com/how-to/diskpart-windows-how-to-use/">7</a>] How to Use DiskPart Utility in Windows: Format, resize, extend and manage your drives</p>
 
   </div>
 </article>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Manuals 📚 - Analyst</title>
+  <title>Useful Greps - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -148,9 +148,27 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/toolkit/"> Back to Toolkit 🧰 Section 👈🏼 </a>
+   <a href="/docs/toolkit/manuals/"> Back to Manuals 📚 Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#network-forensics">Network Forensics</a>
+      <ul>
+        <li><a href="#ip-addresses">IP addresses</a></li>
+        <li><a href="#urls">URLs</a></li>
+      </ul>
+    </li>
+    <li><a href="#pi">PI</a>
+      <ul>
+        <li><a href="#phone-numbers">Phone Numbers</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -158,108 +176,66 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-
-
- 
- <h1 class="title">Manuals 📚</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/win-btfm/"> Windows BTFM</a></h2> 
-    <p> FUC (Frequently Used Commands)
-System USB Mounting USB devices on are mounted automatically, but VHD drives might need to be mounted manually.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/ios-btfm-rtfm/"> BTFM and RTFM iOS</a></h2> 
-    <p> This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for iOS devices and applications.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/android-btfm-rtfm/"> BTFM and RTFM Android</a></h2> 
-    <p> This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for Android devices and applications.</p>
-
-
-
-
-
-<style>
-    body {
-    color: #212121;
-}
-
-h2 {
-    font-weight: bold;
-    
-}
-
- 
- 
- 
-.pagination {
-    display: flex;
-    list-style: none;
-    border-radius: .25rem;
-    margin: 20px 0;
-    padding: 0;
-    justify-content: center;
-}
-
-.page-link {
-    position: relative;
-    display: block;
-    padding: .75rem 1rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #2bbc8a;
-    background-color: #fff;
-}
-
-.homepage .page-link,
-.listing .page-link {
-    background-color: #fff;
-}
-
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
-
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #2bbc8a;;
-    border-color:#2bbc8a;
-    border-radius: 30px;
-}
-
-</style>
-<nav aria-label="page navigation">
-    <ul class="pagination">
-        
-        
-
-        
-        <li class="page-item"><a href="/docs/toolkit/manuals/" rel="prev" class="page-link">‹ Prev</a></li>
-        
-
-        
+<h1 class="title">Useful Greps</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
             
-             
-            <li class="page-item"><a href="/docs/toolkit/manuals/" class="page-link">1</a></li>
-            
-        
-             
-            <li class="page-item active"><a href="/docs/toolkit/manuals/page/2/" class="page-link">2</a></li>
-            
-        
+              
+                <i class="fas fa-book"></i>
+              
+          <a class="platform-link" href="/doctype/field-manual">field manual</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
 
-        
+      
+      
 
-        
-        
-    </ul>
-</nav>
+      
+    </div>
+  </header>
 
+
+  <div class="content" itemprop="articleBody">
+    <p><em>Here I maintain a list of useful regular expressions for grep searches and other uses.</em></p>
+<h2 id="network-forensics">Network Forensics</h2>
+<h3 id="ip-addresses">IP addresses</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep <span class="s1">&#39;[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}&#39;</span> file_with_ips.txt
+</code></pre></div><h3 id="urls">URLs</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E <span class="s1">&#39;(www|http:|https:|\.com)&#39;</span> urls.txt
+</code></pre></div><h2 id="pi">PI</h2>
+<h3 id="phone-numbers">Phone Numbers</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># US numbers</span>
+grep <span class="s1">&#39;\(([0-9]\{3\})\|[0-9]\{3\}\)[ -.]\?[0-9]\{3\}[ -.]\?[0-9]\{4\}&#39;</span> phones.txt
+
+<span class="c1"># Russian mobile numbers (Moscow)</span>
+
+<span class="c1"># Russian home numbers (Moscow)</span>
+
+</code></pre></div><h2 id="references">References</h2>
+<p><a href="https://summit-labs.frida.ninja/whats-next/additional-resources-questions">https://summit-labs.frida.ninja/whats-next/additional-resources-questions</a></p>
+<p><a href="https://appsec-labs.com/portal/frida-cheatsheet-for-android/">https://appsec-labs.com/portal/frida-cheatsheet-for-android/</a></p>
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

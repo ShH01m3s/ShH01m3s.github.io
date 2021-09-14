@@ -161,7 +161,9 @@
     </li>
     <li><a href="#system">System</a>
       <ul>
+        <li><a href="#list-drives">List Drives</a></li>
         <li><a href="#usb">USB</a></li>
+        <li><a href="#mounting">Mounting</a></li>
       </ul>
     </li>
     <li><a href="#remote">Remote</a></li>
@@ -301,12 +303,16 @@ gsed -n <span class="s1">&#39;/#/p&#39;</span> test.txt <span class="c1"># print
 <h2 id="system">System</h2>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">su - &lt;user_name&gt; <span class="c1"># switch to user_name user</span>
 su - &lt;user_name&gt; -c <span class="s1">&#39;ls&#39;</span> <span class="c1">#  run ls command as user_name user</span>
+</code></pre></div><h3 id="list-drives">List Drives</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l
 </code></pre></div><h3 id="usb">USB</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">lsusb -v <span class="c1"># linux</span>
 system_profiler SPUSBDataType <span class="c1"># macOS, but not that verbose as lsusb on Linux</span>
 ioreg -p IOUSB <span class="c1"># macOS, but not that verbose as lsusb on Linux</span>
 ioreg -p IOUSB -w0 -l <span class="c1"># macOS, more details</span>
-</code></pre></div><h2 id="remote">Remote</h2>
+</code></pre></div><h3 id="mounting">Mounting</h3>
+<p>USB devices on Linux are mounted automatically, but internal drives need to be mounted manually. Also, on Linux you can mount a <code>img</code> file as a normal drive.</p>
+<h2 id="remote">Remote</h2>
 <p><strong>FTP</strong></p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ftp &lt;IP/hostname&gt;
 &gt; mget *.html <span class="c1"># get files</span>
