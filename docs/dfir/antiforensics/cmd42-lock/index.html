@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Vehicle Forensics - Analyst</title>
+  <title>CMD42 Lock in NAND - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -167,7 +167,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Vehicle Forensics</h1>
+<h1 class="title">CMD42 Lock in NAND</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -227,7 +227,8 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="cmd42-lock">CMD42 Lock</h2>
+    <p><em>This article is an example of a NAND forensics extracted from a vehicle. Notes taken from Magnet Summit 2021</em></p>
+<h2 id="cmd42-lock">CMD42 Lock</h2>
 <p>ATA locks on HDDs. Usually 2.5'' HDD, verify there is a lock with MHDD, PC 3000. This is usually set by the user in BIOS. No sectors can be read in this case.</p>
 <p>Wales. Investigagted a NAND eMMC (iNAND 7250A automotive, for autonomous cars) chip that could not be read. If this lock is set,  the card can still be queried for reset, status, init and select, and access boot partition, RPMB and general partition area. RPMB (<strong>R</strong>eplay <strong>P</strong>rotect <strong>M</strong>emory <strong>B</strong>lock) - first introduced in eMMC4.4. Allows storing data in a special address space that&rsquo;s protected from replay attacks. Requires signing all read/write opeations. The iNAND was chipped-off and connected with a card reader and they tried to image it with FTK, but failed.</p>
 <p>These chips are popular for many devices (except for Apple ones). QNX environment - real-time operating system. Some vehicles utilise chips and some - HDDs (like Mercedes).</p>
@@ -254,7 +255,6 @@
 <p>After getting the user data, determine the scrambling method (inverse or XOR?).</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.youtube.com/watch?v=GMQF9P_oGi0">1</a>] Presentation from Magnet Summit Webinar</p>
-
   </div>
 </article>
 </div>
