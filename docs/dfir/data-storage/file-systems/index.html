@@ -162,10 +162,8 @@
     <li><a href="#file-systems">File Systems</a></li>
     <li><a href="#fat">FAT</a>
       <ul>
-        <li><a href="#fat12">FAT12</a></li>
-        <li><a href="#fat16">FAT16</a></li>
-        <li><a href="#fat32">FAT32</a></li>
-        <li><a href="#exfat">ExFAT</a></li>
+        <li><a href="#versions">Versions</a></li>
+        <li><a href="#structure">Structure</a></li>
       </ul>
     </li>
     <li><a href="#extx">ExtX</a>
@@ -392,14 +390,57 @@ inc ebp
 <p>🔍 - this is from M. Graves' book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
 <h2 id="fat">FAT</h2>
 <p>Any FAT partition has two main parts: system area and data area. System area contains FAT boot record (every file system has a boot record), 1st FAT and 2nd FAT. FAT12 and FAT16 also have Root directory in the system area. Data area consists of Root directory in case of FAT32 and file and subdirectory data in clusters.</p>
-<h3 id="fat12">FAT12</h3>
+<h3 id="versions">Versions</h3>
+<h4 id="fat12">FAT12</h4>
 <p>For the cluster addressing there were 12 bits available, which is 2^12 clusters at most (4096 clusters).</p>
-<h3 id="fat16">FAT16</h3>
+<h4 id="fat16">FAT16</h4>
 <p>For the cluster addressing there were 16 bits available, which is 2^16 clusters at most (65536 clusters).</p>
-<h3 id="fat32">FAT32</h3>
+<h4 id="fat32">FAT32</h4>
 <p>For the cluster addressing there were 28 bits available (not 32), which is 2^28 clusters at most (268 435 456 clusters). 4 bytes were reserved. Unlike in FAT12 and FAT16 the Root directory is in the data area, giving more space for data.</p>
-<h3 id="exfat">ExFAT</h3>
+<h4 id="exfat">ExFAT</h4>
 <p>Uses all 32 bits for cluster addressing. Thus, the maximum number of clusters is 2^32 which gives us 4 294 967 296 clusters to call.</p>
+<h3 id="structure">Structure</h3>
+<h4 id="volume-boot-record">Volume Boot Record</h4>
+<blockquote>
+<p>⚠️ Not the MBR!!!!</p>
+</blockquote>
+<p>Located at sector 0 of the volume (❗️ not the physical sector 0). Starts with a jump instruction 3 bytes long at offset <code>0x0</code> (relative to VBR). Contains information about the volume (offset relative to the VBR start - size - name - description). Relevant information below:</p>
+<ul>
+<li><code>0x3</code> - 8 - <strong>OEM ID</strong>. Most likely MS-DOS5.0 for Win2000 and above.</li>
+<li><code>0x0B</code> - 2- <strong>Bytes per sector</strong> (512 usually)</li>
+<li><code>0x0D</code> - 1 - <strong>Sectors per cluster</strong></li>
+<li><code>0x0E</code> - 2 - <strong>Reserved sectors</strong></li>
+<li><code>0x10</code>  - 1 - <strong>Number of FATs</strong> (2, one of them is for backup purposes)</li>
+<li><code>1C</code> - 4 - <strong>Hidden sectors</strong> 🙈 (preceding the volume)</li>
+<li><strong>Total sectors</strong> (size of the volume)</li>
+<li><code>0x16</code> - 2 - <strong>Sectors per FAT</strong> (FAT12 and 16)</li>
+<li><code>0x24</code> - 4 - <strong>Sectors per FAT</strong> (FAT32)</li>
+<li><code>0x2C</code> - 4 - <strong>Starting cluster of the root</strong> dir (2nd usually)</li>
+<li><code>0x32</code> - 2 - <strong>Back-up boot sector</strong> location (6th usually)</li>
+<li><code>0x43</code> - 4 - <strong>Volume serial number</strong>. In case of thumbdrive, this serial number can be used to track the device across the PC and other systems.</li>
+<li><code>0x47</code> - 11 - <strong>Volume name/label</strong> 🏷 (not user defined, &ldquo;NONAME&rdquo; usually)</li>
+<li><code>0x52</code> - 8 - <strong>FS type</strong></li>
+</ul>
+<p>Here is the full information available:</p>
+<p><img src="images/fat-boot-struct.png" alt="fat-boot-struct"></p>
+<h4 id="root-directory">Root Directory</h4>
+<p>The name speaks for itself. It&rsquo;s the highest node in the dir structure of this volume, consists of 32 byte dir entries. Lists files and dirs in the root directory. FS stops reading these entries when it sees anything starting with <code>0x0</code>. So, data written here won&rsquo;t be seen by the OS and this is one of the ways to hide data. Types of root dir entries:</p>
+<ul>
+<li>volume name (user created)</li>
+<li>short file name (8 uppercase letters + &ldquo;.&rdquo; + 3 letters for extension)</li>
+<li>long file name. Can consist of several entries (each 32-bits). When the entry is the last in the set (1 set for each file), its sequence number starts with <code>4</code>. If the file name is more than 8 characters, there will be more than one long enry. The last one contains the last characters + extension. See below the example of a long entry set for a file with the name <code>asdjasdlkjasldkjsalkdaskljdjaljdajd.txt</code>.</li>
+</ul>
+<p><img src="images/fat-long-fragmented.png" alt="fat-long-fragmented"></p>
+<p>Possible file attributes: hidden (<code>0x02</code>), read-only (<code>0x01</code>), system (<code>0x04</code>), volume label (<code>0x08</code>), directory (<code>0x10</code>) and archive (<code>0x20</code>). These attributes can be combined. Flags occupy just one byte and when there are more than one flag, their values are combined (like the access flags on Unix systems). Below is a screenshot of my test thumbdrive formatted as a FAT volume and its label&rsquo;s short entry:</p>
+<p><img src="images/fat-short-attr.png" alt="fat-short-attr"></p>
+<p>See the attributes. Only the bit for <code>volume</code> is set, which, given its position, has the value <code>0x08</code>.</p>
+<p><strong>Short entry structure</strong></p>
+<p><img src="images/fat-short-struct.png" alt="fat-short-struct"></p>
+<p>The reserved bit above is for distinguishing between short and long file names. <code>0x00</code> for the long file name (not-8.3 compliant) and <code>0x10</code> for short file name (8.3 compliant).</p>
+<p><img src="images/fat-entry-struct.png" alt="fat-entry-struct"></p>
+<p>Four bytes for date and time created (first two bytes for time 🕰 and the second two bytes for date 📆). The time bytes are first converted from the little-endian notation (two bytes flipped). In the example abobe, for the yellow short entry the created date and time <code>0x55 0x6E 0x31 0x53</code>. Bytes <code>0x55 0x6E</code> are for the time and <code>0x31 0x53</code> are for the date. Let&rsquo;s take the time bytes <code>0x55 0x6E</code>. Flip them to convert from the little-endian notation: <code>06E 0x55</code>. Convert each nibble to a binary value: <code>b0110</code>, <code>b1110</code>, <code>b0101</code>, <code>b0101</code>. Now, write them in a row and separate with the following template in mind: 5 bits - 6 bits - 5 bits: <code>b01101 b110010 b10101</code>. The first five bits are for hours, the next 6 bits are for minutes and the last ones are for seconds. Then, each value is converted into a decimal separately to get us 13 hrs, 50 mins and 21 seconds in the end (see the above picture only shows hours and minutes). For the date 📆 value the template is 7-4-5 but the process is the same.</p>
+<p><strong>FAT high word</strong></p>
+<p>Start at 65536 and continue as power of two.</p>
 <h2 id="extx">ExtX</h2>
 <h3 id="2">2</h3>
 <p>No journaling</p>

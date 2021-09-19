@@ -160,6 +160,7 @@
     <li><a href="#documents-metadata">Documents Metadata</a></li>
     <li><a href="#logs">Logs</a></li>
     <li><a href="#steganography">Steganography</a></li>
+    <li><a href="#fs">FS</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -276,6 +277,8 @@
 <p><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer</code></p>
 <p><code>C:\auditpol \\targetIPaddress /disable</code> delete recent docs.</p>
 <h2 id="steganography">Steganography</h2>
+<h2 id="fs">FS</h2>
+<p>In case of FAT systems, they read the root directory from top to bottom and stop at the directory starting with <code>0x0</code>. Anything past that value is not seen by the OS. Sometimes there might be information hidden there. More <a href="/docs/dfir/data-storage/file-systems#fat">here</a>.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://dfir.ru/2018/10/07/hiding-data-in-the-registry/">1</a>] Hiding data in the registry, M. Suhanov</p>
 
