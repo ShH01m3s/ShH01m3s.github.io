@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.32b06cb74069d8b26d087fbfd2852fc54428a31ff14ddead5c220eddcb248b07.css">
+  <link rel="stylesheet" href="/css/style.min.d4a1e993184205048ef544a3f1a19bba5c1ed504c576865f63d8f21c8b606a10.css">
   
 
   
@@ -153,13 +153,13 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#file-systems-overview">File Systems Overview</a>
       <ul>
         <li><a href="#data-structures-and-flags">Data structures and Flags</a></li>
+        <li><a href="#bootcode-and-booting-process">Bootcode and Booting Process</a></li>
+        <li><a href="#posix">POSIX</a></li>
       </ul>
     </li>
-    <li><a href="#bootcode-and-booting-process">Bootcode and Booting Process</a></li>
-    <li><a href="#file-systems">File Systems</a></li>
     <li><a href="#fat">FAT</a>
       <ul>
         <li><a href="#versions">Versions</a></li>
@@ -186,7 +186,8 @@
     </li>
     <li><a href="#ntfs">NTFS</a>
       <ul>
-        <li><a href="#timestamps-1">Timestamps</a></li>
+        <li><a href="#structure-1">Structure</a></li>
+        <li><a href="#file-creation-and-deletion-1">File Creation and Deletion</a></li>
         <li><a href="#ntfs-metadata">NTFS Metadata</a></li>
       </ul>
     </li>
@@ -240,43 +241,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>There are: file name, file metadata and the contents of the file itself. They are not in the same place. File metadata contains filename and also a ptr to the sector, where the file&rsquo;s contents starts and size of data. Theoretically, we could change the file metadata to make it point to another cluster&hellip; 🤔</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Cluster</th>
-<th>size</th>
-<th>last accessed</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>malware.txt</td>
-<td>654</td>
-<td>80</td>
-<td>October 13, 2020</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Essential</strong> data - can be trusted and <strong>non</strong>-<strong>essential</strong> cannot. But if ptr to cluster is called essential data, how we can trust it? Well, it&rsquo;s much harder to tamper with.</p>
-<p><a href="https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file">https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">open <span class="o">[</span>path/to/dmg<span class="o">]</span>
-dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;/dev/disk[number]&#34;</span> <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/extract/path/file.img&#34;</span>
-fdisk -l file.img
-dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;path/to/file.img&#34;</span> <span class="nv">bs</span><span class="o">=</span>sector_size <span class="nv">skip</span><span class="o">=</span>sectors <span class="nv">count</span><span class="o">=</span>sectors &gt;&gt; output.hfs
-</code></pre></div><h3 id="data-structures-and-flags">Data structures and Flags</h3>
-<p>First, there must be some data structure identifier so that the CPU could know, how to read the subsequent data. For example, if we have the following:</p>
-<p><code>1001 1000 1001 1110 1010 1100 1000 101</code></p>
-<p>For example, the first 4 bits <code>0101</code> tell the CPU that the next bits should be interpreted as an image. Then, for example, there are other 4 bits <code>0011</code> that are 4 flags. Flag is a 1-bit value, indicating either <code>true</code> or <code>false</code>, or either <code>exists</code> or <code>doesn't</code>. This are flags, for example, that indicate: wether it&rsquo;s black-and-white (<code>0</code>) or colored (<code>1</code>); wether the image is editable <code>1</code> or <code>0</code> etc. And then the file contents.</p>
-<p>Consider the above binary sequence. To make it more compressed, convert it to hex: <code>4c 4f 56 45</code>. What is this? That depends. If you tell CPU that it&rsquo;s machine instructions, then it&rsquo;s see this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">dec esp
-dec edi
-push esi
-inc ebp
-</code></pre></div><p>But what if you tell that it&rsquo;s text? Then CPU sees&hellip; check out <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">here</a>.</p>
-<h2 id="bootcode-and-booting-process">Bootcode and Booting Process</h2>
-<h2 id="file-systems">File Systems</h2>
+    <h2 id="file-systems-overview">File Systems Overview</h2>
 <table>
 <thead>
 <tr>
@@ -388,7 +353,47 @@ inc ebp
 </tr>
 </tbody>
 </table>
-<p>🔍 - this is from M. Graves' book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
+<blockquote>
+<p>Two entries marked with a🔍  are from M. Graves' book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
+</blockquote>
+<p>There are: file name, file metadata and the contents of the file itself. They are not in the same place. File metadata contains filename and also a ptr to the sector, where the file&rsquo;s contents starts and size of data. Theoretically, we could change the file metadata to make it point to another cluster&hellip; 🤔</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Cluster</th>
+<th>size</th>
+<th>last accessed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>malware.txt</td>
+<td>654</td>
+<td>80</td>
+<td>October 13, 2020</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Essential</strong> data - can be trusted and <strong>non</strong>-<strong>essential</strong> cannot. But if ptr to cluster is called essential data, how we can trust it? Well, it&rsquo;s much harder to tamper with.</p>
+<p><a href="https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file">https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">open <span class="o">[</span>path/to/dmg<span class="o">]</span>
+dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;/dev/disk[number]&#34;</span> <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/extract/path/file.img&#34;</span>
+fdisk -l file.img
+dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;path/to/file.img&#34;</span> <span class="nv">bs</span><span class="o">=</span>sector_size <span class="nv">skip</span><span class="o">=</span>sectors <span class="nv">count</span><span class="o">=</span>sectors &gt;&gt; output.hfs
+</code></pre></div><h3 id="data-structures-and-flags">Data structures and Flags</h3>
+<p>First, there must be some data structure identifier so that the CPU could know, how to read the subsequent data. For example, if we have the following:</p>
+<p><code>1001 1000 1001 1110 1010 1100 1000 101</code></p>
+<p>For example, the first 4 bits <code>0101</code> tell the CPU that the next bits should be interpreted as an image. Then, for example, there are other 4 bits <code>0011</code> that are 4 flags. Flag is a 1-bit value, indicating either <code>true</code> or <code>false</code>, or either <code>exists</code> or <code>doesn't</code>. This are flags, for example, that indicate: wether it&rsquo;s black-and-white (<code>0</code>) or colored (<code>1</code>); wether the image is editable <code>1</code> or <code>0</code> etc. And then the file contents.</p>
+<p>Consider the above binary sequence. To make it more compressed, convert it to hex: <code>4c 4f 56 45</code>. What is this? That depends. If you tell CPU that it&rsquo;s machine instructions, then it&rsquo;s see this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">dec esp
+dec edi
+push esi
+inc ebp
+</code></pre></div><p>But what if you tell that it&rsquo;s text? Then CPU sees&hellip; check out <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">here</a>.</p>
+<h3 id="bootcode-and-booting-process">Bootcode and Booting Process</h3>
+<h3 id="posix">POSIX</h3>
+<p>There is a standard that&rsquo;s called POSIX and those FS that compliant are called POSIX-compliant. This standard demands certain fucntionality and properties from a FS: for example, for a file to have several names or hard links (❓), case sensitive file naming. <a href="#fat">FAT</a> or <a href="https://en.wikipedia.org/wiki/High_Performance_File_System">HPFS</a> are not POSIX compliant.</p>
 <h2 id="fat">FAT</h2>
 <p>Any FAT partition has two main parts: system area and data area. System area contains FAT boot record (every file system has a boot record), 1st FAT and 2nd FAT. FAT12 and FAT16 also have Root directory in the system area. Data area consists of Root directory in case of FAT32 and file and subdirectory data in clusters.</p>
 <h3 id="versions">Versions</h3>
@@ -601,13 +606,19 @@ inc ebp
 </blockquote>
 <p><strong>Tools</strong> 🛠: FSEventsParser.</p>
 <h2 id="ntfs">NTFS</h2>
-<h3 id="timestamps-1">Timestamps</h3>
+<h3 id="structure-1">Structure</h3>
+<h4 id="volume-boot-record-1">Volume Boot Record</h4>
+<h4 id="mft">MFT</h4>
+<h3 id="file-creation-and-deletion-1">File Creation and Deletion</h3>
+<h4 id="creating-files">Creating Files</h4>
+<h4 id="deleting-files">Deleting Files</h4>
+<h4 id="timestamps-1">Timestamps</h4>
 <p>📆 <code>Jan 1, 1601</code></p>
 <p>Modified, Accessed (``), Created, MFT Modified.</p>
 <p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code>, <code>$I30_Index</code>.</p>
-<h4 id="modified-1">Modified</h4>
-<h4 id="created-1">Created</h4>
-<h4 id="accessed-1">Accessed</h4>
+<p><strong>Modified</strong></p>
+<p><strong>Created</strong></p>
+<p><strong>Accessed</strong></p>
 <p>Sometimes this option might be turned off. To check, check the <code>NTFSLastAccessUpdate</code> key at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem</code> in Windows Registry.</p>
 <p>Can be changed with <code>fsutils</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">fsutil behavior <span class="nb">set</span> disablelastaccess <span class="o">[</span>0<span class="p">|</span>1<span class="p">|</span>2<span class="p">|</span>3<span class="o">]</span>
@@ -638,7 +649,7 @@ inc ebp
 </tr>
 </tbody>
 </table>
-<h4 id="changed-1">Changed</h4>
+<p><strong>Changed</strong></p>
 <h3 id="ntfs-metadata">NTFS Metadata</h3>
 <p>These files cannot be opened from the user space, it&rsquo;s maintained by NTFS driver. So, even if shown by Directory Snoop, you can&rsquo;t open it on a live system. You can view the hex data though in DS-NTFS. Another option would be to make a disk image and carve the files. View some more information here [<a href="http://blog.opensecurityresearch.com/2011/10/how-to-acquire-locked-files-from.html">3</a>].</p>
 <h4 id="extendusnjrnl"><code>\$Extend\$UsnJrnl</code></h4>
