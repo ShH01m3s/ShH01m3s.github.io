@@ -156,8 +156,15 @@
     <li><a href="#recovering-registry-entries">Recovering Registry Entries</a></li>
     <li><a href="#fat32-recovery">FAT32 Recovery</a>
       <ul>
+        <li><a href="#steps">Steps</a></li>
         <li><a href="#example-1-recovering-a-small-file-in-a-folder">Example 1. Recovering a small file in a folder</a></li>
         <li><a href="#example-2-recovering-a-contigious-fragmented-file">Example 2. Recovering a contigious fragmented file</a></li>
+      </ul>
+    </li>
+    <li><a href="#ntfs-file-recovery">NTFS File Recovery</a>
+      <ul>
+        <li><a href="#steps-1">Steps</a></li>
+        <li><a href="#example-1">Example 1</a></li>
       </ul>
     </li>
     <li><a href="#recovering-data-from-flash-drives">Recovering Data From Flash Drives</a></li>
@@ -229,6 +236,7 @@
 <p>Since the registry is unique to Windows systems, the following technique only applies to them. Registry has both unallocated space and unallocated deleted keys.</p>
 <p>Use <code>deleted.pl</code>. Example: <code>deleted.pl SAM &gt; /cases/winforensics/SAM_recovered.txt</code>. Or use <a href="https://tzworks.com/prototype_page.php?proto_id=3">YARU</a>.</p>
 <h2 id="fat32-recovery">FAT32 Recovery</h2>
+<h3 id="steps">Steps</h3>
 <p>First, get familiar with the FAT file system. There are some things specific to this FS in the way the files are created and deleted. We basically need to follow the file deletion steps in the reversed order.</p>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> Change <code>0xE5</code> values in the directory entry set</li>
@@ -297,13 +305,42 @@
 <p><img src="images/fat-recovery-result.png" alt="fat-recovery-result"></p>
 <p>It&rsquo;s back 😁!</p>
 <h3 id="example-2-recovering-a-contigious-fragmented-file">Example 2. Recovering a contigious fragmented file</h3>
+<h2 id="ntfs-file-recovery">NTFS File Recovery</h2>
+<h3 id="steps-1">Steps</h3>
+<p>To get familiar with NTFS file creation and deletion, see <a href="/docs/dfir/data-storage/file-systems/ntfs#file-creation-and-deletion">here</a>. In general, there are resident and non-resident files. Resident files are small and have their contents in the MFT record itself. Non-resident files are bigger and their contents is stored elsewhere on the disk.</p>
+<blockquote>
+<p>⚠️ Since MFT records get reused once they are deallocated on the first-free basis, resident files get overwritten sooner.</p>
+</blockquote>
+<p>For resident files, use a regular expression for finding <code>FILE0</code> records: <code>\x46\x49\x4C\x45.[18][\x00\x02]</code> [<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>]. This will find all the <code>FILE</code> records that are not newly created. Remember, once a file is created its sequence number is <code>01</code>. Whenever the <code>FILE</code> record is deleted (deallocated, it&rsquo;s never actually deleted), the sequence number gets incremented. So, if this record was deallocated once, its sequence number will be <code>0x02</code>. But! This record can be reused multiple times! When I did the lab, one poor record was reused over and over again, and its sequence number got as big as <code>0x08</code>, imagine that! So, I would fix the regular expression above to address these cases: <code>\x46\x49\x4C\x45.[18]NOT[\x00\x01]OR[\x00\x00]</code> (todo).</p>
+<p>For a resident file:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Use grep search or a regular expression (may use this feature in Active@Disk Editor) looking for the <code>FILE</code> header. As an alternative, use a keyword search.</li>
+<li><input disabled="" type="checkbox"> Inspect each result and find the file needed and its contents.</li>
+</ul>
+<blockquote>
+<p>❓ How to <strong>recover</strong> the file?</p>
+</blockquote>
+<p>For a non-resident file:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Use a keyword search, or carve using the file header. For example, if it&rsquo;s a <code>docx</code> document, look for <code>50 4B 03 04 14 00 06 00</code>.</li>
+<li><input disabled="" type="checkbox"> Copy the raw data elsewhere. Open with the dedicated application.</li>
+</ul>
+<blockquote>
+<p>❓ How to <strong>recover</strong> the file?</p>
+</blockquote>
+<blockquote>
+<p>⚠️ When using a keyword search, use Unicode! Unicode is NTFS darling.</p>
+</blockquote>
+<h3 id="example-1">Example 1</h3>
+<h2 id="recovering-data-from-flash-drives">Recovering Data From Flash Drives</h2>
 <blockquote>
 <p>🧪 I thought that data deleted from a flash drive is not recoverable. However, I was able to recover files from a FAT32 partitioned drive. Why?</p>
+<p>❓ May be it&rsquo;s only until the flash drive is connected to the PC? May be once the power is taken away, the data is wiped?</p>
 <p>✍️</p>
 </blockquote>
-<h2 id="recovering-data-from-flash-drives">Recovering Data From Flash Drives</h2>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.ufsexplorer.com/articles/chances-for-data-recovery.php">1</a>] Chances for data recovery</p>
+<p>[<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>] Windows OS Forensics, Coursera, InfoSec Institute.</p>
   </div>
 </article>
 </div>

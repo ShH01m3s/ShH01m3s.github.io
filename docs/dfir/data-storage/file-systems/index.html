@@ -163,8 +163,10 @@
     <li><a href="#fat">FAT</a>
       <ul>
         <li><a href="#versions">Versions</a></li>
-        <li><a href="#structure">Structure</a></li>
-        <li><a href="#file-creation-and-deletion">File Creation And Deletion</a></li>
+        <li><a href="#fat-structure">FAT Structure</a></li>
+        <li><a href="#fat-file-creation-and-deletion">FAT File Creation And Deletion</a></li>
+        <li><a href="#exfat-structure">exFAT Structure</a></li>
+        <li><a href="#exfat-file-creation-and-deletion">exFAT File Creation and Deletion</a></li>
       </ul>
     </li>
     <li><a href="#extx">ExtX</a>
@@ -187,8 +189,9 @@
     <li><a href="#ntfs">NTFS</a>
       <ul>
         <li><a href="#versions-1">Versions</a></li>
-        <li><a href="#structure-1">Structure</a></li>
-        <li><a href="#file-creation-and-deletion-1">File Creation and Deletion</a></li>
+        <li><a href="#structure">Structure</a></li>
+        <li><a href="#file-creation-and-deletion">File Creation and Deletion</a></li>
+        <li><a href="#timestamps-1">Timestamps</a></li>
         <li><a href="#ntfs-metadata">NTFS Metadata</a></li>
       </ul>
     </li>
@@ -405,8 +408,8 @@ inc ebp
 <h4 id="fat32">FAT32</h4>
 <p>For the cluster addressing there were 28 bits available (not 32), which is 2^28 clusters at most (268 435 456 clusters). 4 bytes were reserved. Unlike in FAT12 and FAT16 the Root directory is in the data area, giving more space for data.</p>
 <h4 id="exfat">ExFAT</h4>
-<p>Uses all 32 bits for cluster addressing. Thus, the maximum number of clusters is 2^32 which gives us 4 294 967 296 clusters to call.</p>
-<h3 id="structure">Structure</h3>
+<p>Uses all 32 bits for cluster addressing. Thus, the maximum number of clusters is 2^32 which gives us 4 294 967 296 clusters to call. First supported by Windows CE 2006. Max volume size was 64 zettabytes ❓. File size limit - 16 exabytes ❓. Cross-platform. Used for large external media.</p>
+<h3 id="fat-structure">FAT Structure</h3>
 <h4 id="volume-boot-record">Volume Boot Record</h4>
 <blockquote>
 <p>⚠️ Not the MBR!!!!</p>
@@ -534,7 +537,7 @@ inc ebp
 <p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/data-storage/file-systems/images/fat-fat-contig-file.png" alt="fat-fat-contig-file"></p>
 <p>Let&rsquo;s read each 4 bytes starting from the cluster with the value <code>0x70 00 00 00</code>. This is the first cluster in the chain that points to the next cluster (<code>0x70</code> cluster, i.e. cluster 112 in decimal). Cluster 112 (<code>0x70</code>), the next one, points to the next cluster in the chain (<code>0x71</code>, i.e. 113) and so on and so forth. But as you may notice it&rsquo;s easy to note such chains.</p>
 <p>To make it easier to read FAT32 table (which has 4 bytes for each entry), you may change view preferences in Active@Disk Editor (<code>File &gt; Preferences &gt; Disk Editor &gt; Bytes per line &gt; 4</code>).</p>
-<h3 id="file-creation-and-deletion">File Creation And Deletion</h3>
+<h3 id="fat-file-creation-and-deletion">FAT File Creation And Deletion</h3>
 <h4 id="creating">Creating</h4>
 <p>Steps that are taken when a file is created:</p>
 <ol>
@@ -549,6 +552,21 @@ inc ebp
 <li>The clusters in the FAT1 and FAT2 are filled with zeroes.</li>
 <li>The data area remains unchanged (⚠️ data is still out there!).</li>
 </ol>
+<h3 id="exfat-structure">exFAT Structure</h3>
+<p>Also consists of System (Boot sector, backup boot sector, FAT1) and Data areas. exFAT doesn&rsquo;t have FAT2.</p>
+<h4 id="boot-record">Boot Record</h4>
+<p>Located at sector <code>0</code> of the volume. It contains the information about the volume (as usual).</p>
+<blockquote>
+<p>⚠️ Offsets are relative to the start of the volume.</p>
+</blockquote>
+<h4 id="fat1">FAT1</h4>
+<p>32-bit entries. Media descriptor is the same: <code>0xFF FF FF F8</code>. Only tracks file fragmentation and doesn&rsquo;t track file allocation (Bitmap is used for that instead)!</p>
+<h4 id="additional-files">Additional Files</h4>
+<p>exFAT has two additional files that FAT32 does not. They probably come from the NTFS&hellip;: <code>Bitmap</code> and <code>Upcase</code> (table of Unicode chars, used to convert characters for searching).</p>
+<blockquote>
+<p>⚠️ Both files have an entry in the root directory, but don&rsquo;t have a filename.</p>
+</blockquote>
+<h3 id="exfat-file-creation-and-deletion">exFAT File Creation and Deletion</h3>
 <h2 id="extx">ExtX</h2>
 <h3 id="2">2</h3>
 <p>No journaling</p>
@@ -621,7 +639,7 @@ inc ebp
 </blockquote>
 <h4 id="v12">V1.2</h4>
 <p>Windows NT 3.51, included admin controls, compressed files and User Access Control (recycle bin for each user and own account).</p>
-<h3 id="structure-1">Structure</h3>
+<h3 id="structure">Structure</h3>
 <h4 id="volume-boot-record-1">Volume Boot Record</h4>
 <p>In the <code>$MFT</code> is represented as <code>$Boot</code>. It&rsquo;s located at the sector <code>0</code> of the volume (not physical disk!). Below is the VBR structure for NTFS. The most important entries for forensic purposes are highlighted.</p>
 <p><img src="images/ntfs-boot-record-struct.png" alt="ntfs-boot-record-struct"></p>
@@ -764,31 +782,49 @@ inc ebp
 <p>Records start at index <code>0</code> (for the MFT record itself) and the rest are numbered sequencially. Each record is usually 1024 bytes. New records are created on a first-available basis, i.e. if a record was deleted (deallocated) it get overwritten once new one is created and the deallocated one is the first free index in the table.</p>
 <p>A file record begins with a header (ASCII <code>FILE</code> or <code>BAAD</code> if it was corrupted). It contains info about the file. It&rsquo;s made up of attributes. Each of them contains specific information about the file record entry. Each record ends with a <code>0xFF FF FF FF</code>. It has a sequence numbere at offset <code>0x10</code> 2 bytes long, that&rsquo;s incremented each time the file is deleted (not allocated ❗️). At offset <code>0x16</code> there is an allocation status flags: <code>0x00</code> for deleted file, <code>0x01</code> for allocated one, <code>0x02</code> for deleted dir, <code>0x03</code> for allocated dir.</p>
 <p>Following the header, there are four attributes (each consists of a header and contents):</p>
-<ul>
-<li>
-<p>starts with <code>0x10</code>. Standard attribute (file permissions, timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps: file created/modified, record changed and last access time. ⚠️ All UTC.</p>
+<p><strong>Standard attribute</strong>. Starts with <code>0x10</code>. Standard attribute (file permissions, timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps: file created/modified, record changed and last access time. ⚠️ All UTC.</p>
 <p><img src="images/ntfs-attr-10.png" alt="ntfs-attr-10"></p>
-</li>
-<li>
-<p>starts with <code>0x30</code>. File name. Also has timestamps, but for the filename. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file relevant timestamps see the atrribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT itself (see below marked with a yellow rectangle). If the file is too big, there will be a <code>data run</code> instead (❓).</p>
+<p><strong>File name</strong>. Starts with <code>0x30</code>. Also has timestamps, but for the filename. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file relevant timestamps see the atrribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT itself (see below marked with a yellow rectangle). If the file is too big, there will be a <code>data run</code> instead (❓).</p>
 <p><img src="images/ntfs-attr-30.png" alt="ntfs-attr-30"></p>
-</li>
-<li>
-<p>starts with <code>0x80</code>. Data attribute (data itself or its location). If the file is small enough, its contents will be here (below, green area).</p>
+<p><strong>Data attribute</strong>. Starts with <code>0x80</code>.  Contains data itself or the pointer to its location (depending on the file size). If the file is small enough, its contents will be here (below, green area). In this case the file is called <em>resident</em> file. Whether it&rsquo;s a resident file or not, you can determine by the <em>non-resident</em> byte (marked with a red rectangle in the picture below). In the picture below it&rsquo;s <code>0x00</code>, which means the file <em>is</em> resident and its contents is in the MFT record (right below). Marked with a green rectangle it&rsquo;s the offset to the data, for resident files it&rsquo;s always <code>0x0018</code> (little-endian), since the start of the data section is in the attribute itself at the fixed place.</p>
 <p><img src="images/ntfs-attr-80.png" alt="ntfs-attr-80"></p>
-</li>
-<li>
-<p>Starts with <code>0x40</code>. This attribute contains a GUID of a file.</p>
-<p><img src="images/ntfs-attr-40.png" alt="ntfs-attr-40"></p>
-</li>
-<li>
-<p>starts with <code>0xE0</code>?<code>0xB0</code>?. Bitmap attribute ⁉️</p>
-</li>
+<p>In the picture below there is an example of a record for a bigger file. Its non-resident flag is set to <code>0x01</code> (marked with a purple rectangle), meaning the contents is somewhere else on disk. In order to find the file contents location we need to perform the following steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> get the offset to data runs, which contain directions to the contents location (pointer). In the picture below it&rsquo;s <code>0x0040</code> (little-endian). This offset is relative to the attribute start. So, we count <code>0x40</code> from the attribute start and get to the location marked with a dark-red rectangle: <code>21 10 89 09 00 00 00 00</code> (run list).</li>
+<li><input disabled="" type="checkbox"> read the run list.</li>
 </ul>
-<h3 id="file-creation-and-deletion-1">File Creation and Deletion</h3>
+<p><img src="images/ntfs-nonresident-set.png" alt="ntfs-nonresident-set"></p>
+<p>Now, what&rsquo;s a run list?</p>
+<p><img src="images/ntfs-big-nonresident-run-list.png" alt="ntfs-big-nonresident-run-list"></p>
+<p>In the picture below this structure is highlighted on the left and expalined on the right. The first byte is the run header, it tells the number of bytes, occupied by the run list. The second byte tells the length in clusters. The next two bytes are for the starting cluster number (<strong>signed</strong> 16-bit value). End the remaining 4 bytes of zeroes - end of run.</p>
+<blockquote>
+<p>⚠️ To interpret the run header, split the byte into two nibbles and add them together: <code>2</code> + <code>1</code> = <code>3</code>, meaning, in the example above the run list length is 3 bytes. The first nibble (<code>2</code>  in this example) tells that the size of the first cluster field is 2 bytes. The second nibble tells that the size of the cluster count field of 1 byte (<code>1</code>). Together combined it&rsquo;s 3. meaning that both cluster count and first cluster fields are 3 bytes long.</p>
+</blockquote>
+<p>If the file is fragmented, there will be more than 1 data run. If there are more than 1 data run, then each next first cluster field is relative to the previous one. For example, if the first cluster for the first fragment in the first data run was <code>0x42A9</code> (17065 in decimal), and the next first cluster for the next fragment in the next data run is <code>0xBFBF</code> (-16449 decimal) then in order to get the first cluster for the second fragment, we would substitute 16449 from 17065 which would give us 616 decimal value, which would be the first cluster of the second fragment [<a href="https://www.coursera.org/learn/windows-os-forensics/home/welcome">5</a>]. So, each value is relevant to the last piece. To get the first cluster of the next fragment you&rsquo;d add it&rsquo;s value to 616 and so on and so forth. Active@Disk Editor does that automatically.</p>
+<p><strong>Object ID attribute</strong>. Starts with <code>0x40</code>. This attribute contains a GUID of a file.</p>
+<p><img src="images/ntfs-attr-40.png" alt="ntfs-attr-40"></p>
+<p><strong>Bitmap attribute</strong>. Starts with <code>0xE0</code>?<code>0xB0</code>?. ⁉️</p>
+<h3 id="file-creation-and-deletion">File Creation and Deletion</h3>
 <h4 id="creating-files">Creating Files</h4>
+<p>Steps taken to create a file:</p>
+<ul>
+<li><input disabled="" type="checkbox"> A file record (<code>FILE</code>) is created in <code>$MFT</code></li>
+<li><input disabled="" type="checkbox"> The bitmap for the $MFT is changed to indicate the record is allocated❓</li>
+<li><input disabled="" type="checkbox"> The record header allocation flag shows it as an allocated file or directory</li>
+<li><input disabled="" type="checkbox"> Attributes are written to the $MFT file record</li>
+<li><input disabled="" type="checkbox"> If the data is non-resident, the $BitMap file is updated to represent the clusters allocated to store the data</li>
+</ul>
+<p>Go to &ldquo;Browse File Records&rdquo; on the top pane, choose the newly created file and see its attributes. The most important are sequence number and flags. I&rsquo;ve noticed that when I create and delete files several times, the MFT file record remains the same, the sequence number just gets incremented. That&rsquo;s because NTFS uses the first free record when the file is created. If you know at which sector a resident file was located before deletion, you can view its contents before it gets overwritten. The sector number is shown on the very rightmost bottom pane in Active@Disk Editor:</p>
+<p><img src="images/ntfs-activediskedit-sector-createdfile.png" alt="ntfs-activediskedit-sector-createdfile"></p>
 <h4 id="deleting-files">Deleting Files</h4>
-<h4 id="timestamps-1">Timestamps</h4>
+<p>Steps taken:</p>
+<ul>
+<li><input disabled="" type="checkbox"> The record header sequence number (see above) is incremented</li>
+<li><input disabled="" type="checkbox"> The record header allocation flag indicates a deleted file or dir</li>
+<li><input disabled="" type="checkbox"> The bitmap for the MFT is changed to show this file/dir is unallocated</li>
+<li><input disabled="" type="checkbox"> If the data is non-resident, the $BitMap file is updated to indicate the clusters are unallocated</li>
+</ul>
+<h3 id="timestamps-1">Timestamps</h3>
 <p>📆 <code>Jan 1, 1601</code></p>
 <p>Modified, Accessed (``), Created, MFT Modified.</p>
 <p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code>, <code>$I30_Index</code>.</p>
