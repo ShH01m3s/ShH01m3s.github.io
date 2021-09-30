@@ -153,6 +153,8 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#sid">SID</a></li>
+    <li><a href="#lsa">LSA</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -196,7 +198,22 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="references">References</h2>
+    <h2 id="sid">SID</h2>
+<p>Below is the structure of a SID. SID, shortly speaking, is a user id. The actual ID of the user, is the RID (relative identifier) part.</p>
+<p><img src="images/1.png" alt="1"></p>
+<p>Given the RID one can deduce something about the user, since there are some users that have predefined RIDs.</p>
+<ul>
+<li><code>S-1-5-21-X-X-X-500</code> - default admin</li>
+<li><code>S-1-5-21-X-X-X-501</code> - default guest</li>
+<li><code>S-1-5-21-X-X-X-1000</code> - the first user created on a Windows 7 and below, <code>S-1-5-21-X-X-X-1001</code> - for newer systems</li>
+<li><code>S-1-5-18</code> - System</li>
+<li><code>S-1-5-3</code> - batch</li>
+<li><code>S-1-5-2</code> - network</li>
+<li><code>S-1-5-21-544</code> - local admin group</li>
+</ul>
+<h2 id="lsa">LSA</h2>
+<p>Image file is located in <code>%WINDIR%\System32</code>.</p>
+<h2 id="references">References</h2>
 
   </div>
 </article>

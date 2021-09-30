@@ -153,6 +153,12 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#structure">Structure</a>
+      <ul>
+        <li><a href="#sam">SAM</a></li>
+        <li><a href="#software">Software</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -214,9 +220,48 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="references">References</h2>
+    <p>Prior to Windows NT, <code>ini</code> files were used. These were substituted with Windows registry to keep initialization and configurations. Some changes are also logged by the registry.</p>
+<h2 id="structure">Structure</h2>
+<p>Hives are the first &ldquo;folders&rdquo; under the root folder. For example, under the root folder HKEY_LOCALMACHINE there is a set of folders. These are hives (purple rectangle). All the folders inside are keys and subkeys (green rectangle).</p>
+<p><img src="images/reg1.png" alt="reg1"></p>
+<p>There are two types: system related files and user related. System related ⚙️:</p>
+<ul>
+<li>SAM</li>
+<li>System</li>
+<li>Security</li>
+<li>Software</li>
+<li>AmCache</li>
+</ul>
+<p>User related (specific to this user) 👨‍💻:</p>
+<ul>
+<li>NT User.dat</li>
+<li>User Class.dat</li>
+</ul>
+<p>When the OS boots up, it loads the handles to these hives into memory (<code>HK...</code> - handle key):</p>
+<ul>
+<li><code>HKEY_LOCAL_MACHINE</code> (HKLM)
+<ul>
+<li><code>HARDWARE</code> 🍇</li>
+</ul>
+</li>
+<li><code>HKEY_CLASSES_ROOT</code> (HKCR)</li>
+<li><code>HKEY_CURRENT_CONFIG</code> (HKCC) 🍇</li>
+<li><code>HKEY_USERS</code> (HKU)</li>
+<li><code>HKEY_CURRENT_USER</code> (HKCU) 🍇</li>
+</ul>
+<p>Some of the settings can only be found on a live system (🍇). SAM hive and all of its subkeys will not be accessible.</p>
+<p>Non-live registry (missing some hives) can be accessed from a disk image for example. <code>C:\Windows\System32\config</code> contains 4 main hives: SAM, System, Security and Software. <code>C:\Windows\appcompat\Programs</code> contains <code>amcahce.hve</code>. User-related files mentioned above can be found at <code>C:\Users\%Username%\NTUser.dat</code> and <code>C:\Users\%Username%\AppData\Local\Microsoft\Windows\UsrClass.dat</code>. So, those mysterious <code>XXX.dat</code> files are actually a registry file.</p>
+<h3 id="sam">SAM</h3>
+<p>This file cannot be edited through the RegEdit. Stores all the information about all the users: login information, password hashes, group information.</p>
+<h3 id="software">Software</h3>
+<p>Installed programs and applications (<code>Microsoft\Windows\CurrentVersion\Uninstall</code>), the type of OS, its install date, wireless networks, file association, login info, attached devices, autostart locations. <code>Winlogon</code> and <code>LogonUI</code> subkeys is about logon information.</p>
+<p>There are two place for autoruns: <code>Microsoft\Windows\CurrentVersion\Run</code> and <code>Microsoft\Windows\CurrentVersion\RunOnce</code>.</p>
+<h2 id="references">References</h2>
 <p>[<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">1</a>] Windows registry file format specification</p>
 <p>Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2020/10/03/exporting-registry-hives-from-a-live-system/">2</a>] Exporting registry hives from a live system, [<a href="https://dfir.ru/2020/08/15/containerized-registry-hives-in-windows/">3</a>] Containerized registry hives in Windows, [<a href="https://dfir.ru/2018/10/07/hiding-data-in-the-registry/">4</a>] Hiding data in the registry</p>
+<p>[<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/69m1C/registry-overview-and-history">5</a>] Coursera, Windows OS Forensics</p>
+<p>[<a href="https://www.bleepingcomputer.com/news/microsoft/new-windows-10-vulnerability-allows-anyone-to-get-admin-privileges/">6</a>] Windows 10 vulnerability with the access to SAM</p>
+<p>[<a href="http://www.ijfcc.org/vol5/455-F005.pdf">7</a>] Registry structure</p>
 
   </div>
 </article>
