@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>One-time Pad - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/cryptography/symmetric/"> Back to Symmetric Algorithms Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#viginear">Viginear</a>
+      <ul>
+        <li><a href="#cracking-viginear">Cracking Viginear</a></li>
+      </ul>
+    </li>
+    <li><a href="#one-time-pad">One-time pad</a>
+      <ul>
+        <li><a href="#example-coursera">Example. Coursera</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">One-time Pad</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>One-time pad is like a Viginear cipher but with the key the length of the cipher text.</em></p>
+<h2 id="viginear">Viginear</h2>
+<h3 id="cracking-viginear">Cracking Viginear</h3>
+<h2 id="one-time-pad">One-time pad</h2>
+<p>The key requirement for this cipher scheme to be  perfectly secret is that the key should only be used once. Why? For example, the same key was applied to twocipher texts (c1 and c2), so that <code>c1 = message1 XOR key</code> and <code>c2 = message2 XOR key</code>. What can we do here? We can eliminate the key by <code>XOR</code>-ing c1 and c2: <code>c1 XOR c2 = (message1 XOR key) XOR (message2 XOR key) = message1 XOR message2</code>. This is not the same as having plain text of either or both message1 or message2, but there is something we can do, using ASCII characteristics (it&rsquo;s if it were ASCII, of course). Each letter start with <code>01</code> in binary, but the space character starts with <code>00</code>. Look at the possible combinations:</p>
+<table>
+<thead>
+<tr>
+<th>MESSAGE1</th>
+<th>MESSAGE2</th>
+<th>M1 XOR M2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00...</code> (space character), <code>0x20</code></td>
+<td><code>00...</code> (space character), <code>0x20</code></td>
+<td><code>00...</code></td>
+</tr>
+<tr>
+<td><code>01...</code> (letter)</td>
+<td><code>01...</code> (letter)</td>
+<td><code>00...</code></td>
+</tr>
+<tr>
+<td><code>00...</code> (space character), <code>0x20</code></td>
+<td><code>01...</code> (letter)</td>
+<td><code>01...</code></td>
+</tr>
+<tr>
+<td><code>01...</code> (letter)</td>
+<td><code>00...</code> (space character), <code>0x20</code></td>
+<td><code>01...</code></td>
+</tr>
+</tbody>
+</table>
+<p>So, if both message1 and message2 have the same character at the same position, then we will have <code>00...</code> at this position after <code>XOR</code>ing them. If the values are different, then we will have it starting with <code>01...</code>. Statisctically more likely that we have either two letters or a letter with a space [<a href="https://www.coursera.org/learn/cryptography/home/welcome">1</a>]. With this information we might restore some parts of the message like this.</p>
+<p>Say, we have three ciphertext. The first of them has a hex value <code>A8</code> at the 9th position, the second <code>ED</code> and the third <code>BD</code>. Let&rsquo;s write them in binary:</p>
+<p><code>A8</code> - <code>1010 1000</code>, hence start with <code>10...</code></p>
+<p><code>ED</code> - <code>1110 1101</code>, hence start with <code>11...</code></p>
+<p><code>BD</code> - <code>1011 1101</code>, hence start with <code>10...</code></p>
+<p>If we <code>XOR</code> <code>A8</code> with <code>BD</code> (<code>10...</code> with <code>10...</code>) we will get <code>00</code> since the values have the same starting two bits. We can conclude with some amount of certainty that both have a letter as plain text. However, if we <code>XOR</code> either <code>A8</code> with <code>ED</code> or <code>A8</code> with <code>BD</code>, we get <code>01...</code>. Knowing that both <code>A8</code> and <code>BD</code> are some ASCII letter characters, we can also conclude that <code>ED</code> is a space character. Now, <code>ED</code> is the value after <code>XOR</code>ing. So, we <code>ED XOR 20</code> to get the key character for the 9th character in all cipher texts = <code>CD</code>. Now, since the keys are the same for all the three cipher text, lets <code>XOR</code> the other two characters: <code>A8 XOR CD = 65 (e)</code> and <code>BD XOR CD = 70 (p)</code>.</p>
+<p>When watching the course I could not help but thinking, is it helpful to know the resulting XOR values for each possible pair of letters? Then having the <code>message1 xor message2</code> we could for each byte have limited options to choose from&hellip; How limited?</p>
+<p>I&rsquo;ve first created an array of chars:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="nb">chr</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x0</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">)</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">char</span><span class="p">)</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">52</span><span class="p">])</span>
+<span class="o">&gt;</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">,</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]</span>
+</code></pre></div><p>I then calculated <code>XOR</code> values for each combination:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Reset</span>
+<span class="n">Color_Off</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0m&#34;</span>
+
+<span class="c1"># Regular Colors</span>
+<span class="n">Black</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;30m&#34;</span>        
+<span class="n">Red</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;31m&#34;</span>          
+<span class="n">Green</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;32m&#34;</span>        
+<span class="n">Yellow</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;33m&#34;</span>       
+<span class="n">Blue</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;34m&#34;</span>         
+<span class="n">Purple</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;35m&#34;</span>       
+<span class="n">Cyan</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;36m&#34;</span>         
+<span class="n">White</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;37m&#34;</span> 
+
+<span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="n">char</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x0</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">)</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">char</span><span class="p">)</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()]</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ch1</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">ch2</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Color_Off</span> <span class="o">+</span> <span class="s2">&#34;If&#34;</span> <span class="o">+</span> <span class="n">Red</span> <span class="o">+</span> <span class="s2">&#34; ch1&#34;</span> <span class="o">+</span> <span class="n">Color_Off</span> <span class="o">+</span> <span class="s2">&#34; is {} and &#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">ch1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Red</span> <span class="o">+</span> <span class="s2">&#34;ch2&#34;</span> <span class="o">+</span> <span class="n">Color_Off</span> <span class="o">+</span> <span class="s2">&#34; is {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">ch2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&#34;, the resulting XOR is:&#34;</span> <span class="o">+</span> <span class="n">Purple</span> <span class="o">+</span>  <span class="s2">&#34; {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="n">ch1</span> <span class="o">^</span> <span class="n">ch2</span><span class="p">))</span> <span class="o">+</span> <span class="n">Yellow</span><span class="p">))</span>
+</code></pre></div><p>I wasn&rsquo;t thinking about cool algorithms since I only have 52 charactes. The result is the following (I&rsquo;ve trimmed it a bit):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">If ch1 is A and ch2 is A, the resulting XOR is: 0x0
+If ch1 is A and ch2 is B, the resulting XOR is: 0x3
+If ch1 is A and ch2 is C, the resulting XOR is: 0x2
+...
+If ch1 is z and ch2 is v, the resulting XOR is: 0xc
+If ch1 is z and ch2 is w, the resulting XOR is: 0xd
+If ch1 is z and ch2 is x, the resulting XOR is: 0x2
+If ch1 is z and ch2 is y, the resulting XOR is: 0x3
+If ch1 is z and ch2 is z, the resulting XOR is: 0x0
+</code></pre></div><p>This result is to long and there are obviously repeated values, for example, <code>a xor z</code> is the same as <code>z xor a</code>the . Besides, I already know that two identical values will deem the same <code>XOR</code> result. So, I&rsquo;ve optimized the output:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Reset</span>
+<span class="n">Color_Off</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0m&#34;</span>
+
+<span class="c1"># Regular Colors</span>
+<span class="n">Black</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;30m&#34;</span>        
+<span class="n">Red</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;31m&#34;</span>          
+<span class="n">Green</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;32m&#34;</span>        
+<span class="n">Yellow</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;33m&#34;</span>       
+<span class="n">Blue</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;34m&#34;</span>         
+<span class="n">Purple</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;35m&#34;</span>       
+<span class="n">Cyan</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;36m&#34;</span>         
+<span class="n">White</span><span class="o">=</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[0;37m&#34;</span> 
+
+<span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="n">char</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mh">0x0</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">)</span> <span class="k">if</span> <span class="nb">chr</span><span class="p">(</span><span class="n">char</span><span class="p">)</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()]</span>
+
+<span class="c1"># strip the non-English characters</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1"># print(array)</span>
+
+<span class="k">for</span> <span class="n">ch1</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">ch2</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
+        <span class="n">xor_result</span> <span class="o">=</span> <span class="nb">hex</span><span class="p">(</span><span class="n">ch1</span><span class="o">^</span><span class="n">ch2</span><span class="p">)</span>
+        <span class="c1"># each pair of the same values will give me 0x0</span>
+        <span class="k">if</span> <span class="n">xor_result</span> <span class="o">==</span> <span class="s1">&#39;0x0&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">xor_result</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">xor_result</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;{} xor {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ch1</span><span class="p">,</span> <span class="n">ch2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&#34;{} xor {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ch2</span><span class="p">,</span> <span class="n">ch1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="n">xor_result</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">xor_result</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&#34;; {} xor {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ch1</span><span class="p">,</span> <span class="n">ch2</span><span class="p">)</span>
+        <span class="c1"># print(Color_Off + &#34;If&#34; + Yellow + &#34; ch1&#34; + Color_Off + &#34; is {} and &#34;.format(chr(ch1)) + Green + &#34;ch2&#34; + Color_Off + &#34; is {}&#34;.format(chr(ch2) + &#34;, the resulting XOR is:&#34; + Purple +  &#34; {}&#34;.format(xor_result) + Yellow))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;{&#34;</span> <span class="o">+</span> <span class="s2">&#34;</span><span class="se">\n\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&#34;{!r}: {!r},&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span> <span class="o">+</span> <span class="s2">&#34;}&#34;</span><span class="p">)</span>
+</code></pre></div><p>Also, if you observe carefully the result of the scipt above, you&rsquo;ll notice that the xor values of upper and lower case letters are the same. We can then show only either of them. Upper of lowercase are usually insignificant. After sorting, grouping and optimising:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">{</span><span class="s1">&#39;0x1&#39;</span>: <span class="s1">&#39;B xor C; D xor E; F xor G; H xor I; J xor K; L xor M; N xor O; P xor Q; R xor S; T xor U; V xor W; X xor Y&#39;</span>,
+
+<span class="s1">&#39;0x10&#39;</span>: <span class="s1">&#39;A xor Q; B xor R; C xor S; D xor T; E xor U; F xor V; G xor W; H xor X; I xor Y; J xor Z&#39;</span>,
+
+<span class="s1">&#39;0x11&#39;</span>: <span class="s1">&#39;A xor P; B xor S; C xor R; D xor U; E xor T; F xor W; G xor V; H xor Y; I xor X; K xor Z&#39;</span>,
+
+<span class="s1">&#39;0x12&#39;</span>: <span class="s1">&#39;A xor S; B xor P; C xor Q; D xor V; E xor W; F xor T; G xor U; H xor Z; J xor X; K xor Y&#39;</span>,
+
+<span class="s1">&#39;0x13&#39;</span>: <span class="s1">&#39;A xor R; B xor Q; C xor P; D xor W; E xor V; F xor U; G xor T; I xor Z; J xor Y; K xor X&#39;</span>,
+
+<span class="s1">&#39;0x14&#39;</span>: <span class="s1">&#39;A xor U; B xor V; C xor W; D xor P; E xor Q; F xor R; G xor S; L xor X; M xor Y; N xor Z&#39;</span>,
+
+<span class="s1">&#39;0x15&#39;</span>: <span class="s1">&#39;A xor T; B xor W; C xor V; D xor Q; E xor P; F xor S; G xor R; L xor Y; M xor X; O xor Z&#39;</span>,
+
+<span class="s1">&#39;0x16&#39;</span>: <span class="s1">&#39;A xor W; B xor T; C xor U; D xor R; E xor S; F xor P; G xor Q; L xor Z; N xor X; O xor Y&#39;</span>,
+
+<span class="s1">&#39;0x17&#39;</span>: <span class="s1">&#39;A xor V; B xor U; C xor T; D xor S; E xor R; F xor Q; G xor P; M xor Z; N xor Y; O xor X&#39;</span>,
+
+<span class="s1">&#39;0x18&#39;</span>: <span class="s1">&#39;A xor Y; B xor Z; H xor P; I xor Q; J xor R; K xor S; L xor T; M xor U; N xor V; O xor W&#39;</span>,
+
+<span class="s1">&#39;0x19&#39;</span>: <span class="s1">&#39;A xor X; C xor Z; H xor Q; I xor P; J xor S; K xor R; L xor U; M xor T; N xor W; O xor V&#39;</span>,
+
+<span class="s1">&#39;0x1a&#39;</span>: <span class="s1">&#39;B xor X; C xor Y; H xor R; I xor S; J xor P; K xor Q; L xor V; M xor W; N xor T; O xor U&#39;</span>,
+
+<span class="s1">&#39;0x1b&#39;</span>: <span class="s1">&#39;A xor Z; B xor Y; C xor X; H xor S; I xor R; J xor Q; K xor P; L xor W; M xor V; N xor U; O xor T&#39;</span>,
+
+<span class="s1">&#39;0x1c&#39;</span>: <span class="s1">&#39;D xor X; E xor Y; F xor Z; H xor T; I xor U; J xor V; K xor W; L xor P; M xor Q; N xor R; O xor S&#39;</span>,
+
+<span class="s1">&#39;0x1d&#39;</span>: <span class="s1">&#39;D xor Y; E xor X; G xor Z; H xor U; I xor T; J xor W; K xor V; L xor Q; M xor P; N xor S; O xor R&#39;</span>,
+
+<span class="s1">&#39;0x1e&#39;</span>: <span class="s1">&#39;D xor Z; F xor X; G xor Y; H xor V; I xor W; J xor T; K xor U; L xor R; M xor S; N xor P; O xor Q&#39;</span>,
+
+<span class="s1">&#39;0x1f&#39;</span>: <span class="s1">&#39;E xor Z; F xor Y; G xor X; H xor W; I xor V; J xor U; K xor T; L xor S; M xor R; N xor Q; O xor P&#39;</span>,
+
+<span class="s1">&#39;0x2&#39;</span>: <span class="s1">&#39;A xor C; D xor F; E xor G; H xor J; I xor K; L xor N; M xor O; P xor R; Q xor S; T xor V; U xor W; X xor Z&#39;</span>,
+
+<span class="s1">&#39;0x3&#39;</span>: <span class="s1">&#39;A xor B; D xor G; E xor F; H xor K; I xor J; L xor O; M xor N; P xor S; Q xor R; T xor W; U xor V; Y xor Z&#39;</span>,
+
+<span class="s1">&#39;0x4&#39;</span>: <span class="s1">&#39;A xor E; B xor F; C xor G; H xor L; I xor M; J xor N; K xor O; P xor T; Q xor U; R xor V; S xor W&#39;</span>,
+
+<span class="s1">&#39;0x5&#39;</span>: <span class="s1">&#39;A xor D; B xor G; C xor F; H xor M; I xor L; J xor O; K xor N; P xor U; Q xor T; R xor W; S xor V&#39;</span>,
+
+<span class="s1">&#39;0x6&#39;</span>: <span class="s1">&#39;A xor G; B xor D; C xor E; H xor N; I xor O; J xor L; K xor M; P xor V; Q xor W; R xor T; S xor U&#39;</span>,
+
+<span class="s1">&#39;0x7&#39;</span>: <span class="s1">&#39;A xor F; B xor E; C xor D; H xor O; I xor N; J xor M; K xor L; P xor W; Q xor V; R xor U; S xor T&#39;</span>,
+
+<span class="s1">&#39;0x8&#39;</span>: <span class="s1">&#39;A xor I; B xor J; C xor K; D xor L; E xor M; F xor N; G xor O; P xor X; Q xor Y; R xor Z&#39;</span>,
+
+<span class="s1">&#39;0x9&#39;</span>: <span class="s1">&#39;A xor H; B xor K; C xor J; D xor M; E xor L; F xor O; G xor N; P xor Y; Q xor X; S xor Z&#39;</span>,
+
+<span class="s1">&#39;0xa&#39;</span>: <span class="s1">&#39;A xor K; B xor H; C xor I; D xor N; E xor O; F xor L; G xor M; P xor Z; R xor X; S xor Y&#39;</span>,
+
+<span class="s1">&#39;0xb&#39;</span>: <span class="s1">&#39;A xor J; B xor I; C xor H; D xor O; E xor N; F xor M; G xor L; Q xor Z; R xor Y; S xor X&#39;</span>,
+
+<span class="s1">&#39;0xc&#39;</span>: <span class="s1">&#39;A xor M; B xor N; C xor O; D xor H; E xor I; F xor J; G xor K; T xor X; U xor Y; V xor Z&#39;</span>,
+
+<span class="s1">&#39;0xd&#39;</span>: <span class="s1">&#39;A xor L; B xor O; C xor N; D xor I; E xor H; F xor K; G xor J; T xor Y; U xor X; W xor Z&#39;</span>,
+
+<span class="s1">&#39;0xe&#39;</span>: <span class="s1">&#39;A xor O; B xor L; C xor M; D xor J; E xor K; F xor H; G xor I; T xor Z; V xor X; W xor Y&#39;</span>,
+
+<span class="s1">&#39;0xf&#39;</span>: <span class="s1">&#39;A xor N; B xor M; C xor L; D xor K; E xor J; F xor I; G xor H; U xor Z; V xor Y; W xor X&#39;</span>,<span class="o">}</span>
+</code></pre></div><p>So, we have limited possibilities for each <code>XOR</code> result. Of course, it will require a decent amount of work, but it can be done if the message is big enough. Also, a frequency analysis can also be used, but it the distribution will be much more sparse.</p>
+<p>Let&rsquo;s find <code>0x15</code> in the output above (one we got when <code>XOR</code>ing two cipher text in the example above, those that have letters only). There are the following options: <code>'0x15': 'A xor T; B xor W; C xor V; D xor Q; E xor P; F xor S; G xor R; L xor Y; M xor X; O xor Z'</code>. So, as you may see, one of them is <code>P xor E</code> (or <code>E xor P</code>, or <code>e xor p</code>, or <code>p xor e</code>). This could be a good start in case we had such a problem. In the script above the characters in the array can be changed to any set of values depending on the character set composing the original message.</p>
+<p>So, too summarize, if we have two cipher texts encrypted with the same key using one-time pad, here are some tricks to help get the plaintext if not full at least partly. We need to XOR the two messages and observe each byte in the result.</p>
+<ul>
+<li>If the byte is <code>0x0</code> (binary <code>0000 0000</code>), then the bytes at this position in both plain texts are the same. If it&rsquo;s a consecutive series of bytes at the end or at the beginning, might be a name.</li>
+<li>If the byte starts with <code>01.. ....</code> in binary, it&rsquo;s likely that one of the messages contains a space and the other - a character at this position.</li>
+<li>If the byte starts with <code>00.. ....</code> in binary, it&rsquo;s likely that both messages have a letter character at this position (in case it&rsquo;s ASCII) and these letters are different (see the first tip). Also, the script output above can help narrow down the number of options for each byte and if we know the language, we can sometimes deduce the whole word from its part or position in the text.</li>
+</ul>
+<h3 id="example-coursera">Example. Coursera</h3>
+<p>Spoiler alert!</p>
+<p>There are 7 messages, each 31 characters long. They are encrypted using one-time pad cipher with the same key. That allows us to crack the message. Alternative method to do it, is to perform the frequency analysis. In fact this problem (if the key is the same for all the 7 messages) comes down to cracking a Viginear cipher with a longer key. Technically this is no longer a <strong>one-time pad</strong> since the key is 7 times shorter than the message. I say <strong>the message</strong> because I see all these 7 ones as one message space and its length is 217. However since the key is the same, the key space in this case is 31 character only.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Cipher texts</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="s2">&#34;BB3A65F6F0034FA957F6A767699CE7FABA855AFB4F2B520AEAD612944A801E&#34;</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="s2">&#34;BA7F24F2A35357A05CB8A16762C5A6AAAC924AE6447F0608A3D11388569A1E&#34;</span>
+<span class="n">t3</span> <span class="o">=</span> <span class="s2">&#34;A67261BBB30651BA5CF6BA297ED0E7B4E9894AA95E300247F0C0028F409A1E&#34;</span>
+<span class="n">t4</span> <span class="o">=</span> <span class="s2">&#34;A57261F5F0004BA74CF4AA2979D9A6B7AC854DA95E305203EC8515954C9D0F&#34;</span>
+<span class="n">t5</span> <span class="o">=</span> <span class="s2">&#34;BB3A70F3B91D48E84DF0AB702ECFEEB5BC8C5DA94C301E0BECD241954C831E&#34;</span>
+<span class="n">t6</span> <span class="o">=</span> <span class="s2">&#34;A6726DE8F01A50E849EDBC6C7C9CF2B2A88E19FD423E0647ECCB04DD4C9D1E&#34;</span>
+<span class="n">t7</span> <span class="o">=</span> <span class="s2">&#34;BC7570BBBF1D46E85AF9AA6C7A9CEFA9E9825CFD5E3A0047F7CD009305A71E&#34;</span>
+
+<span class="c1"># all end with a 1E (.?) and 0F - ! or ?</span>
+<span class="c1"># Most likely, the first characters are capital letters</span>
+<span class="n">a1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t1</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">a2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t2</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">a3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t3</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t3</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">a4</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t4</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t4</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">a5</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t5</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t5</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">a6</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t6</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t6</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="n">a7</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">t7</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">t7</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+
+<span class="n">a1xora2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a1xora3</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a1xora4</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a1xora5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a1xora6</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a1xora7</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># XOR each message with the first one. I could have used any other message but I&#39;ve chosen the first one.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1</span><span class="p">)):</span>
+    <span class="n">a1xora2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">a2</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">))</span>
+    <span class="n">a1xora3</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">a3</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">))</span>
+    <span class="n">a1xora4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">a4</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">))</span>
+    <span class="n">a1xora5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">a5</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">))</span>
+    <span class="n">a1xora6</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">a6</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">))</span>
+    <span class="n">a1xora7</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">a7</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">))</span>
+
+<span class="c1"># normalize the output to a 8-bit by appending 0 at the digit start    </span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora2</span><span class="p">)):</span>
+    <span class="n">a1xora2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="s2">&#34;0&#34;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora2</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">a1xora2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">a1xora3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="s2">&#34;0&#34;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora3</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">a1xora3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">a1xora4</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="s2">&#34;0&#34;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora4</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">a1xora4</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">a1xora5</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="s2">&#34;0&#34;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora5</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">a1xora5</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">a1xora6</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="s2">&#34;0&#34;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora6</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">a1xora6</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">a1xora7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="s2">&#34;0&#34;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora7</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="o">+</span> <span class="n">a1xora7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    
+<span class="c1"># Analyze the result of XOR operation. If the bianry digit start with 01 - the most likely case is that either of the two is a space.    </span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1xora2</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">a1xora2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;01&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Purple</span> <span class="o">+</span> <span class="s2">&#34;Most likely either {}th char of cipher1 or {}th char of cipher2 is a space&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora3</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;01&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Purple</span> <span class="o">+</span> <span class="s2">&#34;Most likely either {}th char of cipher1 or {}th char of cipher3 is a space&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora4</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;01&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Purple</span> <span class="o">+</span> <span class="s2">&#34;Most likely either {}th char of cipher1 or {}th char of cipher4 is a space&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora5</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;01&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Purple</span> <span class="o">+</span> <span class="s2">&#34;Most likely either {}th char of cipher1 or {}th char of cipher5 is a space&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora6</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;01&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Purple</span> <span class="o">+</span> <span class="s2">&#34;Most likely either {}th char of cipher1 or {}th char of cipher6 is a space&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora7</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;01&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Purple</span> <span class="o">+</span> <span class="s2">&#34;Most likely either {}th char of cipher1 or {}th char of cipher7 is a space&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;00&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Cyan</span> <span class="o">+</span> <span class="s2">&#34;Most likely both {}th char of cipher1 and {}th char of cipher2 is a char or both are spaces&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora3</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;00&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Cyan</span> <span class="o">+</span> <span class="s2">&#34;Most likely both {}th char of cipher1 and {}th char of cipher3 is a char or both are spaces&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora4</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;00&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Cyan</span> <span class="o">+</span> <span class="s2">&#34;Most likely both {}th char of cipher1 and {}th char of cipher4 is a char or both are spaces&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora5</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;00&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Cyan</span> <span class="o">+</span> <span class="s2">&#34;Most likely both {}th char of cipher1 and {}th char of cipher5 is a char or both are spaces&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora6</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;00&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Cyan</span> <span class="o">+</span> <span class="s2">&#34;Most likely both {}th char of cipher1 and {}th char of cipher6 is a char or both are spaces&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">a1xora7</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;00&#34;</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">Cyan</span> <span class="o">+</span> <span class="s2">&#34;Most likely both {}th char of cipher1 and {}th char of cipher7 is a char or both are spaces&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># 1. All the first characters are not spaces</span>
+<span class="c1"># 2. The first and the fifth message start with the same character</span>
+<span class="c1"># 3. There can&#39;t be more than one space between letters (assumption)</span>
+<span class="c1"># 4. If I see &#34;Most likely either 5th char of cipher1 or 5th char of cipherX is a space&#34; for several X, then I should check whether hex chars at this position for all cipher text other than the first one are the same.</span>
+<span class="c1"># Otherwise, cipher1 has the space!</span>
+
+<span class="n">a2xora3</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a2xora4</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a2xora5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a2xora6</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">a2xora7</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># key</span>
+<span class="c1">#        1     2      3    4      5     6      7    8     9     10    11  12  13    14    15    16   17     18    19    20    21    22    23    24    25  26   27   28    29   30  31</span>
+<span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0xF2</span><span class="p">,</span> <span class="mh">0x1A</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x9b</span><span class="p">,</span> <span class="mh">0xd0</span><span class="p">,</span> <span class="mh">0x73</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0xc8</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x98</span><span class="p">,</span> <span class="mh">0xce</span><span class="p">,</span> <span class="mh">0x9</span><span class="p">,</span> <span class="mh">0xe</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0x86</span><span class="p">,</span> <span class="mh">0xda</span><span class="p">,</span> <span class="mh">0xc9</span><span class="p">,</span> <span class="mh">0xe0</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0x2a</span><span class="p">,</span> <span class="mh">0x5f</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0xa5</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0xee</span><span class="p">,</span> <span class="mh">0x30</span><span class="p">]</span>
+
+<span class="n">result1</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+<span class="n">result3</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+<span class="n">result4</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+<span class="n">result5</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+<span class="n">result6</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+<span class="n">result7</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)):</span>
+    <span class="n">result1</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">result2</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">result3</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a3</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">result4</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a4</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">result5</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a5</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">result6</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a6</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">result7</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">a7</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="c1"># output the result    </span>
+<span class="k">print</span><span class="p">(</span><span class="n">result1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result4</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result6</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result7</span><span class="p">)</span>
+</code></pre></div><h2 id="references">References</h2>
+<p>[<a href="https://www.coursera.org/learn/cryptography/home/welcome">1</a>] Coursera, by University of Maryland, College Park</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

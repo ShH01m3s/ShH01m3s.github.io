@@ -164,8 +164,10 @@
       <ul>
         <li><a href="#versions">Versions</a></li>
         <li><a href="#fat-structure">FAT Structure</a></li>
+        <li><a href="#timestamps">Timestamps</a></li>
         <li><a href="#fat-file-creation-and-deletion">FAT File Creation And Deletion</a></li>
         <li><a href="#exfat-structure">exFAT Structure</a></li>
+        <li><a href="#timestamps-1">Timestamps</a></li>
         <li><a href="#exfat-file-creation-and-deletion">exFAT File Creation and Deletion</a></li>
       </ul>
     </li>
@@ -182,7 +184,7 @@
     <li><a href="#hfs-1">HFS+</a></li>
     <li><a href="#apfs">APFS</a>
       <ul>
-        <li><a href="#timestamps">Timestamps</a></li>
+        <li><a href="#timestamps-2">Timestamps</a></li>
         <li><a href="#metadata">Metadata</a></li>
       </ul>
     </li>
@@ -191,7 +193,7 @@
         <li><a href="#versions-1">Versions</a></li>
         <li><a href="#structure">Structure</a></li>
         <li><a href="#file-creation-and-deletion">File Creation and Deletion</a></li>
-        <li><a href="#timestamps-1">Timestamps</a></li>
+        <li><a href="#timestamps-3">Timestamps</a></li>
         <li><a href="#ntfs-metadata">NTFS Metadata</a></li>
       </ul>
     </li>
@@ -459,11 +461,10 @@ inc ebp
 <p>1 byte for created time in 10 milliseconds</p>
 </li>
 <li>
-<p>4 bytes for created date and time. Four bytes for date and time created (first two bytes for time 🕰 and the second two bytes for date 📆). The time bytes are first converted from the little-endian notation (two bytes flipped). In the example below, for the yellow short entry the created date and time <code>0x55 0x6E 0x31 0x53</code>. Bytes <code>0x55 0x6E</code> are for the time and <code>0x31 0x53</code> are for the date. Let&rsquo;s take the time bytes <code>0x55 0x6E</code>. Flip them to convert from the little-endian notation: <code>06E 0x55</code>. Convert each nibble to a binary value: <code>b0110</code>, <code>b1110</code>, <code>b0101</code>, <code>b0101</code>. Now, write them in a row and separate with the following template in mind: 5 bits - 6 bits - 5 bits: <code>b01101 b110010 b10101</code>. The first five bits are for hours, the next 6 bits are for minutes and the last ones are for seconds. Then, each value is converted into a decimal separately to get us 13 hrs, 50 mins and 21 seconds in the end (see the above picture only shows hours and minutes). For the date 📆 value the template is 7-4-5 but the process is the same.</p>
-<p><img src="images/fat-entry-struct.png" alt="fat-entry-struct"></p>
+<p>4 bytes for created date and time. See how the data is converted in the Timestamps section below.</p>
 </li>
 <li>
-<p>Two bytes for Last accessed date</p>
+<p>Two bytes for Last accessed date (⚠️ no time!)</p>
 </li>
 <li>
 <p>Pointer to the first cluster of the file/directory (high word). If the file is somewhere close to the disk start, it will be equal to <code>00 00</code>.</p>
@@ -537,6 +538,10 @@ inc ebp
 <p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/data-storage/file-systems/images/fat-fat-contig-file.png" alt="fat-fat-contig-file"></p>
 <p>Let&rsquo;s read each 4 bytes starting from the cluster with the value <code>0x70 00 00 00</code>. This is the first cluster in the chain that points to the next cluster (<code>0x70</code> cluster, i.e. cluster 112 in decimal). Cluster 112 (<code>0x70</code>), the next one, points to the next cluster in the chain (<code>0x71</code>, i.e. 113) and so on and so forth. But as you may notice it&rsquo;s easy to note such chains.</p>
 <p>To make it easier to read FAT32 table (which has 4 bytes for each entry), you may change view preferences in Active@Disk Editor (<code>File &gt; Preferences &gt; Disk Editor &gt; Bytes per line &gt; 4</code>).</p>
+<h3 id="timestamps">Timestamps</h3>
+<p>Local times, not UTC! For Last Accessed we only have date, no time!</p>
+<p>Four bytes for date and time created (first two bytes for time 🕰 and the second two bytes for date 📆). The time bytes are first converted from the little-endian notation (two bytes flipped). In the example below, for the yellow short entry the created date and time <code>0x55 0x6E 0x31 0x53</code>. Bytes <code>0x55 0x6E</code> are for the time and <code>0x31 0x53</code> are for the date. Let&rsquo;s take the time bytes <code>0x55 0x6E</code>. Flip them to convert from the little-endian notation: <code>06E 0x55</code>. Convert each nibble to a binary value: <code>b0110</code>, <code>b1110</code>, <code>b0101</code>, <code>b0101</code>. Now, write them in a row and separate with the following template in mind: 5 bits - 6 bits - 5 bits: <code>b01101 b110010 b10101</code>. The first five bits are for hours, the next 6 bits are for minutes and the last ones are for seconds. Then, each value is converted into a decimal separately to get us 13 hrs, 50 mins and 21 seconds in the end (see the above picture only shows hours and minutes). For the date 📆 value the template is 7-4-5 but the process is the same.</p>
+<p><img src="images/fat-entry-struct.png" alt="fat-entry-struct"></p>
 <h3 id="fat-file-creation-and-deletion">FAT File Creation And Deletion</h3>
 <h4 id="creating">Creating</h4>
 <p>Steps that are taken when a file is created:</p>
@@ -559,14 +564,59 @@ inc ebp
 <blockquote>
 <p>⚠️ Offsets are relative to the start of the volume.</p>
 </blockquote>
+<p>In general, it looks very close to FAT32. Something new - <code>bytes per sector shift</code> (between 9 and 12) and <code>bytes per cluster shift</code> (~sectors per cluster, 0-25). The value in this field is the power to which we need raise 2 to get the result. For example, if the field <code>bytes per sector shift</code> is set to 9, we raise 2 to the power of 9 (<code>2^9 = 512</code>, which means each sector is 512 bytes long). The same math is applied to the <code>bytes per cluster shift </code> field.</p>
 <h4 id="fat1">FAT1</h4>
 <p>32-bit entries. Media descriptor is the same: <code>0xFF FF FF F8</code>. Only tracks file fragmentation and doesn&rsquo;t track file allocation (Bitmap is used for that instead)!</p>
+<h4 id="root-directory-1">Root Directory</h4>
+<p>Types of directory entries:</p>
+<ul>
+<li>volume label (critical primary), <code>0x83</code>. User-created name for the volume. ⚠️ <em>Must be there!</em></li>
+<li>file directory (critical primary) 🍇. Tracks attributes, MAC times (UTC), ⚠️ <em>but doesn&rsquo;t point to the parent directory (no <code>..</code> entry like in FAT32)</em>. <code>0x85</code> - in use, <code>0x05</code> - free. ⚠️<em>All files will have this entry!</em></li>
+<li>stream extension directory (critical secondary) 🍇. Size and start of the file. ⚠️ <em>Size of the filename is here (in characters)!</em> Starts with <code>0xC0</code> if in use, <code>0x40</code> if not. <code>Not FAT chain</code> - if set, it&rsquo;s not a fragmented file. Also, there are two interesting values: <code>Valid data length</code> (init size) and <code>Data length</code>. If, say a file was downloaded, FS will allocate certain amount of space. But if that download was interrupted, then the file won&rsquo;t occupy all the space, thus these two values will be different.</li>
+<li>file name (critical secondary) 🍇. Unicode for file name. <code>0xC1</code> if in use, <code>0x41</code> if not. Up to 15 Unicode chars. Might be more than one (~like long file names in FAT, can be more than one entry in case it&rsquo;s a long name).</li>
+<li>system files (critical primary)
+<ul>
+<li>Bitmap <code>0x81</code>. Usually starts at cluster 2.</li>
+<li>Upcase <code>0x82</code>. Usually starts at cluster 4.</li>
+</ul>
+</li>
+</ul>
+<p>Entries mared with 🍇 are those, that make up a <strong>directory set</strong>. Below is the breakdown of a directory set. The first byte (<code>0x85</code> in this case) indicates that the file is currently in use. It could be <code>0x05</code> if it were deleted.</p>
+<p>The next byte is the secondary count, which indicated how many other directory entries we have in this file directory entry set (❓). The next two bytes are for error checking and then the next two <code>0x3A 00</code> are attributes. The we have MAC times. We have last accesssed time, which we didn&rsquo;t in FAT32.</p>
+<p><img src="images/exfat-dir-entry-set.jpg" alt="exfat-dir-entry-set"></p>
 <h4 id="additional-files">Additional Files</h4>
 <p>exFAT has two additional files that FAT32 does not. They probably come from the NTFS&hellip;: <code>Bitmap</code> and <code>Upcase</code> (table of Unicode chars, used to convert characters for searching).</p>
 <blockquote>
 <p>⚠️ Both files have an entry in the root directory, but don&rsquo;t have a filename.</p>
 </blockquote>
+<h3 id="timestamps-1">Timestamps</h3>
+<p>UTC! The timezone offset is in 15mins increments (see a breakdown below). So, we have created, modified and last accessed date/times. Each of these timestamps will have a corresponding UTC offset in the file directory entry. It makes sense that these are always the same. In my case, <code>0xF4</code> <code>-2</code> in decimal, which would make a <code>UTC-2</code> (London timezone). We now know (in this case) that MAC times are for London timezone.</p>
+<blockquote>
+<p>⚠️ We have last accesssed <strong>time</strong>, which we didn&rsquo;t in FAT32.</p>
+</blockquote>
+<p>Below is the breakdown of how to convert a UTC byte into a human-readable value.</p>
+<p><img src="images/exfat-utc.jpg" alt="exfat-utc"></p>
 <h3 id="exfat-file-creation-and-deletion">exFAT File Creation and Deletion</h3>
+<h4 id="creation">Creation</h4>
+<ul>
+<li><input disabled="" type="checkbox"> directory set created</li>
+<li><input disabled="" type="checkbox"> bitmap for allocated clusters set to <code>1</code></li>
+<li><input disabled="" type="checkbox"> FAT updated (if fragmented)</li>
+<li><input disabled="" type="checkbox"> data written to the allocated clusters</li>
+</ul>
+<blockquote>
+<p>🧪 Are the timestamps updated for a deleted file in the directory entry? exFAT, FAT32 and NTFS as well.</p>
+</blockquote>
+<h4 id="deletion">Deletion</h4>
+<ul>
+<li><input disabled="" type="checkbox"> first bytes of each entry in the directory entry set is set in a way to show the file is not in use (<code>05</code> for a file directory entry, <code>40</code> for stream <code>41</code> for filename entries).</li>
+<li><input disabled="" type="checkbox"> bitmap entries for this file clusters are set to <code>0</code></li>
+<li><input disabled="" type="checkbox"> FAT may or may not be zeroed out</li>
+<li><input disabled="" type="checkbox"> file/dir contents remains there until and if is overwritten</li>
+</ul>
+<blockquote>
+<p>⚠️ If the parent folder is deleted, the child entries remain unchanged.</p>
+</blockquote>
 <h2 id="extx">ExtX</h2>
 <h3 id="2">2</h3>
 <p>No journaling</p>
@@ -601,7 +651,7 @@ inc ebp
 <ul>
 <li><input disabled="" type="checkbox"> <a href="https://eclecticlight.co/2019/12/18/making-sense-of-disk-utility-and-disk-structure-in-macos-10-13-10-15/">Making sense of Disk Utility and disk structure in macOS 10.13-10.15</a></li>
 </ul>
-<h3 id="timestamps">Timestamps</h3>
+<h3 id="timestamps-2">Timestamps</h3>
 <p>📆 <code>Jan 1, 1970</code></p>
 <h4 id="modified">Modified</h4>
 <h4 id="created">Created</h4>
@@ -824,9 +874,9 @@ inc ebp
 <li><input disabled="" type="checkbox"> The bitmap for the MFT is changed to show this file/dir is unallocated</li>
 <li><input disabled="" type="checkbox"> If the data is non-resident, the $BitMap file is updated to indicate the clusters are unallocated</li>
 </ul>
-<h3 id="timestamps-1">Timestamps</h3>
-<p>📆 <code>Jan 1, 1601</code></p>
-<p>Modified, Accessed (``), Created, MFT Modified.</p>
+<h3 id="timestamps-3">Timestamps</h3>
+<p>📆 <code>Jan 1, 1601</code>. UTC?</p>
+<p>Modified, Accessed, Created, MFT Modified.</p>
 <p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code>, <code>$I30_Index</code>.</p>
 <p><strong>Modified</strong></p>
 <p><strong>Created</strong></p>

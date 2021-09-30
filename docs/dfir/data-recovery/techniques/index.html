@@ -164,9 +164,10 @@
     <li><a href="#ntfs-file-recovery">NTFS File Recovery</a>
       <ul>
         <li><a href="#steps-1">Steps</a></li>
-        <li><a href="#example-1">Example 1</a></li>
+        <li><a href="#example-1-reconvering-a-resident-file">Example 1. Reconvering a resident file</a></li>
       </ul>
     </li>
+    <li><a href="#exfat-file-recovery">exFAT File Recovery</a></li>
     <li><a href="#recovering-data-from-flash-drives">Recovering Data From Flash Drives</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -311,7 +312,7 @@
 <blockquote>
 <p>⚠️ Since MFT records get reused once they are deallocated on the first-free basis, resident files get overwritten sooner.</p>
 </blockquote>
-<p>For resident files, use a regular expression for finding <code>FILE0</code> records: <code>\x46\x49\x4C\x45.[18][\x00\x02]</code> [<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>]. This will find all the <code>FILE</code> records that are not newly created. Remember, once a file is created its sequence number is <code>01</code>. Whenever the <code>FILE</code> record is deleted (deallocated, it&rsquo;s never actually deleted), the sequence number gets incremented. So, if this record was deallocated once, its sequence number will be <code>0x02</code>. But! This record can be reused multiple times! When I did the lab, one poor record was reused over and over again, and its sequence number got as big as <code>0x08</code>, imagine that! So, I would fix the regular expression above to address these cases: <code>\x46\x49\x4C\x45.[18]NOT[\x00\x01]OR[\x00\x00]</code> (todo).</p>
+<p>For resident files, use a regular expression for finding <code>FILE0</code> records: <code>\x46\x49\x4C\x45.{18}[\x00\x02]</code> [<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>]. This will find all the <code>FILE</code> records that are not newly created. Remember, once a file is created its sequence number is <code>01</code>. Whenever the <code>FILE</code> record is deleted (deallocated, it&rsquo;s never actually deleted), the sequence number gets incremented. So, if this record was deallocated once, its sequence number will be <code>0x02</code>. But! This record can be reused multiple times! When I did the lab, one poor record was reused over and over again, and its sequence number got as big as <code>0x08</code>, imagine that! So, I would fix the regular expression above to address these cases: <code>\x46\x49\x4C\x45.{18}^[\x00\x01]</code> (todo).</p>
 <p>For a resident file:</p>
 <ul>
 <li><input disabled="" type="checkbox"> Use grep search or a regular expression (may use this feature in Active@Disk Editor) looking for the <code>FILE</code> header. As an alternative, use a keyword search.</li>
@@ -331,7 +332,23 @@
 <blockquote>
 <p>⚠️ When using a keyword search, use Unicode! Unicode is NTFS darling.</p>
 </blockquote>
-<h3 id="example-1">Example 1</h3>
+<h3 id="example-1-reconvering-a-resident-file">Example 1. Reconvering a resident file</h3>
+<p>Below is the file opened in Active@Disk Editor that I created and about to delete. In the first picture we can see the attributes and in the second - file contents. Also, in the second picture note the sector number (marked with a red rectangle). I am not using this data to recover the file, but I will rather use in validation purposes.</p>
+<p><img src="images/ntfs-rec-resident1.png" alt="ntfs-rec-resident1"></p>
+<p><img src="images/ntfs-rec-resident2.png" alt="ntfs-rec-resident2"></p>
+<p>Now, I&rsquo;m deleting the file.</p>
+<h2 id="exfat-file-recovery">exFAT File Recovery</h2>
+<p>More read <a href="/docs/dfir/data-storage/file-systems#exfat">here</a>.</p>
+<ul>
+<li><input disabled="" type="checkbox"> ❓how many sectors per cluster (offset <code>0x6D</code> in the boot record)? Keep in mind, it a shift value, i.e. you need to raise 2 to this power in order to get the actual number of clusters per sector.</li>
+<li><input disabled="" type="checkbox"> locate the dir enry set either bu going to the root cluster (in my case, the 4th cluster) and finding the record manually or by clicking <code>Browse File  Records</code> and selecting the folder under examination from the list.</li>
+<li><input disabled="" type="checkbox"> use the information from the set (file name, size and starting cluster) to carve the file. The stream entry contains this information. Go the cluster specified and list until you either reach the end of the allocated space (using the file size).</li>
+</ul>
+<p>If the directory entry set got overwritten - carve the file.</p>
+<p>If not, you could try reversing the Bitmap bits and the directory entry set first bytes, but generally the above is enough to get the file contents. This of course will not make it appear in the folder again, since for that you&rsquo;d have to manually fix Bitmap, FAT (in case of a fragmented file) and the dir entry set.</p>
+<blockquote>
+<p>🧪 Create and delete files to observe, how the Bitmap gets changed.</p>
+</blockquote>
 <h2 id="recovering-data-from-flash-drives">Recovering Data From Flash Drives</h2>
 <blockquote>
 <p>🧪 I thought that data deleted from a flash drive is not recoverable. However, I was able to recover files from a FAT32 partitioned drive. Why?</p>

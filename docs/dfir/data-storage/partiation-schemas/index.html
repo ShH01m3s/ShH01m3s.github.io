@@ -218,7 +218,7 @@
 <p>Primary partitions (bootable). Can have at most 4 bootable partitions, since it&rsquo;s limited to 4 partition entries in parition table, each entry 16 bytes in length. 4 bytes for their size, hence max value in hex is <code>0xFF FF FF FF</code>, hence max size of a partition is 2 Tb. It starts at sector <code>0</code>, it&rsquo;s 512 bytes long (one sector) and it ends with <code>0x55 0xAA</code>.</p>
 <p>Contains:</p>
 <ul>
-<li>Boot code (selected large area on the picture below, from <code>0x0</code> to <code>0x1B7</code>)</li>
+<li>Boot code (selected large area on the picture below, from <code>0x0</code> to <code>0x1B7</code>). More about boot code and its disassembly can be read <a href="http://www.dewassoc.com/kbase/hard_drives/master_boot_record.htm">here</a>.</li>
 <li>Disk signature (following the boot code, highligted in green followed by two zero values). In the example below, at offset <code>0x1B8</code>: <code>0x98 E4 84 D4</code>.</li>
 <li>Partition table (four entries: pink, blue, red and green, representing each partition on the disk). Each entry:
 <ul>
