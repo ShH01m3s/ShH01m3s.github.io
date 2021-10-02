@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Operations - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/reverse/basics/assebly/"> Back to Assembly 💯 Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#moving-data">Moving Data</a>
+      <ul>
+        <li><a href="#mov">MOV</a></li>
+        <li><a href="#lea">LEA</a></li>
+        <li><a href="#mov-vs-lea">MOV vs LEA</a></li>
+        <li><a href="#movsxd">MOVSXD</a></li>
+      </ul>
+    </li>
+    <li><a href="#arithmetic">Arithmetic</a>
+      <ul>
+        <li><a href="#add">ADD</a></li>
+        <li><a href="#sub">SUB</a></li>
+        <li><a href="#sbb">SBB</a></li>
+        <li><a href="#mul-and-div">MUL and DIV</a></li>
+        <li><a href="#imul-and-idiv">IMUL and IDIV</a></li>
+      </ul>
+    </li>
+    <li><a href="#shifts">Shifts</a>
+      <ul>
+        <li><a href="#ror-and-rol">ROR and ROL</a></li>
+        <li><a href="#rcr-and-rcl">RCR and RCL</a></li>
+        <li><a href="#shl-and-shr">SHL and SHR</a></li>
+        <li><a href="#rolror-vs-shlshr">ROL/ROR vs SHL/SHR</a></li>
+      </ul>
+    </li>
+    <li><a href="#comparisons">Comparisons</a>
+      <ul>
+        <li><a href="#test">TEST</a></li>
+        <li><a href="#cmp">CMP</a></li>
+      </ul>
+    </li>
+    <li><a href="#buffers">Buffers</a>
+      <ul>
+        <li><a href="#rep">REP</a></li>
+      </ul>
+    </li>
+    <li><a href="#jumps">Jumps</a>
+      <ul>
+        <li><a href="#jmp-and-friends">JMP and friends</a></li>
+      </ul>
+    </li>
+    <li><a href="#logical">Logical</a>
+      <ul>
+        <li><a href="#and">AND</a></li>
+        <li><a href="#or">OR</a></li>
+        <li><a href="#not">NOT</a></li>
+        <li><a href="#xor">XOR</a></li>
+      </ul>
+    </li>
+    <li><a href="#unsorted">Unsorted</a>
+      <ul>
+        <li><a href="#pushpop">PUSH/POP</a></li>
+        <li><a href="#pushapushadpopapopad">PUSHA/PUSHAD/POPA/POPAD</a></li>
+        <li><a href="#nop">NOP</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Operations</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+              <i class="fas fa-microchip"></i>
+              
+          <a class="category-link" href="/domain/reverse">reverse</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+            
+          <a class="platform-link" href="/platforms/mac">mac</a>
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/ios">ios</a>
+          
+            
+              <i class="fab fa-windows"></i>          
+            
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/windows">windows</a>
+          
+            
+            
+              <i class="fab fa-linux"></i>
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/linux">linux</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p>In this article I&rsquo;m describing all assembly operations that I&rsquo;ve encountered myseld and also wasn&rsquo;t lazy anough to put down an explanation about here. However, I won&rsquo;t be paying much attention to some operation that I consider straightforward, like <code>ADD</code>. I&rsquo;m going to put a flag for each operation indicating corresponding arch: <code>arm</code> or <code>x86</code> (just learning ARM myself for iOS analysis).</p>
+<p>Most of instruction have the following anatomy: <code>instruction &lt;destination operand&gt;, &lt;source operand&gt;</code>. Some operations look like this: <code>instruction &lt;source operand&gt;</code> when <code>&lt;destination operand&gt;</code> is always the same register (default). An example: <code>MUL</code>. When <code>MUL</code>ing, you always multiply <code>eax</code> on some value.</p>
+<h2 id="moving-data">Moving Data</h2>
+<h3 id="mov">MOV</h3>
+<p><code>x86</code></p>
+<p>The god of assembly operations. Its main purpose is pretty obvious: to move stuff from one place to another (like the Tower of Hanoi). Let&rsquo;s suppose that initially we have EAX = <strong>0x89</strong>, EBX = <strong>0x11</strong> and ESI = <strong>0x4037C0</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mov eax, ebx</code></td>
+<td>Copy data from EBX into EAX. Now EAX = EBX = <strong>0x89</strong>.</td>
+</tr>
+<tr>
+<td><code>mov ebx, 0x4037C4</code></td>
+<td>Copy <strong>0x4037C4</strong> and put it into EBX. Now EAX = <strong>0x89</strong> and EBX =  <strong>0x4037C4</strong></td>
+</tr>
+<tr>
+<td><code>mov eax, [ebx]</code></td>
+<td>Copy data from address stored in EBX into EAX. If EBX = <strong>0x4037C4</strong>, CPU goes to <strong>0x4037C4</strong> address, looks out for the data at this address, say, <strong>0x77</strong> and put it into EAX. Now EBX = <strong>0x4037C4</strong> and EAX is now <strong>0x77</strong>.</td>
+</tr>
+<tr>
+<td><code>mov eax, [0x4037C4]</code></td>
+<td>Since EBX = <strong>0x4037C4</strong>, this operation is equivalent to the previous one.</td>
+</tr>
+<tr>
+<td><code>mov ebx, [esi+eax*4]</code></td>
+<td>First, CPU calculates the address: ESI + EAX*4 = 0x4037C4 + 0x77*4 = 0x4037C4 + 1DC = 4039A0. Then, CPU goes to 0x4039A0 and copies the value at this address into EBX. Say, we have 0x33 there. So, EBX is not <strong>0x33</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>So, to conclude, you can <code>MOV</code>  a value directly, a value at address, a value in another register, an address itself (which is technically also a value) or a value at address using expression (the last example). Whenever there is an address &ldquo;in assembly&rsquo;s mind&rdquo;, you&rsquo;ll see square brackets []. Whenever the value - no brackets. It&rsquo;s something that in the higher levels of abstraction is usually called a reference type ([address]) when a reference is copies and a value type (value) when the value is copied. In case of reference types, whenever you change it, it changes elsewhere. For example, consider <code>mov eax, 0x4037C4</code> and <code>mov ebx, 0x4037C4</code>. If we <code>mov [eax], 0x42</code>, the <code>ebx</code> is also <code>0x42</code> now since it point to the same memory address.</p>
+<h3 id="lea">LEA</h3>
+<p><code>x86</code></p>
+<p>For smarties, it&rsquo;s called &ldquo;load effective address&rdquo;. Usually used for arrays and complex address calculations. Let&rsquo;s assume that initially we have EAX = <strong>0x89</strong>, EBX = <strong>0x11</strong> and ESI = <strong>0x4037C0</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lea ebx, [eax*5 + 5]</code></td>
+<td><code>eax*5 + 5</code> is equivalent to <code>5*(eax+1)</code> (ordinary mathematical manipulation). <code>(0x89 + 1 )*5 = 0x99 * 5 = 2FD</code>. In not <code>lea</code> it would require 4 operations instead: <code>inc eax</code> (0x89 + 1); <code>mov ecx, 5</code> <code>mul ecx</code> (0x99 * 5); <code>mov ebx, eax</code>. For <code>mul</code> operation see below in <a href="#Arithmetic">Arithmetic</a> section.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mov-vs-lea">MOV vs LEA</h3>
+<p><img src="images/anakin-vs-obiwan.png" alt="anakin-vs-obiwan"></p>
+<p>Let&rsquo;s compare these two:</p>
+<table>
+<thead>
+<tr>
+<th>MOV</th>
+<th>LEA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mov eax,[ebx+8]</code></td>
+<td><code>lea eax,[ebx+8]</code></td>
+</tr>
+</tbody>
+</table>
+<p>The first instruction (the one with <code>mov</code>) does the following: &ldquo;<em>Add 8 to the value at <code>ebx</code>, go to this address and store the value found in <code>eax</code></em>&rdquo;. So, it calculates the address and gets the value at this address to store in <code>eax</code>.</p>
+<p>The second instruction (the one with <code>lea</code>) does the following: &ldquo;Add 8 to the value at <code>ebx</code> and store the result in <code>eax</code>&rdquo;. So, it calculates the address and puts the address into <code>eax</code>.</p>
+<p>To conclude, <code>lea</code> stores address (reference types) and <code>mov</code> usually stores values (value types). However, note that <code>mov</code> can move addresses as well, since address is also just an integer, i.e. value.</p>
+<h3 id="movsxd">MOVSXD</h3>
+<p><code>x86</code></p>
+<p>Example: <code>movsxd rsi, [rbp+8h]</code></p>
+<p>Copies the contents of the <code>&lt;src_operand&gt;</code> to the <code>&lt;dst_operand&gt;</code> and sign extends the value to 16 or 32 bits. The size of the converted value depends on the operand-size attribute. In 64-bit mode, the instruction’s default operation size is 32 bits.</p>
+<h2 id="arithmetic">Arithmetic</h2>
+<h3 id="add">ADD</h3>
+<p><code>x86</code></p>
+<p><code>add eax, 5</code> - adds a value to a value in register, address or to another value.</p>
+<h3 id="sub">SUB</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags:</strong> <code>CF</code>, <code>ZF</code></p>
+<p><code>CF</code> =1 if <code>&lt;destination operand&gt;</code> is <!-- raw HTML omitted -->less<!-- raw HTML omitted --> than the <code>&lt;source operand&gt;</code>, i.e. after substraction there is a negative number.<code>ZF</code> = <code>1</code> if <code>&lt;destination operand&gt;</code> = <code>&lt;source operand&gt;</code> and the result is zero.</p>
+<p>Let&rsquo;s assume that <code>EAX</code> = <strong><code>0x99</code></strong> and <code>EBX</code> = <strong><code>0x2</code></strong>.</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sub eax, 0x99</code></td>
+<td>Now <code>eax</code> is <code>0</code>, therefore <code>ZF</code> = <code>1</code>.</td>
+</tr>
+<tr>
+<td><code>sub ebx, 0x10</code></td>
+<td>This results in negative number, therefore, <code>CF</code> = <code>1</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sbb">SBB</h3>
+<p><code>x86</code></p>
+<p><strong>Affected <!-- raw HTML omitted -->by<!-- raw HTML omitted --> flags</strong>: <code>CF</code></p>
+<p>Almoust the same but a little tricky. It&rsquo;s affected by <code>CF</code> flag. If <code>CF</code> = 0, then <code>sbb eax, 0x10</code> is equivalent to <code>sub eax, 0x10</code> (which is <code>eax - 0x10</code>). If <code>CF</code> = 1, then it means: <code>eax = eax - 0x10 - 1</code>.</p>
+<h3 id="mul-and-div">MUL and DIV</h3>
+<p><code>x86</code></p>
+<p>Affected flags:</p>
+<p><code>CF</code> = <code>OF</code> = <code>0</code> if the high-order bits of the product are 0.</p>
+<p>Both of these instructions operate on a predefined register. For example, <code>mul ecx</code> is actually <code>mul eax, ecx</code> i.e. <code>eax</code> * <code>ecx</code>. The result is stored in register <code>AX</code>, <code>DX:AX</code>, or <code>EDX:EAX</code> (depending on the operand size). The high-order bits of the product are in <code>AH</code>, <code>DX</code>, or <code>EDX</code>, respectively.</p>
+<h3 id="imul-and-idiv">IMUL and IDIV</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags:</strong> <code>CF</code>, <code>OF</code></p>
+<p>Same as <code>MUL</code> and <code>DIV</code> but operate on signed values.<code>CF</code> = <code>OF</code> = <code>1</code> if significant bits are carried into the upper half of the result.  <code>cdq</code> instruction is usully used before <code>IDIV</code>. It converts a double to quad, <a href="http://faydoc.tripod.com/cpu/cdq.htm">quote</a>:</p>
+<blockquote>
+<p>The CDQ instruction copies the sign (bit 31) of the value in the EAX register into every bit position in the EDX register.</p>
+</blockquote>
+<p><strong>Forms</strong>:</p>
+<ol>
+<li>Like <code>MUL</code> and <code>DIV</code> when the <code>&lt;src operand&gt;</code> is used inly.</li>
+<li><code>imul edi, esi</code> when both  <code>&lt;dst operand&gt;</code> and <code>&lt;src operand&gt;</code> are used</li>
+<li><code>imul edi, esi, edx</code>, when beside the <code>&lt;dst operand&gt;</code> there are two <code>&lt;src operand&gt;</code>. The operations are as follows: <code>esi</code>*<code>edx</code> = <code>edi</code>.</li>
+</ol>
+<p><code>&lt;dst operand&gt;</code> is always a register or memory address. <code>&lt;src operand&gt;</code> can be a register, an address or a value. When a value is used, it is sign-extended to the length of the destination operand format.</p>
+<p>NB ❗ The length of the product is calculated to twice the length of the operands. With the one-operand form, the product is stored exactly in the destination. With the two- and three- operand forms, however, result is truncated to the length of the destination before it is stored in the destination register. This is why the <code>CF</code> or <code>OF</code> flag should be tested to ensure that no significant bits are lost.</p>
+<p>If this instruction is used for unsigned operations (since the lower half of the product is the same regardless if the operands are signed or unsigned. ), the <code>CF</code> and <code>OF</code> flags cannot be used to determine if the upper half of the result is non-zero.</p>
+<h2 id="shifts">Shifts</h2>
+<h3 id="ror-and-rol">ROR and ROL</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code> , <code>OF</code></p>
+<p>Rotate the integer n-time to the left or right. When you see such an instruction, very often it is an indication of encryption. To better understand both I need an example. Let&rsquo;s take an 8-bit binary value. The <strong>initial</strong> state is:</p>
+<p><code>0 1 0 0   1 1 1 0 </code></p>
+<p>See the <code>1</code> at the beginning of this number, <!-- raw HTML omitted -->second<!-- raw HTML omitted --> bit from the left (let&rsquo;s call him Matt). We will then locate him after <code>ROR</code> and <code>ROL</code>.</p>
+<p>Let&rsquo;s now <code>ROR</code> (rotate bits right) by 1. Every bit is moved to the right by one position. Our <strong>first</strong> state (for future reference):</p>
+<p><code>0 0 1 0   0 1 1 1</code></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? Now, this bit is the <!-- raw HTML omitted -->third<!-- raw HTML omitted --> bit from the left.</p>
+<p>Let&rsquo;s now <code>ROL</code> (rotate bits left) by 1. Every bit is moved to the left  by one position. Our <strong>second</strong> state:</p>
+<p><code>1 0 0 1   1 1 0 0</code></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? This bit is the <!-- raw HTML omitted -->first<!-- raw HTML omitted --> bit from the left, so, he&rsquo;s become the most significant bit in this number 👑 .</p>
+<p>Let&rsquo;s now <code>ROL</code> the last number by 1 again. Every bit is again moved to the left. But Matt has nowhere to move! He&rsquo;s falling nowhere&hellip;</p>
+<p><img src="https://media.giphy.com/media/1i6zbhYXV1kRO/giphy.gif" alt="img"></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? He seemed to have got drowned, but he managed it through the swamp and emerged&hellip; But now&hellip;Matt used to be the most significant bit 👑when in the <strong>second</strong> state , but now he&rsquo;s just a 💩, the least significant bit. As you can see, he&rsquo;s the first from the end.This is the <strong>third</strong> state:</p>
+<p><code>0 0 1 1  1 0 0 1</code></p>
+<p>Let&rsquo;s make him worthy again and give him his newly acquired and recently lost regalia. Let&rsquo;s <code>ROR</code> him by 1 again and get back to the <strong>second</strong> state (unforunately he&rsquo;ll have to dive into the swamp again):</p>
+<p><code>1 0 0 1   1 1 0 0</code></p>
+<p>When moving from the <strong>second</strong> to the <strong>third</strong> state Matt has been in a swamp, or in a wormhole 🐛 if you prefer a space metaphor. Let me introduce our wormhole -  <code>CF</code> flag. The spirit of Matt was printed on this flag. In other, less eloquent words, when falling from the edge into the swamp, his value (<code>1</code>) was copied into <code>CF</code>. So as any other bit that would &ldquo;fall&rdquo;. For example, if we get back to the <strong>third</strong> (and the most unfortunate for Matt) state (<code>0 0 1 1  1 0 0 1</code>). Matt&rsquo;s spirit is still there, therefore <code>CF</code> is still <code>1</code>.  Let&rsquo;s <code>ROL</code> this number by 1 once again, Martha (who&rsquo;s now the most significant, i.e. the first bit of the number) falls into the swamp, gets copied into <code>CF</code> and emerges at the end as the least significant bit 💩, making Matt now the second least significant bit, i.e. the second bit from the end (which is not that bad now)​. Now we have the forth state:</p>
+<p><code>0 1 1 1  0 0 1 0</code></p>
+<p>and the <code>CF</code> = 0 now bearing Martha&rsquo;s spirit.</p>
+<blockquote>
+<p>The processor restricts the count to a number between 0 and 31 by masking all the bits in the count operand except the 5 least-significant bits.</p>
+</blockquote>
+<h3 id="rcr-and-rcl">RCR and RCL</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code> , <code>OF</code></p>
+<p>It&rsquo;s pretty much the same, with just one small difference. <code>CF</code> flag is now taken into account, it&rsquo;s not just a wormhole 🐛 anymore. Let&rsquo;s consider the <strong>third</strong> state from the previous examples:</p>
+<p><code>0 0 1 1  1 0 0 1</code></p>
+<p>Let <code>CF</code> be 1 now (may be it was set by some preceding operation like <code>ROL</code>).</p>
+<p>If we now <code>RCL</code>, the <strong>fourth</strong> state will be as follows:</p>
+<p><code>CF</code> = Martha = 0.</p>
+<p><code>0 1 1 1  0 0 1 1</code></p>
+<p>The value that was in <code>CF</code> is now at the end of our number (<code>1</code>), and it&rsquo;s the most significant bit is now in <code>CF</code>. Everyone else has just shifted to the left by 1 bit. It&rsquo;s as if we were operating not on a 8-bit value, but on a 9 bit value:</p>
+<table>
+<thead>
+<tr>
+<th>MAIN value</th>
+<th>CF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0 1 1 1  0 0 1 1</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>which results in something like that: <code>0 1 1 1  0 0 1 1</code>    <code>0</code>.</p>
+<p>Let&rsquo;s now <code>RCR</code> back to the <strong>third</strong> state. <code>CF</code> = <code>0</code>, now it is moved to it&rsquo;s place (most significant bit) <code>0 0 1 1 1 0 0 1</code> and since it was Matt (<code>1</code>) who&rsquo;s falling from the cliff, <code>CF</code> = <code>1</code>. Everyone else has just shifted to the right.</p>
+<p>Another flag, which behaviour is quite peculiar, is <code>OF</code>. It only changes when we shift by 1. When we whift by 2 or more - nothing&rsquo;s happening to it. After CPU&rsquo;s performed the rotates, it calculated <code>OF</code> like this. For left rotates (<code>RCL</code> and <code>ROL</code>), the <code>OF</code> = <code>CF XOR the most-significant bit</code>. For right rotates, the <code>OF</code> = <code>most-significant-bit-1 XOR most-significant-bit-2</code>. For the example above with <code> RCL</code>, when we enetered the <strong>fourth</strong> state:</p>
+<p><code>CF</code> = <code>0</code> and the number itself is <code>0 1 1 1  0 0 1 1</code>.</p>
+<p><code>OF</code> = <code>0 XOR 0</code> = <code>0</code></p>
+<p>For RCR operation leading us back to the <strong>third</strong> state: <code>0 0 1 1 1 0 0 1</code>. Never mind <code>CF</code> since it&rsquo;s not included in the calculations. The two most significant bits after rotation are <code>0</code> and <code>0</code> (the first two digits). <code>OF</code> = <code>0 XOR 0</code> = again <code>0</code>.</p>
+<h3 id="shl-and-shr">SHL and SHR</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code></p>
+<p>Shifts bits by the value specified in second operand to the  left or to the right.  The last bit dropped off is written to <code>CF</code> &ldquo;before death ☠️ &ldquo;. Example:</p>
+<p><code>1 0 1 0  1 1 0 1</code></p>
+<p>Let&rsquo;s <code>SHR</code> the above number: <code>0 1 0 1  0 1 1 0 </code>.</p>
+<p>Let&rsquo;s now <code>SHR</code> once again: <code>0 0 1 0  1 0 1 1 </code>.</p>
+<p>The main rule here: for each <code>SHR</code> add a <code>0</code> at the beginning and remove one digit from the end. The same is for <code>SHL</code>: for each  <code>SHL</code> add <code>0</code> to the end and remove one digit from the beginning.</p>
+<p>Above number is 8 bit long. So we can pop 8 bits by shifting in one direction (<code>SHR</code> for example only). When the last digit is poped off its value is written to <code>CF</code>, in the example above it was <code>1</code>, hence now <code>CF</code> = <code>1</code>.</p>
+<h4 id="useful-tip">Useful tip</h4>
+<p><code>SHL</code> can be used as an optimized multiplication and division by <code>2^n</code>&rdquo;. Here is an example:</p>
+<table>
+<thead>
+<tr>
+<th>SHL</th>
+<th>equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shl eax, 1</code></td>
+<td>eax * 2</td>
+</tr>
+<tr>
+<td><code>shl eax, 2</code></td>
+<td>eax * 4</td>
+</tr>
+<tr>
+<td><code>shl eax, 3</code></td>
+<td>eax * 8</td>
+</tr>
+</tbody>
+</table>
+<p>To read more about this and how this really works, read <a href="/docs/blog/2020/10/a-few-good-bits">here</a>.</p>
+<h3 id="rolror-vs-shlshr">ROL/ROR vs SHL/SHR</h3>
+<p>What&rsquo;s the difference between the two (well, even four)? When I inspected my old notes, I&rsquo;ve got a little confused because I&rsquo;d totally forgotten that. Tha&rsquo;ts why I&rsquo;ve included this section for future, should my memory fail me once again.</p>
+<p>The difference between the two is pretty much the same as the difference between &ldquo;rolling&rdquo; and &ldquo;shifting&rdquo;. Say, we have a password padlock for a suitcase and set our passcode to <code>1234</code>.</p>
+<p><img src="images/ror-rol.jpg" alt="ror-rol"></p>
+<p>Then we shuffle it and have <code>5432</code>. How to open it then? We rotate each dial until we get to our passcode digits: the dial with <code>5</code> is rotated 4 times to get <code>1</code>, the dial with <code>4</code> is rotated 6 times and etc. No one would expect that when we rotate a dial on the lock, it disapears after reaching the end. But that would be the case if the operation in the padlock&rsquo;s intestines was shifting. And that what&rsquo;s happening to the shifted bits when shifting:</p>
+<p><img src="https://media.giphy.com/media/4bDXKRN2arfPy/giphy.gif" alt="img"></p>
+<p>So, in <code>ROR/ROL</code> instruction no bits are lost, all of the bits of the original number are preserved. They are just rolling like those numbers in the lock 🔒. But with <code>SHL/SHR</code> instruction the numbers are dimped into a 🐛 wormhole and never seen again. If we shift long enogh, we turn any number to a bunch of zeroes until the only footprint left would be a <code>CF</code> flag which will hold the last shifted and dropped off bit. But even this would be overwritten with <code>0</code> shoud you shift one last time&hellip;</p>
+<p><img src="https://media.giphy.com/media/dXQAbcem3HLCgYkkA7/giphy.gif" alt="img"></p>
+<h2 id="comparisons">Comparisons</h2>
+<h3 id="test">TEST</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>ZF</code></p>
+<p>A beautiful instruction in that it&rsquo;s so simply and lightweight. It does the same as <code>AND</code> but operands are not changed. The result is in <code>ZF</code> (either <code>0</code> or <code>1</code>).</p>
+<table>
+<thead>
+<tr>
+<th>AND</th>
+<th>test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>and eax, eax</code></td>
+<td><code>test eax</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interesting</strong>! 😮 ​The above operations are identical, but the second takes less CPU cycles. It&rsquo;s usually used to test, whether the value is <code>0</code>.</p>
+<h3 id="cmp">CMP</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code>, <code>ZF</code></p>
+<p>This one is like <code>SUB</code>. It&rsquo;s almoust the same as <code>SUB eax, edx</code>, for example. This instruction, just like the previous one, doesn&rsquo;t change operands, however:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ZF</th>
+<th>CF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dst = src</td>
+<td><code>1</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>dst &lt; src</td>
+<td><code>0</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>dst &gt; src</td>
+<td><code>0</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>When dst = src, dst - src = 0 therefore we set <code>ZF</code> (<!-- raw HTML omitted -->zero<!-- raw HTML omitted --> flag) to <code>1</code>. When dst &lt; src, dst - src = negative number therefor <code>CF</code> (<!-- raw HTML omitted -->carry<!-- raw HTML omitted --> flag) = <code>1</code>. When everything is primitive (dst &gt; src), dst - src = positive number, hence no flags are changed.</p>
+<blockquote>
+<p>❓ When some of the flags were changed suring some previously performed operation, are they reverted to the states above according to the values in dst and src? Example, if <code>ZF</code> = 1 before our <code>CMP dst, src</code> where dst &lt; src, will <code>ZF</code> be set to <code>0</code> after this instruction is executed?</p>
+</blockquote>
+<h2 id="buffers">Buffers</h2>
+<h3 id="rep">REP</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>ZF</code></p>
+<p>This class of instruction is comprosed of different kinds of loops.  It uses RSI or ESI as the source (ESI means &ldquo;source index&rdquo;) and EDI or RDI as the destination (EDI means &ldquo;destination index&rdquo;). ECX (counter) is used as a &hellip; surprise-surprise&hellip; a counter. There are several types of <code>REP</code> instruction:</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rep</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>repe</code> or <code>repz</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>repne</code> or <code>repnz</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>REP</code> family is never seen alone. It&rsquo;s <strong>always</strong> followed by some operation. Why? Because basically it&rsquo;s a repetition. You can&rsquo;t repeat <strong>nothing</strong>. There repeatiotions are performed on buffers (strings, for example). There are 4 possible operations seen with <code>rep</code>:</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+<th>C++ analogr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>repe cmpsb</code></td>
+<td>Compare two buffers</td>
+<td><code>memcmp</code></td>
+</tr>
+<tr>
+<td><code>rep stosb</code></td>
+<td>Set all bytes to some value in <code>AL</code></td>
+<td><code>memset</code></td>
+</tr>
+<tr>
+<td><code>rep movsb</code></td>
+<td>Copy a buffer</td>
+<td><code>memcpy</code></td>
+</tr>
+<tr>
+<td><code>repne scasb</code></td>
+<td>Search for a byte</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>repe cmpsb</code>. To better illustrate, I&rsquo;ve written the below pseudocode:</p>
+<div class="highlight"><pre class="chroma"><code class="language-C#" data-lang="C#"><span class="n">function</span> <span class="kt">bool</span> <span class="n">compare</span><span class="p">(){</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
+	<span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">!=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">])</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><code>ECX</code>  is set to the buffer&rsquo;s length,  <code>ESI</code> - is a pointer to the first buffer, <code>EDI</code> - the pointer to the second. The loop runs until <code>ECX</code> = 0 or the bytes compared are different. The above loop will run 2 times and return false when <code>ecx</code> = <code>2</code> since <code>edi[2]='t'</code> and <code>esi[2] = 'c'</code> which means that the buffers are different and there is no need to run the loop further.</p>
+<p><code>rep stosb</code>. Destination buffer - <code>EDI</code>, source - <code>AH</code>. <code>ECX</code> is a counter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="n">buffer</span><span class="p">[]</span> <span class="n">init</span><span class="p">(){</span>
+  <span class="n">ah</span> <span class="p">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
+    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">ah</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">edi</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times. Upon function return <code>edi</code> = <code>['a', 'a', 'a']</code>. Very often is seen after <code>xor eax, eax</code>, since <code>xor</code> something on itself returns that something being filled with <code>0</code>, i.e. it means <em>zeroing out</em> a value. And we need to make sure there is no garbage lurking in <code>EAX</code> before setting it the desired value (in our example, <code>'a'</code>) to be later used to set <code>edi</code> to <code>a</code>. Just to remind, <code>al</code> is the lowerst byte of <code>EAX</code> register.</p>
+<p><code>rep movsb</code>. <code>ESI</code> - source buffer, <code>EDI</code> - destination buffer, <code>ECX</code> - counter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="k">void</span> <span class="n">copy</span><span class="p">(){</span>
+  <span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">];</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
+  
+  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
+    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times. At the end, <code>edi=esi = ['s', 'r', 'c']</code>.</p>
+<p><code>repne scasb</code>. <code>EDI</code> - buffer address, <code>AL</code> - byte to search. <code>ECX</code> - counter.</p>
+<div class="highlight"><pre class="chroma"><code class="language-C#" data-lang="C#"><span class="n">function</span> <span class="kt">bool</span> <span class="n">search</span><span class="p">(){</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
+  <span class="n">al</span> <span class="p">=</span> <span class="sc">&#39;d&#39;</span><span class="p">;</span>
+  
+  <span class="c1">// len(edi) = 3
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
+    <span class="c1">//this will return true on the 3rd iteration, when ecx = 1
+</span><span class="c1"></span>    <span class="k">if</span> <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">==</span> <span class="n">al</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times, and on the 3rd time being run it&rsquo;ll return <code>true</code>, because <code>edi[1]</code> = <code>'t'</code>.</p>
+<h2 id="jumps">Jumps</h2>
+<h3 id="jmp-and-friends">JMP and friends</h3>
+<p><code>x86</code></p>
+<p><strong>Affected by flags</strong>: <code>ZF</code>, <code>OF</code></p>
+<p>In general, these instruction have this skeleton: <code>jmp location</code>.</p>
+<table>
+<thead>
+<tr>
+<th>instruction</th>
+<th>description</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jmp</code></td>
+<td>unconditional jump, meaning &ldquo;Jump Forest, jump!&rdquo; no matter what</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jz</code></td>
+<td>Jump if <code>ZF</code> = 1 (the result of previous instruction was <code>0</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jnz</code></td>
+<td>opposite to <code>jz</code>. Jump if <code>ZF</code> = 0 (the result of previous instruction was <strong>not</strong> <code>0</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>je</code></td>
+<td>if the result of preceding <code>cmp op1, op2</code> was 0 (the operands were equal)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jne</code></td>
+<td>opposite to <code>je</code>. Jump if the result of preceding <code>cmp op1, op2</code> was <strong>not</strong> 0 (the operands were <strong>not</strong> equal)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jg</code>, <code>ja</code></td>
+<td>Jump if the result of preceding <code>cmp op1, op2</code> was a positive integer (op1 &gt; op2, is <strong>greater</strong>). <code>ja</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jge</code>, <code>jae</code></td>
+<td>like <code>jg</code> or <code>ja</code> combined with <code>je</code>. Jump if the result of preceding <code>cmp op1, op2</code> was a positive integer or 0 (op1 &gt;= op2, is <strong>greater</strong> or <strong>equal</strong>). <code>jae</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jl</code>, <code>jb</code></td>
+<td>opposite to <code>jg</code>, <code>ja</code>. Jump if the result of preceding <code>cmp op1, op2</code> was a negative integer (op1 &lt; op2, is <strong>less</strong>). <code>jb</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jle</code>, <code>jbe</code></td>
+<td>like <code>jl</code> or <code>jb</code> combined with <code>je</code>. Jump if the result of preceding <code>cmp op1, op2</code> was a positive integer or 0 (op1 &lt;= op2, is less or <strong>equal</strong>). <code>jbe</code> for unsigned comarison.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>jo</code></td>
+<td>jump if the result of the previous instruction set <code>OF</code> to <code>1</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>js</code></td>
+<td>jump if the result of the previous instruction set <code>SF</code> to <code>1</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>jecxz</code></td>
+<td>jump if <code>ecx</code> = 0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Getting familiar with jumps. Below is the table of examples. Try to quickly determine the location of the jump. Answers are listed right below the table, so spoiler alert! ❗</p>
+<h2 id="logical">Logical</h2>
+<h3 id="and">AND</h3>
+<p><code>x86</code></p>
+<p><strong>Interesting</strong>! :open_mouth :Can be used to clear some bits with a mask. For example, if you have <code>1100 1011</code> and you need to zero all bits out. All you need to do, is to <code>and</code> with <code>0000 0000</code>. To determine whether an integer is even or not, mask it with <code>0000 0001</code>. Even numbers have <code>0</code> at the end, and uneven - <code>1</code>. <code>and</code>ing an even number with <code>0000 0001</code> will result in <code>0</code> and <code>and</code>ing an uneven - with <code>1</code>.  Also, you can make a number less by 2, 4, 8 etc by applying a corresponding mask:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1101</code></td>
+<td>substract 2</td>
+</tr>
+<tr>
+<td><code>0111</code></td>
+<td>Subtract 8</td>
+</tr>
+<tr>
+<td><code>1011</code></td>
+<td>substract 4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="or">OR</h3>
+<p>Set to <code>1</code> if either of the bits is <code>1</code>. Repeat for each bit of the first operand and the second operand. Writes to the destination operand.</p>
+<p><strong>Interesting</strong>! 😮 Can be used to set all bits to <code>1</code> with <code>1111</code>. ​ For example, we have <code>1110 or 1111</code> = <code>1111</code>. Basically, any value <code>or</code>ed by <code>1111</code> is <code>1111</code>.</p>
+<h3 id="not">NOT</h3>
+<h3 id="xor">XOR</h3>
+<p><strong>Ex</strong>clusive <strong>OR</strong>. 1 if the first operand&rsquo;s bit is <strong>not</strong> equal to the second&rsquo;s.</p>
+<p><strong>Interesting</strong>! 😮 A quick way to set <code>eax</code> to <code>0</code>. Operation&rsquo;s <code>xor eax, eax</code> opcode is <code>33 C0</code> (2 bytes) while <code>mov eax, 0</code> - opcode <code>b8 00 00 00 00  </code> which is 5 bytes (costy 💴 ).</p>
+<p>Also, an interesting observation to investigate further: If I mask any value with <code>1111</code> , I get an operation equal to substraction (unsigned):</p>
+<p><code>1010 xor 1111</code> is <code>0101</code> (5 in decimal)</p>
+<p><code>1011 xor 1111</code> is <code>0100</code> (4d)</p>
+<p><code>1100 xor 1111</code> is <code>0011</code> (3d)</p>
+<h2 id="unsorted">Unsorted</h2>
+<h3 id="pushpop">PUSH/POP</h3>
+<h3 id="pushapushadpopapopad">PUSHA/PUSHAD/POPA/POPAD</h3>
+<p>Save stack order.</p>
+<p><strong>Interesting</strong>! 😮 Often seen in shellcodes and custom packers. Compilers rarely use these instructions.</p>
+<h3 id="nop">NOP</h3>
+<p>Do nothing. Used for padding and controlling the time of program execution.</p>
+<p><strong>Interesting</strong>! 😮 ​Often seen in shellcodes and when attempting a buffer overflow.</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

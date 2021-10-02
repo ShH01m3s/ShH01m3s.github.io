@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>iOS Reverse Engineering - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/reverse/basics/"> Back to Basics 📚 Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#analysis-flow">Analysis flow</a></li>
+    <li><a href="#entitlements">Entitlements</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">iOS Reverse Engineering</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+          <a class="platform-link" href="/doctype/reverse">reverse</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/ios">ios</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>During forensic analysis it&rsquo;s not too rare to run into some suspicious application. In this article I&rsquo;m going to learn to reverse engineer iOS applications.</em></p>
+<h2 id="analysis-flow">Analysis flow</h2>
+<p>First, we need to get IPA file from the device. There are different ways to do so (please, refer to <a href="/docs/toolkit/mobile/ios-btfm-rtfm">BTFM and RTFM</a>). Here I&rsquo;m going to use the easiest one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipainstaller -i <span class="k">$(</span>ipainstaller -l <span class="p">|</span> grep -i lassen<span class="k">)</span> <span class="p">|</span> grep Bundle
+
+scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/Bundle/ . 
+</code></pre></div><p>Then open the Bundle folder on PC and look for <code>Info.plist</code>. Let&rsquo;s find any strings that start with <code>NS</code> and end with <code>UsageDescription</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> *.ipa/<span class="o">[</span>package_name<span class="o">]</span>.app
+grep <span class="s1">&#39;UsageDescription&#39;</span> Info.plist -A1
+</code></pre></div><p>You sould see something like that:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSPhotoLibraryUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>You can choose a profile picture from your photo library<span class="nt">&lt;/string&gt;</span>
+	<span class="nt">&lt;key&gt;</span>NSPhotoLibraryAddUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>Allow Kindle to access your photos to save images.<span class="nt">&lt;/string&gt;</span>
+--
+	<span class="nt">&lt;key&gt;</span>NSCameraUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>Kindle would like to access the camera<span class="nt">&lt;/string&gt;</span>
+--
+	<span class="nt">&lt;key&gt;</span>NSAppleMusicUsageDescription<span class="nt">&lt;/key&gt;</span>
+	<span class="nt">&lt;string&gt;</span>We use this to play audio in certain interactive books or magazines<span class="nt">&lt;/string&gt;</span>
+</code></pre></div><p>Inspect the application and make sense of all its entitlements. Why, for example, Kindle application needs to access my Camera? May be to set Avatar. And what if it was a simple game? Anyway, always check this since it might be an indication of malware application (although it&rsquo;s very hard to get one uploaded to AppStore, it&rsquo;s still possible. Besides, there are ways to sideload applications).</p>
+<h2 id="entitlements">Entitlements</h2>
+<p><a href="/docs/articles/platforms/apple/ios-intro#entitlements">Here</a> is an article which contains a section about iOS entitlements.</p>
+<p>To decode certificate</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl x509 -in certificate.crt -text -noout
+</code></pre></div><p>Extract xml from <code>Info.plist</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">binwalk -e -y<span class="o">=</span>xml ./Telegram<span class="se">\ </span>X
+r2 -qc <span class="s1">&#39;izz~PropertyList&#39;</span> ./Telegram<span class="se">\ </span>X
+grep -a -A <span class="m">5</span> <span class="s1">&#39;PropertyList&#39;</span> /var/containers/Bundle/Application/
+    15E6A58F-1CA7-44A4-A9E0-6CA85B65FA35/Telegram X.app/Telegram<span class="se">\ </span>X
+</code></pre></div><p>Custom URL schemes and Unviersal URL schemes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -zq Telegram<span class="se">\ </span>X.app/Telegram<span class="se">\ </span>X <span class="p">|</span> grep openURL
+</code></pre></div>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

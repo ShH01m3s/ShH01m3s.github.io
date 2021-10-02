@@ -47,6 +47,12 @@
       </a>
     </li>
     
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
@@ -101,6 +107,12 @@
     <li class="menu-item-crypto 🗝️">
       <a href="/docs/cryptography">
         <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
       </a>
     </li>
     
@@ -229,7 +241,17 @@ info registers
 </code></pre></div><p><a href="https://www.geeksforgeeks.org/compile-32-bit-program-64-bit-gcc-c-c/">https://www.geeksforgeeks.org/compile-32-bit-program-64-bit-gcc-c-c/</a></p>
 <p><a href="https://unix.stackexchange.com/questions/374118/how-to-install-multiple-version-of-gcc-gcc-3-3-on-ubuntu-16">https://unix.stackexchange.com/questions/374118/how-to-install-multiple-version-of-gcc-gcc-3-3-on-ubuntu-16</a></p>
 <p>Failed to install gcc of the previous versions therefore decided to compile with the VM on other laptop and copy on AWS.</p>
-
+<p><code>gdb</code> with a <code>-g</code> flag will simply allow access to source code and use the debugging symbols (for example, to label functions with their original names).</p>
+<p>Now, the examine command.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>gdb<span class="o">)</span> x/x <span class="nv">$eip</span> <span class="c1"># display the value of eip as a 32-bit (64 for 64bit OS) hex value</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/2x <span class="nv">$eip</span> <span class="c1"># display 8 bytes (64bits) starting at address in eip in hex</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/2o <span class="nv">$eip</span> <span class="c1"># display 8 bytes (64bits) starting at address in eip in octal</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/8xb <span class="nv">$eip</span> <span class="c1"># display 8 * 4 bytes starting from eip as blocks of 1 byte</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/10i <span class="nv">$eip</span> <span class="c1"># display 10 instructions starting from eip</span>
+</code></pre></div><p>To print the call stack, type <code>bt</code> (backtrace). Type in again to review the current stack.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="p">&amp;</span>address <span class="c1"># show the address of the variable </span>
+*address <span class="c1"># show the contents of the variable, called dereference</span>
+</code></pre></div>
   </div>
 </article>
 </div>
