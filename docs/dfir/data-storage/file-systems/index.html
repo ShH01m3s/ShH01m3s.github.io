@@ -510,6 +510,16 @@ inc ebp
 <p><img src="images/fat-long-fragmented.png" alt="fat-long-fragmented"></p>
 <p>If the entry is a folder, its size will be <code>00 00 00 00</code> (the last 4 bytes). In its short file name entry find the first cluster, go this cluster and you&rsquo;ll see another list of files but that are in this folder. Find the entry for the file you are looking for.</p>
 <p><strong>FAT high word</strong>. Start at 65536 and continue as power of two.</p>
+<p><em>❓ Hot to get there?</em></p>
+<p>From the FAT32 Boot Record get the <code>Bytes per sector</code> (2 bytes at offset <code>0x0B</code>) and <code>sectors per cluster</code> (1 byte at offset <code>0x0D</code>). Get the number of reserved sectors and the sectors occupied by both FATs to get the offset to the start of data area (in sectors!!!!). Root directory is usually at the 2nd cluster <strong>relative to the start of the VBR</strong>, but better check at the offset <code>0x2C</code> (keep in mind the endianness). Add the result of this multiplication to the starting address of the VBR.</p>
+<p>Here is an example:</p>
+<p><img src="images/fat32-root-dir-find.png" alt="fat32-root-dir-find"></p>
+<p>The values on the right pane represent raw data, and on the left - its human-readable interpretation by Active@Disk Editor using a FAT32 Boot Record template. We get the value at <code>0x0B</code> which is <code>0x200</code> (when coverted to little-endian) and which equals 512 in decimal (marked in red). These are <strong>bytes per sector</strong>.</p>
+<p>We then go to offset <code>0x0D</code> which is <code>0x8</code> and 8 in decimal (marked in green). That&rsquo;s <strong>sectors per cluster</strong>.</p>
+<p>The result of <code>512 x 8</code> is 4096 bytes. This the size of a cluster in bytes for this particular FAT32 partition. Now, let&rsquo;s see the value in <code>Root cluster</code> (marked in purple). In this example (and it&rsquo;s usually so) it&rsquo;s 2 (second cluster). Remember, that clusters are zero-based, so the second cluster is actually the third. It means that the root folder is two clusters away from the beginning of the VBR, or <code>4096*2 = 8192</code> bytes away. Our VBR starts at <code>0x00010000</code> in hex or <code>65536</code> in decimal. Since 8192 bytes is a decimal value, we&rsquo;ll add it to <code>65536</code> to get <code>73728</code> in decimal or <code>0x12000</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">data_start</span> <span class="o">=</span> <span class="n">reserved_sectors</span> <span class="o">+</span> <span class="p">(</span><span class="n">number_of_fats</span> <span class="o">*</span> <span class="n">size_of_each_in_sectors</span><span class="p">)</span>
+</code></pre></div><p>So, at offset 8192 from the VBR we have the start of data area.</p>
+<p><a href="http://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf">http://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf</a></p>
 <h4 id="directories-not-root">Directories (not Root)</h4>
 <p>Entries for directories have <code>00 00 00 00</code> as file size, <code>0x10</code> as attributes value and <code>20 20 20</code> as extension. They point to some location, where files are listed. So, basically, a folder is just a pointer.</p>
 <p>Root directory is the first in the tree, but not the only one. Each directory on the drive will have its own &ldquo;<em>table of contents</em>&rdquo; and its structure is a little different. It also consists of file name entries, each - 32 bytes long for FAT32.</p>
@@ -644,7 +654,9 @@ inc ebp
 <h2 id="hfs-1">HFS+</h2>
 <p>Since 1998, since macOS 8.1. Was replaced by APFS.</p>
 <p>Didn&rsquo;t <em>natively</em> support full disk encryption (FV2 was added later). Timestamps were only to-the-second. Support up to 4 billion files.</p>
+<p><a href="https://developer.apple.com/library/archive/technotes/tn/tn1150.html">https://developer.apple.com/library/archive/technotes/tn/tn1150.html</a></p>
 <h2 id="apfs">APFS</h2>
+<p><a href="https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf">https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf</a></p>
 <p><strong>Advantages over HFS+</strong>:</p>
 <ul>
 <li>Optimized for Flash/SSD Storage.</li>

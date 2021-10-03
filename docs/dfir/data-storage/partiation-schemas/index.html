@@ -261,8 +261,8 @@
 <li>Protective MBR record. At the offset where there are normally partiton entries, there is just one entry of type <code>0xEE</code>, which starts at sector 1 and is <code>0xFFFFFF</code> sectors large. This is the pointer to the GPT header.</li>
 <li><code>0x00</code> offset. ASCII - EFI PART (<code>0x45 46 49 20 50 41 52 54</code>). This is a GPT signature.</li>
 <li><code>0x20</code> offset. LBA of backup copy.</li>
-<li><code>0x28</code>. LBA start of partition area.</li>
-<li><code>0x30</code>. LBA end of partition area.</li>
+<li><code>0x28</code>. LBA start of partition area (⚠️ in sectors!!!).</li>
+<li><code>0x30</code>. LBA end of partition area (⚠️ in sectors!!!).</li>
 <li><code>0x38</code>. Disk GUID.</li>
 <li><code>0x48</code>. LBA start of partition tables.</li>
 </ul>
