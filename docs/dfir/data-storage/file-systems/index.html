@@ -511,15 +511,26 @@ inc ebp
 <p>If the entry is a folder, its size will be <code>00 00 00 00</code> (the last 4 bytes). In its short file name entry find the first cluster, go this cluster and you&rsquo;ll see another list of files but that are in this folder. Find the entry for the file you are looking for.</p>
 <p><strong>FAT high word</strong>. Start at 65536 and continue as power of two.</p>
 <p><em>❓ Hot to get there?</em></p>
-<p>From the FAT32 Boot Record get the <code>Bytes per sector</code> (2 bytes at offset <code>0x0B</code>) and <code>sectors per cluster</code> (1 byte at offset <code>0x0D</code>). Get the number of reserved sectors and the sectors occupied by both FATs to get the offset to the start of data area (in sectors!!!!). Root directory is usually at the 2nd cluster <strong>relative to the start of the VBR</strong>, but better check at the offset <code>0x2C</code> (keep in mind the endianness). Add the result of this multiplication to the starting address of the VBR.</p>
-<p>Here is an example:</p>
+<p>From the FAT32 Boot Record get the following information:</p>
+<ul>
+<li><input disabled="" type="checkbox"> bytes per sector (2 bytes at offset <code>0x0B</code>) - marked with orange 🍊</li>
+<li><input disabled="" type="checkbox"> sectors per cluster (1 byte at offset <code>0x0D</code>) - marked with green 🍏</li>
+<li><input disabled="" type="checkbox"> number of reserved sectors  (2 bytes at offset <code>0x0E</code>) - marked with dark blue 🫐</li>
+<li><input disabled="" type="checkbox"> number of FATs  (one byte at offset <code>0x10</code>) - marked with coral 🦞</li>
+<li><input disabled="" type="checkbox"> sector per FAT (four bytes ar offset <code>0x24</code>) - marked with blue 🌊</li>
+</ul>
+<p>All this information is needed to get the offset to the start of data area (in sectors!!!!). Since root directory is the first in the data area (FAT32 only), this will give us what we are looking for. Root directory is usually at the 2nd cluster <strong>relative to the start of the VBR</strong>, but better check at the offset <code>0x2C</code> (keep in mind the endianness). Then, we need to calculate the number of bytes to the data area/root directory.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">root</span> <span class="o">=</span> <span class="p">(</span><span class="n">number_of_FATs</span> <span class="o">*</span> <span class="n">sectors_per_fat</span><span class="p">)</span> <span class="o">+</span> <span class="n">reserved_sectors</span>
+</code></pre></div><p>Here is an example:</p>
 <p><img src="images/fat32-root-dir-find.png" alt="fat32-root-dir-find"></p>
-<p>The values on the right pane represent raw data, and on the left - its human-readable interpretation by Active@Disk Editor using a FAT32 Boot Record template. We get the value at <code>0x0B</code> which is <code>0x200</code> (when coverted to little-endian) and which equals 512 in decimal (marked in red). These are <strong>bytes per sector</strong>.</p>
-<p>We then go to offset <code>0x0D</code> which is <code>0x8</code> and 8 in decimal (marked in green). That&rsquo;s <strong>sectors per cluster</strong>.</p>
-<p>The result of <code>512 x 8</code> is 4096 bytes. This the size of a cluster in bytes for this particular FAT32 partition. Now, let&rsquo;s see the value in <code>Root cluster</code> (marked in purple). In this example (and it&rsquo;s usually so) it&rsquo;s 2 (second cluster). Remember, that clusters are zero-based, so the second cluster is actually the third. It means that the root folder is two clusters away from the beginning of the VBR, or <code>4096*2 = 8192</code> bytes away. Our VBR starts at <code>0x00010000</code> in hex or <code>65536</code> in decimal. Since 8192 bytes is a decimal value, we&rsquo;ll add it to <code>65536</code> to get <code>73728</code> in decimal or <code>0x12000</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">data_start</span> <span class="o">=</span> <span class="n">reserved_sectors</span> <span class="o">+</span> <span class="p">(</span><span class="n">number_of_fats</span> <span class="o">*</span> <span class="n">size_of_each_in_sectors</span><span class="p">)</span>
-</code></pre></div><p>So, at offset 8192 from the VBR we have the start of data area.</p>
-<p><a href="http://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf">http://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf</a></p>
+<p>The values on the right pane represent raw data in hex, and on the left - its human-readable interpretation by Active@Disk Editor using a FAT32 Boot Record template. We get the value at <code>0x0B</code> which is <code>0x200</code> (when coverted to little-endian) and which equals 512 in decimal (marked in red). These are <strong>bytes per sector</strong> 🍊.</p>
+<p>We then go to offset <code>0x0D</code> which is <code>0x8</code> and 8 in decimal (marked in green). That&rsquo;s <strong>sectors per cluster</strong> 🍏. Reading at offset <code>0x0E</code> 🫐 I get the <strong>number of reserved sectors</strong> (4110 in decimal). The <strong>number of FATs</strong> 🦞 is 2 (standard for FAT32) at offset <code>0x10</code> and the <strong>number of sectors per FAT</strong> 🌊 is 2041 in decimal.</p>
+<p>Let&rsquo;s use the data in the formula: <code>(2 * 2041) + 4110 = 8192</code>. This is the starting sector of data area and usually it&rsquo;s the same with the root directory. Now, to get the numbrer of bytes to this root directory, we need to multiply <code>8192</code> by bytes per sector (512) = 4194304 in decimal (<code>0x400000</code> in hex). Our VBR starts at <code>0x00010000</code> in hex or <code>65536</code> in decimal. Adding 4194304 to 65536 (or <code>0x400000</code> to <code>0x10000</code>) will give us the offset to root directory from the start of VBR ( ⚠️ not GUID/MBR header). This value is 4259840 (<code>0x410000</code>). Let&rsquo;s go there in hex editor or if you are using Active@Disk Editor, using <strong>Go to offset</strong> button on the top pane. Voila!</p>
+<p><img src="images/fat32-root-found.png" alt="fat32-root-found"></p>
+<p>You may ask, what&rsquo;s the use of this information (knowing exactly how to find the offset of the root directory). There might be cases when we need to perform manual file recovery using a hex editor (remember, Active@Disk Editor is for Windows and Linux only) or with limited tools. Also, I find it useful to understand what the tool does, since tools fail too sometimes, as well as humans. We need to verify each other from time to time.</p>
+<blockquote>
+<p>❓ One question that remains for me here: why the hell is the root cluster <code>0x2</code>? The second cluster is <code>2 * (8 * 512) = 8192</code> bytes away from the VBR start and there is no root dir there. However, when clicking on the field in Active@Disk Editor, you&rsquo;ll get to the root dir.</p>
+</blockquote>
 <h4 id="directories-not-root">Directories (not Root)</h4>
 <p>Entries for directories have <code>00 00 00 00</code> as file size, <code>0x10</code> as attributes value and <code>20 20 20</code> as extension. They point to some location, where files are listed. So, basically, a folder is just a pointer.</p>
 <p>Root directory is the first in the tree, but not the only one. Each directory on the drive will have its own &ldquo;<em>table of contents</em>&rdquo; and its structure is a little different. It also consists of file name entries, each - 32 bytes long for FAT32.</p>
@@ -550,7 +561,7 @@ inc ebp
 </ul>
 <p>If we opened folder4, the value of <code>.</code> (current directory) is the address of folder4. While remaining in this folder, <code>..</code> (parent directory) for folder4 is folder1. <code>..</code> (parent directory) for folder1 is root. So,</p>
 </blockquote>
-<h4 id="file-allocation-table">File Allocation Table</h4>
+<h4 id="file-allocation-table-fat">File Allocation Table (FAT)</h4>
 <p>Keeps track of clusters in use and free ones. There are FAT1 and FAT2 (the same). FAT2 for backup. Both are located in the system area. Also, singly-linked list, each entry points to the next cluster of a file (in case a file is fragmented, i.e. occupies more than one cluster). <code>0x00000000</code> - the cluster is free, <code>0xffffff0f</code> - end of file, then pointer to the next cluster (if any).</p>
 <p>The first four bytes in the FAT32 (two bytes in FAT12 and FAT16) is the media descriptor (<code>0xF8FFFFFF</code>, usually indicates a fixed disk). The next four bytes are for the FAT type (<code>0xFFFFFFFF</code> in case of FAT32). Then each four bytes tell us about each cluster ordered sequencially, i.e. CL-2 (contains the root directory in FAT32), then CL-3, then CL-4 etc. It can have three possible values: <code>0x00000000</code> - if the cluster is free, <code>0xffffff0f</code> - if the cluster is the last in the chain (end of file, EOF marker) or a pointer to the next cluster (if any, convert to little-endian and then to decimal to find it).</p>
 <p>🛠 Using Active@Disk Editor, press <code>Navigate &gt; Primary FAT32 &gt; FAT1</code> button on the top pane. Here is the example from my flash drive:</p>
@@ -950,6 +961,7 @@ inc ebp
 <p>[<a href="https://stackoverflow.com/questions/19499257/opening-mft-file-causes-access-denied-even-if-run-as-administrator">4</a>] Opening $MFT file causes Access denied even if run as administrator, StackOverflow, answered by <a href="https://stackoverflow.com/users/175201/eric-brown">Eric Brown</a></p>
 <p>[<a href="https://www.coursera.org/learn/windows-os-forensics/home/welcome">5</a>] Digital Forensics Specialization, Windows OS Forensics course, InfoSec Institute, Coursera</p>
 <p>[<a href="https://flatcap.org/linux-ntfs/ntfs/files/index.html">6</a>] NTFS Documentation</p>
+<p>[<a href="http://www.cs.fsu.edu/~cop4610t/lectures/project3/Week11/Slides_week11.pdf">7</a>] About FAT32</p>
 
   </div>
 </article>
