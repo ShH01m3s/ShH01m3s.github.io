@@ -165,7 +165,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#sid">SID</a></li>
+    <li><a href="#sid">SID</a>
+      <ul>
+        <li><a href="#rid-hijacking">RID hijacking</a></li>
+      </ul>
+    </li>
     <li><a href="#lsa">LSA</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -223,9 +227,17 @@
 <li><code>S-1-5-2</code> - network</li>
 <li><code>S-1-5-21-544</code> - local admin group</li>
 </ul>
+<p>To get a user&rsquo;s SID:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="n">useraccount</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;veronicazvereva&#39;</span> <span class="n">get</span> <span class="n">sid</span>
+<span class="c"># or</span>
+<span class="n">whoami</span> <span class="p">/</span><span class="n">user</span> <span class="c"># for current user</span>
+</code></pre></div><h3 id="rid-hijacking">RID hijacking</h3>
+<p>System udentifies users by their RIDs (the last portion of SID), not by username. What happens if we have changed manually the RID of the guest user? Well, if we set it to <code>500</code>, the system would treat him as default admin with all the corresponding rights.</p>
 <h2 id="lsa">LSA</h2>
 <p>Image file is located in <code>%WINDIR%\System32</code>.</p>
 <h2 id="references">References</h2>
+<p>[<a href="https://www.youtube.com/watch?v=hilLHF37ng8">1</a>] RID Hijaking by Sergey Klevogin, LPT Mater</p>
+<p>[<a href="http://www.ijfcc.org/vol5/455-F005.pdf">2</a>] Analysis the Structure of SAM and Cracking Password Base on Windows Operating System, by Jiang Du and Jiwei Li</p>
 
   </div>
 </article>

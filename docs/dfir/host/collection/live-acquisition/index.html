@@ -171,7 +171,6 @@
     <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#considerations">Considerations</a></li>
     <li><a href="#ram-acquisition-steps">RAM Acquisition Steps</a></li>
-    <li><a href="#hdd">HDD</a></li>
     <li><a href="#general">General</a></li>
     <li><a href="#volatile-artifacts">Volatile artifacts</a></li>
     <li><a href="#collection">Collection</a>
@@ -333,7 +332,34 @@
 </ul>
 <h2 id="ram-acquisition-steps">RAM Acquisition Steps</h2>
 <p>RAM Acquisition is the first priority since it&rsquo;s the volatile memory. Use DumpIt for Desktop or laptops, <code>frida-dump.py</code> or <code>objection</code> and <code>frida</code> for iOS or Android (sometimes the RAM acquisition on iOS might crash the application). For mobile devices RAM acquisition is performed for each process separately and requires jailbreak. If the device is not jailbroken prior to acquisition, this technique won&rsquo;t work.</p>
-<h2 id="hdd">HDD</h2>
+<p>Now, about the RAM capture. Here is the order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
+<ol>
+<li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
+<li>Routing tables, ARP cache, process tables, kernel statistics, memory
+<ol>
+<li>Windows - <code>route print | more</code></li>
+<li>Linux -  <code>ip route</code></li>
+<li>Mac OSX - <code>netstat -rn</code></li>
+</ol>
+</li>
+<li>Temporary file systems?</li>
+<li>Disk</li>
+<li>Remote logging and monitoring data that is revelevant to the system in question</li>
+<li>Physical configuration, network topolgy</li>
+<li>Archival media</li>
+</ol>
+<p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
+<p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
+<p>Now, what about each device type acquisition specifics?</p>
+<p>🍏 Apple Acquisition.</p>
+<p><strong>Mac</strong>. On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<blockquote>
+<p>❓<em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
+<p><strong>iOS</strong>.</p>
+<p>🪟 Windows Acquisition</p>
+<p>🐧 Linux Acquisition.</p>
+<p>🤖 Android Acquisitions</p>
 <h2 id="general">General</h2>
 <p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
 <h2 id="volatile-artifacts">Volatile artifacts</h2>
@@ -381,13 +407,37 @@
 <li>OS Time</li>
 </ul>
 <h2 id="collection">Collection</h2>
+<ul>
+<li>
+<p>Identify running processes</p>
+</li>
+<li>
+<p>Identify open ports</p>
+</li>
+<li>
+<p>Identify memory handles</p>
+</li>
+<li>
+<p>Find and identify loaded DLLs</p>
+</li>
+<li>
+<p>Identify running device drivers</p>
+</li>
+<li>
+<p>Identify all loaded modules, including executables and DLLs</p>
+</li>
+</ul>
 <h3 id="regisrers">Regisrers</h3>
+<p><em>❓ Do they mean EAX, EBP etc?</em></p>
 <h3 id="cache">Cache</h3>
+<p><em>❓CPU cache?</em></p>
 <h3 id="routing-tables">Routing tables</h3>
-<p>Windows - <code>route print | more</code></p>
+<p>Windows - <code>route print | more</code>.</p>
+<blockquote>
+<p>⚠️ Hibernation files contain this information as well.</p>
+</blockquote>
 <p>Linux -  <code>ip route</code></p>
 <p>Mac OSX - <code>netstat -rn</code></p>
-<p>Hibernation files contain this information as well.</p>
 <h3 id="arp-cache">ARP cache</h3>
 <p>Windows - <code>arp -a</code>. To delete ARP cahce (and the attacker might try to - <code>arp -d</code>).</p>
 <p>Linux - <code>arp</code>, but looks like the <code>arp</code> utility is not intstalled by default.</p>
@@ -401,6 +451,7 @@
 </blockquote>
 <p><strong>Mac OSX</strong>. See more in my article <a href="/docs/dfir/host/apple/apple-hybernation">here</a>. To view hibernation settings - <code>pmset -g | grep hibernate</code>.</p>
 <h3 id="kernel-statistics">Kernel statistics</h3>
+<p>❓</p>
 <h3 id="memory">Memory</h3>
 <blockquote>
 <p>⚠️ Some malware may exist in RAM only!</p>
@@ -431,31 +482,20 @@
 <p><strong>Windows</strong>. <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited">https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited</a>.</p>
 <p><strong>Linux</strong>. <a href="https://www.chromium.org/developers/decoding-crash-dumps">https://www.chromium.org/developers/decoding-crash-dumps</a></p>
 <p><strong>MacOS</strong>. ?</p>
-<p><strong>Memorize</strong>:</p>
-<ul>
-<li>
-<p>Identify running processes</p>
-</li>
-<li>
-<p>Identify open ports</p>
-</li>
-<li>
-<p>Identify memory handles</p>
-</li>
-<li>
-<p>Find and identify loaded DLLs</p>
-</li>
-<li>
-<p>Identify running device drivers</p>
-</li>
-<li>
-<p>Identify all loaded modules, including executables and DLLs</p>
-</li>
-</ul>
+<p><strong>VMWare</strong>. To get the VM&rsquo;s virtual memory, pause the machine and copy a <code>vmem</code> file.</p>
+<blockquote>
+<p>❓ Vbox, Parallels?</p>
+</blockquote>
 <h3 id="temporary-file-systems">Temporary file systems</h3>
 <p>What is it?</p>
 <h3 id="disk">Disk</h3>
 <h3 id="remote-logging-and-monitoring-data-that-is-revelevant-to-the-system-in-question">Remote logging and monitoring data that is revelevant to the system in question</h3>
+<p>On Windows 🪟 use the below commands to collect Event Manager logs:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wevtutil</span><span class="p">.</span><span class="n">exe</span> <span class="n">epl</span> <span class="n">Security</span> <span class="n">seclog_8102021_0944</span><span class="p">.</span><span class="n">evtx</span> <span class="c"># requires admin privileges</span>
+<span class="n">wevtutil</span><span class="p">.</span><span class="n">exe</span> <span class="n">epl</span> <span class="n">Application</span> <span class="n">applog_8102021_0944</span><span class="p">.</span><span class="n">evtx</span>
+<span class="n">wevtutil</span><span class="p">.</span><span class="n">exe</span> <span class="n">epl</span> <span class="n">System</span> <span class="n">systemlog_8102021_0944</span><span class="p">.</span><span class="n">evtx</span>
+</code></pre></div><p>For a macOS 🍏 system:</p>
+<p>For a Linux 🐧  machine:</p>
 <h3 id="physical-configuration-network-topolgy">Physical configuration, network topolgy</h3>
 <h3 id="archival-media">Archival media</h3>
 <h2 id="references">References</h2>

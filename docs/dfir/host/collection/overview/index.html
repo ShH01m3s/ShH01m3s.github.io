@@ -174,12 +174,8 @@
         <li><a href="#imaging">Imaging</a></li>
       </ul>
     </li>
-    <li><a href="#validating-the-tools">Validating the tools</a>
-      <ul>
-        <li><a href="#validate-sanitisation">Validate Sanitisation</a></li>
-        <li><a href="#validate-software-write-blocker">Validate Software Write Blocker</a></li>
-      </ul>
-    </li>
+    <li><a href="#preparation">Preparation</a></li>
+    <li><a href="#validating-the-tools">Validating the tools</a></li>
     <li><a href="#capturing-the-scene-">Capturing the scene ✍️</a>
       <ul>
         <li><a href="#prepare-documentation">Prepare documentation</a></li>
@@ -187,10 +183,7 @@
         <li><a href="#take-photos-and-videos">Take photos and videos</a></li>
         <li><a href="#documenting">Documenting</a></li>
         <li><a href="#acquisition">Acquisition</a></li>
-        <li><a href="#ftk-imager">FTK Imager</a></li>
-        <li><a href="#dd"><code>dd</code></a></li>
         <li><a href="#write-blockers">Write Blockers</a></li>
-        <li><a href="#ram">RAM</a></li>
         <li><a href="#package-and-transport">Package and transport</a></li>
       </ul>
     </li>
@@ -286,23 +279,40 @@
 </ul>
 <h2 id="options">Options</h2>
 <h3 id="clone">Clone</h3>
-<p>Bit-by-bit copy on another drive. Can even boot from it.</p>
+<p>Bit-by-bit copy on another drive. Can even boot from it. Will include MBR or GPT of the physical drive.</p>
 <h3 id="copy">Copy</h3>
 <p>Only files and their slack space is copied.</p>
 <h3 id="imaging">Imaging</h3>
-<p>Bit-by-bit copy, but stored as a file. The image can be compressed to save space and store data on a smaller disk.</p>
+<p>Bit-by-bit copy, but stored as a file. The image can be compressed to save space and store data on a smaller disk. If the volume is imaged, MBR/GPT are not copied.</p>
 <p>Types:</p>
 <ul>
 <li><code>dd</code>. No compression.</li>
-<li><code>E01</code>. Compressed.</li>
+<li><code>E01</code>. Compressed. A CRC is calculated every 64Kb of data. Also has a header and a footer with metadata of the image and target machine.</li>
 <li><code>AFF</code>. Compressed.</li>
 <li><code>Smart</code>. Compressed.</li>
 <li>Etc</li>
 </ul>
+<h2 id="preparation">Preparation</h2>
+<p>Before any data from the suspect drive or RAM can be copied to the forensic device, this device needs to be prepared. First choose the way that the evidence will be acquired. There are several options:</p>
+<ul>
+<li>live 🌳
+<ul>
+<li><strong>remote.</strong>  🛠 F-Response can be used to acquire the evidence this way. Mind that it needs a client to be installed on the suspect machine. Besides, its footprint can be rather notable.</li>
+<li><strong>local</strong>. For this type of acquisition it&rsquo;s better to have a thumb drive with two partitions: one for the tools (smaller one) and the other is the partition for suspect data. I have a 64Gb USB drive with a 15Gb allocated for tools (windows, macos and linux), and the rest of space - for data. Of course, in the wild this won&rsquo;t be enough space, but for learning purposes it&rsquo;s quite enough. The tools partition is formated with FAT32 (since all the files are quite small) and the memdump partition is formated with exFAT. Both FAT32 and exFAT are cross platform. The latter is designed for large files.</li>
+</ul>
+</li>
+<li>dead ☠️
+<ul>
+<li><strong>remote.</strong></li>
+<li><strong>local.</strong></li>
+</ul>
+</li>
+</ul>
+<p>Anyway, the drive that will contain the evidence should be zeroed first. Tools 🛠 to use for this are, for example, <a href="https://www.killdisk.com/eraser.html">Active@Kill Disk</a> and <a href="https://eraser.heidi.ie/">Eraiser</a>. Check that the target disk is all <code>0</code>s. For that use <code>HxD</code> or <code>010 Editor</code> (?) and run a checksum 64 against it. It should be all zeros.</p>
 <h2 id="validating-the-tools">Validating the tools</h2>
-<h3 id="validate-sanitisation">Validate Sanitisation</h3>
-<p>Check that the target disk is all <code>0</code>s. For that use <code>HxD</code> or <code>010 Editor</code> (?) and run a checksum 64 against it. It should be all zeroes.</p>
-<h3 id="validate-software-write-blocker">Validate Software Write Blocker</h3>
+<p><strong>Validate Sanitisation</strong></p>
+<p>Check that the target disk is all <code>0</code>s. For that use <code>HxD</code> or <code>010 Editor</code> (?) and run a checksum 64 against it. It should be all zeros.</p>
+<p><strong>Validate Software Write Blocker</strong></p>
 <p>In order to validate the software WB, uplug the drive, turn the WriteBlocker on, plug the drive back in and run some software capable of calculating the hash of a drive (FTK Imager, for example). Then document the result. This is a <strong>pre-hash value</strong>. Remove the drive from FTK and close the tool (in order to prevent it reading from cache). Try writing something to the drive or changing a file and then follow the above steps again. The hash values should be the same!</p>
 <blockquote>
 <p>⚠️ Make sure to run the hashing funciton against the physical drive, not the logical one!</p>
@@ -366,9 +376,6 @@
 <li>Yes. Then transport it as is. Do not forget the charger!</li>
 <li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
 </ul>
-<h3 id="ftk-imager">FTK Imager</h3>
-<h3 id="dd"><code>dd</code></h3>
-<p>Stands for disk duplicate. <code>if</code> - input file to make an image of. <code>of</code> - where we are writing the evidence to.</p>
 <h3 id="write-blockers">Write Blockers</h3>
 <p>There are hardware and software write blockers. They both ensure that the changes are not made to target media when plugging in disks or flash drives. InfoSec course recommends using hardware blockers instead of software whenever possible. However if the hardware option is not available, software are acceptable.</p>
 <blockquote>
@@ -378,35 +385,6 @@
 <p>Read <a href="https://habr.com/ru/company/bizone/blog/320032/">this</a> article on habr which is a research whether software write blockers are worse than hardware ones. Write blocker needs to validated prior to imaging on a small drive in every investigation!</p>
 <h4 id="software-write-blockers">Software Write Blockers</h4>
 <p>For Windows 🛠: Safe Block 💰, FastBloc SE (EnCase module) 💰; for USB ports: <a href="https://www.softpedia.com/get/Security/Security-Related/Thumbscrew.shtml">Thuscrew</a> (flips the bit in <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\StorageDevicePolicies\WriteProtect</code>), <a href="https://sourceforge.net/projects/usbwriteblockerforwindows8/files/latest/download">USB Write Blocker for Windows</a>.</p>
-<h3 id="ram">RAM</h3>
-<p>Now, about the RAM capture. Here is the order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
-<ol>
-<li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
-<li>Routing tables, ARP cache, process tables, kernel statistics, memory
-<ol>
-<li>Windows - <code>route print | more</code></li>
-<li>Linux -  <code>ip route</code></li>
-<li>Mac OSX - <code>netstat -rn</code></li>
-</ol>
-</li>
-<li>Temporary file systems?</li>
-<li>Disk</li>
-<li>Remote logging and monitoring data that is revelevant to the system in question</li>
-<li>Physical configuration, network topolgy</li>
-<li>Archival media</li>
-</ol>
-<p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
-<p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
-<p>Now, what about each device type acquisition specifics?</p>
-<p>🍏 Apple Acquisition.</p>
-<p><strong>Mac</strong>. On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>❓<em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-<p><strong>iOS</strong>.</p>
-<p>🪟 Windows Acquisition</p>
-<p>🐧 Linux Acquisition.</p>
-<p>🤖 Android Acquisition</p>
 <h3 id="package-and-transport">Package and transport</h3>
 <p>Package the evidence for transport. Transport the evidence. Store the evidence while in possession. Use Faraday bags for avoiding remote tampering, anti-static and plastic bags as a protection from discharge and moisture. Tape and seal the bags with the evidence.</p>
 <h2 id="evidence-preservation">Evidence Preservation</h2>
