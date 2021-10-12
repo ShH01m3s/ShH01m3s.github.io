@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Live Acquisition Steps - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#file-systems">File Systems</a></li>
+    <li><a href="#live-acquisition">Live Acquisition</a></li>
+    <li><a href="#evidence">Evidence</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#considerations">Considerations</a></li>
+    <li><a href="#general">General</a></li>
+    <li><a href="#volatile-artifacts">Volatile artifacts</a></li>
+    <li><a href="#collection">Collection</a>
+      <ul>
+        <li><a href="#regisrers">Regisrers</a></li>
+        <li><a href="#cache">Cache</a></li>
+        <li><a href="#routing-tables">Routing tables</a></li>
+        <li><a href="#arp-cache">ARP cache</a></li>
+        <li><a href="#process-tables">Process tables</a></li>
+        <li><a href="#kernel-statistics">Kernel statistics</a></li>
+        <li><a href="#memory">Memory</a></li>
+        <li><a href="#temporary-file-systems">Temporary file systems</a></li>
+        <li><a href="#disk">Disk</a></li>
+        <li><a href="#remote-logging-and-monitoring-data-that-is-revelevant-to-the-system-in-question">Remote logging and monitoring data that is revelevant to the system in question</a></li>
+        <li><a href="#physical-configuration-network-topolgy">Physical configuration, network topolgy</a></li>
+        <li><a href="#archival-media">Archival media</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Live Acquisition Steps</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/ios">ios</a>
+          
+            
+            
+            
+            
+              <i class="fas fa-mobile"></i>
+            
+            
+          <a class="platform-link" href="/platforms/android">android</a>
+          
+            
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+            
+          <a class="platform-link" href="/platforms/mac">mac</a>
+          
+            
+              <i class="fab fa-windows"></i>          
+            
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/windows">windows</a>
+          
+            
+            
+              <i class="fab fa-linux"></i>
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/linux">linux</a>
+          
+      </div> <br />
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          <a class="platform-link" href="/tools/ftk">FTK</a>
+          
+          <a class="platform-link" href="/tools/encase">EnCase</a>
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
+<h2 id="file-systems">File Systems</h2>
+<p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
+<p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
+<p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
+<h2 id="live-acquisition">Live Acquisition</h2>
+<p><em>Any activity on a live-system is changing the state of it. About 96%, though, remains unchanged. That means one. should be extra careful with the system when collecting evidence.</em></p>
+<h2 id="evidence">Evidence</h2>
+<ul>
+<li>passwords</li>
+<li>runnning processes</li>
+<li>unencrypted data</li>
+<li>instant messages</li>
+<li>Currently logged-in user information</li>
+<li>open ports</li>
+<li>evidence of attached devices</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>USB with portable exes?</li>
+<li>Live USB</li>
+<li>Remote?</li>
+<li>RAM acquisition tools</li>
+<li>Video</li>
+</ul>
+<h2 id="considerations">Considerations</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <em>❓Are there some keys or stuff like that lurking in memory?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Can the machine be turned off (server)?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓How big is the data?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓☁️ CLoud storage/social media</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Is it within the scope 🖼?</em></li>
+</ul>
+<h2 id="general">General</h2>
+<p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
+<h2 id="volatile-artifacts">Volatile artifacts</h2>
+<p>Keep in mind the order or volatility:</p>
+<ol>
+<li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
+<li>Routing tables, ARP cache, process tables, kernel statistics, memory
+<ol>
+<li>Windows - <code>route print | more</code></li>
+<li>Linux -  <code>ip route</code></li>
+<li>Mac OSX - <code>netstat -rn</code></li>
+</ol>
+</li>
+<li>Temporary file systems?</li>
+<li>Disk</li>
+<li>Remote logging and monitoring data that is revelevant to the system in question</li>
+<li>Physical configuration, network topolgy</li>
+<li>Archival media</li>
+</ol>
+<hr>
+<p>Document preliminary information, including</p>
+<ul>
+<li>Date and time</li>
+<li>Complete log of the command history</li>
+<li>A photograph of the scene as found</li>
+<li>Operating system running on machine</li>
+<li>Document the exact time of each step in the capture process to establish an audit trail of each forensic tool or command used.</li>
+</ul>
+<p>Collect all types of volatile system and network information:</p>
+<ul>
+<li>Memory dump</li>
+<li>Paging files</li>
+<li>Hibernation files</li>
+</ul>
+<p>Document time that the process is completed.</p>
+<hr>
+<p>By IBM Course volatile data should be collected in the following order:</p>
+<ul>
+<li>Network connection</li>
+<li>Login sessions</li>
+<li>Contents of Memory</li>
+<li>Running processses</li>
+<li>Open files</li>
+<li>Network Configurations</li>
+<li>OS Time</li>
+</ul>
+<h2 id="collection">Collection</h2>
+<ul>
+<li>
+<p>Identify running processes</p>
+</li>
+<li>
+<p>Identify open ports</p>
+</li>
+<li>
+<p>Identify memory handles</p>
+</li>
+<li>
+<p>Find and identify loaded DLLs</p>
+</li>
+<li>
+<p>Identify running device drivers</p>
+</li>
+<li>
+<p>Identify all loaded modules, including executables and DLLs</p>
+</li>
+</ul>
+<h3 id="regisrers">Regisrers</h3>
+<p><em>❓ Do they mean EAX, EBP etc?</em></p>
+<h3 id="cache">Cache</h3>
+<p><em>❓CPU cache?</em></p>
+<h3 id="routing-tables">Routing tables</h3>
+<p>Windows - <code>route print | more</code>.</p>
+<blockquote>
+<p>⚠️ Hibernation files contain this information as well.</p>
+</blockquote>
+<p>Linux -  <code>ip route</code></p>
+<p>Mac OSX - <code>netstat -rn</code></p>
+<h3 id="arp-cache">ARP cache</h3>
+<p>Windows - <code>arp -a</code>. To delete ARP cahce (and the attacker might try to - <code>arp -d</code>).</p>
+<p>Linux - <code>arp</code>, but looks like the <code>arp</code> utility is not intstalled by default.</p>
+<p>Mac OS - <code>arp -a</code></p>
+<h3 id="process-tables">Process tables</h3>
+<p>Hibernation files contain this information as well. These are the files created when OS is falling asllep and needs to save some information for future waking up. It&rsquo;s a RAM dump or something very similar as far as I understand.</p>
+<p><strong>Windows.</strong> <code>hiberfil.sys</code>. Read more about <a href="/docs//docs/dfir/host/windows/windows-hybernation">here</a>.</p>
+<p><strong>Linux</strong>. Better read <a href="https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation_into_swap_file">here</a>:</p>
+<blockquote>
+<p>When hibernating your RAM&rsquo;s content gets stored into swap. Out of this reason swap has to be at last as big as the amount of the installed RAM.</p>
+</blockquote>
+<p><strong>Mac OSX</strong>. See more in my article <a href="/docs/dfir/host/apple/apple-hybernation">here</a>. To view hibernation settings - <code>pmset -g | grep hibernate</code>.</p>
+<h3 id="kernel-statistics">Kernel statistics</h3>
+<p>❓</p>
+<h3 id="memory">Memory</h3>
+<blockquote>
+<p>⚠️ Some malware may exist in RAM only!</p>
+<p>❗️ IR cases heavily relly on RAM data!</p>
+<p>⚠️ Under no circumstances should an application that modifies MAC data on stored files be utilized. This includes system utilities such as COPY, XCOPY, MOVE, TAR, and several others. Before using a utility in the field, test it to verify that MAC data is left untouched. [<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>
+</blockquote>
+<p>If you see a destructive process running (check the taskbar and the tray for starters), pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
+<blockquote>
+<p>🗒 Make a list of the most popular disk-wipers and their icons.</p>
+</blockquote>
+<p>If something is encrypted, the key or unencrypted material might reside in memory. Check the taskbar and the tray for encryption software. Also, you may try to search for some knowns tools with the application search. If the volume or disk, or container is encrypted with some encryption tool (see toolkit <a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">here</a>, <code>Encryption software</code> View or filter by <code>encryption</code>), we might want to live capture the encrypted data first (while it&rsquo;s unencrypted). On restart the volume will be locked, which would be a problem in case if don&rsquo;t have a key 🔑. Also, back up the recovery key (BitLocker allows that) if possible.</p>
+<blockquote>
+<p>🗒 Make a list of the most popular disk encryption software and their icons.</p>
+</blockquote>
+<p>🛠 <strong>Tools</strong>. For more tools and information refer to the <a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">toolkit</a>. Filter by keyword <code>ram</code> + <code>ram acquisition</code> or use <code>Memory Analysis</code> View.</p>
+<ul>
+<li>Magnet RAM Capture</li>
+<li>DumpIt (MoonSols)</li>
+<li>Belkasoft Live RAM Capture</li>
+<li>FTK Imager</li>
+<li>dd</li>
+<li>WinDD</li>
+<li>Tribble (hardware)</li>
+<li>Memory Grabber Forensic Tool (hardware)</li>
+</ul>
+<p>Hibernation files contain this information as well. These are the files created when OS is falling asllep and needs to save some information for future waking up. It&rsquo;s a RAM dump or something very similar as far as I understand.</p>
+<p><code>.DMP</code> files are also partial or full memory dumps, but they are only created when something goes wrong (blue screen).</p>
+<p><strong>Windows</strong>. <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited">https://docs.microsoft.com/en-us/troubleshoot/windows-client/performance/read-small-memory-dump-file#:~:text=dmp%20is%20the%20first%20memory,hard%20disk%20space%20is%20limited</a>.</p>
+<p><strong>Linux</strong>. <a href="https://www.chromium.org/developers/decoding-crash-dumps">https://www.chromium.org/developers/decoding-crash-dumps</a></p>
+<p><strong>MacOS</strong>.</p>
+<p>SIP prevents imaging of a live system. <a href="/docs/articles/forensics/analysis/11-apple/macos-fundamentals#sip">More</a> on SIP. Can be disabled:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Boot into recovery mode by pressing CMD+R on restart</span>
+<span class="c1"># Open Terminal</span>
+csrutil disable
+<span class="c1"># Restart</span>
+</code></pre></div><p><strong>VMWare</strong>. To get the VM&rsquo;s virtual memory, pause the machine and copy a <code>vmem</code> file.</p>
+<blockquote>
+<p>❓ Vbox, Parallels?</p>
+</blockquote>
+<p>RAM Acquisition is the first priority since it&rsquo;s the volatile memory. Use DumpIt for Desktop or laptops, <code>frida-dump.py</code> or <code>objection</code> and <code>frida</code> for iOS or Android (sometimes the RAM acquisition on iOS might crash the application). For mobile devices RAM acquisition is performed for each process separately and requires jailbreak. If the device is not jailbroken prior to acquisition, this technique won&rsquo;t work.</p>
+<p>Now, about the RAM capture. Here is the order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
+<ol>
+<li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
+<li>Routing tables, ARP cache, process tables, kernel statistics, memory
+<ol>
+<li>Windows - <code>route print | more</code></li>
+<li>Linux -  <code>ip route</code></li>
+<li>Mac OSX - <code>netstat -rn</code></li>
+</ol>
+</li>
+<li>Temporary file systems?</li>
+<li>Disk</li>
+<li>Remote logging and monitoring data that is revelevant to the system in question</li>
+<li>Physical configuration, network topolgy</li>
+<li>Archival media</li>
+</ol>
+<p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
+<p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
+<p>Now, what about each device type acquisition specifics?</p>
+<p>🍏 Apple Acquisition.</p>
+<p><strong>Mac</strong>. On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<blockquote>
+<p>❓<em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
+<blockquote>
+<p>📝 On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] there is the list of tools to be used for RAM acquisition. I&rsquo;ve tried several of them and realised, that the current problem of the forensic community is that the tools get old much faster than the information gets updated&hellip; Sadly.</p>
+</blockquote>
+<p><code>OSXPmem</code>. It&rsquo;s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There a few complications though.</p>
+<blockquote>
+<p>⚠️ SIP needs to be disabled. Freboot &gt; CMD+R &gt; Terminal &gt; csrutil disbale &gt; reboot). Otherwise, might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, might run into this issue: Can&rsquo;t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn&rsquo;t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal in order to changes to take place!</p>
+</blockquote>
+<p><strong>iOS</strong>.</p>
+<p>🪟 Windows Acquisition</p>
+<p>🐧 Linux Acquisition.</p>
+<p>🤖 Android Acquisitions</p>
+<h3 id="temporary-file-systems">Temporary file systems</h3>
+<p>What is it?</p>
+<h3 id="disk">Disk</h3>
+<h3 id="remote-logging-and-monitoring-data-that-is-revelevant-to-the-system-in-question">Remote logging and monitoring data that is revelevant to the system in question</h3>
+<p>On Windows 🪟 use the below commands to collect Event Manager logs:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wevtutil</span><span class="p">.</span><span class="n">exe</span> <span class="n">epl</span> <span class="n">Security</span> <span class="n">seclog_8102021_0944</span><span class="p">.</span><span class="n">evtx</span> <span class="c"># requires admin privileges</span>
+<span class="n">wevtutil</span><span class="p">.</span><span class="n">exe</span> <span class="n">epl</span> <span class="n">Application</span> <span class="n">applog_8102021_0944</span><span class="p">.</span><span class="n">evtx</span>
+<span class="n">wevtutil</span><span class="p">.</span><span class="n">exe</span> <span class="n">epl</span> <span class="n">System</span> <span class="n">systemlog_8102021_0944</span><span class="p">.</span><span class="n">evtx</span>
+</code></pre></div><p>For a macOS 🍏 system:</p>
+<p>For a Linux 🐧  machine:</p>
+<h3 id="physical-configuration-network-topolgy">Physical configuration, network topolgy</h3>
+<h3 id="archival-media">Archival media</h3>
+<h2 id="references">References</h2>
+<p>[<a href="https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation_into_swap_file">1</a>] Linux hibernation files</p>
+<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-02_01/">2</a>] Digital Archaeology from O&rsquo;Reilly by LiveLessons</p>
+<p>[<a href="https://www.macworld.com/article/182042/sleepmode.html">3</a>], [<a href="https://osxdaily.com/2010/10/11/sleepimage-mac/">4</a>] Mac OSX hibernation files</p>
+<p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">5</a>] Live vs Dead System Acquisition</p>
+<p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">6</a>] Live vs Dead System Acquisition</p>
+<p>[<a href="https://dfir.ru/2018/07/21/a-live-forensic-distribution-executing-malicious-code-from-a-suspect-drive/">7</a>] A live forensic distribution executing malicious code from a suspect drive, M. Suhanov</p>
+<p>[<a href="https://dfir.ru/2018/07/25/a-live-forensic-distribution-writing-to-a-suspect-drive/">8</a>] A live forensic distribution writing to a suspect drive</p>
+<p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
+<p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
+<p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
+<p>[<a href="https://support.apple.com/guide/mac-help/permission-files-a-mac-disk-mchlp1204/mac">4</a>] If you don’t have permission to use files on a Mac disk</p>
+<p>[<a href="https://www.macworld.co.uk/how-to/how-turn-off-mac-os-x-system-integrity-protection-rootless-3638975/">5</a>] How to turn off Rootless (SIP, or System Integrity Protection) in OS X</p>
+<p>[<a href="https://dfir.ru/2018/09/08/memory-compression-and-forensics/#more-368">6</a>] Memory compression and forensics</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

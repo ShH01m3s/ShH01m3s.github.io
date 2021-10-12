@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Evidence Analysis - Analyst</title>
+  <title>Host Evidence Analysis - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -160,9 +160,44 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
+   <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sans-six-part-methodology">SANS Six-Part Methodology</a></li>
+    <li><a href="#file-system-analysis">File System Analysis</a></li>
+    <li><a href="#logs">Logs</a>
+      <ul>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#windows">Windows</a></li>
+        <li><a href="#linuxes">Linuxes</a></li>
+        <li><a href="#ios">iOS</a></li>
+        <li><a href="#android">Android</a></li>
+      </ul>
+    </li>
+    <li><a href="#hibernation">Hibernation</a>
+      <ul>
+        <li><a href="#macos-1">macOS</a></li>
+      </ul>
+    </li>
+    <li><a href="#phases">Phases</a>
+      <ul>
+        <li><a href="#intake">Intake</a></li>
+        <li><a href="#identification">Identification</a></li>
+        <li><a href="#preparation">Preparation</a></li>
+        <li><a href="#isolation">Isolation</a></li>
+        <li><a href="#processing">Processing</a></li>
+        <li><a href="#verification-phase">Verification phase</a></li>
+        <li><a href="#documenting-and-reporting">Documenting and reporting</a></li>
+        <li><a href="#presentation">Presentation</a></li>
+        <li><a href="#archiving">Archiving</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -170,35 +205,302 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Host Evidence Analysis</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="sans-six-part-methodology">SANS Six-Part Methodology</h2>
+<p>Used to identify malicious processses:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Identify rogue processes</li>
+<li><input disabled="" type="checkbox"> Analyze DLLs and handles</li>
+<li><input disabled="" type="checkbox"> Review network artifacts</li>
+<li><input disabled="" type="checkbox"> Look for code injection</li>
+<li><input disabled="" type="checkbox"> Check for any signs of a rootkit</li>
+<li><input disabled="" type="checkbox"> Dump suspicious process and drivers</li>
+</ul>
+<h2 id="file-system-analysis">File System Analysis</h2>
+<p>Refer to this article about different file systems and this - on how to recover the data from them.</p>
+<h2 id="logs">Logs</h2>
+<p>General guidelines</p>
+<h3 id="macos">macOS</h3>
+<h4 id="collecton">Collecton</h4>
+<p><strong>syslog</strong>. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example). By the way, <code>syslog</code> was replaced as well on iOS (see <a href="/docs/dfir/host/mobile/ios/ios-logs">here</a>). Some still exist: <code>daily.out</code>, cups, <code>install.log</code>. 🛑 More about logs for iOS and macOS here.</p>
+<p>🛑 More about fervents here.</p>
+<p>New unified log path in 2 directories:</p>
+<ul>
+<li><code>/var/db/diagnistics</code></li>
+<li><code>/var/db/uuidtext</code></li>
+</ul>
+<p><strong>fsevents</strong>. Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: <code>hex(last_event_id + 1)</code>. Lots of zeroes appended at the beginning of the file name. Example: <code>000000000112f2d8</code>. Can be found in either of these locations:</p>
+<ul>
+<li><code>/.fseventsd</code></li>
+<li><code>./System/Volumes/Data/.fseventsd</code></li>
+<li>On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</li>
+</ul>
+<h4 id="analysis">Analysis</h4>
+<p><code>python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out	</code>. More about FSEvents might be seen here [<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>]. Thanks to Nicole Ibrahim from OSDFCon, we have this filetype reverse engineered and documented. At least, v1.</p>
+<blockquote>
+<p>😭 Getting an error when trying to run <code>FSEventsParser</code> on a M1. No excpetion when running it on an Intel machine though.
+😊 ✅ My solution was to run a windows version on a VM. Worked fine.</p>
+</blockquote>
+<p>Mount activity: DMGs, External devices or Shared network drives.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;mask&#34; LIKE &#39;%mount%&#39;
+</code></pre></div><p>Internet activity (websites visited)</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE
+&#39;Users/%/Library/Caches/Metadata/Safari/History/%&#39;
+OR &#34;filename&#34; LIKE &#39;Users/%/Library/Application
+Support/Google/Chrome/Default/Local Storage/%&#39;
+</code></pre></div><p>User folders activity</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;Users/%/Documents/%’
+OR &#34;filename&#34; LIKE &#39;Users/%/Downloads/%’
+OR &#34;filename&#34; LIKE &#39;Users/%/Desktop/%&#39;
+</code></pre></div><p><strong>🗑 Trash activity</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
+</code></pre></div><h3 id="windows">Windows</h3>
+<h3 id="linuxes">Linuxes</h3>
+<p><img src="images/artworks-000579009953-6w0z2h-t500x500.jpeg" alt="artworks-000579009953-6w0z2h-t500x500"></p>
+<h3 id="ios">iOS</h3>
+<h4 id="collection">Collection</h4>
+<p>Same as for macOS. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
+<h4 id="analysis-1">Analysis</h4>
+<p>Internet activity</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;%websitedata/local%&#39;
+</code></pre></div><p>Email activity</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;mobile/Library/Mail/%’
+</code></pre></div><p>iCloud synced files</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;mobile/Library/Mobile
+Documents/com~apple~CloudDocs/%&#39;
+</code></pre></div><h3 id="android">Android</h3>
+<h2 id="hibernation">Hibernation</h2>
+<p>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</p>
+<h3 id="macos-1">macOS</h3>
+<h4 id="collection-1">Collection</h4>
+<p>Get the hibernation settings - <code>pmset -g | grep hibernatemode</code>:</p>
+<ul>
+<li><code>0</code> – Old style sleep mode, with RAM powered on while sleeping, safe sleep disabled, and super-fast wake.</li>
+<li><code>1</code> – Hibernation mode, with RAM contents written to disk, system totally shut down while “sleeping,” and slower wake up, due to reading the contents of RAM off the hard drive.</li>
+<li><code>3</code> – The default mode on machines introduced since about fall 2005. RAM is powered on while sleeping, but RAM contents are also written to disk before sleeping. In the event of total power loss, the system enters hibernation mode automatically.</li>
+<li><code>5</code> – This is the same as mode <code>1</code>, but it’s for those using secure virtual memory (in System Preferences -&gt; Security).</li>
+<li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
+</ul>
+<p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
+<h4 id="analysis-2">Analysis</h4>
+<p>================================================================================================================================================================================================================================================TO SORT=============================================================================================================================================================================================================================================================================</p>
+<h2 id="phases">Phases</h2>
+<h3 id="intake">Intake</h3>
+<p>The starting phase which included paper work on ownership and request forms. Everything boring and the most important from the court perspective goes here. Also, it&rsquo;s critical not to damage the evidence. Answering the questions:</p>
+<ol>
+<li>What type of information the requestor is seeking?</li>
+<li>What is needed?</li>
+<li>What&rsquo;s the scope</li>
+</ol>
+<p>For example, I&rsquo;m aquiring a mobile phone 📱 for analysis. I&rsquo;m asked to find the evidence, that the person called number +12345679 (1,3). I take the phone but it&rsquo;s locked. I ask to unlock it, because circumventing this limitation would take a lot of time and might corrupt the data (2).</p>
+<h3 id="identification">Identification</h3>
+<p><strong>Legal authority</strong>👨‍⚖️ First, one should keep in mind the legal  aspects such as if the device is under warrant, then not all information can be analyzed 🚫.</p>
+<p><strong>Goals</strong>🎯 Then I&rsquo;m supposed to determine the goals. Skip data irrelevant for the investigation.</p>
+<p><strong>Identification</strong>📱 Make, model and other id information, carrier, phone number. <em>#todo:</em> make a list of the required information.</p>
+<p><strong>Storages</strong> 💾. Removable and external data <strong>storage</strong>. If such storage exists (such as sdcard for Android), it should be removed and analysed separately with the traditional tools. But this card should be in the phone to ensure that the link between evidence is not broken.</p>
+<p>❗ Don&rsquo;t forget that mobile phones are physical devices which might contain physical evidence (for example, fingerprints).</p>
+<h3 id="preparation">Preparation</h3>
+<p>When the device was identified and the scope determined, make a list of tools, techniques and possible pitfols for that specific device.</p>
+<h3 id="isolation">Isolation</h3>
+<p>In case of mobile devices it&rsquo;s very important, because mobile phones continuously collect different garbage 🗑️ like dogs which collect all sorts of crap 💩 while being walked. Some evidence might be overwritten. Also, keep in mind that many phones can be remotely wiped 🧹.</p>
+<p>The first thing to do, is to put the phone in airplane ✈️ mode or a special radio frequency shielding cloth 👝 . Faraday bags block signals.</p>
+<h3 id="processing">Processing</h3>
+<p>The phone should be aquired with a method that is repeatable and forensically sound. This phase starts only after the devices was isolated.</p>
+<p>Physical acquisition is preferred, but when it&rsquo;s not possible - logical acquisition. During logical acquisition (so that the evidences acquired will be admissable in court) it&rsquo;s a good practice to have this process taped.</p>
+<h4 id="examination-and-analysis">Examination and Analysis</h4>
+<ul>
+<li><input disabled="" type="checkbox"> Ownership and posession</li>
+<li><input disabled="" type="checkbox"> Application and file analysis</li>
+<li><input disabled="" type="checkbox"> Timeframe analysis</li>
+<li><input disabled="" type="checkbox"> Data hiding analysis</li>
+</ul>
+<h4 id="evidence">Evidence</h4>
+<p>Evidence should be admissable i.e. valid in court, authentic, complete, reliable, believable.</p>
+<h4 id="good-practice">Good practice</h4>
+<p>Securing evidence, preservation, documenting evidence and changes (photograph everything, including cables used), reporting.</p>
+<h3 id="verification-phase">Verification phase</h3>
+<p>Handset data - RAM and ROM data from the phone. Extracted data sould be compared to handset data. Methods:</p>
+<ol>
+<li>Hashing algorithms. Every individually extracted file should be hashed. Every descrepancy should be explainable.</li>
+<li>Compare manually</li>
+<li>Compare with tools. Use multiple data to extract data and compare the results.</li>
+</ol>
+<h3 id="documenting-and-reporting">Documenting and reporting</h3>
+<table>
+<thead>
+<tr>
+<th>task</th>
+<th>info/done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Examination start/end date/time</td>
+<td></td>
+</tr>
+<tr>
+<td>Physical condition of the phone</td>
+<td></td>
+</tr>
+<tr>
+<td>Photoes of the phone and individual components</td>
+<td></td>
+</tr>
+<tr>
+<td>Turned on/off when received</td>
+<td></td>
+</tr>
+<tr>
+<td>Make/model</td>
+<td></td>
+</tr>
+<tr>
+<td>Aquisition tools used</td>
+<td></td>
+</tr>
+<tr>
+<td>Examination tools used</td>
+<td></td>
+</tr>
+<tr>
+<td>Data found</td>
+<td></td>
+</tr>
+<tr>
+<td>Notes from peer review</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of reporting agency</td>
+<td></td>
+</tr>
+<tr>
+<td>Case id</td>
+<td></td>
+</tr>
+<tr>
+<td>Forensic investigator</td>
+<td></td>
+</tr>
+<tr>
+<td>Date of evidence receipt</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of the device seized</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of the equipment and tools used</td>
+<td></td>
+</tr>
+<tr>
+<td>Chain of custody documentation</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of findings or issued identified</td>
+<td></td>
+</tr>
+<tr>
+<td>Evidence recovered during examination</td>
+<td></td>
+</tr>
+<tr>
+<td>Images captured</td>
+<td></td>
+</tr>
+<tr>
+<td>Examination and analysis info</td>
+<td></td>
+</tr>
+<tr>
+<td>Report conclusion</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="presentation">Presentation</h3>
+<p>Info can be clearly presented in court. Repeatable.</p>
+<h3 id="archiving">Archiving</h3>
+<p>Retained in usable format. New methods, or the court is not soon enough.</p>
 
- 
- <h1 class="title">Evidence Analysis</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/analysis/overview/"> Overview</a></h2> 
-    <p> SANS Six-Part Methodology Used to identify malicious processses:
- Identify rogue processes Analyze DLLs and handles Review network artifacts Look for code injection Check for any signs of a rootkit Dump suspicious process and drivers  </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/analysis/apple-analysis/"> Apple Forensic Analysis 🗒️</a></h2> 
-    <p> SIP More on SIP.
-SIP prevents imaging of a live system. Can be disabled:
-# Boot into recovery mode by pressing CMD+R on restart # Open Terminal csrutil disable # Restart </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/analysis/win-analysis/"> Windows Forensic Analysis 🗒️</a></h2> 
-    <p> WMI Attacks Detection Here is an overview of powershell and WMI.
-Reference [1] SANS poster on Windows Forensics</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/analysis/mobile-analysis/"> Mobile Forensic Analysis 🗒️</a></h2> 
-    <p> Tool leveling pyramid The methods are placed in the order from the easiest to the hardest and most time-consuming:</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/analysis/linux-analysis/"> Linux Forensic Analysis 🗒️</a></h2> 
-    <p> </p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
