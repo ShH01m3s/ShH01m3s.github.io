@@ -272,45 +272,78 @@
 <p>However, this file can be accessed on a dead-box system.</p>
 <p>SAM is a database of files, and it stores all the information about all the users: login information, password hashes, group information. Record <code>V</code> contains static information (username, password length etc), while record <code>F</code> contains constantly updated information like timestamps 🕰. It also contains RID, which can be changed in <a href="/docs/dfir/host/windows/win-lsa/rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
 <h3 id="software">Software</h3>
-<ul>
-<li>Installed programs and applications (<code>Microsoft\Windows\CurrentVersion\Uninstall</code>)</li>
-<li>OS type (<code>Microsift\WindowsNT\CurrentVersion)</code></li>
-<li>Install date</li>
-<li>Wireless networks (<code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList</code>)</li>
-<li>File association (<code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Classes</code>)</li>
-<li>Login info. <code>Winlogon</code> and <code>LogonUI</code> subkeys is about logon information: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\LastLoggedOnUserSID</code>.</li>
-<li>Attached devices (<code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Portable Devices\Devices</code>)
-<ul>
-<li>SWD#WPDBUSENUM#_??_USBSTOR#DISK&amp;VEN__USB&amp;PROD__SANDISK_3.2GEN1&amp;REV_1.00#0101FAAC8B88761E7F6BC71BA8F86767D47A325D0A63F413B93C907B258EBD4#{53F56307-B6BF-11D0-94F2-00A0C91EFB8B}</li>
-</ul>
-</li>
-<li>Autostart locations. There are two place for autoruns: <code>Microsoft\Windows\CurrentVersion\Run</code> and <code>Microsoft\Windows\CurrentVersion\RunOnce</code>, both are system wide ❓</li>
-<li>Uninstalled applications <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</code></li>
-</ul>
+<h4 id="installed-programs-and-applications">Installed programs and applications</h4>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Uninstall</code></p>
+<h4 id="os-type">OS type</h4>
+<p><strong>Key</strong> 🔑: <code>Microsift\WindowsNT\CurrentVersion</code></p>
+<h4 id="install-date">Install date</h4>
+<p><strong>Key</strong> 🔑:</p>
+<h4 id="wireless-networks">Wireless networks</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList</code></p>
+<h4 id="file-association">File association</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Classes</code></p>
+<h4 id="login-info">Login info</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\LastLoggedOnUserSID</code>.</p>
+<p><code>Winlogon</code> and <code>LogonUI</code> subkeys is about logon information:</p>
+<h4 id="attached-devices">Attached devices</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Portable Devices\Devices</code></p>
+<h4 id="autostart-locations">Autostart locations</h4>
+<p><strong>Key</strong> 🔑:  <code>Microsoft\Windows\CurrentVersion\Run</code> and <code>Microsoft\Windows\CurrentVersion\RunOnce</code>.</p>
+<p>There are two place for autoruns, both are system wide ❓</p>
+<h4 id="uninstalled-applications">Uninstalled applications</h4>
+<p><strong>Key</strong> 🔑:  <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</code></p>
 <h3 id="system">System</h3>
-<p>Contains the following information:</p>
-<ul>
-<li>Current control set (<code>Computer\HKEY_LOCAL_MACHINE\System\Select\Current</code>, which ControlSet is in use: <code>1</code> main or <code>2</code> recovery)</li>
-<li>Computer name <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\ComputerName\ComputerName</code> and <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\ComputerName\ActiveComputerName</code></li>
-<li>Last shutdown time <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Windows\LastShutdownTime</code>, 64-bit little-endian value, Windows FileTime.</li>
-<li>Crash dump setting (<code>*.DMP</code>) and location <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\CrashControl\DumpFile</code> and <code>--\\--\MinidumpDir</code>.</li>
-<li>Services set to run. This is another Autorun location: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services</code></li>
-<li>Is page file (<code>pagefile.sys</code>) cleared at shutdown? <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management\ClearPageFileAtShutdown</code>. <code>1</code> - cleared, <code>0</code> - not cleared.</li>
-<li>Prefetch settings <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management\</code></li>
-<li>Last access file time settings</li>
-<li>System time (<code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation\TimeZoneKeyName</code>)</li>
-<li>USBs <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Enum\USBSTOR</code> contains ever connected USBs with their serials and some additional information. <code>0064</code> - first installed, <code>0065</code> last installed, <code>0066</code> last arrival and <code>0067</code> last removal. To view <code>Properties</code> subkey admin 🧑‍💼 privileges are not enough for the live-registry. Install <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">psexec</a> and elevate to system by running the folling command from the <code>psexec</code> folder: <code> .\PsExec.exe -i -s -d powershell.exe</code>. In the PowerShell window that opens run <code>regedit</code>. Another key - <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices</code>. It&rsquo;s used to map devices to drive letters (not only USBs).</li>
-</ul>
+<p>Contains the following information, listed below.</p>
+<h4 id="current-control-set">Current control set</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\System\Select\Current</code>.</p>
+<p>There are two Controls Sets:  <code>1</code> main or <code>2</code> recovery. In order to determine, which ControlSet is in use at the moment (most likely <code>1</code>), see <code>Computer\HKEY_LOCAL_MACHINE\System\Select\Current</code>. Then, choose <code>ControlSet001</code> or <code>ControlSet002</code> to get the data that is the most relevant.</p>
+<h4 id="computer-name">Computer name</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\ComputerName\ComputerName</code> and <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\ComputerName\ActiveComputerName</code></p>
+<h4 id="last-shutdown-time">Last shutdown time</h4>
+<p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Windows\LastShutdownTime</code></p>
+<p>A 64-bit little-endian value, Windows FileTime.</p>
+<h4 id="crash-dump-setting">Crash dump setting</h4>
+<p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\CrashControl\DumpFile</code> and <code>--\\--\MinidumpDir</code>.</p>
+<p>Stores the location of <code>*.DMP</code>.</p>
+<h4 id="services-set-to-run">Services set to run</h4>
+<p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services</code></p>
+<p>This is another Autorun location.</p>
+<h4 id="is-page-file-cleared-at-shutdown">Is page file cleared at shutdown?</h4>
+<p>Key 🔑:  <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management\ClearPageFileAtShutdown</code>.</p>
+<p><code>1</code> - cleared, <code>0</code> - not cleared.</p>
+<p><code>pagefile.sys</code> can store some data that&rsquo;s used or was used by RAM.</p>
+<h4 id="prefetch-settings">Prefetch settings</h4>
+<p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Session Manager\Memory Management\</code></p>
+<h4 id="last-access-file-time-settings">Last access file time settings</h4>
+<h4 id="system-time">System time</h4>
+<p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation\TimeZoneKeyName</code></p>
+<h4 id="usbs">USBs</h4>
+<p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Enum\USBSTOR</code></p>
+<p>Contains ever connected USBs with their serials and some additional information. <code>0064</code> - first installed, <code>0065</code> last installed, <code>0066</code> last arrival and <code>0067</code> last removal. To view <code>Properties</code> subkey admin 🧑‍💼 privileges are not enough for the live-registry. Install <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">psexec</a> and elevate to system by running the folling command from the <code>psexec</code> folder: <code> .\PsExec.exe -i -s -d powershell.exe</code>. In the PowerShell window that opens run <code>regedit</code>. Another key - <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices</code>. It&rsquo;s used to map devices to drive letters (not only USBs).</p>
 <h3 id="nt-user">NT User</h3>
-<p>Key interesting for a forensic examiner:</p>
-<ul>
-<li>recent documents <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code> ⚠️🔎 I only had a short binary data stream under the <code>ViewStream</code> subkey.</li>
-<li>typed URLs, ⚠️ for Internet Explorer only: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Typed URLs</code>. Timestamps are at <code>TypedURLsTimes</code>. Up to 25 entries.</li>
-<li>user assist. List of progs and applets that can be quicly started from the Start menu for usability (the most often used items, I guess): <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist</code>. ⚠️ 🔎 I could not find this key on my Win10 VM.</li>
-<li>run and run once (for that particular user) - `Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Ru</li>
-<li>word wheel query. Search history of the Start menu and Windows Explorer (MRU order - <strong>m</strong>ost <strong>r</strong>ecently <strong>u</strong>sed), last accessed date, search terms typed by user: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code> 🔎 I could not find this key on my Win10 VM.</li>
-</ul>
-<p>I could not find some of the above mentioned keys on my Win10 VM. I tried both <code>HKEY_LOCAL_MACHINE</code> and <code>HKEY_CURRENT_USER</code>.</p>
+<p>Key interesting for a forensic examiner are listed below.</p>
+<h4 id="recent-documents">Recent documents</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></p>
+<p>⚠️🔎 I only had a short binary data stream under the <code>ViewStream</code> subkey.</p>
+<h4 id="typed-urls">Typed URLs</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Typed URLs</code>. Timestamps are at <code>TypedURLsTimes</code>.</p>
+<p>⚠️ for Internet Explorer only, holds up to 25 entries. Since it&rsquo;s used for InternetExplorer only and Internet Explorer is dying, most likely this artefact is &ldquo;fading in the past&rdquo;.</p>
+<h4 id="user-assist">User assist</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist</code>.</p>
+<p>List of progs and applets that can be quicly started from the Start menu for usability, the most often used items. Shows a <code>focus count</code> for each entry. It means, how many time was the window switched to (that doesn&rsquo;t include the time when the program is first run). Shows the last time that the program was executed, focus time, run count.</p>
+<p>At the start of each entry between <code>{}</code> is the code for a location within file system. Registry Explorer will substitute these automatically, since these GUIDs are predefined.</p>
+<p>⚠️ 🔎 I could not find this key on my Win10 VM.</p>
+<p>⚠️ When the program was started via <code>lnk</code> file, the focus count will be <code>0</code>.</p>
+<h4 id="runrun-once">Run/Run once</h4>
+<p><strong>Key</strong> 🔑: <code>Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</code>,<code>Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce</code></p>
+<p>For that particular user. System-wide autoruns are stored in <code>SOFTWARE</code>.</p>
+<h4 id="word-wheel-query">Word Wheel Query</h4>
+<p><strong>Key</strong> 🔑:<code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code>.</p>
+<p>Search history of the Start menu and Windows Explorer (MRU order - <strong>m</strong>ost <strong>r</strong>ecently <strong>u</strong>sed), last accessed date, search terms typed by user.</p>
+<p>🔎 I could not find this key on my Win10 VM.</p>
+<blockquote>
+<p>🧪 I could not find some of the above mentioned keys on my Win10 VM. I tried both <code>HKEY_LOCAL_MACHINE</code> and <code>HKEY_CURRENT_USER</code>.</p>
+</blockquote>
 <h2 id="references">References</h2>
 <p>[<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">1</a>] Windows registry file format specification</p>
 <p>Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2020/10/03/exporting-registry-hives-from-a-live-system/">2</a>] Exporting registry hives from a live system, [<a href="https://dfir.ru/2020/08/15/containerized-registry-hives-in-windows/">3</a>] Containerized registry hives in Windows, [<a href="https://dfir.ru/2018/10/07/hiding-data-in-the-registry/">4</a>] Hiding data in the registry</p>

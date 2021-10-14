@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>RAM Collection And Analysis - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/host/"> Back to Host Evidence Collection And Analysis Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sans-six-part-methodology">SANS Six-Part Methodology</a></li>
+    <li><a href="#ram-acquisition">RAM Acquisition</a></li>
+    <li><a href="#ram-analysis">RAM Analysis</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">RAM Collection And Analysis</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="sans-six-part-methodology">SANS Six-Part Methodology</h2>
+<p>Used to identify malicious processses:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Identify rogue processes</li>
+<li><input disabled="" type="checkbox"> Analyze DLLs and handles</li>
+<li><input disabled="" type="checkbox"> Review network artifacts</li>
+<li><input disabled="" type="checkbox"> Look for code injection</li>
+<li><input disabled="" type="checkbox"> Check for any signs of a rootkit</li>
+<li><input disabled="" type="checkbox"> Dump suspicious process and drivers</li>
+</ul>
+<h2 id="ram-acquisition">RAM Acquisition</h2>
+<p>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</p>
+<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
+<p>In general, things we are going to do are specific to the case type. It case of a malware infection we will be looking for rogue processes, rootkits and other such things, while in child exploitation or insider threat  - these are not top priority. In case of child exploitation we would be more interested in some <code>png</code> or <code>jpeg</code> still residing somewhere in memory.</p>
+<p><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</p>
+<p><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</p>
+<p><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</p>
+<p>Benchmark the tools. DumpIt - lightweight, Magnet RAM, Belkasoft, FTK (slow, highest footprint), Redline, Fast Dump (fdpro.exe). Media matters. SSD, USB vs Magnetic media evidence disk (HDD)? USB 3 is cool. Storage check at least 1/3 more then the collected. Magnetic cheap, 2-4 Gb.</p>
+<h2 id="ram-analysis">RAM Analysis</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install brew packet manager</span>
+ruby -e <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&#34;</span> &lt; /dev/null 2&gt; /dev/null
+
+<span class="c1"># install volatility (python should be installed)</span>
+brew install volatile
+<span class="c1"># vol.py is now located somewhere here - /usr/local/Cellar/volatility/2.6.1_2/bin/vol.py</span>
+<span class="c1"># I have made an alias in ~/.zshrc:</span>
+<span class="c1"># alias vol=&#39;python /usr/local/Cellar/volatility/2.6.1_2/bin/vol.py&#39; to run it with just vol</span>
+
+<span class="c1"># install rekall</span>
+pip install rekall-agent rekall
+</code></pre></div><p>There are three main tools to perform memory dump analysis: volatility 💦, rekall 🤔 and RedLine 🍎. All of them are free 🚫💴. Unfortunately, rekall project has been recently closed. There also two versions of volatility that coexist at the moment (📆 <code>14/10/2021</code>): <code>vol2</code> and <code>vol3</code>. The only way I could make <code>vol3</code> work on Mac - <code>git clone</code> it. I&rsquo;ve installed vol2 as a standalone tool. <code>brew install</code> and <code>pip install</code> failed to install either correctly. Keep in mind that in <code>vol3</code> you are no longer running <code>imageinfo</code>. As far as I understand, the profile is not determined automatically ❓.</p>
+<p>Below are the formats currently supported:</p>
+<ol>
+<li>raw</li>
+<li>firewire</li>
+<li>EWF (Expert Witness)</li>
+<li>Hibernation files</li>
+<li>Crash dump</li>
+<li>MachO</li>
+<li>Virtual machines (vbox core dumps, vmware .vmss and .vmsn)</li>
+<li>HPAK (FastDump)</li>
+<li>LiME</li>
+<li>QEMU VM memoryy dumps</li>
+</ol>
+<p><strong>VMWare and Vbox.</strong> Benefit of evidence preservation. ✔️ - needed.​vmd can be used and feeded to Autopsy for example.</p>
+<ul>
+<li><strong>vmdk</strong> - virtual hard disk</li>
+<li><strong>vmss</strong> - suspended state file ✔️</li>
+<li><strong>vmsn</strong> - snapshot file ✔️</li>
+<li><strong>vmx</strong> - configuration file</li>
+<li><strong>nvram</strong> - equivalent to BIOS</li>
+</ul>
+<p>There are two types of plugins in volatility: scan (searching and carving from memory) and list (searching for memory structures and pulling info from them). Run <code>vol.py --info | more # list all profiles</code> to list all profiles (⚠️ <strong>vol2!</strong>). Useful plugins and their applications:</p>
+<p><strong><code>imageinfo</code></strong>. Used to identify the profile for memory image. ⚠️ <strong>vol2!</strong></p>
+<p><strong><code>kdbscan</code></strong>. This is similar in that what&rsquo;s it doing, but it&rsquo;s much more thorough. Can be used to narrow down the correct profile along with <code>imageinfo</code>. ⚠️ <strong>vol2!</strong></p>
+<p><strong><code>pslist</code></strong>. List all the processes that were run during live capture. Simialr to Process Hacker or Process Explorer or Task Manager. Doesn&rsquo;t list hidden processes, since it walks though the doubly-linked list in memory, that&rsquo;s pointed to by <code>psActiveProcessHead</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py -f memdump.mem <span class="o">[</span>windows<span class="p">|</span>linux<span class="p">|</span>macos<span class="o">]</span>.pslist <span class="c1"># vol3</span>
+python vol.py -f memdump.mem --profile<span class="o">=</span>XXXX pslist <span class="c1"># vol2</span>
+</code></pre></div><p><strong><code>psscan</code></strong>. Unlike the pslist, it doesn&rsquo;t walk through the <code>psActiveProcessHead</code> list, so, it can detect hidden or unlinked processes, rootkits. The fastest way to find such processes is to run both <code>pslist</code> and <code>psscan</code> and check if they differ.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py -f memdump.mem <span class="o">[</span>windows<span class="p">|</span>linux<span class="p">|</span>macos<span class="o">]</span>.psscan <span class="c1"># vol3</span>
+python vol.py -f memdump.mem --profile<span class="o">=</span>XXXX psscan <span class="c1"># vol2</span>
+</code></pre></div><p><strong><code>pstree</code></strong>. Shows the process tree. Helps to see, who&rsquo;s a parent of what. It&rsquo;s good to detect processes which suspicious parents.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py -f memdump.mem windows.pstree <span class="c1"># vol3</span>
+python vol.py -f memdump.mem --profile<span class="o">=</span>XXXX pstree <span class="c1"># vol2</span>
+</code></pre></div><p><strong><code>dlllist</code></strong>. Show the dlls used by some process.</p>
+<blockquote>
+<p>🧪 Windows only ❓</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h4 id="windows">Windows</h4>
+<p><code>hiberfil</code> files are not as common, but just as good. <code>imagecopy</code> plugin converts different formats into <code>raw</code> format to speed up. Also saves up to 75% of memory size, therefore decreases the time for analysis.  First, determine the OS profile (for vol2) and run the plugin. Example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
+</code></pre></div><p>How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. Purple square shows service pack version and the green one - the correct profile with the correct service pack. Other two suggested profiles have some service packs versions appened to the end.</p>
+<p><img src="images/vol_py_imageinfo_mem_udemy.png" alt="vol_py_imageinfo_mem_udemy"></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
+vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
+</code></pre></div><p><strong>Hiberfil.sys</strong>. What is <a href="/docs/dfir/host/reference/windows/windows-hibernation">hyberfil.sys</a>? Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
+<h4 id="macos">macOS</h4>
+<p>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</p>
+<h4 id="collection">Collection</h4>
+<p>Get the hibernation settings - <code>pmset -g | grep hibernatemode</code>:</p>
+<ul>
+<li><code>0</code> – Old style sleep mode, with RAM powered on while sleeping, safe sleep disabled, and super-fast wake.</li>
+<li><code>1</code> – Hibernation mode, with RAM contents written to disk, system totally shut down while “sleeping,” and slower wake up, due to reading the contents of RAM off the hard drive.</li>
+<li><code>3</code> – The default mode on machines introduced since about fall 2005. RAM is powered on while sleeping, but RAM contents are also written to disk before sleeping. In the event of total power loss, the system enters hibernation mode automatically.</li>
+<li><code>5</code> – This is the same as mode <code>1</code>, but it’s for those using secure virtual memory (in System Preferences -&gt; Security).</li>
+<li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
+</ul>
+<p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
+<h4 id="analysis">Analysis</h4>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

@@ -165,9 +165,6 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#intro">Intro</a></li>
-    <li><a href="#processes">Processes</a></li>
-    <li><a href="#volatility">Volatility</a></li>
     <li><a href="#supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</a></li>
     <li><a href="#aquisition-of-live-memory"><strong>Aquisition</strong> of live memory</a></li>
     <li><a href="#hiberfilsys-and-crash-dumps">hiberfil.sys and crash dumps</a></li>
@@ -255,23 +252,13 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="intro">Intro</h2>
-<p>Installed volatile on mac:</p>
+    <p>Installed volatile on mac:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># brew was already installed, but just in case</span>
 ruby -e <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&#34;</span> &lt; /dev/null 2&gt; /dev/null
 brew install volatile
-</code></pre></div><p>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</p>
-<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
-<p>Memory forensics used for:</p>
-<p><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</p>
-<p><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</p>
-<p><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</p>
-<h2 id="processes">Processes</h2>
-<p>Application run in memory. PID - Process ID when being executed. Different for every program run each time it&rsquo;s run. Each has it&rsquo;s own virtual address space. Process Hacker or Explorer to explore live memory.</p>
-<p>Exe path, parent, when started (system boot or not).</p>
-<h2 id="volatility">Volatility</h2>
-<p>Python tool. CLI and GUI. Plugins which target specifica artifact or process. Plugin recipes to combine plugins to automate some analysis vector. That&rsquo;s what I was thinking of doing 😔.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py <span class="o">[</span>plugin<span class="o">]</span> -f <span class="o">[</span>image<span class="o">]</span> --profile<span class="o">=[</span>profile<span class="o">]</span>
+<span class="c1"># vol.py is now located somewhere here - /usr/local/Cellar/volatility/2.6.1_2/bin/vol.py</span>
+<span class="c1"># I have made an alias in ~/.zshrc:</span>
+<span class="c1"># alias vol=&#39;python /usr/local/Cellar/volatility/2.6.1_2/bin/vol.py&#39; to run it with just vol</span>
 </code></pre></div><h2 id="supported-memory-formatsfiles">Supported memory <strong>formats</strong>\files</h2>
 <ol>
 <li>raw</li>
