@@ -323,27 +323,61 @@
 <h3 id="nt-user">NT User</h3>
 <p>Key interesting for a forensic examiner are listed below.</p>
 <h4 id="recent-documents">Recent documents</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></p>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></p>
+<p>Contains the list of all recent documents as a bunch and also the same data sorted by extension. <code>MRUListEx</code> is list. It has a number of 4 byte values, each noting the sequence number of a document. It starts from the document&rsquo;s number that was accessed some time age (first in the list) and ends with the most recently used one. This key also has a list of recently accessed folders.</p>
+<blockquote>
 <p>⚠️🔎 I only had a short binary data stream under the <code>ViewStream</code> subkey.</p>
+</blockquote>
 <h4 id="typed-urls">Typed URLs</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Typed URLs</code>. Timestamps are at <code>TypedURLsTimes</code>.</p>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Internet Explorer\Typed URLs</code>. Timestamps are at <code>TypedURLsTimes</code>.</p>
 <p>⚠️ for Internet Explorer only, holds up to 25 entries. Since it&rsquo;s used for InternetExplorer only and Internet Explorer is dying, most likely this artefact is &ldquo;fading in the past&rdquo;.</p>
 <h4 id="user-assist">User assist</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist</code>.</p>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist</code>.</p>
 <p>List of progs and applets that can be quicly started from the Start menu for usability, the most often used items. Shows a <code>focus count</code> for each entry. It means, how many time was the window switched to (that doesn&rsquo;t include the time when the program is first run). Shows the last time that the program was executed, focus time, run count.</p>
 <p>At the start of each entry between <code>{}</code> is the code for a location within file system. Registry Explorer will substitute these automatically, since these GUIDs are predefined.</p>
+<p>This what a full filled User Assist key looks like. <code>{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}</code> is for programs that were lauched using their image files directly. <code>{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}</code> is for those, started with a shortcut.</p>
+<p><img src="images/user-assist1.png" alt="user-assist1"></p>
+<p>The structure is quite simple:</p>
+<ul>
+<li>At <code>0x04</code> offset starts the number of executions (4 bytes).</li>
+<li>At <code>0xC</code> offset starts the focus time (4 bytes)</li>
+<li>At <code>0x3C</code> offset starts the Last Execution time (8 bytes), which is a Win64-bit little-endian value (for Decode 🛠).</li>
+</ul>
+<blockquote>
 <p>⚠️ 🔎 I could not find this key on my Win10 VM.</p>
 <p>⚠️ When the program was started via <code>lnk</code> file, the focus count will be <code>0</code>.</p>
+</blockquote>
+<h4 id="recent-apps">Recent Apps</h4>
+<p>Key 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps</code>.</p>
+<p>Similar to User Assist. Also shows files and applications that were used through this application. This key consists of sub-keys that are marked with application&rsquo;s GUID. Some of them will have <code>Recent Items</code> sub-key (10 max), each has <code>Last Write Time</code> (Windows 64-bit, little-endian).</p>
+<blockquote>
+<p>⚠️ Not all Win10 machines will have this key.</p>
+</blockquote>
+<h4 id="jump-list-data">Jump List Data</h4>
+<p>Key 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData</code>.</p>
+<p>Shows applications accessed.</p>
 <h4 id="runrun-once">Run/Run once</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run</code>,<code>Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce</code></p>
-<p>For that particular user. System-wide autoruns are stored in <code>SOFTWARE</code>.</p>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run</code>,<code>Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce</code>.</p>
+<p>For that particular user. System-wide autoruns are stored in <code>HKLM_LOCAL_MACHINE\SOFTWARE</code>. The keys are ignored if the PC is started in a safe mode. ⚠️ However, if the value in <code>RunOnce</code> is prefixed with an <strong>asterisk</strong> (*), it will run <strong>even</strong> in the <strong>safe mode</strong>!</p>
 <h4 id="word-wheel-query">Word Wheel Query</h4>
-<p><strong>Key</strong> 🔑:<code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code>.</p>
+<p><strong>Key</strong> 🔑:<code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code> (Win7, search from the start menu), <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SearchHistory\Microsoft.Windows.FileSearchApp</code> (Win8, search from the start menu), <code>Users\%USERNAME%\AppData\Local\Micorsoft\Windows\ConnectedSearch\History</code> (Win8.1, stored as individual <code>lnk</code> files, contains file date and times, items accessed from the charms bar (aka Start menu)), <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code> (Win10, searched from File Explorer).</p>
+<blockquote>
+<p>⚠️ On Windows 10 search terms that are typed into the charms bar are tracked by Cortana in a dedicated DB outside the registry.</p>
+</blockquote>
 <p>Search history of the Start menu and Windows Explorer (MRU order - <strong>m</strong>ost <strong>r</strong>ecently <strong>u</strong>sed), last accessed date, search terms typed by user.</p>
 <p>🔎 I could not find this key on my Win10 VM.</p>
 <blockquote>
 <p>🧪 I could not find some of the above mentioned keys on my Win10 VM. I tried both <code>HKEY_LOCAL_MACHINE</code> and <code>HKEY_CURRENT_USER</code>.</p>
 </blockquote>
+<h4 id="comdlg32">ComDlg32</h4>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32</code>.</p>
+<p><code>CIDSizeMRU</code>- Tracks applications globally. MRU start at zero. Timestamp for the most recent item only. <code>FirstFolder</code> -tracks the install locations of applications, full path to the app, but no exact file name. <code>OpenSavePidMRU</code> - tracks files that were saved with <code>Save As</code> dialog, or opened with <code>Open</code> dialog. Tracks autocomplete terms. <code>LastVisitedPidMRU</code> - tracks applications accessed in <code>OpenSavePidMRU</code>, tracks the location the file existed.</p>
+<h4 id="typed-paths">Typed Paths</h4>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths</code>.</p>
+<p>Files and directories that were accessed by typing address in File Explorer.</p>
+<h4 id="office-mru">Office MRU</h4>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Office\XX.X</code>.</p>
+<p>You might see if there were several versions of Microsoft Office installed. Expanding Word|Excel|PowerPoint etc and looking at the entries, they have a <code>Txxxxxxxx</code> in the middle. That&rsquo;s time (Win64 big-endian, UTC).</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">1</a>] Windows registry file format specification</p>
 <p>Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2020/10/03/exporting-registry-hives-from-a-live-system/">2</a>] Exporting registry hives from a live system, [<a href="https://dfir.ru/2020/08/15/containerized-registry-hives-in-windows/">3</a>] Containerized registry hives in Windows, [<a href="https://dfir.ru/2018/10/07/hiding-data-in-the-registry/">4</a>] Hiding data in the registry</p>
