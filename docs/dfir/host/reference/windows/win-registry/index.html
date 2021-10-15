@@ -269,7 +269,7 @@
 <h3 id="sam">SAM</h3>
 <p>This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
 <p><img src="images/sam-hive-permissions.png" alt="sam-hive-permissions"></p>
-<p>However, this file can be accessed on a dead-box system.</p>
+<p>However, this file can be accessed on a dead-box system. ⚠️ Also, this file only stores local creds, not domain or Microsoft account credentials!</p>
 <p>SAM is a database of files, and it stores all the information about all the users: login information, password hashes, group information. Record <code>V</code> contains static information (username, password length etc), while record <code>F</code> contains constantly updated information like timestamps 🕰. It also contains RID, which can be changed in <a href="/docs/dfir/host/windows/win-lsa/rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
 <h3 id="software">Software</h3>
 <h4 id="installed-programs-and-applications">Installed programs and applications</h4>
