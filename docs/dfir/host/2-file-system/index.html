@@ -166,11 +166,20 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#file-systems">File Systems</a></li>
-    <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
-    <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
-    <li><a href="#general">General</a></li>
-    <li><a href="#prerequisites">Prerequisites</a></li>
-    <li><a href="#process">Process</a></li>
+    <li><a href="#collection">Collection</a>
+      <ul>
+        <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
+        <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
+        <li><a href="#general">General</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#process">Process</a></li>
+      </ul>
+    </li>
+    <li><a href="#analysis">Analysis</a>
+      <ul>
+        <li><a href="#locating-user-account-information">Locating User Account Information</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -226,14 +235,15 @@
 <p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
 <p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
 <p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
-<h2 id="sterilizing-target-media">Sterilizing Target Media</h2>
+<h2 id="collection">Collection</h2>
+<h3 id="sterilizing-target-media">Sterilizing Target Media</h3>
 <p>Before copying evidence or making a disk image one needs to sterelize the target media to make sure that data that was present on that disk prior to this operation would not medle with the evidence data. Several rounds of writing <code>0</code>s is usually enough. Keep in mind that flash drives work in different manner and that&rsquo;s why simple permanent deletion of a file deems to be unrecoverable.</p>
 <p>On Windows you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). To verify that the disk was indeed sterilized, run <code>Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor.</p>
 <blockquote>
 <p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
 <p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
 </blockquote>
-<h2 id="hddssd-imaging">HDD/SSD Imaging</h2>
+<h3 id="hddssd-imaging">HDD/SSD Imaging</h3>
 <p>List all drives (Linux and macOS):</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l <span class="c1"># Linux</span>
 lsblk
@@ -251,11 +261,11 @@ sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span cl
 <span class="c1"># to install on macOS - brew install dc3dd</span>
 sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
 </code></pre></div><p>If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
-<h2 id="general">General</h2>
+<h3 id="general">General</h3>
 <p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="prerequisites">Prerequisites</h3>
 <p>Live USB/CD?</p>
-<h2 id="process">Process</h2>
+<h3 id="process">Process</h3>
 <ul>
 <li>Connect external HDD or SSD</li>
 <li>Lauch some forensic distribution (for example, Paladin). Make an image of local HDD</li>
@@ -264,6 +274,17 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
 <blockquote>
 <p>Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
 </blockquote>
+<h2 id="analysis">Analysis</h2>
+<h3 id="locating-user-account-information">Locating User Account Information</h3>
+<h4 id="windows">Windows</h4>
+<p>There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code> for Domain Accounts.</p>
+<blockquote>
+<p>❗️❗️❗️❗️ More details see here.</p>
+</blockquote>
+<p>To crack Windows NTLM hashes (for local accounts only), you&rsquo;ll need both SYSTEM and SAM hives. SYSTEM contains an AES key 🔑 for NTLM decryption and SAM contains the encrypted hash. After the hash is decrypted, either brute-force 💪 or dictionary 📖 attack needs.</p>
+<h4 id="macos">macOS</h4>
+<h4 id="linux">Linux</h4>
+<p><code>/etc/passwd</code> and <code>/etc/shadow</code>.</p>
 
   </div>
 </article>

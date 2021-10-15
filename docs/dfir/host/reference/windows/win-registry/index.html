@@ -270,7 +270,42 @@
 <p>This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
 <p><img src="images/sam-hive-permissions.png" alt="sam-hive-permissions"></p>
 <p>However, this file can be accessed on a dead-box system. ⚠️ Also, this file only stores local creds, not domain or Microsoft account credentials!</p>
-<p>SAM is a database of files, and it stores all the information about all the users: login information, password hashes, group information. Record <code>V</code> contains static information (username, password length etc), while record <code>F</code> contains constantly updated information like timestamps 🕰. It also contains RID, which can be changed in <a href="/docs/dfir/host/windows/win-lsa/rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
+<p>SAM is a database of files, and it stores all the information about all the users: login information, password hashes, group information.</p>
+<p>🛠 Registry Explorer (Eric Zimmerman&rsquo;s tool) can collect all user from the SAM and Profile files and show them assembled. This data can be exported to Excel, for example.</p>
+<h4 id="local-user-accounts">Local User Accounts</h4>
+<p>For each user there will be a separate sub-key under <code>SAM\SAM\Domains\Account\Users</code>. The sub-keys names are actually RID of the user in hex. Each sub-key will have several values. Record <code>V</code> contains static information (username, password length etc), while record <code>F</code> contains constantly updated information like timestamps 🕰:</p>
+<ul>
+<li>Last login is a little endian 8 byte value at <code>0x08-0x0f</code> offset.</li>
+<li>Last password change time at offset <code>0x18-0x1f</code>, 8 bytes long.</li>
+<li>Last failed logon time is at offset <code>0x28-0x2f</code>, 8 bytes.</li>
+</ul>
+<p>RID itself is stored here, in <code>F</code> record at offset <code>0x30-0x33</code> (little endian). Also, there is <code>PasswordRequired</code> (at <code>0x38</code>). There several possible values for this nibble (half byte): <code>0</code> - account active + pass required, <code>1</code> - account is not active, <code>4</code> - any policies do not apply to this account.</p>
+<blockquote>
+<p>🧪 I have <code>5</code> on my machine, what does it mean?</p>
+</blockquote>
+<p>Logon count is at <code>0x42-0x43</code> (two bytes).</p>
+<p>The <code>V </code> value is more interesting. It contains usernames and hashes (NTLM). The user account name is at <code>0x1C0</code> offset (Unicode). What about the juicy stuff? I mean the password hashes. SAM file contains a 56-byte NTLM hash of the password, which is encrypted with a AES algo,  the key 🔑 is stored in a system file. To decrypt the password, you&rsquo;ll need both SAM <strong>and</strong> the system file. Password cracking methodology:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Export SAM and SYSTEM hives from the forensic image/suspect machine.</li>
+<li><input disabled="" type="checkbox"> Unencrypt the hash stored in the SAM file (🛠 <code>mimikatz</code>).</li>
+<li><input disabled="" type="checkbox"> Create a word list from the current case (may export from Autopsy, EnCase etc).</li>
+<li><input disabled="" type="checkbox"> Run a dictionary 📖 or brute-force attack 💪 against this NTLM hash (🛠: <code>hashcat</code> 🐈‍⬛ , <code>John the Ripper</code> 🔪, Cain and Able 🔪 🐏).</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># decrypt the hashes:</span>
+mimikatz
+&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
+
+<span class="c1"># crach the hash with hashcat</span>
+
+</code></pre></div><p><strong>Other values stored in this sub-key</strong>. <code>ForcePasswordReset</code> speaks for itself and <code>SupplementalCredentials</code> do not. There also can be a <code>UserPasswordHint</code>, sometimes contains the actual password. It also contains RID, which can be changed in <a href="/docs/dfir/host/reference/windows/win-lsa#rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
+<h4 id="microsoft-accounts">Microsoft Accounts</h4>
+<p>Since Win8. Can be logged in if there is internet access. Profiles and settings are stored in the cloud ☁️. Additional values are stored in SAM: <code>InternetUID</code> and <code>InternetUserName</code>. Both are unique to the user. <code>InternetUID</code> is a 16 byte Unicode string. <code>InternetUserName</code> - usually an email used as a login.</p>
+<h4 id="domain-accounts">Domain Accounts</h4>
+<p><strong>Key</strong> 🔑 : <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code>.</p>
+<p>The key above will have a <code>ProfileImagePath</code>.</p>
+<p>SAM doesn&rsquo;t have any informaiton about domain accounts. For this information refer to the key above. Even though in case of a domain user there is no relevant information in SAM hive, you can still view the machine/domain ID in SAM and use it to determine whether the files were created on the local machine. For example, in the Recycle Bin.</p>
+<h4 id="deleted-accounts">Deleted Accounts</h4>
+<p>🛠 Registry Explorer (Eric Zimmerman&rsquo;s tool) shows deleted accounts. If the data was not overwritten, we will be able to get the information.</p>
 <h3 id="software">Software</h3>
 <h4 id="installed-programs-and-applications">Installed programs and applications</h4>
 <p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Uninstall</code></p>
