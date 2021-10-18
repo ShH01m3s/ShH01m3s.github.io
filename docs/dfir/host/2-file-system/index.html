@@ -165,7 +165,6 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#file-systems">File Systems</a></li>
     <li><a href="#collection">Collection</a>
       <ul>
         <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
@@ -177,6 +176,7 @@
     </li>
     <li><a href="#analysis">Analysis</a>
       <ul>
+        <li><a href="#disk-information">Disk Information</a></li>
         <li><a href="#locating-user-account-information">Locating User Account Information</a></li>
       </ul>
     </li>
@@ -229,9 +229,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>After first response!!!!</p>
-<p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
-<h2 id="file-systems">File Systems</h2>
+    <p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
 <p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
 <p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
 <p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
@@ -275,6 +273,9 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
 <p>Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
 </blockquote>
 <h2 id="analysis">Analysis</h2>
+<h3 id="disk-information">Disk Information</h3>
+<p>Use <code>sleuthkit</code> to gather some information. <code>mmstat &lt;disk_or_image&gt;</code> shows volume type. I&rsquo;ve ran this command, but as I can conclude by the output, it&rsquo;s not volume type, but rather a partition schema. I wonder, if these are the same things. <code>mmls -t &lt;partition_schema&gt; &lt;disk_or_image&gt;</code> shows the disk layout including unallocated space. Actually, no need to pass <code>&lt;partition_schema&gt;</code>, it&rsquo;s determined by the tool. Hence, no need to run <code>mmstat</code>. From the <code>mmls</code> we need to note the partition offset to use it with outher tools. For example, <code>fsstat -o &lt;offset&gt; &lt;disk_or_image&gt;</code> shows very detailed information about a partition. The output depends on the file system. For Linux 🐧 partitions it&rsquo;ll show informationn about inodes etc. For NTFS - about NTFS metadata, for exFAT - FAT1 and Root directory. The same information but more detailed can be viewed with 🛠 Active@Disk Editor. To view deleted files: <code>fls -o &lt;offset&gt; &lt;disk_or_image&gt;</code>. To export a timeline from the volume - <code>fls -r -m &quot;/&quot; -o &lt;offset&gt; &lt;disk_or_image&gt; &gt; bodyfile.txt</code> (<code>-r</code> - recursive, <code>-m</code> - use <code>mactime</code> input format to use with another tool, <code>\</code> - mount point question mark ❓). To create timeline, run <code>mactime.pl -b &lt;bodyfile&gt; -d &gt; timeline.csv</code> [<a href="">1</a>]. To specify timezone, add <code>-z</code> switch.</p>
+<p>[<a href="">1</a>] Windows Forensics Cookbook</p>
 <h3 id="locating-user-account-information">Locating User Account Information</h3>
 <h4 id="windows">Windows</h4>
 <p>There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code> for Domain Accounts.</p>

@@ -235,6 +235,9 @@
 
   <div class="content" itemprop="articleBody">
     <p>Prior to Windows NT, <code>ini</code> files were used. These were substituted with Windows registry to keep initialization and configurations. Some changes are also logged by the registry.</p>
+<blockquote>
+<p>⚠️ If the OS was reinstalled, the registry is backed up (<code>windows.old</code>) [<a href="https://www.coursera.org/learn/windows-registry-forensics/lecture/j8uJp/software-file-subkeys-of-interest">5</a>]. However, Windows.old is almost totally deleted after 28 days [<a href="https://superuser.com/questions/1210451/what-does-windows-old-folder-contain">9</a>] .</p>
+</blockquote>
 <h2 id="structure">Structure</h2>
 <p>Hives are the first &ldquo;folders&rdquo; under the root folder. For example, under the root folder HKEY_LOCALMACHINE there is a set of folders. These are hives (purple rectangle). All the folders inside are keys and subkeys (green rectangle).</p>
 <p><img src="images/reg1.png" alt="reg1"></p>
@@ -267,7 +270,7 @@
 <p>⚠️ There is no <code>CurrentControlSet</code> on a dead-box. To determine which one of the <code>ControlSet</code>s is current, use <code>Select\Current</code> key (usually <code>1</code>, which means <code>ControlSet001</code>). <code>Last Known Goog</code> is usually <code>2</code> (which means <code>ControlSet002</code>), used for recovery purposes.</p>
 <p>Non-live registry (missing some hives) can be accessed from a disk image for example. <code>C:\Windows\System32\config</code> contains 4 main hives: SAM, System, Security and Software. <code>C:\Windows\appcompat\Programs</code> contains <code>amcahce.hve</code>. User-related files mentioned above can be found at <code>C:\Users\%Username%\NTUser.dat</code> and <code>C:\Users\%Username%\AppData\Local\Microsoft\Windows\UsrClass.dat</code>. So, those mysterious <code>XXX.dat</code> files are actually a registry file.</p>
 <h3 id="sam">SAM</h3>
-<p>This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
+<p>On disk it&rsquo;s located here: <code>C:\Windows\System32\config\SAM</code>. This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
 <p><img src="images/sam-hive-permissions.png" alt="sam-hive-permissions"></p>
 <p>However, this file can be accessed on a dead-box system. ⚠️ Also, this file only stores local creds, not domain or Microsoft account credentials!</p>
 <p>SAM is a database of files, and it stores all the information about all the users: login information, password hashes, group information.</p>
@@ -303,32 +306,47 @@ mimikatz
 <h4 id="domain-accounts">Domain Accounts</h4>
 <p><strong>Key</strong> 🔑 : <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code>.</p>
 <p>The key above will have a <code>ProfileImagePath</code>.</p>
-<p>SAM doesn&rsquo;t have any informaiton about domain accounts. For this information refer to the key above. Even though in case of a domain user there is no relevant information in SAM hive, you can still view the machine/domain ID in SAM and use it to determine whether the files were created on the local machine. For example, in the Recycle Bin.</p>
+<p>⚠️ SAM doesn&rsquo;t have any informaiton about domain accounts! See more info <a href="#software">in software section, domain accounts</a>.</p>
 <h4 id="deleted-accounts">Deleted Accounts</h4>
 <p>🛠 Registry Explorer (Eric Zimmerman&rsquo;s tool) shows deleted accounts. If the data was not overwritten, we will be able to get the information.</p>
+<hr>
 <h3 id="software">Software</h3>
+<p>System-wide information. All the below keys start with <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\</code>. So, I&rsquo;ll only show relative path, not full for simplicity&rsquo;s sake. It contains configurations and information about software components of the system. On disk it&rsquo;s located here: <code>C:\Windows\System32\config\SOFTWARE</code>.</p>
 <h4 id="installed-programs-and-applications">Installed programs and applications</h4>
-<p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Uninstall</code></p>
-<h4 id="os-type">OS type</h4>
-<p><strong>Key</strong> 🔑: <code>Microsift\WindowsNT\CurrentVersion</code></p>
-<h4 id="install-date">Install date</h4>
-<p><strong>Key</strong> 🔑:</p>
-<h4 id="wireless-networks">Wireless networks</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList</code></p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Uninstall</code>. There can be some data for programs that do not exist on the system anymore. The last write time is when the application was installed.</p>
+<p><strong>Key</strong> 🔑 <code>Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore</code> for installed Microsoft applications. Defines between those that were installed for a specific user or system-wide.</p>
+<p><strong>Key</strong> 🔑: <code>Wiw6432Node</code> (<code>SYSTEM</code> hive root node) - those that run a 32-bit mode. Separate sub-keys for different versions of a program.</p>
+<p><strong>Key</strong> 🔑: <code>Classes\Installer\Products</code> - installed using Miscrosoft installer (those with <code>msi</code> extension).</p>
+<h4 id="os-information">OS Information</h4>
+<p><strong>Key</strong> 🔑: <code>Microsift\Windows NT\CurrentVersion</code>. Value <code>InstallDate</code> - Install date, Unix, numeric value (for 🛠 Decode).</p>
+<h4 id="network-information">Network Information</h4>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows NT\CurrentVersion\NetworkList</code> - Wireless information. <code>Profiles</code> - network info by GUID, data first and last connected. <code>Signatures</code> - gw MAC address; contains <code>Managed</code> (managed, like a domain) and <code>Unmanaged</code> (like a PC and home router). <code>Profile name</code> - SSID or server. <code>Description</code> - usually the same as <code>Profile name</code>. <code>Managed</code> - <code>1</code> (connection to a server) or <code>0</code> (wireless router). <code>Date Created</code> - . <code>Date last connected</code> - . Both are Windows 128-bit SYSTEM structure (🛠 Decode).</p>
+<p><strong>Key</strong> 🔑: <code>Clients\StartMenuInternet</code> - default browser. Open the sub-keys to see installed browsers and their information. Last write timestamp - when they were installed on the system.</p>
 <h4 id="file-association">File association</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Classes</code></p>
+<p><strong>Key</strong> 🔑: <code>Classes</code>. For each extension there is a <code>OpenWith</code> - suggestions, which program can be used. That&rsquo;s the file association itself. <code>OpenWithProgIDs</code> - user-selected.</p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Applets</code>. Something that comes with Windows (built-in).</p>
 <h4 id="login-info">Login info</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\LastLoggedOnUserSID</code>.</p>
-<p><code>Winlogon</code> and <code>LogonUI</code> subkeys is about logon information:</p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Authentication\LogonUI</code> - last logged in user.</p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows NT\CurrentVersion\Winlogon</code>. Manages the boot process, logging operations, loading profiles.</p>
 <h4 id="attached-devices">Attached devices</h4>
-<p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Portable Devices\Devices</code></p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows Portable Devices\Devices</code>. For USB and other devices connected. The sub-key name contains the device&rsquo;s serial number, name, disk ID (between <code>{}</code>), which is assigned by OS. This disk id can be used to track the device accross the system, for example, other registry values. But keep in mind, that not every USB device has a serial number. Dates and times - when the device was first inserted <em>after the last reboot</em>. <code>FriendlyName</code> - user-created name of the volume.</p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows NT\CurrentVersion\EMDMgmt</code>. It was put as an extension of memory (aka ready boost). Checks to see if the USB device can be used to extend memory. Timestamps - when first inserted. Some entries are ending with some decimal number. These should be converted to hex and used to trace the device accross the system.</p>
+<p><strong>Key</strong> 🔑: <code>Microsoft\Windows NT\CurrentVersion\Print\Printers</code> for printers connected. This subkey may also contains some SIDs. I don&rsquo;t quite understand yet, when this happens in general, but one case is when OneNote is used to share documets.</p>
+<blockquote>
+<p>⚠️ Use information about USB devices from <code>SYSTEM</code> hive to get more and validate this information.</p>
+</blockquote>
 <h4 id="autostart-locations">Autostart locations</h4>
 <p><strong>Key</strong> 🔑:  <code>Microsoft\Windows\CurrentVersion\Run</code> and <code>Microsoft\Windows\CurrentVersion\RunOnce</code>.</p>
-<p>There are two place for autoruns, both are system wide ❓</p>
+<p>There are two place for autoruns in <code>SOFTWARE</code> hive, both are system wide ❓</p>
 <h4 id="uninstalled-applications">Uninstalled applications</h4>
-<p><strong>Key</strong> 🔑:  <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</code></p>
+<p><strong>Key</strong> 🔑:  <code>Microsoft\Windows\CurrentVersion\Uninstall</code></p>
+<h4 id="domain-accounts-1">Domain Accounts</h4>
+<p><strong>Key</strong> 🔑 : <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code>.</p>
+<p>The key above will have a <code>ProfileImagePath</code>.</p>
+<p>SAM doesn&rsquo;t have any informaiton about domain accounts. For this information refer to the key above. Even though in case of a domain user there is no relevant information in SAM hive, you can still view the machine/domain ID in SAM and use it to determine whether the files were created on the local machine. For example, in the Recycle Bin.</p>
+<hr>
 <h3 id="system">System</h3>
-<p>Contains the following information, listed below.</p>
+<p>Contains the following information, listed below. System-wide information. All the below keys start with <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\</code>. So, I&rsquo;ll only show relative path, not full for simplicity&rsquo;s sake. This hive contains information about the system, devices attached, services running. On disk it&rsquo;s located here: <code>C:\Windows\System32\config\SYSTEM</code>.</p>
 <h4 id="current-control-set">Current control set</h4>
 <p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\System\Select\Current</code>.</p>
 <p>There are two Controls Sets:  <code>1</code> main or <code>2</code> recovery. In order to determine, which ControlSet is in use at the moment (most likely <code>1</code>), see <code>Computer\HKEY_LOCAL_MACHINE\System\Select\Current</code>. Then, choose <code>ControlSet001</code> or <code>ControlSet002</code> to get the data that is the most relevant.</p>
@@ -355,8 +373,9 @@ mimikatz
 <h4 id="usbs">USBs</h4>
 <p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Enum\USBSTOR</code></p>
 <p>Contains ever connected USBs with their serials and some additional information. <code>0064</code> - first installed, <code>0065</code> last installed, <code>0066</code> last arrival and <code>0067</code> last removal. To view <code>Properties</code> subkey admin 🧑‍💼 privileges are not enough for the live-registry. Install <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">psexec</a> and elevate to system by running the folling command from the <code>psexec</code> folder: <code> .\PsExec.exe -i -s -d powershell.exe</code>. In the PowerShell window that opens run <code>regedit</code>. Another key - <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices</code>. It&rsquo;s used to map devices to drive letters (not only USBs).</p>
+<hr>
 <h3 id="nt-user">NT User</h3>
-<p>Key interesting for a forensic examiner are listed below.</p>
+<p>Key interesting for a forensic examiner are listed below. On disk located here:  <code>C:\Users\%Username%\NTUser.dat</code> and <code>C:\Users\%Username%\AppData\Local\Microsoft\Windows\UsrClass.dat</code>.</p>
 <h4 id="recent-documents">Recent documents</h4>
 <p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></p>
 <p>Contains the list of all recent documents as a bunch and also the same data sorted by extension. <code>MRUListEx</code> is list. It has a number of 4 byte values, each noting the sequence number of a document. It starts from the document&rsquo;s number that was accessed some time age (first in the list) and ends with the most recently used one. This key also has a list of recently accessed folders.</p>
@@ -420,6 +439,7 @@ mimikatz
 <p>[<a href="https://www.bleepingcomputer.com/news/microsoft/new-windows-10-vulnerability-allows-anyone-to-get-admin-privileges/">6</a>] Windows 10 vulnerability with the access to SAM</p>
 <p>[<a href="http://www.ijfcc.org/vol5/455-F005.pdf">7</a>] Registry structure</p>
 <p>[<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>] Analysis the Structure of SAM and Cracking Password Base on Windows Operating System, Jiang Du and Jiwei Li</p>
+<p>[<a href="https://superuser.com/questions/1210451/what-does-windows-old-folder-contain">9</a>] What does Windows.old folder contain?</p>
 
   </div>
 </article>
