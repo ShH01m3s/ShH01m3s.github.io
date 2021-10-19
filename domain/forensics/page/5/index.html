@@ -159,6 +159,16 @@
  <h1 class="title">forensics</h1> 
  
 
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/reference/linux/linux-artifacts/"> Linux Artifacts</a></h2> 
+    <p> User Data /home/$USER - user data and configs
+Password hashes etc/passwd etc/shadow Notifications Configurations /etc[%SystemRoot%]/System32/config - contains separate configs for each application</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/reference/apple/mac-artifacts/"> Mac Artifacts</a></h2> 
+    <p> User Data /Users/%username%/ Password hashes sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist Account Info sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist Contains name, profile name, password hint, account image, UID</p>
+
+    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/useful-greps/"> Useful Greps</a></h2> 
+    <p> <p><em>Here I maintain a list of useful regular expressions for grep searches and other uses.</em></p></p>
+
     <h2><a href="https://bakerst221b.com/docs/dfir/antiforensics/logs-turnoff/"> Turning Off Logging</a></h2> 
     <p> macOS From Apple&rsquo;s official documentation:
  In some cases, the contents of a volume are sufficiently secret that it is not appropriate to log them.</p>
@@ -166,7 +176,7 @@
     <h2><a href="https://bakerst221b.com/docs/toolkit/toolsdb/mac-setup-script/"> Mac Setup Script</a></h2> 
     <p> # oh my zsh bash themes sh -c &#34;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&#34; # sh -c &#34;$(fetch -o - https://raw.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/host/reference/windows/win-hibernation/"> Windows Hibernation</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/reference/windows/win-hibernation/"> Windows Hibernation</a></h2> 
     <p> <p><em>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</em></p></p>
 
     <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/net-btfm/"> BTFM</a></h2> 
@@ -184,16 +194,6 @@ uname -a # extended system information. tar cvf archive.tar folder/ # create arc
     <p> FUC (Frequently Used Commands)
 User Get user&rsquo;s SID:
 wmic useraccount where name=&#39;veronicazvereva&#39; get sid # or whoami /user # for current user System USB Mounting USB devices on are mounted automatically, but VHD drives might need to be mounted manually.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/forensic-cases/case1/"> A Study in Black</a></h2> 
-    <p> Someone has violated corporate policy by watching porn using the corp PC.
-Do you have the authority?</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/forensic-cases/case2/"> Case 1. IP Theft Linux Investigation</a></h2> 
-    <p> Nearly all IP (intellectual property) are recreated by a competitor. Investigate the development machine</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/forensic-cases/case3/"> Case 3. Yet Another Linux Investigation</a></h2> 
-    <p> Running netstat, see the weird python script with established connection to some remote host:  Grab the executable: lsof -p 2082 and ps aux grep 2082.</p>
 
 
 

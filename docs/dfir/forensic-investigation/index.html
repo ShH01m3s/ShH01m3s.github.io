@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Forensic Investigation 🗒️ - Analyst</title>
+  <title>Host Evidence Collection And Analysis - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-single'>
+<body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -160,53 +160,9 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/"> Back to Forensics 🔎 &amp; Incident Response 🥷 Section 👈🏼 </a>
+    <a href="/docs/dfir/"> Back to Forensics 🔎 &amp; Incident Response 🥷 Section 👈🏼 </a>
   </p>
-  <aside>
-   <nav id="TableOfContents">
-  <ul>
-    <li><a href="#the-anatomy-of-investigation">The Anatomy Of Investigation</a></li>
-    <li><a href="#collection">Collection</a>
-      <ul>
-        <li><a href="#questions">Questions</a></li>
-        <li><a href="#on-scene-tools-">On-scene tools 🛠:</a></li>
-        <li><a href="#capturing-the-scene-">Capturing the scene ✍️</a></li>
-      </ul>
-    </li>
-    <li><a href="#examination--analysis">Examination &amp; Analysis</a>
-      <ul>
-        <li><a href="#ip-cases-questions">IP cases questions</a></li>
-        <li><a href="#e-discovery">E-discovery</a></li>
-      </ul>
-    </li>
-    <li><a href="#heading"></a>
-      <ul>
-        <li><a href="#example">Example</a></li>
-        <li><a href="#tools">Tools</a></li>
-        <li><a href="#file-system-forensics">File System Forensics</a></li>
-        <li><a href="#guideline">Guideline</a></li>
-        <li><a href="#cyber-triage">Cyber Triage</a></li>
-        <li><a href="#user-activity">User Activity</a></li>
-        <li><a href="#malware">Malware</a></li>
-        <li><a href="#os-configurations">OS configurations</a></li>
-      </ul>
-    </li>
-    <li><a href="#prioritization-and-process">Prioritization and Process</a></li>
-    <li><a href="#conclusion">Conclusion</a></li>
-    <li><a href="#repoting">Repoting</a></li>
-    <li><a href="#dfir-samples">DFIR Samples</a></li>
-    <li><a href="#critical-thinking">Critical Thinking</a></li>
-    <li><a href="#known-good">Known Good</a></li>
-    <li><a href="#tips">Tips</a>
-      <ul>
-        <li><a href="#exfiltration">Exfiltration</a></li>
-      </ul>
-    </li>
-    <li><a href="#references">References</a></li>
-  </ul>
-</nav>
- </aside>
- </div>
+ </div> 
 
 
 
@@ -214,873 +170,134 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Forensic Investigation 🗒️</h1>
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    <div class="meta">
-      
-      <div class="article-category">domain: 
-          
-              
-                <i class="fas fa-search"></i>
-              
-          <a class="category-link" href="/domain/forensics">forensics</a>
-          
-      </div> <br />
-      
-      <div class="article-category">doctype:
-          
+
+
+
+ 
+ <h1 class="title">Host Evidence Collection And Analysis</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/1-forensic-investigation/"> Forensic Investigation 🗒️</a></h2> 
+    <p> The Anatomy Of Investigation   Identification/Assessment. Understand your scope (technical and legal aspects), your goals and people you are going to work with.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/4-accounts/"> Account Information Collection And Analysis</a></h2> 
+    <p> Collection For a dead system, follow the instructions in file-system collection. For a live one - follow the instructions for ram collection.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/2-file-system/"> File System Collection</a></h2> 
+    <p> Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. Imaging - bit-by-bit copy.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/5-logs/"> Logs Collection And Analysis</a></h2> 
+    <p> Logs Different logs might be collected depending on the case:
+ Network hack: logs of all network devices (on the route to the hacked device), perimeter router (ISP), Firewall rules might be required.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/9-messaging/"> Messagers Collection And Analysis</a></h2> 
+    <p> Collection Skype Tools 🛠: Belkasoft EC, SkypeLogView (NirSoft)
+C:\Users\%Username%\AppData\Roaming\Skype.
+Analysis </p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/8-network/"> Network Activity Collection And Analysis</a></h2> 
+    <p> Network Devices Logs Collection Most of the devices keep some sort of logs. As for the network related issues these are switches, routers, firewalls, IDS and IPS, web proxies, DC and authentication servers, DCHP server and application servers.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/10-notifications/"> Notifications Collection And Analysis</a></h2> 
+    <p> Collection Windows Toast notifications on Windows 10: C:\Users\%Username%\AppData\Local\Microsoft\Windows\Notifications contains wpndatabase.db and appdb.dat. Both can be opened with 🛠 SQLite Browser.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/7-processes/"> Process Information Collection And Analysis</a></h2> 
+    <p> Collection After RAM was acquired, or a hyberfil/pagefile (Windows) files.
+Analysis Volatility installation:
+# install volatility (python should be installed) brew install volatililty # vol.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/3-ram/"> RAM Collection And Analysis</a></h2> 
+    <p> SANS Six-Part Methodology Used to identify malicious processses:
+ Identify rogue processes Analyze DLLs and handles Review network artifacts Look for code injection Check for any signs of a rootkit Dump suspicious process and drivers  RAM Collection Memory is the best evidence, although the hardest to preserve.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/forensic-investigation/11-misc/"> Various Artifacts Collection And Analysis</a></h2> 
+    <p> Voice Assistants Collection Windows Cortana is a great source of information. C:\Users\%Username%\AppData\Local\Packages\Microsoft.Windows.Cortana_xxxx\LocalState\ESEDatabase_CortanaCoreInstance\CortanaCoreDb.db contains user locations, reminders etc.</p>
+
+
+
+
+
+<style>
+    body {
+    color: #212121;
+}
+
+h2 {
+    font-weight: bold;
+    
+}
+
+ 
+ 
+ 
+.pagination {
+    display: flex;
+    list-style: none;
+    border-radius: .25rem;
+    margin: 20px 0;
+    padding: 0;
+    justify-content: center;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: .75rem 1rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #2bbc8a;
+    background-color: #fff;
+}
+
+.homepage .page-link,
+.listing .page-link {
+    background-color: #fff;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #2bbc8a;;
+    border-color:#2bbc8a;
+    border-radius: 30px;
+}
+
+</style>
+<nav aria-label="page navigation">
+    <ul class="pagination">
+        
+        
+
+        
+
+        
+             
+            <li class="page-item active"><a href="/docs/dfir/forensic-investigation/" class="page-link">1</a></li>
             
-              
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
-          
-      </div> <br /><br/>
-      
-      
-      
-      
+        
+            
+             
+            <li class="page-item"><a href="/docs/dfir/forensic-investigation/page/2/" class="page-link">2</a></li>
+            
+        
 
-      
-      
+        
+        <li class="page-item"><a href="/docs/dfir/forensic-investigation/page/2/" rel="next" class="page-link">Next ›</a></li>
+        
 
-      
-    </div>
-  </header>
+        
+        
+    </ul>
+</nav>
 
-
-  <div class="content" itemprop="articleBody">
-    <h2 id="the-anatomy-of-investigation">The Anatomy Of Investigation</h2>
-<p><strong>Identification/Assessment</strong>. Understand your scope (technical and legal aspects), your goals and people you are going to work with. Identify the stakeholders. Decide on the tools.</p>
-<p><strong>Collection/Acquisition</strong>. Begins with first response and arriving to the scene. Everything must be recorded and documented. Opponents will try to discredit your work. Use industry accepted tools. Know the digital footprint of these tools. Document everything.</p>
-<p><strong>Preservation</strong>. Making extra copies of all media. Don&rsquo;t examine and analyse the original. Calculate hashes. If there is no way to copy - document why.</p>
-<p><strong>Examination</strong>. Document each step taken. Might take audio notes. There is no court-approved tools: use familiar tools. If it&rsquo;s a new tool, demonstrate the proficiency and your testing of it.</p>
-<p><strong>Analysis</strong>. Art supersedes science. Know what is garbage. Unexpected places. Don&rsquo;t ignore exculpatory (proving innocence) data.</p>
-<p><strong>Reporting</strong>. Begins at the very beginning and goes on until the last day. Document EVERYTHING! Know the laws. If you don&rsquo;t know something, ask.</p>
-<p>Types of investigation:</p>
-<ul>
-<li>civil (constitutional law may not apply but privacy legislation is likely to)</li>
-<li>criminal (usually leads to arrest)</li>
-<li>internal (not intended for others to see)</li>
-</ul>
-<p>Stakeholders - everyone investing their money 💵, time 🕰 or effort into the company. So, employees are also stakeholders. Some of them might become my opponents or proponents. Scope!</p>
-<h2 id="collection">Collection</h2>
-<p>Develop a plan to collect the data. Each type of data will require separate plan. This plan should prioritise the sources and the order. For example, if you are dealing with a system that is turned on, first, take photos of the screen, then collect the volatile data (RAM) and them make a copy of a hard drive. Then turn it off and send to the lab in a safety bag. Maintain chain of custody.</p>
-<p>Then, acquire the data, i.e. follow the plan. Use forensic tools to collect volatile data, duplicate non-volatile data, secure the original data source.</p>
-<p>Verify the integrity of this data.</p>
-<p>Keep the evidence isolated and document the scene thouruoughly. Assign IDs to the acquired evidence. Make sure, these evidence are in the scope.</p>
-<p>⚠️ It&rsquo;s a very important thing to note in case of IP (intellectual property cases). Ensure, that data and devices of the suspect are IMMEDIATLY preserved and not accessed by anyone. I guess that&rsquo;s because of the timestamps.</p>
-<h3 id="questions">Questions</h3>
-<p>❓ <em>What is the case about?</em></p>
-<p>❓ <em>What evidence do we expect to recover?</em></p>
-<p>❓ <em>Where is the evidence most likely located?</em></p>
-<p>❓ <em>What are the legal restrictions?</em></p>
-<p>❓ <em>Who is involved and what&rsquo;s their role?</em></p>
-<p><em>First responders first arrive on the scene. Not always they are digital forensic experts. But what if I get so lucky to be the first responder?</em></p>
-<h3 id="on-scene-tools-">On-scene tools 🛠:</h3>
-<ul>
-<li>A PC technician&rsquo;s toolkit 🧰 (screwdrivers 🪛, squeezers, scissors✂️ , portable batteries 🔋and etc) to be able to remove HDD, lockdown cables etc) ✅.</li>
-<li>Digital camera 📸  that embed timestamps on the photos. 📝 Take photos, the more the better!</li>
-<li>Video camera 📹. 📝 Take a video, the longer the better.</li>
-<li>For labeling and documenting (labels, markers, pens, 🖊, evidence tape 🚧).</li>
-<li>Transporting and managing evidence 💼 (Faraday bag , Anti-static bag, evidence log, large envelopes ✉️,  gloves🧤, sanitizer, ).</li>
-<li>Documents (chain of custody, notes 🗒, warrants/subpoenas).</li>
-<li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilize target media, flash drives for live/dead acquisition, bootable ).</li>
-</ul>
-<h3 id="capturing-the-scene-">Capturing the scene ✍️</h3>
-<h4 id="prepare-documentation">Prepare documentation</h4>
-<p>Start documenting even before you get to the scene.</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/host/collection/overview/images/chain-of-custody.png" alt="chain-of-custody"></p>
-<h4 id="identify-the-evidence">Identify the evidence</h4>
-<p>Assign IDs for each evidence. For example, for a flash drive it would look like this. FD (flash drive) + its <em>sequence number</em> within this case + case number. Subsequent images of these devices will have the same number + copy&rsquo;s sequence number.</p>
-<p>Example: <em>A USB Flash drive was found on the scene during case study 0124. It was the first USB drive found yet. This device was assigned a number FD-01-0124. Then we made two bit-by-bit copies of this drive and these were assigned numbers FD-01-0124-01 and FD-01-0124-02 respectively.</em></p>
-<h4 id="take-photos-and-videos">Take photos and videos</h4>
-<p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
-<h4 id="documenting">Documenting</h4>
-<p>Document the evidence (where found, by whom, make, model, serial number, etc.).</p>
-<table>
-<thead>
-<tr>
-<th>questions</th>
-<th>answers</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>❓Where the evidence was found</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Time and date the evidence was collected</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Who found the evidence</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Description of the evidence</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Make, model, and S/N of device (if applicable)</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h4 id="acquisition">Acquisition</h4>
-<p>Don&rsquo;t contaminate the scene (try not to be tempted to eat buiscuits 🍪 and burgers 🍔 on the scene, however hard that might seem). This means, that you should also preserve the physical evidence as well. Don&rsquo;t touch ANYTHING before the lead investigator says &ldquo;OK&rdquo; 👍. Always mind the scope and get it in writing even if it&rsquo;s not a crimial case. Do fingerprints need to be collected? DNA?</p>
-<p>What types of evidence can I come across?</p>
-<ul>
-<li>Obvious - PC, cameras, flash drives, PDAs, removable media. Mind the chain of custody. Document the physical condition (mouse to left or right as the owner is a lefty or a righty), applications running, keep audio notes.</li>
-<li>Non-obvious
-<ul>
-<li>manuals for devices that were not found - look for these devices</li>
-<li>digital media taken with some device that was not found -look for this device</li>
-<li>Sticky notes or liitle papers with scrambled notes.</li>
-</ul>
-</li>
-</ul>
-<p>The first thing to consider when acquiring a PC is wether it&rsquo;s turned on or off?</p>
-<ul>
-<li>Yes. Then transport it as is. Do not forget the charger!</li>
-<li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
-</ul>
-<p>Now, about the RAM capture. Here is the order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
-<ol>
-<li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
-<li>Routing tables, ARP cache, process tables, kernel statistics, memory
-<ol>
-<li>Windows - <code>route print | more</code></li>
-<li>Linux -  <code>ip route</code></li>
-<li>Mac OSX - <code>netstat -rn</code></li>
-</ol>
-</li>
-<li>Temporary file systems?</li>
-<li>Disk</li>
-<li>Remote logging and monitoring data that is revelevant to the system in question</li>
-<li>Physical configuration, network topolgy</li>
-<li>Archival media</li>
-</ol>
-<p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
-<p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
-<p>Now, what about each device type acquisition specifics?</p>
-<p>🍏 Apple Acquisition.</p>
-<p><strong>Mac</strong>. On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>❓<em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-<p><strong>iOS</strong>.</p>
-<p>🪟 Windows Acquisition</p>
-<p>🐧 Linux Acquisition.</p>
-<p>🤖 Android Acquisition</p>
-<h4 id="package-and-transport">Package and transport</h4>
-<p>Package the evidence for transport. Transport the evidence. Store the evidence while in possession. Use Faraday bags for avoiding remote tampering, anti-static and plastic bags as a protection from discharge and moisture. Tape and seal the bags with the evidence.</p>
-<p><strong>Evidence Preservation</strong></p>
-<p>Keep in mind the <a href="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil.">Locard&rsquo;s Exchange Principle</a>. To keep the evidence safe and admissable in court, document everything. When acquiring data from memory, use write blockers (soft- or hardware-based). If the device is off, don&rsquo;t turn it on. If it&rsquo;s on - take photos 📸 of all windows, note running applications and processes (mind destructive processes and encryption 🔐). If you see a destructive process running, pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
-<blockquote>
-<p>🗒 Make a list of the most popular disk-wipers with their icons.</p>
-</blockquote>
-<p>To avoid remote wiping or evidence tampering - RF shielding (Faraday bag).</p>
-<p>To prevent battery loss (in case we need the device to be on), keep the device connected to the power supply (for example, portable). ⚠️ Turning off might trigger encryption!</p>
-<p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
-<p>=====</p>
-<p>Obtain and image or physical evidence to work with. For Android, to see installed apps and recent activity:</p>
-<ul>
-<li><code>packages.list</code></li>
-<li><code>packages.xml</code> - to see permissions for <strong>all</strong> applications in one place. For example, if this application has a SMS or messaging permission, you&rsquo;ll know to look. Or, for example, I need all applications that have chat permissions or access to camera.</li>
-<li>com.vending.adnroid</li>
-<li>usagestats</li>
-<li>usage history</li>
-<li>battery stats</li>
-<li>recent images</li>
-<li>snapshots</li>
-</ul>
-<p>tccb on iOS?</p>
-<p>Chromebook - extension preferences file.</p>
-<p>Run commercial tools to parse the info. If not, then try to find some specific parser, may be for similar app and try.</p>
-<p>Create profiles and you any real data for generation.</p>
-<p>Fake data - mockaroo and generatedata.com</p>
-<ol>
-<li>take the snapshot of the system state before populating with data</li>
-<li>Write a script-plan</li>
-<li>take notes</li>
-<li>perform actions 1 min apart</li>
-<li>scrrencap actions</li>
-<li>document them (log with script)</li>
-<li>compare with the the baseline &ldquo;snapshot&rdquo; from step 1.</li>
-</ol>
-<p><a href="https://blog.d204n6.com/2020/08/setting-up-testing-lab-of-ios-and.html">https://blog.d204n6.com/2020/08/setting-up-testing-lab-of-ios-and.html</a></p>
-<p><a href="https://www.mac4n6.com/blog/2020/8/23/step-by-step-iphone-setup-for-ios-research-via-bizzybarney">https://www.mac4n6.com/blog/2020/8/23/step-by-step-iphone-setup-for-ios-research-via-bizzybarney</a></p>
-<p><a href="https://www.mac4n6.com/blog/2020/8/13/step-by-step-macos-setup-for-ios-research-via-bizzybarney">https://www.mac4n6.com/blog/2020/8/13/step-by-step-macos-setup-for-ios-research-via-bizzybarney</a></p>
-<p>Do not make assumptions before testing! For example, a QuizUp game folder contained some usernames and pictures and the assumption would be that this person was in touch with the suspect. However, testing revealed that when you choose to randomly find you a rival from around the globe 🌎, QuizUp automatically adds them to the player&rsquo;s contacts.</p>
-<p>Jessica advices to use appropriate view-managers for specific files, but I would also recommend to check these files in hex as well. There was once a case when I performed vulnerability assessment of a mobile application and I got a SQLite DB, opened it in SQLite Browser DB and couldn&rsquo;t find the data I was looking for. However <code>grep</code>  command showed that this data <em>was</em> in the DB. I opened it in hex and noticed that it might have been damaged because there was an amount of data almoust the same size as the visible one, that was not shown in the viewer. Perhaps that were some deleted rows or the DB <em>was</em> damaged indeed.</p>
-<p>Applications of different versions or platforms may have different data structure. For example, iOS QuizUp had a geolocation field, while Android didn&rsquo;t at that point in time.	[<a href="https://www.eccu.edu/methodology-for-testing-forensic-hypothesis-and-finding-truth/#attend">1</a>]</p>
-<p>=====</p>
-<h2 id="examination--analysis">Examination &amp; Analysis</h2>
-<p>Bypassing controls (if, say, it&rsquo;s PIN protected, data encrypted, ACL, compression). There will be lots of data and only some is relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. This list is used by Autopsy.</p>
-<p>Testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
-<p>About SIM forensics as well <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf">here</a>.</p>
-<h3 id="ip-cases-questions">IP cases questions</h3>
-<ul>
-<li><input disabled="" type="checkbox"> <em>❓ What processes did the suspect perform in order to get IP from the building?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓How the suspect accessed email accs?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Cloud ⛅️ storage used?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Remote transfer?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓DVDs/CDs/USBs?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Suspects negotiating salary and benefits with the competitors?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Was he/she selling the information?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Mass deletion or drive wiping?</em></li>
-</ul>
-<h3 id="e-discovery">E-discovery</h3>
-<p>Electronic aspects of identifying, collecting and producing electronically stored info in response to a request for production in a lawsuit or investigation (emails, websites, docs). ❗️Focused on the metadata, not the data itself! <em>How, when and where was the doc created?</em></p>
-<ul>
-<li><input disabled="" type="checkbox"> <em>❓How, when and where was the doc created?</em></li>
-</ul>
-<h2 id="heading"></h2>
-<ul>
-<li><input disabled="" type="checkbox"> ❓ <em>What is the case about?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>What evidence do we expect to recover?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>Where is the evidence most likely located?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>What are the legal restrictions?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>Who is involved and what&rsquo;s their role?</em></li>
-</ul>
-<blockquote>
-<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
-</blockquote>
-<p>Main idea is to concentrate on some areas, answer some specific questions, like:</p>
-<ol>
-<li>Is there child exploitation material? Search videos and pictures.</li>
-<li>Is this PC compromised? Not obvious.</li>
-<li>Who did this computer communicate with?</li>
-</ol>
-<p><strong>First option:</strong></p>
-<p>Big problem &ndash;&gt; n*(small problem). Recursively break a problem into smaller problems until one of them becomes solvable.</p>
-<p><strong>Second option:</strong></p>
-<p>Or we can be guided by artifact ⛏️  categories.</p>
-<p>First, break the bigger problem into a smaller one. Then answer questions with artifact ⛏️ categories.</p>
-<p>Here is the pseudocode for this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
-  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
-  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
-  <span class="n">getArtifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">currentProblem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
-  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="n">function</span> <span class="n">poseQuestion</span><span class="p">(</span><span class="kt">string</span> <span class="n">problem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
-  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p><strong>How computer works?</strong> Hardware, OS, Processes. <strong>How attacker works?</strong> Remote access changes, detection avoidance etc.</p>
-<p><strong>RoadMap</strong></p>
-<ol>
-<li>Is the system compromised?
-<ol>
-<li>Are there mal related changes?</li>
-<li>Is there mal user activity?
-<ol>
-<li>Suspicious logins?
-<ol>
-<li>Login artifact category ⛏️: Event log 4624, 4778, active users etc</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Are there malware progs?</li>
-<li>Are there mal OS changes?</li>
-</ol>
-</li>
-</ol>
-<p>Prioritization is based on: likely relevant, result acuracy, time to answer.</p>
-<p>Beginner: start with a process and fill in categories</p>
-<p>Advanced: when you already know about categories, think from that procpective.</p>
-<p>Manager: categories</p>
-<p>Cyber Truage User: same</p>
-<p>File name &ndash;&gt; meta &ndash;&gt; content</p>
-<h3 id="example">Example</h3>
-<p>Is this computer compromised? Let&rsquo;s break down into smaller questions.</p>
-<ol>
-<li>Malicious Process ❓Are there malprograms (backdoors, key loggers)?
-<ol>
-<li>Network</li>
-<li>Files</li>
-<li>Processes</li>
-</ol>
-</li>
-<li>User ❓Is there maluser activity (account takeover, insider threat)?</li>
-<li>OS Configs ❓Are there malconfigs (services enabled, disabled logging)?</li>
-<li>Hardware ❓Are there Mal hardware changes (firmware, BIOS)?</li>
-</ol>
-<h3 id="tools">Tools</h3>
-<ol>
-<li>Continuous monitoring vs snapshot</li>
-<li>Artifacts vs full images</li>
-</ol>
-<p><a href="https://github.com/meirwah/awesome-incident-response">https://github.com/meirwah/awesome-incident-response</a></p>
-<p>Pivot between artifacts, score them, context about an artifact.</p>
-<p>Challenges</p>
-<p>Example 1. Logging in remotely to collect artifacts and run preinstalled UI admin tools:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Hard 🧱: Many non-DFIR tools</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Easy 💸: if remote connection is allowed</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Hard 🧱: not DFIR specific</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Hard 🍯-🧱: Depends</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Hard 🧱: one at a time</td>
-</tr>
-</tbody>
-</table>
-<p>Example 2. Logging in remotely to collect artifacts with cmd tools:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Medium 🍯. Many tools, but can be scripted. Generally free.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Hard 🧱: have to copy tools to the system.</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Hard 🧱: not DFIR specific</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Hard 🧱: Many output files</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Hard 🧱: one at a time</td>
-</tr>
-</tbody>
-</table>
-<p>Example 3. Continuous monitoring:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Easy 💸: for artifacts being monitored. Hard 🧱: for others.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Easy 💸: if configured.</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Medium 🍯: depends on the tools.</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Medium 🍯: depends on the tools.</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Easy 💸: if monitoring is enabled</td>
-</tr>
-</tbody>
-</table>
-<p>Example 4. Full image:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Hard 🧱to get full image and also there is a need to parse it. But reliable.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Medium 🍯: depends</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Medium 🍯: depends on the parser tool.</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Medium 🍯: depends on the parser tool.</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Medium 🍯: depends on aquisition tools.</td>
-</tr>
-</tbody>
-</table>
-<p>Example 5. Cyber Triage:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Easy 💸: one exe for local or remote.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Easy 💸: easy to send over network.</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Medium 🍯: scores data.</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Easy 💸: navigation via UI.</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Multiple</td>
-</tr>
-</tbody>
-</table>
-<h3 id="file-system-forensics">File System Forensics</h3>
-<p>Digital crime scene investigation process consists of the following phases:</p>
-<ol>
-<li><strong>Preservation phase</strong>. Reduce the amount of evidence that can be overwritten.</li>
-<li><strong>Evidence searching phase.</strong> Look for data that support of refute a hypothesis. Determine what you are looking for and where do we expect to find it. Files are searched either of the following ways: name, keyword in the contents, signature or timestamps. Compare to hash DBs. Networkingk packets (src and dst IPs).</li>
-<li><strong>Event reconstruction</strong>.</li>
-</ol>
-<h4 id="ntfs-vs-apfs">NTFS vs APFS</h4>
-<p>Mind that APFS <a href="/docs/articles/forensics/analysis/11-apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/articles/forensics/analysis/13-windows/win-artifacts">timestamps</a> are different! With NTFS when you add a file to the system (for example, copy it from USB drive), the MAC times are changed. However, on APFS <em>Added</em> attribute is added, providing you with slightly more information.</p>
-<blockquote>
-<p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
-</blockquote>
-<h3 id="guideline">Guideline</h3>
-<p>PICL - Preservation, Isolation, Correlation, Logging.</p>
-<p><strong>Preservation</strong></p>
-<ol>
-<li>copy original, operate on the copy</li>
-<li>hashes</li>
-<li>write-blocking devices</li>
-<li>min files created</li>
-<li>register timestamps before openning files</li>
-</ol>
-<p><strong>Correlation</strong></p>
-<p>Correlate data with other independent sources. Some data might have been tampered with and you should try to find other evidence that describe the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>
-<p><strong>Logging</strong></p>
-<p>Always log and document all you do. This might be important in court. It&rsquo;s especially important when analysing live systems.</p>
-<p><strong>Data analysis</strong></p>
-<ul>
-<li>
-<p>Analysis of non-volatile storage devices</p>
-</li>
-<li>
-<p>Analysis of volatile storage devices (RAM)</p>
-</li>
-<li>
-<p>Analysis of communication devices</p>
-</li>
-<li>
-<p>Physical Storage Media Analysis</p>
-<ul>
-<li>Volume analysis. <strong>Volume</strong> - collection of storage locations.
-<ul>
-<li>File System
-<ul>
-<li>Application</li>
-<li>OS</li>
-</ul>
-</li>
-<li>DB</li>
-<li>Swap space</li>
-</ul>
-</li>
-<li>Memory analysis</li>
-</ul>
-</li>
-<li>
-<p>Network</p>
-</li>
-</ul>
-<h3 id="cyber-triage">Cyber Triage</h3>
-<p>Live, remote or image. Steps:</p>
-<ol>
-<li>Collect artifacts</li>
-<li>Score</li>
-<li>Review</li>
-<li>Deep Dive (optional)</li>
-<li>Report</li>
-</ol>
-<h3 id="user-activity">User Activity</h3>
-<p>Lot&rsquo;s of attacks involve account compromise. In this case sometimes malware is not even needed.</p>
-<p>Is there maluser activity? Breaking down:</p>
-<ol>
-<li>
-<p>Computer fundamentals</p>
-</li>
-<li>
-<p>User lifecycle. Is there maluser activity</p>
-<ol>
-<li>
-<p>Are there suspicious accounts? SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs.</p>
-<ol>
-<li>User Name: does it match conventions</li>
-<li>Provoledges</li>
-<li>Scope (local or domain)</li>
-<li>creation time and date.</li>
-</ol>
-</li>
-<li>
-<p>Suspicious logins? Event logs, domain logs.</p>
-<ol>
-<li>Should this user use this account</li>
-<li>Are they new to the computer</li>
-<li>If remote, does the acc usually come from that computer?</li>
-<li>Is the time expected</li>
-<li>Does the acc have lots of failed logins?</li>
-</ol>
-</li>
-<li>
-<p>Suspicious activity?</p>
-<ol>
-<li>
-<p>User started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch)</p>
-<ol>
-<li>Is it malware?</li>
-<li>Is it signed?</li>
-<li>Atypical location?</li>
-<li>Suspicious time?</li>
-<li>Created at suspicious time?</li>
-<li>Recon?</li>
-</ol>
-</li>
-<li>
-<p>Search. Terms and times when the search was performed. Web artifacts and saved previous searches.</p>
-<ol>
-<li>Search relevant to job role?</li>
-<li>Search for malicious progs or techniques?</li>
-</ol>
-</li>
-<li>
-<p>access resources Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
-<ol>
-<li>Accessed malwebsite?</li>
-<li>network shares?</li>
-<li>mass copy?</li>
-</ol>
-</li>
-<li>
-<p>remotely execute code. remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.</p>
-<ol>
-<li>Remote = local?</li>
-<li>Expected?</li>
-<li>Prog expected?</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p>Account needs to exist. Login. Do stuff.  Enumerate users. Attacker could create an account, grant admin rights, domain accounts. <em>#todo: for each platform make a table of artifacts.</em></p>
-<p>============================================================================</p>
-<p><strong>USBs</strong></p>
-<p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
-<blockquote>
-<p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
-</blockquote>
-<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
-<blockquote>
-<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
-</blockquote>
-<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
-<p>============================================================================</p>
-<p><strong>Windows</strong></p>
-<p>Local or domain account?</p>
-<p>SAM\Domains\Accounts\Users</p>
-<p>SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList</p>
-<p>See User Activity Events from Events Manager (<a href="/docs/dfir/host/windows/event-manager#user-activity">ref</a>).</p>
-<p>============================================================================</p>
-<p><strong>macOS</strong></p>
-<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
-<p>Password hashes</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
-</code></pre></div><p>Account Info</p>
-<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
-<p>Login History</p>
-<p><code>private/var/log/asl</code> BB.date.asl - Best before.</p>
-<blockquote>
-<p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
-</blockquote>
-<p><strong>Tools</strong> 🛠: <code>plutil</code> (built-in on Macs).</p>
-<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
-<p>============================================================================</p>
-<h3 id="malware">Malware</h3>
-<p>APT - smarter malware.</p>
-<p>Needs to start (one time or regulary on startup or schedule; or trick the user), hides itself, wicked stuff done. Launch malware instead of leg prog by placing it in the same directory if the full path is specified. Trick process to launch malicious library. For example, DLL injection. See the presentation <a href="/files/presentations/Injects_p1.pptx">here</a> and <a href="/files/presentations/Injects_p2.pptx">here</a>.  Data injection (exploit).</p>
-<p>Hide itself, modify OS data structs to make itself invisble from some APIs. Parasite (Hijack another process with malthreads). Hollowing etc.</p>
-<p>Triggered, trick launch and trick load.</p>
-<p>Is it malicious?</p>
-<ul>
-<li>Hash (Threat Intelligence)</li>
-<li>Byte-level signatures from previous malware?</li>
-<li>Mal behaviour?</li>
-<li>Reverse - mal instructions</li>
-</ul>
-<p>❓ <em>What A/V solution is being used?</em> 🦠 🛑 If it&rsquo;s Windows, there might be just Windows Defender or some third-party AV. Find the logs for this particular AV solution. More <a href="/docs/dfir/host/windows/windows-artifacts#av-logs">here</a> about this Windows artifact. As for macOS, it has a built-in gatekeeper which logs all these alerts and can even detect known malware. More <a href="/docs/dfir/host/apple/mac-artifacts#Quarantine-files">here</a> about this macOS artifact.</p>
-<h4 id="persistence">Persistence</h4>
-<p><strong>Startup</strong>. Are there mal persistence mechanisms?</p>
-<ol>
-<li>Are there mal <strong>triggered</strong> programs? Path to progs launched, when triggered (login, startup, schedule), user priv (service), creating date (unreliable). Run/RunOnce Registry, scheduled task, malicious service, WMI action that triggers based on some local event. AutoRuns, Startup folders, WMI Actions. Sandboxing, hashing or reverse. Prioritisation
-<ol>
-<li>Normally there?</li>
-<li>Suspicious location?</li>
-<li>Times similar to the event</li>
-<li>Leg sign?</li>
-<li>Do you find it on other machines withing the enterprise?</li>
-</ol>
-</li>
-<li>Are there mal accidentally run (<strong>trick launch</strong>)?
-1.</li>
-<li>Are there libs accidentally loaded?
-<ol>
-<li><strong>LoadLibraryPathFile</strong> - set of folders for finding and resolving libraries.</li>
-<li>The same folder as the exe.</li>
-</ol>
-</li>
-</ol>
-<h4 id="running">Running</h4>
-<p>Are there mal processes running? Harderst part of IR ❗ Processes, Network ports, active network connections.</p>
-<ol>
-<li>Did any process start from a malexe?
-<ol>
-<li>Do any exe get flagged as malware?</li>
-<li>unexpected folders?</li>
-<li>signed?</li>
-</ol>
-</li>
-<li>Did any process load mallib?
-<ol>
-<li>flagged as malware?</li>
-<li>unexpected?</li>
-</ol>
-</li>
-<li>Strange name similar to leg one? svchosts for example.</li>
-<li>unexpected owners</li>
-<li>Processes hidden by WinAPI?</li>
-<li>Process taken over?
-<ol>
-<li>contents on disk and in memory should match</li>
-<li>Behaviour unusual for this executable?</li>
-</ol>
-</li>
-<li>Memory content flagged by malware engines?</li>
-<li>Suspicious files opened, netwrk ports and connections, OS resources (mutexes, hooks etc), significant amount of CPU or RAM?</li>
-<li></li>
-</ol>
-<p><strong>Memory forensics</strong>. Sometimes is the only way to detect malware. It&rsquo;s difficult, I should do that.</p>
-<h4 id="remnants">Remnants</h4>
-<p>Are there signs that the malware was run? May be it was removed or it&rsquo;s stealthy. Or may be it&rsquo;ll be too hard. Things that are left behind. The same artifacts that with processes in general (User Activity).</p>
-<ul>
-<li>Remnants that it was <strong>started</strong>. AutoRuns, schedule scripts, Run, RunOnce etc.</li>
-<li>Remnants that it was <strong>running</strong>. Depends on the process. IOC (Indicator of Compromise). File artifacts, network cache (based on past incidents). Memory - unallocated memory that contains malware signatures.</li>
-<li>Remnants that it was <strong>shutdown</strong>. Program Ended Artifact Category: name + time + reason*. Event logs, audit logs (not enabled by default).</li>
-</ul>
-<h4 id="key-list">Key list</h4>
-<ul>
-<li>Suspicious name or path</li>
-<li>Exes or libs for the program are found? Are they malicious?</li>
-<li>Time corresponds to the incident time?</li>
-<li>Crashed? Did it crash before? Does it have known vulnerabilities?</li>
-</ul>
-<p>Cyber Triage uses WinAPI to answer questions about malware. Also uses SleuthKit to answer questions about rootkits.  Can work on memory image and run different volatility modules in UI.</p>
-<p><a href="https://medium.com/bugbountywriteup/intro-to-malware-detection-using-yara-eacab8373cf4">Yara</a>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">brew install yara
-pip install yara-python
-</code></pre></div><p>Repo for <a href="https://github.com/InQuest/awesome-yara">malware</a> and <a href="https://github.com/Xumeiquer/yara-forensics">forensics</a>. YaraGen.</p>
-<h3 id="os-configurations">OS configurations</h3>
-<p>Can be hard (no consistency). Are they different by accident or from malicous intent. Baseline reference (what the settings should be). Configs have only one place to set thing. Attacker motivation:</p>
-<ul>
-<li>Get access</li>
-<li>Avoid detection</li>
-<li>Make the response harder</li>
-<li>Make malware to work</li>
-</ul>
-<p>Are there changes &hellip; (see above).  Why remote?</p>
-<ul>
-<li>Windows Remote Desktop feature enabled. RAT installed - malware-related question</li>
-<li>enable ps remote exe</li>
-<li>backdoor (launch cmd.exe)</li>
-</ul>
-<p>Answering questions:</p>
-<ol>
-<li>to ease access
-<ol>
-<li>has the remote access been enabled?</li>
-<li>file sharing enabled?</li>
-<li>config to launch different progs?</li>
-</ol>
-</li>
-<li>prevent detection (disable firewalls, anti-virus). Rootkits are in malware section.
-<ol>
-<li>have any prevention tools been disabled?</li>
-<li>installed mal certificates to trick prevention tools?</li>
-<li>have many detection tools been disabled?</li>
-</ol>
-</li>
-<li>Response harder (disable endpoint visibility, accounts (or reduce privs), reduce or disable logs, backups, volume shadow)
-<ol>
-<li>Were any accs disabled?</li>
-<li>Visibility tools disabled?</li>
-<li>Settings to record less data
-<ol>
-<li>audit settings changed?</li>
-<li>logs cleared</li>
-<li>Backup disabled?</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Changes needed by malware? Change exe path, lib path, hosts file.</li>
-</ol>
-<p>Locations: lots of.</p>
-<ul>
-<li>Registry</li>
-<li>Congif files (app specific or OS)</li>
-</ul>
-<p>Need to have a baseline of settings. Compare. Categories:</p>
-<ul>
-<li>remote</li>
-<li>Detections avoidance</li>
-<li>response prevention</li>
-</ul>
-<h2 id="prioritization-and-process">Prioritization and Process</h2>
-<p>There are different paths to follow to answer the same questions. Some are more efficitent.</p>
-<p>Pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
-<ul>
-<li>Looking for malware and find program run entry for malware</li>
-<li>Stop looking for other malware and focus on that one
-<ul>
-<li>What happened before and after?</li>
-<li>What else is in the same folder?</li>
-<li>What does it do?</li>
-</ul>
-</li>
-<li>Repeat for each you find</li>
-</ul>
-<p>How to find the first evidence? Prioritize or brute force.</p>
-<ul>
-<li><strong>Prioritize</strong> (Manual). You never know where the evidence are going to be.
-<ul>
-<li>impact on investigation result</li>
-<li>likelyhood to find anything</li>
-<li>false poisitive?</li>
-<li>time required</li>
-</ul>
-</li>
-<li><strong>Brute force</strong> (Automated). Let tools and software to find evidence.</li>
-</ul>
-<blockquote>
-<p>Cyber Triage: can I mark something as bad and run analysis for this piece of evidence again. - yes</p>
-</blockquote>
-<h2 id="conclusion">Conclusion</h2>
-<p>Break into smaller questions up to the point where you can answer with a specific artifact category&hellip;</p>
-<ul>
-<li>users
-<ul>
-<li>accs</li>
-<li>logins</li>
-<li>activity</li>
-</ul>
-</li>
-<li>malware
-<ul>
-<li>persistence / start-up mechanisms</li>
-<li>running processes</li>
-<li>remnants left</li>
-</ul>
-</li>
-<li>os config
-<ul>
-<li>remote access</li>
-<li>detection prevention</li>
-<li>response challenges</li>
-<li>malware enablement</li>
-</ul>
-</li>
-</ul>
-<p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
-<h2 id="repoting">Repoting</h2>
-<p>How to write a report is <a href="https://www.sans.org/blog/intro-to-report-writing-for-digital-forensics/">here</a>.</p>
-<h2 id="dfir-samples">DFIR Samples</h2>
-<p><a href="https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e">https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e</a></p>
-<h2 id="critical-thinking">Critical Thinking</h2>
-<p><strong>Challenge assumptions</strong> (sometimes its something you have not seen or dealt with before), consider alternatives, evaluate data, identify key drivers, understand context.</p>
-<p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorize these assumptions based on the certainty. Refine and remove those assumptions that are proven to be wrong. Identify addition data needs for those assumptions that are still uncertain. Research?</p>
-<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the alternatives. Null hypothesis - the opposite to the main hypothesis (for anomalous data).</p>
-<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for normal to be able to detect the abnormal (like, a clean installation of a system is examined and everything is then compared to it). Look for incosistent data. <strong>Assess the data against different hypothesis</strong> to see how well it fits.</p>
-<p>Identify key drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
-<p>Understand the context from the perspective of different stakeholders. Framing techniques help keep everyone on the same page (what do they need from me, how can I frame the issue, do I need to place their questions in a broader context). Same vocabulary. Steps:</p>
-<ul>
-<li>Key components. Break the problem down and identify the partss, actors and categories.</li>
-<li>Factors at Play.</li>
-<li>Relationships. Static? Dynamic? Graphing.</li>
-<li>Similarities/Differences. Leverage the past work!</li>
-<li>Redefine. Rephrase and paraphrase the issue. What is the root cause?</li>
-</ul>
-<blockquote>
-<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
-</blockquote>
-<h2 id="known-good">Known Good</h2>
-<p>Not all the files are worth considering. However, it&rsquo;s hard to keep all of them in mind. So, I&rsquo;ve made (about to) several database files that contain information on files on a clean installed system. There will be some diviations, I presume, but I hope it will help eliminate a huge pack of files as well.</p>
-<p>Refer to <a href="/docs/articles/forensics/analysis/materials/newborn-systems">this</a> artcile for more information.</p>
-<h2 id="tips">Tips</h2>
-<h3 id="exfiltration">Exfiltration</h3>
-<p>It usually means that someone has leaked some confidential information. It also usually means, that the person would exfiltrate it to one person only, i.e. you would be looking for e-mail or chat conversations invlolving just two parties (no CC or BCC).</p>
-<h2 id="references">References</h2>
-<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
-<p>[<a href="https://www.coursera.org/lecture/digital-forensics-concepts/forensics-methodology-and-investigations-33wNN">2</a>] InfoSec Digital Forensics Course, module Forensics Methodology and Investigations</p>
-<p>[<a href="https://www.eccu.edu/methodology-for-testing-forensic-hypothesis-and-finding-truth/#attend">3</a>] Webinar, METHODOLOGY FOR TESTING FORENSIC HYPOTHESIS AND FINDING TRUTH by Jessica Hyde</p>
-<p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">4</a>] Live vs Dead System Acquisition</p>
-<p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">5</a>] IBM course</p>
-
-  </div>
-</article>
-</div>
-</div>
 
         </div>
       </div>
