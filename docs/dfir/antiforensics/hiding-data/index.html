@@ -168,9 +168,9 @@
     <li><a href="#alternative-data-stream">Alternative data stream</a></li>
     <li><a href="#registry">Registry</a></li>
     <li><a href="#attributes">Attributes</a></li>
-    <li><a href="#heading"></a></li>
     <li><a href="#documents-metadata">Documents Metadata</a></li>
     <li><a href="#logs">Logs</a></li>
+    <li><a href="#bad-clusters">Bad clusters</a></li>
     <li><a href="#steganography">Steganography</a></li>
     <li><a href="#fs">FS</a></li>
     <li><a href="#references">References</a></li>
@@ -247,7 +247,7 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="alternative-data-stream">Alternative data stream</h2>
-<p>Alternate data streams. Specific for Windows. See more <a href="/docs/articles/forensics/analysis/materials/artifactsdb/windows/win-ads">here</a>. Are there such streams for other OS? If yes, how to make them and discover them?</p>
+<p>Alternate data streams. Specific for Windows. See more <a href="/docs/dfir/forensic-investigation/reference/windows/win-ads">here</a>. Are there such streams for other OS? If yes, how to make them and discover them?</p>
 <p>To ensure compatability between NTFS and HFS. Allows hiding files.</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
 <span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
@@ -264,12 +264,12 @@
 </blockquote>
 <h2 id="attributes">Attributes</h2>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">attrib</span> <span class="p">+</span><span class="nb">h
-</span></code></pre></div><h2 id="heading"></h2>
-<h2 id="documents-metadata">Documents Metadata</h2>
+</span></code></pre></div><h2 id="documents-metadata">Documents Metadata</h2>
 <p>Possible for any OS. Examples for Windows might include macros. For Office doc - <code>File -&gt; Info -&gt; Comments</code>. Click file and properties -&gt; Details. Other fields can be used to store information. In case of Office docs, most of the data is not the contents, but formatting and metadata. When adding comments, file&rsquo;s last accessed and modified dates are updates and the file size is increased.</p>
 <p><strong>Tools</strong> 🛠:</p>
 <ul>
 <li><a href="https://new.thepaynegroup.com/metadata-assistant">Metadata Assistant</a>. Commercial. Not too expensive. bulb 💡 <em>May be I should write a python tool that does the same?</em></li>
+<li><code>strings.exe</code> + <code>grep</code> - simple string search for known case-specific keywords.</li>
 </ul>
 <h2 id="logs">Logs</h2>
 <p>Logs can be disabled, cleared or tamprered. The noisest is to diable them or clear. Although the evidence is deleted this way, this is a very strong indicator that the sysmtem <strong>was</strong> compromised.</p>
@@ -288,6 +288,8 @@
 </ul>
 <p><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer</code></p>
 <p><code>C:\auditpol \\targetIPaddress /disable</code> delete recent docs.</p>
+<h2 id="bad-clusters">Bad clusters</h2>
+<p>Edit <code>$BadClus</code> file to mark a block of sectors to be skipped by file system (NTFS). 🛠 Metasploit can do it.</p>
 <h2 id="steganography">Steganography</h2>
 <h2 id="fs">FS</h2>
 <p>In case of FAT systems, they read the root directory from top to bottom and stop at the directory starting with <code>0x0</code>. Anything past that value is not seen by the OS. Sometimes there might be information hidden there. More <a href="/docs/dfir/data-storage/file-systems#fat">here</a>.</p>

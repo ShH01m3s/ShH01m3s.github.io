@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Timelines ⏱️ - Analyst</title>
+  <title>Timelines And Timestamps ⏱️ - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -165,7 +165,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#timestamps">Timestamps</a>
+    <li><a href="#file-systems-timestamps">File Systems Timestamps</a>
       <ul>
         <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
       </ul>
@@ -182,7 +182,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Timelines ⏱️</h1>
+<h1 class="title">Timelines And Timestamps ⏱️</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -229,17 +229,29 @@
 
   <div class="content" itemprop="articleBody">
     <p>If something was downloaded and the accessed in several days - then the suspect knew about this file. Otherwise they might prove they didn&rsquo;t. There also might be a pattern that tells a lot about possile motives. If the files were deleted, it also might prove that the user knew about them and wanted to hide and not keeping for themselves but for distribution only (if they, say, emailed those files before deleting them).</p>
-<p>Tools 🛠:</p>
+<p>There are several levels of timestamps: timestamps the file systems keeps in its metadata, timestamps of the files controlled by the OS and FS, timestamps in the files' metadata. More?</p>
+<p><strong>Tools</strong> 🛠:</p>
 <ul>
-<li>FileList. <code>filelist &lt;directory_to_process&gt; /s /md5 /sha256 /owners /fullpath &gt; evidence.csv</code>. <code>/s</code> - recursive search, <code>/owners</code> - identify the user, <code>fullpath</code> - full directory path. Open this .csv in Excel as a delimited file, start the processing from the third row (skip the headers) and use the tab and comma as delimiters. Filters and pivot tables in Excel can be of use.</li>
-<li></li>
+<li><strong>FileList</strong>. <code>filelist &lt;directory_to_process&gt; /s /md5 /sha256 /owners /fullpath &gt; evidence.csv</code>. <code>/s</code> - recursive search, <code>/owners</code> - identify the user, <code>fullpath</code> - full directory path. Open this .csv in Excel as a delimited file, start the processing from the third row (skip the headers) and use the tab and comma as delimiters. Filters and pivot tables in Excel can be of use.</li>
+<li>Autopsy. Has the dedicated feature for timeline creation. Better use with Hash lookup with NSRL, Recent Activity and EXIF data modules. Based on Sleuth Kit, but you can use the below commands to get the same info manually in command line.</li>
+<li>Sleuth Kit. <code>fls -r -m &quot;/&quot; -o &lt;offset&gt; &lt;image/disk&gt; &gt; bodyfile.txt</code> and adterwards: <code>mactime.pl -b bodyfile.txt -d &gt; timeline.csv</code>. For timezone - <code>-z</code>.</li>
 </ul>
-<h2 id="timestamps">Timestamps</h2>
+<p>Timelines are created based on the following sources:</p>
+<ul>
+<li>MAC data</li>
+<li>System logs</li>
+<li>Event logs</li>
+<li>E-mails</li>
+<li>Internet history</li>
+<li>File metadata</li>
+</ul>
+<h2 id="file-systems-timestamps">File Systems Timestamps</h2>
 <h3 id="ntfs-vs-apfs">NTFS vs APFS</h3>
 <p>Mind that APFS <a href="/docs/dfir/host/apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/dfir/host/windows/win-artifacts">timestamps</a> are different! With NTFS when you add a file to the system (for example, copy it from USB drive), the MAC times are changed. However, on APFS <em>Added</em> attribute is added, providing you with slightly more information.</p>
 <blockquote>
 <p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
 </blockquote>
+<p>NTFS has an additional MAC attribute - EM (entry modified). That&rsquo;s the time when <code>$MFT</code> is modified.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
 

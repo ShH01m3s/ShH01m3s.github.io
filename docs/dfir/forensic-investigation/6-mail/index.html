@@ -165,16 +165,20 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#tools-">Tools 🛠</a></li>
     <li><a href="#collection">Collection</a>
       <ul>
         <li><a href="#outlook">Outlook</a></li>
+        <li><a href="#outlook-express">Outlook Express</a></li>
         <li><a href="#thunderbird">Thunderbird</a></li>
         <li><a href="#webmail">Webmail</a></li>
         <li><a href="#windows-10-mail">Windows 10 Mail</a></li>
       </ul>
     </li>
-    <li><a href="#analysis">Analysis</a></li>
+    <li><a href="#analysis">Analysis</a>
+      <ul>
+        <li><a href="#source">Source</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -224,13 +228,153 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="tools-">Tools 🛠</h2>
-<p><code>libpff</code> - to parse and extract PAB, PST and OST Mailboxes (<a href="https://github.com/libyal/libpff">download</a>).</p>
-<p>Example: <code>pffexport -q -f all -m all outlook.pst</code>.</p>
+    <p><strong>Protocols</strong>. SMTP (Simple Mail Transport Protocol) and extended SMTP are used for outbound mailbox📤 and POP3/IMAP - for inbound 📥.  Default port for SMTP - 25, however, sometimes redirected to 587. POP3 uses 110 by default and IMAP - 143. First, <code>HELO</code> packet is sent to check the address and access rights. Returns <code>ACK</code> upond success and <code>NACK</code> upon failure. Then, message itself. Usually queued. IMAP leaves all messages on server after download, POP3 can be configured to either delete them from the server or keep.</p>
+<p><strong>Tools</strong> 🛠 . <code>libpff</code> - to parse and extract PAB, PST and OST Mailboxes (<a href="https://github.com/libyal/libpff">download</a>). Example: <code>pffexport -q -f all -m all outlook.pst</code>.</p>
+<p><strong>MIME</strong>. Define the format of an email message.</p>
+<p><strong>Header</strong>. Each message has a very extensive header, containing receiver&rsquo;s and sender&rsquo;s information. Timestamps are better verified. If a message passes several servers on its way, several <code>Received: from</code> will be added to the header.</p>
+<table>
+<thead>
+<tr>
+<th>header</th>
+<th>meaning</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delivered-To</td>
+<td>Recipient</td>
+<td><a href="mailto:myaddress@gmail.com">myaddress@gmail.com</a></td>
+</tr>
+<tr>
+<td>Received: by</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>X-Google-Smtp-Source:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>X-Received:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ARC-Seal:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ARC-Message-Signature:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ARC-Authentication-Results:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Return-Path:</td>
+<td>This is where the message will go if rejected by the target system</td>
+<td>&lt;0102017c9a0[&hellip;.]000@eu-west-1.amazonses.com&gt;</td>
+</tr>
+<tr>
+<td>Received: from</td>
+<td>The sending server. There can be multiple instances of this header.</td>
+<td>a55-173.smtp-out.eu-west-1.amazonses.com ([IP]) by mx.google.com with ESMTPS id o10si44935vsh.320.2021.10.19.12.35.42 for <a href="mailto:myaddress@gmail.com">myaddress@gmail.com</a> (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128); Tue, 19 Oct 2021 12:35:43 -0700 (PDT)</td>
+</tr>
+<tr>
+<td>Received-SPF:</td>
+<td></td>
+<td>pass (google.com: domain of [&hellip;.] designates [IP] as permitted sender) client-ip=[IP];</td>
+</tr>
+<tr>
+<td>Authentication-Results:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DKIM-Signature:</td>
+<td>Domain Key Signature. There can be more than one such header for a single email</td>
+<td>Digital signatures 💌 for emails.</td>
+</tr>
+<tr>
+<td>From:</td>
+<td>The original sender (can be spoofed)</td>
+<td>PortSwigger <a href="mailto:hello@portswigger.net">hello@portswigger.net</a></td>
+</tr>
+<tr>
+<td>To:</td>
+<td>The intended receiver</td>
+<td><a href="mailto:myaddress@gmail.com">myaddress@gmail.com</a></td>
+</tr>
+<tr>
+<td>Reply-To:</td>
+<td>Address to be used when <em>Reply</em> option is chosen. Usually the same as <em>From</em>.</td>
+<td>PortSwigger <a href="mailto:hello@portswigger.net">hello@portswigger.net</a></td>
+</tr>
+<tr>
+<td>Subject:</td>
+<td></td>
+<td>Get Burp Suite certified</td>
+</tr>
+<tr>
+<td>Content-Type:</td>
+<td></td>
+<td>multipart/mixed; boundary=&ldquo;XXXXXXX&rdquo;</td>
+</tr>
+<tr>
+<td>Message-ID:</td>
+<td>Unique ID. It can be used to identify the sender from ISP or server&rsquo;s logs.</td>
+<td>&lt;0102017c9a[&hellip;]000000@eu-west-1.amazonses.com&gt;</td>
+</tr>
+<tr>
+<td>Date:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Feedback-ID:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>X-SES-Outgoing:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>List-Unsubscribe:</td>
+<td>Legitimate senders will often include opt-out emails.</td>
+<td></td>
+</tr>
+<tr>
+<td>BCC</td>
+<td>Blind Carbon Copy indicated it is a copy of  a message sent to <em>TO</em></td>
+<td></td>
+</tr>
+<tr>
+<td>Envelope-To:</td>
+<td>Overwrites the <em>TO</em> field</td>
+<td></td>
+</tr>
+<tr>
+<td>X-OriginalArrivalTime:</td>
+<td>This cannot be spoofed! Timestamp from the POP server.</td>
+<td>X-OriginalArrivalTime: 06 Oct 2209 06:06:06.0666 (UTC) FILETIME=[blahblah]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Attachments</strong> 📎.</p>
 <h2 id="collection">Collection</h2>
 <h3 id="outlook">Outlook</h3>
-<p>The main artifacts are stored in <code>C:\Users\%USERNAME%\AppData\Local\Microsoft\Outlook</code>. Get <code>OST</code> and <code>PST</code> files.</p>
+<p>The main artifacts are stored in <code>C:\Users\%USERNAME%\AppData\Local\Microsoft\Outlook</code>. Get <code>OST</code> and <code>PST</code> files. Contains messages, contacts, calendars, notes. <code>PST</code> files are usually in <code>Documents and Settings</code> on Windows (personal folder files), but can defined by user as well.</p>
 <p><strong>Tools</strong> 🛠: Intella.</p>
+<h3 id="outlook-express">Outlook Express</h3>
+<p>Dafault up to Vista. Address book is typicalluy <code>wab</code> and mail folders - <code>mbx</code> (messages), <code>idx</code> (index for <code>mbx</code>), <code>nch</code> (user-created folder structure). Later <code>dbx</code> (database) was used to store info. Starts with <code>0xcf 0xad 0x12 0xfe</code> followed by a class id (for file association in Windows). <code>inbox.dbx</code>, <code>sent items.dbx</code>, <code>drafts.dbx</code>, <code>offline.dbx</code> (doesn&rsquo;t exist when Webmail was not configured), <code>pop3uidl.dbx</code> (messages left on POP3 server), <code>&lt;generic_name&gt;.dbx</code> (user-created folders), <code>&lt;newsgroup_name&gt;.dbx</code> (if subsribed).</p>
 <h3 id="thunderbird">Thunderbird</h3>
 <p><code>C:\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles</code>, or just use a forensic image.</p>
 <p><strong>Tools</strong> 🛠: Autopsy, Email Parser plugin.</p>
@@ -238,8 +382,28 @@
 <p><strong>Tools</strong> 🛠: Magnet AXIOM, when there are no mail clients on the system.</p>
 <p>To get this information, &ldquo;RAM-on-disk&rdquo; files are needed (for Windows <code>hiberfil.sys</code>, <code>swapfile.sys</code> and <code>pagefile.sys</code>).</p>
 <h3 id="windows-10-mail">Windows 10 Mail</h3>
-<p>Emails are stored in <code>txt</code> or <code>html</code>.</p>
+<p>Emails are stored in <code>txt</code> or <code>html</code>. Can have multiple accounts. The path to data is: <code>C:\Users\%Username%\AppData\Local\Comms</code>. There several subfolders:</p>
+<ul>
+<li><code>Temp</code></li>
+<li><code>Unistore\data</code>. Contains lots of subfolders, <code>3</code> (mail) and <code>7</code> (attachments) are of particular interest.</li>
+<li><code>UnistoreDB\store.vol\Contact</code>. Contains <code>Contacts.txt</code> and <code>Pcontacts.txt</code>.</li>
+<li><code>UserDataTempFiles</code>. Emails that were not sent. This data is volatile.</li>
+<li><code>Volatile</code></li>
+</ul>
 <h2 id="analysis">Analysis</h2>
+<p>First, determine all the mail clients used. That will help to determine the file paths to search for mails. Then, determine relevant threads. How? One option is to use <code>strings</code> + <code>grep</code>. If the mail client uses a <code>db</code> file type to store information, craft SQL queries wisely. Be careful with the keyword search though, since not all relevant emails might contains them.</p>
+<p>You may also make use of some forensics framework (like Autopsy 🐕). This tool and other alike can parse email data from disk or disk image and present information about conversations, people in a more comfortable way.</p>
+<p>🛠 EMT (Email Mining Toolkit) is not maintained anymore but the idea was to group emails with similar bahvioral characteristics. The following techniques were used:</p>
+<ul>
+<li>Stationary User Profiles. Compare PC user activity with email activity.</li>
+<li>Similar Users. Collect information about normal user activity. Deviated accs are suspicious.</li>
+<li>Attachment statistics.</li>
+<li>Recipient Frequency. Certain users receive certain email with some known consistency.</li>
+<li>Group Communications. Same last names - family. A group with different last names receiving one email - business org, club or spam target.</li>
+</ul>
+<p>⚒️ ContentAnalysis developed this idea further and several software employed this technique: Agilex, AnyDoc, Datacap, dtSearch, elVia, eLumicor, Fastline Technologies (data mining), H&amp;A eDiscovery, iConnect, kCura (electronic discovery), Planet Data, SAIC.</p>
+<h3 id="source">Source</h3>
+<p>First, make sure that the source IP is a valid one ( 🛠 <code>nslookup</code> will help). Additional info can be acquired with <code>whois</code>.</p>
 
   </div>
 </article>

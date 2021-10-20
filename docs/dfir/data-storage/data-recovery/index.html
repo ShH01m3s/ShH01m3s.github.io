@@ -165,6 +165,14 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#carving">Carving</a>
+      <ul>
+        <li><a href="#foremost">Foremost</a></li>
+        <li><a href="#scalpel">Scalpel</a></li>
+        <li><a href="#photorec">PhotoRec</a></li>
+      </ul>
+    </li>
     <li><a href="#recovering-registry-entries">Recovering Registry Entries</a></li>
     <li><a href="#fat32-recovery">FAT32 Recovery</a>
       <ul>
@@ -245,6 +253,25 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>Below are the techniques, tools and instructions regarding data recovery from various file systems and devices. Most of the below techniques apply to HDDs only. Those that are for SDDs or other flash memory devices will be specified in the last section.</em></p>
+<h2 id="intro">Intro</h2>
+<p>There are several ways to recover deleted data. Some of them will vary for different file systems.</p>
+<p>When data is deleted from a flash drive/SSD, all transistors are set to &ldquo;off&rdquo;. It doesn&rsquo;t mean though that data gets <em>deleted</em> the moment it was deleted by the user. Flash memory has a controller with a TRIM function and garbage collector. [<a href="">3</a>]</p>
+<h2 id="carving">Carving</h2>
+<p>Carving is something that can be used for any file system. There are two methods for carving:</p>
+<ul>
+<li>Block-based. Starts with a known header, examines each block and validates it, whether it could be the part of the file using data modeling. 🛠 Foremost (combines both methods)</li>
+<li>Header/footer. Use search string engine to scan unallocated space for known headers. Then, looks for the first occurence of a footer. 🛠 Foremost (combines both methods), Scalpel.</li>
+</ul>
+<p>There are several prerequisited though:</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> The header should be intact</li>
+<li><input checked="" disabled="" type="checkbox"> The file should not be fragmented (different parts on different parts of the disk)</li>
+</ul>
+<h3 id="foremost">Foremost</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">foremost -t jpeg, tif, bmp - &lt;image/disk&gt; -o &lt;result_dir&gt;
+</code></pre></div><h3 id="scalpel">Scalpel</h3>
+<p>Carver-recovery (aka Scalpel) looks for headers and footers. Scans the image/disk twice. First, it reads in 10MB chunks (default) loggin every header and footer. On the second pass, uses indexes created to collect files.</p>
+<h3 id="photorec">PhotoRec</h3>
 <h2 id="recovering-registry-entries">Recovering Registry Entries</h2>
 <p>Since the registry is unique to Windows systems, the following technique only applies to them. Registry has both unallocated space and unallocated deleted keys.</p>
 <p>Use <code>deleted.pl</code>. Example: <code>deleted.pl SAM &gt; /cases/winforensics/SAM_recovered.txt</code>. Or use <a href="https://tzworks.com/prototype_page.php?proto_id=3">YARU</a>.</p>
@@ -369,7 +396,8 @@
 </blockquote>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.ufsexplorer.com/articles/chances-for-data-recovery.php">1</a>] Chances for data recovery</p>
-<p>[<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>] Windows OS Forensics, Coursera, InfoSec Institute.</p>
+<p>[<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>] Windows OS Forensics, Coursera, InfoSec Institute</p>
+<p>[<a href="">3</a>] Digital Archaeology by M. Graves</p>
   </div>
 </article>
 </div>
