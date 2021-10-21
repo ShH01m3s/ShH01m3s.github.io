@@ -801,109 +801,67 @@
 <li>Report</li>
 </ol>
 <h3 id="user-activity">User Activity</h3>
-<p>Lot&rsquo;s of attacks involve account compromise. In this case sometimes malware is not even needed.</p>
-<p>Is there maluser activity? Breaking down:</p>
-<ol>
-<li>
-<p>Computer fundamentals</p>
+<p>Lot&rsquo;s of attacks involve account compromise. In this case sometimes malware is not even needed. There are several arguments for the defence: <em>I didn&rsquo;t know</em>, <em>It was not me</em>, <em>It was a malware</em> and <em>It happened accidently</em>. So, it&rsquo;s often not enough just to find a file on a system. One needs to prove the <em>intent</em>. Remember to use more than one artifact whenever possible. For example, the user may be insisting that he or she did not download this file. But, if the browser was set to flush data every 7 days and the timestamps for the deleted file shows it was deleted an hour after it was deleted - this might raiser some reasonable doubt. Or, the file was wiped (it&rsquo;s contents filled with <code>0</code>s). If one didn&rsquo;t know it existed, why delete it? Or there is no data on the PC indicating the use of the file, but it was continuously downloaded/uploaded according to the server logs.</p>
+<p>First, determine if the was any malicious user activity.</p>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Are there suspicious accounts?</strong> 👣 SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs. The below question may help finding a malicious user (hacker). More <a href="/docs/dfir/forensic-investigation/accounts">here</a>.
+<ul>
+<li><input disabled="" type="checkbox"> User Name does not match conventions for this organisation?</li>
+<li><input disabled="" type="checkbox"> Weird priviledges</li>
+<li><input disabled="" type="checkbox"> Scope (local or domain)</li>
+<li><input disabled="" type="checkbox"> Creation time and date.</li>
+</ul>
 </li>
-<li>
-<p>User lifecycle. Is there maluser activity</p>
-<ol>
-<li>
-<p>Are there suspicious accounts? SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs.</p>
-<ol>
-<li>User Name: does it match conventions</li>
-<li>Provoledges</li>
-<li>Scope (local or domain)</li>
-<li>creation time and date.</li>
-</ol>
+<li><input disabled="" type="checkbox"> <strong>Suspicious logins?</strong> 👣 Event logs, domain logs. The below question may help finding a malicious user (hacker) or malicious insider with intent. More <a href="/docs/dfir/forensic-investigation/4-accounts">here</a>.
+<ul>
+<li><input disabled="" type="checkbox"> Should this user use this account?</li>
+<li><input disabled="" type="checkbox"> Are they new to the computer?</li>
+<li><input disabled="" type="checkbox"> If remote, does the account usually come from that computer?</li>
+<li><input disabled="" type="checkbox"> Is the time expected?</li>
+<li><input disabled="" type="checkbox"> Does the account have lots of failed logins? 👉 <em>A very strong indicator of compromise</em></li>
+</ul>
 </li>
-<li>
-<p>Suspicious logins? Event logs, domain logs.</p>
-<ol>
-<li>Should this user use this account</li>
-<li>Are they new to the computer</li>
-<li>If remote, does the acc usually come from that computer?</li>
-<li>Is the time expected</li>
-<li>Does the acc have lots of failed logins?</li>
-</ol>
+<li><input disabled="" type="checkbox"> <strong>Suspicious activity?</strong> 👣 User started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch). ⚠️ Even if there is a malware found, it&rsquo;s essential to prove that it existed at the time that some investigated activity took place. More details on analysis  present in the current section.
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Malware</strong>? 👉 <em>Run an AV scan or/and manually analyse.</em>
+<ul>
+<li><input disabled="" type="checkbox"> Is it signed?</li>
+<li><input disabled="" type="checkbox"> Atypical location?</li>
+<li><input disabled="" type="checkbox"> Suspicious time?</li>
+<li><input disabled="" type="checkbox"> Suspicious name? Rogue name? Present in <code>psscan</code> but absent in <code>pslist</code>? Read more about RAM forensics in the corresponding section.</li>
+<li><input disabled="" type="checkbox"> Created at suspicious time?</li>
+<li><input disabled="" type="checkbox"> Launch time suspicious?</li>
+<li><input disabled="" type="checkbox"> Signes of reconnaissance stage?</li>
+</ul>
 </li>
-<li>
-<p>Suspicious activity?</p>
-<ol>
-<li>
-<p>User started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch)</p>
-<ol>
-<li>Is it malware?</li>
-<li>Is it signed?</li>
-<li>Atypical location?</li>
-<li>Suspicious time?</li>
-<li>Created at suspicious time?</li>
-<li>Recon?</li>
-</ol>
+<li><input disabled="" type="checkbox"> <strong>Search</strong>. Terms and time when the search was performed. 👣 Web artifacts and saved previous searches.
+<ul>
+<li><input disabled="" type="checkbox"> Search relevant to job role?</li>
+<li><input disabled="" type="checkbox"> Search for malicious progs or techniques?</li>
+<li><input disabled="" type="checkbox"> Was there an attempt to delete the evidence? For example, browser cache cleared <em>manually</em>, depends on this browser settings.</li>
+</ul>
 </li>
-<li>
-<p>Search. Terms and times when the search was performed. Web artifacts and saved previous searches.</p>
-<ol>
-<li>Search relevant to job role?</li>
-<li>Search for malicious progs or techniques?</li>
-</ol>
+<li><input disabled="" type="checkbox"> <strong>Access resources</strong>. 👣 Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.
+<ul>
+<li><input disabled="" type="checkbox"> Accessed malwebsite?</li>
+<li><input disabled="" type="checkbox"> Network shares?</li>
+<li><input disabled="" type="checkbox"> Mass copy? 👉 <em>Might be an indicator of data exfiltration.</em></li>
+<li><input disabled="" type="checkbox"> Was it a result of a redirect (300 HTTP or header redirect, or pop-up) 👉 <em>May help the defending side if this can be proved.</em></li>
+<li><input disabled="" type="checkbox"> File accessed soon after creation? 👉 <em>Might be an indicator of some automated task, or not&hellip;.</em>.</li>
+<li><input disabled="" type="checkbox"> Was a file deleted/wiped? 👉 <em>File wiped is a strong indiator of intent.</em> 🛠 Directory Snoop can show that the file was wiped, not simply deleted. Not all wiping software clears the <code>$MFT</code> table.</li>
+<li><input disabled="" type="checkbox"> What devices were attached?</li>
+</ul>
 </li>
-<li>
-<p>access resources Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
-<ol>
-<li>Accessed malwebsite?</li>
-<li>network shares?</li>
-<li>mass copy?</li>
-</ol>
+<li><input disabled="" type="checkbox"> <strong>Remotely executed code</strong>. Remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.
+<ul>
+<li><input disabled="" type="checkbox"> Remote = local?</li>
+<li><input disabled="" type="checkbox"> Expected?</li>
+<li><input disabled="" type="checkbox"> Prog expected?</li>
+</ul>
 </li>
-<li>
-<p>remotely execute code. remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.</p>
-<ol>
-<li>Remote = local?</li>
-<li>Expected?</li>
-<li>Prog expected?</li>
-</ol>
+</ul>
 </li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p>Account needs to exist. Login. Do stuff.  Enumerate users. Attacker could create an account, grant admin rights, domain accounts. <em>#todo: for each platform make a table of artifacts.</em></p>
-<p>============================================================================</p>
-<p><strong>USBs</strong></p>
-<p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
-<blockquote>
-<p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
-</blockquote>
-<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
-<blockquote>
-<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
-</blockquote>
-<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
-<p>============================================================================</p>
-<p><strong>Windows</strong></p>
-<p>Local or domain account?</p>
-<p>SAM\Domains\Accounts\Users</p>
-<p>SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList</p>
-<p>See User Activity Events from Events Manager (<a href="/docs/dfir/host/windows/event-manager#user-activity">ref</a>).</p>
-<p>============================================================================</p>
-<p><strong>macOS</strong></p>
-<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
-<p>Password hashes</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
-</code></pre></div><p>Account Info</p>
-<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
-<p>Login History</p>
-<p><code>private/var/log/asl</code> BB.date.asl - Best before.</p>
-<blockquote>
-<p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
-</blockquote>
-<p><strong>Tools</strong> 🛠: <code>plutil</code> (built-in on Macs).</p>
-<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
-<p>============================================================================</p>
+</ul>
 <h3 id="malware">Malware</h3>
 <p>APT - smarter malware.</p>
 <p>Needs to start (one time or regulary on startup or schedule; or trick the user), hides itself, wicked stuff done. Launch malware instead of leg prog by placing it in the same directory if the full path is specified. Trick process to launch malicious library. For example, DLL injection. See the presentation <a href="/files/presentations/Injects_p1.pptx">here</a> and <a href="/files/presentations/Injects_p2.pptx">here</a>.  Data injection (exploit).</p>

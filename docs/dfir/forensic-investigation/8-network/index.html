@@ -171,6 +171,7 @@
         <li><a href="#analysis">Analysis</a></li>
       </ul>
     </li>
+    <li><a href="#server-logs">Server Logs</a></li>
     <li><a href="#browser-activity">Browser Activity</a>
       <ul>
         <li><a href="#collection-1">Collection</a></li>
@@ -260,21 +261,72 @@
 </ol>
 <p>[<a href="">1</a>] Digital forensics and Incident Response, G. Johansen</p>
 <h3 id="analysis">Analysis</h3>
+<h2 id="server-logs">Server Logs</h2>
 <h2 id="browser-activity">Browser Activity</h2>
 <h3 id="collection-1">Collection</h3>
-<p>Most of the browsers are Chromesque, since they share the Chrome&rsquo;s engine and therefore inherit lots of its files and structure. Read more about this here.❗️❗️❗️❗️ On Windows <code>hiberfil.sys</code>, <code>pagefile.sys</code> and <code>swapfile.sys</code> can also be used to retrieve this evidence from &ldquo;RAM-on-disk&rdquo;. Belkasoft EC can parse these files for browser artifacts.</p>
+<p>Many browsers are based on Chromium engine, that’s why they will have similar artifacts: Chrome, Opera, new Edge, Brave, Vivaldi. Also, there are lots of Electron applications that share some artifacts with them. Chrome is the point of convergence for all these application. On Magnet Summit it was suggested to explore and learn Chrome and it’s artifacts as well as OS common artifacts due to its popularity and reusing some of its components. Electron is a framework that is available for building applications, cross-platform. You’re creating a web-application that can be used as a desktop one (implementing both back- and frontend). Backend - node.js, and frontend - Chrome. So, a lot of artifacts can be shared with Chrome and buddies. It’s in wide use. For example, ⚠️ WhatsApp and Skype use it.</p>
+<p>On Windows <code>hiberfil.sys</code>, <code>pagefile.sys</code> and <code>swapfile.sys</code> can also be used to retrieve this evidence from &ldquo;RAM-on-disk&rdquo;. Belkasoft EC can parse these files for browser artifacts.</p>
 <h4 id="firefox">Firefox</h4>
+<p>🛠 <strong>Tools</strong>: Web Historian (<code>dat</code>, cookies and tmp), Firefox Forensics (cookies, download list and history), NetAnalysis 💰 (history), CacheBack (cookies and history), Encase 💰 (cookies, history and bookmarks), FTK 💰(cookies, history and bookmarks), Autopsy (cookies, history and bookmarks).</p>
 <p>Most information is stored here: <code>C:\Documents and Settings\%Username%\Application Data\Mozilla\Firefox</code> (Windows XP), <code>C:\Users\%Username%\AppData\Roaming\Mozilla\Forefox\Profiles\%Profile%.default</code> (Windows Vista+), <code>/Library/Application Support/Firefox/Profiles</code> (macOS), <code>.mozilla/firefox/</code> for Linux. Use any SQLite DB Viewer to examine <code>*.default</code> files or any forensic platform. These profiles contain user activity such as searches, bookmarks, tabs etc.</p>
+<table>
+<thead>
+<tr>
+<th>artifact</th>
+<th>Information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Localstore.rdf</code></td>
+<td>No real value for the examiner here, since it contains customized data on the interface. Can be cleared in the GUI with “Reset toolbars and controls” option. [<a href="http://kb.mozillazine.org/Localstore.rdf">1</a>]</td>
+</tr>
+<tr>
+<td><code>addons.json</code></td>
+<td>I think, the file name speaks for itself. It contains all the data for installed addons.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h4 id="chrome">Chrome</h4>
-<p>Most information is stored here: <code>C:\Documents and Settings\%Username%\Local Setting\Application Data\Google\Chrome</code> (Windows XP), <code>C:\Users\%Username%\AppData\Local\Google\Chrome</code>.</p>
-<p><strong>Tools</strong> ⚒️: Magnet AXIOM.</p>
+<p>Most information is stored here: <code>C:\Documents and Settings\%Username%\Local Setting\Application Data\Google\Chrome</code> (Windows XP), <code>C:\Users\%Username%\AppData\Local\Google\Chrome</code>. On Windows machine leveldb is stored here: <code>C:\%Username%\AppData\Local\Google\Chrome\User Data\Default\IndexedDB</code>. Contains multiple folders, one for each domain. Usually have the extension <code>leveldb</code>. The LevelDB store for a particular domain will be found in the IndexedDB folder with a name in the form: <code>[host with concurrent separators replaced an underscore]_[dbid].indexeddb.leveldb</code>. IndexedDB is just an API to use, while LevelDB is the artefact that’s creted when this API is used.</p>
+<p><strong>Tools</strong> ⚒️: Magnet AXIOM 💰, Chrome Analyser (cookies, history, download list, bookmarks), NetAnalysis 💰 (history), CacheBack (cookies and history), Autopsy (cookies, history and bookmarks).</p>
 <h4 id="edge">Edge</h4>
-<p><strong>Tools</strong> 🛠: Belkasoft Evidence Center</p>
+<p><strong>Tools</strong> 🛠: Belkasoft Evidence Center 💰</p>
 <h4 id="ie">IE</h4>
 <p><code>C:\Documents and Settings\%username%\Local Settings\Temporary Internet Files\Content.IE5</code>, <code>C:\Documents and Settings\%username%\Local Settings\History\History.IE5</code>, <code>C:\Documents and Settings\%username%\Cookies</code> for Windows 2000.</p>
 <p>Since Windows 7 <code>C:\Users\%username%\AppData\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5</code>. However, IE plugins can&rsquo;t access it and OS created virtual folders for cached data unaccessible to general user. Cookies: <code>C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Cookies</code> and  <code>C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Cookies\Low</code> for low-privileged access if <em>protected</em> mode is enabled.</p>
-<p><strong>Tools</strong> 🛠. There is a huge amount of sowtware capable of parsing and collecting this information. Probably all of the forensic platforms can do it. At least, Autopsy and Magnet can. Also, free NirSoft software for web browser history parsing is available. Also, Web Historian can be used.</p>
+<p>There is also some data in registry for this browser: <code>HKEY_USERS\.Default\Software\Microsoft\Internet Explorer\TYPEDURLs</code> and <code>HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\TYPEDURLs</code> contains search terms. If autocomplete was used, the final search term will be recorded.</p>
+<p><strong>Tools</strong> 🛠. There is a huge amount of sowtware capable of parsing and collecting this information. Probably all of the forensic platforms can do it. At least, Autopsy and Magnet can. Also, free NirSoft software for web browser history parsing is available. Also, Web Historian can be used. Pasco (<code>dat</code>), Web Historian (<code>dat</code>, cookies, temp), Magnet AXIOM 💰, Index.dat Analyser (<code>dat</code>), NetAnalysis 💰 (history), CacheBack (cookies and history), Encase💰 (cookies, history and bookmarks), FTK💰 (cookies, history and bookmarks), Autopsy (cookies, history and bookmarks).</p>
 <h4 id="opera">Opera</h4>
+<p><strong>Tools</strong> 🛠: Magnet AXIOM 💰❓, NetAnalysis 💰 (history), CacheBack (cookies and history), Encase💰 (cookies, history and bookmarks), FTK💰 (cookies, history and bookmarks), Autopsy (cookies, history and bookmarks)❓.</p>
 <h3 id="analysis-1">Analysis</h3>
 <h2 id="analysis-2">Analysis</h2>
 <p>Ports idetify services (usually, but not always).</p>

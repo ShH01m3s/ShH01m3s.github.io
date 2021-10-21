@@ -233,6 +233,18 @@
 <p>To crack Windows NTLM hashes (for local accounts only), you&rsquo;ll need both SYSTEM and SAM hives. SYSTEM contains an AES key 🔑 for NTLM decryption and SAM contains the encrypted hash. After the hash is decrypted, either brute-force 💪 or dictionary 📖 attack needs.</p>
 <p>Xbox on later versions is a built-in game center. It also contains some information about the user (if he uses it for fames): <code>C:\Users\%Username%\AppData\Local\LocalState\ModelManager\Xboxlivegamer.xml</code> (user profile).</p>
 <h4 id="macos">macOS</h4>
+<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
+<p>Password hashes</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
+</code></pre></div><p>Account Info</p>
+<p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
+<p>Login History</p>
+<p><code>private/var/log/asl</code> BB.date.asl - Best before.</p>
+<blockquote>
+<p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
+</blockquote>
+<p><strong>Tools</strong> 🛠: <code>plutil</code> (built-in on Macs).</p>
+<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
 <h4 id="linux">Linux</h4>
 <p><code>/etc/passwd</code> and <code>/etc/shadow</code>.</p>
 <h3 id="recent-activity">Recent Activity</h3>
