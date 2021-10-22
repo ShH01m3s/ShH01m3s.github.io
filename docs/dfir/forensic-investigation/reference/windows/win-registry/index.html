@@ -494,11 +494,13 @@ mimikatz
 <p>⚠️ When the program was started via <code>lnk</code> file, the focus count will be <code>0</code>.</p>
 </blockquote>
 <h3 id="recent-apps">Recent Apps</h3>
-<p>Key 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps</code>.</p>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps</code>.</p>
 <p>Similar to User Assist. Also shows files and applications that were used through this application. This key consists of sub-keys that are marked with application&rsquo;s GUID. Some of them will have <code>Recent Items</code> sub-key (10 max), each has <code>Last Write Time</code> (Windows 64-bit, little-endian).</p>
 <blockquote>
 <p>⚠️ Not all Win10 machines will have this key.</p>
 </blockquote>
+<p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows\Current Version\Explorer\RunMRU</code>.</p>
+<p>A list of the programs that have been run from the Run command is shown. Each time you use a command that has already been stored, it moves to the top of the list.</p>
 <h3 id="jump-list-data">Jump List Data</h3>
 <p>Key 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData</code>.</p>
 <p>Shows applications accessed.</p>
@@ -517,7 +519,7 @@ mimikatz
 </blockquote>
 <h3 id="comdlg32">ComDlg32</h3>
 <p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32</code>.</p>
-<p><code>CIDSizeMRU</code>- Tracks applications globally. MRU start at zero. Timestamp for the most recent item only. <code>FirstFolder</code> -tracks the install locations of applications, full path to the app, but no exact file name. <code>OpenSavePidMRU</code> - tracks files that were saved with <code>Save As</code> dialog, or opened with <code>Open</code> dialog. Tracks autocomplete terms. <code>LastVisitedPidMRU</code> - tracks applications accessed in <code>OpenSavePidMRU</code>, tracks the location the file existed.</p>
+<p><code>CIDSizeMRU</code>- Tracks applications globally. MRU start at zero. Timestamp for the most recent item only. <code>FirstFolder</code> -tracks the install locations of applications, full path to the app, but no exact file name. <code>OpenSavePidMRU</code> - tracks files that were saved with <code>Save As</code> dialog, or opened with <code>Open</code> dialog. Tracks autocomplete terms. <code>LastVisitedPidMRU</code> - tracks the specific executable used by an application to open the files documented in the <code>OpenSaveMRU</code> key. Also tracks the directory for the last application accessed for each file in <code>OpenSavePidMRU</code>, tracks the location the file existed.</p>
 <h3 id="typed-paths">Typed Paths</h3>
 <p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths</code>.</p>
 <p>Files and directories that were accessed by typing address in File Explorer.</p>
@@ -559,6 +561,14 @@ mimikatz
 <p>Since Windows 8. Stored information about program execution, including those, that were run from a USB drive. Contains install date and time, name, version,  path to exe/dll, source info, path to uninstall, publisher name, volume GUIDs, container ID of the device from which the program was run.</p>
 <p><code>DeviceCensus</code> - some information about the physical machine itself.</p>
 <p><code>File</code> - full path to the executable.</p>
+<p><code>InventoryApplication</code>. Consists of folders/subkeys named by the program id. Each folder will contain the following important information: <code>OSVersionAtInstallTime</code>, <code>InstallDateMsi</code>, <code>InstallDate</code>, <code>InstallDateArpLastModified</code>, <code>InstallDateFromLinkFile</code>, <code>Name</code>, <code>Publisher</code>, <code>RegistryKeyPath</code> (may show user SID), <code>Source</code>, <code>UninstallString</code>, <code>ProgramID</code> (consistent accross systems).</p>
+<p><code>InventoryApplicationFile</code>. Contains a fileid which is actually a SHA-1 hash, padded with 4 leading zeros. Use a list of known good or VirusTotal.</p>
+<p><code>InventoryDeviceContainer</code>. Contains <code>ModelName</code> and <code>FriendlyName</code>. When devices get connected, they might install some software to be able to work correctly.</p>
+<p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
+<p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
+<p><strong>Tools</strong> 🛠: AmCacheParser.exe + Timeline Explorer.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+</code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">1</a>] Windows registry file format specification</p>
 <p>Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2020/10/03/exporting-registry-hives-from-a-live-system/">2</a>] Exporting registry hives from a live system, [<a href="https://dfir.ru/2020/08/15/containerized-registry-hives-in-windows/">3</a>] Containerized registry hives in Windows, [<a href="https://dfir.ru/2018/10/07/hiding-data-in-the-registry/">4</a>] Hiding data in the registry</p>
@@ -567,6 +577,7 @@ mimikatz
 <p>[<a href="http://www.ijfcc.org/vol5/455-F005.pdf">7</a>] Registry structure</p>
 <p>[<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>] Analysis the Structure of SAM and Cracking Password Base on Windows Operating System, Jiang Du and Jiwei Li</p>
 <p>[<a href="https://superuser.com/questions/1210451/what-does-windows-old-folder-contain">9</a>] What does Windows.old folder contain?</p>
+<p>[<a href="https://www2.isye.gatech.edu/~mgoetsch/cali/Windows%20Configuration/Windows%20Configuration%20Html/RemovingItemsfromtheRunMRUProgramList.htm">10</a>]</p>
 
   </div>
 </article>
