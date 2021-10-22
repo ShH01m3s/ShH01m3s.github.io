@@ -165,13 +165,20 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#logs">Logs</a>
+    <li><a href="#formats">Formats</a></li>
+    <li><a href="#collection">Collection</a>
       <ul>
         <li><a href="#macos">macOS</a></li>
         <li><a href="#windows">Windows</a></li>
         <li><a href="#linuxes">Linuxes</a></li>
         <li><a href="#ios">iOS</a></li>
         <li><a href="#android">Android</a></li>
+      </ul>
+    </li>
+    <li><a href="#analysis">Analysis</a>
+      <ul>
+        <li><a href="#macos-1">macOS</a></li>
+        <li><a href="#ios-1">iOS</a></li>
       </ul>
     </li>
   </ul>
@@ -223,15 +230,25 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="logs">Logs</h2>
+    <p>One of the most useful artifacts when properly configured and maintained, are log files. All devices keep some sort of logs, even mobile devices. However, their relevance for the specific case may differ.</p>
 <p>Different logs might be collected depending on the case:</p>
 <ol>
 <li>Network hack: logs of all network devices (on the route to the hacked device), perimeter router (ISP), Firewall rules might be required.</li>
 <li>Unauthorised access: web server logs, application server logs, application logs, router or switch logs, firewall logs, db logs, IDS logs etc.</li>
 <li>Trojan/Virus/Worm: antivirus logs, event logs.</li>
 </ol>
+<h2 id="formats">Formats</h2>
+<p>There are several formats that logs can exist in depending on the system in question and configurations as well.</p>
+<ul>
+<li>W3C. ASCII, UTC.</li>
+<li>IIS. ASCII, local time.</li>
+<li>NCSA. ASCII, no customization, local time</li>
+<li>IIS ODBC. Needs to be enabled first, degrades performance.</li>
+<li>BIN. IIS 5.1+, in binary format, logging several websites at once.</li>
+<li>XML. Mostly used for applications to share data.</li>
+</ul>
+<h2 id="collection">Collection</h2>
 <h3 id="macos">macOS</h3>
-<h4 id="collecton">Collecton</h4>
 <p><strong>syslog</strong>. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example). By the way, <code>syslog</code> was replaced as well on iOS (see <a href="/docs/dfir/host/mobile/ios/ios-logs">here</a>). Some still exist: <code>daily.out</code>, cups, <code>install.log</code>. 🛑 More about logs for iOS and macOS here.</p>
 <p>🛑 More about fervents here.</p>
 <p>New unified log path in 2 directories:</p>
@@ -245,7 +262,15 @@
 <li><code>./System/Volumes/Data/.fseventsd</code></li>
 <li>On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</li>
 </ul>
-<h4 id="analysis">Analysis</h4>
+<h3 id="windows">Windows</h3>
+<p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
+<p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
+<h3 id="linuxes">Linuxes</h3>
+<p><img src="images/artworks-000579009953-6w0z2h-t500x500.jpeg" alt="artworks-000579009953-6w0z2h-t500x500"></p>
+<h3 id="ios">iOS</h3>
+<h3 id="android">Android</h3>
+<h2 id="analysis">Analysis</h2>
+<h3 id="macos-1">macOS</h3>
 <p><code>python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out	</code>. More about FSEvents might be seen here [<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>]. Thanks to Nicole Ibrahim from OSDFCon, we have this filetype reverse engineered and documented. At least, v1.</p>
 <blockquote>
 <p>😭 Getting an error when trying to run <code>FSEventsParser</code> on a M1. No excpetion when running it on an Intel machine though.
@@ -284,14 +309,8 @@ FROM
 &#34;fsevents&#34;
 WHERE
 &#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
-</code></pre></div><h3 id="windows">Windows</h3>
-<p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
-<h3 id="linuxes">Linuxes</h3>
-<p><img src="images/artworks-000579009953-6w0z2h-t500x500.jpeg" alt="artworks-000579009953-6w0z2h-t500x500"></p>
-<h3 id="ios">iOS</h3>
-<h4 id="collection">Collection</h4>
+</code></pre></div><h3 id="ios-1">iOS</h3>
 <p>Same as for macOS. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
-<h4 id="analysis-1">Analysis</h4>
 <p>Internet activity</p>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
 *, _ROWID_ &#34;NAVICAT_ROWID&#34;
@@ -314,8 +333,7 @@ FROM
 WHERE
 &#34;filename&#34; LIKE &#39;mobile/Library/Mobile
 Documents/com~apple~CloudDocs/%&#39;
-</code></pre></div><h3 id="android">Android</h3>
-
+</code></pre></div>
   </div>
 </article>
 </div>
