@@ -167,11 +167,14 @@
   <ul>
     <li><a href="#settings">Settings</a>
       <ul>
+        <li><a href="#association">Association</a></li>
         <li><a href="#execution-policy">Execution Policy</a></li>
         <li><a href="#start-services">Start Services</a></li>
       </ul>
     </li>
     <li><a href="#fuc">FUC</a></li>
+    <li><a href="#working-with-files">Working With Files</a></li>
+    <li><a href="#-investigation-tips">🔎 Investigation Tips</a></li>
     <li><a href="#remote-connection">Remote connection</a>
       <ul>
         <li><a href="#dcom">DCOM</a></li>
@@ -182,6 +185,14 @@
       <ul>
         <li><a href="#cim">CIM</a></li>
         <li><a href="#pure-wmi">Pure WMI</a></li>
+      </ul>
+    </li>
+    <li><a href="#scripting">Scripting</a>
+      <ul>
+        <li><a href="#operators">Operators</a></li>
+        <li><a href="#strings">Strings</a></li>
+        <li><a href="#conditions">Conditions</a></li>
+        <li><a href="#collections">Collections</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -255,6 +266,8 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="settings">Settings</h2>
+<h3 id="association">Association</h3>
+<p>It&rsquo;s better to associate powershell scripts with notepad.exe that PowerShell for security reasons.</p>
 <h3 id="execution-policy">Execution Policy</h3>
 <p><strong>Get Execution Policy</strong>. Powershell execution policy is applied to scripts only. Here are the main policies used:</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-ExecutionPolicy</span>
@@ -262,14 +275,22 @@
 <span class="p">&gt;</span> <span class="n">RemoteSigned</span> <span class="c"># downloaded scripts should be signed (preferred, default for WinServer). For local scripts no signature is required.</span>
 <span class="p">&gt;</span> <span class="n">Unrestricted</span> <span class="c"># everything is allowed (dangerous)</span>
 <span class="p">&gt;</span> <span class="n">Undefined</span> <span class="c"># Restricted for Win and RemoteSigned for WinServer</span>
-<span class="p">&gt;</span> <span class="n">AllSigned</span>
-<span class="p">&gt;</span> <span class="n">ByPass</span>
+<span class="p">&gt;</span> <span class="n">AllSigned</span> <span class="c"># Signatures are required for local scripts also</span>
+<span class="p">&gt;</span> <span class="n">ByPass</span> <span class="c"># Nothing is blocked, no warnings and prompts</span>
 </code></pre></div><p>Other policies, official doc [<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">2</a>].</p>
 <p><strong>Set Execution Policy</strong>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Set-ExecutionPolicy</span> <span class="n">-ExecutionPolicy</span> <span class="n">RemoteSigned</span>
 </code></pre></div><h3 id="start-services">Start Services</h3>
 <h2 id="fuc">FUC</h2>
 <p>Frequently Used Commands.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Help</span> <span class="n">-ShowWindows</span><span class="p">/</span><span class="n">-Online</span><span class="p">/</span><span class="n">-full</span> <span class="c"># withough any option - short help in the console itself</span>
+</code></pre></div><h2 id="working-with-files">Working With Files</h2>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Copy-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
+<span class="nb">Move-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
+<span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="n">-Recurse</span>
+<span class="nb">Rename-Item</span> <span class="n">-Path</span> <span class="n">-NewName</span>
+</code></pre></div><h2 id="-investigation-tips">🔎 Investigation Tips</h2>
+<p>You can get the previously executed commands with <code>Get-History</code> cmdlet. However, what if the last command executed was <code>Clear-History</code>? That might be suspicious and a lead.</p>
 <h2 id="remote-connection">Remote connection</h2>
 <p>See what connections are open and what protocols they are using:</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-CimSession</span>
@@ -278,7 +299,98 @@
 <h2 id="queries">Queries</h2>
 <h3 id="cim">CIM</h3>
 <h3 id="pure-wmi">Pure WMI</h3>
-<h2 id="references">References</h2>
+<h2 id="scripting">Scripting</h2>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$localvar</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+<span class="nv">$global:var</span> <span class="c"># accessible not only from the script, Get-Variable will show it. But open another shell - it won&#39;t be there.</span>
+
+<span class="nb">Set-Variable</span> <span class="n">-Constant</span> <span class="p">-</span> <span class="n">ReadOnly</span> <span class="c"># check if exists and change if it does</span>
+<span class="nb">New-Variable</span>
+<span class="nb">Clear-Variable</span>
+<span class="nb">Remove-Variable</span>
+
+<span class="nv">$var</span> <span class="n">-s</span> <span class="no">[int]</span> <span class="c"># check if int</span>
+
+<span class="no">[int]</span><span class="nv">$var</span> <span class="p">=</span> <span class="n">100</span> <span class="c"># force the variable $var to ALWAYS be of int type</span>
+<span class="nv">$var</span> <span class="p">=</span> <span class="no">[int]</span><span class="n">100</span> <span class="c"># apply on var to ensure that the data for this user input is correct</span>
+
+<span class="no">[string]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;Question?&#34;</span> <span class="n">-AsSecureString</span> <span class="c"># get user input, convert to string -AsSecureString will not show the contents of the $answer</span>
+<span class="p">[</span><span class="k">validateset</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span><span class="s2">&#34;Y&#34;</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">,</span> <span class="s2">&#34;N&#34;</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;Are you ok? (y/n)&#34;</span>
+<span class="p">[</span><span class="k">validatelength</span><span class="p">(</span><span class="n">5</span><span class="p">,</span><span class="n">120</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;What&#39;s your name?&#34;</span>
+<span class="p">[</span><span class="k">validaterange</span><span class="p">(</span><span class="n">5</span><span class="p">,</span><span class="n">120</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;How old are you?&#34;</span>
+<span class="c"># Get more with Get-Help about_Functions_advanced_Parameters -ShowWindow</span>
+
+<span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">-BackgroundColor</span> <span class="c"># doesn&#39;t return an object, so you CAN&#39;T PIPE the result!!!!</span>
+<span class="nb">Write-Output</span> <span class="c"># outputs something but also CAN be piped to another command</span>
+<span class="nb">Write-Error</span>
+<span class="nb">Write-Warning</span>
+<span class="nb">Write-Debug</span> <span class="n">-Debug</span>
+<span class="nb">Write-Verbose</span> <span class="n">-Verbose</span>
+</code></pre></div><blockquote>
+<p>⚠️ Double quotes resolve to variale value, while single quotes - don&rsquo;t. To override this behaviour of double quotes <code>&quot;&quot;</code>, use a ``` sign.</p>
+</blockquote>
+<h3 id="operators">Operators</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># resemble Hugo&#39;s syntax, but the operator is placed between the operands.</span>
+<span class="c"># also resembles assembly</span>
+<span class="n">eq</span> 
+<span class="n">ceq</span> <span class="c"># case-sensitive operator</span>
+<span class="n">neq</span>
+<span class="n">lt</span><span class="p">,</span> <span class="n">gt</span><span class="p">.</span> <span class="n">le</span><span class="p">,</span> <span class="n">ge</span>
+<span class="n">like</span> <span class="c"># contains</span>
+<span class="n">clike</span> <span class="c"># case-senstive contains</span>
+<span class="n">notlike</span>
+<span class="n">match</span> <span class="c"># use regex</span>
+<span class="n">contains</span> <span class="c"># return True or False</span>
+</code></pre></div><p>Example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="p">@(</span><span class="n">THis</span> <span class="n">is</span> <span class="n">a</span> <span class="n">big</span> <span class="n">text</span> <span class="n">to</span> <span class="n">search</span> <span class="n">some</span> <span class="n">keywords</span> <span class="k">in</span><span class="p">)</span> <span class="o">-like</span> <span class="s2">&#34;text&#34;</span>
+</code></pre></div><h3 id="strings">Strings</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">string</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
+<span class="n">string</span><span class="p">.</span><span class="n">Trim</span><span class="p">()</span>
+<span class="n">string</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">()</span>
+<span class="n">string</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">)</span>
+<span class="n">string</span><span class="p">.</span><span class="n">Contains</span><span class="p">()</span>
+
+<span class="n">string</span><span class="p">.</span><span class="n">GetMember</span><span class="p">()</span> <span class="c"># print all available operations for strings</span>
+
+<span class="nv">$this_is_a_multiline</span> <span class="p">=</span> <span class="p">@</span><span class="s2">&#34;Hello
+</span><span class="s2">world, I have a question: &#34;</span><span class="n">How</span>
+<span class="n">are</span> <span class="n">you</span><span class="s2">&#34;?&#34;</span><span class="p">@</span>
+</code></pre></div><h3 id="conditions">Conditions</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nv">$n</span> <span class="o">-le</span> <span class="nv">$n2</span><span class="p">))</span> <span class="p">{</span>
+  <span class="s2">&#34;Good&#34;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="s2">&#34;Happy snowman!&#34;</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">1</span> <span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="o">-and</span> <span class="p">(</span><span class="n">2</span> <span class="p">=</span> <span class="n">2</span><span class="p">){</span>
+	<span class="s2">&#34;Math is not broken!&#34;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+	<span class="s2">&#34;The Universe seems to be exploding&#34;</span>
+<span class="p">}</span>
+
+<span class="k">switch</span><span class="p">(</span><span class="nv">$num</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">1</span> <span class="p">{</span><span class="s2">&#34;Good&#34;</span><span class="p">}</span>
+  <span class="n">2</span> <span class="p">{</span><span class="s2">&#34;Hm&#34;</span><span class="p">}</span>
+  <span class="n">3</span> <span class="p">{</span><span class="s2">&#34;Hmhm&#34;</span><span class="p">}</span>
+  <span class="k">default</span> <span class="p">(</span><span class="s2">&#34;Happy snowman&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="collections">Collections</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># array list</span>
+<span class="nv">$array</span> <span class="p">=</span> <span class="p">@(</span><span class="n">1</span><span class="p">,</span><span class="n">2</span><span class="p">,</span><span class="n">4</span><span class="p">)</span> <span class="c"># IsFixedSize</span>
+<span class="nv">$array</span><span class="p">[</span><span class="n">1</span><span class="p">..</span><span class="n">2</span><span class="p">]</span>
+
+<span class="c"># list</span>
+<span class="nv">$list</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">ArrayList</span>
+
+<span class="c"># disctionary, not {} instead of ()</span>
+<span class="nv">$hash_table</span> <span class="p">=</span> <span class="p">@{</span>
+    <span class="s2">&#34;127.0.0.1&#34;</span> <span class="p">=</span> <span class="s2">&#34;localhost&#34;</span><span class="p">;</span>
+	<span class="s2">&#34;192.168.1.1&#34;</span> <span class="p">=</span> <span class="s2">&#34;router1&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+	
+	
+</code></pre></div><h2 id="references">References</h2>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi?view=powershell-7.1">1</a>] WMI and CIM docs</p>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">2</a>] PowerShell execution policies for scripts</p>
 
