@@ -334,6 +334,27 @@
 <li>Suspicious files opened, netwrk ports and connections, OS resources (mutexes, hooks etc), significant amount of CPU or RAM?</li>
 </ol>
 <p><strong>Memory forensics</strong>. Sometimes is the only way to detect malware. It&rsquo;s difficult, I should do that.</p>
+<h4 id="persistance">Persistance</h4>
+<p>Different groups have prefered persistence mechanisms. Persistance mechanisms:</p>
+<p><strong>AutoStart Locations</strong>.</p>
+<p>👣 <strong>Windows</strong>. Registry keys: For <code>SOFTWARE</code> hive (system wide) and <code>NTUSER.dat</code> (user-specific): <code>Software\Microsoft\Windows\CurrentVersion\Run</code>, <code>Software\Microsoft\Windows\CurrentVersion\RunOnce</code>. Read more about it in Windows registry article. <code>SOFTWARE</code> hive also has <code>Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run and Software\Microsoft\Windows NT\Winlogon\Userinit</code>. File system: <code>%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code>. I would also check running processes on the live system to see which processes were started at system start up (time launched is too close to <code>winlogon</code> for example, or any other core process that starts at boot).</p>
+<p>👣 <strong>macOS</strong>. <code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
+<p><strong>Services</strong></p>
+<p>The executable needs to have certain code and permissions for service behaviour and there are three options to acomplish that:</p>
+<ul>
+<li>New service</li>
+<li>Hijacking. Required modifications to some existing service. Example: GlassRAT</li>
+<li>Service failure recovery. DrWatson?</li>
+</ul>
+<p>👣 <strong>Windows</strong>. Registry: start value <code>0x2</code> tells OS to strat it at boot. Example: APT1, RIP listener service.</p>
+<p><strong>Scheduled tasks</strong>.</p>
+<p><code>at.exe</code> (deprecated but can still be used) and <code>schtasks.exe</code>.</p>
+<p>👣 <strong>Windows</strong>. For <code>at</code> see <code>at*.job</code> and <code>Schdlgu.txt</code> and Task Scheduler and Security Logs for the second one.</p>
+<p><strong>DLL Hijacking</strong>. My presentation is available in files section in Russian 🇷🇺.</p>
+<p><strong>WMI Event Consumers</strong></p>
+<p><strong>Local group policy</strong></p>
+<p><strong>MS Office Add-In</strong></p>
+<p><strong>Flushin BIOS</strong></p>
 <h4 id="remnants">Remnants</h4>
 <p>Are there signs that the malware was run? May be it was removed or it&rsquo;s stealthy. Or may be it&rsquo;ll be too hard. Things that are left behind. The same artifacts that with processes in general (User Activity).</p>
 <ul>
