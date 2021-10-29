@@ -168,7 +168,7 @@
     <li><a href="#image-info">Image Info</a></li>
     <li><a href="#malware-analysis">Malware Analysis</a>
       <ul>
-        <li></li>
+        <li><a href="#auto-runs-locations">Auto Runs locations</a></li>
         <li><a href="#runtime-linking">Runtime linking</a></li>
         <li><a href="#imports">Imports</a></li>
         <li><a href="#strings">Strings</a></li>
@@ -247,21 +247,27 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="image-info">Image Info</h2>
+    <p>First, have a template for an IR/forensics sheet. This can be done in Excel or other program alike. You can list all the evidence and hint and leads to follow there. It&rsquo;s better to specify the machine that contained that evidence, the command and program used to find it, path to the evidence, why you think it&rsquo;s suspicious etc. You may divide leads, host indicators, network indicators on separate sheets.</p>
+<h2 id="image-info">Image Info</h2>
 <p>Use <code>sleuthkit</code> to gather some information. <code>mmstat &lt;disk_or_image&gt;</code> shows volume type. I&rsquo;ve ran this command, but as I can conclude by the output, it&rsquo;s not volume type, but rather a partition schema. I wonder, if these are the same things. <code>mmls -t &lt;partition_schema&gt; &lt;disk_or_image&gt;</code> shows the disk layout including unallocated space. Actually, no need to pass <code>&lt;partition_schema&gt;</code>, it&rsquo;s determined by the tool. Hence, no need to run <code>mmstat</code>. From the <code>mmls</code> we need to note the partition offset to use it with outher tools. For example, <code>fsstat -o &lt;offset&gt; &lt;disk_or_image&gt;</code> shows very detailed information about a partition. The output depends on the file system. For Linux 🐧 partitions it&rsquo;ll show informationn about inodes etc. For NTFS - about NTFS metadata, for exFAT - FAT1 and Root directory. The same information but more detailed can be viewed with 🛠 Active@Disk Editor. To view deleted files: <code>fls -o &lt;offset&gt; &lt;disk_or_image&gt;</code>. To export a timeline from the volume - <code>fls -r -m &quot;/&quot; -o &lt;offset&gt; &lt;disk_or_image&gt; &gt; bodyfile.txt</code> (<code>-r</code> - recursive, <code>-m</code> - use <code>mactime</code> input format to use with another tool, <code>\</code> - mount point question mark ❓). To create timeline, run <code>mactime.pl -b &lt;bodyfile&gt; -d &gt; timeline.csv</code> [<a href="">1</a>]. To specify timezone, add <code>-z</code> switch.</p>
 <p>[<a href="">1</a>] Windows Forensics Cookbook</p>
 <h2 id="malware-analysis">Malware Analysis</h2>
 <p><em>🔍 What are we looking for?</em> Persistence / start-up mechanisms, running processes and remnants left.</p>
-<p>APT - smarter malware.</p>
-<p>Needs to start (one time or regulary on startup or schedule; or trick the user), hides itself, wicked stuff done. Launch malware instead of leg prog by placing it in the same directory if the full path is specified. Trick process to launch malicious library. For example, DLL injection. See the presentation <a href="/files/presentations/Injects_p1.pptx">here</a> and <a href="/files/presentations/Injects_p2.pptx">here</a>.  Data injection (exploit).</p>
-<p>Hide itself, modify OS data structs to make itself invisble from some APIs. Parasite (Hijack another process with malthreads). Hollowing etc.</p>
-<p>Triggered, trick launch and trick load.</p>
-<p>Is it malicious?</p>
+<p>There is a good methodology to follow in order to find suspicious programs at the larger scale.</p>
+<h3 id="auto-runs-locations">Auto Runs locations</h3>
+<p>🗒 <em>Explore common autorun locations in order to find the files that are automatically run at startup.</em></p>
+<p>👣 <strong>For a Windows machine</strong>. Registry keys: For <code>SOFTWARE</code> hive (system wide) and <code>NTUSER.dat</code> (user-specific): <code>Software\Microsoft\Windows\CurrentVersion\Run</code>, <code>Software\Microsoft\Windows\CurrentVersion\RunOnce</code>. Read more about it in Windows registry article. <code>SOFTWARE</code> hive also has <code>Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run and Software\Microsoft\Windows NT\Winlogon\Userinit</code>. File system: <code>%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code>. I would also check running processes on the live system to see which processes were started at system start up (time launched is too close to <code>winlogon</code> for example, or any other core process that starts at boot).</p>
+<p>👣 <strong>For a macOS machine</strong>. <code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
+<p>🗒 <em>Among these entried find suspicious ones.</em></p>
+<p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
+<p><strong>Hash</strong>. The first and dummiest way, but highly suggested is to check the file hash against VirusTotal database. This way you&rsquo;ll eliminate <strong>known good</strong> files, since it&rsquo;s highly unlikely that a legitimate software like Windows files have never been checked so far. Also, this way you can find <strong>known bad</strong>.</p>
+<p>📝 Put the suspicious files down into your IR/forensics sheet.</p>
+<p><strong>Name/Path</strong>. In order to spot deviations at that point you need to have a firm understanding of what&rsquo;s normal for that particular system. There are some common &ldquo;normalities&rdquo; for different OSes, of course, as well. You can refer to SANS poster &ldquo;Find Evil&rdquo; which is often updated, SDF Podcast of Michael Leclair about Windows Core Processes, or find the corresponding article about core processes and system supernova in the Technical Reference section of this website.</p>
 <ul>
-<li>Hash (Threat Intelligence)</li>
-<li>Byte-level signatures from previous malware?</li>
-<li>Mal behaviour?</li>
-<li>Reverse - mal instructions</li>
+<li><input disabled="" type="checkbox"> Hash.</li>
+<li><input disabled="" type="checkbox"> Byte-level signatures from previous malware?</li>
+<li><input disabled="" type="checkbox"> Mal behaviour?</li>
+<li><input disabled="" type="checkbox"> Reverse - mal instructions</li>
 </ul>
 <p>❓ <em>What A/V solution is being used?</em> 🦠 🛑 If it&rsquo;s Windows, there might be just Windows Defender or some third-party AV. Find the logs for this particular AV solution. More <a href="/docs/dfir/host/windows/windows-artifacts#av-logs">here</a> about this Windows artifact. As for macOS, it has a built-in gatekeeper which logs all these alerts and can even detect known malware. More <a href="/docs/dfir/host/apple/mac-artifacts#Quarantine-files">here</a> about this macOS artifact.</p>
 <p><strong>SANS Six-Part Methodology</strong>, used to identify malicious processses:</p>
@@ -292,7 +298,7 @@
 <li>Normally there?</li>
 <li>Suspicious location?</li>
 <li>Times similar to the event</li>
-<li>Leg sign?</li>
+<li>Legitimate signature? Is the issuer trusted or is it self-signed?</li>
 <li>Do you find it on other machines withing the enterprise?</li>
 </ol>
 </li>
@@ -336,9 +342,6 @@
 <p><strong>Memory forensics</strong>. Sometimes is the only way to detect malware. It&rsquo;s difficult, I should do that.</p>
 <h4 id="persistance">Persistance</h4>
 <p>Different groups have prefered persistence mechanisms. Persistance mechanisms:</p>
-<p><strong>AutoStart Locations</strong>.</p>
-<p>👣 <strong>Windows</strong>. Registry keys: For <code>SOFTWARE</code> hive (system wide) and <code>NTUSER.dat</code> (user-specific): <code>Software\Microsoft\Windows\CurrentVersion\Run</code>, <code>Software\Microsoft\Windows\CurrentVersion\RunOnce</code>. Read more about it in Windows registry article. <code>SOFTWARE</code> hive also has <code>Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run and Software\Microsoft\Windows NT\Winlogon\Userinit</code>. File system: <code>%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code>. I would also check running processes on the live system to see which processes were started at system start up (time launched is too close to <code>winlogon</code> for example, or any other core process that starts at boot).</p>
-<p>👣 <strong>macOS</strong>. <code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
 <p><strong>Services</strong></p>
 <p>The executable needs to have certain code and permissions for service behaviour and there are three options to acomplish that:</p>
 <ul>
@@ -496,7 +499,7 @@ pip install yara-python
 </ul>
 <h3 id="poopy--vs-donkey-"><strong>Poopy</strong> 💩 vs <strong>donkey</strong> 🦓</h3>
 <p><em>❓ How to prove that the account was compromised?</em></p>
-<p>Lot&rsquo;s of attacks involve account compromise. In some cases malware is not even needed. There are several arguments for the defence: I didn&rsquo;t know, It was not me, It was a malware and It happened accidently.</p>
+<p>Lot&rsquo;s of attacks involve account compromise. In some cases malware is not even needed. There are several arguments for the defence: <em>I didn&rsquo;t know</em>, <em>It was not me</em>, <em>It was a malware</em> and <em>It happened accidently</em>.</p>
 <p>✍️ <strong>Suspicious logins?</strong></p>
 <ul>
 <li><input disabled="" type="checkbox"> Should this user use this account?</li>
@@ -543,7 +546,7 @@ pip install yara-python
 <h3 id="mail">Mail</h3>
 <p>❗️❗️❗️❗️ Link to collection.</p>
 <p>First, determine all the mail clients used. That will help to determine the file paths to search for mails. Then, determine relevant threads. How? One option is to use <code>strings</code> + <code>grep</code>. If the mail client uses a <code>db</code> file type to store information, craft SQL queries wisely. Be careful with the keyword search though, since not all relevant emails might contains them.</p>
-<p>You may also make use of some forensics framework (like Autopsy 🐕). This tool and other alike can parse email data from disk or disk image and present information about conversations, people in a more comfortable way.</p>
+<p>You may also make use of some forensics framework (like Autopsy 🐕). This tool and other alike can parse email data from disk or disk image and present information about conversations, people in a more comfortable way. Another framework that used (trial version) - Magnet AXIOM, a great tool, but it&rsquo;s not free, so, not for individual investigators, students and researches with limited resources.</p>
 <p>🛠 EMT (Email Mining Toolkit) is not maintained anymore but the idea was to group emails with similar bahvioral characteristics. The following techniques were used:</p>
 <ul>
 <li>Stationary User Profiles. Compare PC user activity with email activity.</li>
