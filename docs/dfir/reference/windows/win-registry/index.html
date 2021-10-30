@@ -402,7 +402,7 @@ mimikatz
 <p>SAM doesn&rsquo;t have any informaiton about domain accounts. For this information refer to the key above. Even though in case of a domain user there is no relevant information in SAM hive, you can still view the machine/domain ID in SAM and use it to determine whether the files were created on the local machine. For example, in the Recycle Bin.</p>
 <h2 id="system">System</h2>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\System32\config\SYSTEM</code>.</p>
-<p><strong>Tools</strong> 🛠: Registry Explorer, Timeline Exlorer, AppCompatCacheParser, AmcacheParser.</p>
+<p><strong>Tools</strong> 🛠: Registry Explorer, Timeline Exlorer, AppCompatCacheParser, AmcacheParser, ShimCacheParser.py</p>
 <p>Contains the following information, listed below. System-wide information. All the below keys start with <code>Computer\HKEY_LOCAL_MACHINE\SOFTWARE\</code>. So, I&rsquo;ll only show relative path, not full for simplicity&rsquo;s sake. This hive contains information about the system, devices attached, services running.</p>
 <h3 id="current-control-set">Current control set</h3>
 <p><strong>Key</strong> 🔑: <code>Computer\HKEY_LOCAL_MACHINE\System\Select\Current</code>.</p>
@@ -456,6 +456,7 @@ mimikatz
 <p>The value that follows the serial number/uniqueid right after the second <code>#</code> and encolsed between <code>{}</code> is the disk id.</p>
 <h3 id="program-installation-and-execution">Program Installation and Execution</h3>
 <p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>.</p>
+<p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser</p>
 <p>Originally was used to identify compatibility issues between 32 and 64 bit progs. Track the file path, size, last modified time ⏰. Only logs specific file extensions. It might not be a reliable evidnce that the program was executed, but if the program was installed and deleted - it won&rsquo;t be deleted from here.</p>
 <blockquote>
 <p>⚠️ Written at shutdown!</p>

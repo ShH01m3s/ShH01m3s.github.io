@@ -170,20 +170,7 @@
     <li><a href="#todo-">ToDO 🗒</a></li>
     <li><a href="#laboratory---">Laboratory 🧪 🥼 🔬</a></li>
     <li><a href="#tools-">Tools 🛠</a></li>
-    <li><a href="#exam-plan">Exam Plan</a>
-      <ul>
-        <li><a href="#enterprise-environment-incident-response">Enterprise Environment Incident Response</a></li>
-        <li><a href="#file-system-timeline-artifact-analysis">File System Timeline Artifact Analysis</a></li>
-        <li><a href="#identification-of-malicious-system-and-user-activity">Identification of Malicious System and User Activity</a></li>
-        <li><a href="#identification-of-normal-system-and-user-activity">Identification of Normal System and User Activity</a></li>
-        <li><a href="#introduction-to-file-system-timeline-forensics">Introduction to File System Timeline Forensics</a></li>
-        <li><a href="#introduction-to-volatile-data-forensics">Introduction to Volatile Data Forensics</a></li>
-        <li><a href="#ntfs-artifact-analysis">NTFS Artifact Analysis</a></li>
-        <li><a href="#volatile-data-artifact-analysis-of-malicious-events">Volatile Data Artifact Analysis of Malicious Events</a></li>
-        <li><a href="#volatile-data-artifact-analysis-of-windows-events">Volatile Data Artifact Analysis of Windows Events</a></li>
-        <li><a href="#windows-artifact-analysis">Windows Artifact Analysis</a></li>
-      </ul>
-    </li>
+    <li><a href="#exam-plan">Exam Plan</a></li>
     <li><a href="#cases-to-study-before-exam">Cases to study before exam</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -425,93 +412,101 @@
 <p>✅  <strong>SANS DFIR Cheatsheets to Help Use the Tools in the Field</strong></p>
 <p>🛑 SANS DFIR APT Case Electroninc Exercise Workbook</p>
 <h2 id="exam-plan">Exam Plan</h2>
-<h3 id="enterprise-environment-incident-response">Enterprise Environment Incident Response</h3>
-<p>🎯 Incident response process</p>
-<p>🎯 attack progression</p>
-<p>🎯 adversary fundamentals</p>
-<p>🎯 how to rapidly assess and analyze systems in an enterprise environment scaling tools to meet the demands of large investigations.</p>
-<p>🫑 - <strong>level <code>0</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources</strong></p>
-<p>[<a href="https://www.youtube.com/watch?v=CaBEfCZ8Zws">1</a>] SANS DFIR Webcast - APT Investigations &ndash; How To The Forensic Side</p>
-<h3 id="file-system-timeline-artifact-analysis">File System Timeline Artifact Analysis</h3>
-<p>🎯 Windows filesystem time structure</p>
-<p>🎯 How these artifacts are modified by system and user activity - [<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">1</a>], [<a href="/docs/dfir/timelines">2</a>]</p>
-<p>🥗 - <strong>level <code>2</code></strong></p>
-<p>🏺 List of artefacts:</p>
 <ul>
-<li>Prefetch [<a href="https://www.udemy.com/course/sdf-proving-file-use-knowledge-part-2-prefetch/learn/lecture/9548622?start=0#overview">3</a>], [<a href="https://digitalforensicsurvivalpodcast.com/2016/03/14/dfsp-004-windows-prefetch/">6</a>]</li>
-<li>Lnk [<a href="https://www.udemy.com/course/surviving-digital-forensics-link-files/learn/lecture/3100752?start=0#overview">4</a>]</li>
-<li>Registry [<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">9</a>]</li>
-<li>Shadow copy [<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=0#overview">5</a>]</li>
-</ul>
-<p>🗒</p>
-<p>🗂 <strong>Resources</strong></p>
-<p>[<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">1</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison, [<a href="/docs/dfir/timelines">2</a>] My article about timelines with links to APFS/NTFS specifics, [<a href="https://www.amazon.com/System-Forensic-Analysis-Brian-Carrier/dp/0321268172/ref=sr_1_1?dchild=1&amp;keywords=file+system+forensics&amp;qid=1630327745&amp;s=books&amp;sr=1-1">10</a>] File System Forensic Analysis</p>
-<p>[<a href="https://www.udemy.com/course/sdf-proving-file-use-knowledge-part-2-prefetch/learn/lecture/9548622?start=0#overview">3</a>] SDF: Windows Prefetch Forensics, [<a href="https://www.udemy.com/course/surviving-digital-forensics-link-files/learn/lecture/3100752?start=0#overview">4</a>] SDF: Link Files, [<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=0#overview">5</a>] SDF: Volume Shadow Copy, [<a href="https://digitalforensicsurvivalpodcast.com/2016/03/14/dfsp-004-windows-prefetch/">6</a>] SDF Podcast: DFSP # 004 – Windows Prefetch</p>
-<p>[<a href="https://dfir.ru/2021/06/28/shadow-copies-become-less-visible/">7</a>] Shadow copies become less visible, Suhanov, [<a href="https://dfir.ru/2020/07/14/offline-shadow-copies/">8</a>] Offline shadow copies, Suhanov, [<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">9</a>] Windows registry file format, Suhanov</p>
-<h3 id="identification-of-malicious-system-and-user-activity">Identification of Malicious System and User Activity</h3>
-<p>Techniques required to:</p>
-<p>🎯 identify document indicators of compromise on a system</p>
-<p>🎯 detect malware and attacker tools</p>
-<p>🎯 attribute activity to events and accounts</p>
-<p>🎯 identify and compensate for anti-forensic actions using memory and disk resident artifacts.</p>
-<p>🌮 - <strong>level <code>3</code></strong> + 🍭</p>
-<p>🗒</p>
-<p>🗂 <strong>Resources</strong></p>
-<h3 id="identification-of-normal-system-and-user-activity">Identification of Normal System and User Activity</h3>
-<p>🎯 identify, document, and differentiate normal and abnormal system and user activity using memory and disk resident artifacts.</p>
-<p>🥗 - <strong>level <code>2</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources</strong></p>
-<h3 id="introduction-to-file-system-timeline-forensics">Introduction to File System Timeline Forensics</h3>
-<p>🎯 Methodology required to collect and process timeline data from a Windows system.</p>
-<p>🫑 - <strong>level <code>0</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources</strong></p>
-<h3 id="introduction-to-volatile-data-forensics">Introduction to Volatile Data Forensics</h3>
-<p>🎯 How and when to collect volatile data from a system and how to document and preserve the integrity of volatile evidence.</p>
-<p>🥗 - <strong>level <code>2</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources:</strong></p>
-<p>[<a href="/docs/dfir/memory/win-ram-forensics/">1</a>] My article, Windows RAM Forensics, based on the [<a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-1/learn/lecture/3595958?start=0#overview">2</a>] SDF: Memory Forensics 1, [<a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-2/learn/lecture/13710678?start=0#overview">3</a>] <a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-2/">SDF: Memory Forensics 2</a> and [<a href="https://www.udemy.com/course/surviving-digital-forensics-ram-extraction-fundamentals/learn/lecture/2864006?start=0#overview">4</a>] <a href="https://www.udemy.com/course/surviving-digital-forensics-ram-extraction-fundamentals/">Surviving Digital Forensics: RAM Extraction Fundamentals</a>. Also, this book is like a bible for memory forensics.</p>
-<p>[<a href="https://www.amazon.com/Art-Memory-Forensics-Detecting-Malware/dp/1118825098">5</a>] The Art of Memory Forensics: Detecting Malware and Threats in Windows, Linux, and Mac Memory</p>
-<p>[<a href="/files/pdf/Memory-Forensics-Poster.pdf">6</a>] Memory-Forensics-Poster, SANS</p>
-<h3 id="ntfs-artifact-analysis">NTFS Artifact Analysis</h3>
-<p>🎯 Core structures of the Windows filesystems</p>
-<p>🎯 identify, recover, and analyze evidence from any file system layer, including the data storage layer, metadata layer, and filename layer.</p>
-<p>🥒 - <strong>level <code>1</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources:</strong></p>
-<p>[<a href="https://www.amazon.com/System-Forensic-Analysis-Brian-Carrier/dp/0321268172/ref=sr_1_1?dchild=1&amp;keywords=file+system+forensics&amp;qid=1630327745&amp;s=books&amp;sr=1-1">1</a>] File System Forensic Analysis</p>
-<h3 id="volatile-data-artifact-analysis-of-malicious-events">Volatile Data Artifact Analysis of Malicious Events</h3>
-<p>🎯 abnormal activity within the structure of Windows memory</p>
-<p>🎯 able to identify artifacts such as malicious processes, suspicious drivers and malware techniques such as code injection and rootkits.</p>
-<p>🥒 - <strong>level <code>1</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources:</strong></p>
+<li>
+<p><input disabled="" type="checkbox"> Enterprise Environment Incident Response 🫑 - <strong>level <code>0</code></strong></p>
 <ul>
-<li>Udemy SDF 3 Courses</li>
-<li>Memory forensics book</li>
+<li><input disabled="" type="checkbox"> 🎯 Incident response process</li>
+<li><input disabled="" type="checkbox"> 🎯 Attack progression</li>
+<li><input disabled="" type="checkbox"> 🎯 Adversary fundamentals</li>
+<li><input disabled="" type="checkbox"> 🎯 How to rapidly assess and analyze systems in an enterprise environment scaling tools to meet the demands of large investigations - 🗂 [<a href="https://www.youtube.com/watch?v=CaBEfCZ8Zws">1</a>] SANS DFIR Webcast - APT Investigations &ndash; How To The Forensic Side. ✍️ Frequency analysis, prioritize.</li>
 </ul>
-<h3 id="volatile-data-artifact-analysis-of-windows-events">Volatile Data Artifact Analysis of Windows Events</h3>
-<p>🎯 abnormal activity within the structure of Windows memory</p>
-<p>🎯 able to identify artifacts such as malicious processes, suspicious drivers and malware techniques such as code injection and rootkits.</p>
-<p>🥒 - <strong>level <code>1</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources:</strong></p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Identification of Malicious System and User Activity. - 🌮 - <strong>level <code>3</code></strong> + 🍭</p>
 <ul>
-<li>Udemy SDF 3 Courses</li>
-<li>Memory forensics book</li>
+<li><input disabled="" type="checkbox"> 🎯 identify document indicators of compromise on a system</li>
+<li><input disabled="" type="checkbox"> 🎯 detect malware and attacker tools</li>
+<li><input disabled="" type="checkbox"> 🎯 attribute activity to events and accounts</li>
+<li><input disabled="" type="checkbox"> 🎯 identify and compensate for anti-forensic actions using memory and disk resident artifacts.</li>
 </ul>
-<h3 id="windows-artifact-analysis">Windows Artifact Analysis</h3>
-<p>🎯 Windows system artifacts</p>
-<p>🎯 how to collect and analyze data such as system back up and restore data and evidence of application execution.</p>
-<p>🫑 - <strong>level <code>0</code></strong></p>
-<p>🗒</p>
-<p>🗂 <strong>Resources</strong></p>
-<p>SANS posters - [<a href="/files/pdf/windows-forensics-1.pdf">1</a>], [<a href="/files/pdf/windows-forensics-2.pdf">2</a>]</p>
-<p>🎯 In general everything is the same: there are network analysis, logs and registry, browser history etc. For each source of info get the tools, commands and common places for each OS platform.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Identification of Normal System and User Activity 🥗 - <strong>level <code>2</code></strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 identify, document, and differentiate normal and abnormal system and user activity using memory and disk resident artifacts.</li>
+</ul>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> File System Analysis</p>
+<ul>
+<li><input disabled="" type="checkbox"> NTFS Artifact Analysis 🥒 - <strong>level <code>1</code></strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 Core structures of the Windows filesystems - 🗂 [<a href="https://www.amazon.com/System-Forensic-Analysis-Brian-Carrier/dp/0321268172/ref=sr_1_1?dchild=1&amp;keywords=file+system+forensics&amp;qid=1630327745&amp;s=books&amp;sr=1-1">1</a>] File System Forensic Analysis</li>
+<li><input disabled="" type="checkbox"> 🎯 identify, recover, and analyze evidence from any file system layer, including the data storage layer, metadata layer, and filename layer - 🗂 my article about data recovery for different FS</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Introduction to File System Timeline Forensics - 🫑 - <strong>level <code>0</code></strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 Methodology required to collect and process timeline data from a Windows system.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> File System Timeline Artifact Analysis 🥗 - <strong>level <code>2</code></strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 Windows filesystem time structure - 🗂 [<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">1</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison, [<a href="/docs/dfir/timelines">2</a>] My article about timelines with links to APFS/NTFS specifics, [<a href="https://www.amazon.com/System-Forensic-Analysis-Brian-Carrier/dp/0321268172/ref=sr_1_1?dchild=1&amp;keywords=file+system+forensics&amp;qid=1630327745&amp;s=books&amp;sr=1-1">10</a>] File System Forensic Analysis, [<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">1</a>] Magnet Demistifying Mac Forensics (NTFS vs APFS)</li>
+<li><input disabled="" type="checkbox"> 🎯 How these artifacts are modified by system and user activity
+<ul>
+<li><input disabled="" type="checkbox"> 🏺Prefetch 🗂 [<a href="https://www.udemy.com/course/sdf-proving-file-use-knowledge-part-2-prefetch/learn/lecture/9548622?start=0#overview">3</a>], [<a href="https://digitalforensicsurvivalpodcast.com/2016/03/14/dfsp-004-windows-prefetch/">6</a>] - [<a href="https://www.udemy.com/course/sdf-proving-file-use-knowledge-part-2-prefetch/learn/lecture/9548622?start=0#overview">3</a>] SDF: Windows Prefetch Forensics, [<a href="https://digitalforensicsurvivalpodcast.com/2016/03/14/dfsp-004-windows-prefetch/">6</a>] SDF Podcast: DFSP # 004 – Windows Prefetch</li>
+<li><input disabled="" type="checkbox"> 🏺Lnk 🗂 [<a href="https://www.udemy.com/course/surviving-digital-forensics-link-files/learn/lecture/3100752?start=0#overview">4</a>], [<a href="https://www.udemy.com/course/surviving-digital-forensics-link-files/learn/lecture/3100752?start=0#overview">4</a>] SDF: Link Files</li>
+<li><input disabled="" type="checkbox"> 🏺Registry 🗂 [<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">9</a>] - [<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">9</a>] Windows registry file format, Suhanov, Coursera InfoSec DF course</li>
+<li><input disabled="" type="checkbox"> 🏺Shadow copy 🗂[<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=0#overview">5</a>], Shadow copies become less visible, Suhanov, [<a href="https://dfir.ru/2020/07/14/offline-shadow-copies/">8</a>] Offline shadow copies, Suhanov, [<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=0#overview">5</a>] SDF: Volume Shadow Copy</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Volatile Data</p>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> Introduction to Volatile Data Forensics 🥗 - <strong>level <code>2</code></strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 How and when to collect volatile data from a system and how to document and preserve the integrity of volatile evidence: 🗂 [<a href="/docs/dfir/memory/win-ram-forensics/">1</a>] My article, Windows RAM Forensics, based on the [<a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-1/learn/lecture/3595958?start=0#overview">2</a>] SDF: Memory Forensics 1, [<a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-2/learn/lecture/13710678?start=0#overview">3</a>] <a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-2/">SDF: Memory Forensics 2</a> and [<a href="https://www.udemy.com/course/surviving-digital-forensics-ram-extraction-fundamentals/learn/lecture/2864006?start=0#overview">4</a>] <a href="https://www.udemy.com/course/surviving-digital-forensics-ram-extraction-fundamentals/">Surviving Digital Forensics: RAM Extraction Fundamentals</a>. Also, this book is like a bible for memory forensics, [<a href="https://www.amazon.com/Art-Memory-Forensics-Detecting-Malware/dp/1118825098">5</a>] The Art of Memory Forensics: Detecting Malware and Threats in Windows, Linux, and Mac Memory, [<a href="/files/pdf/Memory-Forensics-Poster.pdf">6</a>] Memory-Forensics-Poster, SANS, the art of memory forensics book.</li>
+</ul>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Volatile Data Artifact Analysis of Malicious Events 🥒 - <strong>level <code>1</code></strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 abnormal activity within the structure of Windows memory</li>
+<li><input disabled="" type="checkbox"> 🎯 able to identify artifacts such as malicious processes, suspicious drivers and malware techniques such as code injection and rootkits - 🗂 Udemy SDF 3 Courses, Memory forensics book.</li>
+</ul>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Volatile Data Artifact Analysis of Windows Events 🥒 - <strong>level <code>1</code></strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 abnormal activity within the structure of Windows memory</li>
+<li><input disabled="" type="checkbox"> 🎯 able to identify artifacts such as malicious processes, suspicious drivers and malware techniques such as code injection and rootkits.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Windows Artifact Analysis 🫑 - <strong>level <code>0</code></strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> 🎯 Windows system artifacts</li>
+<li><input disabled="" type="checkbox"> 🎯 how to collect and analyze data such as system back up and restore data and evidence of application execution 🗂 SANS posters - [<a href="/files/pdf/windows-forensics-1.pdf">1</a>], [<a href="/files/pdf/windows-forensics-2.pdf">2</a>]
+<ul>
+<li><input disabled="" type="checkbox"> 🏺Prefetch 🗂 [<a href="https://www.udemy.com/course/sdf-proving-file-use-knowledge-part-2-prefetch/learn/lecture/9548622?start=0#overview">3</a>], [<a href="https://digitalforensicsurvivalpodcast.com/2016/03/14/dfsp-004-windows-prefetch/">6</a>] - [<a href="https://www.udemy.com/course/sdf-proving-file-use-knowledge-part-2-prefetch/learn/lecture/9548622?start=0#overview">3</a>] SDF: Windows Prefetch Forensics, [<a href="https://digitalforensicsurvivalpodcast.com/2016/03/14/dfsp-004-windows-prefetch/">6</a>] SDF Podcast: DFSP # 004 – Windows Prefetch</li>
+<li><input disabled="" type="checkbox"> 🏺Lnk 🗂 [<a href="https://www.udemy.com/course/surviving-digital-forensics-link-files/learn/lecture/3100752?start=0#overview">4</a>], [<a href="https://www.udemy.com/course/surviving-digital-forensics-link-files/learn/lecture/3100752?start=0#overview">4</a>] SDF: Link Files</li>
+<li><input disabled="" type="checkbox"> 🏺Registry 🗂 [<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">9</a>] - [<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">9</a>] Windows registry file format, Suhanov, Coursera InfoSec DF course</li>
+<li><input disabled="" type="checkbox"> 🏺Shadow copy 🗂[<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=0#overview">5</a>], Shadow copies become less visible, Suhanov, [<a href="https://dfir.ru/2020/07/14/offline-shadow-copies/">8</a>] Offline shadow copies, Suhanov, [<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=0#overview">5</a>] SDF: Volume Shadow Copy</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>🎯 In general everything is the same: there are network analysis, logs and registry, browser history etc. For each source of info get the tools, commands and common places for each OS platform (for exam Windows only).</p>
 <h2 id="cases-to-study-before-exam">Cases to study before exam</h2>
 <ul>
 <li><input disabled="" type="checkbox"> <a href="https://digital-forensics.sans.org/community/challenges">https://digital-forensics.sans.org/community/challenges</a></li>
