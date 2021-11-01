@@ -173,6 +173,7 @@
         <li><a href="#ram-analysis">RAM Analysis</a></li>
         <li><a href="#network-triage">Network Triage</a></li>
         <li><a href="#malware-indicators">Malware Indicators</a></li>
+        <li><a href="#malware-evasion-techniques">Malware Evasion Techniques</a></li>
         <li><a href="#throubleshooting-malware">Throubleshooting malware</a></li>
       </ul>
     </li>
@@ -368,6 +369,7 @@
 <li><strong>MS Office Add-In</strong>.</li>
 <li><strong>Flushing BIOS</strong></li>
 </ol>
+<p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
 <p>👣 <strong>For a macOS machine</strong>. <code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
 <p>🗒 <em>Among these entried find suspicious ones.</em></p>
 <p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
@@ -383,9 +385,9 @@
 <p><strong>Signed executable</strong>. It&rsquo;s a rare case, but it exists. Around 3% of malware is <strong>signed</strong>. It&rsquo;s due to the fact that some systems require executables to be signed. But this technique is not very good for malware authors since when at least one &ldquo;product&rdquo; is marked as malicious, all code that was signed with the same certificate will be identified as well. 🛠 Use <code>sigcheck</code> to check signatures and hashes against Virus Total.</p>
 <p><strong>Strings</strong>. Check <strong>strings</strong> in <code>Image</code> and in <code>Memory</code> using the corresponding radio button on the <code>Strings</code> tab of a selected process info in Process Explorer. If they differ - process replacement tool place.</p>
 <p><strong>32 bit application.</strong> For backward compatibility for older machines, malware authors prefer compiling 32bit applications. Since malware authors usually want their software to work on as many machines as possible, they often compile <strong>32bit code</strong>. That&rsquo;s not a decent indicator by itself, but it&rsquo;s a good additional score.</p>
-<p><strong>Atypical location</strong>. For example, there is a svchost.exe in Documents forlder. You&rsquo;ll need to know what&rsquo;s ok and good for the given system. May user SANS poster <em>Find Evil</em>.</p>
+<p><strong>Location</strong>. It might be atypical location for <code>svchost.exe</code> in Documents forlder. You&rsquo;ll need to know what&rsquo;s ok and good for the given system. May user SANS poster <em>Find Evil</em>. Common locations for malware: <code>Windows\System32</code> is a very important location since it allows running with elevated privileges? ❓❓❓Also <code>Temp</code> folder and <code>Temp Internet Files</code>. <code>Windows</code>, <code>Windows SxS</code>. Recycle bin also may contain some files or remnants. <code>Program files</code> is the most usual for programs and malware may reside there as well.<code>System Volume Information</code>. That doesn&rsquo;t mean, however, that malware can&rsquo;t be elsewhere.</p>
 <p><strong>Suspicious time</strong>. Created at suspicious time? Launch time suspicious?</p>
-<p><strong>Suspicious name</strong>. For example, name exactly like or very similar to some core system process? Strange name similar to leg one? <code>svchosts</code>, for example. Present in <code>psscan</code> but absent in <code>pslist</code> (for running processes)? Read more about RAM forensics in the corresponding section.</p>
+<p><strong>Suspicious name</strong>. For example, name exactly like or very similar to some core system process? Strange name similar to leg one? <code>svchosts</code>, for example. Present in <code>psscan</code> but absent in <code>pslist</code> (for running processes)? Read more about RAM forensics in the corresponding section. It&rsquo;s usual for malware to mistype the names if common wincore processes or use the same names in weird locations.</p>
 <p><strong>Signs of reconnaissance stage</strong>.</p>
 <p><strong>Runtime linking</strong>. Since static linking is rare (it increases the body of a program) and dynamicly linked functions can be inspected in different ways, runtime linking might be a choice for malware authors to hide the functionality. How to determine if the runtime linking is used?<em>❓Windows, Mac, Linux?</em> <strong>Importing</strong> and using <code>GetProcessAddress</code>/<code>LdrGetProcessAddress</code> or/and <code>LoadLibrary</code>/<code>LdrLoadDll</code>.</p>
 <p><strong>Packed executables</strong>. Almoust 100% indicator that the author didn&rsquo;t want his treasure to be reverse engineered. Why could this be? Because it&rsquo;s some software with a portion of client-side code that performs sensitive operations. One example of a legitimate software is a program that generates OTP codes. There are several ways to determine that a file is packed. The first one - using enthropy analysis against the file. Consider, that most program epilogues start with <code>55 8B EC</code> (<code>push ebp mov ebp, esp</code>) and end with <code>c3</code> (<code>ret</code>).  That means that the number of both in one executable should be relatively the same. Compressed files don&rsquo;t compress well. Another example is to pack the file and determine, how efficiently was it packed. If it wasn&rsquo;t possible to pack the file too much, it&rsquo;s probable that the file is already packed. 🛠 Use the first method with <a href="https://www.aldeid.com/wiki/PEiD">PEiD</a> (GUI Windows tool), use the second method with <code>densityscan</code> (commercial cross-platform tool). Below are some common preliminary indicators of packed executables:</p>
@@ -424,6 +426,27 @@
 </tbody>
 </table>
 <p><strong>Network triage</strong>. Check network activity for malicious stuuff.</p>
+<h3 id="malware-evasion-techniques">Malware Evasion Techniques</h3>
+<p>Malware is not going to just always sit there and sing 🎶. Below are common techniques. More detailed explanation is in the anti-forensics section.</p>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Service Hijacking and Replacement</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Process Injection</strong>. Stealthy. Trivial identification using RAM analysis tools.</li>
+<li><input disabled="" type="checkbox"> <strong>Filename/Service Hijacking</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>ADS</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>WebShells and Beacons</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Firmware</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>DLL Injeciton</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>A/V Bypass</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Defense Manipulation</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Frequent Compilation</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Binary Padding</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Armoring</strong>. It&rsquo;s useful to avoid A/V, but it&rsquo;s very suspicious and easy to spot. Examples: packed malware, polymorphic.</li>
+<li><input disabled="" type="checkbox"> <strong>Dormant Malware</strong> 💤.  <em>I&rsquo;ll think about that tomorrow. Tomorrow is another day.</em> (c, Gone With The Wind).</li>
+<li><input disabled="" type="checkbox"> <strong>Signing Code with Valid Cert</strong>. Thawte and Verisign are responsible for issuing ceritifacates for malware.</li>
+<li><input disabled="" type="checkbox"> <strong>Anti-Forensics/Timestomping</strong>. Timestomping is used to modify the timestamps of a file.</li>
+<li><input disabled="" type="checkbox"> <strong>Rootkits</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>&ldquo;Fileless&rdquo; Malware</strong>.</li>
+</ul>
 <h3 id="throubleshooting-malware">Throubleshooting malware</h3>
 <ul>
 <li>If it&rsquo;s a dll, it can be still ran independently.  Though there are no guaratees, there are two ways to acomplish that (either can work for you):
@@ -599,6 +622,7 @@ Documents/com~apple~CloudDocs/%&#39;
 <li>installed mal certificates to trick prevention tools?</li>
 <li>have many detection tools been disabled?</li>
 </ol>
+<p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
 <h3 id="response">Response</h3>
 <p>Response harder (disable endpoint visibility, accounts (or reduce privs), reduce or disable logs, backups, volume shadow)</p>
 <ol>
