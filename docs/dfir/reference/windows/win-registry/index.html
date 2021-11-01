@@ -199,7 +199,8 @@
         <li><a href="#last-access-file-time-settings">Last access file time settings</a></li>
         <li><a href="#system-time">System time</a></li>
         <li><a href="#usbs">USBs</a></li>
-        <li><a href="#program-installation-and-execution">Program Installation and Execution</a></li>
+        <li><a href="#appcompatcache">AppCompatCache</a></li>
+        <li><a href="#bam">BAM</a></li>
       </ul>
     </li>
     <li><a href="#nt-user">NT User</a>
@@ -454,13 +455,16 @@ mimikatz
 <p>And here is an example of a machine assigned id. Note, that the second symbols is <code>&amp;</code>.</p>
 <p><img src="images/usb-1.png" alt="usb-1"></p>
 <p>The value that follows the serial number/uniqueid right after the second <code>#</code> and encolsed between <code>{}</code> is the disk id.</p>
-<h3 id="program-installation-and-execution">Program Installation and Execution</h3>
+<h3 id="appcompatcache">AppCompatCache</h3>
 <p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>.</p>
 <p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser</p>
-<p>Originally was used to identify compatibility issues between 32 and 64 bit progs. Track the file path, size, last modified time ⏰. Only logs specific file extensions. It might not be a reliable evidnce that the program was executed, but if the program was installed and deleted - it won&rsquo;t be deleted from here.</p>
+<p>Originally was used to identify compatibility issues between 32 and 64 bit progs. Track the file path, size, last modified time ⏰. Only logs specific file extensions. It might not be a reliable evidnce that the program was executed or even installation, but if the program was installed and deleted - it won&rsquo;t be deleted from here. ShimCache is another name for this artifact. Uses file system timestamps.</p>
+<p>If the executable is modified or renamed, new entry will be created, but modified date and time will be the same for both files even after these actions take place. $UsnJrnl is another place to make sure that is what had happened. $Logfile.</p>
 <blockquote>
 <p>⚠️ Written at shutdown!</p>
+<p>⚠️ Doesn’t track the file execution for Win7+ systems.</p>
 </blockquote>
+<h3 id="bam">BAM</h3>
 <p><strong>Key</strong> 🔑: <code>ControlSet001\Services\BAM</code>.</p>
 <blockquote>
 <p>⚠️ Windows 10 only!</p>
@@ -544,6 +548,11 @@ mimikatz
 <h3 id="shellbags">ShellBags</h3>
 <p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\BagMRU </code>. Values: <code>MRUListEx</code>, <code>NodeSlot</code>, <code>Subkeys</code>.</p>
 <p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\Bags</code>. Values: <code>Shell</code>, will have folder&rsquo;s GUID.</p>
+<p>Last accessed and created tiles are going to be the same. It’s the time when the user first created the folder. Last modified is when the preferences were last changed. Mind if it’s utc or gmt. Also, this data might be updated with a little lag.</p>
+<blockquote>
+<p>⚠️ Shortcuts MAC times are not updated!</p>
+<p>⚠️ Fat16 only record date. No time. So the last accessed time for a fat16 formatted folder will be wired.</p>
+</blockquote>
 <p>Track Windows folder settings (how the view is set), track zip files, folder access, even if information was deleted. Can also show folders on removable media. This data is a little bit confusing at first, but can be digested in a couple of minutes. One important thing to note is that both keys are interconnected. I&rsquo;ve used arrows, squares and circles to mark data corresponding to each for better visualization on the picture below. Sometimes, additional info for NTFS filesystem will be available (MFT record number) and file system type as well, not always however.</p>
 <blockquote>
 <p>⚠️ Proves that the user interacted with these folders if they are found in ShellBags but not on the system.</p>
@@ -568,8 +577,11 @@ mimikatz
 <p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
 <p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
 <p><strong>Tools</strong> 🛠: AmCacheParser.exe + Timeline Explorer.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
 </code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
+<blockquote>
+<p>⚠️ In my case on a macOS with Parallels and Windows 10 installed, this evidence also contained mac executables.</p>
+</blockquote>
 <h2 id="references">References</h2>
 <p>[<a href="https://github.com/msuhanov/regf/blob/master/Windows%20registry%20file%20format%20specification.md#layered-keys">1</a>] Windows registry file format specification</p>
 <p>Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2020/10/03/exporting-registry-hives-from-a-live-system/">2</a>] Exporting registry hives from a live system, [<a href="https://dfir.ru/2020/08/15/containerized-registry-hives-in-windows/">3</a>] Containerized registry hives in Windows, [<a href="https://dfir.ru/2018/10/07/hiding-data-in-the-registry/">4</a>] Hiding data in the registry</p>
