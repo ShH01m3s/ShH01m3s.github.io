@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Incident Response 🗒 - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/incident-response/"> Back to 🥷 Incident Response Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#preparation">Preparation</a>
+      <ul>
+        <li><a href="#creating-a-playbook">Creating a playbook</a></li>
+      </ul>
+    </li>
+    <li><a href="#detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</a>
+      <ul>
+        <li></li>
+        <li><a href="#documentation">Documentation</a></li>
+        <li><a href="#functional-impact-categories">Functional Impact Categories</a></li>
+        <li><a href="#information-impact-categories">Information Impact Categories</a></li>
+        <li><a href="#recoverability-effort-categories">Recoverability Effort Categories</a></li>
+      </ul>
+    </li>
+    <li><a href="#containment-eradication-recovery">Containment. Eradication. Recovery.</a></li>
+    <li><a href="#post-incident-activity-sans-lessons-learned">Post-Incident Activity (SANS Lessons Learned)</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Incident Response 🗒</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+          <a class="category-link" href="/domain/ir">ir</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>Phases</strong>: Preparation, Detection &amp; Analysis,  Containment, Eradication &amp; Recovery, Post Incident Activity. Event vs Incident. IDS alert may be considered as an event before it&rsquo;s confirmed. Incident negatively affects the company. Unplanned interruption or reduction in quality of IT systems.</p>
+<p>IR Team Models: Central (one for the entire company), distributed (per city, site etc), coordinating (assisting).</p>
+<p>Removable media, attrition, web, email, impersonation, loss or theft of equipment.</p>
+<p>Questions:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Who attacked you and why?</li>
+<li><input disabled="" type="checkbox"> When and How did it happen?</li>
+<li><input disabled="" type="checkbox"> Did this happen because of the poor sec policy and processes?</li>
+<li><input disabled="" type="checkbox"> How widespread is the incident?</li>
+<li><input disabled="" type="checkbox"> What steps are being taken to determine what happened and prevent it in future?</li>
+<li><input disabled="" type="checkbox"> What&rsquo;s the impact?</li>
+<li><input disabled="" type="checkbox"> Was any personally identifiable information leaked?</li>
+<li><input disabled="" type="checkbox"> What is the estimated cost of this incident?</li>
+</ul>
+<p>NIST vs SANS IR frameworks: <a href="https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide">https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide</a></p>
+<p>Common threats: software attacks, data exfiltration, sabotage and equipment theft.</p>
+<h2 id="preparation">Preparation</h2>
+<ol>
+<li>Compile a list of all your assets (servers, networks, applications etc)</li>
+<li>Rank them by level of importance.</li>
+<li>Monitor their traffic patterns and create baselines.</li>
+<li>Create a communication plan (who to contact, how, and when based on each incident type).</li>
+<li>Determine which security events, and at what thresholds, these events should be investigated.</li>
+<li>Create an incident response plan for each type of incident.</li>
+</ol>
+<p><strong>Resources</strong>:</p>
+<p><strong>Incident Handler Communications and Facilities</strong> (contacts, on-call info, reporting mechanism, issue tracking, smartphones, encryption soft, war room, secure storage)</p>
+<p><strong>Incident Analysis Hardware and Software</strong> (DF workstations, backup devices, laptops, spare PCs, servers and net equipment, blank removable media, portable printer, packet sniffers and protocol analysers, DF software, removable media, evidence gathering accessories.</p>
+<p><strong>Incident Analysis Resources</strong>. Port lists, docs, net diagrams and list of assets, baselines, crypto hashes.</p>
+<p><strong>Best practices</strong>:  risk assessment, host security, network security, malware prevention, user awareness and training.</p>
+<p><strong>Checklist</strong>:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Area all members aware of the sec policies?</li>
+<li><input disabled="" type="checkbox"> Do all members of IR know whom to contact?</li>
+<li><input disabled="" type="checkbox"> Do all of them have access to journals and toolkit?</li>
+<li><input disabled="" type="checkbox"> Have they all participated in IR drills?</li>
+</ul>
+<p>Useful to read: <a href="https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021">https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021</a>.</p>
+<h3 id="creating-a-playbook">Creating a playbook</h3>
+<h2 id="detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</h2>
+<p>The worst has happened. research mode. Gather everything you can on the the incident. Then analyse it. Determine the entry point and the breadth of the breach.</p>
+<p>Precursors - signs that in incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software that&rsquo;s used by the company.</p>
+<p>Indicators - signs that an incident have occurred already or is occurring now. Malware detected by a anti-virus program. Configs changed, multiple failed logins etc.</p>
+<p>IDS/IPS are used.</p>
+<p>DLP - Data Loss Prevention. Set of tools and procedures that ensure that no data is lost, misused or accessed by unauthorised people.</p>
+<p>SIEM - Security Information and Event Management solutions - SIM + SEM. Analysis of log data.</p>
+<p>How to detect the incident and moreover, how to identify the compromised systems? First of all, threat intelligence. It&rsquo;s always preferable to find the systems compromised with active malware, since if the malware was removed, a deeper analysis will be due. Forensics is a very important stage at this moment. Network logs are of utter importance.</p>
+<h4 id="privilege-escalation">Privilege escalation</h4>
+<p>whoami</p>
+<h3 id="documentation">Documentation</h3>
+<p>Current status of the incident, summary, indicators, other incidents related, actions taken by all, chain of custody*, impact assessment, contacts, list of evidence, comments from incident handlers (IH), next steps to be taken (rebuild the host/upgrade).</p>
+<h3 id="functional-impact-categories">Functional Impact Categories</h3>
+<p><strong>None</strong> - nothing&rsquo;s changed.</p>
+<p><strong>Low</strong> - the business can still provide its critical services but the efficiency is lost.</p>
+<p><strong>Medium</strong> - O. has lost an ability to provide its critical services to some users.</p>
+<p><strong>High</strong> - O. is no longer able to provide its critical services.</p>
+<hr>
+<h3 id="information-impact-categories">Information Impact Categories</h3>
+<p><strong>None</strong> - no info was exfiltrated or compromised.</p>
+<p><strong>Privacy breach</strong> - sensitive PII was accessed or exfiltrated.</p>
+<p><strong>Proprietary breach</strong> - unclassified proprietary info exfiltrated (PCII).</p>
+<p><strong>Integrity loss</strong> - sensitive or proprietary info was changed or deleted.</p>
+<hr>
+<h3 id="recoverability-effort-categories">Recoverability Effort Categories</h3>
+<p>TTR - time to recovery</p>
+<p><strong>Regular</strong> - TTR is predictable with existing resources.</p>
+<p><strong>Supplemented</strong> - TTR is predictable with additional resources.</p>
+<p><strong>Extended</strong> - TTR is unpredictable.</p>
+<p><strong>Not recoverable</strong>, launch the investigation.</p>
+<h2 id="containment-eradication-recovery">Containment. Eradication. Recovery.</h2>
+<p>Containment aims to stop the bleeding. Here is where you patch the threat’s entry point.</p>
+<p>Eradication aims to remove the threat.</p>
+<p>Recovery aims to get the system operational if it went down or simply back to business as usual if it didn’t.</p>
+<p>Evaluate potential damage and theft of resources, need for evidence preservation, service availability, time and resources to implement the strategy, its effectiveness, duration of solution.</p>
+<p>For forensics get the image before anything, gather evidence and follow chain of custody.</p>
+<p>Checklist:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Can the problem be isolated? Are all affected isolated? Have the forensic copied been created?</li>
+<li><input disabled="" type="checkbox"> Can this system be reimaged and patched? Was all malware removed and the system hardened?</li>
+<li><input disabled="" type="checkbox"> What tools are you going to use to test, monitor and verify that the systems being restored and are no longer compromised by the same cause?</li>
+</ul>
+<p>For all evidence put down the following information:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Identifying information (location, serial, model, hostname, MAC and IP)</li>
+<li><input disabled="" type="checkbox"> Name, title, phone of each individual who collected or handled the evidence</li>
+<li><input disabled="" type="checkbox"> Time and date (+ time zone) of each occurrence of evidence handling</li>
+<li><input disabled="" type="checkbox"> Location where the evidence were stored</li>
+</ul>
+<p>Choosing a containment strategy:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Potential damage or theft of resources</li>
+<li><input disabled="" type="checkbox"> Need for evidence preservation</li>
+<li><input disabled="" type="checkbox"> service availability</li>
+<li><input disabled="" type="checkbox"> time and resources to implement this strategy</li>
+<li><input disabled="" type="checkbox"> effectiveness of the strategy (partial of full containment)</li>
+<li><input disabled="" type="checkbox"> duration</li>
+</ul>
+<h2 id="post-incident-activity-sans-lessons-learned">Post-Incident Activity (SANS Lessons Learned)</h2>
+<p>learn from your experience so you can better respond to future security events.</p>
+<h2 id="references">References</h2>
+<p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">1</a>] IBM course</p>
+<p>[<a href="https://www.sentinelone.com/labs/macos-incident-response-part-1-collecting-device-file-system-data/">2</a>] Mac IR</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

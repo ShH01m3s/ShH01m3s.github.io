@@ -361,16 +361,18 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
 <li><strong>Crash dumps</strong>.</li>
 </ul>
 <p>In general, things we are going to do are specific to the case type. It case of a malware infection we will be looking for rogue processes, rootkits and other such things, while in child exploitation or insider threat  - these are not top priority. In case of child exploitation we would be more interested in some <code>png</code> or <code>jpeg</code> still residing somewhere in memory.</p>
-<p><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</p>
-<p><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</p>
-<p><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</p>
-<p>Benchmark the tools. DumpIt - lightweight, Magnet RAM, Belkasoft, FTK (slow, highest footprint), Redline, Fast Dump (fdpro.exe). Media matters. SSD, USB vs Magnetic media evidence disk (HDD)? USB 3 is cool. Storage check at least 1/3 more then the collected. Magnetic cheap, 2-4 Gb.</p>
+<p>Why collect RAM?</p>
+<ul>
+<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</li>
+<li><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</li>
+<li><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</li>
+</ul>
 <p>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</p>
+<p>🛠 Belkasoft RAM Capturer. ~4Mb footprint in RAM, slow. Magnet RAM Capturer - huge footprint, fast. Dumpit - the fastest, the smallest footprint (didn&rsquo;t work on Win10 on a VM Parallels on macOS). All of the aforementioned tools run in kernel mode! FTK Imager - big footprint, <strong>user mode</strong>, doesn&rsquo;t work on VM (in my case). Benchmark the tools yourself from time to time. Redline, Fast Dump (<code>fdpro.exe</code>). Sumuri&rsquo;s Interception (included with Paladin). Exploits some memory bug on some OS for machines that have either Thunderbolt or a Firewire to overwrite the admin&rsquo;s password in memory.</p>
 <h3 id="windows">Windows</h3>
 <p><code>hiberfil</code> files are not as common, but just as good. <code>imagecopy</code> plugin converts different formats into <code>raw</code> format to speed up. Also saves up to 75% of memory size, therefore decreases the time for analysis.  First, determine the OS profile (for vol2) and run the plugin. Example:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
 </code></pre></div><p>How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. Purple square shows service pack version and the green one - the correct profile with the correct service pack. Other two suggested profiles have some service packs versions appened to the end.</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/forensic-investigation/3-ram/images/vol_py_imageinfo_mem_udemy.png" alt="vol_py_imageinfo_mem_udemy"></p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
 vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
 </code></pre></div><p><strong>Hiberfil.sys</strong>. Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
@@ -392,6 +394,7 @@ vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O 
 </blockquote>
 <p>To crack Windows NTLM hashes (for local accounts only), you&rsquo;ll need both SYSTEM and SAM hives. SYSTEM contains an AES key 🔑 for NTLM decryption and SAM contains the encrypted hash. After the hash is decrypted, either brute-force 💪 or dictionary 📖 attack needs.</p>
 <p>Xbox on later versions is a built-in game center. It also contains some information about the user (if he uses it for fames): <code>C:\Users\%Username%\AppData\Local\LocalState\ModelManager\Xboxlivegamer.xml</code> (user profile).</p>
+<p>Also, collect DPAPI master user and system keys: <a href="https://www.youtube.com/watch?v=vA4qa0uWRHU">https://www.youtube.com/watch?v=vA4qa0uWRHU</a>.</p>
 <h3 id="macos-1">macOS</h3>
 <p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
 <p>Password hashes</p>

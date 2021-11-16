@@ -352,29 +352,33 @@
 </li>
 </ul>
 <p>🗒 <em>Explore common autorun and persistence locations in order to find the files that are automatically run at <strong>startup</strong>.</em></p>
-<p>👣 <strong>For a Windows machine</strong>. Registry keys: For <code>SOFTWARE</code> hive (system wide) and <code>NTUSER.dat</code> (user-specific): <code>Software\Microsoft\Windows\CurrentVersion\Run</code>, <code>Software\Microsoft\Windows\CurrentVersion\RunOnce</code>. Read more about it in Windows registry article. <code>SOFTWARE</code> hive also has <code>Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run and Software\Microsoft\Windows NT\Winlogon\Userinit</code>. File system: <code>%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code>. I would also check running processes on the live system to see which processes were started at system start up (time launched is too close to <code>winlogon</code> for example, or any other core process that starts at boot). Scheduled task, malicious service, WMI action that triggers based on some local event. AutoRuns, Startup folders, WMI Actions. Sandboxing, hashing or reverse. Common persistence mechanisms for Windows:</p>
-<ol>
-<li><strong>Services</strong>. The executable needs to have certain code and permissions for service behaviour and there are three options to acomplish that:
-<ol>
-<li>New service</li>
-<li>Hijacking. Required modifications to some existing service. Example: GlassRAT</li>
-<li>Service failure recovery ❓❓❓ DrWatson?</li>
-</ol>
-</li>
-<li><strong>Registry</strong>. start value <code>0x2</code> tells OS to strat it at boot. Example: APT1, RIP listener service.</li>
-<li><strong>Scheduled tasks</strong>.<code>at.exe</code> (deprecated but can still be used) and <code>schtasks.exe</code>. For <code>at</code> see <code>at*.job</code> and <code>Schdlgu.txt</code> and Task Scheduler and Security Logs for the second one.</li>
-<li><strong>DLL Hijacking</strong>. My presentation is available in files section in Russian 🇷🇺.</li>
-<li><strong>WMI Event Consumers</strong>.</li>
-<li><strong>Local group policy</strong>.</li>
-<li><strong>MS Office Add-In</strong>.</li>
-<li><strong>Flushing BIOS</strong></li>
-</ol>
-<p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
-<p>👣 <strong>For a macOS machine</strong>. <code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
 <p>🗒 <em>Among these entried find suspicious ones.</em></p>
-<p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
 <h3 id="ram-analysis">RAM Analysis</h3>
 <p>Diffs between <code>psscan</code> and <code>pslist</code> are an indicator of an unlinked process which is a strong malware indicator on its own. If you have an exe that you suspect to be a rootkit, make a RAM snapshot of a clean system, run this exe and make a snapshot again. Then, check the differences. Try to identify the processes that appeared.</p>
+<p>Checkout Michael Leclair&rsquo;s git page with a helpful automation script for RAM analysis: <a href="https://github.com/Dead-Simple-Scripts/AutoVol-SDF-Memory-Forensics-2/tree/master">https://github.com/Dead-Simple-Scripts/AutoVol-SDF-Memory-Forensics-2/tree/master</a>. <a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-2/learn/lecture/14632352#overview">Here</a> you can access the course itself for a very reasonanle price.</p>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> Identify KDBG signature to use for the image (volatility2 only)</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Refer to the <code>[os]-core</code> sections for general info about core processes: Windows, macOS, Linux, Android, iOS. There are several things to note with the core processes: name, image file and its path on the system, parents, children and whether the file is a singleton.</p>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> ```bash
+grep -E -i &ldquo;(system|wininit|lsass|lsaiso|lsm|services)&rdquo;</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">
+</code></pre></div></li>
+<li>
+<p><input disabled="" type="checkbox"> ```bash
+grep -E -i &ldquo;(system|wininit|lsass|lsaiso|lsm|services|sms|taskhost|winlogon|iexplore|iexplorer|svchost|)&rdquo;</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">
+</code></pre></div></li>
+<li>
+<p><input disabled="" type="checkbox"> </p>
+</li>
+</ul>
+</li>
+</ul>
 <h3 id="network-triage">Network Triage</h3>
 <p><strong>Open connections</strong>. <code>netstat -boan</code> statistics and current tcp connections along with the exe, listening port and PID. For Mac OS netstat there is no <code>-o</code> switch, so I&rsquo;ve used <code>netstat -ban</code>. 👣 Check for Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
 <p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
@@ -385,9 +389,9 @@
 <p><strong>Signed executable</strong>. It&rsquo;s a rare case, but it exists. Around 3% of malware is <strong>signed</strong>. It&rsquo;s due to the fact that some systems require executables to be signed. But this technique is not very good for malware authors since when at least one &ldquo;product&rdquo; is marked as malicious, all code that was signed with the same certificate will be identified as well. 🛠 Use <code>sigcheck</code> to check signatures and hashes against Virus Total.</p>
 <p><strong>Strings</strong>. Check <strong>strings</strong> in <code>Image</code> and in <code>Memory</code> using the corresponding radio button on the <code>Strings</code> tab of a selected process info in Process Explorer. If they differ - process replacement tool place.</p>
 <p><strong>32 bit application.</strong> For backward compatibility for older machines, malware authors prefer compiling 32bit applications. Since malware authors usually want their software to work on as many machines as possible, they often compile <strong>32bit code</strong>. That&rsquo;s not a decent indicator by itself, but it&rsquo;s a good additional score.</p>
-<p><strong>Location</strong>. It might be atypical location for <code>svchost.exe</code> in Documents forlder. You&rsquo;ll need to know what&rsquo;s ok and good for the given system. May user SANS poster <em>Find Evil</em>. Common locations for malware: <code>Windows\System32</code> is a very important location since it allows running with elevated privileges? ❓❓❓Also <code>Temp</code> folder and <code>Temp Internet Files</code>. <code>Windows</code>, <code>Windows SxS</code>. Recycle bin also may contain some files or remnants. <code>Program files</code> is the most usual for programs and malware may reside there as well.<code>System Volume Information</code>. That doesn&rsquo;t mean, however, that malware can&rsquo;t be elsewhere.</p>
+<p><strong>Location</strong>. It might be atypical location for <code>svchost.exe</code> in Documents forlder. You&rsquo;ll need to know what&rsquo;s ok and good for the given system. May user SANS poster <em>Find Evil</em>. Common locations for malware: <code>Windows\System32</code> is a very important location since it allows running with elevated privileges? ❓❓❓Also <code>Temp</code> folder and <code>Temp Internet Files</code>. <code>Windows</code>, <code>Windows SxS</code>. Recycle bin also may contain some files or remnants. <code>Program files</code> is the most usual for programs and malware may reside there as well.<code>System Volume Information</code>. That doesn&rsquo;t mean, however, that malware can&rsquo;t be elsewhere. Some core Windows executables don&rsquo;t even have an image file on disk (System, IDLE, for example).</p>
 <p><strong>Suspicious time</strong>. Created at suspicious time? Launch time suspicious?</p>
-<p><strong>Suspicious name</strong>. For example, name exactly like or very similar to some core system process? Strange name similar to leg one? <code>svchosts</code>, for example. Present in <code>psscan</code> but absent in <code>pslist</code> (for running processes)? Read more about RAM forensics in the corresponding section. It&rsquo;s usual for malware to mistype the names if common wincore processes or use the same names in weird locations.</p>
+<p><strong>Suspicious name</strong>. For example, name exactly like or very similar to some core system process? Strange name similar to leg one? <code>svchosts</code>, for example. Present in <code>psscan</code> but absent in <code>pslist</code> (for running processes)? Read more about RAM forensics in the corresponding section. It&rsquo;s usual for malware to mistype the names if common wincore processes or use the same names in weird locations. Name mangling is a common technique.</p>
 <p><strong>Signs of reconnaissance stage</strong>.</p>
 <p><strong>Runtime linking</strong>. Since static linking is rare (it increases the body of a program) and dynamicly linked functions can be inspected in different ways, runtime linking might be a choice for malware authors to hide the functionality. How to determine if the runtime linking is used?<em>❓Windows, Mac, Linux?</em> <strong>Importing</strong> and using <code>GetProcessAddress</code>/<code>LdrGetProcessAddress</code> or/and <code>LoadLibrary</code>/<code>LdrLoadDll</code>.</p>
 <p><strong>Packed executables</strong>. Almoust 100% indicator that the author didn&rsquo;t want his treasure to be reverse engineered. Why could this be? Because it&rsquo;s some software with a portion of client-side code that performs sensitive operations. One example of a legitimate software is a program that generates OTP codes. There are several ways to determine that a file is packed. The first one - using enthropy analysis against the file. Consider, that most program epilogues start with <code>55 8B EC</code> (<code>push ebp mov ebp, esp</code>) and end with <code>c3</code> (<code>ret</code>).  That means that the number of both in one executable should be relatively the same. Compressed files don&rsquo;t compress well. Another example is to pack the file and determine, how efficiently was it packed. If it wasn&rsquo;t possible to pack the file too much, it&rsquo;s probable that the file is already packed. 🛠 Use the first method with <a href="https://www.aldeid.com/wiki/PEiD">PEiD</a> (GUI Windows tool), use the second method with <code>densityscan</code> (commercial cross-platform tool). Below are some common preliminary indicators of packed executables:</p>
@@ -397,8 +401,9 @@
 </ul>
 <p><strong>Hash</strong>. The first and dummiest way, but highly suggested is to check the file hash against VirusTotal database. This way you&rsquo;ll eliminate <strong>known good</strong> files, since it&rsquo;s highly unlikely that a legitimate software like Windows files have never been checked so far. Also, this way you can find <strong>known bad</strong>.</p>
 <p><strong>Byte-level signatures.</strong> May be you have some signatures left from previous malware.</p>
-<p><strong>Name/Path</strong>. In order to spot deviations at that point you need to have a firm understanding of what&rsquo;s normal for that particular system. There are some common &ldquo;normalities&rdquo; for different OSes, of course, as well. You can refer to SANS poster &ldquo;Find Evil&rdquo; which is often updated, SDF Podcast of Michael Leclair about Windows Core Processes, or find the corresponding article about core processes and system supernova in the Technical Reference section of this website.</p>
-<p><strong>Unexpected owners</strong>.</p>
+<p><strong>Name</strong>. In order to spot deviations at that point you need to have a firm understanding of what&rsquo;s normal for that particular system. There are some common &ldquo;normalities&rdquo; for different OSes, of course, as well. You can refer to SANS poster &ldquo;Find Evil&rdquo; which is often updated, SDF Podcast of Michael Leclair about Windows Core Processes, or find the corresponding article about core processes and system supernova in the Technical Reference section of this website.</p>
+<p><strong>Unexpected owners</strong>. Check the account it being run from. The most commonly used are: local system account, network service account, local service account. If any of the core processes is run from a user account, it&rsquo;s a possible sign of compromise. 👣 <strong>For Windows</strong>:</p>
+<p><strong>Unexpected parent</strong>. Each executable is run by some other executable. For core processes there is only one legitimate parent. 👣 <strong>For Windows</strong>: <code>wininit</code> doesn&rsquo;t have a parent, while <code>sms.exe</code> is the child of System. Read more about core processes for each specific OS in a separate section.</p>
 <p><strong>Hidden by WinAPI</strong>.</p>
 <p><strong>Process taken over</strong>.</p>
 <p><strong>On-disk and in-memory contents don&rsquo;t match</strong>.</p>
@@ -426,6 +431,9 @@
 </tbody>
 </table>
 <p><strong>Network triage</strong>. Check network activity for malicious stuuff.</p>
+<p><strong>Singleton</strong>. One instance running only. 👣 <strong>For Windows</strong>: One instance <code>lsass</code>, <code>services</code>, <code>System</code>, <code>winint</code>, <code>lsm.exe</code> ❓. If any of these having more than 1 process should be the object of further investigation.</p>
+<p><strong>Boot time</strong>.  Core processes boot at certain time after boot. Anomalies here might be a good indicator of compromise. 👣 <strong>For Windows</strong>: <code>sms</code> starts at boot, for example.</p>
+<p><strong>PID</strong>. Some core processes might have a predefined PID. 👣 <strong>For Windows</strong>: System usually has PID 4.</p>
 <h3 id="malware-evasion-techniques">Malware Evasion Techniques</h3>
 <p>Malware is not going to just always sit there and sing 🎶. Below are common techniques. More detailed explanation is in the anti-forensics section.</p>
 <ul>
