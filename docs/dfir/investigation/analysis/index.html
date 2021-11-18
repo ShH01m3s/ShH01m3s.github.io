@@ -182,6 +182,13 @@
       <ul>
         <li><a href="#checklist">Checklist</a></li>
         <li><a href="#persistence-mechanisms">Persistence Mechanisms</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
         <li><a href="#ram-analysis">RAM Analysis</a></li>
         <li><a href="#network-triage">Network Triage</a></li>
         <li><a href="#malware-indicators">Malware Indicators</a></li>
@@ -344,11 +351,27 @@
 <ul>
 <li><input disabled="" type="checkbox"> ✍️ Are there mal <strong>triggered</strong> programs? Path to progs launched, when triggered (login, startup, schedule), user priv (service), creating date (unreliable).
 <ul>
-<li><input disabled="" type="checkbox"> Normally there?</li>
-<li><input disabled="" type="checkbox"> Suspicious location?</li>
-<li><input disabled="" type="checkbox"> Times similar to the event</li>
-<li><input disabled="" type="checkbox"> Legitimate signature? Is the issuer trusted or is it self-signed?</li>
-<li><input disabled="" type="checkbox"> Do you find it on other machines withing the enterprise?</li>
+<li>
+<p><input disabled="" type="checkbox"> Normally there?</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Suspicious location?</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Times similar to the event</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Legitimate signature? Is the issuer trusted or is it self-signed?</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Do you find it on other machines withing the enterprise?</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ```powershell
+autoruns -v <!-- raw HTML omitted --> &gt; output.csv</p>
+<h1 id="autoruns--accepteula--a---sverify-digital-signatures--hshow-file-hashes--coutput-csv--vrquery-virus-total--outputcsv">autoruns -accepteula -a * -s[verify digital signatures] -h[show file hashes] -c[output csv] -vr[query virus total] &gt; output.csv</h1>
+<p>autoruns -accepteula -a * -s -h -c -vr &gt; output.csv</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"></code></pre></div></li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> ✍️ Are there mal accidentally run (<strong>trick launch</strong>)?

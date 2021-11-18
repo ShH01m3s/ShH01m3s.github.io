@@ -246,8 +246,8 @@
 <h3 id="services">Services</h3>
 <p>🔑 <code>HKLM\SYSTEM\CurrentControlSet\Services</code>. The executable needs to have certain code and permissions for service behaviour and there are three options to acomplish that:</p>
 <ol>
-<li>New service. If <code>Start</code> value = <code>0x2</code> (see 🔑 above), start the service at boot. Example: APT1, RIP listener service. ⚒️<code>sc [queryex|qc|qprivs|qtriggerinfo]</code>.</li>
-<li>Hijacking aka Replacement. Required modifications to some existing service. Usually, some rarely used one. Example: GlassRAT. ⚒️</li>
+<li>New service. If <code>Start</code> value = <code>0x2</code> (see 🔑 above), start the service at boot. Example 🦠: APT1, RIP listener service. ⚒️<code>sc [queryex|qc|qprivs|qtriggerinfo]</code>.</li>
+<li>Hijacking aka Replacement. Required modifications to some existing service. Usually, some rarely used one. Example 🦠: GlassRAT.</li>
 <li>Service failure recovery. Load something 🦠bad when something good and service-like 👼 crashes. You can define what to do if the certain service crashed, usually it&rsquo;s restarting the service. However, this setting can be changed to launch another executable. ⚒️ Kansa Powershell Framework (<code>Get_SvcFail.ps1</code> script), event logs.</li>
 </ol>
 <h3 id="autoruns">Autoruns</h3>
@@ -274,6 +274,17 @@
 <h4 id="dll-sideloading">Dll sideloading</h4>
 <p>Side-by side loading (SxS) mechanism to intriduce updated versions of DLL. Can be used to circumvent AV. Example: PlugX RAT. Legitimately signed exe uses SxS to load a malicious dll.</p>
 <h3 id="wmi-event-consumers">WMI Event Consumers</h3>
+<p>A little theory&hellip; . <strong>Event filter</strong> is a condition that should be met in order for something to happen. What&rsquo;s the something? This something is an <strong>Event Consumer</strong> (script or executable). <strong>Binding</strong> is used to ties these two guys up. To setup this thing - use Powershell or <code>mofcomp.exe</code> (compiles <code>MOF</code> files into <code>OBJECTS.DATA</code>).</p>
+<blockquote>
+<p>⚠️  WMI consumers run with SYSTEM privileges.</p>
+</blockquote>
+<p>Init of event filter, consumer and binder are usually contained withing a <code>MOF</code> file used to register new classes into the WMI repo. <code>Set-WmiInstance</code> or <code>CreateInstance</code> can also be used. Just to note, metasploit can do that as well (powershell commands under the hood?). Example 🦠: Stuxnet.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="p">/?</span>
+<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
+<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span>
+<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span>
+</code></pre></div><p><strong>Tools</strong> 🛠: Cmdlet <code>Get-WmiOject</code> can identify and delete entries, Kansa Framework, Autoruns (sysinternals).</p>
+<p>📚 <strong>References</strong>: <a href="https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/">pentest lab article</a>, SANS <a href="https://www.sans.org/blog/wmic-for-incident-response/">article</a>.</p>
 <h3 id="local-group-policy">Local group policy</h3>
 <h3 id="ms-office-add-in">MS Office Add-In</h3>
 <h3 id="flushing-bios">Flushing BIOS</h3>

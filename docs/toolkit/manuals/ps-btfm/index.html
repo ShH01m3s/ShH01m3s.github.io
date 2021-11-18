@@ -193,7 +193,12 @@
         <li><a href="#json">JSON</a></li>
       </ul>
     </li>
-    <li><a href="#-investigation-tips">🔎 Investigation Tips</a></li>
+    <li><a href="#useful-for-investigation">Useful For Investigation</a>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#processes">Processes</a></li>
+      </ul>
+    </li>
     <li><a href="#remote-connection">Remote connection</a>
       <ul>
         <li><a href="#dcom">DCOM</a></li>
@@ -204,8 +209,6 @@
       <ul>
         <li><a href="#cim">CIM</a></li>
         <li><a href="#pure-wmi">Pure WMI</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#processes">Processes</a></li>
       </ul>
     </li>
     <li><a href="#scripting">Scripting</a>
@@ -214,7 +217,6 @@
         <li><a href="#strings">Strings</a></li>
         <li><a href="#conditions">Conditions</a></li>
         <li><a href="#collections">Collections</a></li>
-        <li><a href="#working-with-files-1">Working With Files</a></li>
         <li><a href="#timestamps">Timestamps</a></li>
         <li><a href="#functions">Functions</a></li>
         <li><a href="#error-handling">Error Handling</a></li>
@@ -312,7 +314,20 @@
 <p>Frequently Used Commands.</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Help</span> <span class="n">-ShowWindows</span><span class="p">/</span><span class="n">-Online</span><span class="p">/</span><span class="n">-full</span> <span class="c"># withough any option - short help in the console itself</span>
 </code></pre></div><h2 id="working-with-files">Working With Files</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Copy-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Writing to file. </span>
+<span class="c"># Method 1</span>
+<span class="nb">echo </span><span class="s2">&#34;Name, EmployeeID, Eligibility&#34;</span> <span class="p">&gt;</span> <span class="n">employee_eligibility_status</span><span class="p">.</span><span class="n">csv</span>
+
+<span class="c"># Method 2</span>
+<span class="nv">$output_file</span> <span class="p">=</span> <span class="s2">&#34;employee_eligibility_status.csv&#34;</span>
+<span class="nb">Write-Output</span> <span class="s2">&#34;Name,EmployeeID,Eleigibility Status&#34;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="nv">$output_file</span>  <span class="p">[</span><span class="n">-Append</span><span class="p">]</span> <span class="c"># Append is optional, of course</span>
+
+<span class="c"># Enum files in the dir, filter and do something with each one</span>
+<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">testfolder</span> <span class="n">-Filter</span> <span class="s2">&#34;*.emp&#34;</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+ <span class="nv">$emp</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">BaseName</span> <span class="c"># get the filename</span>
+ <span class="c"># do something</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Copy-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
 <span class="nb">Move-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
 <span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="n">-Recurse</span>
 <span class="nb">Rename-Item</span> <span class="n">-Path</span> <span class="n">-NewName</span>
@@ -322,6 +337,10 @@
 <span class="nb">Get-Content</span> <span class="s2">&#34;hugelogfile.txt&#34;</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span> <span class="o">-like</span> <span class="s2">&#34;*ERROR*&#34;</span><span class="p">}</span>
 <span class="nb">Select-String</span> <span class="c"># +\- grep</span>
 
+<span class="c"># removing files older than</span>
+<span class="nv">$dir</span> <span class="p">=</span> <span class="s2">&#34;C:\Windows\tmp&#34;</span>
+<span class="nv">$retention</span> <span class="p">=</span> <span class="n">10</span>
+<span class="nb">Get-ChildItem</span> <span class="o">-File</span> <span class="n">-Recurse</span> <span class="nv">$dir</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LastWriteTime</span> <span class="o">-lt</span> <span class="p">(</span><span class="nb">get-date</span><span class="p">).</span><span class="n">adddays</span><span class="p">(-</span><span class="nv">$retention</span><span class="p">)</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">fullname</span> <span class="p">|</span> <span class="nb">del </span><span class="n">-Force</span> <span class="p">}}</span>
 </code></pre></div><h3 id="csv">CSV</h3>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Add-Content  uses .ToString() on the input</span>
 <span class="nb">Add-Content</span> <span class="n">-Path</span> <span class="s2">&#34;file.csv&#34;</span> <span class="n">-Value</span> <span class="s2">&#34;Name, Surname, Age&#34;</span>
@@ -347,9 +366,28 @@
 <span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span> <span class="p">|</span> <span class="nb">Export-Clixml</span> <span class="n">output</span><span class="p">.</span><span class="n">xml</span>
 </code></pre></div><h3 id="json">JSON</h3>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$json</span> <span class="p">=</span> <span class="nb">Get-Content</span> <span class="s2">&#34;file.json&#34;</span> <span class="p">|</span> <span class="nb">Out-String</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
-</code></pre></div><h2 id="-investigation-tips">🔎 Investigation Tips</h2>
+</code></pre></div><h2 id="useful-for-investigation">Useful For Investigation</h2>
 <p>You can get the previously executed commands with <code>Get-History</code> cmdlet. However, what if the last command executed was <code>Clear-History</code>? That might be suspicious and a lead.</p>
-<h2 id="remote-connection">Remote connection</h2>
+<h3 id="services">Services</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="n">like</span> <span class="s1">&#39;*a*&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;Stopped&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">3</span>
+
+<span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;running&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Service</span> <span class="n">-WhatIf</span> <span class="c"># Get services that are rinning, select the first one in the list and tell me what will be stopped if I run Stop-Service (but don&#39;t run it yet).</span>
+
+<span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">ServiceType</span>
+</code></pre></div><h3 id="processes">Processes</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span>
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Get-Member</span>
+<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">CPU</span>
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">CPU</span> <span class="o">-ge</span> <span class="n">1000</span> <span class="p">}</span>
+
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="c"># get the process list, sort by CPU usage and display the first 10 processes</span>
+<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;powershell*&#34;</span> <span class="p">|</span> <span class="nb">Select </span><span class="p">*</span> <span class="c"># display ALL info about the process</span>
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s2">&#34;file.txt&#34;</span>
+
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10000</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Process</span> <span class="c"># Stop the most cpu costy process</span>
+
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">BaseProperty</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">BaseProperty</span>
+</code></pre></div><h2 id="remote-connection">Remote connection</h2>
 <p>See what connections are open and what protocols they are using:</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-CimSession</span>
 </code></pre></div><h3 id="dcom">DCOM</h3>
@@ -357,15 +395,7 @@
 <h2 id="queries">Queries</h2>
 <h3 id="cim">CIM</h3>
 <h3 id="pure-wmi">Pure WMI</h3>
-<h3 id="services">Services</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"> <span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;running&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Service</span> <span class="n">-WhatIf</span> <span class="c"># Get services that are rinning, select the first one in the list and tell me what will be stopped if I run Stop-Service (but don&#39;t run it yet).</span>
-</code></pre></div><h3 id="processes">Processes</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="c"># get the process list, sort by CPU usage and display the first 10 processes</span>
-<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;powershell*&#34;</span> <span class="p">|</span> <span class="nb">Select </span><span class="p">*</span> <span class="c"># display ALL info about the process</span>
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s2">&#34;file.txt&#34;</span>
-
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10000</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Process</span> <span class="c"># Stop the most cpu costy process</span>
-</code></pre></div><h2 id="scripting">Scripting</h2>
+<h2 id="scripting">Scripting</h2>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$localvar</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
 <span class="nv">$global:var</span> <span class="c"># accessible not only from the script, Get-Variable will show it. But open another shell - it won&#39;t be there.</span>
 
@@ -456,20 +486,6 @@
 <span class="p">}</span>
 	
 	
-</code></pre></div><h3 id="working-with-files-1">Working With Files</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Writing to file. </span>
-<span class="c"># Method 1</span>
-<span class="nb">echo </span><span class="s2">&#34;Name, EmployeeID, Eligibility&#34;</span> <span class="p">&gt;</span> <span class="n">employee_eligibility_status</span><span class="p">.</span><span class="n">csv</span>
-
-<span class="c"># Method 2</span>
-<span class="nv">$output_file</span> <span class="p">=</span> <span class="s2">&#34;employee_eligibility_status.csv&#34;</span>
-<span class="nb">Write-Output</span> <span class="s2">&#34;Name,EmployeeID,Eleigibility Status&#34;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="nv">$output_file</span>  <span class="p">[</span><span class="n">-Append</span><span class="p">]</span> <span class="c"># Append is optional, of course</span>
-
-<span class="c"># Enum files in the dir, filter and do something with each one</span>
-<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">testfolder</span> <span class="n">-Filter</span> <span class="s2">&#34;*.emp&#34;</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
- <span class="nv">$emp</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">BaseName</span> <span class="c"># get the filename</span>
- <span class="c"># do something</span>
-<span class="p">}</span>
 </code></pre></div><h3 id="timestamps">Timestamps</h3>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Find diff between today and some point in time</span>
 <span class="c"># Method 1</span>
