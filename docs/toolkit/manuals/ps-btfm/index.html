@@ -197,6 +197,7 @@
       <ul>
         <li><a href="#services">Services</a></li>
         <li><a href="#processes">Processes</a></li>
+        <li><a href="#files">Files</a></li>
       </ul>
     </li>
     <li><a href="#remote-connection">Remote connection</a>
@@ -208,7 +209,7 @@
     <li><a href="#queries">Queries</a>
       <ul>
         <li><a href="#cim">CIM</a></li>
-        <li><a href="#pure-wmi">Pure WMI</a></li>
+        <li><a href="#wmi">WMI</a></li>
       </ul>
     </li>
     <li><a href="#scripting">Scripting</a>
@@ -220,6 +221,8 @@
         <li><a href="#timestamps">Timestamps</a></li>
         <li><a href="#functions">Functions</a></li>
         <li><a href="#error-handling">Error Handling</a></li>
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#emails">Emails</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -374,8 +377,15 @@
 <span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;running&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Service</span> <span class="n">-WhatIf</span> <span class="c"># Get services that are rinning, select the first one in the list and tell me what will be stopped if I run Stop-Service (but don&#39;t run it yet).</span>
 
 <span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">ServiceType</span>
+
+<span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span> <span class="n">displayname</span><span class="p">,</span> <span class="n">status</span>
+<span class="nb">ConvertTo-Csv</span>
+<span class="nb">ConvertTo-Json</span>
+<span class="nb">ConvertTo-Xml</span>
 </code></pre></div><h3 id="processes">Processes</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+
+<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span>
 <span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Get-Member</span>
 <span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">CPU</span>
 <span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">CPU</span> <span class="o">-ge</span> <span class="n">1000</span> <span class="p">}</span>
@@ -387,6 +397,14 @@
 <span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10000</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Process</span> <span class="c"># Stop the most cpu costy process</span>
 
 <span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">BaseProperty</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">BaseProperty</span>
+<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">processname</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">pm</span>
+</code></pre></div><h3 id="files">Files</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># useful for a supernova</span>
+<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;C:\Windows&#34;</span> <span class="n">-Recurse</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span><span class="n">fullname</span> <span class="n">-CssUril</span> <span class="n">mycss</span><span class="p">.</span><span class="n">css</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s1">&#39;files_in_Windows.html&#39;</span>
+
+<span class="nv">$head</span><span class="p">=@</span><span class="s2">&#34;Some css&#34;</span><span class="p">@</span>
+<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;C:\Windows&#34;</span> <span class="n">-Recurse</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span><span class="n">fullname</span> <span class="n">-Head</span> <span class="nv">$head</span> <span class="n">-Title</span> <span class="s2">&#34;Report&#34;</span>  <span class="p">|</span> <span class="nb">Out-File</span> <span class="s1">&#39;files_in_Windows.html&#39;</span>
+
 </code></pre></div><h2 id="remote-connection">Remote connection</h2>
 <p>See what connections are open and what protocols they are using:</p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-CimSession</span>
@@ -394,8 +412,9 @@
 <h3 id="wsman">WSMan</h3>
 <h2 id="queries">Queries</h2>
 <h3 id="cim">CIM</h3>
-<h3 id="pure-wmi">Pure WMI</h3>
-<h2 id="scripting">Scripting</h2>
+<h3 id="wmi">WMI</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="s1">&#39;root\cimv2&#39;</span> <span class="n">-List</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+</code></pre></div><h2 id="scripting">Scripting</h2>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$localvar</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
 <span class="nv">$global:var</span> <span class="c"># accessible not only from the script, Get-Variable will show it. But open another shell - it won&#39;t be there.</span>
 
@@ -546,6 +565,37 @@
 	<span class="nv">$ErrorMessage</span>
 	<span class="nb">Write-Output</span> <span class="s2">&#34;Error caught $ErrorMessage&#34;</span> <span class="n">-Foreground</span> <span class="n">Yellow</span>
 <span class="p">}</span>
+</code></pre></div><h3 id="classes">Classes</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">class</span> <span class="nb">Cat </span><span class="p">{</span>
+	<span class="no">[int32]</span> <span class="n">age</span><span class="p">;</span>
+	<span class="no">[String]</span> <span class="n">name</span><span class="p">;</span>
+	
+	<span class="no">[int32]</span> <span class="n">number_of_kittens</span> <span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">3</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div><h3 id="emails">Emails</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># create a Mail object</span>
+<span class="nv">$message</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Mail</span><span class="p">.</span><span class="n">MailMessage</span>
+<span class="nv">$message</span><span class="p">.</span><span class="n">body</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+<span class="nv">$message</span><span class="p">.</span><span class="n">subject</span> <span class="p">=</span> <span class="nv">$subject</span>
+<span class="nv">$message</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="nv">$to</span><span class="p">)</span>
+<span class="nv">$message</span><span class="p">.</span><span class="n">from</span> <span class="p">=</span> <span class="nv">$from</span>
+
+<span class="c"># create a SMPT client</span>
+<span class="nv">$SMTPServer</span> <span class="p">=</span> <span class="s2">&#34;smtp.gmail.com&#34;</span>
+<span class="nv">$SMTPPort</span> <span class="p">=</span> <span class="n">465</span>
+<span class="nv">$smtp</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Mail</span><span class="p">.</span><span class="n">SmtpClient</span><span class="p">(</span><span class="nv">$SMTPServer</span><span class="p">,</span> <span class="nv">$SMTPPort</span><span class="p">);</span>
+
+<span class="c"># Provide creds if needed</span>
+<span class="nv">$smtp</span><span class="p">.</span><span class="n">Credentials</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">NetworkCredential</span><span class="p">(</span><span class="nv">$Username</span><span class="p">,</span> <span class="nv">$Password</span><span class="p">);</span>
+
+<span class="c"># use SSL in case you fancy it or if the server requires </span>
+<span class="nv">$smtp</span><span class="p">.</span><span class="n">EnableSSL</span> <span class="p">=</span> <span class="nv">$true</span>
+
+<span class="c"># send the message</span>
+<span class="nv">$smtp</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">)</span>
 </code></pre></div><h2 id="references">References</h2>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi?view=powershell-7.1">1</a>] WMI and CIM docs</p>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">2</a>] PowerShell execution policies for scripts</p>

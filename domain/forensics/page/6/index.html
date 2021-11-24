@@ -171,36 +171,39 @@
  <h1 class="title">forensics</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/forensic-cases/case3/"> Case 3. Yet Another Linux Investigation</a></h2> 
-    <p> Running netstat, see the weird python script with established connection to some remote host:  Grab the executable: lsof -p 2082 and ps aux grep 2082.</p>
+    <h2><a href="https://bakerst221b.com/docs/reference/linux/linux-artifacts/"> Linux Artifacts</a></h2> 
+    <p> User Data /home/$USER - user data and configs
+Password hashes etc/passwd etc/shadow Notifications Configurations /etc[%SystemRoot%]/System32/config - contains separate configs for each application</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/forensic-cases/case4/"> Case 4. Compromised Apache Server</a></h2> 
-    <p> Compromised Apache Web server with drupal application used for local team. There was some unusual activity noticed between 05/10 and 08/10/19.</p>
+    <h2><a href="https://bakerst221b.com/docs/reference/apple/mac-artifacts/"> Mac Artifacts</a></h2> 
+    <p> User Data /Users/%username%/ Password hashes sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist Account Info sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist Contains name, profile name, password hint, account image, UID</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/forensic-cases/case5/"> Case 5. Kali Linux Data Exfiltration</a></h2> 
-    <p> IP theft and Kali Linux is a suspect. Has the user exfiltrated pictures or documents?</p>
+    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/useful-greps/"> Useful Greps</a></h2> 
+    <p> <p><em>Here I maintain a list of useful regular expressions for grep searches and other uses.</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/apple/mac-acquisition/"> Mac Imaging</a></h2> 
-    <p> I&rsquo;ve recently listened to DFSP podcast in which Steve Wahlen talked about different caveats in Mac forensics.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/antiforensics/logs-turnoff/"> Turning Off Logging</a></h2> 
+    <p> macOS From Apple&rsquo;s official documentation:
+ In some cases, the contents of a volume are sufficiently secret that it is not appropriate to log them.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/antiforensics/usbkill-switch/"> USBKill Switch</a></h2> 
-    <p> A software that could be used for anti-forensics. By default, configs are at /etc and named usbkill.</p>
+    <h2><a href="https://bakerst221b.com/docs/toolkit/toolsdb/mac-setup-script/"> Mac Setup Script</a></h2> 
+    <p> # oh my zsh bash themes sh -c &#34;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&#34; # sh -c &#34;$(fetch -o - https://raw.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/ios-btfm-rtfm/"> BTFM and RTFM iOS</a></h2> 
-    <p> This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for iOS devices and applications.</p>
+    <h2><a href="https://bakerst221b.com/docs/reference/windows/win-hibernation/"> Windows Hibernation</a></h2> 
+    <p> <p><em>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/android-btfm-rtfm/"> BTFM and RTFM Android</a></h2> 
-    <p> This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for Android devices and applications.</p>
+    <h2><a href="https://bakerst221b.com/docs/reference/windows/win-lnk/"> Windows LNK Files</a></h2> 
+    <p> <p><em>What are LNK files?</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/windows/win-shadow/"> Windows Shadow Copies</a></h2> 
-    <p> <p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p></p>
+    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/net-btfm/"> BTFM</a></h2> 
+    <p> dshell # MacOSX path to directory with pyenv (example): /Users/[user_name]/.pyenv/versions/3.8.5/envs/python3/lib/python3.8/site-packages/dshell/ decode -l # list decoders decode -d [decoder_name] # decoder info # who talked to whom decode -d ip [capture_file_name].</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/cloud/"> 📚 Cloud Reference</a></h2> 
-    <p> Virtualization vs Cloud Cloud computing is the on-demand availability of resources.
-   PROS CONS     flexibility, agility and choices Security?</p>
+    <h2><a href="https://bakerst221b.com/docs/toolkit/toolsdb/forensic-toolkit/"> Forensic Toolkit</a></h2> 
+    <p> Here I will collect my arsenal of tools for forensic analysis.
+Autopsy There is a good course from Basis Technology about there own tool, of course, and I am sure there are lot&rsquo;s of other tutorials out there available for free, so, this is not meant to be complete user guide.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/notes/gcfa/cases/2-cybercorp1/"> CyberCorp CTF</a></h2> 
-    <p> Memory It took me almoust half a day (which means the whole day when a baby is in the picture) trying to make both volatility and rekall work on different OSes.</p>
+    <h2><a href="https://bakerst221b.com/docs/toolkit/manuals/unix-btfm/"> Linux BTFM</a></h2> 
+    <p> FUC (Frequently Used Commands)
+uname -a # extended system information. tar cvf archive.tar folder/ # create archive.</p>
 
 
 
@@ -300,12 +303,19 @@ h2 {
             <li class="page-item"><a href="/domain/forensics/page/7/" class="page-link">7</a></li>
             
         
+            
+             
+            <li class="page-item"><a href="/domain/forensics/page/8/" class="page-link">8</a></li>
+            
+        
 
         
         <li class="page-item"><a href="/domain/forensics/page/7/" rel="next" class="page-link">Next ›</a></li>
         
 
         
+        
+        <li class="page-item"><a href="/domain/forensics/page/8/" rel="last" class="page-link">Last »</a></li>
         
     </ul>
 </nav>

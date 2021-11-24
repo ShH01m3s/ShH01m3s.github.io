@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Evidence Analysis 🔎 - Analyst</title>
+  <title>Data Analysis Checklist 📝 - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -180,7 +180,6 @@
     <li><a href="#image-info">Image Info</a></li>
     <li><a href="#malware-analysis">Malware Analysis</a>
       <ul>
-        <li><a href="#checklist">Checklist</a></li>
         <li><a href="#persistence-mechanisms">Persistence Mechanisms</a></li>
       </ul>
     </li>
@@ -189,11 +188,7 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#ram-analysis">RAM Analysis</a></li>
-        <li><a href="#network-triage">Network Triage</a></li>
-        <li><a href="#malware-indicators">Malware Indicators</a></li>
         <li><a href="#malware-evasion-techniques">Malware Evasion Techniques</a></li>
-        <li><a href="#throubleshooting-malware">Throubleshooting malware</a></li>
       </ul>
     </li>
     <li><a href="#user-activity">User Activity</a>
@@ -202,7 +197,6 @@
         <li><a href="#sheep--vs-others---and-"><strong>Sheep</strong> 🐑 vs <strong>others</strong> 💩, 😬 and 🦓</a></li>
         <li><a href="#poopy--vs-donkey-"><strong>Poopy</strong> 💩 vs <strong>donkey</strong> 🦓</a></li>
         <li><a href="#poopy--and-donkey--vs-others--and-"><strong>Poopy</strong> 💩 and <strong>donkey</strong> 🦓 vs <strong>others</strong> 😬 and 🐑</a></li>
-        <li><a href="#logs">Logs</a></li>
       </ul>
     </li>
     <li><a href="#configurations">Configurations</a>
@@ -225,7 +219,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Evidence Analysis 🔎</h1>
+<h1 class="title">Data Analysis Checklist 📝</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -279,7 +273,6 @@
 <li><input disabled="" type="checkbox"> Dump suspicious process and drivers</li>
 </ul>
 <p>👣 <em>What A/V solution is being used?</em> 🦠 🛑 If it&rsquo;s Windows, there might be just Windows Defender or some third-party AV. Find the logs for this particular AV solution. More <a href="/docs/dfir/host/windows/windows-artifacts#av-logs">here</a> about this Windows artifact. As for macOS, it has a built-in gatekeeper which logs all these alerts and can even detect known malware. More <a href="/docs/dfir/host/apple/mac-artifacts#Quarantine-files">here</a> about this macOS artifact.</p>
-<h3 id="checklist">Checklist</h3>
 <p>🛠 Cyber Triage (uses WinAPI), SleuthKit, volatility modules, yara rules, AVs, Registry Explorer (for Windows reg analysis).</p>
 <p>There are two main points to use as a start point for malware search: common persistence mechanism for the system, network connections and RAM. Below is the cheatsheet to use in order to find suspicious files. Each of these indicators are not 100%, but you can add scores and then reverse engineer only those highly suspicious to save up time.</p>
 <ul>
@@ -388,122 +381,26 @@ autoruns -v <!-- raw HTML omitted --> &gt; output.csv</p>
 </ul>
 <p>🗒 <em>Explore common autorun and persistence locations in order to find the files that are automatically run at <strong>startup</strong>.</em></p>
 <p>🗒 <em>Among these entried find suspicious ones.</em></p>
-<h3 id="ram-analysis">RAM Analysis</h3>
-<p>Diffs between <code>psscan</code> and <code>pslist</code> are an indicator of an unlinked process which is a strong malware indicator on its own. If you have an exe that you suspect to be a rootkit, make a RAM snapshot of a clean system, run this exe and make a snapshot again. Then, check the differences. Try to identify the processes that appeared.</p>
-<p>Checkout Michael Leclair&rsquo;s git page with a helpful automation script for RAM analysis: <a href="https://github.com/Dead-Simple-Scripts/AutoVol-SDF-Memory-Forensics-2/tree/master">https://github.com/Dead-Simple-Scripts/AutoVol-SDF-Memory-Forensics-2/tree/master</a>. <a href="https://www.udemy.com/course/surviving-digital-forensics-memory-analysis-2/learn/lecture/14632352#overview">Here</a> you can access the course itself for a very reasonanle price.</p>
-<ul>
-<li>
-<p><input disabled="" type="checkbox"> Identify KDBG signature to use for the image (volatility2 only)</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Refer to the <code>[os]-core</code> sections for general info about core processes: Windows, macOS, Linux, Android, iOS. There are several things to note with the core processes: name, image file and its path on the system, parents, children and whether the file is a singleton.</p>
-<ul>
-<li>
-<p><input disabled="" type="checkbox"> ```bash
-grep -E -i &ldquo;(system|wininit|lsass|lsaiso|lsm|services)&rdquo;</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">
-</code></pre></div></li>
-<li>
-<p><input disabled="" type="checkbox"> ```bash
-grep -E -i &ldquo;(system|wininit|lsass|lsaiso|lsm|services|sms|taskhost|winlogon|iexplore|iexplorer|svchost|)&rdquo;</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">
-</code></pre></div></li>
-<li>
-<p><input disabled="" type="checkbox"> </p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="network-triage">Network Triage</h3>
-<p><strong>Open connections</strong>. <code>netstat -boan</code> statistics and current tcp connections along with the exe, listening port and PID. For Mac OS netstat there is no <code>-o</code> switch, so I&rsquo;ve used <code>netstat -ban</code>. 👣 Check for Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
-<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
-<p>External IPs reputations. 🛠 <code>hostintel</code>.</p>
-<p>Frequency. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
-<p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
-<h3 id="malware-indicators">Malware Indicators</h3>
-<p><strong>Signed executable</strong>. It&rsquo;s a rare case, but it exists. Around 3% of malware is <strong>signed</strong>. It&rsquo;s due to the fact that some systems require executables to be signed. But this technique is not very good for malware authors since when at least one &ldquo;product&rdquo; is marked as malicious, all code that was signed with the same certificate will be identified as well. 🛠 Use <code>sigcheck</code> to check signatures and hashes against Virus Total.</p>
-<p><strong>Strings</strong>. Check <strong>strings</strong> in <code>Image</code> and in <code>Memory</code> using the corresponding radio button on the <code>Strings</code> tab of a selected process info in Process Explorer. If they differ - process replacement tool place.</p>
-<p><strong>32 bit application.</strong> For backward compatibility for older machines, malware authors prefer compiling 32bit applications. Since malware authors usually want their software to work on as many machines as possible, they often compile <strong>32bit code</strong>. That&rsquo;s not a decent indicator by itself, but it&rsquo;s a good additional score.</p>
-<p><strong>Location</strong>. It might be atypical location for <code>svchost.exe</code> in Documents forlder. You&rsquo;ll need to know what&rsquo;s ok and good for the given system. May user SANS poster <em>Find Evil</em>. Common locations for malware: <code>Windows\System32</code> is a very important location since it allows running with elevated privileges? ❓❓❓Also <code>Temp</code> folder and <code>Temp Internet Files</code>. <code>Windows</code>, <code>Windows SxS</code>. Recycle bin also may contain some files or remnants. <code>Program files</code> is the most usual for programs and malware may reside there as well.<code>System Volume Information</code>. That doesn&rsquo;t mean, however, that malware can&rsquo;t be elsewhere. Some core Windows executables don&rsquo;t even have an image file on disk (System, IDLE, for example).</p>
-<p><strong>Suspicious time</strong>. Created at suspicious time? Launch time suspicious?</p>
-<p><strong>Suspicious name</strong>. For example, name exactly like or very similar to some core system process? Strange name similar to leg one? <code>svchosts</code>, for example. Present in <code>psscan</code> but absent in <code>pslist</code> (for running processes)? Read more about RAM forensics in the corresponding section. It&rsquo;s usual for malware to mistype the names if common wincore processes or use the same names in weird locations. Name mangling is a common technique.</p>
-<p><strong>Signs of reconnaissance stage</strong>.</p>
-<p><strong>Runtime linking</strong>. Since static linking is rare (it increases the body of a program) and dynamicly linked functions can be inspected in different ways, runtime linking might be a choice for malware authors to hide the functionality. How to determine if the runtime linking is used?<em>❓Windows, Mac, Linux?</em> <strong>Importing</strong> and using <code>GetProcessAddress</code>/<code>LdrGetProcessAddress</code> or/and <code>LoadLibrary</code>/<code>LdrLoadDll</code>.</p>
-<p><strong>Packed executables</strong>. Almoust 100% indicator that the author didn&rsquo;t want his treasure to be reverse engineered. Why could this be? Because it&rsquo;s some software with a portion of client-side code that performs sensitive operations. One example of a legitimate software is a program that generates OTP codes. There are several ways to determine that a file is packed. The first one - using enthropy analysis against the file. Consider, that most program epilogues start with <code>55 8B EC</code> (<code>push ebp mov ebp, esp</code>) and end with <code>c3</code> (<code>ret</code>).  That means that the number of both in one executable should be relatively the same. Compressed files don&rsquo;t compress well. Another example is to pack the file and determine, how efficiently was it packed. If it wasn&rsquo;t possible to pack the file too much, it&rsquo;s probable that the file is already packed. 🛠 Use the first method with <a href="https://www.aldeid.com/wiki/PEiD">PEiD</a> (GUI Windows tool), use the second method with <code>densityscan</code> (commercial cross-platform tool). Below are some common preliminary indicators of packed executables:</p>
-<ul>
-<li><input disabled="" type="checkbox"> <strong>VA vs PA</strong>. Empty Physical addresses for sections (while VA are not empty). More about virtual and physical addresses in the reverse engineering section.</li>
-<li><input disabled="" type="checkbox"> Weired names for <strong>PE sections</strong>. PE sections (for Windows) are usually <code>text</code>, <code>bss</code>, <code>data</code> etc. If you some gibberish that&rsquo;s not usually seen here, most likely the executable is packed.</li>
-</ul>
-<p><strong>Hash</strong>. The first and dummiest way, but highly suggested is to check the file hash against VirusTotal database. This way you&rsquo;ll eliminate <strong>known good</strong> files, since it&rsquo;s highly unlikely that a legitimate software like Windows files have never been checked so far. Also, this way you can find <strong>known bad</strong>.</p>
-<p><strong>Byte-level signatures.</strong> May be you have some signatures left from previous malware.</p>
-<p><strong>Name</strong>. In order to spot deviations at that point you need to have a firm understanding of what&rsquo;s normal for that particular system. There are some common &ldquo;normalities&rdquo; for different OSes, of course, as well. You can refer to SANS poster &ldquo;Find Evil&rdquo; which is often updated, SDF Podcast of Michael Leclair about Windows Core Processes, or find the corresponding article about core processes and system supernova in the Technical Reference section of this website.</p>
-<p><strong>Unexpected owners</strong>. Check the account it being run from. The most commonly used are: local system account, network service account, local service account. If any of the core processes is run from a user account, it&rsquo;s a possible sign of compromise. 👣 <strong>For Windows</strong>:</p>
-<p><strong>Unexpected parent</strong>. Each executable is run by some other executable. For core processes there is only one legitimate parent. 👣 <strong>For Windows</strong>: <code>wininit</code> doesn&rsquo;t have a parent, while <code>sms.exe</code> is the child of System. Read more about core processes for each specific OS in a separate section.</p>
-<p><strong>Hidden by WinAPI</strong>.</p>
-<p><strong>Process taken over</strong>.</p>
-<p><strong>On-disk and in-memory contents don&rsquo;t match</strong>.</p>
-<p><strong>Unusual behaviour and resources</strong>. Suspicious files opened, netwrk ports and connections, OS resources (mutexes, hooks etc), significant amount of CPU or RAM? <code>.rsrc</code> section usually contains such resources as icons, pictires etc. However, some malicious programs (as well as legitimate ones) can store a driver or other code there which gets extracted and executed by the main progam flow. If you suspect that a dinamically linked library was loaded into a process after load time, compare the import list in <a href="/docs/toolkit/general/reverse-toolkit/#process-explorer">Process Explorer</a> to the imports shown in <a href="/docs/toolkit/general/reverse-toolkit/#dependency-walker">Dependency Walker</a> (Windows, for other OS use analogous tools).</p>
-<table>
-<thead>
-<tr>
-<th>Function imported</th>
-<th>Usual usage in malware</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Network triage</strong>. Check network activity for malicious stuuff.</p>
-<p><strong>Singleton</strong>. One instance running only. 👣 <strong>For Windows</strong>: One instance <code>lsass</code>, <code>services</code>, <code>System</code>, <code>winint</code>, <code>lsm.exe</code> ❓. If any of these having more than 1 process should be the object of further investigation.</p>
-<p><strong>Boot time</strong>.  Core processes boot at certain time after boot. Anomalies here might be a good indicator of compromise. 👣 <strong>For Windows</strong>: <code>sms</code> starts at boot, for example.</p>
-<p><strong>PID</strong>. Some core processes might have a predefined PID. 👣 <strong>For Windows</strong>: System usually has PID 4.</p>
 <h3 id="malware-evasion-techniques">Malware Evasion Techniques</h3>
 <p>Malware is not going to just always sit there and sing 🎶. Below are common techniques. More detailed explanation is in the anti-forensics section.</p>
 <ul>
-<li><input disabled="" type="checkbox"> <strong>Service Hijacking and Replacement</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Process Injection</strong>. Stealthy. Trivial identification using RAM analysis tools.</li>
-<li><input disabled="" type="checkbox"> <strong>Filename/Service Hijacking</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>ADS</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>WebShells and Beacons</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Firmware</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>DLL Injeciton</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>A/V Bypass</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Defense Manipulation</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Frequent Compilation</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Binary Padding</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Armoring</strong>. It&rsquo;s useful to avoid A/V, but it&rsquo;s very suspicious and easy to spot. Examples: packed malware, polymorphic.</li>
-<li><input disabled="" type="checkbox"> <strong>Dormant Malware</strong> 💤.  <em>I&rsquo;ll think about that tomorrow. Tomorrow is another day.</em> (c, Gone With The Wind).</li>
-<li><input disabled="" type="checkbox"> <strong>Signing Code with Valid Cert</strong>. Thawte and Verisign are responsible for issuing ceritifacates for malware.</li>
-<li><input disabled="" type="checkbox"> <strong>Anti-Forensics/Timestomping</strong>. Timestomping is used to modify the timestamps of a file.</li>
-<li><input disabled="" type="checkbox"> <strong>Rootkits</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>&ldquo;Fileless&rdquo; Malware</strong>.</li>
-</ul>
-<h3 id="throubleshooting-malware">Throubleshooting malware</h3>
-<ul>
-<li>If it&rsquo;s a dll, it can be still ran independently.  Though there are no guaratees, there are two ways to acomplish that (either can work for you):
-<ul>
-<li>use <code>rundll32</code> (<code>rundll32 [dllname].dll, [function name or ordeal]</code>). Example, a <code>malware.dll</code> that has a function <code>InstallService</code> which requires an argument service name. We want to launch it, call this function to create a service with name &ldquo;MaliciousService&rdquo;: <code>rundll32 malware.dll, MaliciousService</code>. In Dependency Walker we can peek the function&rsquo;s ordeal and run this command like this (if the ordeal is, say, 5): <code>rundll32 malware.dll, #5</code>.</li>
-<li>patch PE header of the dll + changing its extension. <code>IMAGE_FILE_HEADER</code> -&gt; <code>CHARACTERISTICS</code> &ndash;&gt; <code>IMAGE_FILE_DLL</code> flag <code>0x2000</code> set to <code>0x0000</code>.</li>
-</ul>
-</li>
-<li><code>ServiceMain</code> without any <code>Install</code> function.
-<ul>
-<li>Use <code>sc</code> command</li>
-<li><code>HKLM/SYSTEM/CurrentControlSet\Services</code> - modify the registry</li>
-</ul>
-</li>
+<li><input disabled="" type="checkbox"> Service Hijacking and Replacement.</li>
+<li><input disabled="" type="checkbox"> Process Injection. Stealthy. Trivial identification using RAM analysis tools.</li>
+<li><input disabled="" type="checkbox"> Filename/Service Hijacking.</li>
+<li><input disabled="" type="checkbox"> ADS.</li>
+<li><input disabled="" type="checkbox"> WebShells and Beacons.</li>
+<li><input disabled="" type="checkbox"> Firmware.</li>
+<li><input disabled="" type="checkbox"> DLL Injeciton.</li>
+<li><input disabled="" type="checkbox"> A/V Bypass.</li>
+<li><input disabled="" type="checkbox"> Defense Manipulation.</li>
+<li><input disabled="" type="checkbox"> Frequent Compilation.</li>
+<li><input disabled="" type="checkbox"> Binary Padding.</li>
+<li><input disabled="" type="checkbox"> Armoring. It&rsquo;s useful to avoid A/V, but it&rsquo;s very suspicious and easy to spot. Examples: packed malware, polymorphic.</li>
+<li><input disabled="" type="checkbox"> Dormant Malware 💤.  <em>I&rsquo;ll think about that tomorrow. Tomorrow is another day.</em> (c, Gone With The Wind).</li>
+<li><input disabled="" type="checkbox"> Signing Code with Valid Cert. Thawte and Verisign are responsible for issuing ceritifacates for malware.</li>
+<li><input disabled="" type="checkbox"> Anti-Forensics/Timestomping. Timestomping is used to modify the timestamps of a file.</li>
+<li><input disabled="" type="checkbox"> Rootkits.</li>
+<li><input disabled="" type="checkbox"> &ldquo;Fileless&rdquo; Malware.</li>
 </ul>
 <h2 id="user-activity">User Activity</h2>
 <p>Actually, as I read further an further, it seems that everything is about a user. But!</p>
@@ -578,71 +475,7 @@ grep -E -i &ldquo;(system|wininit|lsass|lsaiso|lsm|services|sms|taskhost|winlogo
 <p>👣 Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
 <p>👣 Event logs, domain logs. The below question may help finding a malicious user (hacker) or malicious insider with intent. More <a href="/docs/dfir/forensic-investigation/4-accounts">here</a>.</p>
 <p>👣 Mails. ❗️❗️❗️❗️ Link to collection.</p>
-<h3 id="logs">Logs</h3>
-<h4 id="macos">macOS</h4>
-<p><code>python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out	</code>. More about FSEvents might be seen here [<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>]. Thanks to Nicole Ibrahim from OSDFCon, we have this filetype reverse engineered and documented. At least, v1.</p>
-<blockquote>
-<p>😭 Getting an error when trying to run <code>FSEventsParser</code> on a M1. No excpetion when running it on an Intel machine though.
-😊 ✅ My solution was to run a windows version on a VM. Worked fine.</p>
-</blockquote>
-<p>Mount activity: DMGs, External devices or Shared network drives.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;mask&#34; LIKE &#39;%mount%&#39;
-</code></pre></div><p>Internet activity (websites visited)</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE
-&#39;Users/%/Library/Caches/Metadata/Safari/History/%&#39;
-OR &#34;filename&#34; LIKE &#39;Users/%/Library/Application
-Support/Google/Chrome/Default/Local Storage/%&#39;
-</code></pre></div><p>User folders activity</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;Users/%/Documents/%’
-OR &#34;filename&#34; LIKE &#39;Users/%/Downloads/%’
-OR &#34;filename&#34; LIKE &#39;Users/%/Desktop/%&#39;
-</code></pre></div><p><strong>🗑 Trash activity</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
-</code></pre></div><h4 id="ios">iOS</h4>
-<p>Same as for macOS. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
-<p>Internet activity</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;%websitedata/local%&#39;
-</code></pre></div><p>Email activity</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;mobile/Library/Mail/%’
-</code></pre></div><p>iCloud synced files</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;mobile/Library/Mobile
-Documents/com~apple~CloudDocs/%&#39;
-</code></pre></div><h2 id="configurations">Configurations</h2>
+<h2 id="configurations">Configurations</h2>
 <p><em>🔎 What are we looking for? Remote access, detection prevention, response challenges, malware enablement.</em></p>
 <p>Can be hard (no consistency). Are they different by accident or from malicous intent. Baseline reference (what the settings should be). Configs have only one place to set thing. Attacker motivation:</p>
 <ul>
