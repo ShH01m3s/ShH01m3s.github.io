@@ -186,9 +186,6 @@
       <ul>
         <li></li>
         <li><a href="#documentation">Documentation</a></li>
-        <li><a href="#functional-impact-categories">Functional Impact Categories</a></li>
-        <li><a href="#information-impact-categories">Information Impact Categories</a></li>
-        <li><a href="#recoverability-effort-categories">Recoverability Effort Categories</a></li>
       </ul>
     </li>
     <li><a href="#containment-eradication-recovery">Containment. Eradication. Recovery.</a></li>
@@ -241,108 +238,175 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Phases</strong>: Preparation, Detection &amp; Analysis,  Containment, Eradication &amp; Recovery, Post Incident Activity. Event vs Incident. IDS alert may be considered as an event before it&rsquo;s confirmed. Incident negatively affects the company. Unplanned interruption or reduction in quality of IT systems.</p>
-<p>IR Team Models: Central (one for the entire company), distributed (per city, site etc), coordinating (assisting).</p>
-<p>Removable media, attrition, web, email, impersonation, loss or theft of equipment.</p>
-<p>Questions:</p>
+    <h2 id="preparation">Preparation</h2>
 <ul>
-<li><input disabled="" type="checkbox"> Who attacked you and why?</li>
-<li><input disabled="" type="checkbox"> When and How did it happen?</li>
-<li><input disabled="" type="checkbox"> Did this happen because of the poor sec policy and processes?</li>
-<li><input disabled="" type="checkbox"> How widespread is the incident?</li>
-<li><input disabled="" type="checkbox"> What steps are being taken to determine what happened and prevent it in future?</li>
-<li><input disabled="" type="checkbox"> What&rsquo;s the impact?</li>
-<li><input disabled="" type="checkbox"> Was any personally identifiable information leaked?</li>
-<li><input disabled="" type="checkbox"> What is the estimated cost of this incident?</li>
+<li><input checked="" disabled="" type="checkbox"> 📝 <strong>Compile</strong> a list of all your assets (servers, networks, applications etc)</li>
+<li><input checked="" disabled="" type="checkbox"> 📈 <strong>Rank</strong> them by level of importance.</li>
+<li><input checked="" disabled="" type="checkbox"> 👁 <strong>Monitor</strong> their traffic patterns and create baselines.</li>
+<li><input checked="" disabled="" type="checkbox"> 🫂 Create a <strong>communication plan</strong> (who to contact, how, and when based on each incident type). <strong>Incident Handler Communications and Facilities</strong> (contacts, on-call info, reporting mechanism, issue tracking, smartphones, encryption soft, war room, secure storage).</li>
+<li><input checked="" disabled="" type="checkbox"> 🚧 Determine which security events, and at what <strong>thresholds</strong>, these events should be investigated.</li>
+<li><input checked="" disabled="" type="checkbox"> 📖 Create an <strong>incident response plan</strong> for each type of incident.</li>
 </ul>
-<p>NIST vs SANS IR frameworks: <a href="https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide">https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide</a></p>
-<p>Common threats: software attacks, data exfiltration, sabotage and equipment theft.</p>
-<h2 id="preparation">Preparation</h2>
-<ol>
-<li>Compile a list of all your assets (servers, networks, applications etc)</li>
-<li>Rank them by level of importance.</li>
-<li>Monitor their traffic patterns and create baselines.</li>
-<li>Create a communication plan (who to contact, how, and when based on each incident type).</li>
-<li>Determine which security events, and at what thresholds, these events should be investigated.</li>
-<li>Create an incident response plan for each type of incident.</li>
-</ol>
-<p><strong>Resources</strong>:</p>
-<p><strong>Incident Handler Communications and Facilities</strong> (contacts, on-call info, reporting mechanism, issue tracking, smartphones, encryption soft, war room, secure storage)</p>
-<p><strong>Incident Analysis Hardware and Software</strong> (DF workstations, backup devices, laptops, spare PCs, servers and net equipment, blank removable media, portable printer, packet sniffers and protocol analysers, DF software, removable media, evidence gathering accessories.</p>
-<p><strong>Incident Analysis Resources</strong>. Port lists, docs, net diagrams and list of assets, baselines, crypto hashes.</p>
-<p><strong>Best practices</strong>:  risk assessment, host security, network security, malware prevention, user awareness and training.</p>
-<p><strong>Checklist</strong>:</p>
+<p>Below are some questions to help assess your readiness:</p>
 <ul>
-<li><input disabled="" type="checkbox"> Area all members aware of the sec policies?</li>
-<li><input disabled="" type="checkbox"> Do all members of IR know whom to contact?</li>
-<li><input disabled="" type="checkbox"> Do all of them have access to journals and toolkit?</li>
-<li><input disabled="" type="checkbox"> Have they all participated in IR drills?</li>
+<li><input disabled="" type="checkbox"> ❓ Area all members aware of the sec policies?</li>
+<li><input disabled="" type="checkbox"> ❓ Do all members of IR know whom to contact?</li>
+<li><input disabled="" type="checkbox"> ❓ Do all of them have access to journals and toolkit?</li>
+<li><input disabled="" type="checkbox"> ❓ Have they all participated in IR drills?</li>
 </ul>
-<p>Useful to read: <a href="https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021">https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021</a>.</p>
 <h3 id="creating-a-playbook">Creating a playbook</h3>
 <h2 id="detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</h2>
-<p>The worst has happened. research mode. Gather everything you can on the the incident. Then analyse it. Determine the entry point and the breadth of the breach.</p>
-<p>Precursors - signs that in incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software that&rsquo;s used by the company.</p>
-<p>Indicators - signs that an incident have occurred already or is occurring now. Malware detected by a anti-virus program. Configs changed, multiple failed logins etc.</p>
-<p>IDS/IPS are used.</p>
-<p>DLP - Data Loss Prevention. Set of tools and procedures that ensure that no data is lost, misused or accessed by unauthorised people.</p>
-<p>SIEM - Security Information and Event Management solutions - SIM + SEM. Analysis of log data.</p>
-<p>How to detect the incident and moreover, how to identify the compromised systems? First of all, threat intelligence. It&rsquo;s always preferable to find the systems compromised with active malware, since if the malware was removed, a deeper analysis will be due. Forensics is a very important stage at this moment. Network logs are of utter importance.</p>
-<h4 id="privilege-escalation">Privilege escalation</h4>
-<p>whoami</p>
+<p>Lot&rsquo;s of systems can be used to monitor the network and host for malicious activity. These are IDS, IPS, firewalls, AV, SIEM (Security Information and Event Management solutions, SIM + SEM), IR frameworks, threat intelligence etc. However, the incident might be reported by employee (for example, receiving a suspicious email) or by a third party (data exfiltrated seen in the dark net). Before it is confirmed to be true or be the result of a malicious intent, it&rsquo;s called an <em>event</em>.</p>
+<ol>
+<li><strong>Discover</strong>. Discovery and classification (Where is the sensitive data?), Entitlements reporting (Who can access), Vulnerability Assessment (How to secure it?).</li>
+<li><strong>Harden</strong>. Reconfigure, mask, encrypt (How to protect sensitive data?)</li>
+<li><strong>Monitor and Protect.</strong> Activity monitoring, Blocking quarantine, dynamic data masking</li>
+<li><strong>Repeat</strong>.</li>
+</ol>
+<p><strong>Precursors</strong>❓ - signs that in incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software that&rsquo;s used by the company.</p>
+<p><strong>Indicators</strong> 🚨 - signs that an incident have occurred already or is occurring now. Malware detected by a anti-virus program, configurations changed, multiple failed logins etc.</p>
+<p>There are several techniques that help confirming the incident:</p>
+<ul>
+<li><strong>Frequency analysis</strong>. Something that is outstandingly rare accross systems might be malicious</li>
+<li><strong>Normal vs Evil</strong>. You know what&rsquo;s considered normal for the given system/user and something that&rsquo;s not usual is a primary suspect for the further analysis.</li>
+<li><strong>IoC</strong>. Indicators of compromise, like some virus hashes or file extensions used by a known cryptor malware.</li>
+</ul>
+<p>After the incident is confirmed, you initiate an investigation.</p>
+<blockquote>
+<p>📝 I found it quite hard to separate incident response and digital forensics articles from one another. For now I am seeing incident response as a more general process that could require more thorough examination (digital forensics) but not neccessarilly. As I see it, we have an event, start IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artifacts to ATCK MITRE framework. Then, to be able to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space etc in order to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching and DF is about details.</p>
+</blockquote>
+<h4 id="common-malicious-activity-and-countermeasures">Common Malicious Activity and Countermeasures</h4>
+<ul>
+<li><strong>Mapping</strong>. Attackers need to <strong>collect information</strong> about the target system first:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong>
+<ul>
+<li>record traffic</li>
+<li>look for suspicious activity</li>
+<li>use a host scanner and keep track of all the PCs withing your network. A new PC should trigger an alert.</li>
+</ul>
+</li>
+<li><strong>Packet Sniffing</strong>. Now, attacker may perform (or try to perform) <strong>traffic sniffing</strong>. It is possible in the following cases: Broadcasting, promiscuous NIC, and if the traffic is unencrypted.  <strong>Countermeasures:</strong>
+<ul>
+<li>periodcally check wether the NICs of the hosts are in promiscuous mode</li>
+<li>switched Ethernet (1 host per segment of broadcast media).</li>
+</ul>
+</li>
+<li><strong>IP-spoofing.</strong> Can generate &ldquo;raw&rdquo; IP packets, putting any value as a source IP. Receiver won&rsquo;t be able to know that the other party is spoofed. <strong>Countermeasures:</strong></li>
+<li><strong>DoS</strong>. <strong>Countermeasures:</strong>
+<ul>
+<li>filter out flooded packets (eg SYN) before they reach the host</li>
+<li>traceback to source of floods</li>
+</ul>
+</li>
+<li><strong>Injections</strong>. MongoDB. <code>$where</code> is interpreted as JS. DoS: <code>$where=&quot;d=new Date; do {c=new Date;} while {c-d&lt;10000};&quot;</code>, XPath. <code>'or 1=1 or '1'='1</code>, LDAP.<code>*)(cn=))(|cn=*</code>, SQL <code>or 1=1--</code> etc. The best practice is whitelisting allowed and needed characters.
+<ul>
+<li>Preventing <strong>OS injection</strong>
+<ul>
+<li>Don&rsquo;t use OS commands</li>
+<li>Sanitise input</li>
+<li>Accept, say, ids and lookup</li>
+<li>Leat priv</li>
+<li>do not run through shell interpreters</li>
+<li>explicit paths</li>
+</ul>
+</li>
+<li>Preventing <strong>SQLi</strong>
+<ul>
+<li>prepared statements</li>
+<li>sanitise</li>
+<li>do not expose errors with sql statements etc</li>
+<li>limit permissions</li>
+<li>stored procedures</li>
+<li>ORM libs (Hibernate)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h3 id="documentation">Documentation</h3>
-<p>Current status of the incident, summary, indicators, other incidents related, actions taken by all, chain of custody*, impact assessment, contacts, list of evidence, comments from incident handlers (IH), next steps to be taken (rebuild the host/upgrade).</p>
-<h3 id="functional-impact-categories">Functional Impact Categories</h3>
-<p><strong>None</strong> - nothing&rsquo;s changed.</p>
-<p><strong>Low</strong> - the business can still provide its critical services but the efficiency is lost.</p>
-<p><strong>Medium</strong> - O. has lost an ability to provide its critical services to some users.</p>
-<p><strong>High</strong> - O. is no longer able to provide its critical services.</p>
-<hr>
-<h3 id="information-impact-categories">Information Impact Categories</h3>
-<p><strong>None</strong> - no info was exfiltrated or compromised.</p>
-<p><strong>Privacy breach</strong> - sensitive PII was accessed or exfiltrated.</p>
-<p><strong>Proprietary breach</strong> - unclassified proprietary info exfiltrated (PCII).</p>
-<p><strong>Integrity loss</strong> - sensitive or proprietary info was changed or deleted.</p>
-<hr>
-<h3 id="recoverability-effort-categories">Recoverability Effort Categories</h3>
-<p>TTR - time to recovery</p>
-<p><strong>Regular</strong> - TTR is predictable with existing resources.</p>
-<p><strong>Supplemented</strong> - TTR is predictable with additional resources.</p>
-<p><strong>Extended</strong> - TTR is unpredictable.</p>
-<p><strong>Not recoverable</strong>, launch the investigation.</p>
+<p>This is the stage when you start taking notes for the incident (or event). Current status of the incident, summary, indicators, other incidents related, actions taken by all, chain of custody*, impact assessment, contacts, list of evidence, comments from incident handlers (IH), next steps to be taken (rebuild the host/upgrade).</p>
+<p>How to categorize the incident? Simply put, how bad is that?</p>
+<ul>
+<li>Functional Impact Categories
+<ul>
+<li><strong>None</strong> - nothing&rsquo;s changed.</li>
+<li><strong>Low</strong> - the business can still provide its critical services but the efficiency is lost.</li>
+<li><strong>Medium</strong> - O. has lost an ability to provide its critical services to some users.</li>
+<li><strong>High</strong> - O. is no longer able to provide its critical services.</li>
+</ul>
+</li>
+<li>Information Impact Categories
+<ul>
+<li><strong>None</strong> - no info was exfiltrated or compromised.</li>
+<li><strong>Privacy breach</strong> - sensitive PII was accessed or exfiltrated.</li>
+<li><strong>Proprietary breach</strong> - unclassified proprietary info exfiltrated (PCII).</li>
+<li><strong>Integrity loss</strong> - sensitive or proprietary info was changed or deleted.</li>
+</ul>
+</li>
+<li>Recoverability Effort Categories, TTR - time to recovery
+<ul>
+<li><strong>Regular</strong> - TTR is predictable with existing resources.</li>
+<li><strong>Supplemented</strong> - TTR is predictable with additional resources.</li>
+<li><strong>Extended</strong> - TTR is unpredictable.</li>
+<li><strong>Not recoverable</strong>, launch the investigation.</li>
+</ul>
+</li>
+</ul>
 <h2 id="containment-eradication-recovery">Containment. Eradication. Recovery.</h2>
-<p>Containment aims to stop the bleeding. Here is where you patch the threat’s entry point.</p>
-<p>Eradication aims to remove the threat.</p>
-<p>Recovery aims to get the system operational if it went down or simply back to business as usual if it didn’t.</p>
-<p>Evaluate potential damage and theft of resources, need for evidence preservation, service availability, time and resources to implement the strategy, its effectiveness, duration of solution.</p>
-<p>For forensics get the image before anything, gather evidence and follow chain of custody.</p>
-<p>Checklist:</p>
-<ul>
-<li><input disabled="" type="checkbox"> Can the problem be isolated? Are all affected isolated? Have the forensic copied been created?</li>
-<li><input disabled="" type="checkbox"> Can this system be reimaged and patched? Was all malware removed and the system hardened?</li>
-<li><input disabled="" type="checkbox"> What tools are you going to use to test, monitor and verify that the systems being restored and are no longer compromised by the same cause?</li>
-</ul>
-<p>For all evidence put down the following information:</p>
-<ul>
-<li><input disabled="" type="checkbox"> Identifying information (location, serial, model, hostname, MAC and IP)</li>
-<li><input disabled="" type="checkbox"> Name, title, phone of each individual who collected or handled the evidence</li>
-<li><input disabled="" type="checkbox"> Time and date (+ time zone) of each occurrence of evidence handling</li>
-<li><input disabled="" type="checkbox"> Location where the evidence were stored</li>
-</ul>
+<p><strong>Containment</strong> 📦 aims to stop the bleeding🩸. It&rsquo;s a very important stage. While during Identification (aka detection and analysis) we are <em>confirming</em> that something&rsquo;s going wrong, this stage is used in order to see the full picture, how the breach happened, what damage was already done, which systems are compromised etc. Quoting SANS:</p>
+<blockquote>
+<p>The goal of containment is to limit damage from the current security incident and prevent any further damage. Several steps are necessary to completely mitigate the incident, while also preventing destruction of evidence that may be needed for prosecution.</p>
+</blockquote>
+<p>So, digital forensics can occur anywhere from Analysis (aka Identification) to Lessons Learned stage. It may not occur, however. For example, a DoS attack may not need this facility.</p>
 <p>Choosing a containment strategy:</p>
 <ul>
-<li><input disabled="" type="checkbox"> Potential damage or theft of resources</li>
-<li><input disabled="" type="checkbox"> Need for evidence preservation</li>
-<li><input disabled="" type="checkbox"> service availability</li>
-<li><input disabled="" type="checkbox"> time and resources to implement this strategy</li>
-<li><input disabled="" type="checkbox"> effectiveness of the strategy (partial of full containment)</li>
-<li><input disabled="" type="checkbox"> duration</li>
+<li><input disabled="" type="checkbox"> ❓ Is there a potential damage or theft of resources?</li>
+<li><input disabled="" type="checkbox"> ❓ Do we need to preserve the evidence for court/ourselves, make an image of the compromised system?</li>
+<li><input disabled="" type="checkbox"> ❓ Do we need the service to be available during the investigation?</li>
+<li><input disabled="" type="checkbox"> ❓ How much time do we have and need?</li>
+<li><input disabled="" type="checkbox"> ❓What resources are available in order to implement this strategy?</li>
+<li><input disabled="" type="checkbox"> ❓ What&rsquo;s the effectiveness of the strategy (partial of full containment)?</li>
 </ul>
+<p>Below is the checklist for the reference to make sure, the responder has done their job. These questions can be used in a ticket or IR timesheet, mentioned above in the <em>Documentation</em> section.</p>
+<ul>
+<li><input disabled="" type="checkbox"> ❓ Who attacked you and why?</li>
+<li><input disabled="" type="checkbox"> ❓ When and How did it happen?</li>
+<li><input disabled="" type="checkbox"> ❓ Did this happen because of the poor sec policy and processes?</li>
+<li><input disabled="" type="checkbox"> ❓ How widespread is the incident?</li>
+<li><input disabled="" type="checkbox"> ❓ What steps are being taken to determine what happened and prevent it in future?</li>
+<li><input disabled="" type="checkbox"> ❓ What&rsquo;s the impact?</li>
+<li><input disabled="" type="checkbox"> ❓ Was any personally identifiable information leaked?</li>
+<li><input disabled="" type="checkbox"> ❓ What is the estimated cost of this incident?</li>
+</ul>
+<blockquote>
+<p>The SANS containment process involves:</p>
+<p><strong>Short-term containment</strong>—limiting damage before the incident gets worse, usually by isolating network segments, taking down hacked production server and routing to failover.</p>
+<p><strong>System backup</strong>—taking a forensic image of the affected system(s) with tools such as Forensic Tool Kit (FTK) or EnCase, and only then wipe and reimage the systems. This will preserve evidence from the attack that can be used in court, and also for further investigation of the incident and lessons learned.</p>
+<p><strong>Long-term containment</strong>—applying temporarily fixes to make it possible to bring production systems back up. The primary focus is removing accounts or backdoors left by attackers on the systems, and addressing the root cause—for example, fixing a broken authentication mechanism or patching a vulnerability that led to the attack.</p>
+</blockquote>
+<p><strong>Eradication</strong> aims to remove the threat. For example, get rid of the malware, retrun configs to its normal state. It&rsquo;s a common mistake of many companies to jump right to this stage without proper prior investigation and containment. In this case, the attacker might still be inside, or the vulnerability they used is still unmatched, or the user they social engineered is still not informed about this event properly etc. It can turn into &ldquo;whack-a-mole&rdquo; game which is no fun when a comapny&rsquo;s reputation and finance 💵 are concerned.</p>
+<ul>
+<li><input disabled="" type="checkbox"> ❓ Can the problem be isolated? Are all affected isolated?</li>
+<li><input disabled="" type="checkbox"> ❓ Have the forensic copied been created? For each evidence, keep the info (or chain of custody, even better):
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Identifying information (location, serial, model, hostname, MAC and IP)</li>
+<li><input checked="" disabled="" type="checkbox"> Name, title, phone of each individual who collected or handled the evidence</li>
+<li><input checked="" disabled="" type="checkbox"> Time and date (+ time zone) of each occurrence of evidence handling</li>
+<li><input checked="" disabled="" type="checkbox"> Location where the evidence were stored</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> ❓ Can this system be reimaged and patched?</li>
+<li><input disabled="" type="checkbox"> ❓ Was all malware removed and the system hardened?</li>
+<li><input disabled="" type="checkbox"> ❓ What tools are you going to use to test, monitor and verify that the systems being restored and are no longer compromised by the same cause?</li>
+</ul>
+<p><strong>Recovery</strong> aims to get the system operational if it went down or simply back to business as usual if it didn’t.</p>
 <h2 id="post-incident-activity-sans-lessons-learned">Post-Incident Activity (SANS Lessons Learned)</h2>
-<p>learn from your experience so you can better respond to future security events.</p>
+<p>Learn from your experience so you can better respond to future security events. Adjust your playbooks accordingly.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">1</a>] IBM course</p>
 <p>[<a href="https://www.sentinelone.com/labs/macos-incident-response-part-1-collecting-device-file-system-data/">2</a>] Mac IR</p>
+<p>[<a href="https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide">3</a>] NIST vs SANS IR frameworks</p>
+<p>[<a href="https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021">4</a>] Documentation is to Incident Response as an Air Tank is to Scuba Diving</p>
+<p>[<a href="https://www.cynet.com/incident-response/incident-response-sans-the-6-steps-in-depth/">5</a>] Incident Response SANS: The 6 Steps in Depth</p>
 
   </div>
 </article>
