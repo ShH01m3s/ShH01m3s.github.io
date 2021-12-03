@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Data Collection Checklist 🤏 - Analyst</title>
+  <title>🗄️ Artefacts Collection Repository - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -172,37 +172,28 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/"> Back to 🔎 Forensic Investigation Section 👈🏼 </a>
+   <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#ediscovery">eDiscovery</a></li>
-    <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
-    <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
-    <li><a href="#volatile-data">Volatile Data</a>
+    <li><a href="#account-information">Account Information</a>
       <ul>
         <li><a href="#windows">Windows</a></li>
         <li><a href="#macos">macOS</a></li>
-      </ul>
-    </li>
-    <li><a href="#account-information">Account Information</a>
-      <ul>
-        <li><a href="#windows-1">Windows</a></li>
-        <li><a href="#macos-1">macOS</a></li>
         <li><a href="#linux">Linux</a></li>
       </ul>
     </li>
     <li><a href="#recent-activity">Recent Activity</a>
       <ul>
-        <li><a href="#windows-2">Windows</a></li>
-        <li><a href="#macos-2">macOS</a></li>
+        <li><a href="#windows-1">Windows</a></li>
+        <li><a href="#macos-1">macOS</a></li>
       </ul>
     </li>
     <li><a href="#host-and-network-logs">Host and Network Logs</a>
       <ul>
-        <li><a href="#macos-3">macOS</a></li>
-        <li><a href="#windows-3">Windows</a></li>
+        <li><a href="#macos-2">macOS</a></li>
+        <li><a href="#windows-2">Windows</a></li>
         <li><a href="#linuxessss">Linuxessss</a></li>
         <li><a href="#ios">iOS</a></li>
         <li><a href="#android">Android</a></li>
@@ -242,28 +233,28 @@
     </li>
     <li><a href="#devices-attached">Devices Attached</a>
       <ul>
-        <li><a href="#windows-4">Windows</a></li>
-        <li><a href="#macos-4">macOS</a></li>
+        <li><a href="#windows-3">Windows</a></li>
+        <li><a href="#macos-3">macOS</a></li>
       </ul>
     </li>
     <li><a href="#notifications">Notifications</a>
       <ul>
-        <li><a href="#windows-5">Windows</a></li>
+        <li><a href="#windows-4">Windows</a></li>
       </ul>
     </li>
     <li><a href="#voice-assistants">Voice Assistants</a>
       <ul>
-        <li><a href="#windows-6">Windows</a></li>
+        <li><a href="#windows-5">Windows</a></li>
       </ul>
     </li>
     <li><a href="#cloud-storage">Cloud Storage</a>
       <ul>
-        <li><a href="#windows-7">Windows</a></li>
+        <li><a href="#windows-6">Windows</a></li>
       </ul>
     </li>
     <li><a href="#screen-recordings">Screen Recordings</a>
       <ul>
-        <li><a href="#windows-8">Windows</a></li>
+        <li><a href="#windows-7">Windows</a></li>
       </ul>
     </li>
   </ul>
@@ -277,7 +268,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Data Collection Checklist 🤏</h1>
+<h1 class="title">🗄️ Artefacts Collection Repository</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -315,91 +306,8 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
-<p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
-<p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
-<p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
-<h2 id="ediscovery">eDiscovery</h2>
-<p>Forensics and eDiscovery are very close terms, but not the same. eDiscovery is collecting all information and diciding whether this information is relevant for the investigation.</p>
-<p>When acquiring a mobile device, there are lots of information stored in different places. So, for example, say, we want to check the converstaion thread. But what if this conversation has started in iMessage and then moved to Outlook? Besides, there might be easier ways to acquire the same information (for example, we have an unlocked MacBook with the same iMessages).</p>
-<p>[<a href="https://www.magnetforensics.com/resources/digital-forensics-and-ediscovery-where-one-stops-and-the-other-begins-webinar-recording/?submission=https://go.magnetforensics.com/l/52162/2021-08-25/l1fppc">1</a>] Digital Forensics and eDiscovery: Where One Stops and the Other Begins. Magnet Forensics webinar.</p>
-<h2 id="sterilizing-target-media">Sterilizing Target Media</h2>
-<p>Before copying evidence or making a disk image one needs to sterelize the target media to make sure that data that was present on that disk prior to this operation would not medle with the evidence data. Several rounds of writing <code>0</code>s is usually enough. Keep in mind that flash drives work in different manner and that&rsquo;s why simple permanent deletion of a file deems to be unrecoverable.</p>
-<p>On Windows you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). To verify that the disk was indeed sterilized, run <code>Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor.</p>
-<blockquote>
-<p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
-<p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
-</blockquote>
-<h2 id="hddssd-imaging">HDD/SSD Imaging</h2>
-<p>List all drives (Linux and macOS):</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l <span class="c1"># Linux</span>
-lsblk
-mount
-</code></pre></div><p>On Windows:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">diskpart</span>
-<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
-sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
-
-sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
-sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
-
-<span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
-<span class="c1"># to install on macOS - brew install dc3dd</span>
-sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
-</code></pre></div><p>If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
-<p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
-<ul>
-<li>Connect external HDD or SSD</li>
-<li>Lauch some forensic distribution (for example, Paladin). Make an image of local HDD</li>
-<li>Analyse it with some forensic kit like autopsy, FTK, EnCase, for example.</li>
-</ul>
-<blockquote>
-<p>Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
-</blockquote>
-<p>On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-<h2 id="volatile-data">Volatile Data</h2>
-<p>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</p>
-<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
-<p>There are sevaral data types that can hold volatile data i.e. data about some state of RAM in time. Not all of them exist on every system:</p>
-<ul>
-<li><strong>RAM image.</strong> Can be aquired for all PC, there are certain complications with a Mac. Also, for mobile devices you can collect RAM data for separate processes only. For virtual machines are usually stored in a separate file once the system is suspended.</li>
-<li><strong>Hibernation files</strong>. Exist on major OS (Windows, Mac, Linux). For Windows - <a href="/docs/dfir/host/reference/windows/windows-hibernation">hyberfil.sys</a>. It&rsquo;s a RAM capture made by OS itself when the PC is falling asleep 💤.</li>
-<li><strong>Page files</strong>.</li>
-<li><strong>Swap files</strong>.</li>
-<li><strong>Crash dumps</strong>.</li>
-</ul>
-<p>In general, things we are going to do are specific to the case type. It case of a malware infection we will be looking for rogue processes, rootkits and other such things, while in child exploitation or insider threat  - these are not top priority. In case of child exploitation we would be more interested in some <code>png</code> or <code>jpeg</code> still residing somewhere in memory.</p>
-<p>Why collect RAM?</p>
-<ul>
-<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</li>
-<li><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</li>
-<li><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</li>
-</ul>
-<p>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</p>
-<p>🛠 Belkasoft RAM Capturer. ~4Mb footprint in RAM, slow. Magnet RAM Capturer - huge footprint, fast. Dumpit - the fastest, the smallest footprint (didn&rsquo;t work on Win10 on a VM Parallels on macOS). All of the aforementioned tools run in kernel mode! FTK Imager - big footprint, <strong>user mode</strong>, doesn&rsquo;t work on VM (in my case). Benchmark the tools yourself from time to time. Redline, Fast Dump (<code>fdpro.exe</code>). Sumuri&rsquo;s Interception (included with Paladin). Exploits some memory bug on some OS for machines that have either Thunderbolt or a Firewire to overwrite the admin&rsquo;s password in memory.</p>
+    <h2 id="account-information">Account Information</h2>
 <h3 id="windows">Windows</h3>
-<p><code>hiberfil</code> files are not as common, but just as good. <code>imagecopy</code> plugin converts different formats into <code>raw</code> format to speed up. Also saves up to 75% of memory size, therefore decreases the time for analysis.  First, determine the OS profile (for vol2) and run the plugin. Example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
-</code></pre></div><p>How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. Purple square shows service pack version and the green one - the correct profile with the correct service pack. Other two suggested profiles have some service packs versions appened to the end.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
-vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
-</code></pre></div><p><strong>Hiberfil.sys</strong>. Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
-<h3 id="macos">macOS</h3>
-<p>Get the hibernation settings - <code>pmset -g | grep hibernatemode</code>:</p>
-<ul>
-<li><code>0</code> – Old style sleep mode, with RAM powered on while sleeping, safe sleep disabled, and super-fast wake.</li>
-<li><code>1</code> – Hibernation mode, with RAM contents written to disk, system totally shut down while “sleeping,” and slower wake up, due to reading the contents of RAM off the hard drive.</li>
-<li><code>3</code> – The default mode on machines introduced since about fall 2005. RAM is powered on while sleeping, but RAM contents are also written to disk before sleeping. In the event of total power loss, the system enters hibernation mode automatically.</li>
-<li><code>5</code> – This is the same as mode <code>1</code>, but it’s for those using secure virtual memory (in System Preferences -&gt; Security).</li>
-<li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
-</ul>
-<p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
-<h2 id="account-information">Account Information</h2>
-<h3 id="windows-1">Windows</h3>
 <p>There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code> for Domain Accounts.</p>
 <blockquote>
 <p>❗️❗️❗️❗️ More details see here.</p>
@@ -407,7 +315,7 @@ vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O 
 <p>To crack Windows NTLM hashes (for local accounts only), you&rsquo;ll need both SYSTEM and SAM hives. SYSTEM contains an AES key 🔑 for NTLM decryption and SAM contains the encrypted hash. After the hash is decrypted, either brute-force 💪 or dictionary 📖 attack needs.</p>
 <p>Xbox on later versions is a built-in game center. It also contains some information about the user (if he uses it for fames): <code>C:\Users\%Username%\AppData\Local\LocalState\ModelManager\Xboxlivegamer.xml</code> (user profile).</p>
 <p>Also, collect DPAPI master user and system keys: <a href="https://www.youtube.com/watch?v=vA4qa0uWRHU">https://www.youtube.com/watch?v=vA4qa0uWRHU</a>.</p>
-<h3 id="macos-1">macOS</h3>
+<h3 id="macos">macOS</h3>
 <p><code>private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist</code> - name, profile name, password hint, account image, UID</p>
 <p>Password hashes</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
@@ -423,10 +331,10 @@ vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O 
 <h3 id="linux">Linux</h3>
 <p><code>/etc/passwd</code> and <code>/etc/shadow</code>.</p>
 <h2 id="recent-activity">Recent Activity</h2>
-<h3 id="windows-2">Windows</h3>
+<h3 id="windows-1">Windows</h3>
 <p>There are several artifacts indicating user activity. One of them is <code>LNK</code> files. To analyse acquired LNK files use 🛠 <a href="https://ericzimmerman.github.io/#!index.md">LECmd</a> (E. Zimmerman&rsquo;s) or <a href="https://4discovery.com/our-tools/link-parser/">Link Parser</a>.</p>
 <p>Enother mechanism is Prefetch. It&rsquo;s usually located at <code>C:\Windows\Prefetch</code>. Several tools are available for viewing this artifact: Magnet AXIOM 💰, PECmd.</p>
-<h3 id="macos-2">macOS</h3>
+<h3 id="macos-1">macOS</h3>
 <h2 id="host-and-network-logs">Host and Network Logs</h2>
 <p>One of the most useful artifacts when properly configured and maintained, are log files. All devices keep some sort of logs, even mobile devices. However, their relevance for the specific case may differ.</p>
 <p>Different logs might be collected depending on the case:</p>
@@ -444,7 +352,7 @@ vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O 
 <li>BIN. IIS 5.1+, in binary format, logging several websites at once.</li>
 <li>XML. Mostly used for applications to share data.</li>
 </ul>
-<h3 id="macos-3">macOS</h3>
+<h3 id="macos-2">macOS</h3>
 <p><strong>syslog</strong>. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example). By the way, <code>syslog</code> was replaced as well on iOS (see <a href="/docs/dfir/host/mobile/ios/ios-logs">here</a>). Some still exist: <code>daily.out</code>, cups, <code>install.log</code>. 🛑 More about logs for iOS and macOS here.</p>
 <p>🛑 More about fervents here.</p>
 <p>New unified log path in 2 directories:</p>
@@ -458,7 +366,7 @@ vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O 
 <li><code>./System/Volumes/Data/.fseventsd</code></li>
 <li>On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</li>
 </ul>
-<h3 id="windows-3">Windows</h3>
+<h3 id="windows-2">Windows</h3>
 <p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
 <p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
 <h3 id="linuxessss">Linuxessss</h3>
@@ -608,32 +516,32 @@ vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O 
 <h3 id="xbox">Xbox</h3>
 <p>Windows: <code>C:\Users\%Username%\AppData\Local\LocalState\ModelManager\Messaging</code>.</p>
 <h2 id="devices-attached">Devices Attached</h2>
-<h3 id="windows-4">Windows</h3>
+<h3 id="windows-3">Windows</h3>
 <p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
 <blockquote>
 <p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
 </blockquote>
-<h3 id="macos-4">macOS</h3>
+<h3 id="macos-3">macOS</h3>
 <p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
 <blockquote>
 <p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
 </blockquote>
 <p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
 <h2 id="notifications">Notifications</h2>
-<h3 id="windows-5">Windows</h3>
+<h3 id="windows-4">Windows</h3>
 <p>Toast notifications on Windows 10: <code>C:\Users\%Username%\AppData\Local\Microsoft\Windows\Notifications</code> contains <code>wpndatabase.db</code> and <code>appdb.dat</code>. Both can be opened with 🛠 SQLite Browser.</p>
 <h2 id="voice-assistants">Voice Assistants</h2>
-<h3 id="windows-6">Windows</h3>
+<h3 id="windows-5">Windows</h3>
 <p>Cortana is a great source of information. <code>C:\Users\%Username%\AppData\Local\Packages\Microsoft.Windows.Cortana_xxxx\LocalState\ESEDatabase_CortanaCoreInstance\CortanaCoreDb.db</code> contains user locations, reminders etc. Use a 🛠 SQLite browser to see the contents, or export to <code>cvs</code> and work in Excel.</p>
 <h2 id="cloud-storage">Cloud Storage</h2>
-<h3 id="windows-7">Windows</h3>
+<h3 id="windows-6">Windows</h3>
 <p>For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions. <code>C:\Users\%Username%\AppData\Local\Microsoft\OneDrive\logs</code>. This folder contains <code>Personal</code> and <code>Common</code>. Neither has anything of particular interest, but may be an indicator, that the software was used.</p>
 <blockquote>
 <p>⚠️ Business version of OneDrive adds a few lines of code to the start of every doc, thus MD5 hashes will differ.</p>
 </blockquote>
 <p>DropBox is another tool for storing content online and sharing it: <code>C:\Users\%Username%\AppData\Local\Microsoft\Dropbox</code>. The most interesting files are <code>filecache.db</code> (not deleted files and folders, encrypted by default) and <code>sigstore.db</code> (how large the file is). Use 🛠 Magnet Dropbox Decryptor to get the contents of the <code>filecache.db</code>. It also uses <code>config.db</code> containing user email and the most recently changed files. Deleted files are not kept locally. For free accounts they are kept online for 30 days, for pros - forever.</p>
 <h2 id="screen-recordings">Screen Recordings</h2>
-<h3 id="windows-8">Windows</h3>
+<h3 id="windows-7">Windows</h3>
 <p>Xbox on later versions is a built-in game center. However, one of the features is used beyond gaming: screen recordings. <code>C:\Users\%Username%\XboxApp\GameDVR\OnThisPC\Videos\Captures</code>.</p>
 
   </div>

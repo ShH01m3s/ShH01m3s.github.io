@@ -172,20 +172,22 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/"> Back to 🔎 Forensic Investigation Section 👈🏼 </a>
+   <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#macos">macOS</a></li>
-    <li><a href="#heading"></a></li>
-    <li><a href="#windows">Windows</a>
+    <li><a href="#collection">Collection</a>
       <ul>
+        <li><a href="#webserver">WebServer</a></li>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#windows">Windows</a></li>
         <li><a href="#linuxessss">Linuxessss</a></li>
         <li><a href="#ios">iOS</a></li>
         <li><a href="#android">Android</a></li>
       </ul>
     </li>
+    <li><a href="#analysis">Analysis</a></li>
   </ul>
 </nav>
  </aside>
@@ -235,13 +237,15 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>One of the most useful artifacts when properly configured and maintained, are log files. All devices keep some sort of logs, even mobile devices. However, their relevance for the specific case may differ.</p>
+    <h2 id="collection">Collection</h2>
+<p>One of the most useful artifacts when properly configured and maintained, are log files. All devices keep some sort of logs, even mobile devices. However, their relevance for the specific case may differ.</p>
 <p>Different logs might be collected depending on the case:</p>
 <ol>
 <li>Network hack: logs of all network devices (on the route to the hacked device), perimeter router (ISP), Firewall rules might be required.</li>
 <li>Unauthorised access: web server logs, application server logs, application logs, router or switch logs, firewall logs, db logs, IDS logs etc.</li>
 <li>Trojan/Virus/Worm: antivirus logs, event logs.</li>
 </ol>
+<h3 id="webserver">WebServer</h3>
 <p>There are several formats that logs can exist in depending on the system in question and configurations as well.</p>
 <ul>
 <li>W3C. ASCII, UTC.</li>
@@ -251,7 +255,9 @@
 <li>BIN. IIS 5.1+, in binary format, logging several websites at once.</li>
 <li>XML. Mostly used for applications to share data.</li>
 </ul>
-<h2 id="macos">macOS</h2>
+<h4 id="apache-weblogs">Apache Weblogs</h4>
+<p><code>access.log</code>.</p>
+<h3 id="macos">macOS</h3>
 <p><strong>syslog</strong>. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example). By the way, <code>syslog</code> was replaced as well on iOS (see <a href="/docs/dfir/host/mobile/ios/ios-logs">here</a>). Some still exist: <code>daily.out</code>, cups, <code>install.log</code>. 🛑 More about logs for iOS and macOS here.</p>
 <p>🛑 More about fervents here.</p>
 <p>New unified log path in 2 directories:</p>
@@ -303,12 +309,10 @@ FROM
 &#34;fsevents&#34;
 WHERE
 &#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
-</code></pre></div><h2 id="heading"></h2>
-<h2 id="windows">Windows</h2>
+</code></pre></div><h3 id="windows">Windows</h3>
 <p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
 <p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
 <h3 id="linuxessss">Linuxessss</h3>
-<h4 id="apache-weblogs">Apache Weblogs</h4>
 <h3 id="ios">iOS</h3>
 <p>Same as for macOS. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
 <p>Internet activity</p>
@@ -334,6 +338,21 @@ WHERE
 &#34;filename&#34; LIKE &#39;mobile/Library/Mobile
 Documents/com~apple~CloudDocs/%&#39;
 </code></pre></div><h3 id="android">Android</h3>
+<h2 id="analysis">Analysis</h2>
+<p>There are generally four main ways to analyse this wealth of data:</p>
+<ul>
+<li>pivot tables in Excel</li>
+<li>some dedicated framwork</li>
+<li>LogParser</li>
+<li>Script</li>
+</ul>
+<p>Import <code>csv</code>. Choose your delimiter. If there are some columns sticking together, use <code>Data -&gt; Text to Column</code> to separate them with another delimeter.</p>
+<blockquote>
+<p>💡 Generate pivot tables each day during a month for statistical analysis. Later deviations might highlight suspicious traffic.</p>
+</blockquote>
+<blockquote>
+<p>❗️ Note the data that&rsquo;s of low frequency.</p>
+</blockquote>
 
   </div>
 </article>
