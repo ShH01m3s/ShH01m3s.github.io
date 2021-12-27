@@ -265,6 +265,11 @@
 <p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
 </blockquote>
 <p>NTFS has an additional MAC attribute - EM (entry modified). That&rsquo;s the time when <code>$MFT</code> is modified.</p>
+<p>NTFS Last Accessed Update (Win10+) -</p>
+<p>80000000 (hex) = User Managed, Last Access Updates Enabled
+80000001 (hex) = User Managed, Last Access Updates Disabled
+80000002 (hex) = System Managed, Last Access Updates Enabled - default for Windows 11 (in my case).
+80000003 (hex) = System Managed, Last Access Updates Disabled</p>
 <h3 id="lnk-files">LNK files</h3>
 <p>These have timestamps embedded. They are basically &ldquo;screenshots&rdquo; of the host file at the time of <code>lnk</code> file creation. In case of <code>Recent</code> folder, this is the time when the file was <strong>first accessed</strong>.</p>
 <h2 id="references">References</h2>

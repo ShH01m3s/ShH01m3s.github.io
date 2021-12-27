@@ -448,6 +448,11 @@ mimikatz
 <h3 id="ntfsdisablelastaccessupdate">NtfsDisableLastAccessUpdate</h3>
 <p><strong>Key</strong> 🔑: <code>ControlSet001\Control\FileSystem\NtfsDisableLastAccessUpdate</code>.</p>
 <p>Last access file time settings. If <code>1</code> - disabled (default), <code>0</code> - enabled. ⚠️ If it&rsquo;s disabled (more likely), the access times are not reliable in this case. However, this doesn&rsquo;t apply to MFT file records updates.</p>
+<p>NTFS Last Accessed Update (Win10+) -</p>
+<p>80000000 (hex) = User Managed, Last Access Updates Enabled
+80000001 (hex) = User Managed, Last Access Updates Disabled
+80000002 (hex) = System Managed, Last Access Updates Enabled - default for Windows 11 (in my case).
+80000003 (hex) = System Managed, Last Access Updates Disabled</p>
 <h3 id="system-time">System time</h3>
 <p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation\TimeZoneKeyName</code></p>
 <h3 id="usbs">USBs</h3>

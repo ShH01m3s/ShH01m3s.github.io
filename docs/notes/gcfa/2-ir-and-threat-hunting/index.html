@@ -261,150 +261,171 @@
 </ul>
 <h2 id="topics">Topics</h2>
 <h3 id="real-incident-response-tactics">Real Incident Response Tactics</h3>
-<ul>
-<li>
-<p><input disabled="" type="checkbox"> <strong>Preparation</strong>: Key tools, techniques, and procedures that an incident response team needs to respond properly to intrusions</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> <strong>Identification/Scoping</strong>: Proper scoping of an incident and detecting all compromised systems in the enterprise</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> <strong>Containment/Intelligence Development</strong>: Restricting access, monitoring, and learning about the adversary in order to develop threat intelligence</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> <strong>Eradication/Remediation</strong>: Determining and executing key steps that must be taken to help stop the current incident and the move to real-time remediation</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> <strong>Recovery</strong>: Recording of the threat intelligence to be used in the event of a similar adversary returning to the enterprise.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> <strong>Avoiding &ldquo;Whack-A-Mole&rdquo; Incident Response</strong>: Going beyond immediate eradication without proper incident scoping/containment.</p>
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="https://www.darkreading.com/vulnerabilities-threats/the-end-of-whac-a-mole-from-incident-response-to-strategic-intelligence">1</a>] The End Of Whac-A-Mole: From Incident Response To Strategic Intelligence</li>
-<li><input disabled="" type="checkbox"> [<a href="">1</a>] Incident Response book (Packt) + several others + NIST.</li>
-</ul>
-</li>
-</ul>
+<h4 id="preparation">Preparation</h4>
+<p>Key tools, techniques, and procedures that an incident response team needs to respond properly to intrusions</p>
+<h4 id="identificationscoping">Identification/Scoping</h4>
+<p>Proper scoping of an incident and detecting all compromised systems in the enterprise. First stages of IR is mostly about cleaning up using frequency analysis, leaving for the worst scenario everything less likely. So, in case there are no clues or traces left with the frequency analysis you are moving to the those, that seem less suspicious or not suspicious at all. So, in IR it&rsquo;s not like you are supposed to investigate every single process on the machine and determine whether it&rsquo;s malicious or not. This is the worst case scenario and it&rsquo;s mostly about forensics, I think.</p>
+<h4 id="containmentintelligence-developmen">Containment/Intelligence Developmen</h4>
+<p>Restricting access, monitoring, and learning about the adversary in order to develop threat intelligence</p>
+<h4 id="eradicationremediation">Eradication/Remediation</h4>
+<p>Determining and executing key steps that must be taken to help stop the current incident and the move to real-time remediation</p>
+<h4 id="recovery">Recovery</h4>
+<p>Recording of the threat intelligence to be used in the event of a similar adversary returning to the enterprise.</p>
+<h4 id="avoiding-whack-a-mole-incident-response">Avoiding &ldquo;Whack-A-Mole&rdquo; Incident Response</h4>
+<p>Going beyond immediate eradication without proper incident scoping/containment. It&rsquo;s very bad to do so, since without proper scoping/containment you can&rsquo;t know the whole picture and you risk leaving some vulnerability unpatched or some machine unrecovered. Moreover, now the attack knows how you behave and that you know and can act appropriately.</p>
+<p>[<a href="https://www.darkreading.com/vulnerabilities-threats/the-end-of-whac-a-mole-from-incident-response-to-strategic-intelligence">1</a>] The End Of Whac-A-Mole: From Incident Response To Strategic Intelligence</p>
+<p>[<a href="">1</a>] Incident Response book (Packt) + several others + NIST.</p>
 <h3 id="threat-hunting">Threat Hunting</h3>
-<ul>
-<li><input disabled="" type="checkbox"> Hunting versus Reactive Response.
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="https://www.ibm.com/downloads/cas/Q3W5GYG8">1</a>] SANS+IBM brochure on hunting.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Intelligence-Driven Incident Response
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="/files/pdf/DFIR-Threat-Intel-Poster.pdf">1</a>] SANS poster, Threat Intelligence</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Building a Continuous Incident Response/Threat Hunting Capability</li>
-<li><input disabled="" type="checkbox"> Forensic Analysis versus Threat Hunting Across Endpoints
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="https://lifars.com/2021/05/threat-hunting-vs-digital-forensics-what-are-they-do-you-need-both/">1</a>] use VPN to access</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Threat Hunt Team Roles
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="https://www.youtube.com/watch?v=GrhVz1Sjd_0">1</a>] Find Evil, [<a href="https://www.youtube.com/watch?v=pDY639JsT7I">2</a>] SecOps, [<a href="https://www.youtube.com/watch?v=Ut1t_n6NPQE">3</a>] Where Does Threat Hunting Fit?, [<a href="https://www.sans.org/media/analyst-program/building-maturing-threat-hunting-program-39025.pdf">4</a>] Building your team</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> ATT&amp;CK - MITRE&rsquo;s Adversarial Tactics, Techniques, and Common Knowledge (ATT&amp;CK(TM)).
-<ul>
-<li><input disabled="" type="checkbox"> <a href="https://attack.mitre.org">[1]</a> is the main website on the topic.</li>
-</ul>
-</li>
-</ul>
+<h4 id="hunting-versus-reactive-response">Hunting versus Reactive Response</h4>
+<p>[<a href="https://www.ibm.com/downloads/cas/Q3W5GYG8">1</a>] SANS+IBM brochure on hunting.</p>
+<p>Hunting is usually better since it allows targeted response. Reactive response means that you are looking for everything, even if it&rsquo;s not really relevant for your enterprise. For example, monitoring log4j vulnerability when you don&rsquo;t use this framework at all.</p>
+<h4 id="intelligence-driven-incident-response">Intelligence-Driven Incident Response</h4>
+<p>[<a href="/files/pdf/DFIR-Threat-Intel-Poster.pdf">1</a>] SANS poster, Threat Intelligence</p>
+<p>So, each time a IR process is triggered + third-party informaiton collected, we &ldquo;draw&rdquo; a picture of the most likely threats for this particular organization.</p>
+<h4 id="building-a-continuous-incident-responsethreat-hunting-capability">Building a Continuous Incident Response/Threat Hunting Capability</h4>
+<h4 id="forensic-analysis-versus-threat-hunting-across-endpoints">Forensic Analysis versus Threat Hunting Across Endpoints</h4>
+<p>[<a href="https://lifars.com/2021/05/threat-hunting-vs-digital-forensics-what-are-they-do-you-need-both/">1</a>] use VPN to access</p>
+<p>Forensic Analysis is time and resources-costly. That&rsquo;s why you don&rsquo;t use for every investigation for every machine. Threat hunting can be though of as an immune system, B lymphocytes mark &ldquo;bad&rdquo; cells with antibodies and macrophages eat them. So, threat hunting shows the most likely suspects, most likely actors and most likely attack startegies, mark the workstations and forensics is to validate and investigate deeper.</p>
+<h4 id="threat-hunt-team-roles">Threat Hunt Team Roles</h4>
+<p>[<a href="https://www.youtube.com/watch?v=GrhVz1Sjd_0">1</a>] Find Evil, [<a href="https://www.youtube.com/watch?v=pDY639JsT7I">2</a>] SecOps, [<a href="https://www.youtube.com/watch?v=Ut1t_n6NPQE">3</a>] Where Does Threat Hunting Fit?, [<a href="https://www.sans.org/media/analyst-program/building-maturing-threat-hunting-program-39025.pdf">4</a>] Building your team</p>
+<h4 id="attck---mitres">ATT&amp;CK - MITRE&rsquo;s</h4>
+<p><a href="https://attack.mitre.org">[1]</a> is the main website on the topic.</p>
 <h3 id="threat-hunting-in-the-enterprise">Threat Hunting in the Enterprise</h3>
-<ul>
-<li><input disabled="" type="checkbox"> Identification of Compromised Systems</li>
-<li><input disabled="" type="checkbox"> Finding Active and Dormant Malware
-<ul>
-<li><input disabled="" type="checkbox"> <a href="https://www.tripwire.com/state-of-security/security-data-protection/cyber-security/four-common-scenarios-for-dormant-functionality-in-malware/#:~:text=A%20persistent%20problem%20in%20the,the%20Technical%20University%20of%20Vienna.">[1]</a> TripWire article (short) about dormant malware</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Digitally Signed Malware</li>
-<li><input disabled="" type="checkbox"> Malware Characteristics</li>
-<li><input disabled="" type="checkbox"> Common Hiding Mechanisms</li>
-<li><input disabled="" type="checkbox"> Finding Evil by Understanding Normal
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="">1</a>] My article about Super Novas</li>
-<li><input disabled="" type="checkbox"> [<a href="/files/pdf/evil-and-normal.pdf">2</a>] SANS poster about Normal and Abnormal</li>
-</ul>
-</li>
-</ul>
+<h4 id="identification-of-compromised-systems">Identification of Compromised Systems</h4>
+<h4 id="finding-active-and-dormant-malware">Finding Active and Dormant Malware</h4>
+<p><a href="https://www.tripwire.com/state-of-security/security-data-protection/cyber-security/four-common-scenarios-for-dormant-functionality-in-malware/#:~:text=A%20persistent%20problem%20in%20the,the%20Technical%20University%20of%20Vienna.">[1]</a> TripWire article (short) about dormant malware</p>
+<h4 id="digitally-signed-malware">Digitally Signed Malware</h4>
+<h4 id="malware-characteristics">Malware Characteristics</h4>
+<h4 id="common-hiding-mechanisms">Common Hiding Mechanisms</h4>
+<h4 id="finding-evil-by-understanding-normal">Finding Evil by Understanding Normal</h4>
+<p>[<a href="">1</a>] My article about Super Novas</p>
+<p>[<a href="/files/pdf/evil-and-normal.pdf">2</a>] SANS poster about Normal and Abnormal</p>
 <h3 id="incident-response-and-hunting-across-endpoints">Incident Response and Hunting across Endpoints</h3>
-<ul>
-<li><input disabled="" type="checkbox"> WMIC &amp; PowerShell
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="">1</a>] Read here</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> PowerShell Remoting Scalability</li>
-<li><input disabled="" type="checkbox"> PowerShell Remoting Credential Safeguards</li>
-<li><input disabled="" type="checkbox"> Kansa PowerShell Remoting IR Framework</li>
-</ul>
-<h3 id="malware-defense-evasion-and-identification">Malware Defense Evasion and Identification</h3>
-<ul>
-<li><input disabled="" type="checkbox"> Service Hijacking/Replacement
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="/files/pds/Injects_p1.pdf">1</a>] My presentations in injections, part 1</li>
-<li><input disabled="" type="checkbox"> [<a href="/files/pds/Injects_p2.pdf">2</a>] My presentations in injections, part 2</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Frequent Compilation</li>
-<li><input disabled="" type="checkbox"> Binary Padding</li>
-<li><input disabled="" type="checkbox"> Packing/Armoring
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="https://www.ma.rhul.ac.uk/static/techrep/2012/MA-2012-10.pdf">1</a>] Incident involving armouring.</li>
-<li><input disabled="" type="checkbox"> My own notes about packing (not ready yet)</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Dormant Malware
-<ul>
-<li><input disabled="" type="checkbox"> <a href="https://www.tripwire.com/state-of-security/security-data-protection/cyber-security/four-common-scenarios-for-dormant-functionality-in-malware/#:~:text=A%20persistent%20problem%20in%20the,the%20Technical%20University%20of%20Vienna.">[1]</a> TripWire article (short)</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Signing Code with Valid Certificates</li>
-<li><input disabled="" type="checkbox"> Anti-Forensics/Timestomping</li>
-</ul>
+<h4 id="wmic--powershell">WMIC &amp; PowerShell</h4>
+<p>[<a href="">1</a>] Read here</p>
+<p><strong>Offline</strong>. Detect all registered Event Consumers from an OBJECTS.DATA.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">PyWMIPersistenceFinder</span><span class="p">.</span><span class="n">py</span> <span class="p">&lt;</span><span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">OBJECTS</span><span class="p">.</span><span class="n">DATA</span><span class="p">&gt;</span>
+</code></pre></div><p><strong>Offline</strong>. Kansa analysis of WMI</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">WMIEvtFilter</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="n">WMIEvt-stackfiles</span><span class="p">.</span><span class="n">csv</span>
+
+<span class="c"># Open with Timeline Explorer</span>
+</code></pre></div><h4 id="powershell-remoting-scalability">PowerShell Remoting Scalability</h4>
+<p>Initiate a remote session:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># session created, command run, session terminated</span>
+<span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="p">&lt;</span><span class="n">pcname</span><span class="p">&gt;</span> <span class="n">-ScriptBlock</span> <span class="p">{</span><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="n">-Property</span> <span class="n">name</span> <span class="o">-eq</span> <span class="n">somethingbad</span><span class="p">}</span>
+
+<span class="c"># session created, commands run, session terminated when the user says it does</span>
+<span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="p">&lt;</span><span class="n">pcname</span><span class="p">&gt;</span> <span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">login</span><span class="p">&gt;</span> 
+<span class="c"># or</span>
+<span class="c"># create a session</span>
+<span class="nb">New-PSSession</span> <span class="n">-Credentials</span>
+<span class="c"># use it with the Invoke-Command as a -Session parameter</span>
+</code></pre></div><p>It used to be <code>Get-WMIInstance</code>, now it&rsquo;s <code>Get-CIMInstance</code> to use with other CIM-based servers.</p>
+<blockquote>
+<p>⚠️ Kept getting Access Denied on any Get-WMIInstance Win32Process or Get-CIMInstance -ClassName Win32Process</p>
+<p>✍️ <a href="https://newbedev.com/get-wmiobject-win32-process-computername-gets-error-access-denied-code-0x80070005">https://newbedev.com/get-wmiobject-win32-process-computername-gets-error-access-denied-code-0x80070005</a></p>
+</blockquote>
+<p><code>powershell.exe -NoP -NonI -W Hidden -E</code>. You won&rsquo;t usually</p>
+<h4 id="powershell-remoting-credential-safeguards">PowerShell Remoting Credential Safeguards</h4>
+<h4 id="kansa-powershell-remoting-ir-framework">Kansa PowerShell Remoting IR Framework</h4>
+<p>Running Kansa across multiple PCs.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">mkdir</span> <span class="n">Results</span> <span class="p">&amp;&amp;</span> <span class="nb">cd </span><span class="n">Results</span>
+
+<span class="c"># check kansa.ps1 for the modules that will be run</span>
+
+<span class="p">.\</span><span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="n">localhost</span> <span class="p">[</span><span class="n">-TargetList</span> <span class="p">&lt;</span><span class="n">listoftargets</span><span class="p">&gt;]</span> <span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">login</span><span class="p">&gt;</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span>
+</code></pre></div><h3 id="malware-defense-evasion-and-identification">Malware Defense Evasion and Identification</h3>
+<h4 id="service-hijackingreplacement">Service Hijacking/Replacement</h4>
+<p>[<a href="/files/pds/Injects_p1.pdf">1</a>] My presentations in injections, part 1</p>
+<p>[<a href="/files/pds/Injects_p2.pdf">2</a>] My presentations in injections, part 2</p>
+<h4 id="frequent-compilation">Frequent Compilation</h4>
+<h4 id="binary-padding">Binary Padding</h4>
+<h4 id="packingarmoring">Packing/Armoring</h4>
+<p>[<a href="https://www.ma.rhul.ac.uk/static/techrep/2012/MA-2012-10.pdf">1</a>] Incident involving armouring.</p>
+<p>My own notes about packing (not ready yet)</p>
+<h4 id="dormant-malware">Dormant Malware</h4>
+<p><a href="https://www.tripwire.com/state-of-security/security-data-protection/cyber-security/four-common-scenarios-for-dormant-functionality-in-malware/#:~:text=A%20persistent%20problem%20in%20the,the%20Technical%20University%20of%20Vienna.">[1]</a> TripWire article (short)</p>
+<h4 id="signing-code-with-valid-certificates">Signing Code with Valid Certificates</h4>
+<h4 id="anti-forensicstimestomping">Anti-Forensics/Timestomping</h4>
 <h3 id="malware-persistence-identification">Malware Persistence Identification</h3>
-<ul>
-<li><input disabled="" type="checkbox"> AutoStart Locations, RunKeys</li>
-<li><input disabled="" type="checkbox"> Service Creation/Replacement</li>
-<li><input disabled="" type="checkbox"> Service Failure Recovery</li>
-<li><input disabled="" type="checkbox"> Scheduled Tasks</li>
-<li><input disabled="" type="checkbox"> DLL Hijacking
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="">1</a>] My own presentation and corresponding articles</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> WMI Event Consumers
-<ul>
-<li><input disabled="" type="checkbox"> [<a href="">1</a>] PhDays 2019, Persistance mechanisms on Windows. Review and put down.</li>
-</ul>
-</li>
-</ul>
+<p><a href="https://www.hexacorn.com/blog/2017/01/28/beyond-good-ol-run-key-all-parts/">https://www.hexacorn.com/blog/2017/01/28/beyond-good-ol-run-key-all-parts/</a></p>
+<h4 id="autostart-locations-runkeys">AutoStart Locations, RunKeys</h4>
+<h4 id="service-creationreplacement">Service Creation/Replacement</h4>
+<h4 id="service-failure-recovery">Service Failure Recovery</h4>
+<h4 id="scheduled-tasks">Scheduled Tasks</h4>
+<h4 id="dll-hijacking">DLL Hijacking</h4>
+<p>[<a href="">1</a>] My own presentation and corresponding articles</p>
+<h4 id="wmi-event-consumers">WMI Event Consumers</h4>
+<p>[<a href="">1</a>] PhDays 2019, Persistance mechanisms on Windows. Review and put down.</p>
 <h3 id="investigating-wmi-based-attacks">Investigating WMI-Based Attacks</h3>
-<ul>
-<li>
-<p><input disabled="" type="checkbox"> WMI Overview</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> WMI Attacks Across the Kill Chain</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Auditing the WMI Repository</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> WMI File System and Registry Residue</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Command-Line Analysis and WMI Logs</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> WMI Process Anomalies</p>
-</li>
-</ul>
+<h4 id="wmi-overview">WMI Overview</h4>
+<p>Since Win2000. Web-based enterprise management. CIM - common information model. It&rsquo;s both a db of system informaiton AND means to automate its collection. <code>wmic</code> - commandline interface for WMI. It runs with SYSTEM privileges.</p>
+<p>Moving laterally: remote desktop or netuse. To code execute from A to B, is one of the core techniques for that.</p>
+<p>Can be used in privilege escalation when finding a service that has a unquoted path, for example. Or can be used with <code>rundll32.exe</code> and <code>process call create</code>.</p>
+<p>Creating a WMI consumer:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Step 1. Create an event filter that&#39;s going to monitor the systems and events and do something once certain conditions are met.</span>
+<span class="nv">$FilterArgs</span> <span class="p">=</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;Pentestlab-WMI&#39;</span><span class="p">;</span>
+                <span class="n">EventNameSpace</span><span class="p">=</span><span class="s1">&#39;root\CimV2&#39;</span><span class="p">;</span>
+                <span class="n">QueryLanguage</span><span class="p">=</span><span class="s2">&#34;WQL&#34;</span><span class="p">;</span>
+                <span class="n">Query</span><span class="p">=</span><span class="s2">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39; AND TargetInstance.SystemUpTime &gt;= 240 AND TargetInstance.SystemUpTime &lt; 325&#34;</span><span class="p">};</span>
+<span class="nv">$Filter</span><span class="p">=</span><span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">__EventFilter</span> <span class="n">-Property</span> <span class="nv">$FilterArgs</span>
+ 
+<span class="c"># Step 2. Create an Event Consumer that&#39;s the action that&#39;s going to take place once the conditions specified by the even filter are met.</span>
+<span class="nv">$ConsumerArgs</span> <span class="p">=</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;Pentestlab-WMI&#39;</span><span class="p">;</span>         <span class="n">CommandLineTemplate</span><span class="p">=</span><span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$Env:SystemRoot</span><span class="p">)</span><span class="s2">\System32\pentestlab.exe&#34;</span><span class="p">;}</span>
+<span class="nv">$Consumer</span><span class="p">=</span><span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">CommandLineEventConsumer</span> <span class="n">-Property</span> <span class="nv">$ConsumerArgs</span>
+ 
+<span class="c"># Step 3. Bind the Filter to the Consumer.</span>
+<span class="nv">$FilterToConsumerArgs</span> <span class="p">=</span> <span class="p">@{</span>
+<span class="k">Filter</span> <span class="p">=</span> <span class="no">[Ref]</span> <span class="nv">$Filter</span><span class="p">;</span>
+<span class="n">Consumer</span> <span class="p">=</span> <span class="no">[Ref]</span> <span class="nv">$Consumer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$FilterToConsumerBinding</span> <span class="p">=</span> <span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">__FilterToConsumerBinding</span> <span class="n">-Property</span> <span class="nv">$FilterToConsumerArgs</span>
+</code></pre></div><p>The above steps can be specified in a MOF file and compiled. So, either use Powershell or <code>mofcomp.exe</code>. <code>Get-WmiObject</code> and <code>Remover-WmiObject</code> to detect and remove suspicious entries.</p>
+<p>Just create a process with wmic:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="k">process</span> <span class="n">call</span> <span class="n">create</span> <span class="s2">&#34;path\to\process&#34;</span>
+</code></pre></div><p><strong>Tools</strong> 🛠: Event Logs, Sysmon and commercial tools like Falcon, CarbonBlack, Tanium.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__EventFilter</span>
+<span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__EventConsumer</span>
+<span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__FilterToConsumerBinding</span>
+</code></pre></div><p>Kansa includes the scripts for these commands for autocollection.</p>
+<p>There are several types of event consumers:</p>
+<ol>
+<li>🎯 <code>ActiveScriptEventConsumer</code>. Execute a predefined VB or JScript. This one is frequently used by attackers. <code>scrcons.exe</code> -&gt; cmd.exe -&gt; schticks.exe -&gt; ActiveScript Event Consumer.</li>
+<li>🎯 <code>CommandLineEventConsumer</code>. Launch a process. This one is also frequently used by attackers. <code>wmiprvse.exe</code> is the parent process. <code>svchost</code> -&gt; <code>services</code> -&gt; <code>wmiprvse.exe</code> -&gt; CommandLine Event Consumer.</li>
+<li><code>LogFileEventConsumer</code>. Write to a <code>txt</code>.</li>
+<li><code>NTEventLogEventConsumer</code>. Log a message to Event Log.</li>
+<li><code>SMTPEventConsumer</code>. Email a message via SMTP.</li>
+<li><code>Custom</code>. Requires custom COM object.</li>
+</ol>
+<h4 id="wmi-attacks-across-the-kill-chain">WMI Attacks Across the Kill Chain</h4>
+<p>APT29. Used for privilege escalation and lateral movement.</p>
+<h4 id="auditing-the-wmi-repository">Auditing the WMI Repository</h4>
+<p><a href="https://medium.com/threatpunter/detecting-removing-wmi-persistence-60ccbb7dff96">Create and delete entries</a>. <code>Windows\System32\wbem\Repository\OBJECTS.DATA</code> - objects, managed by WMI. <code>INDEX.BTR</code> - Binary Tree Index of the files in <code>OBJECTS</code>. <code>MAPPING[1-3].MAP</code> - correlates data between <code>OBJECTS</code> and <code>INDEX.BTR</code>.</p>
+<p><strong>Known good</strong> 😇: SCM Event, BVTFilter, TSlogonEvents.vbs, TSLogonFilter, RAevent.vbs, RmAssistEventFilter, KernCap.vbs, NTEventLogConsumer, WSCEAA.exe (for Dell devices).</p>
+<h4 id="wmi-file-system-and-registry-residue">WMI File System and Registry Residue</h4>
+<p><strong>MOF files</strong> - compiled versions of event consumers. Can be located anywhere and named lots of diffreent things. But by default: <code>%SystemRoot%\System32\wbem</code>.</p>
+<blockquote>
+<p>⚠️ Original <code>mof</code> file can be deleted after it&rsquo;s added to the repo.</p>
+</blockquote>
+<p><code>Set-WmiInstance</code> can be used instead of mof files.</p>
+<p><strong>Autorecover</strong>. Pragma autorecover in <code>config.mof</code>. If this option is included, a copy is saved <code>C:\Windows\System32\wbem\AutoRecover</code>. Most of the adversaries use this setting. The time and dates are usually different for this backup than for other backups.</p>
+<p><strong>CIMOM</strong>. <code>HKLM\SOFTWARE\Microsoft\Wbem\CIMOM</code>. Use the <code>Autorecover MOFs</code> to see the original MOF files names.</p>
+<h4 id="command-line-analysis-and-wmi-logs">Command-Line Analysis and WMI Logs</h4>
+<p>If something malicious was found on the system and is likely to be present on other systems:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="k">process</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s2">&#34;somethingbad&#34;</span> <span class="n">delete</span>
+<span class="c"># or with Powershell:</span>
+
+</code></pre></div><p><code>PyWMIPersistenceFinder.py</code> is used for offline analysis of <code>OBJECTS</code> file. If data is deleted from the DB, the data might be still there. And this script parses the db, even the unallocated entries of this db.</p>
+<h4 id="wmi-process-anomalies">WMI Process Anomalies</h4>
+<ol>
+<li><code>svchost</code> -&gt; <code>services</code> -&gt; <code>wmiprvse.exe</code> -&gt; CommandLine Event Consumer. If wmiprvse.exe has another parent or unusuall child (powershell) it&rsquo;s suspicious.</li>
+<li><code>scrcons.exe</code> -&gt; cmd.exe -&gt; schticks.exe -&gt; ActiveScript Event Consumer.</li>
+<li>Encoded command lines</li>
+<li><code>Invoke-WmiMethod</code> and <code>Invoke-CimMethod</code></li>
+<li><code>/node:</code></li>
+<li><code>wmic process call create</code></li>
+</ol>
+<p>Create a baseline for what&rsquo;s normal for your systems.</p>
 <h2 id="resources">Resources</h2>
 <p>[<a href="https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/">1</a>] About some APT groups</p>
 <p>[<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>] Practical Malware Analysis book</p>
