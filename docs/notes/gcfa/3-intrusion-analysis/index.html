@@ -179,7 +179,56 @@
   <ul>
     <li><a href="#legend">Legend</a></li>
     <li><a href="#exercises">Exercises</a></li>
-    <li><a href="#topics">Topics</a></li>
+    <li><a href="#topics">Topics</a>
+      <ul>
+        <li><a href="#stealing-and-utilization-of-legitimate-credentials">Stealing and Utilization of Legitimate Credentials</a>
+          <ul>
+            <li><a href="#pass-the-hash">Pass the Hash</a></li>
+            <li><a href="#single-sign-on-sso-dumping-using-mimikatz">Single Sign On (SSO) Dumping using Mimikatz</a></li>
+            <li><a href="#token-stealing">Token Stealing</a></li>
+            <li><a href="#cached-credentials">Cached Credentials</a></li>
+            <li><a href="#lsa-secrets">LSA Secrets</a></li>
+            <li><a href="#kerberos-attacks">Kerberos Attacks</a></li>
+            <li><a href="#ntdsdit-theft">NTDS.DIT theft</a></li>
+          </ul>
+        </li>
+        <li><a href="#advanced-evidence-of-execution-detection">Advanced Evidence of Execution Detection</a>
+          <ul>
+            <li><a href="#attacker-tactics-techniques-and-procedures-ttps-observed-via-process-execution">Attacker Tactics, Techniques, and Procedures (TTPs) Observed Via Process Execution</a></li>
+            <li><a href="#prefetch-analysis">Prefetch Analysis</a></li>
+            <li><a href="#application-compatibility-cache-shimcache">Application Compatibility Cache (ShimCache)</a></li>
+            <li><a href="#amcache-registry-examination">Amcache Registry Examination</a></li>
+            <li><a href="#scaling-shimcache-and-amcache-investigations">Scaling ShimCache and Amcache Investigations</a></li>
+          </ul>
+        </li>
+        <li><a href="#lateral-movement-adversary-tactics-techniques-and-procedures-ttps">Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</a>
+          <ul>
+            <li><a href="#compromising-credentials-techniques">Compromising Credentials Techniques</a></li>
+            <li><a href="#remote-desktop-services-misuse">Remote Desktop Services Misuse</a></li>
+            <li><a href="#windows-admin-share-abuse">Windows Admin Share Abuse</a></li>
+            <li><a href="#psexec-and-cobalt-strike-beacon-psexec-activity">PsExec and Cobalt Strike Beacon PsExec Activity</a></li>
+            <li><a href="#windows-remote-management-tool-techniques">Windows Remote Management Tool Techniques</a></li>
+            <li><a href="#powershell-remotingwmic-hacking">PowerShell Remoting/WMIC Hacking</a></li>
+            <li><a href="#vulnerability-exploitation">Vulnerability Exploitation</a></li>
+          </ul>
+        </li>
+        <li><a href="#log-analysis-for-incident-responders-and-hunters">Log Analysis for Incident Responders and Hunters</a>
+          <ul>
+            <li><a href="#profiling-account-usage-and-logons">Profiling Account Usage and Logons</a></li>
+            <li><a href="#tracking-and-hunting-lateral-movement">Tracking and Hunting Lateral Movement</a></li>
+            <li><a href="#identifying-suspicious-services">Identifying Suspicious Services</a></li>
+            <li><a href="#detecting-rogue-application-installation">Detecting Rogue Application Installation</a></li>
+            <li><a href="#finding-malware-execution-and-process-tracking">Finding Malware Execution and Process Tracking</a></li>
+            <li><a href="#capturing-command-lines-and-scripts">Capturing Command Lines and Scripts</a></li>
+            <li><a href="#powershell-transcript-and-scriptblock-logging">PowerShell Transcript and ScriptBlock Logging</a></li>
+            <li><a href="#discovering-cobalt-strike-beacon-powershell-import-activity">Discovering Cobalt Strike beacon PowerShell Import Activity</a></li>
+            <li><a href="#powershell-script-obfuscation">PowerShell Script Obfuscation</a></li>
+            <li><a href="#wmi-activity-logging">WMI Activity Logging</a></li>
+            <li><a href="#anti-forensics-and-event-log-clearing">Anti-Forensics and Event Log Clearing</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
     <li><a href="#resources">Resources</a></li>
   </ul>
 </nav>
@@ -251,48 +300,40 @@
 </ul>
 <h2 id="topics">Topics</h2>
 <p>Application execution artifacts, account auditing is a powerful means of identifying malicious actions. An attacker also needs a means to move throughout the network, so we look for artifacts left by the relatively small number of ways there are to accomplish this part of their mission. In this section, we cover common attacker tradecraft and discuss the various data sources and forensic tools you can use to identify malicious activity in the enterprise.</p>
-<p><strong>Stealing and Utilization of Legitimate Credentials</strong></p>
-<ul>
-<li>Pass the Hash</li>
-<li>Single Sign On (SSO) Dumping using Mimikatz</li>
-<li>Token Stealing</li>
-<li>Cached Credentials</li>
-<li>LSA Secrets</li>
-<li>Kerberos Attacks</li>
-<li>NTDS.DIT theft</li>
-</ul>
-<p><strong>Advanced Evidence of Execution Detection</strong></p>
-<ul>
-<li>Attacker Tactics, Techniques, and Procedures (TTPs) Observed Via Process Execution</li>
-<li>Prefetch Analysis</li>
-<li>Application Compatibility Cache (ShimCache)</li>
-<li>Amcache Registry Examination</li>
-<li>Scaling ShimCache and Amcache Investigations</li>
-</ul>
-<p><strong>Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</strong></p>
-<ul>
-<li>Compromising Credentials Techniques</li>
-<li>Remote Desktop Services Misuse</li>
-<li>Windows Admin Share Abuse</li>
-<li>PsExec and Cobalt Strike Beacon PsExec Activity</li>
-<li>Windows Remote Management Tool Techniques</li>
-<li>PowerShell Remoting/WMIC Hacking</li>
-<li>Vulnerability Exploitation</li>
-</ul>
-<p><strong>Log Analysis for Incident Responders and Hunters</strong></p>
-<ul>
-<li>Profiling Account Usage and Logons</li>
-<li>Tracking and Hunting Lateral Movement</li>
-<li>Identifying Suspicious Services</li>
-<li>Detecting Rogue Application Installation</li>
-<li>Finding Malware Execution and Process Tracking</li>
-<li>Capturing Command Lines and Scripts</li>
-<li>PowerShell Transcript and ScriptBlock Logging</li>
-<li>Discovering Cobalt Strike beacon PowerShell Import Activity</li>
-<li>PowerShell Script Obfuscation</li>
-<li>WMI Activity Logging</li>
-<li>Anti-Forensics and Event Log Clearing</li>
-</ul>
+<h3 id="stealing-and-utilization-of-legitimate-credentials">Stealing and Utilization of Legitimate Credentials</h3>
+<h4 id="pass-the-hash">Pass the Hash</h4>
+<h4 id="single-sign-on-sso-dumping-using-mimikatz">Single Sign On (SSO) Dumping using Mimikatz</h4>
+<h4 id="token-stealing">Token Stealing</h4>
+<h4 id="cached-credentials">Cached Credentials</h4>
+<h4 id="lsa-secrets">LSA Secrets</h4>
+<h4 id="kerberos-attacks">Kerberos Attacks</h4>
+<h4 id="ntdsdit-theft">NTDS.DIT theft</h4>
+<h3 id="advanced-evidence-of-execution-detection">Advanced Evidence of Execution Detection</h3>
+<h4 id="attacker-tactics-techniques-and-procedures-ttps-observed-via-process-execution">Attacker Tactics, Techniques, and Procedures (TTPs) Observed Via Process Execution</h4>
+<h4 id="prefetch-analysis">Prefetch Analysis</h4>
+<h4 id="application-compatibility-cache-shimcache">Application Compatibility Cache (ShimCache)</h4>
+<h4 id="amcache-registry-examination">Amcache Registry Examination</h4>
+<h4 id="scaling-shimcache-and-amcache-investigations">Scaling ShimCache and Amcache Investigations</h4>
+<h3 id="lateral-movement-adversary-tactics-techniques-and-procedures-ttps">Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</h3>
+<h4 id="compromising-credentials-techniques">Compromising Credentials Techniques</h4>
+<h4 id="remote-desktop-services-misuse">Remote Desktop Services Misuse</h4>
+<h4 id="windows-admin-share-abuse">Windows Admin Share Abuse</h4>
+<h4 id="psexec-and-cobalt-strike-beacon-psexec-activity">PsExec and Cobalt Strike Beacon PsExec Activity</h4>
+<h4 id="windows-remote-management-tool-techniques">Windows Remote Management Tool Techniques</h4>
+<h4 id="powershell-remotingwmic-hacking">PowerShell Remoting/WMIC Hacking</h4>
+<h4 id="vulnerability-exploitation">Vulnerability Exploitation</h4>
+<h3 id="log-analysis-for-incident-responders-and-hunters">Log Analysis for Incident Responders and Hunters</h3>
+<h4 id="profiling-account-usage-and-logons">Profiling Account Usage and Logons</h4>
+<h4 id="tracking-and-hunting-lateral-movement">Tracking and Hunting Lateral Movement</h4>
+<h4 id="identifying-suspicious-services">Identifying Suspicious Services</h4>
+<h4 id="detecting-rogue-application-installation">Detecting Rogue Application Installation</h4>
+<h4 id="finding-malware-execution-and-process-tracking">Finding Malware Execution and Process Tracking</h4>
+<h4 id="capturing-command-lines-and-scripts">Capturing Command Lines and Scripts</h4>
+<h4 id="powershell-transcript-and-scriptblock-logging">PowerShell Transcript and ScriptBlock Logging</h4>
+<h4 id="discovering-cobalt-strike-beacon-powershell-import-activity">Discovering Cobalt Strike beacon PowerShell Import Activity</h4>
+<h4 id="powershell-script-obfuscation">PowerShell Script Obfuscation</h4>
+<h4 id="wmi-activity-logging">WMI Activity Logging</h4>
+<h4 id="anti-forensics-and-event-log-clearing">Anti-Forensics and Event Log Clearing</h4>
 <h2 id="resources">Resources</h2>
 <p>[<a href="https://www.crowdstrike.com/cybersecurity-101/advanced-persistent-threat-apt/">1</a>] About some APT groups</p>
 <p>[<a href="https://www.amazon.com/Practical-Malware-Analysis-Hands-Dissecting/dp/1593272901">2</a>] Practical Malware Analysis book</p>
