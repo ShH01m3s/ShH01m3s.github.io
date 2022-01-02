@@ -438,11 +438,30 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 <p>My article about Registry and ShimCache.</p>
 <hr>
 <p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>.</p>
-<p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser</p>
-<p>Originally was used to identify compatibility issues between 32 and 64 bit progs. Track the <strong>file path, size, last modified time</strong> ⏰. Only logs specific file extensions. It might not be a reliable evidnce that the program was executed or even installation, but if the program was installed and deleted - it won&rsquo;t be deleted from here. ShimCache is another name for this artifact. ⚠️ Uses file system timestamps. Last modified ~ when the file was created, changed (the exe itself) or renamed.</p>
+<p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser, shimcache plugin for <code>vol.py</code></p>
+<p>Originally was used to identify compatibility issues between 32 and 64 bit progs. Track the <strong>file name, file path, size, last modified time, execution flag*</strong> ⏰.</p>
+<p>Can be used to see installed apps, deleted apps, wiping apps, notable directories, malware.</p>
+<p>Only logs specific file extensions (<code>exe</code>, <code>dll</code>, <code>bat</code>). It might not be a reliable evidnce that the program was executed or even installation, but if the program was installed and deleted - it won&rsquo;t be deleted from here. ShimCache is another name for this artifact. ⚠️ Uses file system timestamps. Last modified ~ when the file was created, changed (the exe itself) or renamed.</p>
 <blockquote>
 <p>⚠️ Written at shutdown!</p>
 <p>⚠️ Doesn’t track the file execution for Win7+ systems.</p>
+</blockquote>
+<hr>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">ShimCacheParser</span><span class="p">.</span><span class="n">py</span> <span class="n">-i</span> <span class="s2">&#34;Input file&#34;</span> <span class="n">-o</span> <span class="s2">&#34;Output file&#34;</span>
+</code></pre></div><blockquote>
+<p>⚠️ Got an error <code> File &quot;ShimCacheParser.py&quot;, line 148,  except OverflowError, err:            ^, SyntaxError: invalid syntax</code>.</p>
+<p>✍️ Use python 2.6+. Command <code>python27</code> in my case (alias for pyenv activate python27). It should be installed of course.</p>
+</blockquote>
+<p><strong>Dropped exe</strong>. Last Modified - when the exe was dropped on the system.</p>
+<p><strong>Executed exe</strong>. Last Modified is updated.</p>
+<p><strong>Deleted exe</strong>. Last Modified is not updated.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -A10 -i <span class="s2">&#34;last modified&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; results.csv
+
+grep -iv <span class="s2">&#34;windows&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; resultsExcluded.csv <span class="c1"># targeting notable directories</span>
+
+grep -E i <span class="s2">&#34;[\\][a-Z0-9]{1,4}\.(exe|bat|dll|py|txt|vbs)&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; resultNotables.csv
+</code></pre></div><blockquote>
+<p>📝 Tried running these test myself on a Win11 Parallels VM on macOS. <code>cat resultInstalledAndExecuted.csv | awk -F &quot;,&quot; '/Procmon64/ {print $0}'</code>. In my case these entries remained intact after execution or deletion. I should install something new and see the result then.</p>
 </blockquote>
 <hr>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">appcompatcacheparser</span> <span class="o">-f</span> <span class="s2">&#34;SYSTEM/hive&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;savetodir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;savetofileindir.csv&#34;</span>
