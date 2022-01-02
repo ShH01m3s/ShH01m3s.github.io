@@ -301,6 +301,11 @@
 <h2 id="topics">Topics</h2>
 <p>Application execution artifacts, account auditing is a powerful means of identifying malicious actions. An attacker also needs a means to move throughout the network, so we look for artifacts left by the relatively small number of ways there are to accomplish this part of their mission. In this section, we cover common attacker tradecraft and discuss the various data sources and forensic tools you can use to identify malicious activity in the enterprise.</p>
 <h3 id="stealing-and-utilization-of-legitimate-credentials">Stealing and Utilization of Legitimate Credentials</h3>
+<p>There are limimted amount of techniques for gaining authorization and moving laterally. However, there are thousands of ways to execute code, exfiltrate or collect data. So, in hunting focus on this limited techniques, since at some point the adversary will have to use one of them.</p>
+<p>If you are not very important, then it&rsquo;s less likely to face a cool 0-day. Why would anyone use a &ldquo;bargaining chip&rdquo; to hack something small? 0-days are costly.</p>
+<blockquote>
+<p>⚠️ Don&rsquo;t give every user local admin rights! Windows XP - every user is admin.</p>
+</blockquote>
 <h4 id="pass-the-hash">Pass the Hash</h4>
 <h4 id="single-sign-on-sso-dumping-using-mimikatz">Single Sign On (SSO) Dumping using Mimikatz</h4>
 <h4 id="token-stealing">Token Stealing</h4>
@@ -311,9 +316,162 @@
 <h3 id="advanced-evidence-of-execution-detection">Advanced Evidence of Execution Detection</h3>
 <h4 id="attacker-tactics-techniques-and-procedures-ttps-observed-via-process-execution">Attacker Tactics, Techniques, and Procedures (TTPs) Observed Via Process Execution</h4>
 <h4 id="prefetch-analysis">Prefetch Analysis</h4>
-<h4 id="application-compatibility-cache-shimcache">Application Compatibility Cache (ShimCache)</h4>
+<p>Udemy SDF series about Prefetch, Digital Archaeology, SDF podcast. Review my article about prefetch forensics (based on the previously mentioned sources). Below information is copied from there</p>
+<p><strong>WinPrefetchView</strong></p>
+<p>To view pretech files (decompressed as well) in GUI.</p>
+<p><strong>Fred</strong> - Forensic Registry Editor</p>
+<p>To view exported hives.</p>
+<p><strong>FTK</strong> Imager Lite</p>
+<p>Fairly heavy footprint - 15-16Mb.</p>
+<p><strong>CDQR</strong></p>
+<p>This tool focuses on the <code>pf</code> intself rather than on a data it contains. It&rsquo;s useful for making timelines.</p>
+<p><strong>RegRipper</strong> (GUI and CUI)</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</code></pre></div><p><strong>Prefetch</strong> parser</p>
+<p>More info than with WinPrefetchView</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prefetch.py -c -d -e
+prefetch.py -c -d &gt; pf.csv
+prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
+</code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter.</p>
+<p>If collecting prfethc on a live system, run volatile collection tools before that.</p>
+<p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Filename, Creation time, Modified time, File Size, Process EXE, Process Path, Run Counter, Last Run Time, Missing Process + libraries and resources for each process.</p>
+<p>Forensics value - tracks the execution of programs. Central repository of what was run on the system. File size can be used to search for the same process with a different name on a different machine.</p>
+<p><code>C:\Windows\Prefetch</code>.</p>
+<p>All prefetch have a signature at offset 4th byte. MAM - compressed and SCCA - plain text.</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Signature1 (version)</th>
+<th>signature2 (type)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WinXP &amp; 2003</td>
+<td>0x00000011 or 17</td>
+<td>SCCA</td>
+</tr>
+<tr>
+<td>Vista</td>
+<td>0x00000023 or 23</td>
+<td>SCCA</td>
+</tr>
+<tr>
+<td>W8</td>
+<td>0x0000001a or 26</td>
+<td>SCCA</td>
+</tr>
+<tr>
+<td>W10</td>
+<td>MAM</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>W10</td>
+<td>0x0000001e or 30</td>
+<td>SCCA</td>
+</tr>
+</tbody>
+</table>
+<p>Prefetch can be disabled in registry C:\Windows\System32\config\SYSTEM. Export it and open, for example, in Fred. CurrentControlSet -&gt; SessionManager -&gt; Memory Managment -&gt; Prefetch Parameters -&gt; Enable Prefetcher:</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>disabled</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>enabled for apps only</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>enabled for boot only</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>boot and app enabled (default)</td>
+</tr>
+</tbody>
+</table>
+<p>You can check it with <code>rip.exe</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</code></pre></div><p><strong>Caveats</strong></p>
+<p>On servers is usually turned off. And starting with Win10 - compressed. For systems with solid state drives it&rsquo;s also disabled. With Win8 - additional run times recorded. Also, there is latency issue - some apps are not closed upon clicking X, but remain running in background. Hence, the last time run might be different.</p>
+<blockquote>
+<p>If the app was deleted and then reinstalled? What the firtst run time will be?</p>
+<p>What if I rename an executable?</p>
+<p>If the exe is substitued?</p>
+</blockquote>
+<p>If the same exe was run from different locations - different <code>.pf</code> files. If the application was deleted, the info remains in prefetch.</p>
+<blockquote>
+<p>Write a sctipt to determine deleted files</p>
+</blockquote>
+<hr>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">pecmd</span> <span class="o">-f</span> <span class="s2">&#34;path/to/pf/file.pf&#34;</span> <span class="c"># for a single file</span>
+<span class="n">pecmd</span> <span class="n">-d</span> <span class="s2">&#34;dir/with/pfs&#34;</span> <span class="n">-q</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">filename</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">wheretoputtheresult</span><span class="p">&gt;</span>
+<span class="c"># Review in TimeLine Explorer</span>
+</code></pre></div><p>Information that can be got from the pf files:</p>
+<ul>
+<li>Executable name. If it was changed or run from a different location it will have a different name (different suffix at the end, for example CHROME-12345BC and CHROME-43216AD).</li>
+<li>Run times</li>
+<li>Other run times (not always, if run times &gt; 1)</li>
+<li>Referenced files and directories</li>
+<li>File size</li>
+<li>Hash</li>
+<li>Last Run</li>
+</ul>
+<p>Stacking with Kansa</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># run this Kansa script from the directory with all the csv (results of pecmd) files from all the machines you need to review.</span>
+<span class="nb">Get-PrefetchListingStack</span><span class="p">.</span><span class="n">ps1</span> <span class="p">&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">csv</span>
+
+<span class="c"># look for files that were run once first. These are the most suspocious. </span>
+<span class="c"># if you have an approximate dates of infection, sort by this data as well.</span>
+</code></pre></div><h4 id="application-compatibility-cache-shimcache">Application Compatibility Cache (ShimCache)</h4>
+<p>My article about Registry and ShimCache.</p>
+<hr>
+<p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>.</p>
+<p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser</p>
+<p>Originally was used to identify compatibility issues between 32 and 64 bit progs. Track the <strong>file path, size, last modified time</strong> ⏰. Only logs specific file extensions. It might not be a reliable evidnce that the program was executed or even installation, but if the program was installed and deleted - it won&rsquo;t be deleted from here. ShimCache is another name for this artifact. ⚠️ Uses file system timestamps. Last modified ~ when the file was created, changed (the exe itself) or renamed.</p>
+<blockquote>
+<p>⚠️ Written at shutdown!</p>
+<p>⚠️ Doesn’t track the file execution for Win7+ systems.</p>
+</blockquote>
+<hr>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">appcompatcacheparser</span> <span class="o">-f</span> <span class="s2">&#34;SYSTEM/hive&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;savetodir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;savetofileindir.csv&#34;</span>
+</code></pre></div><p>Tips:</p>
+<ul>
+<li>Different entries with the last modification date being the same - most probably a rename activity. Use $UsnJrnl and $Logfile for proof. Sort by the MT in TimeLine Explorer</li>
+<li>In case of UNC path (those starting from an IP of the machines) could be an indicator that the file was browsed and launched with Explorer, or malware ran it using UNC path.</li>
+<li>Check for the NTFS last modified timestamp with powershell <code>Get-ChildItem &lt;file&gt; | Select Name, LastWriteTime</code>. If this date and time and the timestamp shown by ShimCache are different (NTFS ts being much older), then there probably was a timestomping at place. It&rsquo;s impossible for a ShimCache entry to have a newer ts than the NTFS ts. Also, this would indicate that the file was not executed after the ShimCache entry was created.</li>
+</ul>
 <h4 id="amcache-registry-examination">Amcache Registry Examination</h4>
 <h4 id="scaling-shimcache-and-amcache-investigations">Scaling ShimCache and Amcache Investigations</h4>
+<p>Stacking with Kansa</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Linux</span>
+sudo su -
+<span class="c1"># AppCompatProcessor.py </span>
+<span class="c1"># Step 1. Connect Amcache.hve and SYSTEM hives to the SQL DB.</span>
+AppCompatProcessor.py ./db.db load <span class="s2">&#34;path/to/hives.zip&#34;</span>
+AppCompatProcessor.py ./db.db search <span class="c1"># /etc/AppCompatProcessor/AppCompatSearch.txt contains signatures to look for and can be changed.</span>
+<span class="c1"># Result is stored in Output.txt</span>
+
+<span class="c1"># Stacking examples:</span>
+AppCompatProcessor.py ./db.db stack <span class="s2">&#34;Filename&#34;</span> LIKE <span class="s1">&#39;%&lt;partialname&gt;%&#39;</span>
+AppCompatProcessor.py ./db.db stack <span class="s2">&#34;Filename&#34;</span> <span class="s2">&#34;length(filename)&lt;3&#34;</span> <span class="c1"># malware is often named with 1 or 2 characters. Let&#39;s make the max 3 just in case</span>
+
+AppCompatProcessor.py ./db.db reconscan <span class="c1"># /etc/AppCompatProcessor.reconFiles.txt - common attackers&#39; recon techniques (interesting commands that could be indicators of recon)</span>
+
+AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
+
+</code></pre></div><p>Could not make the tool run against the hive collected with FTK from my Windows 11 machine.</p>
 <h3 id="lateral-movement-adversary-tactics-techniques-and-procedures-ttps">Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</h3>
 <h4 id="compromising-credentials-techniques">Compromising Credentials Techniques</h4>
 <h4 id="remote-desktop-services-misuse">Remote Desktop Services Misuse</h4>

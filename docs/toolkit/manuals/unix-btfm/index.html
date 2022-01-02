@@ -177,6 +177,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#conditions">Conditions</a></li>
+    <li><a href="#loops">Loops</a></li>
+    <li><a href="#examples">Examples</a></li>
     <li><a href="#fuc">FUC</a>
       <ul>
         <li><a href="#sed">SED</a></li>
@@ -263,7 +268,113 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="fuc">FUC</h2>
+    <h2 id="variables">Variables</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># no spaces when assigning</span>
+<span class="nv">$0</span> <span class="c1"># the first arg</span>
+
+<span class="c1"># array</span>
+<span class="nv">array</span><span class="o">=(</span><span class="m">1</span> <span class="m">2</span> <span class="m">4</span> 5<span class="o">)</span>
+<span class="si">${</span><span class="nv">array</span><span class="p">[0]</span><span class="si">}</span>
+<span class="si">${</span><span class="nv">array</span><span class="p">[*]</span><span class="si">}</span> <span class="c1"># all items delimited by IFS</span>
+<span class="si">${</span><span class="nv">array</span><span class="p">[@]</span><span class="si">}</span> <span class="c1"># all items </span>
+<span class="si">${</span><span class="p">!array[@]</span><span class="si">}</span> <span class="c1"># all indexes</span>
+<span class="si">${#</span><span class="nv">array</span><span class="p">[@]</span><span class="si">}</span> <span class="c1"># number of items</span>
+<span class="si">${#</span><span class="nv">array</span><span class="p">[0]</span><span class="si">}</span> <span class="c1"># length of item 0</span>
+
+<span class="nv">ARRAY</span><span class="o">=(</span><span class="k">$(</span>ls *.txt<span class="k">)</span><span class="o">)</span>
+<span class="nv">COUNT</span><span class="o">=</span><span class="m">1</span>
+<span class="k">for</span> FILE in <span class="s2">&#34;</span><span class="si">${</span><span class="nv">ARRAY</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&#34;</span>
+<span class="k">do</span>
+	<span class="nb">echo</span> -n <span class="nv">$FILE</span>
+	<span class="nb">echo</span> -n <span class="s2">&#34;[</span><span class="si">${</span><span class="nv">ARRAY</span><span class="p">[</span><span class="nv">$COUNT</span><span class="p">]</span><span class="si">}</span><span class="s2">]&#34;</span>
+	<span class="k">if</span> <span class="o">[</span> -w <span class="s2">&#34;</span><span class="nv">$FILE</span><span class="s2">&#34;</span><span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+		<span class="nb">echo</span> -e <span class="s2">&#34;\t YES&#34;</span>
+	<span class="k">else</span>
+		<span class="nb">echo</span> -e <span class="s2">&#34;\t NO&#34;</span>
+<span class="k">done</span>
+</code></pre></div><h2 id="functions">Functions</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">function</span> functionname	<span class="o">()</span> <span class="o">{</span>
+	<span class="nb">local</span> <span class="nv">name</span><span class="o">=</span><span class="nv">$1</span>
+	commands
+<span class="o">}</span>
+hello
+
+<span class="k">function</span> functioname2 <span class="o">{</span>
+ commands		
+<span class="o">}</span>
+</code></pre></div><h2 id="conditions">Conditions</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># if/elif</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -ne 1<span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&#34;Exactly 1 arg needed&#34;</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="c1"># case</span>
+<span class="k">case</span> <span class="nv">$var</span> in
+ <span class="s2">&#34;</span><span class="nv">$cond1</span><span class="s2">&#34;</span><span class="o">)</span> 
+   commands
+   <span class="p">;;</span>
+ <span class="s2">&#34;</span><span class="nv">$cond2</span><span class="s2">&#34;</span><span class="o">)</span> 
+   commands
+   <span class="p">;;</span>
+ <span class="s2">&#34;</span><span class="nv">$cond3</span><span class="s2">&#34;</span><span class="o">)</span> 
+   commands
+   <span class="p">;;</span> 
+   *<span class="o">)</span>
+   commands
+   <span class="p">;;</span>
+ *<span class="o">)</span>
+ 	 commands
+ 	 <span class="p">;;</span>
+</code></pre></div><h2 id="loops">Loops</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># reading a file line by line</span>
+
+<span class="k">while</span> <span class="nb">read</span> line
+<span class="k">do</span> 
+  commands
+<span class="k">done</span> &lt; <span class="s2">$&#34;Filename&#34;</span>
+<span class="c1"># or</span>
+cat <span class="s2">$&#34;Filename&#34;</span> <span class="p">|</span>
+<span class="k">while</span> <span class="nb">read</span> line
+<span class="k">do</span> 
+  commands
+<span class="k">done</span>
+
+
+<span class="k">for</span><span class="o">((</span><span class="nv">i</span><span class="o">=</span>0<span class="p">;</span> i -lt 10<span class="p">;</span> i++<span class="o">))</span><span class="p">;</span> 
+</code></pre></div><h2 id="examples">Examples</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span>
+<span class="k">while</span> <span class="o">[</span> <span class="nv">$#</span> -gt <span class="m">0</span> <span class="o">]</span>
+<span class="k">do</span>
+  <span class="k">case</span> <span class="nv">$1</span> in
+    -f<span class="p">|</span>--file<span class="o">)</span>
+      <span class="nv">FILE</span><span class="o">=</span><span class="nv">$2</span>
+      <span class="k">if</span> ! <span class="o">[</span> -f <span class="nv">$FILE</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&#34;This is not a valid file&#34;</span>
+      <span class="nb">exit</span> <span class="m">1</span>
+      <span class="k">fi</span>
+      <span class="nb">echo</span> <span class="s2">&#34;Words in the file </span><span class="k">$(</span>cat <span class="nv">$FILE</span> <span class="p">|</span> wc -w<span class="k">)</span><span class="s2">&#34;</span>
+      <span class="p">;;</span>
+     -h<span class="p">|</span>--help<span class="o">)</span>
+      <span class="nb">echo</span> <span class="s2">&#34;specifiy a file&#34;</span>
+      <span class="p">;;</span>
+  <span class="k">esac</span>
+<span class="k">done</span>
+
+
+<span class="k">while</span> <span class="nb">getopts</span> a🅱️cd param<span class="p">;</span> <span class="k">do</span>
+  <span class="k">case</span> <span class="nv">$param</span> in 
+    a<span class="o">)</span>
+     <span class="nb">echo</span> <span class="nv">$OPTARG</span> <span class="m">1</span>
+     <span class="p">;;</span>
+    b<span class="o">)</span> 
+     <span class="nb">echo</span> <span class="nv">$OPTARG</span> <span class="m">2</span>
+     <span class="p">;;</span>
+     
+<span class="nv">opts</span><span class="o">=</span><span class="sb">`</span>getopt -o -a:🅱️cd --long file::,name<span class="p">;</span>,help -- <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span><span class="sb">`</span>
+<span class="nb">eval</span> <span class="nb">set</span> -- <span class="s2">&#34;</span><span class="nv">$opts</span><span class="s2">&#34;</span>
+</code></pre></div><h2 id="fuc">FUC</h2>
 <p>(Frequently Used Commands)</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">uname -a <span class="c1"># extended system information.</span>
 
@@ -287,6 +398,8 @@ shutdown -h now, reboot, init 6. Now they are the same, but used to be different
 shutdown -h +10 <span class="c1"># shutdown in 10 minutes.</span>
 shutdown -r now <span class="c1"># reboot</span>
 shutdown -Fr now <span class="c1"># check the filesystem on reboot.</span>
+
+<span class="nv">IFS</span><span class="o">=</span><span class="s1">$&#39;\n&#39;</span> <span class="c1">#new line separator</span>
 </code></pre></div><h3 id="sed">SED</h3>
 <p>For macOS use gsed, run <code>brew install gnu-sed</code> first to install it. Otherwise, some commands won&rsquo;t work.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sed <span class="s1">&#39;s/wrod/word/g&#39;</span> &lt;file.txt&gt;

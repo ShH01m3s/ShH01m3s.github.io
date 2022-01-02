@@ -412,8 +412,35 @@
 <h3 id="malware-persistence-identification">Malware Persistence Identification</h3>
 <p><a href="https://www.hexacorn.com/blog/2017/01/28/beyond-good-ol-run-key-all-parts/">https://www.hexacorn.com/blog/2017/01/28/beyond-good-ol-run-key-all-parts/</a></p>
 <h4 id="autostart-locations-runkeys">AutoStart Locations, RunKeys</h4>
-<h4 id="service-creationreplacement">Service Creation/Replacement</h4>
-<h4 id="service-failure-recovery">Service Failure Recovery</h4>
+<p>Kansa Framework. Collection of the autorun locations</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Step 1. Run autorunsc (or Kansa script) on every machine, getting csv file for each one</span>
+<span class="c"># autorun.exe command in Kansa for autoruns search</span>
+<span class="c"># a * - all possible locations</span>
+<span class="c"># c - codecs as well</span>
+<span class="c"># h - generate hashes</span>
+<span class="c"># s - verify digital signatures</span>
+<span class="c"># &#39;*&#39; - all user profiles</span>
+<span class="n">autorunsc</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span> 
+<span class="c"># Collection with Kansa</span>
+<span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="p">&lt;</span><span class="n">IP</span><span class="p">|</span><span class="n">localhost</span><span class="p">|</span><span class="n">filewithIPs</span><span class="p">&gt;</span> <span class="n">-Credential</span> <span class="n">username</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span> 
+<span class="c"># don&#39;t pass the password here. Type when asked</span>
+
+<span class="c"># Step 2. open the file generated in TimeLine Explorer for analysis. </span>
+<span class="c"># Step 3. Choose files from untrusted vendors and (Blank). </span>
+<span class="c"># Step 4. Look at the images paths (compare with the Find Evil poster)</span>
+<span class="c"># Step 5. Look at the hashes, eliminate the known good.</span>
+<span class="c"># Step 6. Stacking (generate on file from all csv)</span>
+<span class="nb">Get-ASEPImagePathLaunchStringMD5UnsignedStack</span><span class="p">.</span><span class="n">ps1</span> <span class="p">&gt;</span> <span class="n">stackedData</span><span class="p">.</span><span class="n">csv</span>
+<span class="c"># Step 6. Perfom frequency analysis. What stands out?</span>
+<span class="c"># Step 7. Use Select-String or grep to identify machines for each suspicuios entry</span>
+
+</code></pre></div><h4 id="service-creationreplacement">Service Creation/Replacement</h4>
+<p>Stacking services with Kansa</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">services</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span><span class="p">|</span><span class="n">dsc</span> <span class="n">-OutFile</span> <span class="n">allServicesStack</span><span class="p">.</span><span class="n">csv</span>
+<span class="c"># For each GROUP BY type the column for ordering</span>
+<span class="c"># For example Name or Path</span>
+<span class="c"># quit for quit</span>
+</code></pre></div><h4 id="service-failure-recovery">Service Failure Recovery</h4>
 <h4 id="scheduled-tasks">Scheduled Tasks</h4>
 <h4 id="dll-hijacking">DLL Hijacking</h4>
 <p>[<a href="">1</a>] My own presentation and corresponding articles</p>
@@ -478,7 +505,11 @@
 <span class="c"># or with Powershell:</span>
 
 </code></pre></div><p><code>PyWMIPersistenceFinder.py</code> is used for offline analysis of <code>OBJECTS</code> file. If data is deleted from the DB, the data might be still there. And this script parses the db, even the unallocated entries of this db.</p>
-<h4 id="wmi-process-anomalies">WMI Process Anomalies</h4>
+<p>Stacking with Kansa</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">wmisFilters</span><span class="p">.</span><span class="n">csv</span><span class="p">|</span><span class="n">wmisEvents</span><span class="p">.</span><span class="n">csv</span><span class="p">|</span><span class="n">wmisConsumers</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span><span class="p">|</span><span class="n">dsc</span> <span class="n">-OutFile</span> <span class="n">wmisStack</span><span class="p">.</span><span class="n">csv</span>
+<span class="c"># GROUP BY Name or/and query</span>
+<span class="c"># Use Select-String or grep to identify the machines for suspiction entries</span>
+</code></pre></div><h4 id="wmi-process-anomalies">WMI Process Anomalies</h4>
 <ol>
 <li><code>svchost</code> -&gt; <code>services</code> -&gt; <code>wmiprvse.exe</code> -&gt; CommandLine Event Consumer. If wmiprvse.exe has another parent or unusuall child (powershell) it&rsquo;s suspicious.</li>
 <li><code>scrcons.exe</code> -&gt; cmd.exe -&gt; schticks.exe -&gt; ActiveScript Event Consumer.</li>
