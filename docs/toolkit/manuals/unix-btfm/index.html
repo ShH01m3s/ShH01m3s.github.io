@@ -190,6 +190,7 @@
     </li>
     <li><a href="#system">System</a>
       <ul>
+        <li><a href="#privileges">Privileges</a></li>
         <li><a href="#list-drives">List Drives</a></li>
         <li><a href="#usb">USB</a></li>
         <li><a href="#mounting">Mounting</a></li>
@@ -499,8 +500,13 @@ cat /etc/passwd  <span class="p">|</span> awk -F <span class="s2">&#34;:&#34;</s
 
 cat table.txt <span class="p">|</span> awk <span class="s1">&#39;{for(i=1;i&lt;=NF;i++){print &#34;field:&#34;, i, $i}}&#39;</span>
 </code></pre></div><h2 id="system">System</h2>
+<h3 id="privileges">Privileges</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">su - &lt;user_name&gt; <span class="c1"># switch to user_name user</span>
 su - &lt;user_name&gt; -c <span class="s1">&#39;ls&#39;</span> <span class="c1">#  run ls command as user_name user</span>
+
+chmod <span class="m">4777</span> prog <span class="c1"># 4 - set-UID for the program enabled</span>
+
+cp /bin/sh /tmp/mysh <span class="o">&amp;&amp;</span> chmod <span class="m">4755</span> /tmp/mysh <span class="c1"># put a set-uid bit on the copied version. Now /tmp/mysh is run with the original user&#39;s privileges.</span>
 </code></pre></div><h3 id="list-drives">List Drives</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l
 </code></pre></div><h3 id="usb">USB</h3>
