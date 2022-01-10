@@ -258,6 +258,8 @@ python vol.py -f memdump.mem --profile<span class="o">=</span>XXXX pslist <span 
 </code></pre></div><p><strong><code>psscan</code></strong>. Unlike the pslist, it doesn&rsquo;t walk through the <code>psActiveProcessHead</code> list, so, it can detect hidden or unlinked processes, rootkits. The fastest way to find such processes is to run both <code>pslist</code> and <code>psscan</code> and check if they differ.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py -f memdump.mem <span class="o">[</span>windows<span class="p">|</span>linux<span class="p">|</span>macos<span class="o">]</span>.psscan <span class="c1"># vol3</span>
 python vol.py -f memdump.mem --profile<span class="o">=</span>XXXX psscan <span class="c1"># vol2</span>
+</code></pre></div><p>Comprare results from psscan and pslist:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell">
 </code></pre></div><p><strong><code>pstree</code></strong>. Shows the process tree. Helps to see, who&rsquo;s a parent of what. It&rsquo;s good to detect processes which suspicious parents.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python vol.py -f memdump.mem windows.pstree <span class="c1"># vol3</span>
 python vol.py -f memdump.mem --profile<span class="o">=</span>XXXX pstree <span class="c1"># vol2</span>
