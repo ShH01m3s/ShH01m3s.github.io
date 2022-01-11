@@ -177,7 +177,16 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#artefacts-overview">Artefacts Overview</a>
+    <li><a href="#case-details">Case Details</a></li>
+    <li><a href="#strategy">Strategy</a>
+      <ul>
+        <li><a href="#connections">Connections</a></li>
+        <li><a href="#processes">Processes</a></li>
+        <li><a href="#logs">Logs</a></li>
+        <li><a href="#mft">MFT</a></li>
+      </ul>
+    </li>
+    <li><a href="#artefacts">Artefacts</a>
       <ul>
         <li><a href="#artefact-memory-dump"><strong>Artefact</strong>: Memory Dump</a>
           <ul>
@@ -203,12 +212,6 @@
     <li><a href="#findings-analysis">Findings Analysis</a>
       <ul>
         <li><a href="#malware-file">Malware File</a></li>
-      </ul>
-    </li>
-    <li><a href="#strategy">Strategy</a>
-      <ul>
-        <li><a href="#connections">Connections</a></li>
-        <li><a href="#processes">Processes</a></li>
       </ul>
     </li>
   </ul>
@@ -241,10 +244,21 @@
 
   <div class="content" itemprop="articleBody">
     <p>⛔️  Spoiler alert!</p>
-<p>So, there are not too much details on this one. But they have provided <em>some</em> artefacts from <em>one</em> machine. And they&rsquo;ve also mentioned that this machine is <em>likely</em> compromised.</p>
-<h2 id="artefacts-overview">Artefacts Overview</h2>
+<h2 id="case-details">Case Details</h2>
 <p><strong>Artefacts in posession</strong>: memory dump, OS event logs, registry files, Prefetch files, $MFT file, ShimCache, AmCache, network traffic dumps. I&rsquo;ve decided to analyse each artefact, what can I get from it in this specific case and how. Then, I am going to outline my strategy in approaching this case.</p>
 <p>We are looking for indicators of compromise.  There are no details as to what is the group and what was its aim. But it’s known that there was abnormal traffic detected that has launched this IR process. So, at least, we must have some suspicious traffic, possibly open or terminated connections. These should have been launched by some process, so we are looking for malware. Also, since the attacker needed an account to get in, I will be looking for an account take over attempts and possibly, new account creation.</p>
+<p>So, there are not too much details on this one. But they have provided <em>some</em> artefacts from <em>one</em> machine. And they&rsquo;ve also mentioned that this machine is <em>likely</em> compromised.</p>
+<h2 id="strategy">Strategy</h2>
+<h3 id="connections">Connections</h3>
+<p>So, I would first look at the open and terminated connections to get the list of the most suspicious IPs, ports and corresponding processes. After all, this is what it all had started from. This information can be retrieved from memory dump, using volatility and several plugins. Let&rsquo;s start with these.</p>
+<p>Based on the data acquired, I would then check the traffic dump to get more insight. In case some additional data is found (like documents or commands, or programs sent over the Internet). If anything was sent over the network, these files can be extracted from the network traffic dump.</p>
+<h3 id="processes">Processes</h3>
+<p>Also, based on the information from the network connections and also applying frequency analysis as well as “find evil” tactics, I would analyse executed programs using ShimCache → Prefetch → AmCache. For data found I would the return to the memory dump at dig into processes deeper. WMI database (<code>OBJECTDAT</code> file) can be used along with the Registry to find evidence of persistence.</p>
+<h3 id="logs">Logs</h3>
+<p>I would also check logs when I have something to pivot from. I would also try to find some events of multiple failed and then successful login just in case some acount was attacked and exploited.</p>
+<h3 id="mft">MFT</h3>
+<p>This artifact is mostly for the end of analysis to recover the files that were probably deleted from the system. But in order to be able to carve anything, I would need to know what I am looking for.</p>
+<h2 id="artefacts">Artefacts</h2>
 <h3 id="artefact-memory-dump"><strong>Artefact</strong>: Memory Dump</h3>
 <p><strong>Information</strong>:</p>
 <ol>
@@ -442,7 +456,26 @@ vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
 <p><code>vol3 -f memdump.mem windows.malfind.Malfind</code>  reported winlogon.exe process multiple times. <code>powershell</code> (9188), <code>smartscreen</code> (7596), <code>WINWORD.exe</code> (PID 3224, 5164) and OUTLOOK.exe (4388).</p>
 <p><img src="images/winlogon_malware1.png" alt="winlogon_malware1"></p>
 <p>Looks like <code>winlogon</code> has some executables injected. But I can only be sure if I see the whole code. This process seems to be too suspicious and I would like to dig deeper: <code>vol3 -f memdump.mem -o results windows.memmap.Memmap --pid 3232 --dump</code>.</p>
-<p>Running <code>xxd pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp | more</code> - confirms it&rsquo;s a legal PE executable.</p>
+<p>Running <code>xxd pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp | more</code> - confirms it&rsquo;s a legal PE executable. This one contains the following strings that are indicators of compromise (meterpreter?):</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">priv_elevate_getsystem</span>
+<span class="n">priv_passwd_get_sam_hashes</span>
+<span class="n">priv_fs_get_file_mace</span>
+<span class="n">priv_fs_set_file_mace</span>
+<span class="n">priv_fs_set_file_mace_from_file</span>
+<span class="n">priv_fs_blank_file_mace</span>
+<span class="n">priv_fs_blank_directory_mace</span>
+<span class="p">[...]</span>
+<span class="n">packet_create_response</span>
+<span class="n">packet_add_tlv_string</span>
+<span class="n">packet_transmit_response</span>
+<span class="n">packet_add_tlv_uint</span>
+<span class="n">packet_get_tlv_value_uint</span>
+<span class="n">packet_get_tlv_value_string</span>
+<span class="n">core_update_thread_token</span>
+<span class="n">ext_server_priv</span><span class="p">.</span><span class="n">x64</span><span class="p">.</span><span class="n">dll</span>
+<span class="p">[...]</span>
+<span class="n">C:</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">winlogon</span><span class="p">.</span><span class="n">exe</span>
+</code></pre></div><p>Virus Total check for <code>pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp</code> confirmed it&rsquo;s a meterpreter. <code>pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp</code>  and <code>pid.3232.vad.0x1a7c7970000-0x1a7c79a9fff.dmp</code> are also detected by some antiviruses as generic exploits. <code>pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp</code> is detected as trojan and exploit by some antiviruses.</p>
 <p>This <code>xxd pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp | more</code> one as well.</p>
 <p>This <code>xxd pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp | more</code> one looks suspicious as well, but it doesn&rsquo;t start with MZ, but has an executable later on.</p>
 <p><img src="images/winlogon_malware2.png" alt="winlogon_malware2"></p>
@@ -459,8 +492,23 @@ vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
 <p>🛠 wevutil, Event Viewer, <a href="https://eventlogxp.com/">Event Log Explorer</a> (💴), <a href="https://labs.f-secure.com/tools/chainsaw/">Chainsaw</a></p>
 <p>Since the pc was likely compromised, it’s either the existing user was used or new user created. We need to check both. Also, the attacker would probably need elevated privileges. And since network traffic is suspicious - review ids for opening connections.</p>
 <p><code>chainsaw hunt . --mapping /path/to/chainsaw/mapping_files/sigma-mapping.yml --rules /path/to/chainsaw/sigma_rules/ --csv result.csv </code></p>
-<p><code>chainsaw search . -i -s &quot;rundll32&quot;</code></p>
-<h3 id="artefact-registry"><strong>Artefact</strong>: Registry</h3>
+<p><code>chainsaw search . -i -s &quot;rundll32&quot;</code>.</p>
+<p>I have found that there is a malicious WMI consumer (see <a href="#Artefacts-wmi-db">WMI DB</a>). It launches a script. Probably, some logs might contain the script itself&hellip; . Let&rsquo;s use this <code>chainsaw</code> for that:</p>
+<p><code>chainsaw search . -i -s &quot;tmpA7Z2.ps1&quot; &gt; ../results/logsfortmp.txt</code>. There are lots of hits, I won&rsquo;t copy it here. Better analyse them somewhere else.</p>
+<p>I can see evidence of WMI entry creation here as well. So, let&rsquo;s hunt this</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">New-PSDrive</span> <span class="n">HKU</span> <span class="n">Registry</span> <span class="n">HKEY_USERS</span><span class="p">\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$rk</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\&#34;</span><span class="p">\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$rv</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;AppXs42fd12c3po92dynnq2r142fs12qhvsmyy\&#34;</span><span class="p">\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$p</span> <span class="p">=</span> <span class="p">(</span><span class="nb">gp </span><span class="n">-Path</span> <span class="nv">$rk</span> <span class="n">-Name</span> <span class="nv">$rv</span><span class="p">).</span><span class="nv">$rv</span><span class="p">\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$p</span><span class="p">)\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()\</span><span class="nb">r
+</span><span class="nb"></span><span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()\</span><span class="nb">r
+</span><span class="nb"></span><span class="p">[...]</span>
+</code></pre></div><h3 id="artefact-registry"><strong>Artefact</strong>: Registry</h3>
 <p><strong>Information:</strong></p>
 <ol>
 <li>Startup and auto runs</li>
@@ -534,6 +582,7 @@ MD5 <span class="o">(</span>result.exe<span class="o">)</span> <span class="o">=
 MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">=</span> 0e78eb7fc6702f12af6c4ef8aaa485ac
 ➜  results 
 </code></pre></div><h3 id="artefact-wmi-db">Artefact: WMI DB</h3>
+<p>🛠: <a href="https://github.com/davidpany/WMI_Forensics/blob/master/PyWMIPersistenceFinder.py">PyWMIPersistenceFinder.py</a>, <code>wmic</code>, <code>powershell</code></p>
 <div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">pywmi</span> <span class="n">OBJECTS</span><span class="p">.</span><span class="n">DATA</span> <span class="c"># alias for PyWMIPersistenceFinder.py=pywmi</span>
 <span class="p">[....]</span>
 <span class="n">LogRotate</span> <span class="n">Consumer-LogRotate</span> <span class="n">Event</span>
@@ -547,7 +596,13 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 		<span class="k">Filter</span> <span class="n">Query</span><span class="err">:</span> <span class="nb">SELECT </span><span class="p">*</span> <span class="n">FROM</span> <span class="n">__InstanceCreationEvent</span> <span class="n">WITHIN</span> <span class="n">10</span> <span class="nb">WHERE </span><span class="n">TargetInstance</span> <span class="n">ISA</span> <span class="s1">&#39;Win32_LoggedOnUser&#39;</span>
 </code></pre></div><p>This query:</p>
 <div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">__InstanceCreationEvent</span> <span class="n">WITHIN</span> <span class="mi">10</span> <span class="k">WHERE</span> <span class="n">TargetInstance</span> <span class="n">ISA</span> <span class="s1">&#39;Win32_LoggedOnUser&#39;</span>
-</code></pre></div><p>says to launch the command <code>powershell.exe -noP -ep bypass iex -c &quot;('C:\Users\john.goldberg\AppData\Roaming\Microsoft\Office\Recent\tmpA7Z2.ps1')&quot;</code> when a user is logged on.</p>
+</code></pre></div><p>says to launch the command <code>powershell.exe -noP -ep bypass iex -c &quot;('C:\Users\john.goldberg\AppData\Roaming\Microsoft\Office\Recent\tmpA7Z2.ps1')&quot;</code> when a user is logged on. These options <code>-noP -ep bypass iex -c</code> for <code>powershell</code> means:</p>
+<ul>
+<li><code>-noP</code> - no profile. I don&rsquo;t yet understand any practical use of this option for the attacker.</li>
+<li><code>-ep</code> - execution policy. Same as <code>Set-ExecutionPolicy Bypass</code>. Means that unsigned scripts from anywhere can be run on the machine.</li>
+<li><code>iex</code> - alias for <code>Invoke-Expression</code>.</li>
+<li><code>-c</code> -alias for the <code>Invoke-Expression</code> argument <code>-command</code>.</li>
+</ul>
 <p>What&rsquo;s in this <code>ps1</code> script?</p>
 <h2 id="findings-analysis">Findings Analysis</h2>
 <h3 id="malware-file">Malware File</h3>
@@ -556,13 +611,6 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 <p>Yeah! It&rsquo;s a .NET application, called <code>SharpHound</code>. By the way, Windows Defender on my Windows 11 VM machine has already deleted it twice, so I had to turn it off for analysis. It&rsquo;s already a bad/good sign (depending on the angle).</p>
 <p>PE Explorer says that it&rsquo;s a 32-bit Windows Console Application. Given the size of the code, it&rsquo;s not packed.</p>
 <p>Thankfully, the author of the malware didn&rsquo;t bother protecting the file and its intents: all function names are pretty self-explanatory: GetDomainControllers(), GetLoggedOnUsersAPI, ProcessLoggedOn, IsSidDomainController, NetWkstaUserEnum etc.</p>
-<h2 id="strategy">Strategy</h2>
-<h3 id="connections">Connections</h3>
-<p>So, I would first look at the open and terminated connections to get a list of the most suspicious IPs, ports and corresponding processes. After all, this is what it all had started from. This information can be retrieved from memory dump, using volatility and several plugins. Let&rsquo;s start with these.</p>
-<p>Based on the data acquired, I would then check the traffic dump to get more insight.</p>
-<h3 id="processes">Processes</h3>
-<p>Also, based on the information from the network connections and adding frequency analysis as well as “find evil”, I would analyse executed programs using ShimCache → Prefetch → AmCache. For data found I would the return to the memory dump at dig into processes deeper.</p>
-<p>Finally, I would check OS logs for … .</p>
 
   </div>
 </article>
