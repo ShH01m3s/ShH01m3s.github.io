@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>🗒️ Forensic Investigation Checklist  - Analyst</title>
+  <title>🗒️ Forensic Investigation Methodology - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -197,8 +197,6 @@
             <li><a href="#volatile-data">Volatile Data</a></li>
           </ul>
         </li>
-        <li><a href="#windows">Windows</a></li>
-        <li><a href="#macos">macOS</a></li>
         <li><a href="#preservation">Preservation</a></li>
       </ul>
     </li>
@@ -238,7 +236,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">🗒️ Forensic Investigation Checklist </h1>
+<h1 class="title">🗒️ Forensic Investigation Methodology</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -257,9 +255,7 @@
           
             
               
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
+          <a class="platform-link" href="/doctype/methodology">methodology</a>
           
       </div> <br /><br/>
       
@@ -517,6 +513,100 @@
 </tr>
 </tbody>
 </table>
+<table>
+<thead>
+<tr>
+<th>task</th>
+<th>info/done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Examination start/end date/time</td>
+<td></td>
+</tr>
+<tr>
+<td>Physical condition of the phone</td>
+<td></td>
+</tr>
+<tr>
+<td>Photoes of the phone and individual components</td>
+<td></td>
+</tr>
+<tr>
+<td>Turned on/off when received</td>
+<td></td>
+</tr>
+<tr>
+<td>Make/model</td>
+<td></td>
+</tr>
+<tr>
+<td>Aquisition tools used</td>
+<td></td>
+</tr>
+<tr>
+<td>Examination tools used</td>
+<td></td>
+</tr>
+<tr>
+<td>Data found</td>
+<td></td>
+</tr>
+<tr>
+<td>Notes from peer review</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of reporting agency</td>
+<td></td>
+</tr>
+<tr>
+<td>Case id</td>
+<td></td>
+</tr>
+<tr>
+<td>Forensic investigator</td>
+<td></td>
+</tr>
+<tr>
+<td>Date of evidence receipt</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of the device seized</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of the equipment and tools used</td>
+<td></td>
+</tr>
+<tr>
+<td>Chain of custody documentation</td>
+<td></td>
+</tr>
+<tr>
+<td>Details of findings or issued identified</td>
+<td></td>
+</tr>
+<tr>
+<td>Evidence recovered during examination</td>
+<td></td>
+</tr>
+<tr>
+<td>Images captured</td>
+<td></td>
+</tr>
+<tr>
+<td>Examination and analysis info</td>
+<td></td>
+</tr>
+<tr>
+<td>Report conclusion</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="take-photos-and-videos">Take photos and videos</h3>
 <p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
 <p>Below is the checklist for the first Responder to make sure they&rsquo;ve done everything needed before leaving the scene:</p>
@@ -608,43 +698,7 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
 <p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases? I mean, for the live USBs.</p>
 </blockquote>
 <h4 id="volatile-data">Volatile Data</h4>
-<p>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</p>
-<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
-<p>There are sevaral data types that can hold volatile data i.e. data about some state of RAM in time. Not all of them exist on every system:</p>
-<ul>
-<li><strong>RAM image.</strong> Can be aquired for all PC, there are certain complications with a Mac. Also, for mobile devices you can collect RAM data for separate processes only. For virtual machines are usually stored in a separate file once the system is suspended.</li>
-<li><strong>Hibernation files</strong>. Exist on major OS (Windows, Mac, Linux). For Windows - <a href="/docs/dfir/host/reference/windows/windows-hibernation">hyberfil.sys</a>. It&rsquo;s a RAM capture made by OS itself when the PC is falling asleep 💤.</li>
-<li><strong>Page files</strong>.</li>
-<li><strong>Swap files</strong>.</li>
-<li><strong>Crash dumps</strong>.</li>
-</ul>
-<p>In general, things we are going to do are specific to the case type. It case of a malware infection we will be looking for rogue processes, rootkits and other such things, while in child exploitation or insider threat  - these are not top priority. In case of child exploitation we would be more interested in some <code>png</code> or <code>jpeg</code> still residing somewhere in memory.</p>
-<p>Why collect RAM?</p>
-<ul>
-<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</li>
-<li><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</li>
-<li><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</li>
-</ul>
-<p>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</p>
-<p>🛠 Belkasoft RAM Capturer. ~4Mb footprint in RAM, slow. Magnet RAM Capturer - huge footprint, fast. Dumpit - the fastest, the smallest footprint (didn&rsquo;t work on Win10 on a VM Parallels on macOS). All of the aforementioned tools run in kernel mode! FTK Imager - big footprint, <strong>user mode</strong>, doesn&rsquo;t work on VM (in my case). Benchmark the tools yourself from time to time. Redline, Fast Dump (<code>fdpro.exe</code>). Sumuri&rsquo;s Interception (included with Paladin). Exploits some memory bug on some OS for machines that have either Thunderbolt or a Firewire to overwrite the admin&rsquo;s password in memory.</p>
-<h3 id="windows">Windows</h3>
-<p><code>hiberfil</code> files are not as common, but just as good. <code>imagecopy</code> plugin converts different formats into <code>raw</code> format to speed up. Also saves up to 75% of memory size, therefore decreases the time for analysis.  First, determine the OS profile (for vol2) and run the plugin. Example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
-</code></pre></div><p>How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. Purple square shows service pack version and the green one - the correct profile with the correct service pack. Other two suggested profiles have some service packs versions appened to the end.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
-vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
-</code></pre></div><p><strong>Hiberfil.sys</strong>. Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
-<h3 id="macos">macOS</h3>
-<p>Get the hibernation settings - <code>pmset -g | grep hibernatemode</code>:</p>
-<ul>
-<li><code>0</code> – Old style sleep mode, with RAM powered on while sleeping, safe sleep disabled, and super-fast wake.</li>
-<li><code>1</code> – Hibernation mode, with RAM contents written to disk, system totally shut down while “sleeping,” and slower wake up, due to reading the contents of RAM off the hard drive.</li>
-<li><code>3</code> – The default mode on machines introduced since about fall 2005. RAM is powered on while sleeping, but RAM contents are also written to disk before sleeping. In the event of total power loss, the system enters hibernation mode automatically.</li>
-<li><code>5</code> – This is the same as mode <code>1</code>, but it’s for those using secure virtual memory (in System Preferences -&gt; Security).</li>
-<li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
-</ul>
-<p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
-<p>Now, about the RAM capture. Here is the order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
+<p>The order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
 <ol>
 <li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
 <li>Routing tables, ARP cache, process tables, kernel statistics, memory

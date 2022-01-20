@@ -174,40 +174,39 @@
     <h2><a href="https://bakerst221b.com/docs/dfir/threat-hunting/"> 🐀 Threat Hunting And Intelligence</a></h2> 
     <p> ATT&amp;CK MITRE Cyber Analitics Repository - https://car.mitre.org/. That&rsquo;s basically what I was planning to write in here, but it&rsquo;s already implemented and in a very neat way.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/physical/basics/"> Basics 📚</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/protocols/physical/"> 📚 Physical Layer Description</a></h2> 
     <p> This article is about some general stuff that happens on the physical layer.
 CSMA/CD =</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/tcp-ip/"> TCP/IP Stack Overview</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/protocols/tcp-ip/"> 📚 TCP/IP Stack Overview</a></h2> 
     <p> This article is an overview of TCP/IP protocol stack. I will cover in detail what happens when a request to, say, bakerst221b.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/chromesque/"> Chromesque Internals</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/browser/chromesque/"> Chromesque Internals</a></h2> 
     <p> In the process of investigating Toy PD case, I’ve realised I lack the information about different browser files.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/artifacts/"> Network Artifacts</a></h2> 
-    <p> Ports idetify services (usually, but not always).
- System ports are forensically important 0-1023. User ports 1024-49151 Private 49152-last  Cheatsheets for known ports here.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/network/wireless/"> Wireless</a></h2> 
-    <p> https://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles.html
-iwconfig
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/protocols/wireless/"> 📚 Wireless Protocols</a></h2> 
+    <p> Attacks iwconfig
 airmon-ng check kill
 airmon-ng start wlan0
 iwconfig
 airodump-ng wlan0mon
 airdump-ng -c &lt;channel number&gt; --bssid &lt;access point MAC&gt; -w capture wlan0mon to capture the handshake or enough data to deduce the key.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/datalink/basics/"> Basics 📚</a></h2> 
-    <p> VLAN VLANs (broadcast domains) provide a way to separate LANs on the same switch. VLANs don&rsquo;t share broadcasts.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/imaging/"> 📸 Imaging</a></h2> 
+    <p> Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. Imaging - bit-by-bit copy.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/network/basics/"> Basics 📚</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/protocols/datalink/basics/"> Data Link Layer</a></h2> 
+    <p> This is a protocol of TCP/IP suite, Data Link Layer. The first layer after physical layer is a data link layer and the protocol in use here is Ethernet II.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/protocols/network/basics/"> Network Layer Description 📚</a></h2> 
     <p> Network Address Translation - mostly to map local IPs to public ones, but sometimes used to map between two public or local networks.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/apple/apple-security/"> Apple Platform Security</a></h2> 
-    <p> Applications or even OS itself doesn&rsquo;t know the keys that are protected by Secure Enclave. OS only sees Keychain, but the Security Enclave is separated.</p>
+    <h2><a href="https://bakerst221b.com/docs/reverse/executables/apple-mach-o-file/"> Apple Mach-O File</a></h2> 
+    <p> Intro Using otool we can get general info about the Mach-O file:
+otool -h [app_name] &gt; Mach header magic cputype cpusubtype caps filetype ncmds sizeofcmds flags 0xfeedfacf 16777228 0 0x00 2 115 11384 0x00218085 Quick refernce on the meaning:</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/ir-checklist/"> 🗒  Incident Response Checklist</a></h2> 
-    <p> Preparation  📝 Compile a list of all your assets (servers, networks, applications etc) 📈 Rank them by level of importance.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/apple-fsevents/"> FSEvents</a></h2> 
+    <p> Intro Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: hex(last_event_id + 1).</p>
 
 
 
@@ -312,10 +311,6 @@ h2 {
         
             
         
-            
-        
-            
-        
 
         
         <li class="page-item"><a href="/doctype/article/page/2/" rel="next" class="page-link">Next ›</a></li>
@@ -323,7 +318,7 @@ h2 {
 
         
         
-        <li class="page-item"><a href="/doctype/article/page/15/" rel="last" class="page-link">Last »</a></li>
+        <li class="page-item"><a href="/doctype/article/page/13/" rel="last" class="page-link">Last »</a></li>
         
     </ul>
 </nav>

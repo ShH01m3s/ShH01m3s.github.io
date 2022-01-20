@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Partition Schemas - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/investigation/data-recovery/"> Back to Data Recovery Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#bootcode-and-booting-process">Bootcode and Booting Process</a></li>
+    <li><a href="#partition-tables">Partition tables</a>
+      <ul>
+        <li><a href="#mbr">MBR</a></li>
+        <li><a href="#gpt">GPT</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Partition Schemas</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="bootcode-and-booting-process">Bootcode and Booting Process</h2>
+<h2 id="partition-tables">Partition tables</h2>
+<p>Partitioning is the address range where the volume with a file system can sit. You create a partition, then you format it to create a volume with a file system. So, <em>partition</em> and <em>volume</em> are not interchangable terms. Usually, a volume occupies the whole partition, but that&rsquo;s not always the case. Sometimes, some little address sapce might be left out of the volume, so that this volume would not occupy the whole partition.</p>
+<h3 id="mbr">MBR</h3>
+<p>Stands for <strong>M</strong>aster <strong>B</strong>oot <strong>R</strong>ecord.</p>
+<p>Primary partitions (bootable). Can have at most 4 bootable partitions, since it&rsquo;s limited to 4 partition entries in parition table, each entry 16 bytes in length. 4 bytes for their size, hence max value in hex is <code>0xFF FF FF FF</code>, hence max size of a partition is 2 Tb. It starts at sector <code>0</code>, it&rsquo;s 512 bytes long (one sector) and it ends with <code>0x55 0xAA</code>.</p>
+<p>Contains:</p>
+<ul>
+<li>Boot code (selected large area on the picture below, from <code>0x0</code> to <code>0x1B7</code>). More about boot code and its disassembly can be read <a href="http://www.dewassoc.com/kbase/hard_drives/master_boot_record.htm">here</a>.</li>
+<li>Disk signature (following the boot code, highligted in green followed by two zero values). In the example below, at offset <code>0x1B8</code>: <code>0x98 E4 84 D4</code>.</li>
+<li>Partition table (four entries: pink, blue, red and green, representing each partition on the disk). Each entry:
+<ul>
+<li><code>0x1BE</code> the first byte tells whether it&rsquo;s bootable (<code>0x80</code> - yes, <code>0x0</code> - no). The first partition (pink) in the below example is bootable.</li>
+<li><code>0x1BF</code> - <code>1C0</code>. These three bytes represent start head, sector, cylinder numbers in legacy CHS sector addressing scheme. In the example below: <code>0x02 03 00</code>.</li>
+<li><code>0x1C2</code>. This single byte for partition type entry (<code>0xC</code> in the example below). Can be NTFS, FAT etc. Common values: <code>0x04</code> FAT16 (up to 32Mb), <code>0x05</code> DOS Extended (CHS), <code>0x06</code> FAT16 (up to 2Gb), <code>0x07</code> NTFS, <code>0x0B</code> FAT32, <code>0x0C</code> FAT32x (LBA), <code>0x0F</code> (Extended partition, LBA), <code>0x83</code> Linux.</li>
+<li><code>0x1C3</code> - <code>0x1C5</code>. These three bytes represent end head, sector, cylinder numbers in legacy CHS sector addressing. In the example below: <code>0x80 27 19</code>.</li>
+<li><code>0x1C6</code>. These four bytes point to the location (the first sector) of the first partition on disk (<code>0x80 00 00 00</code>). ❗️Relative to the start of the physical drive.</li>
+<li><code>0x1CA</code>. The last four - the size of the partition in sectors (<code>0x00 40 06 00</code>)</li>
+</ul>
+</li>
+<li><code>0x55 AA</code> - the end signature. Indicated the end of the MBR.</li>
+</ul>
+<p><img src="images/mbr-struct.png" alt="mbr-struct"></p>
+<blockquote>
+<p>🧪  &ldquo;We can look at offset <code>0x440</code> to see which volumes are maped to which drive letter in the registry&rdquo;.</p>
+</blockquote>
+<p>Only one partion can be bootable. Only one can be an extended logical partition. Mind that an extended logical partition cannot be bootable ❗️</p>
+<p>What is the extended logical partition? Since MBR is limited to 4 partitions, to be able to create more, this notion was invented. Extended logical partition (ELP) starts with a partition table. Partition addresses are relative to its first sector. The first entry in the partition table is pointing to itself, the second - to the next logical partition. At physical sector 0 of the ELP we have a partition table that will point to the next partition. This partition table (PT) will have 2 entries: pointer to itself and to the next ELP.</p>
+<p><img src="images/elp.jpg" alt="elp"></p>
+<p>In the example above, there are two ELPs. In the PT of the first ELP there are two entries. The first one starts at <code>0x80 00 00 00</code> and is <code>0x 00 40 06 00</code> sectors long. This entry shows the location of the ELP itself (where it starts and how log it is). The second one is at <code>0x80 40 06 00</code> and is <code>0x80 E0 06 00</code> sectors long. This entry is the same as the first entry of the second ELP (second picture), which shows the start location and the size of the second ELP. So, since the second ELP is the last one, it only points to itself. If there were the third ELP, the second one would have the second entry pointing right to it. ❗️These location addresses are relative to the ELP start, unlike the normal partition types which are relative to the physical drive start!</p>
+<h3 id="gpt">GPT</h3>
+<p>GUID is an identifier of the following format: 8-4-4-4-12. There is still a protective MBR at 0 so that Windows will not try to format the disk. Up to 128 partitions, each entry is 128 bytes long -&gt; . The header is located in sector 1. Backup copy at the end of the disk. Uses GUID as partition identifiers.</p>
+<p><img src="images/gpt-struct.png" alt="gpt-struct"></p>
+<p>Up to a 128 partitions, all of them can be set as bootable. Will still have a dummy MBR at sector 0 and it&rsquo;s there for backwards compatibility.</p>
+<p>Contains:</p>
+<ul>
+<li>Protective MBR record. At the offset where there are normally partiton entries, there is just one entry of type <code>0xEE</code>, which starts at sector 1 and is <code>0xFFFFFF</code> sectors large. This is the pointer to the GPT header.</li>
+<li><code>0x00</code> offset. ASCII - EFI PART (<code>0x45 46 49 20 50 41 52 54</code>). This is a GPT signature.</li>
+<li><code>0x20</code> offset. LBA of backup copy.</li>
+<li><code>0x28</code>. LBA start of partition area (⚠️ in sectors!!!).</li>
+<li><code>0x30</code>. LBA end of partition area (⚠️ in sectors!!!).</li>
+<li><code>0x38</code>. Disk GUID.</li>
+<li><code>0x48</code>. LBA start of partition tables.</li>
+</ul>
+<p><img src="images/gpt-header.png" alt="gpt-header"></p>
+<p>A GPT entry contains:</p>
+<ul>
+<li><code>0x00</code>. Partition type GUID. Partition type GUIDs are listed on the Wikipedia page [<a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">2</a>].</li>
+<li><code>0x10</code>. Partition GUID.</li>
+<li><code>0x20</code>. Start LBA</li>
+<li><code>0x28</code>. End LBA</li>
+<li><code>0x30</code>. Partition flags (read only, hidden flags etc)</li>
+<li><code>0x38</code>. Partition name in Unicode.</li>
+</ul>
+<p>Below is the live example of an entry:</p>
+<p><img src="images/gpt-pt-entry.jpg" alt="gpt-pt-entry"></p>
+<blockquote>
+<p>⚠️ Remember that all the values are little-endian!</p>
+</blockquote>
+<h2 id="references">References</h2>
+<p>[<a href="https://www.coursera.org/learn/windows-os-forensics/">1</a>] InfoSec Institute Course, Coursera (all pictures are from the course or from the lab that I followed when watching the course). Definitely the one worth buying. Believe me.</p>
+<p>[<a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">2</a>] GPT, Wikipedia</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

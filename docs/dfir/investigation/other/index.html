@@ -177,32 +177,21 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#devices-attached">Devices Attached</a>
+    <li><a href="#windows">Windows</a>
       <ul>
-        <li><a href="#windows">Windows</a></li>
-        <li><a href="#macos">macOS</a></li>
+        <li><a href="#volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</a>
+          <ul>
+            <li><a href="#collection">Collection</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
-    <li><a href="#notifications">Notifications</a>
+    <li><a href="#macos">macOS</a>
       <ul>
-        <li><a href="#windows-1">Windows</a></li>
+        <li><a href="#backups">Backups</a></li>
       </ul>
     </li>
-    <li><a href="#voice-assistants">Voice Assistants</a>
-      <ul>
-        <li><a href="#windows-2">Windows</a></li>
-      </ul>
-    </li>
-    <li><a href="#cloud-storage">Cloud Storage</a>
-      <ul>
-        <li><a href="#windows-3">Windows</a></li>
-      </ul>
-    </li>
-    <li><a href="#screen-recordings">Screen Recordings</a>
-      <ul>
-        <li><a href="#windows-4">Windows</a></li>
-      </ul>
-    </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -252,35 +241,33 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="devices-attached">Devices Attached</h2>
-<h3 id="windows">Windows</h3>
-<p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
+    <h2 id="windows">Windows</h2>
+<h3 id="volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\S</span>ystem Volume Information<span class="se">\
+</span></code></pre></div><p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p>
 <blockquote>
-<p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
+<p>⚠️ This option is turned on by default! However, in case of my Windows 10 VM on Parallels (Windows Insider program for ARM) this option was disabled resulting in the following line: <code>No items found that satisfy the query. </code> For my Dell notebook running Windows 10, build 18362 (value from registry, <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion</code>, value <code>CurrentBuild</code>). I had to create the point of restore myself as well, since I didn&rsquo;t find where I could make it happen on a regular basis.</p>
+<p>🧪 May be it&rsquo;s something else?</p>
+<p>✍️ After the above steps were followed, PowerShell relaunched, I could finally see the valid output from <code>vssadmin.exe /for=c:</code>.</p>
 </blockquote>
-<h3 id="macos">macOS</h3>
-<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
-<blockquote>
-<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
-</blockquote>
-<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
-<h2 id="notifications">Notifications</h2>
-<h3 id="windows-1">Windows</h3>
-<p>Toast notifications on Windows 10: <code>C:\Users\%Username%\AppData\Local\Microsoft\Windows\Notifications</code> contains <code>wpndatabase.db</code> and <code>appdb.dat</code>. Both can be opened with 🛠 SQLite Browser.</p>
-<h2 id="voice-assistants">Voice Assistants</h2>
-<h3 id="windows-2">Windows</h3>
-<p>Cortana is a great source of information. <code>C:\Users\%Username%\AppData\Local\Packages\Microsoft.Windows.Cortana_xxxx\LocalState\ESEDatabase_CortanaCoreInstance\CortanaCoreDb.db</code> contains user locations, reminders etc. Use a 🛠 SQLite browser to see the contents, or export to <code>cvs</code> and work in Excel.</p>
-<h2 id="cloud-storage">Cloud Storage</h2>
-<h3 id="windows-3">Windows</h3>
-<p>For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions. <code>C:\Users\%Username%\AppData\Local\Microsoft\OneDrive\logs</code>. This folder contains <code>Personal</code> and <code>Common</code>. Neither has anything of particular interest, but may be an indicator, that the software was used.</p>
-<blockquote>
-<p>⚠️ Business version of OneDrive adds a few lines of code to the start of every doc, thus MD5 hashes will differ.</p>
-</blockquote>
-<p>DropBox is another tool for storing content online and sharing it: <code>C:\Users\%Username%\AppData\Local\Microsoft\Dropbox</code>. The most interesting files are <code>filecache.db</code> (not deleted files and folders, encrypted by default) and <code>sigstore.db</code> (how large the file is). Use 🛠 Magnet Dropbox Decryptor to get the contents of the <code>filecache.db</code>. It also uses <code>config.db</code> containing user email and the most recently changed files. Deleted files are not kept locally. For free accounts they are kept online for 30 days, for pros - forever.</p>
-<h2 id="screen-recordings">Screen Recordings</h2>
-<h3 id="windows-4">Windows</h3>
-<p>Xbox on later versions is a built-in game center. However, one of the features is used beyond gaming: screen recordings. <code>C:\Users\%Username%\XboxApp\GameDVR\OnThisPC\Videos\Captures</code>.</p>
-
+<p>For Windows 7 (3-5%) and for Vista - 15%. For Windows 10 you can adjust this space when turning this feature on. To turn on: <code>Control Panel -&gt; All Control Panel Items -&gt; Recovery</code> or simply type Recovery in the Start menu search box.</p>
+<p>User can set the regularity with which these copies are made: daily/weekly, on every new hardware attached, new installations, manual. There is rollover process for these files to save space. Sometimes these files are kept for years and sometimes deleted soon, first in, first out priority. Some OS versions don&rsquo;t allow to access previously created points, but still keeps them. Once you have an OS that allow access to these files, you can view them.</p>
+<p>From a forensic point of view, these files allow to view the previous versions of OS, recover files (find remnant metadata that can&rsquo;t be recovered), examine user activity in different time points. Since shadow copies are system files, these are not accessed by wiping software.</p>
+<p><strong>Tools</strong> 🛠: <a href="https://coptr.digipres.org/index.php/Forensic_Acquisition_Utilities">https://coptr.digipres.org/index.php/Forensic_Acquisition_Utilities</a></p>
+<h4 id="collection">Collection</h4>
+<p><a href="http://www.chrysocome.net/downloads/ddrelease64.exe">dd.exe</a> for Windows. There used to be some FAU (Forensic Acquisition Utilities) package, containing <code>dd</code>, but I could not find it, so I downloaded <code>dd.exe</code> separately.</p>
+<p>To get the list of shadow copies from a PC, run the following built-in utility:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">vssadmin</span> <span class="n">list</span> <span class="n">shadows</span> <span class="p">/</span><span class="k">for</span><span class="p">=&lt;</span><span class="n">path_to_drive</span><span class="p">&gt;</span> <span class="c"># /for=c: for a logial drive</span>
+</code></pre></div><p>Now, to collect the image with a <code>dd</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">dd</span><span class="p">.</span><span class="n">exe</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">HardDiskVolumeShadowCopy1</span> <span class="n">of</span><span class="p">=</span><span class="n">g:</span><span class="p">\</span><span class="n">shadow</span><span class="p">.</span><span class="n">img</span> <span class="c"># for Windows, using the above mentioned version of dd, we type `if` and `of` instead of `-if` and `-of`.</span>
+<span class="c"># what&#39;s --localwrt</span>
+</code></pre></div><p>Better go and have a cup of coffee ☕️ since it takes decent amount of time 🕰, tick-tock!</p>
+<h2 id="macos">macOS</h2>
+<h3 id="backups">Backups</h3>
+<p><code>/Users/%username%/Library/Application Support/MobileSync/Backup/</code></p>
+<h2 id="references">References</h2>
+<p>[<a href="https://www.udemy.com/course/surviving-digital-forensics-volume-shadow-copy/learn/lecture/998738?start=15#overview">1</a>] SDF: Volume Shadow Copies (Udemy course)</p>
+<p>Suhanov&rsquo;s blog: [<a href="https://dfir.ru/2021/06/28/shadow-copies-become-less-visible/">2</a>] Shadow copies become less visible, [<a href="https://dfir.ru/2020/07/14/offline-shadow-copies/">3</a>] Offline shadow copies, [<a href="https://dfir.ru/2020/06/21/extracting-unallocated-clusters-from-a-shadow-copy/">4</a>] Extracting unallocated clusters from a shadow copy, [<a href="https://dfir.ru/2020/02/29/scoped-shadow-copies/">5</a>] Scoped shadow copies, [<a href="https://dfir.ru/2019/07/29/things-you-probably-didnt-know-about-shadow-copies/">6</a>] Things you probably didn’t know about shadow copies</p>
   </div>
 </article>
 </div>

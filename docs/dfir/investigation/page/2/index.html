@@ -189,32 +189,20 @@
  <h1 class="title">🔎 Incident Investigation</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/config/"> ⚙️ Configuration Changes Analysis</a></h2> 
-    <p> Can be hard (no consistency). Are they different by accident or from malicous intent. Baseline reference (what the settings should be).</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/"> 🪵 Log Analysis</a></h2> 
+    <p> <p><em>In order to detect and response to the incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/mail/"> 📬 Mail</a></h2> 
-    <p> Outlook The main artifacts are stored in C:\Users\%USERNAME%\AppData\Local\Microsoft\Outlook. Get OST and PST files. Contains messages, contacts, calendars, notes.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/ediscovery/"> eDiscovery</a></h2> 
+    <p> eDiscovery Forensics and eDiscovery are very close terms, but not the same. eDiscovery is collecting all information and diciding whether this information is relevant for the investigation.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/malware/"> 🦠 Malware Analysis</a></h2> 
-    <p> Signed executable. It&rsquo;s a rare case, but it exists. Around 3% of malware is signed. It&rsquo;s due to the fact that some systems require executables to be signed.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/docs/"> 📄 Document Artefacts</a></h2> 
-    <p> There are several ways to determine file type: extension, signatures and structure. The most reliable is the last one, since extentsions can be easily changed and signatures are not very reliable (polymorphic files).</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/accs/"> 👥 Account Information</a></h2> 
-    <p> Windows There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and Software\Microsoft\Windows NT\CurrentVersion\ProfileList for Domain Accounts.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/recent/"> Recent Activity</a></h2> 
-    <p> Windows There are several artifacts indicating user activity. One of them is LNK files. To analyse acquired LNK files use 🛠 LECmd (E.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/"> 🧰 Data Recovery Techniques</a></h2> 
-    <p> <p><em>Below are the techniques, tools and instructions regarding data recovery from various file systems and devices. Most of the below techniques apply to HDDs only. Those that are for SDDs or other flash memory devices will be specified in the last section.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/messaging/"> 💬 Messaging Data</a></h2> 
-    <p> Electron is a framework that is available for building applications, cross-platform. You’re creating a web-application that can be used as a desktop one (implementing both back- and frontend).</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/cloud/"> ⛅️ Cloud Storage</a></h2> 
+    <p> Windows For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/investigation/other/"> Misc Artefacts</a></h2> 
-    <p> Devices Attached Windows Are we looking for USB storage media activity or all USB devices? Like, cameras 📸?</p>
+    <p> <h2 id="windows">Windows</h2>
+<h3 id="volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\S</span>ystem Volume Information<span class="se">\
+</span></code></pre></div><p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p></p>
 
 
 

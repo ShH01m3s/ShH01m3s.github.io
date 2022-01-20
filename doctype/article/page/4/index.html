@@ -171,36 +171,39 @@
  <h1 class="title">article</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/malware/"> 🦠 Malware Analysis</a></h2> 
-    <p> Signed executable. It&rsquo;s a rare case, but it exists. Around 3% of malware is signed. It&rsquo;s due to the fact that some systems require executables to be signed.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/cloud/"> ⛅️ Cloud Storage</a></h2> 
+    <p> Windows For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/reference/mobile/mobile-ram/"> Mobile RAM Forensics</a></h2> 
-    <p> This research is about the mobile RAM and how to get data from it.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/persistence/"> 👣 Persistence Mechanisms Reference</a></h2> 
-    <p> Windows Services 🔑 HKLM\SYSTEM\CurrentControlSet\Services. The executable needs to have certain code and permissions for service behaviour and there are three options to acomplish that:</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/mail/"> 📚 Mail Analysis Reference</a></h2> 
-    <p> Protocols. SMTP (Simple Mail Transport Protocol) and extended SMTP are used for outbound mailbox📤 and POP3/IMAP - for inbound 📥.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/volatility/"> 📚 RAM Tools Reference</a></h2> 
-    <p> Volatility # install brew packet manager ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34; &lt; /dev/null 2&gt; /dev/null # install volatility (python should be installed) brew install volatile # vol.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/yara/"> 📚 YARA Reference</a></h2> 
-    <p> Yara:
-brew install yara pip install yara-python Repo for malware and forensics. YaraGen.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/docs/"> 📄 Document Artefacts</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/activity/recent-access/files-folders/"> 📄 Document And Folder Artefacts</a></h2> 
     <p> There are several ways to determine file type: extension, signatures and structure. The most reliable is the last one, since extentsions can be easily changed and signatures are not very reliable (polymorphic files).</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/accs/"> 👥 Account Information</a></h2> 
-    <p> Windows There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and Software\Microsoft\Windows NT\CurrentVersion\ProfileList for Domain Accounts.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/recent/"> Recent Activity</a></h2> 
-    <p> Windows There are several artifacts indicating user activity. One of them is LNK files. To analyse acquired LNK files use 🛠 LECmd (E.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/accounts/apple-auth/apple-security/"> Apple Platform Security</a></h2> 
+    <p> Applications or even OS itself doesn&rsquo;t know the keys that are protected by Secure Enclave. OS only sees Keychain, but the Security Enclave is separated.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/timelines/"> ⏱️ Timelines And Timestamps</a></h2> 
     <p> If something was downloaded and the accessed in several days - then the suspect knew about this file.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/messaging/"> 💬 Messaging Data</a></h2> 
+    <p> Electron is a framework that is available for building applications, cross-platform. You’re creating a web-application that can be used as a desktop one (implementing both back- and frontend).</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/activity/notification/"> 💬❗️Notifications</a></h2> 
+    <p> Windows Toast notifications on Windows 10: C:\Users\%Username%\AppData\Local\Microsoft\Windows\Notifications contains wpndatabase.db and appdb.dat. Both can be opened with 🛠 SQLite Browser.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/activity/voice/"> 🗣 Voice Assistants</a></h2> 
+    <p> Windows Cortana is a great source of information. C:\Users\%Username%\AppData\Local\Packages\Microsoft.Windows.Cortana_xxxx\LocalState\ESEDatabase_CortanaCoreInstance\CortanaCoreDb.db contains user locations, reminders etc. Use a 🛠 SQLite browser to see the contents, or export to cvs and work in Excel.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/other/"> Misc Artefacts</a></h2> 
+    <p> <h2 id="windows">Windows</h2>
+<h3 id="volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\S</span>ystem Volume Information<span class="se">\
+</span></code></pre></div><p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p></p>
+
+    <h2><a href="https://bakerst221b.com/docs/reverse/malware-analysis/tips/"> Analysis Tips</a></h2> 
+    <p> In this article I&rsquo;m collecting all the main tips for malware analysis. Some indicators of compromise, some common clues and etc.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/reverse/malware-analysis/ransomware/"> Ransomware 🔐</a></h2> 
+    <p> General Info 2021 Trends Many leverage an Exchange vulnerability.
+How To Find How To Defend References [1] Ransomware: Current Trends and Updates, Cindy Murphy, Magnet Summit 2021</p>
 
 
 
@@ -318,10 +321,6 @@ h2 {
         
             
         
-            
-        
-            
-        
 
         
         <li class="page-item"><a href="/doctype/article/page/5/" rel="next" class="page-link">Next ›</a></li>
@@ -329,7 +328,7 @@ h2 {
 
         
         
-        <li class="page-item"><a href="/doctype/article/page/15/" rel="last" class="page-link">Last »</a></li>
+        <li class="page-item"><a href="/doctype/article/page/13/" rel="last" class="page-link">Last »</a></li>
         
     </ul>
 </nav>

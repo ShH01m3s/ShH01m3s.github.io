@@ -178,7 +178,22 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
-    <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
+    <li><a href="#hddssd-imaging">HDD/SSD Imaging</a>
+      <ul>
+        <li><a href="#macos">macOS</a>
+          <ul>
+            <li><a href="#disk-arbitration">Disk Arbitration</a></li>
+            <li><a href="#fusion-drives">Fusion Drives</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ram">RAM</a>
+      <ul>
+        <li><a href="#macos-1">macOS</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -240,6 +255,28 @@
 <p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
 </blockquote>
 <h2 id="hddssd-imaging">HDD/SSD Imaging</h2>
+<p>You may perform either live or dead acquisition.</p>
+<p>For dead acquisition follow the steps:</p>
+<ol>
+<li>Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
+<li>Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
+<li>Attach the write-blocker and the evidence drive.</li>
+</ol>
+<p>For live acquisition follow the steps:</p>
+<ol>
+<li>
+<p>Attach a write blocker or run a software-based one.</p>
+<p>On the forensic Macbook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<blockquote>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
+</li>
+<li></li>
+</ol>
+<p>On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<blockquote>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
 <p>List all drives (Linux and macOS):</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l <span class="c1"># Linux</span>
 lsblk
@@ -270,6 +307,41 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
 <blockquote>
 <p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
 </blockquote>
+<h3 id="macos">macOS</h3>
+<p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they&rsquo;ve added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it and they had to work this out. But after T2 Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics in that there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode as well.</p>
+<p>Another interesting key point is that now the kill signal can be sent over Bluetooth as well. That means than if there is someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) can send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. Sounds made up, but Mac forensics expert said that this is what it looks like now.</p>
+<p>Also, they talked about <a href="https://sumuri.com/product/recon-itr/">ITR</a> tool that images and triages Mac devices. Supports live imaging of Apple Silicon Macs!</p>
+<p>I have an old MacBook (see <a href="/blog/2020/10/how-i-broke-my-husbands-macbook">this</a> blog post) and a new one with M1 chip. Following the instruction from the Udemy <a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2534096?start=1#content">course</a> of Michael Leclair, I&rsquo;ve bougth a Thunderbolt2-Thunderbolt3 cable to connect these two PCs. I&rsquo;ve tried this and this first, but they worked only for connecting Displays. However, whatever cable I tried using, nothing worked. I then tried the Apple ones, but these did not work either. I have run across this text on officical Apple docs for the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter:</p>
+<blockquote>
+<p>This adapter is bidirectional, which means you can use it to connect Thunderbolt 3 devices to a Mac that has a Thunderbolt or Thunderbolt 2 port. In that case, the Mac must be using <a href="https://support.apple.com/kb/HT201260">macOS Sierra or later</a>, and the device using Thunderbolt 3 must provide its own power. [<a href="https://support.apple.com/en-us/HT207266">5</a>]</p>
+</blockquote>
+<p>So, there are two prerequisites:</p>
+<ol>
+<li>macOS Sierra or later</li>
+<li>the device using Thunderbolt 3 must provide its own power.</li>
+</ol>
+<p><a href="https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221">https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221</a> USB TYPE-C Thunderbolt 3 2 к мини DisplayPort DP 4k 60 Гц для Macbook Air Pro Samsung dell XPS13 15 к Apple cinema display</p>
+<p><a href="https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5">https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5</a> Cabletime USB C 3.1 to Mini DP Adapter 4k60hz Projector Type C to Thunderbolt 2 Converter For Laptop Huawei Mate 40 Samsung N428</p>
+<p><a href="https://mrmacintosh.com/filevault-2-target-disk-mode-unlock-using-the-personal-recovery-key/">FileVault 2 Target Disk Mode Unlock Using the Personal Recovery Key</a>. As is stated <a href="https://www.reddit.com/r/mac/comments/7upvss/thunderbolt_bridge_inactive/">here</a> on Reddit:</p>
+<blockquote>
+<p>[&hellip;] usb-c charging cable provided is only usb2.0 for data transfer [&hellip;] to do thunderbolt target disk mode you need a thunderbolt 3 cable (expensive) [&hellip;]</p>
+</blockquote>
+<p>So, trying to use the cable that came with the charger shouldn&rsquo;t work since it supports USB 2.0 transfer only.</p>
+<p><a href="https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/">https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/</a></p>
+<h4 id="disk-arbitration">Disk Arbitration</h4>
+<p>Prevents the host computer from writing data to the target macbook when using Target Disk Mode.</p>
+<h4 id="fusion-drives">Fusion Drives</h4>
+<p>Fusion drive is the combination of an ordinary drive and a small NAND flash drive as well that appear as one logical volume in the OS, but when you try imaging it, you&rsquo;ll get two different drives and the image will be somewhat corrupted for the analysis tools if you don&rsquo;t assemble it correctly. NAND flash drive stores the most often used files like system ones and also those files that are used by the user more often than others. It seems to me that the idea is pretty much the same as with prefetch in Windows 🌈.</p>
+<h2 id="ram">RAM</h2>
+<h3 id="macos-1">macOS</h3>
+<p><a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/</a></p>
+<p><a href="https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging">https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging</a></p>
+<h2 id="references">References</h2>
+<p>[<a href="https://blog.elcomsoft.com/2019/12/challenges-in-computer-and-mobile-forensics-what-to-expect-in-2020/">1</a>] 2020 overview of forensic challenges for different devices</p>
+<p>[<a href="https://digitalforensicsurvivalpodcast.com/2020/03/03/dfsp-211-mac-forensics-with-steve-whalen/">2</a>] DFSP Podcast, interview with Steve Wahlen (Samuri co-founder)</p>
+<p>[<a href="https://digitalforensicsurvivalpodcast.com/2016/12/13/dfsp-043-imaging-a-mac-survival-tips/">3</a>] Imaging Mac surviving tips (before the release of T2 chip, I presume)</p>
+<p>[<a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2222294#overview">4</a>] Imaging Mac Fusion Drives</p>
+<p>[<a href="https://support.apple.com/en-us/HT207266">5</a>] About the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter</p>
 
   </div>
 </article>

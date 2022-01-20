@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Host and Network Logs - Analyst</title>
+  <title>🪵 Log Analysis - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-single'>
+<body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -172,30 +172,9 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
+    <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
   </p>
-  <aside>
-   <nav id="TableOfContents">
-  <ul>
-    <li><a href="#collection">Collection</a>
-      <ul>
-        <li><a href="#webserver">WebServer</a>
-          <ul>
-            <li><a href="#apache-weblogs">Apache Weblogs</a></li>
-          </ul>
-        </li>
-        <li><a href="#macos">macOS</a></li>
-        <li><a href="#windows">Windows</a></li>
-        <li><a href="#linuxessss">Linuxessss</a></li>
-        <li><a href="#ios">iOS</a></li>
-        <li><a href="#android">Android</a></li>
-      </ul>
-    </li>
-    <li><a href="#analysis">Analysis</a></li>
-  </ul>
-</nav>
- </aside>
- </div>
+ </div> 
 
 
 
@@ -203,165 +182,33 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Host and Network Logs</h1>
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    <div class="meta">
-      
-      <div class="article-category">domain: 
-          
-              
-                <i class="fas fa-search"></i>
-              
-          <a class="category-link" href="/domain/forensics">forensics</a>
-          
-      </div> <br />
-      
-      <div class="article-category">doctype:
-          
-            
-              
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
-          
-      </div> <br /><br/>
-      
-      
-      
-      
-
-      
-      
-
-      
-    </div>
-  </header>
 
 
-  <div class="content" itemprop="articleBody">
-    <h2 id="collection">Collection</h2>
-<p>One of the most useful artifacts when properly configured and maintained, are log files. All devices keep some sort of logs, even mobile devices. However, their relevance for the specific case may differ.</p>
-<p>Different logs might be collected depending on the case:</p>
-<ol>
-<li>Network hack: logs of all network devices (on the route to the hacked device), perimeter router (ISP), Firewall rules might be required.</li>
-<li>Unauthorised access: web server logs, application server logs, application logs, router or switch logs, firewall logs, db logs, IDS logs etc.</li>
-<li>Trojan/Virus/Worm: antivirus logs, event logs.</li>
-</ol>
-<h3 id="webserver">WebServer</h3>
-<p>There are several formats that logs can exist in depending on the system in question and configurations as well.</p>
-<ul>
-<li>W3C. ASCII, UTC.</li>
-<li>IIS. ASCII, local time.</li>
-<li>NCSA. ASCII, no customization, local time</li>
-<li>IIS ODBC. Needs to be enabled first, degrades performance.</li>
-<li>BIN. IIS 5.1+, in binary format, logging several websites at once.</li>
-<li>XML. Mostly used for applications to share data.</li>
-</ul>
-<h4 id="apache-weblogs">Apache Weblogs</h4>
-<p><code>access.log</code>.</p>
-<h3 id="macos">macOS</h3>
-<p><strong>syslog</strong>. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example). By the way, <code>syslog</code> was replaced as well on iOS (see <a href="/docs/dfir/host/mobile/ios/ios-logs">here</a>). Some still exist: <code>daily.out</code>, cups, <code>install.log</code>. 🛑 More about logs for iOS and macOS here.</p>
-<p>🛑 More about fervents here.</p>
-<p>New unified log path in 2 directories:</p>
-<ul>
-<li><code>/var/db/diagnistics</code></li>
-<li><code>/var/db/uuidtext</code></li>
-</ul>
-<p><strong>fsevents</strong>. Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: <code>hex(last_event_id + 1)</code>. Lots of zeroes appended at the beginning of the file name. Example: <code>000000000112f2d8</code>. Can be found in either of these locations:</p>
-<ul>
-<li><code>/.fseventsd</code></li>
-<li><code>./System/Volumes/Data/.fseventsd</code></li>
-<li>On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</li>
-</ul>
-<p><code>python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out	</code>. More about FSEvents might be seen here [<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>]. Thanks to Nicole Ibrahim from OSDFCon, we have this filetype reverse engineered and documented. At least, v1.</p>
-<blockquote>
-<p>😭 Getting an error when trying to run <code>FSEventsParser</code> on a M1. No excpetion when running it on an Intel machine though.
-😊 ✅ My solution was to run a windows version on a VM. Worked fine.</p>
-</blockquote>
-<p>Mount activity: DMGs, External devices or Shared network drives.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;mask&#34; LIKE &#39;%mount%&#39;
-</code></pre></div><p>Internet activity (websites visited)</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE
-&#39;Users/%/Library/Caches/Metadata/Safari/History/%&#39;
-OR &#34;filename&#34; LIKE &#39;Users/%/Library/Application
-Support/Google/Chrome/Default/Local Storage/%&#39;
-</code></pre></div><p>User folders activity</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;Users/%/Documents/%’
-OR &#34;filename&#34; LIKE &#39;Users/%/Downloads/%’
-OR &#34;filename&#34; LIKE &#39;Users/%/Desktop/%&#39;
-</code></pre></div><p><strong>🗑 Trash activity</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
-</code></pre></div><h3 id="windows">Windows</h3>
-<p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
-<p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
-<h3 id="linuxessss">Linuxessss</h3>
-<h3 id="ios">iOS</h3>
-<p>Same as for macOS. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
-<p>Internet activity</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;%websitedata/local%&#39;
-</code></pre></div><p>Email activity</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;mobile/Library/Mail/%’
-</code></pre></div><p>iCloud synced files</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
-*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-FROM
-&#34;fsevents&#34;
-WHERE
-&#34;filename&#34; LIKE &#39;mobile/Library/Mobile
-Documents/com~apple~CloudDocs/%&#39;
-</code></pre></div><h3 id="android">Android</h3>
-<h2 id="analysis">Analysis</h2>
-<p>There are generally four main ways to analyse this wealth of data:</p>
-<ul>
-<li>pivot tables in Excel</li>
-<li>some dedicated framwork</li>
-<li>LogParser</li>
-<li>Script</li>
-</ul>
-<p>Import <code>csv</code>. Choose your delimiter. If there are some columns sticking together, use <code>Data -&gt; Text to Column</code> to separate them with another delimeter.</p>
-<blockquote>
-<p>💡 Generate pivot tables each day during a month for statistical analysis. Later deviations might highlight suspicious traffic.</p>
-</blockquote>
-<blockquote>
-<p>❗️ Note the data that&rsquo;s of low frequency.</p>
-</blockquote>
 
-  </div>
-</article>
-</div>
-</div>
+ 
+ <h1 class="title">🪵 Log Analysis</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/methodology/"> Log Analysis Methodology</a></h2> 
+    <p> One of the most useful artifacts when properly configured and maintained, are log files. All devices keep some sort of logs, even mobile devices.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/apple-fsevents/"> FSEvents</a></h2> 
+    <p> Intro Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: hex(last_event_id + 1).</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/host/"> Host Logs</a></h2> 
+    <p> macOS syslog. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example).</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/network/"> Network Logs</a></h2> 
+    <p> WebServer There are several formats that logs can exist in depending on the system in question and configurations as well.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/event-manager/"> Event Manager Codes</a></h2> 
+    <p> User Activity 4624 4625 Auth
+4634 4648 Auth
+4771 4772 4773 4774 4775 4776 Auth</p>
+
+
+
+
 
         </div>
       </div>
