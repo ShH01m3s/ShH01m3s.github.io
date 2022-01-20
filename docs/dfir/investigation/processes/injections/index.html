@@ -184,7 +184,11 @@
             <li><a href="#caveats">Caveats</a></li>
           </ul>
         </li>
-        <li><a href="#pe-injection">PE Injection</a></li>
+        <li><a href="#pe-injection">PE Injection</a>
+          <ul>
+            <li><a href="#caveats-1">Caveats</a></li>
+          </ul>
+        </li>
         <li><a href="#process-hollowing">Process Hollowing</a></li>
         <li><a href="#sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</a></li>
         <li><a href="#with-setwindowshookex">With <code>SetWindowsHookEx()</code></a></li>
@@ -247,7 +251,7 @@
   <div class="content" itemprop="articleBody">
     <h2 id="windows">Windows</h2>
 <h3 id="classic">Classic</h3>
-<p>A malicious dll&rsquo;s <strong>path</strong> is copied in the memory space of a running legitimate process to be loaded in runtime.</p>
+<p>This one is the one of the simpliest to explain and not that simple to actually use in a real attack (see Caveats). A malicious dll&rsquo;s <strong>path</strong> is copied in the memory space of a running legitimate process to be loaded in runtime.</p>
 <p><img src="images/classic-1.png" alt="classic-1"></p>
 <p>Below is the anatomy of this function call.</p>
 <p><img src="images/classic-2.png" alt="classic-2"></p>
@@ -262,7 +266,17 @@
 <li>The attacker needs to have this <code>mal.dll</code> on disk prior to attack.</li>
 </ul>
 <h3 id="pe-injection">PE Injection</h3>
-<p>A malicious dll itself copied in the memory space of a running legitimate process.</p>
+<p>A malicious <strong>dll itself</strong> copied in the memory space of a running legitimate process.</p>
+<p>This is the chain of function calls needed for this attack.</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-1.png" alt="pe-1"></p>
+<p>Below is the anatomy of the <code>CreateRemoteThread</code> function call needed for this attack to work</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-2.png" alt="pe-2"></p>
+<p>Below is the memory layout of the sick process.</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-3.png" alt="pe-3"></p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-4.png" alt="pe-4"></p>
+<h4 id="caveats-1">Caveats</h4>
+<p><code>СreateRemoteThread()</code> and <code>LoadLibrary()</code> are not stealthy</p>
 <h3 id="process-hollowing">Process Hollowing</h3>
 <p>Already loaded good process is fully overwritten with something not that good.</p>
 <h3 id="sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</h3>
