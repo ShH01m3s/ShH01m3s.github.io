@@ -177,15 +177,16 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#saved-photos">Saved Photos</a></li>
-    <li><a href="#screen-captures">Screen Captures</a>
+    <li><a href="#windows">Windows</a>
       <ul>
-        <li><a href="#windows">Windows</a></li>
-        <li><a href="#macos">macOS</a>
-          <ul>
-            <li><a href="#snapshots">Snapshots</a></li>
-          </ul>
-        </li>
+        <li><a href="#recent-documents">Recent documents</a></li>
+        <li><a href="#managedbyapp">ManagedByApp</a></li>
+        <li><a href="#screen-captures">Screen Captures</a></li>
+      </ul>
+    </li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#snapshots">Snapshots</a></li>
       </ul>
     </li>
   </ul>
@@ -237,12 +238,21 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="saved-photos">Saved Photos</h2>
-<h2 id="screen-captures">Screen Captures</h2>
-<h3 id="windows">Windows</h3>
+    <h2 id="windows">Windows</h2>
+<h3 id="recent-documents">Recent documents</h3>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></p>
+<p>Contains the list of all recent documents as a bunch and also the same data sorted by extension. <code>MRUListEx</code> is list. It has a number of 4 byte values, each noting the sequence number of a document. It starts from the document&rsquo;s number that was accessed some time age (first in the list) and ends with the most recently used one. This key also has a list of recently accessed folders.</p>
+<blockquote>
+<p>⚠️🔎 I only had a short binary data stream under the <code>ViewStream</code> subkey.</p>
+</blockquote>
+<h3 id="managedbyapp">ManagedByApp</h3>
+<p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.Windows.Photos_8wekyb3d8bbwe\PersistedStorageItemTable\ManagedByApp</code>.</p>
+<p>Tracks images opened with Microsoft application. Shows <em>volume GUID</em> (use other USB-related registry to assemble the picture), file path, data and time ⏰. <code>LastUpdateTime</code> shows when the files was &hellip; . This date and time is very close <code>LastInteracted</code> from ShellBags. Go to <code>MountedDevices</code> in <code>SOFTWARE</code> hive to find the device by the volume GUID and the to <code>SYSTEM</code>&rsquo;s <code>USBSTR</code> -&gt; <code>PartitionTableCache</code>.</p>
+<p>This information is very useful for child abuse cases.</p>
+<h3 id="screen-captures">Screen Captures</h3>
 <p>Xbox on later versions is a built-in game center. However, one of the features is used beyond gaming: screen recordings. <code>C:\Users\%Username%\XboxApp\GameDVR\OnThisPC\Videos\Captures</code>.</p>
-<h3 id="macos">macOS</h3>
-<h4 id="snapshots">Snapshots</h4>
+<h2 id="macos">macOS</h2>
+<h3 id="snapshots">Snapshots</h3>
 <p><code>tmutil</code> to find and list all snapshots</p>
 
   </div>

@@ -186,7 +186,7 @@
       <ul>
         <li>
           <ul>
-            <li><a href="#common-malicious-activity-and-countermeasures">Common Malicious Activity and Countermeasures</a></li>
+            <li><a href="#common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</a></li>
           </ul>
         </li>
         <li><a href="#documentation">Documentation</a></li>
@@ -277,29 +277,51 @@
 <blockquote>
 <p>📝 I found it quite hard to separate incident response and digital forensics articles from one another. For now I am seeing incident response as a more general process that could require more thorough examination (digital forensics) but not neccessarilly. As I see it, we have an event, start IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artifacts to ATCK MITRE framework. Then, to be able to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space etc in order to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching and DF is about details.</p>
 </blockquote>
-<h4 id="common-malicious-activity-and-countermeasures">Common Malicious Activity and Countermeasures</h4>
-<ul>
-<li><strong>Mapping</strong>. Attackers need to <strong>collect information</strong> about the target system first:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong>
+<h4 id="common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</h4>
+<p><strong>Mapping</strong>. Attackers need to <strong>collect information</strong> about the target system first:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong></p>
 <ul>
 <li>record traffic</li>
 <li>look for suspicious activity</li>
 <li>use a host scanner and keep track of all the PCs withing your network. A new PC should trigger an alert.</li>
 </ul>
-</li>
-<li><strong>Packet Sniffing</strong>. Now, attacker may perform (or try to perform) <strong>traffic sniffing</strong>. It is possible in the following cases: Broadcasting, promiscuous NIC, and if the traffic is unencrypted.  <strong>Countermeasures:</strong>
+<p><strong>Packet Sniffing</strong>. Now, attacker may perform (or try to perform) <strong>traffic sniffing</strong>. It is possible in the following cases: Broadcasting, promiscuous NIC, and if the traffic is unencrypted.  <strong>Countermeasures:</strong></p>
 <ul>
 <li>periodcally check wether the NICs of the hosts are in promiscuous mode</li>
 <li>switched Ethernet (1 host per segment of broadcast media).</li>
 </ul>
-</li>
-<li><strong>IP-spoofing.</strong> Can generate &ldquo;raw&rdquo; IP packets, putting any value as a source IP. Receiver won&rsquo;t be able to know that the other party is spoofed. <strong>Countermeasures:</strong></li>
-<li><strong>DoS</strong>. <strong>Countermeasures:</strong>
+<p><strong>IP-spoofing.</strong> Can generate &ldquo;raw&rdquo; IP packets, putting any value as a source IP. Receiver won&rsquo;t be able to know that the other party is spoofed. <strong>Countermeasures:</strong></p>
+<p><strong>DoS</strong>. <strong>Countermeasures:</strong></p>
 <ul>
 <li>filter out flooded packets (eg SYN) before they reach the host</li>
 <li>traceback to source of floods</li>
 </ul>
-</li>
-<li><strong>Injections</strong>. MongoDB. <code>$where</code> is interpreted as JS. DoS: <code>$where=&quot;d=new Date; do {c=new Date;} while {c-d&lt;10000};&quot;</code>, XPath. <code>'or 1=1 or '1'='1</code>, LDAP.<code>*)(cn=))(|cn=*</code>, SQL <code>or 1=1--</code> etc. The best practice is whitelisting allowed and needed characters.
+<p>🎣 <strong>Phishing.</strong> <strong>Spear phishing</strong> - targeted attack to a specific users or groups of users. <strong>Whaling</strong> - spear phishing for high executive managers. <strong>Strategies</strong>:</p>
+<ul>
+<li>They claim that they&rsquo;ve seen numerous failed login attempts or other suspicious activity.</li>
+<li>They claim that there is some problem with your account or payment method.</li>
+<li>Confirm some personal information.</li>
+<li>Include a fake invoice.</li>
+<li>Click on a link to make a payment.</li>
+<li>You are eligible for a government refund.</li>
+<li>Coupon for free stuff.</li>
+</ul>
+<p>How to detect?</p>
+<ul>
+<li>Suspicious sender&rsquo;s address.</li>
+<li>Generic signature and greetings.</li>
+<li>Spoofed hyperlinks and websites.</li>
+<li>Spelling and layout.</li>
+<li>Suspicious attachment.</li>
+</ul>
+<p><strong>PoS</strong>. Most of the malware is equipped with a backdoor and C&amp;C features. The data of the card holder is decrypted in RAM, that&rsquo;s why this type of malware sniffs the RAM (RAM scraping). <strong>Countermeasures</strong>:</p>
+<ul>
+<li>Monitor network for changes</li>
+<li>Good encryption</li>
+<li>limit the host that communicate with PoS</li>
+<li>chip-card enabled PoS terminals</li>
+<li>Employee screening and training</li>
+</ul>
+<p><strong>Injections</strong>. MongoDB. <code>$where</code> is interpreted as JS. DoS: <code>$where=&quot;d=new Date; do {c=new Date;} while {c-d&lt;10000};&quot;</code>, XPath. <code>'or 1=1 or '1'='1</code>, LDAP.<code>*)(cn=))(|cn=*</code>, SQL <code>or 1=1--</code> etc. The best practice is whitelisting allowed and needed characters.</p>
 <ul>
 <li>Preventing <strong>OS injection</strong>
 <ul>
@@ -319,8 +341,6 @@
 <li>limit permissions</li>
 <li>stored procedures</li>
 <li>ORM libs (Hibernate)</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

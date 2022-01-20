@@ -179,8 +179,11 @@
   <ul>
     <li><a href="#windows">Windows</a>
       <ul>
-        <li><a href="#first-connected">First connected</a></li>
-        <li><a href="#last-connected">Last connected</a></li>
+        <li><a href="#attached-devices">Attached devices</a></li>
+        <li><a href="#usbs">USBs</a></li>
+        <li><a href="#mounted-devices">Mounted Devices</a></li>
+        <li><a href="#managedbyapp">ManagedByApp</a></li>
+        <li><a href="#shellbags">ShellBags</a></li>
       </ul>
     </li>
     <li><a href="#macos">macOS</a>
@@ -255,13 +258,60 @@
 <p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
 </blockquote>
 <p>Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>.</p>
-<h3 id="first-connected">First connected</h3>
-<p>Get from setupapi log.</p>
+<h3 id="attached-devices">Attached devices</h3>
+<p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows Portable Devices\Devices</code>. For USB and other devices connected. The sub-key name contains the device&rsquo;s serial number, name, disk ID (between <code>{}</code>), which is assigned by OS. This disk id can be used to track the device accross the system, for example, other registry values. But keep in mind, that not every USB device has a serial number. Dates and times - when the device was first inserted <em>after the last reboot</em>. <code>FriendlyName</code> - user-created name of the volume.</p>
+<p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt</code>. It was put as an extension of memory (aka ready boost). Checks to see if the USB device can be used to extend memory. Timestamps - when first inserted. Some entries are ending with some decimal number, this is a volume ID in decimal (convert to hex and get your GUID that can be used to correlated data with <code>USBSTR</code> in <code>SYSTEM</code> hive, see below). These should be converted to hex and used to trace the device accross the system.</p>
+<p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows NT\CurrentVersion\Print\Printers</code> for printers connected. This subkey may also contains some SIDs. I don&rsquo;t quite understand yet, when this happens in general, but one case is when OneNote is used to share documets.</p>
 <blockquote>
-<p>⚠️ local times, not UTC!</p>
-<p>⚠️ Windows registry update will update all of these timestamps!</p>
+<p>⚠️ Use information about USB devices from <code>SYSTEM</code> hive to get more and validate this information.</p>
 </blockquote>
-<h3 id="last-connected">Last connected</h3>
+<h3 id="usbs">USBs</h3>
+<p><strong>Key</strong> 🔑: <code>System\ControlSet001\Enum\USBSTOR</code> or <code>ControleSet001\Enum\USB</code> (on my Win10 VM)</p>
+<p><strong>Key</strong> 🔑: <code>System\MountedDevices</code> - used to map devices to drive letters (not only USBs).</p>
+<p>Contains ever connected USBs with their serial numbers (if they have these) and some additional information. <code>0064</code> - first installed, <code>0065</code> last installed, <code>0066</code> last arrival and <code>0067</code> last removal. The full path: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Enum\USB\ROOT_HUB20\4&amp;3af74d6&amp;0\Properties\{83da6326-97a6-4088-9453-a1923f573b29}\</code>. ⚠️ Note that <code>ROOT_HUB20\4&amp;3af74d6&amp;0</code> is device specific, but <code>{83da6326-97a6-4088-9453-a1923f573b29}</code> is not.</p>
+<blockquote>
+<p>⚠️ To view <code>Properties</code> subkey admin 🧑‍💼 privileges are not enough for the live-registry. Install <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">psexec</a> and elevate to system by running the folling command from the <code>psexec</code> folder: <code> .\PsExec.exe -i -s -d powershell.exe</code>. In the PowerShell window that opens run <code>regedit</code>.</p>
+</blockquote>
+<p><code>Device Parameters\PartMgr</code> - gives a disk ID. <code>PartitionTableCache</code> may contains &hellip; surprise-surprise&hellip; a partition table! Wow&hellip; . For a GPT locate <code>FF FF FF FF 00 00 00 00</code>. 16 bytes right after that are for file system GUID. The next 16 bytes are unique volume GUID used to identify the volume accross systems as well as within one. It might be empty for a USB device. <code>ContainerID</code> - very important, can be used to filter event logs.</p>
+<p>As for the <code>MountedDevices</code>&hellip; . If a device doesn&rsquo;t have a serial number, it&rsquo;ll be assigned a machine assigned number aka unique instance ID (not consistent accross multiple systems). If the second character is <code>&amp;</code> - not a a serial number.</p>
+<blockquote>
+<p>❓ How do I find it? Lot&rsquo;s of gibberish is all I see&hellip;</p>
+<p>✍️ Just find the device name, search for the <code>#</code> sign, check after it and up until the next <code>#</code> right before a GUID contained withing <code>{}</code>.</p>
+</blockquote>
+<p>This is an example of a USB device <strong>with</strong> a serial number that will be reletively unique (not all vendors borther giving each USB drive a separate serial number).</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/usb-2.png" alt="usb-2"></p>
+<p>And here is an example of a machine assigned id. Note, that the second symbols is <code>&amp;</code>.</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/usb-1.png" alt="usb-1"></p>
+<p>The value that follows the serial number/uniqueid right after the second <code>#</code> and encolsed between <code>{}</code> is the disk id.</p>
+<h3 id="mounted-devices">Mounted Devices</h3>
+<p><strong>Key</strong> 🔑: <code>NTUSER\MountPoints2</code>.</p>
+<p>If you connect volumes from a system-wide <code>MountPoints</code> (above) and <code>USBSTR</code>, we can connect a device to a specific user.</p>
+<h3 id="managedbyapp">ManagedByApp</h3>
+<p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.Windows.Photos_8wekyb3d8bbwe\PersistedStorageItemTable\ManagedByApp</code>.</p>
+<p>Tracks images opened with Microsoft application. Shows <em>volume GUID</em> (use other USB-related registry to assemble the picture), file path, data and time ⏰. <code>LastUpdateTime</code> shows when the files was &hellip; . This date and time is very close <code>LastInteracted</code> from ShellBags. Go to <code>MountedDevices</code> in <code>SOFTWARE</code> hive to find the device by the volume GUID and the to <code>SYSTEM</code>&rsquo;s <code>USBSTR</code> -&gt; <code>PartitionTableCache</code>.</p>
+<p>This information is very useful for child abuse cases.</p>
+<h3 id="shellbags">ShellBags</h3>
+<p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\BagMRU </code>. Values: <code>MRUListEx</code>, <code>NodeSlot</code>, <code>Subkeys</code>.</p>
+<p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\Bags</code>. Values: <code>Shell</code>, will have folder&rsquo;s GUID.</p>
+<p><code>Created On</code>: when the folder was created/moved/renamed. Last accessed and created are sometimes the same. Last modified is when the preferences were last changed (window resized, view options changed). Mind if it’s utc or gmt. Also, this data might be updated with a little lag. <code>Last key write time</code> is the ShellBag&rsquo;s timestamp.</p>
+<blockquote>
+<p>⚠️ Shortcuts MAC times are not updated!</p>
+<p>⚠️ Fat16 only records date. No time. So the <code>Last accessed</code> time for a fat16 formatted folder will be <code>00:00:00.000</code>. It&rsquo;s more usual for a USB removable media.</p>
+</blockquote>
+<p><code>Created On</code>, <code>Modified On</code> and <code>Last accessed on</code> are all FS timestamps ❗️❗️❗️ However, <code>Registry last write time</code> is its own timestamp and it seems to be updated even when no preferences were changed.</p>
+<p>Track Windows folder settings (how the view is set), track zip files, folder access, even if information was deleted. Can also show folders on removable media. This data is a little bit confusing at first, but can be digested in a couple of minutes. One important thing to note is that both keys are interconnected. I&rsquo;ve used arrows, squares and circles to mark data corresponding to each for better visualization on the picture below. Sometimes, additional info for NTFS filesystem will be available (MFT record number) and file system type as well, not always however.</p>
+<blockquote>
+<p>⚠️ Proves that the user interacted with these folders if they are found in ShellBags but not on the system.</p>
+<p>❓ How about when being hacked? A hacker might delete the folder.</p>
+</blockquote>
+<p>Right under <code>BagMRU</code> subkey, there is only one subkey (in this case, in case of shell bags, a folder): <code>0</code>.  <code>MRUListEx</code> contains a list of folders inside this one identified by sequence numbers. In our example there are only three subfolders (and, hence, values in the list) in this folder: <code>00 00 00 00</code>, just <code>0</code> in little-endian (green), <code>01 00 00 00</code>, just <code>1</code> in little-endian (orange) and <code>02 00 00 00</code>, just <code>2</code> in little-endian (purple). Above the <code>MRUListEx</code> there are three values in our case, each corresponding to the subfolder and containing a folder path and name. In the example below the <code>0</code> subfolder&rsquo;s value is expanded and marked with a green circle.</p>
+<p>Each of these folders in the list will have a corresponding subkey inside our <code>0</code> subkey/folder (marked with arrows on the left).</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/shell-bag.png" alt="shell-bag"></p>
+<p>So, we have a parent folder info, what folders it contains and the paths to them. Now, since ShellBags store folder settings, where are they? Under the second subkey, <code>Bags</code>. But since sequence numbers are used here as well, how do we find the folder we need? Are these sequence number the same as on the picture above? The answer is <em>no</em>. On the picture above numbering restarts from <code>0</code> for each folder&rsquo;s subfolders, so that each folder that has at least one subfolder, will have at least <code>0</code> value and a <code>0</code> subkey. However, the <code>Bags</code> subkeys numbers folders sequencially. Each subkey representing a folder in a <code>BagMRU</code> subkey we&rsquo;ve seen above, will have a value <code>NodeSlot</code>. This is a number it&rsquo;s identified by withing <code>Bags</code> subkey. See the below example for the folder <code>0</code>.</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/shell-bag2.png" alt="shell-bag2"></p>
+<p>🛠 ShellBagsExplorer (E. Zimmerman) is a tools that helps automating this process which is useful for larger amount of data.</p>
+<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/shell-bag3.png" alt="shell-bag3"></p>
+<p>The above is an example of the ShellBagsExplorer for my Windows 10 Parallels VM. Pretty user-friendly representation and lot&rsquo;s of valuable information. Note the folders on the very top: <code>\\Mac\vm</code>, <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code>. Someone who is using Paralells Windows 10 on Mac might note this at once, that this is a VM running on a Mac. Also, both <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code> are no longer available for Windows 10, but they were not deleted from the registry as you may see. That&rsquo;s because when folders are deleted, they are not deleted from here, at least not soon.</p>
 <h2 id="macos">macOS</h2>
 <h3 id="usb">USB</h3>
 <p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>

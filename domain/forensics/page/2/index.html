@@ -171,14 +171,14 @@
  <h1 class="title">forensics</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/methodology/"> 🧰 Data Recovery Techniques</a></h2> 
-    <p> <p><em>Below are the techniques, tools and instructions regarding data recovery from various file systems and devices. Most of the below techniques apply to HDDs only. Those that are for SDDs or other flash memory devices will be specified in the last section.</em></p></p>
-
     <h2><a href="https://bakerst221b.com/docs/notes/gcfa/2-ir-and-threat-hunting/"> Advanced Incident Response &amp; Threat Hunting</a></h2> 
     <p> Legend Below is the skeleton from SAN508 course description. I am using it to make up my study plan.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/methodology/"> 🗒 Checklist</a></h2> 
-    <p> First, have a template for an IR/forensics sheet. This can be done in Excel or other program alike.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/collection/"> Logs Collection</a></h2> 
+    <p> macOS syslog. Since macOS Sierra (10.12, 2016) Apple has redesigned its log system. Unix logs were replaced (syslog, for example).</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/imaging/"> 📸 Imaging</a></h2> 
+    <p> Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. Imaging - bit-by-bit copy.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/investigation/logs/apple-fsevents/"> FSEvents</a></h2> 
     <p> Intro Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: hex(last_event_id + 1).</p>
@@ -192,14 +192,19 @@
     <h2><a href="https://bakerst221b.com/docs/notes/gcfa/3-intrusion-analysis/"> Intrusion analysis 🛠️</a></h2> 
     <p> Legend Below is the skeleton from SAN508 course description. I am using it to make up my study plan.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/ediscovery/"> eDiscovery</a></h2> 
-    <p> eDiscovery Forensics and eDiscovery are very close terms, but not the same. eDiscovery is collecting all information and diciding whether this information is relevant for the investigation.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/protocols/wireless/"> 📚 Wireless</a></h2> 
+    <p> Attacks iwconfig
+airmon-ng check kill
+airmon-ng start wlan0
+iwconfig
+airodump-ng wlan0mon
+airdump-ng -c &lt;channel number&gt; --bssid &lt;access point MAC&gt; -w capture wlan0mon to capture the handshake or enough data to deduce the key.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/pc-info/"> 🖥 Computer Information</a></h2> 
+    <p> Windows Installed programs and applications Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/playbooks/soceng/"> Data Exfiltration</a></h2> 
     <p> <p><em>These are my ideas on IR playbooks for training. Don&rsquo;t judge :) We don&rsquo;t evolve if we don&rsquo;t make mistakes and learn from them. And we don&rsquo;t make mistakes if we do nothing. Even if I am risking to become an object of ridicule, I am posting this article. I am planning to imporve once I learn more or gain some relevant experience.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/processes/mac-core/"> MacOS Core Processes</a></h2> 
-    <p> <p><em>There are two broad categories of core processes. Processes that initialize system environment and those that initialize the user environment. Whatever is the category, you need to know them well in order to detect abnormal things.</em></p></p>
 
 
 
