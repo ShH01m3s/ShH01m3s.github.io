@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Evidence Of Process Escalation - Analyst</title>
+  <title>Process Injections - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -172,9 +172,34 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/processes/"> Back to Process Analysis Section 👈🏼 </a>
+   <a href="/docs/dfir/investigation/processes/"> Back to Process Analysis Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#classic">Classic</a>
+          <ul>
+            <li><a href="#caveats">Caveats</a></li>
+          </ul>
+        </li>
+        <li><a href="#pe-injection">PE Injection</a></li>
+        <li><a href="#process-hollowing">Process Hollowing</a></li>
+        <li><a href="#sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</a></li>
+        <li><a href="#with-setwindowshookex">With <code>SetWindowsHookEx()</code></a></li>
+        <li><a href="#registry-poisoning">Registry poisoning</a></li>
+        <li><a href="#apc">APC</a></li>
+        <li><a href="#ewmi-with-setwindowlong">EWMI with <code>SetWindowLong()</code></a></li>
+        <li><a href="#shims">SHIMS</a></li>
+        <li><a href="#userland-rootkit">Userland rootkit</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -182,22 +207,81 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Process Injections</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="windows">Windows</h2>
+<h3 id="classic">Classic</h3>
+<p>A malicious dll&rsquo;s <strong>path</strong> is copied in the memory space of a running legitimate process to be loaded in runtime.</p>
+<p><img src="images/classic-1.png" alt="classic-1"></p>
+<p>Below is the anatomy of this function call.</p>
+<p><img src="images/classic-2.png" alt="classic-2"></p>
+<p>Here is a scheme of the sick process address space layout in RAM when this shit happens:</p>
+<p><img src="images/classic-3.png" alt="classic-3"></p>
+<p>And this is approximately what you&rsquo;d see in IDA Pro, if you had an appropriate sample utilising this technique:</p>
+<p><img src="images/classic-4.png" alt="classic-4"></p>
+<h4 id="caveats">Caveats</h4>
+<p>There are two main problems:</p>
+<ul>
+<li>Most of the defense tools start barking when they hear the <code>CreateRemoteThread()</code> call.</li>
+<li>The attacker needs to have this <code>mal.dll</code> on disk prior to attack.</li>
+</ul>
+<h3 id="pe-injection">PE Injection</h3>
+<p>A malicious dll itself copied in the memory space of a running legitimate process.</p>
+<h3 id="process-hollowing">Process Hollowing</h3>
+<p>Already loaded good process is fully overwritten with something not that good.</p>
+<h3 id="sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</h3>
+<p>EIP register&rsquo;s value of a running thread is substituted.</p>
+<h3 id="with-setwindowshookex">With <code>SetWindowsHookEx()</code></h3>
+<p>Call interception.</p>
+<h3 id="registry-poisoning">Registry poisoning</h3>
+<p>Using the registry to inject.</p>
+<h3 id="apc">APC</h3>
+<h3 id="ewmi-with-setwindowlong">EWMI with <code>SetWindowLong()</code></h3>
+<h3 id="shims">SHIMS</h3>
+<h3 id="userland-rootkit">Userland rootkit</h3>
+<h2 id="references">References</h2>
+<p>Ten Process Injection Techniques: A Technical Survey Of Common And Trending Process Injection Techniques: <a href="https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process">https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process</a></p>
 
- 
- <h1 class="title">Evidence Of Process Escalation</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/processes/escalation/mobile/"> Getting Rooty</a></h2> 
-    <p> iOS Jailbreaking Types of jailbreaking  Tethered jailbreaks don&rsquo;t persist through reboots, so re-applying jailbreaks requires the device to be connected (tethered) to a computer during every reboot.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/processes/escalation/windows/"> Windows Escalation</a></h2> 
-    <p> </p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
