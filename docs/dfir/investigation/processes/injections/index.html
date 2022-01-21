@@ -189,14 +189,39 @@
             <li><a href="#caveats-1">Caveats</a></li>
           </ul>
         </li>
-        <li><a href="#process-hollowing">Process Hollowing</a></li>
-        <li><a href="#sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</a></li>
-        <li><a href="#with-setwindowshookex">With <code>SetWindowsHookEx()</code></a></li>
-        <li><a href="#registry-poisoning">Registry poisoning</a></li>
+        <li><a href="#process-hollowing">Process Hollowing</a>
+          <ul>
+            <li><a href="#pros-and-cons">Pros And Cons</a></li>
+          </ul>
+        </li>
+        <li><a href="#sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</a>
+          <ul>
+            <li><a href="#pros-and-cons-1">Pros And Cons</a></li>
+          </ul>
+        </li>
+        <li><a href="#hook-">Hook 🪝</a></li>
+        <li><a href="#registry-poisoning">Registry poisoning</a>
+          <ul>
+            <li><a href="#pros-and-cons-2">Pros And Cons</a></li>
+          </ul>
+        </li>
         <li><a href="#apc">APC</a></li>
-        <li><a href="#ewmi-with-setwindowlong">EWMI with <code>SetWindowLong()</code></a></li>
-        <li><a href="#shims">SHIMS</a></li>
-        <li><a href="#userland-rootkit">Userland rootkit</a></li>
+        <li><a href="#ewmi-with-setwindowlong">EWMI with <code>SetWindowLong()</code></a>
+          <ul>
+            <li><a href="#examples">Examples</a></li>
+          </ul>
+        </li>
+        <li><a href="#shims">SHIMS</a>
+          <ul>
+            <li><a href="#examples-1">Examples</a></li>
+            <li><a href="#-tools">🛠 Tools</a></li>
+          </ul>
+        </li>
+        <li><a href="#userland-rootkit">Userland rootkit</a>
+          <ul>
+            <li><a href="#examples-2">Examples</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -250,6 +275,7 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="windows">Windows</h2>
+<p>Most of the information is taken from <a href="!%5Bulr-4%5D(/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/ulr-4.png)">here</a>, but more visualization is added. The screenshots from IDA Pro are also copied from that blog post.</p>
 <h3 id="classic">Classic</h3>
 <p>This one is the one of the simpliest to explain and not that simple to actually use in a real attack (see Caveats). A malicious dll&rsquo;s <strong>path</strong> is copied in the memory space of a running legitimate process to be loaded in runtime.</p>
 <p><img src="images/classic-1.png" alt="classic-1"></p>
@@ -268,27 +294,125 @@
 <h3 id="pe-injection">PE Injection</h3>
 <p>A malicious <strong>dll itself</strong> copied in the memory space of a running legitimate process.</p>
 <p>This is the chain of function calls needed for this attack.</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-1.png" alt="pe-1"></p>
+<p><img src="images/pe-1.png" alt="pe-1"></p>
 <p>Below is the anatomy of the <code>CreateRemoteThread</code> function call needed for this attack to work</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-2.png" alt="pe-2"></p>
+<p><img src="images/pe-2.png" alt="pe-2"></p>
 <p>Below is the memory layout of the sick process.</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-3.png" alt="pe-3"></p>
+<p><img src="images/pe-3.png" alt="pe-3"></p>
 <p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/processes/injections/images/pe-4.png" alt="pe-4"></p>
+<p><img src="images/pe-4.png" alt="pe-4"></p>
 <h4 id="caveats-1">Caveats</h4>
 <p><code>СreateRemoteThread()</code> and <code>LoadLibrary()</code> are not stealthy</p>
 <h3 id="process-hollowing">Process Hollowing</h3>
 <p>Already loaded good process is fully overwritten with something not that good.</p>
+<p>This is the chain of function calls needed for this attack.</p>
+<p><img src="images/ph-1.png" alt="ph-1"></p>
+<p>Below is the memory layout of the sick process.</p>
+<p><img src="images/ph-2.png" alt="ph-2"></p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/ph-3.png" alt="ph-3"></p>
+<p><img src="images/ph-4.png" alt="ph-4"></p>
+<h4 id="pros-and-cons">Pros And Cons</h4>
+<p>➕ No need to have mal.dll on disk</p>
+<p>➖ CreateRemoteThread()<code>and</code>LoadLibrary()` are loud</p>
 <h3 id="sir-suspend-inject-resume">SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume)</h3>
-<p>EIP register&rsquo;s value of a running thread is substituted.</p>
-<h3 id="with-setwindowshookex">With <code>SetWindowsHookEx()</code></h3>
+<p>EIP register&rsquo;s value of a running thread is substituted. This is the chain of function calls needed for this attack.</p>
+<p><img src="images/sir-1.png" alt="sir-1"></p>
+<p>Below is the memory layout of the sick process.</p>
+<p><img src="images/sir-2.png" alt="sir-2"></p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/sir-3.png" alt="sir-3"></p>
+<p><img src="images/sir-4.png" alt="sir-4"></p>
+<h4 id="pros-and-cons-1">Pros And Cons</h4>
+<p>➕ Not as noisy since there is no process created. All the perversion is done with the already running one.</p>
+<p>➖ If the process is suspended due to a system call, the program will crash. For this case Trojans that are a little smarter can check EIP value and postpone the inject if its  value is in the <code>ntdll.dll</code>&rsquo;s address range.</p>
+<h3 id="hook-">Hook 🪝</h3>
+<p>Uses <code>SetWindowsHookEx()</code> API function.</p>
 <p>Call interception.</p>
+<p>This is the chain of function calls needed for this attack.</p>
+<p><img src="images/hook-1.png" alt="hook-1"></p>
+<p>Below is the memory layout of the sick process.</p>
+<p><img src="images/hook-2.png" alt="hook-2"></p>
+<p>Below is the anatomy of the <code>SetWindowHookEx()</code> function call needed for this attack to work.</p>
+<p><img src="images/hook-3.png" alt="hook-3"></p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/hook-4.png" alt="hook-4"></p>
+<p><img src="images/hook-5.png" alt="hook-5"></p>
 <h3 id="registry-poisoning">Registry poisoning</h3>
 <p>Using the registry to inject.</p>
+<p>These are the keys that can be used for injection.</p>
+<ul>
+<li>
+<p>Upon <code>User32.dll</code> load <code>mal.dll</code> will be loaded:</p>
+<ul>
+<li><code>HKLM/Software/Microsoft/WindowsNT/CurrentVersion/Windows/Appinit_Dlls</code></li>
+<li><code>HKLM/Software/Wow6432Node/Microsoft/WindowsNT/CurrentVersion/Windows/Appinit_Dlls</code></li>
+</ul>
+</li>
+<li>
+<p>Whenever <code>CreateProcess()</code>, <code>CreateProcessAsUser()</code>, <code>CreateProcessWithLogonW()</code>,</p>
+<p><code>CreateProcessWithTokenW()</code>, <code>WinExec()</code> are called, mal.dll will be called</p>
+<ul>
+<li><code>HKLM/System/CurrentControlSet/Control/Session Manager/AppCertDlls</code></li>
+</ul>
+</li>
+<li>
+<p>IFEO - usually used to attach a debugger. The value of the  &ldquo;Debugger Value&rdquo; is changed.</p>
+</li>
+<li>
+<p><code>HKLM/Software/Wow6432Node/Microsoft/WindowsNT/CurrentVersion/image file execution options</code></p>
+</li>
+</ul>
+<p>Below is the memory layout of the sick process.</p>
+<p>Below is the anatomy of the <code>XXXXXXXXXXXXXXXX</code> function call needed for this attack to work</p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/reg1.png" alt="reg1"></p>
+<h4 id="pros-and-cons-2">Pros And Cons</h4>
+<p>➕ The very process of injection is stealthy.</p>
+<p>➖ However,<code>mal.dll</code> needs to be present on disk.</p>
+<p>➖ There are &ldquo;smithereens&rdquo; left in the registry that can be a good lead in an investigation.</p>
 <h3 id="apc">APC</h3>
+<p>This is the chain of function calls needed for this attack.</p>
+<p><img src="images/apc-1.png" alt="apc-1"></p>
+<p>Below is the memory layout of the sick process.</p>
+<p><img src="images/apc-2.png" alt="apc-2"></p>
+<p>Below is the anatomy of the <code>XXXXXXXXXXXXXXXX</code> function call needed for this attack to work.</p>
+<p><img src="images/apc-3.png" alt="apc-3"></p>
+<p>How this attack actually work (visualised):</p>
+<p><img src="images/apc-2-2.png" alt="apc-2-2"></p>
+<p><img src="images/apc-4.png" alt="apc-4"></p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/apc-5.png" alt="apc-5"></p>
 <h3 id="ewmi-with-setwindowlong">EWMI with <code>SetWindowLong()</code></h3>
+<p>Extra Window Memory Injection.</p>
+<p>This is the chain of function calls needed for this attack.</p>
+<p>Below is the memory layout of the sick process.</p>
+<p>Below is the anatomy of the <code>XXXXXXXXXXXXXXXX</code> function call needed for this attack to work</p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/ewmi-4.png" alt="ewmi-4"></p>
+<h4 id="examples">Examples</h4>
+<p>Gapz and PowerLoader</p>
 <h3 id="shims">SHIMS</h3>
+<p>Favourite and the most useful for malware: <code>DisableNX</code>, <code>DisableSEH</code>, <code>InjectDLL</code>.</p>
+<p>This is the chain of function calls needed for this attack.</p>
+<p>Below is the memory layout of the sick process.</p>
+<p>Below is the anatomy of the <code>XXXXXXXXXXXX</code> function call needed for this attack to work</p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<h4 id="examples-1">Examples</h4>
+<p>Adware, “Search Protect by Conduit”.</p>
+<h4 id="-tools">🛠 Tools</h4>
+<p><code>python-sdb</code></p>
 <h3 id="userland-rootkit">Userland rootkit</h3>
+<p>Rootkits are usually associated with the kernel space, however, there are also userland rootkits out there. There are two main techniques known: IAT and inline.</p>
+<p>When IAT hooking technique is used, malware changes the import address table. This way when a good application calls some function from this tampered DLL, the replaced function is executed instead.</p>
+<p>With inline hooking malware modifies the function&rsquo;s body itself.</p>
+<p>This is the chain of function calls needed for this attack.</p>
+<p>Below is the memory layout of the sick process.</p>
+<p>Below is the anatomy of the XXXX function call needed for this attack to work</p>
+<p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
+<p><img src="images/ulr-4.png" alt="ulr-4"></p>
+<h4 id="examples-2">Examples</h4>
+<p>FinFisher</p>
 <h2 id="references">References</h2>
 <p>Ten Process Injection Techniques: A Technical Survey Of Common And Trending Process Injection Techniques: <a href="https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process">https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process</a></p>
 
