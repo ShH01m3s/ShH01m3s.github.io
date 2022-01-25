@@ -384,7 +384,10 @@
 <p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
 <p><img src="images/apc-5.png" alt="apc-5"></p>
 <h3 id="ewmi-with-setwindowlong">EWMI with <code>SetWindowLong()</code></h3>
-<p>Extra Window Memory Injection.</p>
+<p>Extra Window Memory Injection. Ok, hold my beer 🍻, this one is a little tough for 11:14 in the evening. <code>explorer.exe</code> process has some shared memory, that can be used by other processes. Neat, right? What other process have this &ldquo;<em>feature</em>&rdquo;? Let&rsquo;s keep this information roasting for a while. There are two ways of using this <del>bug</del> <em>feature</em>: decently creating a shared region (using <code>NTMapViewOfSection</code> for allocating heap section) or leeching off on another one&rsquo;s. Guess which one is the prefered one for the attackers 😉?</p>
+<p>There is another feature, not <code>explorer.exe</code> specific: GUI applications when creating a window have some additional 40 bytes for each window in the window class structure, where they can put anything 40 bytes long (properties, function pointers). Originally, these bytes were designed to store some window specific info, i.e. colors, menu items I guess. However, one can write a pointer in this space to point to somewhere else: either in this very process (which is quite useless for an attacker) or in some shared region (let&rsquo;s stop the information in the above paragraph roasting).</p>
+<p>And finally, there is this <code>Shell_TrayWnd</code>. Remember, the panel on the bottom on Windows? How do these pretty cute icons get into the tray? That&rsquo;s the class responsible for this magic 🪄. As any other window, it also has its own additional 40 bytes for each instance and these bytes can be retrieved and set with <code>GetWindowLong</code> and <code>SetWindowLong</code>.</p>
+<p>Now, how does this work from a malicious point of view. To actually make this pointer work, one would have to call <code> SetWindowLong</code> (to set the value) and <code>SendNotifyMessage</code> (to trigger it).</p>
 <p>This is the chain of function calls needed for this attack.</p>
 <p>Below is the memory layout of the sick process.</p>
 <p>Below is the anatomy of the <code>XXXXXXXXXXXXXXXX</code> function call needed for this attack to work</p>
@@ -412,7 +415,6 @@
 <p>And this is what you&rsquo;d see in IDA Pro if you had a sample using this technique.</p>
 <p><img src="images/ulr-4.png" alt="ulr-4"></p>
 <h4 id="examples-2">Examples</h4>
-<p>FinFisher</p>
 <h2 id="references">References</h2>
 <p>Ten Process Injection Techniques: A Technical Survey Of Common And Trending Process Injection Techniques: <a href="https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process">https://www.endgame.com/blog/technical-blog/ten-process-injection-techniques-technical-survey-common-and-trending-process</a></p>
 

@@ -325,7 +325,7 @@
 <p>Unnecessary info I&rsquo;ve found out while writing this article. It turns out,  Mary&rsquo;s laptop first tries doing this over IPv6 (red square) and fails. Two requests: for A and AAAA records (see <a href="#">DNS article</a>) to get both IPv4 and IPv6 addresses for <code>bakerst221b.com</code>. For both requests itgot a <code>Refused</code> response - I don&rsquo;t understand the whole internals of this, but guess IPv6 connection is not supported for my hosting server 💡 .</p>
 </blockquote>
 <p>Then it tries to ask over IPv4 for the same both records (A and AAAA) and gets the addresses it needed (purple square):</p>
-<p>![Screenshot 2020-11-29 at 6.27.07 PM](images/Screenshot 2020-11-29 at 6.27.07 PM.png)</p>
+<p><img src="images/dns-query.png" alt="dns-query"></p>
 <p>Since there are no IPv6 addresses assigned, 🖥️ PC only needs the response for A record.  Ok, not that 🖥️ gets its IPs, it can finally sign his first envelope, the IP header (see the outer envelope ✉  <code>To</code> field filled in):</p>
 <p><img src="images/http-request2.png" alt="http-request2"></p>
 <p>But there are also transport and datalink layers&hellip;. His parcel now looks like this :</p>
@@ -357,8 +357,8 @@
 </ol>
 <p><img src="images/arp-response-3.png" alt="arp-response-3"></p>
 <p>Here are ARP request and response intercepted in real traffic:</p>
-<p>![Screenshot 2020-11-29 at 7.17.15 PM](images/Screenshot 2020-11-29 at 7.17.15 PM.png)</p>
-<p>![Screenshot 2020-11-29 at 7.17.22 PM](images/Screenshot 2020-11-29 at 7.17.22 PM.png)</p>
+<p><img src="images/arp-request-iris.png" alt="arp-request-iris"></p>
+<p><img src="images/arp-response-iris.png" alt="arp-response-iris"></p>
 <p>Now, J&amp;M saves the data for some time for future requests. The main idea is that the device is asking <em>&ldquo;Who has 185.199.110.153? Tell 184.10.199.12&rdquo;</em> recursively thorogh a network of interconnected network devices. As soon as it gets the answer, it fills the data link layer header with the correct MAC address.  Please note, that ARP is only packed into data link (Ethernet) envelope 📩 , not subsequent wrappings into IP and TCP envelopes since we are not actually sending any data and don&rsquo;t need IP and TCP envelopes for that. Our postoffice clerk 1 and postoffice clerk 2 are both having a rest 🌴 .</p>
 <p>So, Mary&rsquo;s laptop already knows the destination IP that he acquired with the help of DNS request: <code>185.199.110.153</code>. It also knows its own MAC and IP (obviously).  Let&rsquo;s keep in mind mind that Mary&rsquo;s laptop doesn&rsquo;t talk to the outer world on its own. So, it puts its representative&rsquo;s MAC in Ethernet II header (<code>To</code> field) instead of <code>bakerst221b.com</code>&rsquo;s MAC. For example, I&rsquo;ve requested a <code>sherlock.com</code> page and captured the request. The purple square is my router&rsquo;s MAC, and the green - my laptop&rsquo;s.</p>
 <p><img src="images/ethernet-header.png" alt="ethernet-header"></p>
