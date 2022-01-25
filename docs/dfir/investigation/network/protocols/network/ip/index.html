@@ -177,11 +177,35 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#ipv6">IPv6</a>
+    <li><a href="#ipv4">IPv4</a>
       <ul>
-        <li><a href="#attacks">Attacks</a></li>
+        <li><a href="#reserved-addresses">Reserved Addresses</a></li>
+        <li><a href="#fragmentation">Fragmentation</a></li>
+        <li><a href="#data-transmission-types">Data Transmission Types</a>
+          <ul>
+            <li><a href="#unicast">Unicast</a></li>
+            <li><a href="#multicast">Multicast</a></li>
+            <li><a href="#broadcast">Broadcast</a></li>
+          </ul>
+        </li>
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#subnetting">Subnetting</a></li>
+        <li><a href="#nat">NAT</a></li>
       </ul>
     </li>
+    <li><a href="#ipv6">IPv6</a>
+      <ul>
+        <li><a href="#data-transmission-types-1">Data Transmission Types</a>
+          <ul>
+            <li><a href="#unicast-1">Unicast</a></li>
+            <li><a href="#multicast-1">Multicast</a></li>
+          </ul>
+        </li>
+        <li><a href="#extensions">Extensions</a></li>
+      </ul>
+    </li>
+    <li><a href="#attacks">Attacks</a></li>
+    <li><a href="#ipsec">IPSec</a></li>
   </ul>
 </nav>
  </aside>
@@ -245,12 +269,53 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>*This article is about IP protocol (v4, v6 and IPX).</p>
+    <p><em>This article is about IP protocol (v4, v6 and IPX).</em></p>
+<h2 id="ipv4">IPv4</h2>
+<p>Number on top and along the left edge are bits (not bytes). The addresses itselves are 32 bits long.</p>
+<p><img src="images/ipv4.png" alt="ipv4"></p>
+<h3 id="reserved-addresses">Reserved Addresses</h3>
+<p><code>10.0.0.0</code> - <code>10.255.255.255</code></p>
+<p><code>172.16.0.0</code> - <code>172.31.255.255</code></p>
+<p><code>192.168.0.0</code> - <code>192.168.255.255</code></p>
+<h3 id="fragmentation">Fragmentation</h3>
+<h3 id="data-transmission-types">Data Transmission Types</h3>
+<h4 id="unicast">Unicast</h4>
+<p>Only one host can receive and read a message. Other PCs will discard it (unless in a promiscuous mode or on a hub).</p>
+<h4 id="multicast">Multicast</h4>
+<p>It&rsquo;s very similar a subscription or a chat group. You&rsquo;ll receive a message only if you have a specific address. A host can choose whether it can or cannot receive it.</p>
+<p>Multicasting is happening both on the data link (MAC addresses) and network (IP addresses) levels. For hwardware multicating (MAC addresses) refer to the data link layer page.</p>
+<p>A device (may be a PC) detects a multicast frame (by MAC address), verifies it and sends it further to layer 3 (assuming it&rsquo;s its group). This type of communication is used a lot between routers, for example, OSPF protocol.</p>
+<blockquote>
+<p>✍️ To map hardware multicast to an IP multicast place the low order 23 bits of the IP multicast addresss into the low-order 23 bits of the special Ethernet multicast address. The rest of the high-order bits are defined by the IEEE.</p>
+</blockquote>
+<p>Examples of IP multicast addresses: <code>224.0.0.0</code> - base address, <code>224.0.0.1</code> - all systems on this subnet. <code>224.0.0.2</code> - all routers on the subnet. <code>224.0.0.4</code> - DVMRP Routers. <code>224.0.0.5</code> OSPFIGP All routers.</p>
+<h4 id="broadcast">Broadcast</h4>
+<p>No matter what the host wants, it&rsquo;ll receive the message (like a draft card).</p>
+<p>This one is much easier to explain. There are two addresses in regards of broadcasting. MAC: <code>FF:FF:FF:FF:FF:FF</code>, IP: <code>255.255.255.255</code>. Subnet broadcast might be a little confuding though. How does it differ from multicasting?</p>
+<p>Picture</p>
+<p>Protocols using multicast/broadcast: ARP, OSPF (routing), RIP1 (routing), SAP (locate printer), RIP (routing), NLSP (Netware link server), AARP (AppleTalk)</p>
+<h3 id="classes">Classes</h3>
+<p><strong>Class A</strong>: 0.0.0.0 - 125.255.255.255</p>
+<p><strong>Class B</strong>: 128.0.0.0 - 191.255.255.255</p>
+<p><strong>Class C</strong>: 192.0.0.0 - 223.255.255.255</p>
+<p><strong>Class D</strong>: 224.0.0.0 - 239.255.255.255</p>
+<p><strong>Class C</strong>: 240.0.0.0 - 255.255.255.255</p>
+<h3 id="subnetting">Subnetting</h3>
+<h3 id="nat">NAT</h3>
+<p>Static, dynamic and &hellip; hybrid? No, Overload. Yuck 🤮!</p>
 <h2 id="ipv6">IPv6</h2>
-<h3 id="attacks">Attacks</h3>
+<p>Addresses are 4 times bigger than that of the IPv4: 128 bits each. However, overall it&rsquo;s more compact and has built-in IPsec support.</p>
+<p><img src="images/ipv6.png" alt="ipv6"></p>
+<h3 id="data-transmission-types-1">Data Transmission Types</h3>
+<h4 id="unicast-1">Unicast</h4>
+<h4 id="multicast-1">Multicast</h4>
+<h3 id="extensions">Extensions</h3>
+<h2 id="attacks">Attacks</h2>
 <p><code>mitm6</code>. LDAPS?</p>
 <p><code>ntlmrelayx.py -6 -t ldaps://&lt;IP&gt; -wh fake.domail.local -l lootme</code></p>
 <p><a href="https://dirkjanm.io/worst-of-both-worlds-ntlm-relaying-and-kerberos-delegation/">https://dirkjanm.io/worst-of-both-worlds-ntlm-relaying-and-kerberos-delegation/</a></p>
+<p>Autoconfig (IPv6)</p>
+<h2 id="ipsec">IPSec</h2>
 
   </div>
 </article>
