@@ -203,6 +203,8 @@
         </li>
         <li><a href="#lateral-movement-adversary-tactics-techniques-and-procedures-ttps">Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</a>
           <ul>
+            <li><a href="#types-of-credentials">Types Of Credentials</a></li>
+            <li><a href="#security-features-protecting-user-accounts">Security features protecting user accounts</a></li>
             <li><a href="#compromising-credentials-techniques">Compromising Credentials Techniques</a></li>
             <li><a href="#remote-desktop-services-misuse">Remote Desktop Services Misuse</a></li>
             <li><a href="#windows-admin-share-abuse">Windows Admin Share Abuse</a></li>
@@ -492,6 +494,30 @@ AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
 
 </code></pre></div><p>Could not make the tool run against the hive collected with FTK from my Windows 11 machine.</p>
 <h3 id="lateral-movement-adversary-tactics-techniques-and-procedures-ttps">Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</h3>
+<p>To do anything on a Windows machine (doesn&rsquo;t this apply to UNIX system as well?) you need a user account. So, at least some account is needed. But the altimate goal is an admin account (domain, if there is a DC).</p>
+<p>Detection is possible when you know what&rsquo;s not ok. For example, suspicious logins after hours or unusual account for this machine or for this employee.</p>
+<h4 id="types-of-credentials">Types Of Credentials</h4>
+<p>Hashes. LM (not used anymore) and NT hashes.</p>
+<p>Tokens.</p>
+<p>Cached credentials.</p>
+<p>LSA secrets.</p>
+<p>Tickets. 🐕 🐩 🐶.</p>
+<p>NTDS.DIT.</p>
+<h4 id="security-features-protecting-user-accounts">Security features protecting user accounts</h4>
+<p><a href="https://www.first.org/resources/papers/conf2017/Windows-Credentials-Attacks-and-Mitigation-Techniques.pdf">Conf2017 presentation</a>.</p>
+<p>On Windows XP every used had admin privileges 😬. So, at least some work needed to be done. Below are some features added in order to solve this problem.</p>
+<p><strong>Managed service accounts</strong>. Windows 7+.  Special accounts for some services, that are not used by normal users. These accounts have an automatically-managed, complex password removing the requirement of manually dealing with password rotation and security.</p>
+<p><strong>Group managed service accounts</strong>. Windows 8+ From the Microsoft docs: <em>&ldquo;The group Managed Service Account (gMSA) provides the same functionality within the domain but also extends that functionality over multiple servers.&quot;</em>.</p>
+<p><strong>Domain Protected Users Security Group</strong>.</p>
+<p><strong>KB2871997 patch</strong>. Windows 7+ &amp; Windows Server 2008R2+. Contains a bunch of security improvements (protected groups, lsa update etc). More <a href="https://msrc-blog.microsoft.com/2014/06/05/an-overview-of-kb2871997/">here</a>.</p>
+<p><strong>UAC</strong>. Windows Vista +. It means User Account Control. Whenever something admin-like is requested by a process, the user needs to aprove this explicitly (<code>consent.exe</code> process with a GUI window), i.e. elevate privileges. There were some exploits that allowed UAC bypass and may there is somewhere another one lurking in the wild, but officially it&rsquo;s now pretty safe.</p>
+<p><strong>Restricted admin</strong>. Windows 8.1+ and Server 2012 R2+.  It&rsquo;s a mode and it prevents storing an RDP user&rsquo;s credentials in memory on the machine to which an RDP connection is made.</p>
+<p><strong>Local admin logon restrictions</strong>. Windows 8+</p>
+<p><strong>SSP passwords in plaintext mitigation</strong>. Windows 8+</p>
+<p><strong>Protected Processes</strong>. Windows 8+</p>
+<p><strong>LSA Cache cleanup</strong>. Windows 8+</p>
+<p><strong>Credential Guard and Remote Credential Guard</strong>. Windows 10+. This topic is described in more details by Artyom Sinitsin on PhDays 2019 (<a href="https://youtu.be/2Aa9_yq4BX4">here</a>).</p>
+<p><strong>Device Guard</strong>. Windows 10+. Prevents execution of untrusted code.</p>
 <h4 id="compromising-credentials-techniques">Compromising Credentials Techniques</h4>
 <h4 id="remote-desktop-services-misuse">Remote Desktop Services Misuse</h4>
 <h4 id="windows-admin-share-abuse">Windows Admin Share Abuse</h4>
