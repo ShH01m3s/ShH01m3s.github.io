@@ -214,6 +214,7 @@
             <li><a href="#windows-remote-management-tool-techniques">Windows Remote Management Tool Techniques</a></li>
             <li><a href="#powershell-remotingwmic-hacking">PowerShell Remoting/WMIC Hacking</a></li>
             <li><a href="#vulnerability-exploitation">Vulnerability Exploitation</a></li>
+            <li><a href="#tracking-lateral-movement">Tracking Lateral Movement</a></li>
           </ul>
         </li>
         <li><a href="#log-analysis-for-incident-responders-and-hunters">Log Analysis for Incident Responders and Hunters</a>
@@ -541,6 +542,12 @@ AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
 <h4 id="windows-remote-management-tool-techniques">Windows Remote Management Tool Techniques</h4>
 <h4 id="powershell-remotingwmic-hacking">PowerShell Remoting/WMIC Hacking</h4>
 <h4 id="vulnerability-exploitation">Vulnerability Exploitation</h4>
+<h4 id="tracking-lateral-movement">Tracking Lateral Movement</h4>
+<p><strong>Shares</strong>.  Can be used to track this sort of activity. Mounted shares is one way (5140). ANONYMOUS LOGON is a common thing produced by a built-in accounts on Windows machines (filter it out). If you see a PC name it&rsquo;s not usually suspicious. However, keep an eye on those accounts that mounted shared on remote systems if they are not domain admins!</p>
+<p><strong>Services</strong>. Start types. 0 boot, 1 loaded by i/o subsystem, 2 always loaded and run, 3 - manually, 4 - disabled. So, during investiagtion we&rsquo;d be looking primarily for 0, 1 and 2. 7045 - Services started with user credentials are suspicious. To map SIDs and RIDs to the actual user names, use Security event log, eid 4624 (logins, obviously).</p>
+<p><strong>Tasks</strong>. TaskScheduler Operational logs, <a href="https://kb.eventtracker.com/evtpass/evtpages/EventId_106_Microsoft-Windows-TaskScheduler_66066.asp">106</a> to get all the registered tasks. Then, use the name of this tasks to filter other events and see what happened (if anything happened). If the task was successful - look for 200 (task executed) and 201 (task completed). Otherwise, look for 332 warning or other errors. Check at <code>C:\Windows\System32\Tasks</code>, open the xml associated with your loot 💰.</p>
+<p><strong>Log Clearing</strong>. Attackers are not interested in investigation, so they are likely to be covering their tracks. One of the way to do so - simply clear the logs. Although it&rsquo;s raising alert on its own, it still deleted valuable source of information.</p>
+<p><strong>RunAs</strong>. Logged on both machines if it was remote. <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">4648</a>.</p>
 <h3 id="log-analysis-for-incident-responders-and-hunters">Log Analysis for Incident Responders and Hunters</h3>
 <h4 id="profiling-account-usage-and-logons">Profiling Account Usage and Logons</h4>
 <h4 id="tracking-and-hunting-lateral-movement">Tracking and Hunting Lateral Movement</h4>
