@@ -190,6 +190,8 @@
             <li><a href="#lsa-secrets">LSA Secrets</a></li>
             <li><a href="#kerberos-attacks">Kerberos Attacks</a></li>
             <li><a href="#ntdsdit-theft">NTDS.DIT theft</a></li>
+            <li><a href="#event-log-user-logon-tracking">Event Log (User logon tracking)</a></li>
+            <li><a href="#logon-types">Logon Types</a></li>
           </ul>
         </li>
         <li><a href="#advanced-evidence-of-execution-detection">Advanced Evidence of Execution Detection</a>
@@ -315,6 +317,20 @@
 <h4 id="lsa-secrets">LSA Secrets</h4>
 <h4 id="kerberos-attacks">Kerberos Attacks</h4>
 <h4 id="ntdsdit-theft">NTDS.DIT theft</h4>
+<h4 id="event-log-user-logon-tracking">Event Log (User logon tracking)</h4>
+<p>Open Log file -&gt; New API. Choose evtx file. View -&gt; Time Correction and check &ldquo;Set UTC time&rdquo;. 4776 to look for failed logins. Find suspicious ones. Then, get to 4624 and see if any of these failed loging resulted in successful login. Note the processes responsible for these events (in the event description). For example, WmiPrvSE.exe is a remote WMI activity.</p>
+<p>Remember that not all processes record network info (like Kerberos).</p>
+<p>To check RDP connections, first filter by 4624 Type 10 Event, then see 4778 (reconnection) events. Finally, check for acc privileges by looking at 4672 events.</p>
+<p>Good practice in the enterprise to minimize admin rights usage. If you see admin accs or accs that have elevated privileges used on workstations, that&rsquo;s a food for thought.</p>
+<p>It&rsquo;s better to filter out all built-in accs on Windows. SID can be used to do so. Built-in accounts don&rsquo;t have Unique domain identifier and RID.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">evtxecmd</span> <span class="p">-</span><span class="n">-sync</span>
+<span class="n">evtxecmd</span> <span class="o">-f</span> <span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">evtx</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">target</span><span class="p">\</span><span class="n">path</span> <span class="n">-csvf</span> <span class="n">target</span><span class="p">\</span><span class="n">file</span><span class="p">\</span><span class="n">name</span>
+</code></pre></div><p>Use TimeLine Explorer to analyse the results. Intersting and useful feature is &ldquo;column grouping&rdquo;.</p>
+<h4 id="logon-types">Logon Types</h4>
+<p>2 - Console</p>
+<p>3 - Network</p>
+<p>10 - Remote Desktop</p>
+<p>9 - RunAs</p>
 <h3 id="advanced-evidence-of-execution-detection">Advanced Evidence of Execution Detection</h3>
 <h4 id="attacker-tactics-techniques-and-procedures-ttps-observed-via-process-execution">Attacker Tactics, Techniques, and Procedures (TTPs) Observed Via Process Execution</h4>
 <h4 id="prefetch-analysis">Prefetch Analysis</h4>

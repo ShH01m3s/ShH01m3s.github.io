@@ -191,6 +191,7 @@
         <li><a href="#4775">4775</a></li>
         <li><a href="#4776">4776</a></li>
         <li><a href="#4777">4777</a></li>
+        <li><a href="#4778">4778</a></li>
         <li><a href="#4800">4800</a></li>
         <li><a href="#4802">4802</a></li>
         <li><a href="#4803">4803</a></li>
@@ -263,22 +264,24 @@
   <div class="content" itemprop="articleBody">
     <h2 id="user-activity">User Activity</h2>
 <h3 id="4624">4624</h3>
-<p>Login</p>
+<p>Successful login. Type 2 (console). Keep in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.</p>
 <h3 id="4625">4625</h3>
 <p>Auth</p>
 <h3 id="4634">4634</h3>
 <h3 id="4648">4648</h3>
 <p>Auth</p>
 <h3 id="4672">4672</h3>
-<p>Priviledges account usage.</p>
+<p>Priviledges account usage. Can be used to check account privileges.</p>
 <h3 id="4771">4771</h3>
 <h3 id="4772">4772</h3>
 <h3 id="4773">4773</h3>
 <h3 id="4774">4774</h3>
 <h3 id="4775">4775</h3>
 <h3 id="4776">4776</h3>
-<p>Local account authentication.</p>
+<p>Local account authentication, meaning not involving a DC. Authentication attempts other then those of local users are suspicious by default. You can filter by a portion of unique pc/domain identifier to exclude all built-in accounts.</p>
 <h3 id="4777">4777</h3>
+<h3 id="4778">4778</h3>
+<p>Session reconnect event. RDP. Check for 4624 Type 10.</p>
 <h3 id="4800">4800</h3>
 <h3 id="4802">4802</h3>
 <h3 id="4803">4803</h3>
