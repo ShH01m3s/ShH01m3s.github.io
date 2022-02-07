@@ -314,9 +314,23 @@
 <h4 id="pass-the-hash">Pass the Hash</h4>
 <h4 id="single-sign-on-sso-dumping-using-mimikatz">Single Sign On (SSO) Dumping using Mimikatz</h4>
 <h4 id="token-stealing">Token Stealing</h4>
-<h4 id="cached-credentials">Cached Credentials</h4>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># local admin privileges are required, of course</span>
+<span class="c"># run mimikatz</span>
+<span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> 
+<span class="n">token</span><span class="p">::</span><span class="n">elevate</span> <span class="p">/</span><span class="n">domainadmin</span>
+</code></pre></div><h4 id="cached-credentials">Cached Credentials</h4>
+<p>Hashes or clear text passwords can be residing in cache.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="p">./</span><span class="n">pwdump</span><span class="p">.</span><span class="n">py</span> <span class="n">SYSTEM</span> <span class="n">SAM</span> <span class="n">true</span> <span class="c"># to get local hashes</span>
+<span class="p">./</span><span class="n">cachedump</span> <span class="n">SYSTEM</span> <span class="n">SECURITY</span> <span class="n">true</span> <span class="c"># cached. Salted with the account username and thus need to be bruteforced to crack.</span>
+</code></pre></div><p>Without admin privileges, an attacker won&rsquo;t be able to get to the SECURITY hive. To limit the cache edit this 🔑: <code>SOFTWARE\Microsoft\Windows NT\ Current Version\Winlogon</code>. Protected users security group intruduced in Windows 8.1 has solved the issues with cached creds.</p>
 <h4 id="lsa-secrets">LSA Secrets</h4>
+<p><code>SECURITY\Policy\Secrets</code> contains various secrets like VPN passwords, IIS app passwords etc. <code>SECURITY\Policy</code> contains the key 🔑 that&rsquo;s required for decryption.</p>
+<p>🛠 Nishang</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Enable-DuplicateToken</span> <span class="c"># elevate privileges</span>
+<span class="nb">Get-LsaSecret</span>
+</code></pre></div><p>To make sure this shit won&rsquo;t happen in your enterprise, don&rsquo;t run high-privileged accounts on untrustworthy systems. Group Managed Service is an additional protection. It ensures that certain service accounts are protected.</p>
 <h4 id="kerberos-attacks">Kerberos Attacks</h4>
+<p>I have finished an article describing Kerberos protocol in the investigations section.</p>
 <h4 id="ntdsdit-theft">NTDS.DIT theft</h4>
 <h4 id="event-log-user-logon-tracking">Event Log (User logon tracking)</h4>
 <p>Open Log file -&gt; New API. Choose evtx file. View -&gt; Time Correction and check &ldquo;Set UTC time&rdquo;. 4776 to look for failed logins. Find suspicious ones. Then, get to 4624 and see if any of these failed loging resulted in successful login. Note the processes responsible for these events (in the event description). For example, WmiPrvSE.exe is a remote WMI activity.</p>
