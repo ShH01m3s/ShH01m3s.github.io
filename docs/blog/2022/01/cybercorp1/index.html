@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>CyberCorp1 - Analyst</title>
+  <title> - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -177,7 +177,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#case-details">Case Details</a></li>
+    <li><a href="#case-details">Case Details</a>
+      <ul>
+        <li><a href="#questions">Questions</a></li>
+      </ul>
+    </li>
     <li><a href="#strategy">Strategy</a>
       <ul>
         <li><a href="#connections">Connections</a></li>
@@ -186,7 +190,8 @@
         <li><a href="#mft">MFT</a></li>
       </ul>
     </li>
-    <li><a href="#artefacts">Artefacts</a>
+    <li><a href="#investigation">Investigation</a></li>
+    <li><a href="#artefacts-analysis">Artefacts Analysis</a>
       <ul>
         <li><a href="#artefact-memory-dump"><strong>Artefact</strong>: Memory Dump</a>
           <ul>
@@ -203,13 +208,13 @@
         <li><a href="#artefact-registry"><strong>Artefact</strong>: Registry</a></li>
         <li><a href="#artefact-prefetch"><strong>Artefact</strong>: Prefetch</a></li>
         <li><a href="#artefact-mft-file"><strong>Artefact</strong>: $MFT file</a></li>
-        <li><a href="#artefact-shimcache"><strong>Artefact</strong>: ShimCache</a></li>
+        <li><a href="#artefact-shimcache-aka-appcompatcache"><strong>Artefact</strong>: ShimCache (aka AppCompatCache)</a></li>
         <li><a href="#artefact-amcache"><strong>Artefact</strong>: AmCache</a></li>
         <li><a href="#artefact-network-traffic-dump"><strong>Artefact</strong>: network traffic dump</a></li>
         <li><a href="#artefact-wmi-db">Artefact: WMI DB</a></li>
       </ul>
     </li>
-    <li><a href="#findings-analysis">Findings Analysis</a>
+    <li><a href="#malware-analysis">Malware Analysis</a>
       <ul>
         <li><a href="#malware-file-1">Malware File 1</a></li>
         <li><a href="#malware-file-2">Malware File 2</a></li>
@@ -226,7 +231,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">CyberCorp1</h1>
+<h1 class="title"></h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -249,6 +254,24 @@
 <p><strong>Artefacts in posession</strong>: memory dump, OS event logs, registry files, Prefetch files, $MFT file, ShimCache, AmCache, network traffic dumps. I&rsquo;ve decided to analyse each artefact, what can I get from it in this specific case and how. Then, I am going to outline my strategy in approaching this case.</p>
 <p>We are looking for indicators of compromise.  There are no details as to what is the group and what was its aim. But it’s known that there was abnormal traffic detected that has launched this IR process. So, at least, we must have some suspicious traffic, possibly open or terminated connections. These should have been launched by some process, so we are looking for malware. Also, since the attacker needed an account to get in, I will be looking for an account take over attempts and possibly, new account creation.</p>
 <p>So, there are not too much details on this one. But they have provided <em>some</em> artefacts from <em>one</em> machine. And they&rsquo;ve also mentioned that this machine is <em>likely</em> compromised.</p>
+<h3 id="questions">Questions</h3>
+<ol>
+<li>✅ <em>What is the build number (in the format ddddd, where each d is a single decimal number, for example - 12345) of the installed Windows version?</em> This can be look at the following registry key 🔑: <code>Microsift\Windows NT\CurrentVersion</code>. Another way to check this informaiton is to use <code>imageinfo</code> plugin for <code>vol.py2</code>.</li>
+<li>✅ <em>What is the parent process PID of the process, that accepts incoming network connections on the port 1900/UDP?</em> Since we don&rsquo;t have access to the live system, we cannot look at the <code>netstat</code> output. That doesn&rsquo;t mean that there is no way to get this information. We have a RAM image and can pool the info from there: <code>vol3 -f memdump.mem windows.netscan.NetScan</code>.</li>
+<li>✅ <em>What is the IP address of the attacker command and control center, the connection with which was still active at the time of forensic artifacts acquisition?</em> This is obtained from the same source as the previous one. There is at least one suspicious connection.</li>
+<li>✅ <em>What is the PID of the process where malicious code was located at the moment of forensic artifacts acquisition?</em> This one needs more working with memory and trying to find something suspicious. To answer this question, I need to restore my knowledge about Windows core processes.</li>
+<li>✅ <em>On a compromised system, malicious code, discovered in the previous step, is launched every system start, since the attacker has used one of the persistence techniques. So, what is the name of the autostart entry (those part, that is directly responsible for code execution), used by the attacker for persistence?</em></li>
+<li>✅ <em>The autostart entry from the previous step is used to launch the script, which in turn leads to the malicious code execution in the memory of the process, which is discussed in question 4. This code is extracted by script from some system place in the encoded form. The decoded value of this string is executable PE-file. How did Microsoft Antivirus detect this file on 2020-06-21?</em></li>
+<li><em>The process, mentioned in the question 4, isn&rsquo;t the initial process, where malicious code, described in the previous question, was executed by script from autostart. What is the name of the initial process (in the format program.exe), that is spawned by autostart script and used for further malicious code execution, that subsequently migrates to the address space of the process, mentioned in the question 4.</em></li>
+<li><em>The autostart entry from the previous step is used to launch the script, which in turn leads to the malicious code execution in the memory of the process, which is discussed in question 4. Provide the URL, which was used to download this script from the Internet during the host compromise. The script that runs at each system star (which is described in question 6) was downloaded to the compromised system from the Internet. Provide the URL, which was used to download this script</em>. This request must have been before the one that downloaded in malware 1 (bloodhound or whatever). And also it needs follow a DNS request.</li>
+<li>The system was compromised as the result of a Microsoft Office document opening, received by email. What is MD5 hash of this document (for example, d41d8cd98f00b204e9800998ecf8427e)?</li>
+<li>The document, that was initially opened by user, didn&rsquo;t contain anything malicious itself. It downloaded another document from the Internet as a Microsoft Word template. Malicious code, which has led to the system compromise, is located inside this template directly. What link was used by the first document to download the second document as a template (for example, https://address/file.com)?</li>
+<li>During the post-exploitation attacker delivered to the compromised host a special Active Directory Enumeration utility. Which link did the attacker use to download this utility (for example, https://address/file.com)?</li>
+<li>As described in the previous question utility has created several files in the compromised system, that subsequently were deleted by an attacker. One of the created files had a bin extension. What is the name of this file (for example, name.bin)?</li>
+<li>During the post-exploitation attacker has compromised a privileged user account. What is its password?</li>
+<li>What is the name of the tool (for example, program.exe), that probably was used by an attacker to compromise the user account?</li>
+<li>The attacker used a compromised account for unauthorized Domain Controller access. What is the IP address of this Domain Controller?</li>
+</ol>
 <h2 id="strategy">Strategy</h2>
 <h3 id="connections">Connections</h3>
 <p>So, I would first look at the open and terminated connections to get the list of the most suspicious IPs, ports and corresponding processes. After all, this is what it all had started from. This information can be retrieved from memory dump, using volatility and several plugins. Let&rsquo;s start with these.</p>
@@ -259,7 +282,8 @@
 <p>I would also check logs when I have something to pivot from. I would also try to find some events of multiple failed and then successful login just in case some acount was attacked and exploited.</p>
 <h3 id="mft">MFT</h3>
 <p>This artifact is mostly for the end of analysis to recover the files that were probably deleted from the system. But in order to be able to carve anything, I would need to know what I am looking for.</p>
-<h2 id="artefacts">Artefacts</h2>
+<h2 id="investigation">Investigation</h2>
+<h2 id="artefacts-analysis">Artefacts Analysis</h2>
 <h3 id="artefact-memory-dump"><strong>Artefact</strong>: Memory Dump</h3>
 <p><strong>Information</strong>:</p>
 <ol>
@@ -540,21 +564,26 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 <li>Orphan files</li>
 </ol>
 <p>🛠 MFTDump, Active@DiskEditor?, <a href="https://github.com/EricZimmerman/MFTECmd">MFTECmd</a> (EZ)</p>
-<h3 id="artefact-shimcache"><strong>Artefact</strong>: ShimCache</h3>
+<h3 id="artefact-shimcache-aka-appcompatcache"><strong>Artefact</strong>: ShimCache (aka AppCompatCache)</h3>
 <p><strong>Information</strong>:</p>
 <ol>
 <li>Programs installed (and possibly deleted)</li>
 <li>Their paths</li>
 </ol>
+<p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>. So this one is in within the main registry.</p>
 <p>🛠 Regitsry Browser (EZ)</p>
+<p>🛠 ShimCacheParser.py (requires Python2)</p>
+<p>🛠 AppCompatCacheParser</p>
 <h3 id="artefact-amcache"><strong>Artefact</strong>: AmCache</h3>
 <p><strong>Information</strong>:</p>
 <ol>
 <li>Programs installed and executed</li>
 <li>Contains install date and time, name, version, path to exe/dll, source info, path to uninstall, publisher name, volume GUIDs, container ID of the device from which the program was run</li>
 </ol>
-<p>🛠 Regitsry Browser (EZ), <a href="https://github.com/EricZimmerman/AmcacheParser">AmCache Parser</a>,</p>
-<h3 id="artefact-network-traffic-dump"><strong>Artefact</strong>: network traffic dump</h3>
+<p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>. So, this one is a separate hive file.</p>
+<p>🛠 Regitsry Browser (EZ), <a href="https://github.com/EricZimmerman/AmcacheParser">AmCache Parser</a> + Timeline Explorer</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+</code></pre></div><h3 id="artefact-network-traffic-dump"><strong>Artefact</strong>: network traffic dump</h3>
 <p><strong>Information</strong>:</p>
 <ol>
 <li>Suspicious DNS resolved</li>
@@ -605,7 +634,7 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 <li><code>-c</code> -alias for the <code>Invoke-Expression</code> argument <code>-command</code>.</li>
 </ul>
 <p>What&rsquo;s in this <code>ps1</code> script?</p>
-<h2 id="findings-analysis">Findings Analysis</h2>
+<h2 id="malware-analysis">Malware Analysis</h2>
 <h3 id="malware-file-1">Malware File 1</h3>
 <p>The file that was downloaded is likely to be a .NET application (IDA Pro suggested so). So, I&rsquo;ve opened it in dnspy.</p>
 <p><img src="images/dnspymalware.png" alt="dnspymalware"></p>

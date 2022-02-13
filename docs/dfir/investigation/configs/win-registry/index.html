@@ -368,8 +368,20 @@
 mimikatz
 &gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
 
-<span class="c1"># crach the hash with hashcat</span>
+<span class="c1"># crack the hash with john (NTHash)</span>
+john --format<span class="o">=</span>nt hash.txt
+<span class="c1"># crack the hash with hashcat (NTHash)</span>
+hashcat -m <span class="m">1000</span> -a <span class="m">3</span> hash.txt
 
+<span class="c1"># crack the hash with john (NTLMv1) </span>
+john --format<span class="o">=</span>netntlm hash.txt
+<span class="c1"># crack the hash with hashcat (NTLMv1) </span>
+hashcat -m <span class="m">5500</span> -a <span class="m">3</span> hash.txt
+
+<span class="c1"># crack the hash with john (NTLMv2) </span>
+john --format<span class="o">=</span>netntlmv2 hash.txt
+<span class="c1"># crack the hash with hashcat (NTLMv2) </span>
+hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt 
 </code></pre></div><p><strong>Other values stored in this sub-key</strong>. <code>ForcePasswordReset</code> speaks for itself and <code>SupplementalCredentials</code> do not. There also can be a <code>UserPasswordHint</code>, sometimes contains the actual password. It also contains RID, which can be changed in <a href="/docs/dfir/host/reference/windows/win-lsa#rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
 <h3 id="microsoft-accounts">Microsoft Accounts</h3>
 <p>Since Win8. Can be logged in if there is internet access. Profiles and settings are stored in the cloud ☁️. Additional values are stored in SAM: <code>InternetUID</code> and <code>InternetUserName</code>. Both are unique to the user. <code>InternetUID</code> is a 16 byte Unicode string. <code>InternetUserName</code> - usually an email used as a login.</p>

@@ -277,7 +277,7 @@
 <p><strong>Key</strong> 🔑: <code>Wiw6432Node</code> (<code>SYSTEM</code> hive root node) - those that run a 32-bit mode. Separate sub-keys for different versions of a program.</p>
 <p><strong>Key</strong> 🔑: <code>Classes\Installer\Products</code> - installed using Miscrosoft installer (those with <code>msi</code> extension).</p>
 <h3 id="prefetch">Prefetch</h3>
-<p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications.</p>
+<p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Each prefetch file name follows the pattern: <code>&lt;EXENAME&gt;-&lt;PATHHASHED+CMDARGS&gt;.pf</code>.</p>
 <h4 id="ℹ-information-contained">ℹ️ Information Contained</h4>
 <ul>
 <li>Filename</li>
@@ -292,8 +292,9 @@
 <li>Forensics value - tracks the execution of programs. Central repository of what was run on the system. File size can be used to search for the same process with a different name on a different machine.</li>
 </ul>
 <h4 id="-timestamps">⏰ Timestamps</h4>
+<p><strong>Filesystem Timestamps</strong>. The first time the executable is run, a pf file is created. The last time it was run - a pf&rsquo;s file Modified date and time. However, consider a scenario when a program was run long time in the past, wasn&rsquo;t run for a while after that. Its pf file was overwritten (prefetch keeps 1024 entries). Some time after that the executable is run again and the pf file is created again. The FS timestamps will show that the file was first executed recently when it&rsquo;s not quite that straithforward.</p>
 <h4 id="-structure-and-analysis">🔎 Structure and Analysis</h4>
-<p>If collecting prefetch on a live system, run volatile collection tools before that.</p>
+<p>If collecting prefetch on a live system, run volatile collection tools before that and collect pf files to avoid overwriting oldest prefetch with prefetch for live response tools (or disable prefetch before collection).</p>
 <p><strong>Path</strong> to files: C:\Windows\Prefetch. All prefetch have a <strong>signature</strong> at offset 4th byte. MAM - compressed and SCCA - plain text.</p>
 <table>
 <thead>
@@ -331,7 +332,7 @@
 </tr>
 </tbody>
 </table>
-<p>Prefetch can be disabled in registry C:\Windows\System32\config\SYSTEM. Export it and open, for example, in Fred. CurrentControlSet -&gt; SessionManager -&gt; Memory Managment -&gt; Prefetch Parameters -&gt; Enable Prefetcher:</p>
+<p>Prefetch can be disabled in registry <code>C:\Windows\System32\config\SYSTEM</code>, key 🔑: <code>HKLM\SYSTEM\CurrentControlSet\Control\SessionManager\MemoryManagement\PrefetchParameters\Enable Prefetcher</code>:</p>
 <table>
 <thead>
 <tr>
@@ -383,7 +384,10 @@
 prefetch.py -c -d &gt; pf.csv
 prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 </code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter,</p>
-<h3 id="amcache">AmCache</h3>
+<p><strong>PECmd</strong>. Eric Zimmerman&rsquo;s tool.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">pffile</span><span class="p">&gt;.</span><span class="n">pf</span>
+<span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="n">-d</span> <span class="s2">&#34;Prefetch folder&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;outoutdir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;outputfile&#34;</span>
+</code></pre></div><h3 id="amcache">AmCache</h3>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>.</p>
 <p>Since Windows 8. Stored information about program execution, including those, that were run from a USB drive.</p>
 <h4 id="ℹ-information-contained-1">ℹ️ Information Contained</h4>

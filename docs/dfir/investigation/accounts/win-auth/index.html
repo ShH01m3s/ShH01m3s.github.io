@@ -184,6 +184,7 @@
     </li>
     <li><a href="#local-security-authority-subsystem-lsa">Local Security Authority Subsystem (LSA)</a></li>
     <li><a href="#login-process">Login Process</a></li>
+    <li><a href="#process-authorization">Process Authorization</a></li>
     <li><a href="#sam">SAM</a>
       <ul>
         <li><a href="#local-user-accounts">Local User Accounts</a></li>
@@ -301,6 +302,24 @@
 <p>This is how a general picture looks like:</p>
 <p><img src="images/mypic.jpg" alt="mypic"></p>
 <p>Sorry for the dragon 🐉.</p>
+<h2 id="process-authorization">Process Authorization</h2>
+<p>Each process, file or any other object has a set of requirement. In order for some process to get access, it needs to fulfill these requirements. At the same time, these processes have sort of passports or tickets 🎫 which they can use to get something or somewhere. Requirements are called <strong>security descriptors</strong>, and these  &ldquo;passports&rdquo; are called <strong>access tokens</strong>. More information about the both can be found <a href="https://docs.microsoft.com/en-us/windows/win32/secauthz/access-tokens">here</a> and here.</p>
+<p>Access tokens can have the following information (not limited):</p>
+<ul>
+<li>(SID) for the user&rsquo;s account or/and a group and their privileges</li>
+<li>ID for current logon session - logon SID</li>
+<li>Owner SID</li>
+<li>The source of the access token</li>
+<li>Primary or impersonalisation token?</li>
+<li><strong>Integrity level</strong></li>
+</ul>
+<p>Security Descriptors also have a set of fields in it:</p>
+<ul>
+<li><strong>Integrity level</strong></li>
+<li>SID of the owner or group</li>
+<li>DACL (list of users allowed and what they can do)</li>
+<li>SACL (list of access attempts that will generate alerts ⚠️)</li>
+</ul>
 <h2 id="sam">SAM</h2>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\System32\config\SAM</code>.</p>
 <p>⚠️ This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
