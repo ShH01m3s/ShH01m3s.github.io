@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Basics 📚 - Analyst</title>
+  <title>Exceptions - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -172,9 +172,16 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/reverse/"> Back to Reverse Engineering ⚙️ Section 👈🏼 </a>
+   <a href="/docs/reverse/basics/"> Back to Basics 📚 Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -182,114 +189,89 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-
-
- 
- <h1 class="title">Basics 📚</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/reverse/basics/reference-vs-value/"> Reference vs Value</a></h2> 
-    <p> Lorem markdownum aequalis strigis. Saetigeri iubeas, vultu huic alvum nondum de obside ut laniavit arbor palmis, cum quin.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reverse/basics/mutable-vs-immutable/"> Mutable vs Immutable</a></h2> 
-    <p> &gt;&gt;&gt; import ctypes &gt;&gt;&gt; a = 5 &gt;&gt;&gt; address = id(a) &gt;&gt;&gt; address 4307917216 &gt;&gt;&gt; ctypes.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reverse/basics/c-prog-memory-layout/"> C Program Memory Layout</a></h2> 
-    <p> Intro At the very beginning of my career I found it hard to grasp the notion of memory layout and stack.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reverse/basics/crack-me-algo/"> Cracking 🔨</a></h2> 
-    <p> <p><em>Any cracking career is supposed to start with solving simple crackme&rsquo;s. I&rsquo;ve not been doing it all the time, but I&rsquo;ve solved several of them from the simplest to a very hard one which required some math knowledge 😬. This allowed me to craft some sort of algorithm I would like to share.&quot;</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/reverse/basics/from-src-to-binary/"> From Src to Binary</a></h2> 
-    <p> To read
-https://www.airs.com/blog/archives/38</p>
-
-
-
-
-
-<style>
-    body {
-    color: #212121;
-}
-
-h2 {
-    font-weight: bold;
-    
-}
-
- 
- 
- 
-.pagination {
-    display: flex;
-    list-style: none;
-    border-radius: .25rem;
-    margin: 20px 0;
-    padding: 0;
-    justify-content: center;
-}
-
-.page-link {
-    position: relative;
-    display: block;
-    padding: .75rem 1rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #2bbc8a;
-    background-color: #fff;
-}
-
-.homepage .page-link,
-.listing .page-link {
-    background-color: #fff;
-}
-
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
-
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #2bbc8a;;
-    border-color:#2bbc8a;
-    border-radius: 30px;
-}
-
-</style>
-<nav aria-label="page navigation">
-    <ul class="pagination">
-        
-        
-
-        
-        <li class="page-item"><a href="/docs/reverse/basics/" rel="prev" class="page-link">‹ Prev</a></li>
-        
-
-        
+<h1 class="title">Exceptions</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
             
-             
-            <li class="page-item"><a href="/docs/reverse/basics/" class="page-link">1</a></li>
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
             
-        
-             
-            <li class="page-item active"><a href="/docs/reverse/basics/page/2/" class="page-link">2</a></li>
             
-        
+            
+            
+            
+              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
+            
+          <a class="platform-link" href="/platforms/all">all</a>
+          
+      </div> <br />
+      
 
-        
+      
+      
 
-        
-        
-    </ul>
-</nav>
+      
+    </div>
+  </header>
 
+
+  <div class="content" itemprop="articleBody">
+    <p><img src="images/teb-peb-seh.png" alt="teb-peb-seh"></p>
+<blockquote>
+<p>⚠️ Note that x64 does not use this mechanism for exception handling.</p>
+</blockquote>
+<p>Consider the following code:</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kr">__try</span>
+    <span class="p">{</span>
+        <span class="n">TestExceptions</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kr">__except</span><span class="p">(</span><span class="n">EXCEPTION_EXECUTE_HANDLER</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Executing SEH __except block</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>How is that code handled in memory?</p>
+<p>This is usually how the SEH is registered (Assembly view):</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">PUSH 0040184B
+XOR EAX, EAX
+PUSH DWORD PTR FS:[EAX]
+MOV DWORD PTR FS:[EAX], ESP
+</code></pre></div><p>NtGlobalFlag FLG_HEAP_ENABLE_TAIL_CHECK (0x10), FLG_HEAP_ENABLE_FREE_CHECK (0x20), and FLG_HEAP_VALIDATE_PARAMETERS (0x40)</p>
+<h2 id="references">References</h2>
+<p><a href="https://rvsec0n.wordpress.com/2019/09/13/routines-utilizing-tebs-and-pebs/">https://rvsec0n.wordpress.com/2019/09/13/routines-utilizing-tebs-and-pebs/</a></p>
+
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
