@@ -189,6 +189,7 @@
     <li><a href="#network-based">Network-based</a>
       <ul>
         <li><a href="#common-filters">Common filters</a></li>
+        <li><a href="#snort">Snort</a></li>
       </ul>
     </li>
     <li><a href="#logs">Logs</a>
@@ -298,7 +299,7 @@
 <p>To check the system for any critical files changes: <code>tripwire --check</code>.</p>
 <p>All these files need to be updates everytime you make changes to the policy or the configuration. The database needs to be updated as well.</p>
 <h3 id="ossec">OSSEC</h3>
-<p>Not just integrity checking (like Tripwire), but also some additional checking. It performs logs analysis and rootkit checking + process monitoring. Consists of two parts: a server and an agent. Servere can only be installed on Linux, while an agent can also be installed on Windows.</p>
+<p>Not just integrity checking (like Tripwire), but also some additional checking. It performs logs analysis and rootkit checking + process monitoring. Consists of two parts: a server and an agent. Server can only be installed on Linux, while an agent can also be installed on Windows.</p>
 <p><strong>Install the server</strong></p>
 <p><code>tar -xfv ossec-hids-version.tar.gz &amp;&amp; cd ossec-hids-version</code> to unpack the files.</p>
 <p>To start: <code>/etc/init.d/ossec start</code>.</p>
@@ -320,7 +321,7 @@
 <p><strong>To run</strong></p>
 <p><code>samhain -t check</code> then <code>cd /var/log/samhain</code> and open the <code>samhain-init.log</code> and <code>samhain.log</code>.</p>
 <h3 id="centralized-logging">Centralized logging</h3>
-<p>Open a syslog file. Each system might have a sligtly different name for these. For example: <code>nano /etc/rsyslog.conf</code>. Uncomment the line for UDP syslog reception. And for the clients now to log remotely to this machine, need to go to <del>hell</del> <code>/etc/rsyslog.d/ &amp;&amp; nano 50-default.conf</code>. Add something like <code>*.* 	@@IP:port</code> to log everything remotely.</p>
+<p>Open a syslog file. Each system might have a sligtly different name for these. For example: <code>nano /etc/rsyslog.conf</code>. Uncomment the line for UDP syslog reception. And for the clients now to log remotely to this machine, need to go through <del>hell</del> <code>/etc/rsyslog.d/ &amp;&amp; nano 50-default.conf</code>. Add something like <code>*.* 	@@IP:port</code> to log everything remotely.</p>
 <h3 id="logwatch">LogWatch</h3>
 <p><code>apt install logwatch</code></p>
 <p>Reads all the logs and generates a summary.</p>
@@ -357,10 +358,12 @@
 <p>For tcpdump 🌚 - <code>tcpdump src 192.168.1.65 and dst port 80</code>.</p>
 <p>For Wireshark 🦈  - <code>ip.src==192.168.1.65 and tcp.port==80</code>.</p>
 <p>For Python 🐍:</p>
-<ul>
-<li></li>
-</ul>
-<h2 id="logs">Logs</h2>
+<h3 id="snort">Snort</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo apt-get install snort
+cat /etc/snort/dafault
+<span class="c1"># or</span>
+cat /etc/init.d/snort
+</code></pre></div><h2 id="logs">Logs</h2>
 <h3 id="event-viewer-">Event Viewer 🌈</h3>
 <blockquote>
 <p>❓ How could an attacker delete entries from the Event Viewer and what level of access would they need?</p>
