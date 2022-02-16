@@ -195,6 +195,7 @@
         <li><a href="#how-to-defend">How To Defend</a></li>
       </ul>
     </li>
+    <li><a href="#analysing-endpoint-artefacts-elastic">Analysing Endpoint Artefacts (Elastic)</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -290,6 +291,18 @@
 <p>Many leverage an Exchange vulnerability.</p>
 <h3 id="how-to-find">How To Find</h3>
 <h3 id="how-to-defend">How To Defend</h3>
+<h2 id="analysing-endpoint-artefacts-elastic">Analysing Endpoint Artefacts (Elastic)</h2>
+<p>VPC - ingress/egress traffic</p>
+<p>IAM (Identity Access Management) - logs for cloud accounts.</p>
+<p>API</p>
+<p><code>rule.name: shell_history</code> - to see cmd for a Linux machine.</p>
+<p>Auditbit - linux user &amp; process activity by Elastic. Sysmon - win (<code>C:\Monitor\sysmonconfig-export</code>).</p>
+<p>Security -&gt; Hosts -&gt; Uncommon processes</p>
+<p>Event_code: 25 (Sysmon process injection)</p>
+<p>Application and Service Logs\Microsoft\Windows\Sysmon\Operational</p>
+<p><code>event.category: &quot;authentication&quot; and event.outcome: &quot;success&quot;</code> will help seeing the usual activity for this company.</p>
+<p>uncoder.io - convert queries from one language to another.</p>
+<p>Linux <code>/var/log/auth.log</code>, <code>var/log/syslog</code>, var/log/boot.log, var/log/cron, /var/log/cron, var/log/faillog,</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.crowdstrike.com/cybersecurity-101/threat-intelligence/">1</a>] Process overview</p>
 <p>[<a href="https://www.sans.org/posters/cyber-threat-intelligence-consumption/">2</a>] SANS poster</p>

