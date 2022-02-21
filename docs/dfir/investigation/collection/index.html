@@ -262,7 +262,10 @@
 <p>Then, it launches KAPE which performs triage.</p>
 <h3 id="kape-kroll-artifact-parser--extractor">KAPE (Kroll Artifact Parser &amp; Extractor)</h3>
 <p>Seems to be very close to what Kansa frawemork does. What&rsquo;s the difference? Kansa for live response and hunt; KAPE for forensics. Also, it seems that Kansa is dying. Better explained <a href="https://www.reddit.com/r/computerforensics/comments/d67vyz/kansa_vs_kape/">here</a> by <a href="https://www.reddit.com/user/sprint_ska/">sprint_ska</a>, thanks man. Also, Kansa relies on Windows built-in tools while Kape doesn&rsquo;t. Kansa scales better.</p>
-<h3 id="winpmem">Winpmem</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">kape --tsource C: --target RegistryHives --tdest <span class="s2">&#34;\results&#34;</span> 
+kape --tsource H --target !ALL --tdest <span class="s2">&#34;dir&#34;</span> --debug  
+kape --msource “dir” --module LECmd --mdest <span class="s2">&#34;dir&#34;</span> --trace --debug
+</code></pre></div><h3 id="winpmem">Winpmem</h3>
 <h3 id="7zip">7zip</h3>
 <h3 id="arsenal-image-mounter">Arsenal Image Mounter</h3>
 <h3 id="magnet-axiom">Magnet Axiom</h3>
