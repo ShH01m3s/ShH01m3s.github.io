@@ -184,6 +184,8 @@
         <li><a href="#mounted-devices">Mounted Devices</a></li>
         <li><a href="#managedbyapp">ManagedByApp</a></li>
         <li><a href="#shellbags">ShellBags</a></li>
+        <li><a href="#event-logs">Event Logs</a></li>
+        <li><a href="#plugnplay">Plug&rsquo;n&rsquo;Play</a></li>
       </ul>
     </li>
     <li><a href="#macos">macOS</a>
@@ -312,6 +314,14 @@
 <p>🛠 ShellBagsExplorer (E. Zimmerman) is a tools that helps automating this process which is useful for larger amount of data.</p>
 <p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/shell-bag3.png" alt="shell-bag3"></p>
 <p>The above is an example of the ShellBagsExplorer for my Windows 10 Parallels VM. Pretty user-friendly representation and lot&rsquo;s of valuable information. Note the folders on the very top: <code>\\Mac\vm</code>, <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code>. Someone who is using Paralells Windows 10 on Mac might note this at once, that this is a VM running on a Mac. Also, both <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code> are no longer available for Windows 10, but they were not deleted from the registry as you may see. That&rsquo;s because when folders are deleted, they are not deleted from here, at least not soon.</p>
+<h3 id="event-logs">Event Logs</h3>
+<p>Security 6416: A new external device was recognized by the system</p>
+<p>Event ID 219 is logged when a device is plugged into a Windows-based system</p>
+<h3 id="plugnplay">Plug&rsquo;n&rsquo;Play</h3>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/install/setupapi-logging--windows-vista-and-later-">https://docs.microsoft.com/en-us/windows-hardware/drivers/install/setupapi-logging--windows-vista-and-later-</a></p>
+<p>By default, the SetupAPI text logs are located in the<code> %SystemRoot%\Inf</code> directory.</p>
+<p>To enable event categories for the SetupAPI logs, create (or modify) the following <a href="https://docs.microsoft.com/en-us/windows/desktop/SysInfo/registry-value-types">REG_DWORD</a> registry value:
+<code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Setup\LogMask</code>. More <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/install/enabling-event-categories-for-a-text-log">here</a>.</p>
 <h2 id="macos">macOS</h2>
 <h3 id="usb">USB</h3>
 <p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
