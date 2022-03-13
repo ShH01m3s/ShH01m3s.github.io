@@ -178,8 +178,18 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#collection">Collection</a></li>
-    <li><a href="#triage">Triage</a></li>
-    <li><a href="#dns-cache">DNS Cache</a>
+    <li><a href="#triage">Triage</a>
+      <ul>
+        <li><a href="#malware">Malware</a></li>
+      </ul>
+    </li>
+    <li><a href="#dns">DNS</a>
+      <ul>
+        <li><a href="#windows-dns-cache">Windows DNS Cache</a></li>
+        <li><a href="#dns-names">DNS names</a></li>
+      </ul>
+    </li>
+    <li><a href="#wireshark-filters">Wireshark Filters</a>
       <ul>
         <li><a href="#todo">Todo</a></li>
       </ul>
@@ -302,8 +312,16 @@
 <p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
 <p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
 <p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
-<h2 id="dns-cache">DNS Cache</h2>
-<p>Windows: in research.</p>
+<h3 id="malware">Malware</h3>
+<p><a href="https://malware-traffic-analysis.net">https://malware-traffic-analysis.net</a></p>
+<h2 id="dns">DNS</h2>
+<h3 id="windows-dns-cache">Windows DNS Cache</h3>
+<p>in research.</p>
+<h3 id="dns-names">DNS names</h3>
+<p>Check IP reputation: <a href="http://www.reverse.it">www.reverse.it</a>, <a href="http://www.urlvoid.com">www.urlvoid.com</a>.</p>
+<h2 id="wireshark-filters">Wireshark Filters</h2>
+<p><code>http.request</code> - show only HTTP request. Useful to get rid of all ARP and TCP handshake garbage.</p>
+<p><code>ip.src == 192.168.22.94 and udp.port == 67</code> - show the DHCP requests for this machine. Can show the computer name.</p>
 <h3 id="todo">Todo</h3>
 <p>💡 For each common nmap scan get the footrprint</p>
 <p>💡 For each common DoS attack get the footprint</p>
