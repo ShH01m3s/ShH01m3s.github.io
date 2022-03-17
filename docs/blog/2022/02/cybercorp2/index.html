@@ -229,19 +229,31 @@
 <p>✅ <em>In the previous step, you looked for traces of the attacker&rsquo;s persistence in the compromised system through a WMI subscription mechanism. Now find the process that installed the WMI subscription. Answer the question by specifying the PID of that process and the name of its executable file, separated by a comma without spaces.</em></p>
 <p>The first idea that comes to mind is to find a field <code>parent_pid</code> or alike and see, which process was the initiator. Another way is to see, when the whole process of WMI subscription was initialized and set the time frame before that. Consumer binding (final step) took place at <code>23:26</code>, so we are looking for processes logs before that.</p>
 <p>So, it happened on <code>June 21, 2021</code> 📆, at <code>23:25:47</code> 🕰 (doesn&rsquo;t look like opeational hours, by the way). So, I&rsquo;ve set the filter from the 21th of June 2021, from <code>23:00</code> till <code>23:30</code>. I&rsquo;ve also filtered by keyword <code>wmi</code>.</p>
-<p>Right before our WMI event, there was another one: winword.exe process. It&rsquo;s process id can be seen in <code>proc_id</code> column (it was helpful to add it as a column). So, the whole attack might have been started due to the word doc opening. So, our indicator might be like: <code>a winword.exe process that starts a wmi subscription</code> which doesn&rsquo;t even sound ok.</p>
+<p>Right before our WMI event, there was another one: <code>winword.exe</code> process. It&rsquo;s process id can be seen in <code>proc_id</code> column (it was helpful to add it as a column). So, the whole attack might have been started due to the word doc opening. So, our indicator might be like: <code>a winword.exe process that starts a wmi subscription</code> which doesn&rsquo;t even sound ok.</p>
+<p>Yeah! It wsa correct!</p>
 <h3 id="3-sha256-hash-of-the-file-extracted">3. SHA256 hash of the file extracted</h3>
 <p><em>The process described in the previous question was used to open a file extracted from the archive that user received by email. Specify a SHA256 hash of the file extracted and opened from the archive. Sample answer: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.</em></p>
 <p>Moving back in time, I&rsquo;ll try to change the keyword to <code>winword.exe</code> and leave the timeframe the same. Though the time is not within operational hours, I still want to start as close to the WMI event as possible and then move backwards in time.</p>
 <p>But first, I&rsquo;ll examine the event from the previous question. Looks like there is a field <code>proc_cmdline</code> specifying parameters when the process <code>winword</code> was launched. And the doc name is there too: <code>OPEC  crude oil production.docx</code>. So, let&rsquo;s filter by this keyword keeping the timeframe the same just yet. I will also add <code>file_sha256</code> field to ease the search.</p>
 <p>Each time the word process loads a library, a new log entry is created. I would like to filter out all such events at least for now. And I want to opt in to <code>docx</code> files only. So, I&rsquo;m adding the filter <code>file_name:*.docx</code>.</p>
 <p>We also need to keep in mind the sequence of events: email received -&gt; archive opened -&gt; opened with <code>winword.exe</code>. Add filter for <code>OUTLOOK.EXE</code>.</p>
-<p><code>n</code> switch seems malicious when used with <code>docx</code> files, since it opens a file without creating a window instance. <code>o</code>  switch doesn&rsquo;t have any description over the Internet.</p>
+<blockquote>
+<p>⚠️ <code>n</code> switch seems malicious when used with <code>docx</code> files, since it opens a file without creating a window instance. <code>o</code>  switch doesn&rsquo;t have any description over the Internet.</p>
+</blockquote>
 <p><code>report.zip</code> - 1 hit, File Created. Some zip archive was saved to disk prior to the attack. However, no SHA256 was provided by the log files. Let&rsquo;s see the same folder. May something was created in the same folder&hellip; .</p>
 <p>Somehow <code>NOT file_name:*.dll</code> didn&rsquo;t work. Search for <code>report.zip</code> returns only one result: file created by Outlook. Let&rsquo;s see who opened it and where was it moved or saved later?</p>
 <p><code>event_type:FileOpen</code> and keyword <code>*.zip</code> -&gt; one hit again. Some <code>Temp_report.zip</code> file was decompressed to <code>market forecast Emma.docx</code>, but no signs of the <code>report.zip</code> saved to the initial directory. However, in the process description there was <code>OPEC  crude oil production.docx</code> mentioned again. Was the zip file renamed and moved and then the file decompressed also renamed? That was the correct answer. Althout, I don&rsquo;t quite get the exact chain of events.</p>
+<p>🚰 <strong>Filter</strong>: <code>file_name: *.zip</code>, time span: 📆 <code>June 21, 2021</code> ⏰ from <code>22:30</code> till <code>23:30</code>.</p>
+<p>🚰 <strong>Filter</strong>:</p>
 <ol>
-<li>File downloaded and saved by Outlook.exe as report.exe in the (filter: <code>event_type:FileCreate AND </code>)</li>
+<li>File downloaded and saved by <code>outlook.exe</code> as <code>report.exe</code> in the (filter: <code>event_type:FileCreate AND </code>)</li>
+<li></li>
+</ol>
+<p>📈<strong>Timeline</strong>:</p>
+<ol>
+<li>📆 June 21st, 2021 at ⏰ 23:25:08 <code>report.zip</code> was created by outlook.exe proccess (FileCreate). At the same very time a <code>report (00000002).zip</code> was also created at the same very path. Probably, it was the same file, but the event might be coming from different location. However, <code>event_log_source</code> seems to be the same, <code>TH</code>. No hashes are provided 😔.</li>
+<li><code>FileCreated</code> API was triggered by <code>outlook.exe</code>. File saved at <code>C:\Users\john.goldberg\appdata\local\microsoft\windows\inetcache\content.outlook\dfn3sfep\report (00000002).zip</code>.</li>
+<li>Then some <code>temp1_report.zip</code> was also created by <code>explorer.exe</code>.</li>
 </ol>
 <h3 id="4-file-downloaded-hash">4. File downloaded Hash</h3>
 <p><em>The file mentioned in question 3, is not malicious in and of itself, but when it is opened, another file is downloaded from the Internet that already contains the malicious code. Answer the question by specifying the address, from which this file was downloaded, and the SHA256 hash of the downloaded file, separated by commas without spaces.</em></p>
