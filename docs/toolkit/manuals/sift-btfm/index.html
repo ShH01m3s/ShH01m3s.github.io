@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -293,25 +293,25 @@
     <p><a href="https://sansorg.egnyte.com/dl/rcC7AFiUr0/?">Here</a> is the official cheatsheet from SANS. I&rsquo;ve copied it here for convenience. I will comment some of them after I try each command in the list.</p>
 <h2 id="shadow-timeline-creation">Shadow Timeline Creation</h2>
 <p><strong>Step 1 – Attach Local or Remote System Drive</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ewfmount system-name.E01 /mnt/ewf
-</code></pre></div><p><strong>Step 2 – Mount VSS Volume</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ewfmount system-name.E01 /mnt/ewf
+</span></span></code></pre></div><p><strong>Step 2 – Mount VSS Volume</strong></p>
 <p>VSS - Windows NT Volume Shadow Snapshot.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /mnt/ewf
-vshadowmount ewf1 /mnt/vss
-</code></pre></div><p><strong>Step 3 – Run <code>fls</code> across <code>ewf1</code> mounted image</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /mnt/ewf
-fls –r –m C: ewf1 &gt;&gt; /cases/vss-
-bodyfile
-</code></pre></div><p><strong>Step 4 – Run fls Across All Snapshot Images</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /mnt/vss
-<span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> fls -r –m C: <span class="nv">$i</span> &gt;&gt; /cases/vss-bodyfile<span class="p">;</span> <span class="k">done</span>
-</code></pre></div><p><strong>Step 5 – De-Duplicate Bodyfile using sort and uniq</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sort /cases/vss-bodyfile <span class="p">|</span> uniq &gt; /cases/vss-dedupe-bodyfile
-</code></pre></div><p><strong>Step 6 – Run mactime Against De-Duplicated Bodyfile</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mactime –d –b /cases/vss-dedupe-bodyfile –z EST5EDT MM-DD-YYYY..MM-DD-YYYY &gt; /cases/vss-timeline.csv
-</code></pre></div><h2 id="memory-analysis">Memory Analysis</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py <span class="nb">command</span> –f /path/to/windows_xp_memory.img  --profile<span class="o">=</span>WinXPSP3x86
-</code></pre></div><table>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/ewf
+</span></span><span class="line"><span class="cl">vshadowmount ewf1 /mnt/vss
+</span></span></code></pre></div><p><strong>Step 3 – Run <code>fls</code> across <code>ewf1</code> mounted image</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/ewf
+</span></span><span class="line"><span class="cl">fls –r –m C: ewf1 &gt;&gt; /cases/vss-
+</span></span><span class="line"><span class="cl">bodyfile
+</span></span></code></pre></div><p><strong>Step 4 – Run fls Across All Snapshot Images</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/vss
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> fls -r –m C: <span class="nv">$i</span> &gt;&gt; /cases/vss-bodyfile<span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><p><strong>Step 5 – De-Duplicate Bodyfile using sort and uniq</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sort /cases/vss-bodyfile <span class="p">|</span> uniq &gt; /cases/vss-dedupe-bodyfile
+</span></span></code></pre></div><p><strong>Step 6 – Run mactime Against De-Duplicated Bodyfile</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mactime –d –b /cases/vss-dedupe-bodyfile –z EST5EDT MM-DD-YYYY..MM-DD-YYYY &gt; /cases/vss-timeline.csv
+</span></span></code></pre></div><h2 id="memory-analysis">Memory Analysis</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py <span class="nb">command</span> –f /path/to/windows_xp_memory.img  --profile<span class="o">=</span>WinXPSP3x86
+</span></span></code></pre></div><table>
 <thead>
 <tr>
 <th>Commands</th>
@@ -353,10 +353,10 @@ bodyfile
 <h3 id="blkcat"><code>blkcat</code></h3>
 <p><em>Displays the contents of a disk block.</em></p>
 <p><code>blkcat imagefile.dd block_num</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"># cd /mnt/ewf
-# fls –r –m C: ewf1 &gt;&gt; /cases/vss-
-bodyfile
-</code></pre></div><h3 id="blkls"><code>blkls</code></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># cd /mnt/ewf
+</span></span><span class="line"><span class="cl"># fls –r –m C: ewf1 &gt;&gt; /cases/vss-
+</span></span><span class="line"><span class="cl">bodyfile
+</span></span></code></pre></div><h3 id="blkls"><code>blkls</code></h3>
 <p><em>Lists contents of deleted disk blocks.</em></p>
 <p><code>blkls imagefile.dd &gt; imagefile.blkls</code></p>
 <h3 id="blkcalc"><code>blkcalc</code></h3>
@@ -431,9 +431,9 @@ bodyfile
 <p><strong>Stage 2 – Mount raw image VSS</strong></p>
 <p><code>vshadowmount ewf1 /mnt/vss/</code></p>
 <p><strong>Stage 3 – Mount all logical filesystem of snapshot</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /mnt/vss
-<span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> mount -o ro,loop,show_sys_files,streams_interface<span class="o">=</span>windows <span class="nv">$i</span> /mnt/shadow_mount/<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
-</code></pre></div><h2 id="recovering-data">Recovering Data</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/vss
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> mount -o ro,loop,show_sys_files,streams_interface<span class="o">=</span>windows <span class="nv">$i</span> /mnt/shadow_mount/<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><h2 id="recovering-data">Recovering Data</h2>
 <p><code>blkls</code></p>
 <p><em>Create Unallocated Image (deleted data)</em></p>
 <p><strong>Example</strong>: <code>blkls imagefile.dd &gt; mount –o loop,ro,show_sys_files,streams_interface=windows /mnt/ewf/ewf1 /mnt/windows_mount</code></p>
@@ -450,27 +450,27 @@ bodyfile
 <p><strong>Template</strong>: <code>bulk_extractor &lt;options&gt; –o output_dir image</code>.</p>
 <p><strong>Example</strong>: <code>bulk_extractor -F keywords.txt –e net -e aes -e wordlist -o /cases/bulk- extractor-memory-output /cases/ memory-raw.001</code></p>
 <p><strong>Options</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">-o outdir
--f &lt;regex&gt;
--F &lt;rfile&gt;
--Wn1:n2
--q nn
--e scanner
--e wordlist
--e aes
--e net
-</code></pre></div><h2 id="creating-super-timelines">Creating Super Timelines</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-o outdir
+</span></span><span class="line"><span class="cl">-f &lt;regex&gt;
+</span></span><span class="line"><span class="cl">-F &lt;rfile&gt;
+</span></span><span class="line"><span class="cl">-Wn1:n2
+</span></span><span class="line"><span class="cl">-q nn
+</span></span><span class="line"><span class="cl">-e scanner
+</span></span><span class="line"><span class="cl">-e wordlist
+</span></span><span class="line"><span class="cl">-e aes
+</span></span><span class="line"><span class="cl">-e net
+</span></span></code></pre></div><h2 id="creating-super-timelines">Creating Super Timelines</h2>
 <p><strong>Template</strong>: <code>log2timeline –r –p –z &lt;system-timezone&gt; –f &lt;type-input&gt; /mnt/windows_mount –w timeline.csv</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mount –o loop,ro,show_sys_files,streams_interface<span class="o">=</span>windows imagefile.dd /mnt/windows_mount <span class="c1"># mount the image file</span>
-log2timeline –z EST5EDT –p –r -f win7 /mnt/windows_mount -w /cases/bodyfile.txt <span class="c1"># write logs on timeline</span>
-l2t_process –b /cases/bodyfile.txt –w whitelist.txt 04-02-2012 &gt; timeline.csv <span class="c1"># get specific timeframe?</span>
-</code></pre></div><h2 id="registry-parsing-regripper">Registry Parsing (RegRipper)</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mount –o loop,ro,show_sys_files,streams_interface<span class="o">=</span>windows imagefile.dd /mnt/windows_mount <span class="c1"># mount the image file</span>
+</span></span><span class="line"><span class="cl">log2timeline –z EST5EDT –p –r -f win7 /mnt/windows_mount -w /cases/bodyfile.txt <span class="c1"># write logs on timeline</span>
+</span></span><span class="line"><span class="cl">l2t_process –b /cases/bodyfile.txt –w whitelist.txt 04-02-2012 &gt; timeline.csv <span class="c1"># get specific timeframe?</span>
+</span></span></code></pre></div><h2 id="registry-parsing-regripper">Registry Parsing (RegRipper)</h2>
 <p><strong>Template</strong>: <code>rip.pl –r &lt;HIVEFILE&gt; –f &lt;HIVETYPE&gt;</code>.</p>
 <p><strong>Options</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">-r <span class="c1"># Registry hive file to parse &lt;HIVEFILE&gt;</span>
--f <span class="c1">#  Use &lt;HIVETYPE&gt; (e.g. sam, security, software, system, ntuser)</span>
--l <span class="c1"># list all plugins</span>
-</code></pre></div><p><strong>Example</strong>: <code>rip.pl –r /mnt/windows_mount/Windows/System32/config/SAM –f sam &gt; /cases/windowsforensics/SAM.txt</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-r <span class="c1"># Registry hive file to parse &lt;HIVEFILE&gt;</span>
+</span></span><span class="line"><span class="cl">-f <span class="c1">#  Use &lt;HIVETYPE&gt; (e.g. sam, security, software, system, ntuser)</span>
+</span></span><span class="line"><span class="cl">-l <span class="c1"># list all plugins</span>
+</span></span></code></pre></div><p><strong>Example</strong>: <code>rip.pl –r /mnt/windows_mount/Windows/System32/config/SAM –f sam &gt; /cases/windowsforensics/SAM.txt</code></p>
 <h2 id="recover-deleted-registry-keys">Recover Deleted Registry Keys</h2>
 <p><strong>Template</strong>: <code>deleted.pl &lt;HIVEFILE&gt;</code></p>
 <p><strong>Example</strong>: <code>deleted.pl /mnt/windows_mount/Windows/System32/config/SAM &gt; /cases/windowsforensics/SAM_DELETED.txt</code></p>
@@ -506,7 +506,7 @@ l2t_process –b /cases/bodyfile.txt –w whitelist.txt 04-02-2012 &gt; timeline
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

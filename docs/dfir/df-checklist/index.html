@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -669,22 +669,22 @@
 <p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
 </blockquote>
 <p>List all drives (Linux and macOS):</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l <span class="c1"># Linux</span>
-lsblk
-mount
-</code></pre></div><p>On Windows:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">diskpart</span>
-<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
-sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
-
-sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
-sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
-
-<span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
-<span class="c1"># to install on macOS - brew install dc3dd</span>
-sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
+</span></span><span class="line"><span class="cl">lsblk
+</span></span><span class="line"><span class="cl">mount
+</span></span></code></pre></div><p>On Windows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
+</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
+</span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
+</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
+</span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
+</span></span></code></pre></div><blockquote>
 <p>🛑 If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, &hellip;</p>
 <p>✍️ &hellip; go to Disk Utility and unmount the drive but don&rsquo;t eject it.</p>
 </blockquote>
@@ -775,18 +775,18 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
 <p>Or we can be guided by artifact ⛏️  categories.</p>
 <p>First, break the bigger problem into a smaller one. Then answer questions with artifact ⛏️ categories.</p>
 <p>Here is the pseudocode for this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
-  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
-  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
-  <span class="n">getArtifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">currentProblem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
-  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="n">function</span> <span class="n">poseQuestion</span><span class="p">(</span><span class="kt">string</span> <span class="n">problem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
-  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p><strong>How computer works?</strong> Hardware, OS, Processes. <strong>How attacker works?</strong> Remote access changes, detection avoidance etc.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">getArtifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">currentProblem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="n">poseQuestion</span><span class="p">(</span><span class="kt">string</span> <span class="n">problem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>How computer works?</strong> Hardware, OS, Processes. <strong>How attacker works?</strong> Remote access changes, detection avoidance etc.</p>
 <p><strong>RoadMap</strong></p>
 <ol>
 <li>Is the system compromised?
@@ -1036,7 +1036,7 @@ sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

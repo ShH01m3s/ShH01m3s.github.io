@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -366,23 +366,23 @@
 <h4 id="wmic--powershell">WMIC &amp; PowerShell</h4>
 <p>[<a href="">1</a>] Read here</p>
 <p><strong>Offline</strong>. Detect all registered Event Consumers from an OBJECTS.DATA.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">PyWMIPersistenceFinder</span><span class="p">.</span><span class="n">py</span> <span class="p">&lt;</span><span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">OBJECTS</span><span class="p">.</span><span class="n">DATA</span><span class="p">&gt;</span>
-</code></pre></div><p><strong>Offline</strong>. Kansa analysis of WMI</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">WMIEvtFilter</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="n">WMIEvt-stackfiles</span><span class="p">.</span><span class="n">csv</span>
-
-<span class="c"># Open with Timeline Explorer</span>
-</code></pre></div><h4 id="powershell-remoting-scalability">PowerShell Remoting Scalability</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">PyWMIPersistenceFinder</span><span class="p">.</span><span class="n">py</span> <span class="p">&lt;</span><span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">OBJECTS</span><span class="p">.</span><span class="n">DATA</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p><strong>Offline</strong>. Kansa analysis of WMI</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">WMIEvtFilter</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="nb">WMIEvt-stackfiles</span><span class="p">.</span><span class="n">csv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Open with Timeline Explorer</span>
+</span></span></code></pre></div><h4 id="powershell-remoting-scalability">PowerShell Remoting Scalability</h4>
 <p>Initiate a remote session:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># session created, command run, session terminated</span>
-<span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="p">&lt;</span><span class="n">pcname</span><span class="p">&gt;</span> <span class="n">-ScriptBlock</span> <span class="p">{</span><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="n">-Property</span> <span class="n">name</span> <span class="o">-eq</span> <span class="n">somethingbad</span><span class="p">}</span>
-
-<span class="c"># session created, commands run, session terminated when the user says it does</span>
-<span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="p">&lt;</span><span class="n">pcname</span><span class="p">&gt;</span> <span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">login</span><span class="p">&gt;</span> 
-<span class="c"># or</span>
-<span class="c"># create a session</span>
-<span class="nb">New-PSSession</span> <span class="n">-Credentials</span>
-<span class="c"># use it with the Invoke-Command as a -Session parameter</span>
-</code></pre></div><p>It used to be <code>Get-WMIInstance</code>, now it&rsquo;s <code>Get-CIMInstance</code> to use with other CIM-based servers.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># session created, command run, session terminated</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="p">&lt;</span><span class="n">pcname</span><span class="p">&gt;</span> <span class="n">-ScriptBlock</span> <span class="p">{</span><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="n">-Property</span> <span class="n">name</span> <span class="o">-eq</span> <span class="n">somethingbad</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># session created, commands run, session terminated when the user says it does</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="p">&lt;</span><span class="n">pcname</span><span class="p">&gt;</span> <span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">login</span><span class="p">&gt;</span> 
+</span></span><span class="line"><span class="cl"><span class="c"># or</span>
+</span></span><span class="line"><span class="cl"><span class="c"># create a session</span>
+</span></span><span class="line"><span class="cl"><span class="nb">New-PSSession</span> <span class="n">-Credentials</span>
+</span></span><span class="line"><span class="cl"><span class="c"># use it with the Invoke-Command as a -Session parameter</span>
+</span></span></code></pre></div><p>It used to be <code>Get-WMIInstance</code>, now it&rsquo;s <code>Get-CIMInstance</code> to use with other CIM-based servers.</p>
 <blockquote>
 <p>⚠️ Kept getting Access Denied on any Get-WMIInstance Win32Process or Get-CIMInstance -ClassName Win32Process</p>
 <p>✍️ <a href="https://newbedev.com/get-wmiobject-win32-process-computername-gets-error-access-denied-code-0x80070005">https://newbedev.com/get-wmiobject-win32-process-computername-gets-error-access-denied-code-0x80070005</a></p>
@@ -391,12 +391,12 @@
 <h4 id="powershell-remoting-credential-safeguards">PowerShell Remoting Credential Safeguards</h4>
 <h4 id="kansa-powershell-remoting-ir-framework">Kansa PowerShell Remoting IR Framework</h4>
 <p>Running Kansa across multiple PCs.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">mkdir</span> <span class="n">Results</span> <span class="p">&amp;&amp;</span> <span class="nb">cd </span><span class="n">Results</span>
-
-<span class="c"># check kansa.ps1 for the modules that will be run</span>
-
-<span class="p">.\</span><span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="n">localhost</span> <span class="p">[</span><span class="n">-TargetList</span> <span class="p">&lt;</span><span class="n">listoftargets</span><span class="p">&gt;]</span> <span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">login</span><span class="p">&gt;</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span>
-</code></pre></div><h3 id="malware-defense-evasion-and-identification">Malware Defense Evasion and Identification</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">mkdir</span> <span class="n">Results</span> <span class="p">&amp;&amp;</span> <span class="nb">cd </span><span class="n">Results</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># check kansa.ps1 for the modules that will be run</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">.\</span><span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="n">localhost</span> <span class="p">[</span><span class="n">-TargetList</span> <span class="p">&lt;</span><span class="n">listoftargets</span><span class="p">&gt;]</span> <span class="n">-Credential</span> <span class="p">&lt;</span><span class="n">login</span><span class="p">&gt;</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span>
+</span></span></code></pre></div><h3 id="malware-defense-evasion-and-identification">Malware Defense Evasion and Identification</h3>
 <h4 id="service-hijackingreplacement">Service Hijacking/Replacement</h4>
 <p>[<a href="/files/pds/Injects_p1.pdf">1</a>] My presentations in injections, part 1</p>
 <p>[<a href="/files/pds/Injects_p2.pdf">2</a>] My presentations in injections, part 2</p>
@@ -413,34 +413,33 @@
 <p><a href="https://www.hexacorn.com/blog/2017/01/28/beyond-good-ol-run-key-all-parts/">https://www.hexacorn.com/blog/2017/01/28/beyond-good-ol-run-key-all-parts/</a></p>
 <h4 id="autostart-locations-runkeys">AutoStart Locations, RunKeys</h4>
 <p>Kansa Framework. Collection of the autorun locations</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Step 1. Run autorunsc (or Kansa script) on every machine, getting csv file for each one</span>
-<span class="c"># autorun.exe command in Kansa for autoruns search</span>
-<span class="c"># a * - all possible locations</span>
-<span class="c"># c - codecs as well</span>
-<span class="c"># h - generate hashes</span>
-<span class="c"># s - verify digital signatures</span>
-<span class="c"># &#39;*&#39; - all user profiles</span>
-<span class="n">autorunsc</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span> 
-<span class="c"># Collection with Kansa</span>
-<span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="p">&lt;</span><span class="n">IP</span><span class="p">|</span><span class="n">localhost</span><span class="p">|</span><span class="n">filewithIPs</span><span class="p">&gt;</span> <span class="n">-Credential</span> <span class="n">username</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span> 
-<span class="c"># don&#39;t pass the password here. Type when asked</span>
-
-<span class="c"># Step 2. open the file generated in TimeLine Explorer for analysis. </span>
-<span class="c"># Step 3. Choose files from untrusted vendors and (Blank). </span>
-<span class="c"># Step 4. Look at the images paths (compare with the Find Evil poster)</span>
-<span class="c"># Step 5. Look at the hashes, eliminate the known good.</span>
-<span class="c"># Step 6. Stacking (generate on file from all csv)</span>
-<span class="nb">Get-ASEPImagePathLaunchStringMD5UnsignedStack</span><span class="p">.</span><span class="n">ps1</span> <span class="p">&gt;</span> <span class="n">stackedData</span><span class="p">.</span><span class="n">csv</span>
-<span class="c"># Step 6. Perfom frequency analysis. What stands out?</span>
-<span class="c"># Step 7. Use Select-String or grep to identify machines for each suspicuios entry</span>
-
-</code></pre></div><h4 id="service-creationreplacement">Service Creation/Replacement</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># Step 1. Run autorunsc (or Kansa script) on every machine, getting csv file for each one</span>
+</span></span><span class="line"><span class="cl"><span class="c"># autorun.exe command in Kansa for autoruns search</span>
+</span></span><span class="line"><span class="cl"><span class="c"># a * - all possible locations</span>
+</span></span><span class="line"><span class="cl"><span class="c"># c - codecs as well</span>
+</span></span><span class="line"><span class="cl"><span class="c"># h - generate hashes</span>
+</span></span><span class="line"><span class="cl"><span class="c"># s - verify digital signatures</span>
+</span></span><span class="line"><span class="cl"><span class="c"># &#39;*&#39; - all user profiles</span>
+</span></span><span class="line"><span class="cl"><span class="n">autorunsc</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span> 
+</span></span><span class="line"><span class="cl"><span class="c"># Collection with Kansa</span>
+</span></span><span class="line"><span class="cl"><span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="p">&lt;</span><span class="n">IP</span><span class="p">|</span><span class="n">localhost</span><span class="p">|</span><span class="n">filewithIPs</span><span class="p">&gt;</span> <span class="n">-Credential</span> <span class="n">username</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span> 
+</span></span><span class="line"><span class="cl"><span class="c"># don&#39;t pass the password here. Type when asked</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Step 2. open the file generated in TimeLine Explorer for analysis. </span>
+</span></span><span class="line"><span class="cl"><span class="c"># Step 3. Choose files from untrusted vendors and (Blank). </span>
+</span></span><span class="line"><span class="cl"><span class="c"># Step 4. Look at the images paths (compare with the Find Evil poster)</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Step 5. Look at the hashes, eliminate the known good.</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Step 6. Stacking (generate on file from all csv)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-ASEPImagePathLaunchStringMD5UnsignedStack</span><span class="p">.</span><span class="n">ps1</span> <span class="p">&gt;</span> <span class="n">stackedData</span><span class="p">.</span><span class="n">csv</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Step 6. Perfom frequency analysis. What stands out?</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Step 7. Use Select-String or grep to identify machines for each suspicuios entry</span>
+</span></span></code></pre></div><h4 id="service-creationreplacement">Service Creation/Replacement</h4>
 <p>Stacking services with Kansa</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">services</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span><span class="p">|</span><span class="n">dsc</span> <span class="n">-OutFile</span> <span class="n">allServicesStack</span><span class="p">.</span><span class="n">csv</span>
-<span class="c"># For each GROUP BY type the column for ordering</span>
-<span class="c"># For example Name or Path</span>
-<span class="c"># quit for quit</span>
-</code></pre></div><h4 id="service-failure-recovery">Service Failure Recovery</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">services</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span><span class="p">|</span><span class="n">dsc</span> <span class="n">-OutFile</span> <span class="n">allServicesStack</span><span class="p">.</span><span class="n">csv</span>
+</span></span><span class="line"><span class="cl"><span class="c"># For each GROUP BY type the column for ordering</span>
+</span></span><span class="line"><span class="cl"><span class="c"># For example Name or Path</span>
+</span></span><span class="line"><span class="cl"><span class="c"># quit for quit</span>
+</span></span></code></pre></div><h4 id="service-failure-recovery">Service Failure Recovery</h4>
 <h4 id="scheduled-tasks">Scheduled Tasks</h4>
 <h4 id="dll-hijacking">DLL Hijacking</h4>
 <p>[<a href="">1</a>] My own presentation and corresponding articles</p>
@@ -452,31 +451,31 @@
 <p>Moving laterally: remote desktop or netuse. To code execute from A to B, is one of the core techniques for that.</p>
 <p>Can be used in privilege escalation when finding a service that has a unquoted path, for example. Or can be used with <code>rundll32.exe</code> and <code>process call create</code>.</p>
 <p>Creating a WMI consumer:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Step 1. Create an event filter that&#39;s going to monitor the systems and events and do something once certain conditions are met.</span>
-<span class="nv">$FilterArgs</span> <span class="p">=</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;Pentestlab-WMI&#39;</span><span class="p">;</span>
-                <span class="n">EventNameSpace</span><span class="p">=</span><span class="s1">&#39;root\CimV2&#39;</span><span class="p">;</span>
-                <span class="n">QueryLanguage</span><span class="p">=</span><span class="s2">&#34;WQL&#34;</span><span class="p">;</span>
-                <span class="n">Query</span><span class="p">=</span><span class="s2">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39; AND TargetInstance.SystemUpTime &gt;= 240 AND TargetInstance.SystemUpTime &lt; 325&#34;</span><span class="p">};</span>
-<span class="nv">$Filter</span><span class="p">=</span><span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">__EventFilter</span> <span class="n">-Property</span> <span class="nv">$FilterArgs</span>
- 
-<span class="c"># Step 2. Create an Event Consumer that&#39;s the action that&#39;s going to take place once the conditions specified by the even filter are met.</span>
-<span class="nv">$ConsumerArgs</span> <span class="p">=</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;Pentestlab-WMI&#39;</span><span class="p">;</span>         <span class="n">CommandLineTemplate</span><span class="p">=</span><span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$Env:SystemRoot</span><span class="p">)</span><span class="s2">\System32\pentestlab.exe&#34;</span><span class="p">;}</span>
-<span class="nv">$Consumer</span><span class="p">=</span><span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">CommandLineEventConsumer</span> <span class="n">-Property</span> <span class="nv">$ConsumerArgs</span>
- 
-<span class="c"># Step 3. Bind the Filter to the Consumer.</span>
-<span class="nv">$FilterToConsumerArgs</span> <span class="p">=</span> <span class="p">@{</span>
-<span class="k">Filter</span> <span class="p">=</span> <span class="no">[Ref]</span> <span class="nv">$Filter</span><span class="p">;</span>
-<span class="n">Consumer</span> <span class="p">=</span> <span class="no">[Ref]</span> <span class="nv">$Consumer</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nv">$FilterToConsumerBinding</span> <span class="p">=</span> <span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">__FilterToConsumerBinding</span> <span class="n">-Property</span> <span class="nv">$FilterToConsumerArgs</span>
-</code></pre></div><p>The above steps can be specified in a MOF file and compiled. So, either use Powershell or <code>mofcomp.exe</code>. <code>Get-WmiObject</code> and <code>Remover-WmiObject</code> to detect and remove suspicious entries.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># Step 1. Create an event filter that&#39;s going to monitor the systems and events and do something once certain conditions are met.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$FilterArgs</span> <span class="p">=</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;Pentestlab-WMI&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">EventNameSpace</span><span class="p">=</span><span class="s1">&#39;root\CimV2&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">QueryLanguage</span><span class="p">=</span><span class="s2">&#34;WQL&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Query</span><span class="p">=</span><span class="s2">&#34;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &#39;Win32_PerfFormattedData_PerfOS_System&#39; AND TargetInstance.SystemUpTime &gt;= 240 AND TargetInstance.SystemUpTime &lt; 325&#34;</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$Filter</span><span class="p">=</span><span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">__EventFilter</span> <span class="n">-Property</span> <span class="nv">$FilterArgs</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Step 2. Create an Event Consumer that&#39;s the action that&#39;s going to take place once the conditions specified by the even filter are met.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$ConsumerArgs</span> <span class="p">=</span> <span class="p">@{</span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;Pentestlab-WMI&#39;</span><span class="p">;</span>         <span class="n">CommandLineTemplate</span><span class="p">=</span><span class="s2">&#34;</span><span class="p">$(</span><span class="nv">$Env:SystemRoot</span><span class="p">)</span><span class="s2">\System32\pentestlab.exe&#34;</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$Consumer</span><span class="p">=</span><span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">CommandLineEventConsumer</span> <span class="n">-Property</span> <span class="nv">$ConsumerArgs</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c"># Step 3. Bind the Filter to the Consumer.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$FilterToConsumerArgs</span> <span class="p">=</span> <span class="p">@{</span>
+</span></span><span class="line"><span class="cl"><span class="k">Filter</span> <span class="p">=</span> <span class="no">[Ref]</span> <span class="nv">$Filter</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Consumer</span> <span class="p">=</span> <span class="no">[Ref]</span> <span class="nv">$Consumer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$FilterToConsumerBinding</span> <span class="p">=</span> <span class="nb">New-CimInstance</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">/</span><span class="n">subscription</span> <span class="n">-ClassName</span> <span class="n">__FilterToConsumerBinding</span> <span class="n">-Property</span> <span class="nv">$FilterToConsumerArgs</span>
+</span></span></code></pre></div><p>The above steps can be specified in a MOF file and compiled. So, either use Powershell or <code>mofcomp.exe</code>. <code>Get-WmiObject</code> and <code>Remover-WmiObject</code> to detect and remove suspicious entries.</p>
 <p>Just create a process with wmic:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="k">process</span> <span class="n">call</span> <span class="n">create</span> <span class="s2">&#34;path\to\process&#34;</span>
-</code></pre></div><p><strong>Tools</strong> 🛠: Event Logs, Sysmon and commercial tools like Falcon, CarbonBlack, Tanium.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__EventFilter</span>
-<span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__EventConsumer</span>
-<span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__FilterToConsumerBinding</span>
-</code></pre></div><p>Kansa includes the scripts for these commands for autocollection.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="k">process</span> <span class="n">call</span> <span class="n">create</span> <span class="s2">&#34;path\to\process&#34;</span>
+</span></span></code></pre></div><p><strong>Tools</strong> 🛠: Event Logs, Sysmon and commercial tools like Falcon, CarbonBlack, Tanium.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__EventFilter</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__EventConsumer</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">__FilterToConsumerBinding</span>
+</span></span></code></pre></div><p>Kansa includes the scripts for these commands for autocollection.</p>
 <p>There are several types of event consumers:</p>
 <ol>
 <li>🎯 <code>ActiveScriptEventConsumer</code>. Execute a predefined VB or JScript. This one is frequently used by attackers. <code>scrcons.exe</code> -&gt; cmd.exe -&gt; schticks.exe -&gt; ActiveScript Event Consumer.</li>
@@ -501,15 +500,14 @@
 <p><strong>CIMOM</strong>. <code>HKLM\SOFTWARE\Microsoft\Wbem\CIMOM</code>. Use the <code>Autorecover MOFs</code> to see the original MOF files names.</p>
 <h4 id="command-line-analysis-and-wmi-logs">Command-Line Analysis and WMI Logs</h4>
 <p>If something malicious was found on the system and is likely to be present on other systems:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="k">process</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s2">&#34;somethingbad&#34;</span> <span class="n">delete</span>
-<span class="c"># or with Powershell:</span>
-
-</code></pre></div><p><code>PyWMIPersistenceFinder.py</code> is used for offline analysis of <code>OBJECTS</code> file. If data is deleted from the DB, the data might be still there. And this script parses the db, even the unallocated entries of this db.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="k">process</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s2">&#34;somethingbad&#34;</span> <span class="n">delete</span>
+</span></span><span class="line"><span class="cl"><span class="c"># or with Powershell:</span>
+</span></span></code></pre></div><p><code>PyWMIPersistenceFinder.py</code> is used for offline analysis of <code>OBJECTS</code> file. If data is deleted from the DB, the data might be still there. And this script parses the db, even the unallocated entries of this db.</p>
 <p>Stacking with Kansa</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">wmisFilters</span><span class="p">.</span><span class="n">csv</span><span class="p">|</span><span class="n">wmisEvents</span><span class="p">.</span><span class="n">csv</span><span class="p">|</span><span class="n">wmisConsumers</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span><span class="p">|</span><span class="n">dsc</span> <span class="n">-OutFile</span> <span class="n">wmisStack</span><span class="p">.</span><span class="n">csv</span>
-<span class="c"># GROUP BY Name or/and query</span>
-<span class="c"># Use Select-String or grep to identify the machines for suspiction entries</span>
-</code></pre></div><h4 id="wmi-process-anomalies">WMI Process Anomalies</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">wmisFilters</span><span class="p">.</span><span class="n">csv</span><span class="p">|</span><span class="n">wmisEvents</span><span class="p">.</span><span class="n">csv</span><span class="p">|</span><span class="n">wmisConsumers</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimeter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span><span class="p">|</span><span class="n">dsc</span> <span class="n">-OutFile</span> <span class="n">wmisStack</span><span class="p">.</span><span class="n">csv</span>
+</span></span><span class="line"><span class="cl"><span class="c"># GROUP BY Name or/and query</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Use Select-String or grep to identify the machines for suspiction entries</span>
+</span></span></code></pre></div><h4 id="wmi-process-anomalies">WMI Process Anomalies</h4>
 <ol>
 <li><code>svchost</code> -&gt; <code>services</code> -&gt; <code>wmiprvse.exe</code> -&gt; CommandLine Event Consumer. If wmiprvse.exe has another parent or unusuall child (powershell) it&rsquo;s suspicious.</li>
 <li><code>scrcons.exe</code> -&gt; cmd.exe -&gt; schticks.exe -&gt; ActiveScript Event Consumer.</li>
@@ -555,7 +553,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
