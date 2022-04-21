@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -259,17 +259,17 @@
 <h2 id="clutch">Clutch</h2>
 <p>For installation and usage see <a href="https://peat-chameleon-e41.notion.site/Clutch-fa14ff4c81194e76ba64714e16a97e6e">here</a>. Works on its own. Doesn&rsquo;t laucnch the application. Doesn&rsquo;t decrypt everything. Also couldn&rsquo;t properly install the latest version. Probably decrypts the code statically, not dumping from memory.</p>
 <p>To ensure that the binary was decrypted, I ran:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rabin2 -I <span class="o">[</span>my_decrypted_binary<span class="o">]</span> <span class="p">|</span> grep <span class="s2">&#34;crypto&#34;</span>
-</span></span><span class="line"><span class="cl">rabin2 -I <span class="o">[</span>my_encrypted_binary<span class="o">]</span> <span class="p">|</span> grep <span class="s2">&#34;crypto&#34;</span>
-</span></span></code></pre></div><p>The first one is <code>/var/tmp/clutch/GUID/[Bundle_name]/bundle_name</code> and the second is <code>/var/containers/Bundle/Application/[GUID]/[Bundle_name]/bundle_name</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -I <span class="o">[</span>my_decrypted_binary<span class="o">]</span> <span class="p">|</span> grep <span class="s2">&#34;crypto&#34;</span>
+rabin2 -I <span class="o">[</span>my_encrypted_binary<span class="o">]</span> <span class="p">|</span> grep <span class="s2">&#34;crypto&#34;</span>
+</code></pre></div><p>The first one is <code>/var/tmp/clutch/GUID/[Bundle_name]/bundle_name</code> and the second is <code>/var/containers/Bundle/Application/[GUID]/[Bundle_name]/bundle_name</code>.</p>
 <p>In my case, <strong>rabin2</strong> (rabin usage <a href="/docs/toolkit/general/reverse-btfm#rabin2">here</a> and <a href="/docs/blog/2020/09/how-i-met-radare2/">here</a>) detected both to be valid <code>Mach-O</code> files (which is an equivalent to PE on Windows systems) and the first one was <code>crypto  true</code> while the second - <code>crypto  false</code>.</p>
 <blockquote>
 <p>NB! The strings appear to be unencrypted. So, you can retrieve strings with <code>rabin2 -z [my_encrypted_binary]</code> . Also, the compilation flags are not affected.</p>
 </blockquote>
 <p>Also, we can test with <strong>r2</strong> disassembler to see whether there was any difference.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">r2 <span class="o">[</span>my_decrypted_binary<span class="o">]</span> <span class="c1"># can be disassembled</span>
-</span></span><span class="line"><span class="cl">r2 <span class="o">[</span>my_encrypted_binary<span class="o">]</span> <span class="c1"># can&#39;t be disassembled</span>
-</span></span></code></pre></div><h2 id="crackerxi">CrackerXI+</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">r2 <span class="o">[</span>my_decrypted_binary<span class="o">]</span> <span class="c1"># can be disassembled</span>
+r2 <span class="o">[</span>my_encrypted_binary<span class="o">]</span> <span class="c1"># can&#39;t be disassembled</span>
+</code></pre></div><h2 id="crackerxi">CrackerXI+</h2>
 <p>Also launches and reads from RAM, like <code>frida-ios-dump</code>. GUI-based and uses <code>bfinject</code>. Might fail sometimes.</p>
 <blockquote>
 <p>⚠️ I&rsquo;ve also noticed weird behaviour: after decryption this application might start crashing and require reinstalling (which doesn&rsquo;t always work).</p>
@@ -306,7 +306,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

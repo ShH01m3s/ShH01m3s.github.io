@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -667,50 +667,50 @@
 </tbody>
 </table>
 <p><code>repe cmpsb</code>. To better illustrate, I&rsquo;ve written the below pseudocode:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">bool</span> <span class="n">compare</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">	<span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="k">for</span><span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">!=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">])</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><code>ECX</code>  is set to the buffer&rsquo;s length,  <code>ESI</code> - is a pointer to the first buffer, <code>EDI</code> - the pointer to the second. The loop runs until <code>ECX</code> = 0 or the bytes compared are different. The above loop will run 2 times and return false when <code>ecx</code> = <code>2</code> since <code>edi[2]='t'</code> and <code>esi[2] = 'c'</code> which means that the buffers are different and there is no need to run the loop further.</p>
+<div class="highlight"><pre class="chroma"><code class="language-C#" data-lang="C#"><span class="n">function</span> <span class="kt">bool</span> <span class="n">compare</span><span class="p">(){</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
+	<span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">];</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">!=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">])</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><code>ECX</code>  is set to the buffer&rsquo;s length,  <code>ESI</code> - is a pointer to the first buffer, <code>EDI</code> - the pointer to the second. The loop runs until <code>ECX</code> = 0 or the bytes compared are different. The above loop will run 2 times and return false when <code>ecx</code> = <code>2</code> since <code>edi[2]='t'</code> and <code>esi[2] = 'c'</code> which means that the buffers are different and there is no need to run the loop further.</p>
 <p><code>rep stosb</code>. Destination buffer - <code>EDI</code>, source - <code>AH</code>. <code>ECX</code> is a counter.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">buffer</span><span class="p">[]</span> <span class="k">init</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">  <span class="n">ah</span> <span class="p">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">edi</span> <span class="p">=</span> <span class="p">[];</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
-</span></span><span class="line"><span class="cl">    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">ah</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">edi</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>The above loop will run 3 times. Upon function return <code>edi</code> = <code>['a', 'a', 'a']</code>. Very often is seen after <code>xor eax, eax</code>, since <code>xor</code> something on itself returns that something being filled with <code>0</code>, i.e. it means <em>zeroing out</em> a value. And we need to make sure there is no garbage lurking in <code>EAX</code> before setting it the desired value (in our example, <code>'a'</code>) to be later used to set <code>edi</code> to <code>a</code>. Just to remind, <code>al</code> is the lowerst byte of <code>EAX</code> register.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="n">buffer</span><span class="p">[]</span> <span class="n">init</span><span class="p">(){</span>
+  <span class="n">ah</span> <span class="p">=</span> <span class="sc">&#39;a&#39;</span><span class="p">;</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--){</span>
+    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">ah</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">edi</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times. Upon function return <code>edi</code> = <code>['a', 'a', 'a']</code>. Very often is seen after <code>xor eax, eax</code>, since <code>xor</code> something on itself returns that something being filled with <code>0</code>, i.e. it means <em>zeroing out</em> a value. And we need to make sure there is no garbage lurking in <code>EAX</code> before setting it the desired value (in our example, <code>'a'</code>) to be later used to set <code>edi</code> to <code>a</code>. Just to remind, <code>al</code> is the lowerst byte of <code>EAX</code> register.</p>
 <p><code>rep movsb</code>. <code>ESI</code> - source buffer, <code>EDI</code> - destination buffer, <code>ECX</code> - counter.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="k">void</span> <span class="n">copy</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">  <span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>The above loop will run 3 times. At the end, <code>edi=esi = ['s', 'r', 'c']</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c#" data-lang="c#"><span class="n">function</span> <span class="k">void</span> <span class="n">copy</span><span class="p">(){</span>
+  <span class="n">esi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">];</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
+  
+  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
+    <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">=</span> <span class="n">esi</span><span class="p">[</span><span class="n">ecx</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times. At the end, <code>edi=esi = ['s', 'r', 'c']</code>.</p>
 <p><code>repne scasb</code>. <code>EDI</code> - buffer address, <code>AL</code> - byte to search. <code>ECX</code> - counter.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">bool</span> <span class="n">search</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">  <span class="n">al</span> <span class="p">=</span> <span class="sc">&#39;d&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">  <span class="c1">// len(edi) = 3</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">//this will return true on the 3rd iteration, when ecx = 1</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">==</span> <span class="n">al</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>The above loop will run 3 times, and on the 3rd time being run it&rsquo;ll return <code>true</code>, because <code>edi[1]</code> = <code>'t'</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-C#" data-lang="C#"><span class="n">function</span> <span class="kt">bool</span> <span class="n">search</span><span class="p">(){</span>
+  <span class="n">edi</span> <span class="p">=</span> <span class="p">[</span><span class="sc">&#39;d&#39;</span><span class="p">,</span> <span class="sc">&#39;s&#39;</span><span class="p">,</span> <span class="sc">&#39;t&#39;</span><span class="p">];</span>
+  <span class="n">al</span> <span class="p">=</span> <span class="sc">&#39;d&#39;</span><span class="p">;</span>
+  
+  <span class="c1">// len(edi) = 3
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="n">ecx</span> <span class="p">=</span> <span class="n">len</span><span class="p">(</span><span class="n">edi</span><span class="p">);</span> <span class="n">ecx</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">ecx</span><span class="p">--)</span> <span class="p">{</span>
+    <span class="c1">//this will return true on the 3rd iteration, when ecx = 1
+</span><span class="c1"></span>    <span class="k">if</span> <span class="n">edi</span><span class="p">[</span><span class="n">ecx</span><span class="p">]</span> <span class="p">==</span> <span class="n">al</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>The above loop will run 3 times, and on the 3rd time being run it&rsquo;ll return <code>true</code>, because <code>edi[1]</code> = <code>'t'</code>.</p>
 <h2 id="jumps">Jumps</h2>
 <h3 id="jmp-and-friends">JMP and friends</h3>
 <p><code>x86</code></p>
@@ -865,7 +865,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

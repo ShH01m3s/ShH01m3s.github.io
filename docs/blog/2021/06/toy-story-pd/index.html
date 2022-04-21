@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -255,26 +255,26 @@
 <p>As with the vulnerability assessment, the first thing I am doing for approximately  an hour is applying <em>irrational</em> approach: following the intuition and openning files that I think might be of interest. I use this approach to get some clues, pivot points for methodical approach.</p>
 <p>I&rsquo;ve decided to start with the <code>*.pcap</code> capture and get the low-hanging fruits: searching for keyword &ldquo;Product&rdquo; (since the sold animals are given an identifier like <code>Product_XY</code>) in the network connections using the following filter in Wireshark: <code>tcp contains Product</code>. Indeed there are lots of results, HTTP traffic only. Luckily, no SSL or I would not be able to see the contents. For example, <code>GET</code> request to <a href="http://globalstuffed.weebly.com/store/c1/Featured_Products.html">http://globalstuffed.weebly.com/store/c1/Featured_Products.html</a>. It is not browsable, unfortunately 😔.</p>
 <p>Let&rsquo;s try pinging this domain:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping globalstuffed.weebly.com 
-</span></span><span class="line"><span class="cl">PING pages-wildcard.weebly.com <span class="o">(</span>199.34.228.54<span class="o">)</span>: <span class="m">56</span> data bytes
-</span></span><span class="line"><span class="cl">Request timeout <span class="k">for</span> icmp_seq <span class="m">0</span>
-</span></span><span class="line"><span class="cl">Request timeout <span class="k">for</span> icmp_seq <span class="m">1</span>
-</span></span></code></pre></div><p>I know the IP now and can get some more information about this domain:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">whois 199.34.228.54
-</span></span><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl">NetRange:       199.34.228.0 - 199.34.231.255
-</span></span><span class="line"><span class="cl">CIDR:           199.34.228.0/22
-</span></span><span class="line"><span class="cl">NetName:        WEEBLYNET1
-</span></span><span class="line"><span class="cl">NetHandle:      NET-199-34-228-0-1
-</span></span><span class="line"><span class="cl">Parent:         NET199 <span class="o">(</span>NET-199-0-0-0-0<span class="o">)</span>
-</span></span><span class="line"><span class="cl">NetType:        Direct Assignment
-</span></span><span class="line"><span class="cl">OriginAS:       AS27647
-</span></span><span class="line"><span class="cl">Organization:   Weebly, Inc. <span class="o">(</span>WEEBL-1<span class="o">)</span>
-</span></span></code></pre></div><p>Looks like Weebly is some hosting service. The website address (<a href="http://globalstuffed.weebly.com/">http://globalstuffed.weebly.com/</a>) and the records above suggest that. I&rsquo;m going to check this assumption. Yes, I was right. This is indeed a website builder. Our website (<a href="http://globalstuffed.weebly.com/)">http://globalstuffed.weebly.com/)</a>, however, is down.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ping globalstuffed.weebly.com 
+PING pages-wildcard.weebly.com <span class="o">(</span>199.34.228.54<span class="o">)</span>: <span class="m">56</span> data bytes
+Request timeout <span class="k">for</span> icmp_seq <span class="m">0</span>
+Request timeout <span class="k">for</span> icmp_seq <span class="m">1</span>
+</code></pre></div><p>I know the IP now and can get some more information about this domain:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">whois 199.34.228.54
+...
+NetRange:       199.34.228.0 - 199.34.231.255
+CIDR:           199.34.228.0/22
+NetName:        WEEBLYNET1
+NetHandle:      NET-199-34-228-0-1
+Parent:         NET199 <span class="o">(</span>NET-199-0-0-0-0<span class="o">)</span>
+NetType:        Direct Assignment
+OriginAS:       AS27647
+Organization:   Weebly, Inc. <span class="o">(</span>WEEBL-1<span class="o">)</span>
+</code></pre></div><p>Looks like Weebly is some hosting service. The website address (<a href="http://globalstuffed.weebly.com/">http://globalstuffed.weebly.com/</a>) and the records above suggest that. I&rsquo;m going to check this assumption. Yes, I was right. This is indeed a website builder. Our website (<a href="http://globalstuffed.weebly.com/),">http://globalstuffed.weebly.com/),</a> however, is down.</p>
 <p>The owner of the laptop claims that the evidence were planted. Generating the network traffic is possible without physical access to the device. So, we are looking for any indicators of compromise <em>before</em> these HTTP request.</p>
 <p>So, it&rsquo;s time to make a timeline <a href="https://www.notion.so/Toy-PD-6dd1d00010cf4ebea0c1310307cd4f31">here</a> as my pivot point. In Wireshark I change date/time options for a more user-friendly one: <code>View - Time Display Options</code> and choose the first one. Now, I look at the first filtered request and put down the time of this event.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">1504	2015-07-17 02:16:00.486428	74.217.59.19	192.168.1.109	TCP	1514	<span class="m">80</span> → <span class="m">14005</span> <span class="o">[</span>ACK<span class="o">]</span> <span class="nv">Seq</span><span class="o">=</span><span class="m">2921</span> <span class="nv">Ack</span><span class="o">=</span><span class="m">678</span> <span class="nv">Win</span><span class="o">=</span><span class="m">15571</span> <span class="nv">Len</span><span class="o">=</span><span class="m">1460</span> <span class="o">[</span>TCP segment of a reassembled PDU<span class="o">]</span> 
-</span></span></code></pre></div><p>For simplicity sake I will assume that it happened this year (not to scroll all the way back). But I will preserve the day and time, of course.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">1504	2015-07-17 02:16:00.486428	74.217.59.19	192.168.1.109	TCP	1514	<span class="m">80</span> → <span class="m">14005</span> <span class="o">[</span>ACK<span class="o">]</span> <span class="nv">Seq</span><span class="o">=</span><span class="m">2921</span> <span class="nv">Ack</span><span class="o">=</span><span class="m">678</span> <span class="nv">Win</span><span class="o">=</span><span class="m">15571</span> <span class="nv">Len</span><span class="o">=</span><span class="m">1460</span> <span class="o">[</span>TCP segment of a reassembled PDU<span class="o">]</span> 
+</code></pre></div><p>For simplicity sake I will assume that it happened this year (not to scroll all the way back). But I will preserve the day and time, of course.</p>
 <p>📆 <code>17/06/2021</code> , <em>Thursday</em></p>
 <p>🕰 <code>07:14 PM</code></p>
 <p>Got a little side-tracked, as if the universe doesn&rsquo;t want me to get smarter&hellip; . All of a sudden I can&rsquo;t create and rename folders on my PC and also (which might be connected) Autopsy is not working. I have to reset my PC to the dafault settings now, which will take some time, of course.</p>
@@ -314,7 +314,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   
