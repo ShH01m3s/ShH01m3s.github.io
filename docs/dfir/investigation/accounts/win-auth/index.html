@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -275,10 +275,10 @@
 <p>❗️Built-in accounts don&rsquo;t have Unique domain identifier and RID.</p>
 </blockquote>
 <p>To get a user&rsquo;s SID:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="n">useraccount</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;veronicazvereva&#39;</span> <span class="n">get</span> <span class="n">sid</span>
-<span class="c"># or</span>
-<span class="n">whoami</span> <span class="p">/</span><span class="n">user</span> <span class="c"># for current user</span>
-</code></pre></div><p>PC/domain ID can be viewed in <code>SAM\SAM\Domains\Accounts</code>, value <code>V</code>, last 12 bytes of the data chunk:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="n">useraccount</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;veronicazvereva&#39;</span> <span class="n">get</span> <span class="n">sid</span>
+</span></span><span class="line"><span class="cl"><span class="c"># or</span>
+</span></span><span class="line"><span class="cl"><span class="n">whoami</span> <span class="p">/</span><span class="n">user</span> <span class="c"># for current user</span>
+</span></span></code></pre></div><p>PC/domain ID can be viewed in <code>SAM\SAM\Domains\Accounts</code>, value <code>V</code>, last 12 bytes of the data chunk:</p>
 <p><img src="images/sam1.png" alt="sam1"></p>
 <p>In order to translate this value, split the hex 12 byte value into three 4 byte chunks. Since these are little-endian, reverse the order of the bytes, convert each to decimal If this is a negative value, something is not right. It&rsquo;s a 32-bit unsigned value! For example, in the below picture we see that the machine id is <code>2d 48 f4 b4 1a b1 b8 73 f1 2a 8a a3</code>. Splitting into 3 chunks gives us: <code>2d 48 f4 b4</code>, <code>1a b1 b8 73</code> and <code>f1 2a 8a a3</code>. Lets now convert each to little-endian: <code>b4 f4 48 2d</code>, <code>73, b8, b1, 1a</code> and <code>a3 8a 2a f1</code>. Now, each set of 4 bytes in decimal: <code>3035908141</code>, <code>1941483802</code>, <code>2743741169</code>. The resulting machine ID part of the SID is then: <code>3035908141-1941483802-2743741169</code>. Let&rsquo;s check in PowerShell:</p>
 <p><img src="images/whoami-sam-machineid.png" alt="whoami-sam-machineid"></p>
@@ -346,13 +346,12 @@
 <li><input disabled="" type="checkbox"> Create a word list from the current case (may export from Autopsy, EnCase etc).</li>
 <li><input disabled="" type="checkbox"> Run a dictionary 📖 or brute-force attack 💪 against this NTLM hash (🛠: <code>hashcat</code> 🐈‍⬛ , <code>John the Ripper</code> 🔪, Cain and Able 🔪 🐏).</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># decrypt the hashes:</span>
-mimikatz
-&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
-
-<span class="c1"># crach the hash with hashcat</span>
-
-</code></pre></div><p><strong>Other values stored in this sub-key</strong>. <code>ForcePasswordReset</code> speaks for itself and <code>SupplementalCredentials</code> do not. There also can be a <code>UserPasswordHint</code>, sometimes contains the actual password. It also contains RID, which can be changed in <a href="/docs/dfir/host/reference/windows/win-lsa#rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># decrypt the hashes:</span>
+</span></span><span class="line"><span class="cl">mimikatz
+</span></span><span class="line"><span class="cl">&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crach the hash with hashcat</span>
+</span></span></code></pre></div><p><strong>Other values stored in this sub-key</strong>. <code>ForcePasswordReset</code> speaks for itself and <code>SupplementalCredentials</code> do not. There also can be a <code>UserPasswordHint</code>, sometimes contains the actual password. It also contains RID, which can be changed in <a href="/docs/dfir/host/reference/windows/win-lsa#rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
 <h3 id="microsoft-accounts">Microsoft Accounts</h3>
 <p>Since Win8. Can be logged in if there is internet access. Profiles and settings are stored in the cloud ☁️. Additional values are stored in SAM: <code>InternetUID</code> and <code>InternetUserName</code>. Both are unique to the user. <code>InternetUID</code> is a 16 byte Unicode string. <code>InternetUserName</code> - usually an email used as a login.</p>
 <h3 id="domain-accounts--">Domain Accounts  ⚠️</h3>
@@ -393,7 +392,7 @@ mimikatz
 <li>LOCAL SEVICE</li>
 </ul>
 <h2 id="active-directory">Active Directory</h2>
-<p>Moving accounts and auth policies to the server side. Azure Active Directory is when instead of having a physical server, you have a server in the cloud ⛅️. Defines a set of rules to restrict users' access to resources. PCs that are part of AD usually don&rsquo;t have full access to the systems.</p>
+<p>Moving accounts and auth policies to the server side. Azure Active Directory is when instead of having a physical server, you have a server in the cloud ⛅️. Defines a set of rules to restrict users&rsquo; access to resources. PCs that are part of AD usually don&rsquo;t have full access to the systems.</p>
 <p>AD DS store contains db files and processes that manage directory information for users, services and applications. Consists of <code>Ntds.dit</code> file, at <code>%SystemRoot%\	NTDS</code> folder on all DC. Is only accessible thtough the DC&rsquo;s processes and protocols.</p>
 <p><strong>Class objects</strong>. What objects can be created in the dir (User, Computer).</p>
 <p><strong>Attribute objects</strong>. Info attached to an object (Display name).</p>
@@ -464,7 +463,7 @@ mimikatz
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

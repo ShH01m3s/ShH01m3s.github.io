@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -248,55 +248,54 @@
     <h2 id="terms">Terms</h2>
 <p><strong>cmdlet</strong> - put certain enhanced operating system functions into effect when usung powershell, example: <code>Get-Help</code>.</p>
 <p><strong>WMI</strong> (Windows Management Instrumentation). Some of the functions are available through powershell cmdlets. Use <code>Get-Command -Noun WMI*</code> to get all WMI cmdlets. On my Windows VM (Parallels, Windows insider) I got this result:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">PS </span><span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">user</span><span class="p">&gt;</span> <span class="nb">Get-Command</span> <span class="n">-Noun</span> <span class="n">WMI</span><span class="p">*</span>
-
-<span class="n">CommandType</span>     <span class="n">Name</span>                              <span class="n">Version</span>    <span class="n">Source</span>
-<span class="p">-----------</span>     <span class="p">----</span>                              <span class="p">-------</span>    <span class="p">------</span>
-<span class="n">Cmdlet</span>          <span class="nb">Get-WmiObject</span>          <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
-<span class="n">Cmdlet</span>          <span class="nb">Invoke-WmiMethod</span>       <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
-<span class="n">Cmdlet</span>          <span class="nb">Register-WmiEvent</span>      <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
-<span class="n">Cmdlet</span>          <span class="nb">Remove-WmiObject</span>       <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
-<span class="n">Cmdlet</span>          <span class="nb">Set-WmiInstance</span>        <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
-</code></pre></div><p>WMI cmdlets were deprecated accourding to the doc, so the recommendation is to start using CIM (Common Information Model). However, CIM is using WIM under the hood anyway. This is what I&rsquo;ve got on the WinVM:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">PS </span><span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">user</span><span class="p">&gt;</span> <span class="nb">Get-Command</span> <span class="n">-Module</span> <span class="n">CimCmdlets</span>
-
-<span class="n">CommandType</span>     <span class="n">Name</span>                                               <span class="n">Version</span>    <span class="n">Source</span>
-<span class="p">-----------</span>     <span class="p">----</span>                                               <span class="p">-------</span>    <span class="p">------</span>
-<span class="n">Cmdlet</span>          <span class="nb">Export-BinaryMiLog</span>                                 <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Get-CimAssociatedInstance</span>                          <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Get-CimClass</span>                                       <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Get-CimInstance</span>                                    <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Get-CimSession</span>                                     <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Import-BinaryMiLog</span>                                 <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Invoke-CimMethod</span>                                   <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">New-CimInstance</span>                                    <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">New-CimSession</span>                                     <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">New-CimSessionOption</span>                               <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Register-CimIndicationEvent</span>                        <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Remove-CimInstance</span>                                 <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Remove-CimSession</span>                                  <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-<span class="n">Cmdlet</span>          <span class="nb">Set-CimInstance</span>                                    <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
-</code></pre></div><h2 id="analysis-with-wmi">Analysis with WMI</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Get autostarts</span>
-<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
-
-<span class="c"># get processes</span>
-<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span> 
-
-<span class="c"># network config</span>
-<span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span> 
-
-<span class="c"># Prebuilt wmic scripts by Justin Hall on USB</span>
-<span class="n">wmic_lr</span><span class="p">.</span><span class="n">local</span><span class="p">.</span><span class="n">cmd</span> <span class="p">&amp;</span> <span class="n">wmic_lr</span><span class="p">.</span><span class="n">remote</span><span class="p">.</span><span class="n">cmd</span> 
-</code></pre></div><h2 id="analysis-of-cim">Analysis of CIM</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">user</span><span class="p">&gt;</span> <span class="nb">Get-Command</span> <span class="n">-Noun</span> <span class="n">WMI</span><span class="p">*</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">CommandType</span>     <span class="n">Name</span>                              <span class="n">Version</span>    <span class="n">Source</span>
+</span></span><span class="line"><span class="cl"><span class="p">-----------</span>     <span class="p">----</span>                              <span class="p">-------</span>    <span class="p">------</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Get-WmiObject</span>          <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Invoke-WmiMethod</span>       <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Register-WmiEvent</span>      <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Remove-WmiObject</span>       <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Set-WmiInstance</span>        <span class="n">3</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">Microsoft</span><span class="p">.</span><span class="n">PowerShell</span><span class="p">.</span><span class="n">Management</span>
+</span></span></code></pre></div><p>WMI cmdlets were deprecated accourding to the doc, so the recommendation is to start using CIM (Common Information Model). However, CIM is using WIM under the hood anyway. This is what I&rsquo;ve got on the WinVM:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">user</span><span class="p">&gt;</span> <span class="nb">Get-Command</span> <span class="n">-Module</span> <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">CommandType</span>     <span class="n">Name</span>                                               <span class="n">Version</span>    <span class="n">Source</span>
+</span></span><span class="line"><span class="cl"><span class="p">-----------</span>     <span class="p">----</span>                                               <span class="p">-------</span>    <span class="p">------</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Export-BinaryMiLog</span>                                 <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Get-CimAssociatedInstance</span>                          <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Get-CimClass</span>                                       <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Get-CimInstance</span>                                    <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Get-CimSession</span>                                     <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Import-BinaryMiLog</span>                                 <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Invoke-CimMethod</span>                                   <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">New-CimInstance</span>                                    <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">New-CimSession</span>                                     <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">New-CimSessionOption</span>                               <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Register-CimIndicationEvent</span>                        <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Remove-CimInstance</span>                                 <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Remove-CimSession</span>                                  <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cmdlet</span>          <span class="nb">Set-CimInstance</span>                                    <span class="n">1</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span>    <span class="n">CimCmdlets</span>
+</span></span></code></pre></div><h2 id="analysis-with-wmi">Analysis with WMI</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># Get autostarts</span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># get processes</span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># network config</span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Prebuilt wmic scripts by Justin Hall on USB</span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic_lr</span><span class="p">.</span><span class="n">local</span><span class="p">.</span><span class="n">cmd</span> <span class="p">&amp;</span> <span class="n">wmic_lr</span><span class="p">.</span><span class="n">remote</span><span class="p">.</span><span class="n">cmd</span> 
+</span></span></code></pre></div><h2 id="analysis-of-cim">Analysis of CIM</h2>
 <p>Looks like the structure is as follows: all the commands start with <code>GetCimInstance</code>. Get the stack version to determine wether to use WSMan protocol or DCOM:</p>
 <p><img src="images/stack-version.png" alt="stack-version"></p>
 <p>For a remote machine you may use <code>Test-WSMan -ComputerName dc01</code>. Running <code>hostname</code> to get the local PC name and using this value in the previous command resulted in error. <code>$PSVersionTable</code> worked fine for me. On newer versions DCOM is usually blocked by firewall 🔥.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$DCOM</span> <span class="p">=</span> <span class="nb">New-CimSessionOption</span> <span class="n">-Protocol</span> <span class="n">Dcom</span>
-<span class="nv">$Cred</span> <span class="p">=</span> <span class="nb">Get-Credential</span>
-<span class="nv">$CimSession</span> <span class="p">=</span> <span class="nb">New-CimSession</span> <span class="n">-ComputerName</span> <span class="n">sql03</span> <span class="n">-SessionOption</span> <span class="nv">$DCOM</span> <span class="n">-Credential</span> <span class="nv">$Cred</span>
-
-</code></pre></div><h2 id="privileges">Privileges</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$DCOM</span> <span class="p">=</span> <span class="nb">New-CimSessionOption</span> <span class="n">-Protocol</span> <span class="n">Dcom</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$Cred</span> <span class="p">=</span> <span class="nb">Get-Credential</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$CimSession</span> <span class="p">=</span> <span class="nb">New-CimSession</span> <span class="n">-ComputerName</span> <span class="n">sql03</span> <span class="n">-SessionOption</span> <span class="nv">$DCOM</span> <span class="n">-Credential</span> <span class="nv">$Cred</span>
+</span></span></code></pre></div><h2 id="privileges">Privileges</h2>
 <p>Powershell has the exact same privileges as when you are using GUI. For example, when runnning Powershell as local admin, you might get an &ldquo;access denied 🙅‍♀️&rdquo; error trying to connect to a remote machine. In this case you have two options:</p>
 <ol>
 <li>restart Powershell with <em>domain</em> admin privileges (less secure since you&rsquo;d end up using this privileged window to do other non-privileged stuff);</li>
@@ -304,21 +303,20 @@
 </ol>
 <p><img src="images/cim-session-create.png" alt="cim-session-create"></p>
 <h2 id="examples">Examples</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># get the serial</span>
-<span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">SerialNumber</span>
-
-<span class="c"># these two options return the same result:</span>
-<span class="c"># 1</span>
-<span class="p">(</span><span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="n">-Property</span> <span class="n">SerialNumber</span><span class="p">).</span><span class="n">SerialNumber</span>
-<span class="c"># 2</span>
-<span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="n">-Property</span> <span class="n">SerialNumber</span> <span class="p">|</span>
-<span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">SerialNumber</span>
-
-<span class="c"># query a remote PC</span>
-<span class="nb">Get-CimInstance</span> <span class="n">-ComputerName</span> <span class="n">dc01</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span>
-<span class="c"># might get an &#34;access denied&#34; error</span>
-
-</code></pre></div><h2 id="resources">Resources</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># get the serial</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">SerialNumber</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># these two options return the same result:</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 1</span>
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="n">-Property</span> <span class="n">SerialNumber</span><span class="p">).</span><span class="n">SerialNumber</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="n">-Property</span> <span class="n">SerialNumber</span> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Select-Object</span> <span class="n">-ExpandProperty</span> <span class="n">SerialNumber</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># query a remote PC</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-CimInstance</span> <span class="n">-ComputerName</span> <span class="n">dc01</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span>
+</span></span><span class="line"><span class="cl"><span class="c"># might get an &#34;access denied&#34; error</span>
+</span></span></code></pre></div><h2 id="resources">Resources</h2>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi?view=powershell-7.1">1</a>] Official Docs</p>
 
   </div>
@@ -352,7 +350,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

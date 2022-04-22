@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -272,17 +272,17 @@
 <h2 id="tor">TOR</h2>
 <h2 id="tcp-fragmentation">TCP fragmentation</h2>
 <p>Will look like garbage for IDS:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">nmap -sS -A -f &lt;target_IP&gt;
-</code></pre></div><h2 id="alternative-data-stream">Alternative data stream</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -sS -A -f &lt;target_IP&gt;
+</span></span></code></pre></div><h2 id="alternative-data-stream">Alternative data stream</h2>
 <p>Alternate data streams. Specific for Windows. See more <a href="/docs/articles/forensics/analysis/materials/artifactsdb/windows/win-ads">here</a>. Are there such streams for other OS? If yes, how to make them and discover them?</p>
 <p>To ensure compatability between NTFS and HFS. Allows hiding files.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-<span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-<span class="n">C:</span><span class="p">\</span><span class="n">mklink</span> <span class="n">innocent</span><span class="p">.</span><span class="n">exe</span> <span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-
-<span class="c"># to run</span>
-<span class="n">innocent</span><span class="p">.</span><span class="n">exe</span>
-</code></pre></div><p>But <code>dir /r</code> - will display <strong>all</strong> streams. LNS and Sfind will hunt down such files. Also, when you copy files from and to a FAT partition - all residual files will be deleted.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl"><span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="n">mklink</span> <span class="n">innocent</span><span class="p">.</span><span class="n">exe</span> <span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># to run</span>
+</span></span><span class="line"><span class="cl"><span class="n">innocent</span><span class="p">.</span><span class="n">exe</span>
+</span></span></code></pre></div><p>But <code>dir /r</code> - will display <strong>all</strong> streams. LNS and Sfind will hunt down such files. Also, when you copy files from and to a FAT partition - all residual files will be deleted.</p>
 <h2 id="registry">Registry</h2>
 <p>Specific for Windows. See more <a href="/docs/articles/forensics/analysis/materials/artifactsdb/windows/win-registry">here</a> or <a href="https://www.notion.so/Windows-Registry-05f763c061b94572838c6c99fdc3ffe0">here</a>.</p>
 <p>As an example, see <code>HKEY_USERS/Software/Microsoft/Internet Explorer/Scripts/1</code>. Doesn&rsquo;t have anything. Add Multistring value, name &ldquo;Hidden data&rdquo;, click key and start with random data like <code>0x111110000</code> to make it look legitimate, press many spaces to hide it from preview. Add some secret data, ignoring warnings about empty strings. Now, it will be difficult to find this.</p>
@@ -290,8 +290,8 @@
 <p>💡 Interesting idea for security policies. Everyday automatically run RegShot upon system start and before turning off to see the changes everyday. In case of an incident, there might be very helpful. How costy would that tactics be?</p>
 </blockquote>
 <h2 id="attributes">Attributes</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">attrib</span> <span class="p">+</span><span class="nb">h
-</span></code></pre></div><h2 id="steganography">Steganography</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">attrib</span> <span class="p">+</span><span class="nb">h
+</span></span></span></code></pre></div><h2 id="steganography">Steganography</h2>
 <h2 id="documents-meta">Documents Meta</h2>
 <p>Possible for any OS. Examples for Windows might include macros. For Office doc - <code>File -&gt; Info -&gt; Comments</code>. Click file and properties -&gt; Details. Other fields can be used to store information. In case of Office docs, most of the data is not the contents, but formatting and metadata. When adding comments, file&rsquo;s last accessed and modified dates are updates and the file size is increased.</p>
 <p><strong>Tools</strong> 🛠:</p>
@@ -347,7 +347,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

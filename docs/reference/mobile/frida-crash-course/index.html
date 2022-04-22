@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -268,46 +268,46 @@
 <h2 id="templates">Templates</h2>
 <h3 id="empty">Empty</h3>
 <p>If a method needs an argument of type <code>Context</code>, <code>getApplicationContext()</code> needs to be used. Otherwise, may skip it.</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">getApplicationContext</span><span class="p">()</span> <span class="p">{</span>
-		<span class="kr">const</span> <span class="nx">ActivityThread</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.app.ActivityThread&#34;</span><span class="p">);</span>
-		<span class="kr">const</span> <span class="nx">currentApplication</span> <span class="o">=</span> <span class="nx">ActivityThread</span><span class="p">.</span><span class="nx">currentApplication</span><span class="p">();</span>
-
-		<span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="nx">currentApplication</span><span class="p">.</span><span class="nx">getApplicationContext</span><span class="p">();</span>
-		<span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
-<span class="p">}</span>
-
-
-<span class="kd">function</span> <span class="nx">bruteforcePIN</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="c1">// if the method requires Context type arg
-</span><span class="c1"></span>		<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">getApplicationContext</span><span class="p">();</span>
-		<span class="k">try</span> <span class="p">{</span>
-      <span class="c1">// code here
-</span><span class="c1"></span>    <span class="p">}</span>
-    <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// exceptions to handle, example:
-</span><span class="c1"></span>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-    <span class="p">}</span>    
-	<span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="reverse-bool">Reverse Bool</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">getApplicationContext</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kr">const</span> <span class="nx">ActivityThread</span> <span class="o">=</span> <span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;android.app.ActivityThread&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="kr">const</span> <span class="nx">currentApplication</span> <span class="o">=</span> <span class="nx">ActivityThread</span><span class="p">.</span><span class="nx">currentApplication</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="nx">currentApplication</span><span class="p">.</span><span class="nx">getApplicationContext</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">bruteforcePIN</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// if the method requires Context type arg
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">getApplicationContext</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// code here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// exceptions to handle, example:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>    
+</span></span><span class="line"><span class="cl">	<span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="reverse-bool">Reverse Bool</h3>
 <p>If there is a function that returns a bool, and this bool value needs to be reversed:</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">makePinMatchReturnTrueAlways</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-		<span class="k">try</span> <span class="p">{</span>
-			<span class="kd">var</span> <span class="nx">t</span><span class="o">=</span><span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.Boolean&#34;</span><span class="p">).</span><span class="nx">$new</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-			<span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="cm">/*full class name like &#39;com.github.browep.privatephotovault.crypto.CryptoUtils&#39;*/</span><span class="p">).</span><span class="nx">pinsMatch</span><span class="p">.</span><span class="nx">implementation</span><span class="o">=</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">){</span>
-        <span class="c1">//instead of pinsMatch - the method name to hook
-</span><span class="c1"></span>        <span class="c1">// function(x,y,z) can be function() or function(x,y) etc depending on the amount of arguments for the hooked function
-</span><span class="c1"></span>				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Original value: &#34;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">pinsMatch</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span><span class="nx">z</span><span class="p">));</span>
-				<span class="k">return</span> <span class="nb">Boolean</span><span class="p">(</span><span class="nx">t</span><span class="p">);</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-		<span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
-		<span class="p">}</span>
-	<span class="p">})</span>
-</code></pre></div><h2 id="references">References</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">makePinMatchReturnTrueAlways</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">Java</span><span class="p">.</span><span class="nx">perform</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="kd">var</span> <span class="nx">t</span><span class="o">=</span><span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&#34;java.lang.Boolean&#34;</span><span class="p">).</span><span class="nx">$new</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">Java</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="cm">/*full class name like &#39;com.github.browep.privatephotovault.crypto.CryptoUtils&#39;*/</span><span class="p">).</span><span class="nx">pinsMatch</span><span class="p">.</span><span class="nx">implementation</span><span class="o">=</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//instead of pinsMatch - the method name to hook
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// function(x,y,z) can be function() or function(x,y) etc depending on the amount of arguments for the hooked function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Original value: &#34;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">pinsMatch</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">,</span><span class="nx">z</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span> <span class="nb">Boolean</span><span class="p">(</span><span class="nx">t</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">catch</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span></code></pre></div><h2 id="references">References</h2>
 <p><a href="https://summit-labs.frida.ninja/whats-next/additional-resources-questions">https://summit-labs.frida.ninja/whats-next/additional-resources-questions</a></p>
 <p><a href="https://appsec-labs.com/portal/frida-cheatsheet-for-android/">https://appsec-labs.com/portal/frida-cheatsheet-for-android/</a></p>
 
@@ -342,7 +342,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

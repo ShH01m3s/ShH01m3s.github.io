@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -185,12 +185,9 @@
         <li><a href="#office-mru">Office MRU</a></li>
         <li><a href="#jump-list-data">Jump List Data</a></li>
         <li><a href="#shellbags">ShellBags</a></li>
-      </ul>
-    </li>
-    <li><a href="#office">Office</a></li>
-    <li><a href="#temp-file">Temp file</a></li>
-    <li><a href="#ads">ADS</a>
-      <ul>
+        <li><a href="#office">Office</a></li>
+        <li><a href="#temp-file">Temp file</a></li>
+        <li><a href="#ads">ADS</a></li>
         <li><a href="#how-to-create-an-ads">How to create an ADS</a></li>
         <li><a href="#how-to-check-a-directory-for-an-ads">How to check a directory for an ADS</a></li>
         <li><a href="#how-to-get-a-file-from-a-stream">How to get a file from a stream</a></li>
@@ -206,6 +203,12 @@
             <li><a href="#finder-mru">Finder MRU</a></li>
           </ul>
         </li>
+      </ul>
+    </li>
+    <li><a href="#aws">AWS</a>
+      <ul>
+        <li><a href="#login-activity">Login activity</a></li>
+        <li><a href="#service-usage-activity">Service usage activity</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -304,25 +307,25 @@
 <p>🛠 ShellBagsExplorer (E. Zimmerman) is a tools that helps automating this process which is useful for larger amount of data.</p>
 <p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/configs/win-registry/images/shell-bag3.png" alt="shell-bag3"></p>
 <p>The above is an example of the ShellBagsExplorer for my Windows 10 Parallels VM. Pretty user-friendly representation and lot&rsquo;s of valuable information. Note the folders on the very top: <code>\\Mac\vm</code>, <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code>. Someone who is using Paralells Windows 10 on Mac might note this at once, that this is a VM running on a Mac. Also, both <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code> are no longer available for Windows 10, but they were not deleted from the registry as you may see. That&rsquo;s because when folders are deleted, they are not deleted from here, at least not soon.</p>
-<h2 id="office">Office</h2>
+<h3 id="office">Office</h3>
 <p><em>General Properties</em> get information from OS metadata and <em>Statistics</em> tab for <code>word.exe</code> is for embedded metadata. If the timestamps are different is probably from a fatal system error. On reboot file was opened by recovery option which changed the embedded timestamps.</p>
 <p>Also, some information can be hidden within embedded metadata. Just imagine, that most of the data for a tiny office document is the meta. 🛠 One of the tools to view <code>DocScrubber</code>. Office documents also have additional meta that reveals much about the document, for example, who edited it, user name, user initials, org name, comp name, doc location, previous authors, revision logs (Word, Excel), version logs (Word), template file name (Word, PowerPoint), hidden text (Word, Excel), GUIDs. If the file was renamed and then reopened, it&rsquo;s seen as a new file and editing clocks ⏰ start over.</p>
 <blockquote>
 <p>🧹👣 There are certains anti-forensics techniques that allow cleansing the file&rsquo;s metadata.</p>
 </blockquote>
 <p>Do not forget about autosaved docs (<code>asd</code>). Also, sometimes the <em>Track Changes</em> feature was enabled.</p>
-<h2 id="temp-file">Temp file</h2>
+<h3 id="temp-file">Temp file</h3>
 <p>Some of the programs keep tmp files. <em>Digital Archaeology</em>, page 173 (Kindle, Mining the Temporary Files) has a table of some temp files for different applications on a Windows machine. Some of them will be deleted on OS shutdown, but can also be carved before overwritten anyway.</p>
-<h2 id="ads">ADS</h2>
+<h3 id="ads">ADS</h3>
 <p>Alternate data streams, see more <a href="/docs/dfir/forensic-investigation/reference/windows/win-ads">here</a>. Are there such streams for other OS? If yes, how to make them and discover them?</p>
 <p>To ensure compatability between NTFS and HFS. Allows hiding files.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-<span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-<span class="n">C:</span><span class="p">\</span><span class="n">mklink</span> <span class="n">innocent</span><span class="p">.</span><span class="n">exe</span> <span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-
-<span class="c"># to run</span>
-<span class="n">innocent</span><span class="p">.</span><span class="n">exe</span>
-</code></pre></div><p>But <code>dir /r</code> - will display <strong>all</strong> streams. LNS and Sfind will hunt down such files. Also, when you copy files from and to a FAT partition - all residual files will be deleted.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl"><span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="n">mklink</span> <span class="n">innocent</span><span class="p">.</span><span class="n">exe</span> <span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># to run</span>
+</span></span><span class="line"><span class="cl"><span class="n">innocent</span><span class="p">.</span><span class="n">exe</span>
+</span></span></code></pre></div><p>But <code>dir /r</code> - will display <strong>all</strong> streams. LNS and Sfind will hunt down such files. Also, when you copy files from and to a FAT partition - all residual files will be deleted.</p>
 <p>On Windows machines (NTFS file system) it&rsquo;s possible to <em>&ldquo;append&rdquo;</em> a file to another file in such a way that this files is not visible with standard tools. This notion is called an <em>alternate data stream</em>. There are several problems that arise in this case:</p>
 <ul>
 <li>The <em>host</em> file&rsquo;s hash is not changed, because technically it is not a part of this file. To check - <code>fciv</code>.</li>
@@ -341,13 +344,42 @@
 <p><code>streams -s -d &lt;directory&gt;</code>. Quite dangerous since you might delete something good instead. Some system files are stored as streams for legitimate reasons. Why, btw?</p>
 <h2 id="macos">macOS</h2>
 <h3 id="appstore-downloads">AppStore Downloads</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Library/Receipts/InstallHistory.plist
-</code></pre></div><h3 id="search">Search</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Library/Receipts/InstallHistory.plist
+</span></span></code></pre></div><h3 id="search">Search</h3>
 <h4 id="spotlight-shortcuts">Spotlight shortcuts</h4>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
-</code></pre></div><h4 id="finder-mru">Finder MRU</h4>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Preferences/com.apple.finder.plist
-</code></pre></div><h2 id="references">References</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
+</span></span></code></pre></div><h4 id="finder-mru">Finder MRU</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Preferences/com.apple.finder.plist
+</span></span></code></pre></div><h2 id="aws">AWS</h2>
+<h3 id="login-activity">Login activity</h3>
+<p>For admin account go to IAM -&gt; Credential report to see all the users and the following information:</p>
+<ol>
+<li>user name</li>
+<li>arn (acc N + username)</li>
+<li>user_creation_time</li>
+<li>password_enabled</li>
+<li>password_last_used</li>
+<li>password_last_changed</li>
+<li>password_next_rotation</li>
+<li>mfa_active</li>
+<li>access_key_1_active</li>
+<li>access_key_1_last_rotated</li>
+<li>access_key_1_last_used_date</li>
+<li>access_key_1_last_used_region</li>
+<li>access_key_1_last_used_service</li>
+<li>access_key_2_active</li>
+<li>access_key_2_last_rotated</li>
+<li>access_key_2_last_used_date</li>
+<li>access_key_2_last_used_region</li>
+<li>access_key_2_last_used_service</li>
+<li>cert_1_active</li>
+<li>cert_1_last_rotated</li>
+<li>cert_2_active</li>
+<li>cert_2_last_rotated</li>
+</ol>
+<h3 id="service-usage-activity">Service usage activity</h3>
+<p>Also, you can go to IAM -&gt; username -&gt; Access Advisor tab to see the services that this user has access to and when these were last used.</p>
+<h2 id="references">References</h2>
 <p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/">1</a>] Digital Archaeology Live Lessons by [Michael W Graves](<a href="https://learning.oreilly.com/search/?query=author%3A%22Michael">https://learning.oreilly.com/search/?query=author%3A&quot;Michael</a> W Graves&quot;&amp;page=0)</p>
 
   </div>
@@ -381,7 +413,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -313,11 +313,11 @@
 </blockquote>
 <h4 id="hashes">Hashes</h4>
 <p>Hashes on Windows: LM, NTHash, TsPkg, WDigest, LiveSSP (can be decrypted on Windows8-). These hashes are available withing the address space range of LSASS process and can be extracted with admin privileges. NTHash and LM are used in <a href="https://en.wikipedia.org/wiki/NT_LAN_Manager#NTLMv1">NTLMv1</a> and <a href="https://en.wikipedia.org/wiki/NT_LAN_Manager#NTLMv2">NTLMv2</a>. WDigest and TsPkg are no longer stored by default. <code>HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest\UseLogonCredential = 1</code> to turn storing WDigest on.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">PsExec</span><span class="p">.</span><span class="n">exe</span> <span class="n">-s</span> <span class="n">-accepteula</span> <span class="p">\\</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span> <span class="n">cmd</span><span class="p">.</span><span class="n">exe</span>
-<span class="n">gsecdump</span><span class="p">.</span><span class="n">exe</span> <span class="n">-a</span> <span class="p">&gt;</span> <span class="n">1</span><span class="p">.</span><span class="n">txt</span>
-</code></pre></div><p><strong>Pass the Hash.</strong> Use the hash and pass to some applicaiton during authentication or authorization.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">mimikatz</span> <span class="c"># securlsa::pth /user:username /domain:domainname /ntlm:NTHash /run:&#34;.\psexec.exe -accepteula \\IP cmd.exe&#34;</span>
-</code></pre></div><p><strong>Crack the hash</strong>.  NThash is stored in SAM and enrypted with AES key.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">PsExec</span><span class="p">.</span><span class="n">exe</span> <span class="n">-s</span> <span class="n">-accepteula</span> <span class="p">\\</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span> <span class="n">cmd</span><span class="p">.</span><span class="n">exe</span>
+</span></span><span class="line"><span class="cl"><span class="n">gsecdump</span><span class="p">.</span><span class="n">exe</span> <span class="n">-a</span> <span class="p">&gt;</span> <span class="n">1</span><span class="p">.</span><span class="n">txt</span>
+</span></span></code></pre></div><p><strong>Pass the Hash.</strong> Use the hash and pass to some applicaiton during authentication or authorization.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">mimikatz</span> <span class="c"># securlsa::pth /user:username /domain:domainname /ntlm:NTHash /run:&#34;.\psexec.exe -accepteula \\IP cmd.exe&#34;</span>
+</span></span></code></pre></div><p><strong>Crack the hash</strong>.  NThash is stored in SAM and enrypted with AES key.</p>
 <p>Password is hashed in the following way: <code>MD4(UTF-16-LE(password))</code>. To decrypt the password, you&rsquo;ll need both SAM <strong>and</strong> the system file. Password cracking methodology:</p>
 <ul>
 <li><input disabled="" type="checkbox"> Export SAM and SYSTEM hives from the forensic image/suspect machine.</li>
@@ -325,25 +325,25 @@
 <li><input disabled="" type="checkbox"> Create a word list from the current case (may export from Autopsy, EnCase etc).</li>
 <li><input disabled="" type="checkbox"> Run a dictionary 📖 or brute-force attack 💪 against this NTHash  (🛠: <code>hashcat</code> 🐈‍⬛ , <code>John the Ripper</code> 🔪, Cain and Able 🔪 🐏).</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># decrypt the hashes:</span>
-mimikatz
-&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
-
-<span class="c1"># crack the hash with john (NTHash)</span>
-john --format<span class="o">=</span>nt hash.txt
-<span class="c1"># crack the hash with hashcat (NTHash)</span>
-hashcat -m <span class="m">1000</span> -a <span class="m">3</span> hash.txt
-
-<span class="c1"># crack the hash with john (NTLMv1) </span>
-john --format<span class="o">=</span>netntlm hash.txt
-<span class="c1"># crack the hash with hashcat (NTLMv1) </span>
-hashcat -m <span class="m">5500</span> -a <span class="m">3</span> hash.txt
-
-<span class="c1"># crack the hash with john (NTLMv2) </span>
-john --format<span class="o">=</span>netntlmv2 hash.txt
-<span class="c1"># crack the hash with hashcat (NTLMv2) </span>
-hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt
-</code></pre></div><p><a href="https://medium.com/@petergombos/lm-ntlm-net-ntlmv2-oh-my-a9b235c58ed4">More</a> about Windows hashes.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># decrypt the hashes:</span>
+</span></span><span class="line"><span class="cl">mimikatz
+</span></span><span class="line"><span class="cl">&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with john (NTHash)</span>
+</span></span><span class="line"><span class="cl">john --format<span class="o">=</span>nt hash.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with hashcat (NTHash)</span>
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">1000</span> -a <span class="m">3</span> hash.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with john (NTLMv1) </span>
+</span></span><span class="line"><span class="cl">john --format<span class="o">=</span>netntlm hash.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with hashcat (NTLMv1) </span>
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">5500</span> -a <span class="m">3</span> hash.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with john (NTLMv2) </span>
+</span></span><span class="line"><span class="cl">john --format<span class="o">=</span>netntlmv2 hash.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with hashcat (NTLMv2) </span>
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt
+</span></span></code></pre></div><p><a href="https://medium.com/@petergombos/lm-ntlm-net-ntlmv2-oh-my-a9b235c58ed4">More</a> about Windows hashes.</p>
 <p>For LM hash:</p>
 <ol>
 <li>Convert all lower case to upper case</li>
@@ -353,35 +353,35 @@ hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt
 <li>DES encrypt the string &ldquo;KGS!@#$%&rdquo; with these two chunks</li>
 <li>Concatenate the two DES encrypted strings. This is the LM hash.</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">john --format<span class="o">=</span>lm hash.txt
-hashcat -m <span class="m">3000</span> -a <span class="m">3</span> hash.txt
-</code></pre></div><p><strong>NTLM Relaying</strong>. There are two versions of this protocol: <a href="https://en.wikipedia.org/wiki/NT_LAN_Manager#NTLMv1">NTLMv1</a> and <a href="https://en.wikipedia.org/wiki/NT_LAN_Manager#NTLMv2">NTLMv2</a>. Both are challenge-response protocols that use NT hashes. Read more <a href="https://byt3bl33d3r.github.io/practical-guide-to-ntlm-relaying-in-2017-aka-getting-a-foothold-in-under-5-minutes.html">here</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">john --format<span class="o">=</span>lm hash.txt
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">3000</span> -a <span class="m">3</span> hash.txt
+</span></span></code></pre></div><p><strong>NTLM Relaying</strong>. There are two versions of this protocol: <a href="https://en.wikipedia.org/wiki/NT_LAN_Manager#NTLMv1">NTLMv1</a> and <a href="https://en.wikipedia.org/wiki/NT_LAN_Manager#NTLMv2">NTLMv2</a>. Both are challenge-response protocols that use NT hashes. Read more <a href="https://byt3bl33d3r.github.io/practical-guide-to-ntlm-relaying-in-2017-aka-getting-a-foothold-in-under-5-minutes.html">here</a>.</p>
 <h4 id="single-sign-on-sso-dumping-using-mimikatz">Single Sign On (SSO) Dumping using Mimikatz</h4>
 <h4 id="tokens">Tokens</h4>
 <p>Every process in Windows has a token associated. This token determines the process rights. <code>SeImpersonate</code> privilege is required to extract this token. Tokens are preresnt on the system only during interactive logins (RDP, console, runas). Restricted admin (-&gt; Remote CredGuard) prevents hashes and tokens be kept on a target system. RDP session must be scplicitly terminated, otherwise, the token can be stolen.</p>
 <p><strong>Token Stealing</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># local admin privileges are required, of course</span>
-<span class="c"># run mimikatz</span>
-<span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> 
-<span class="n">token</span><span class="p">::</span><span class="n">elevate</span> <span class="p">/</span><span class="n">domainadmin</span>
-</code></pre></div><h4 id="cached-credentials">Cached Credentials</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># local admin privileges are required, of course</span>
+</span></span><span class="line"><span class="cl"><span class="c"># run mimikatz</span>
+</span></span><span class="line"><span class="cl"><span class="n">privilege</span><span class="p">::</span><span class="n">debug</span> 
+</span></span><span class="line"><span class="cl"><span class="n">token</span><span class="p">::</span><span class="n">elevate</span> <span class="p">/</span><span class="n">domainadmin</span>
+</span></span></code></pre></div><h4 id="cached-credentials">Cached Credentials</h4>
 <p>When DC is unavailable, cached creds can be used. Hashes or clear text passwords can be residing in cache. <strong>Key</strong> 🔑: <code>SECURITY\Cache</code> in mscash2 format. Min admin privileges required.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="p">./</span><span class="n">pwdump</span><span class="p">.</span><span class="n">py</span> <span class="n">SYSTEM</span> <span class="n">SAM</span> <span class="n">true</span> <span class="c"># to get local hashes</span>
-<span class="p">./</span><span class="n">cachedump</span> <span class="n">SYSTEM</span> <span class="n">SECURITY</span> <span class="n">true</span> <span class="c"># cached. Salted with the account username and thus need to be bruteforced to crack.</span>
-</code></pre></div><p>Without admin privileges, an attacker won&rsquo;t be able to get to the SECURITY hive. To limit the cache edit this 🔑: <code>SOFTWARE\Microsoft\Windows NT\ Current Version\Winlogon</code>. Protected users security group intruduced in Windows 8.1 has solved the issues with cached creds.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">./</span><span class="n">pwdump</span><span class="p">.</span><span class="n">py</span> <span class="n">SYSTEM</span> <span class="n">SAM</span> <span class="n">true</span> <span class="c"># to get local hashes</span>
+</span></span><span class="line"><span class="cl"><span class="p">./</span><span class="n">cachedump</span> <span class="n">SYSTEM</span> <span class="n">SECURITY</span> <span class="n">true</span> <span class="c"># cached. Salted with the account username and thus need to be bruteforced to crack.</span>
+</span></span></code></pre></div><p>Without admin privileges, an attacker won&rsquo;t be able to get to the SECURITY hive. To limit the cache edit this 🔑: <code>SOFTWARE\Microsoft\Windows NT\ Current Version\Winlogon</code>. Protected users security group intruduced in Windows 8.1 has solved the issues with cached creds.</p>
 <h4 id="lsa-secrets">LSA Secrets</h4>
 <p><code>SECURITY\Policy\Secrets</code> contains various secrets like VPN passwords, IIS app passwords etc. <code>SECURITY\Policy</code> contains the key 🔑 that&rsquo;s required for decryption.</p>
 <p>🛠 Nishang</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Enable-DuplicateToken</span> <span class="c"># elevate privileges</span>
-<span class="nb">Get-LsaSecret</span>
-</code></pre></div><p>To make sure this shit won&rsquo;t happen in your enterprise, don&rsquo;t run high-privileged accounts on untrustworthy systems. Group Managed Service is an additional protection. It ensures that certain service accounts are protected.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Enable-DuplicateToken</span> <span class="c"># elevate privileges</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-LsaSecret</span>
+</span></span></code></pre></div><p>To make sure this shit won&rsquo;t happen in your enterprise, don&rsquo;t run high-privileged accounts on untrustworthy systems. Group Managed Service is an additional protection. It ensures that certain service accounts are protected.</p>
 <h4 id="kerberos-attacks">Kerberos Attacks</h4>
 <p>I have finished an article describing Kerberos protocol in the investigations section.</p>
 <p><strong>Pass the Ticket</strong>. Steal the ticket and reuse it. This is possible because tickets are stored in RAM while they are valid (which is usually around 10 hrs). Something similar to replay attack.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">mimikatz</span> <span class="c">#</span>
-<span class="n">sekurlsa</span><span class="p">::</span><span class="n">tickets</span> <span class="p">/</span><span class="n">export</span> <span class="c"># dump tickets</span>
-<span class="n">kerberos</span><span class="p">::</span><span class="n">ptt</span> <span class="no">[ticket]</span>
-</code></pre></div><p>⚔️ CredGuard and Remote CredGuard help mitigate this attack.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">mimikatz</span> <span class="c">#</span>
+</span></span><span class="line"><span class="cl"><span class="n">sekurlsa</span><span class="p">::</span><span class="n">tickets</span> <span class="p">/</span><span class="n">export</span> <span class="c"># dump tickets</span>
+</span></span><span class="line"><span class="cl"><span class="n">kerberos</span><span class="p">::</span><span class="n">ptt</span> <span class="no">[ticket]</span>
+</span></span></code></pre></div><p>⚔️ CredGuard and Remote CredGuard help mitigate this attack.</p>
 <p><strong>Overpass the Hash</strong> (aka Pass the Key). Use NT hash to login from another user&rsquo;s behalf.</p>
 <p>⚔️ CredGuard, Protected Users Group, RC4 auth disabled.</p>
 <p><strong>Silver Ticket</strong>. Get the black key (service key).</p>
@@ -402,12 +402,12 @@ hashcat -m <span class="m">3000</span> -a <span class="m">3</span> hash.txt
 <p>To check RDP connections, first filter by 4624 Type 10 Event, then see 4778 (reconnection) events. Finally, check for acc privileges by looking at 4672 events.</p>
 <p>Good practice in the enterprise to minimize admin rights usage. If you see admin accs or accs that have elevated privileges used on workstations, that&rsquo;s a food for thought.</p>
 <p>It&rsquo;s better to filter out all built-in accs on Windows. SID can be used to do so. Built-in accounts don&rsquo;t have Unique domain identifier and RID.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">evtxecmd</span> <span class="p">-</span><span class="n">-sync</span>
-<span class="n">evtxecmd</span> <span class="o">-f</span> <span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">evtx</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">target</span><span class="p">\</span><span class="n">path</span> <span class="n">-csvf</span> <span class="n">target</span><span class="p">\</span><span class="n">file</span><span class="p">\</span><span class="n">name</span>
-</code></pre></div><p>Use TimeLine Explorer to analyse the results. Intersting and useful feature is &ldquo;column grouping&rdquo;.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">evtxecmd</span> <span class="p">-</span><span class="n">-sync</span>
+</span></span><span class="line"><span class="cl"><span class="n">evtxecmd</span> <span class="o">-f</span> <span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">evtx</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">target</span><span class="p">\</span><span class="n">path</span> <span class="n">-csvf</span> <span class="n">target</span><span class="p">\</span><span class="n">file</span><span class="p">\</span><span class="n">name</span>
+</span></span></code></pre></div><p>Use TimeLine Explorer to analyse the results. Intersting and useful feature is &ldquo;column grouping&rdquo;.</p>
 <p>Another way to see into OS Event Logs is to use a free tool <code>chainsaw</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">chainsaw</span> <span class="n">hunt</span> <span class="p">.</span> <span class="p">-</span><span class="n">-mapping</span> <span class="p">/</span><span class="n">path</span><span class="p">/</span><span class="n">to</span><span class="p">/</span><span class="n">chainsaw</span><span class="p">/</span><span class="n">mapping_files</span><span class="p">/</span><span class="n">sigma-mapping</span><span class="p">.</span><span class="n">yml</span> <span class="p">-</span><span class="n">-rules</span> <span class="p">/</span><span class="n">path</span><span class="p">/</span><span class="n">to</span><span class="p">/</span><span class="n">chainsaw</span><span class="p">/</span><span class="n">sigma_rules</span><span class="p">/</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">result</span><span class="p">.</span><span class="n">csv</span> 
-</code></pre></div><p>The above command will find everything that&rsquo;s considered suspicious. Indicators can be commented or added.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">chainsaw</span> <span class="n">hunt</span> <span class="p">.</span> <span class="p">-</span><span class="n">-mapping</span> <span class="p">/</span><span class="n">path</span><span class="p">/</span><span class="n">to</span><span class="p">/</span><span class="n">chainsaw</span><span class="p">/</span><span class="n">mapping_files</span><span class="p">/</span><span class="nb">sigma-mapping</span><span class="p">.</span><span class="n">yml</span> <span class="p">-</span><span class="n">-rules</span> <span class="p">/</span><span class="n">path</span><span class="p">/</span><span class="n">to</span><span class="p">/</span><span class="n">chainsaw</span><span class="p">/</span><span class="n">sigma_rules</span><span class="p">/</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">result</span><span class="p">.</span><span class="n">csv</span> 
+</span></span></code></pre></div><p>The above command will find everything that&rsquo;s considered suspicious. Indicators can be commented or added.</p>
 <h4 id="logon-types">Logon Types</h4>
 <p>2 - Interactive (also known as, Logon locally). Creds: Password, Smartcard, other. Examples: IIS Basic Auth (before IIS 6.0), Console, RunAs. Unless CredGuard is enabled, creds are stored on target.</p>
 <p>3 - Network. Examples: Net use, PS remoting, PsExec w/o explicit creds, remote registry - all the login ways that are using login type 3. Creds are not stored on target. Creds: Password, NT Hash, Kerberos ticket.</p>
@@ -431,13 +431,13 @@ Windows PowerShell with CredSSP.</p>
 <p><strong>CDQR</strong></p>
 <p>This tool focuses on the <code>pf</code> intself rather than on a data it contains. It&rsquo;s useful for making timelines.</p>
 <p><strong>RegRipper</strong> (GUI and CUI)</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
-</code></pre></div><p><strong>Prefetch</strong> parser</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</span></span></code></pre></div><p><strong>Prefetch</strong> parser</p>
 <p>More info than with WinPrefetchView</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prefetch.py -c -d -e
-prefetch.py -c -d &gt; pf.csv
-prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
-</code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">prefetch.py -c -d -e
+</span></span><span class="line"><span class="cl">prefetch.py -c -d &gt; pf.csv
+</span></span><span class="line"><span class="cl">prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
+</span></span></code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter.</p>
 <p>If collecting prfethc on a live system, run volatile collection tools before that.</p>
 <p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Filename, Creation time, Modified time, File Size, Process EXE, Process Path, Run Counter, Last Run Time, Missing Process + libraries and resources for each process.</p>
 <p>Forensics value - tracks the execution of programs. Central repository of what was run on the system. File size can be used to search for the same process with a different name on a different machine.</p>
@@ -507,8 +507,8 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 </tbody>
 </table>
 <p>You can check it with <code>rip.exe</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
-</code></pre></div><p><strong>Caveats</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</span></span></code></pre></div><p><strong>Caveats</strong></p>
 <p>On servers is usually turned off. And starting with Win10 - compressed. For systems with solid state drives it&rsquo;s also disabled. With Win8 - additional run times recorded. Also, there is latency issue - some apps are not closed upon clicking X, but remain running in background. Hence, the last time run might be different.</p>
 <blockquote>
 <p>If the app was deleted and then reinstalled? What the firtst run time will be?</p>
@@ -520,10 +520,10 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 <p>Write a sctipt to determine deleted files</p>
 </blockquote>
 <hr>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">pecmd</span> <span class="o">-f</span> <span class="s2">&#34;path/to/pf/file.pf&#34;</span> <span class="c"># for a single file</span>
-<span class="n">pecmd</span> <span class="n">-d</span> <span class="s2">&#34;dir/with/pfs&#34;</span> <span class="n">-q</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">filename</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">wheretoputtheresult</span><span class="p">&gt;</span>
-<span class="c"># Review in TimeLine Explorer</span>
-</code></pre></div><p>Information that can be got from the pf files:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">pecmd</span> <span class="o">-f</span> <span class="s2">&#34;path/to/pf/file.pf&#34;</span> <span class="c"># for a single file</span>
+</span></span><span class="line"><span class="cl"><span class="n">pecmd</span> <span class="n">-d</span> <span class="s2">&#34;dir/with/pfs&#34;</span> <span class="n">-q</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">filename</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">wheretoputtheresult</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Review in TimeLine Explorer</span>
+</span></span></code></pre></div><p>Information that can be got from the pf files:</p>
 <ul>
 <li>Executable name. If it was changed or run from a different location it will have a different name (different suffix at the end, for example CHROME-12345BC and CHROME-43216AD).</li>
 <li>Run times</li>
@@ -534,12 +534,12 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 <li>Last Run</li>
 </ul>
 <p>Stacking with Kansa</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># run this Kansa script from the directory with all the csv (results of pecmd) files from all the machines you need to review.</span>
-<span class="nb">Get-PrefetchListingStack</span><span class="p">.</span><span class="n">ps1</span> <span class="p">&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">csv</span>
-
-<span class="c"># look for files that were run once first. These are the most suspocious. </span>
-<span class="c"># if you have an approximate dates of infection, sort by this data as well.</span>
-</code></pre></div><h4 id="application-compatibility-cache-shimcache">Application Compatibility Cache (ShimCache)</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># run this Kansa script from the directory with all the csv (results of pecmd) files from all the machines you need to review.</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-PrefetchListingStack</span><span class="p">.</span><span class="n">ps1</span> <span class="p">&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">csv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># look for files that were run once first. These are the most suspocious. </span>
+</span></span><span class="line"><span class="cl"><span class="c"># if you have an approximate dates of infection, sort by this data as well.</span>
+</span></span></code></pre></div><h4 id="application-compatibility-cache-shimcache">Application Compatibility Cache (ShimCache)</h4>
 <p>My article about Registry and ShimCache.</p>
 <p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>.</p>
 <p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser, shimcache plugin for <code>vol.py</code></p>
@@ -557,16 +557,16 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 <p><strong>Dropped exe</strong>. Last Modified - when the exe was dropped on the system.</p>
 <p><strong>Executed exe</strong>. Last Modified is updated.</p>
 <p><strong>Deleted exe</strong>. Last Modified is not updated.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -A10 -i <span class="s2">&#34;last modified&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; results.csv
-
-grep -iv <span class="s2">&#34;windows&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; resultsExcluded.csv <span class="c1"># targeting notable directories</span>
-
-grep -E i <span class="s2">&#34;[\\][a-Z0-9]{1,4}\.(exe|bat|dll|py|txt|vbs)&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; resultNotables.csv
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -A10 -i <span class="s2">&#34;last modified&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; results.csv
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">grep -iv <span class="s2">&#34;windows&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; resultsExcluded.csv <span class="c1"># targeting notable directories</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">grep -E i <span class="s2">&#34;[\\][a-Z0-9]{1,4}\.(exe|bat|dll|py|txt|vbs)&#34;</span> <span class="s2">&#34;path/to/csv/from/shimcacheparser&#34;</span> &gt; resultNotables.csv
+</span></span></code></pre></div><blockquote>
 <p>📝 Tried running these test myself on a Win11 Parallels VM on macOS. <code>cat resultInstalledAndExecuted.csv | awk -F &quot;,&quot; '/Procmon64/ {print $0}'</code>. In my case these entries remained intact after execution or deletion. I should install something new and see the result then.</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">appcompatcacheparser</span> <span class="o">-f</span> <span class="s2">&#34;SYSTEM/hive&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;savetodir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;savetofileindir.csv&#34;</span>
-</code></pre></div><p>Tips:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">appcompatcacheparser</span> <span class="o">-f</span> <span class="s2">&#34;SYSTEM/hive&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;savetodir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;savetofileindir.csv&#34;</span>
+</span></span></code></pre></div><p>Tips:</p>
 <ul>
 <li>Different entries with the last modification date being the same - most probably a rename activity. Use $UsnJrnl and $Logfile for proof. Sort by the MT in TimeLine Explorer</li>
 <li>In case of UNC path (those starting from an IP of the machines) could be an indicator that the file was browsed and launched with Explorer, or malware ran it using UNC path.</li>
@@ -589,30 +589,29 @@ grep -E i <span class="s2">&#34;[\\][a-Z0-9]{1,4}\.(exe|bat|dll|py|txt|vbs)&#34;
 <p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
 <p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
 <p><strong>Tools</strong> 🛠: AmCacheParser.exe + Timeline Explorer.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
-</code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+</span></span></code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
 <blockquote>
 <p>⚠️ In my case on a macOS with Parallels and Windows 10 installed, this evidence also contained mac executables.</p>
 </blockquote>
 <h4 id="scaling-shimcache-and-amcache-investigations">Scaling ShimCache and Amcache Investigations</h4>
 <p>Stacking with Kansa</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Linux</span>
-sudo su -
-<span class="c1"># AppCompatProcessor.py </span>
-<span class="c1"># Step 1. Connect Amcache.hve and SYSTEM hives to the SQL DB.</span>
-AppCompatProcessor.py ./db.db load <span class="s2">&#34;path/to/hives.zip&#34;</span>
-AppCompatProcessor.py ./db.db search <span class="c1"># /etc/AppCompatProcessor/AppCompatSearch.txt contains signatures to look for and can be changed.</span>
-<span class="c1"># Result is stored in Output.txt</span>
-
-<span class="c1"># Stacking examples:</span>
-AppCompatProcessor.py ./db.db stack <span class="s2">&#34;Filename&#34;</span> LIKE <span class="s1">&#39;%&lt;partialname&gt;%&#39;</span>
-AppCompatProcessor.py ./db.db stack <span class="s2">&#34;Filename&#34;</span> <span class="s2">&#34;length(filename)&lt;3&#34;</span> <span class="c1"># malware is often named with 1 or 2 characters. Let&#39;s make the max 3 just in case</span>
-
-AppCompatProcessor.py ./db.db reconscan <span class="c1"># /etc/AppCompatProcessor.reconFiles.txt - common attackers&#39; recon techniques (interesting commands that could be indicators of recon)</span>
-
-AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
-
-</code></pre></div><p>Could not make the tool run against the hive collected with FTK from my Windows 11 machine.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Linux</span>
+</span></span><span class="line"><span class="cl">sudo su -
+</span></span><span class="line"><span class="cl"><span class="c1"># AppCompatProcessor.py </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Step 1. Connect Amcache.hve and SYSTEM hives to the SQL DB.</span>
+</span></span><span class="line"><span class="cl">AppCompatProcessor.py ./db.db load <span class="s2">&#34;path/to/hives.zip&#34;</span>
+</span></span><span class="line"><span class="cl">AppCompatProcessor.py ./db.db search <span class="c1"># /etc/AppCompatProcessor/AppCompatSearch.txt contains signatures to look for and can be changed.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Result is stored in Output.txt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Stacking examples:</span>
+</span></span><span class="line"><span class="cl">AppCompatProcessor.py ./db.db stack <span class="s2">&#34;Filename&#34;</span> LIKE <span class="s1">&#39;%&lt;partialname&gt;%&#39;</span>
+</span></span><span class="line"><span class="cl">AppCompatProcessor.py ./db.db stack <span class="s2">&#34;Filename&#34;</span> <span class="s2">&#34;length(filename)&lt;3&#34;</span> <span class="c1"># malware is often named with 1 or 2 characters. Let&#39;s make the max 3 just in case</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">AppCompatProcessor.py ./db.db reconscan <span class="c1"># /etc/AppCompatProcessor.reconFiles.txt - common attackers&#39; recon techniques (interesting commands that could be indicators of recon)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
+</span></span></code></pre></div><p>Could not make the tool run against the hive collected with FTK from my Windows 11 machine.</p>
 <h3 id="lateral-movement-adversary-tactics-techniques-and-procedures-ttps">Lateral Movement Adversary Tactics, Techniques, and Procedures (TTPs)</h3>
 <p>To do anything on a Windows machine (doesn&rsquo;t this apply to UNIX system as well?) you need a user account. So, at least some account is needed. But the altimate goal is an admin account (domain, if there is a DC).</p>
 <p>Detection is possible when you know what&rsquo;s not ok. For example, suspicious logins after hours or unusual account for this machine or for this employee.</p>
@@ -627,7 +626,7 @@ AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
 <p><a href="https://www.first.org/resources/papers/conf2017/Windows-Credentials-Attacks-and-Mitigation-Techniques.pdf">Conf2017 presentation</a>.</p>
 <p>On Windows XP every used had admin privileges 😬. So, at least some work needed to be done. Below are some features added in order to solve this problem.</p>
 <p><strong>Managed service accounts</strong>. Windows 7+.  Special accounts for some services, that are not used by normal users. These accounts have an automatically-managed, complex password removing the requirement of manually dealing with password rotation and security.</p>
-<p><strong>Group managed service accounts</strong>. Windows 8+ From the Microsoft docs: <em>&ldquo;The group Managed Service Account (gMSA) provides the same functionality within the domain but also extends that functionality over multiple servers.&quot;</em>.</p>
+<p><strong>Group managed service accounts</strong>. Windows 8+ From the Microsoft docs: <em>&ldquo;The group Managed Service Account (gMSA) provides the same functionality within the domain but also extends that functionality over multiple servers.&rdquo;</em>.</p>
 <p><strong>Domain Protected Users Security Group</strong>.</p>
 <p><strong>KB2871997 patch</strong>. Windows 7+ &amp; Windows Server 2008R2+. Contains a bunch of security improvements (protected groups, lsa update etc). More <a href="https://msrc-blog.microsoft.com/2014/06/05/an-overview-of-kb2871997/">here</a>.</p>
 <p><strong>UAC</strong>. Windows Vista +. It means User Account Control. Whenever something admin-like is requested by a process, the user needs to aprove this explicitly (<code>consent.exe</code> process with a GUI window), i.e. elevate privileges. There were some exploits that allowed UAC bypass and may there is somewhere another one lurking in the wild, but officially it&rsquo;s now pretty safe.</p>
@@ -698,7 +697,7 @@ AppCompatProcessor.py ./db.db list <span class="c1">#???</span>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
