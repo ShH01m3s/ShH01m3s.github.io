@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -253,8 +253,8 @@
   <div class="content" itemprop="articleBody">
     <h2 id="windows">Windows</h2>
 <h3 id="volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\S</span>ystem Volume Information<span class="se">\
-</span></span></span></code></pre></div><p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\S</span>ystem Volume Information<span class="se">\
+</span></code></pre></div><p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p>
 <blockquote>
 <p>⚠️ This option is turned on by default! However, in case of my Windows 10 VM on Parallels (Windows Insider program for ARM) this option was disabled resulting in the following line: <code>No items found that satisfy the query. </code> For my Dell notebook running Windows 10, build 18362 (value from registry, <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion</code>, value <code>CurrentBuild</code>). I had to create the point of restore myself as well, since I didn&rsquo;t find where I could make it happen on a regular basis.</p>
 <p>🧪 May be it&rsquo;s something else?</p>
@@ -267,11 +267,11 @@
 <h4 id="collection">Collection</h4>
 <p><a href="http://www.chrysocome.net/downloads/ddrelease64.exe">dd.exe</a> for Windows. There used to be some FAU (Forensic Acquisition Utilities) package, containing <code>dd</code>, but I could not find it, so I downloaded <code>dd.exe</code> separately.</p>
 <p>To get the list of shadow copies from a PC, run the following built-in utility:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">vssadmin</span> <span class="n">list</span> <span class="n">shadows</span> <span class="p">/</span><span class="k">for</span><span class="p">=&lt;</span><span class="n">path_to_drive</span><span class="p">&gt;</span> <span class="c"># /for=c: for a logial drive</span>
-</span></span></code></pre></div><p>Now, to collect the image with a <code>dd</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">dd</span><span class="p">.</span><span class="n">exe</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">HardDiskVolumeShadowCopy1</span> <span class="n">of</span><span class="p">=</span><span class="n">g:</span><span class="p">\</span><span class="n">shadow</span><span class="p">.</span><span class="n">img</span> <span class="c"># for Windows, using the above mentioned version of dd, we type `if` and `of` instead of `-if` and `-of`.</span>
-</span></span><span class="line"><span class="cl"><span class="c"># what&#39;s --localwrt</span>
-</span></span></code></pre></div><p>Better go and have a cup of coffee ☕️ since it takes decent amount of time 🕰, tick-tock!</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">vssadmin</span> <span class="n">list</span> <span class="n">shadows</span> <span class="p">/</span><span class="k">for</span><span class="p">=&lt;</span><span class="n">path_to_drive</span><span class="p">&gt;</span> <span class="c"># /for=c: for a logial drive</span>
+</code></pre></div><p>Now, to collect the image with a <code>dd</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">dd</span><span class="p">.</span><span class="n">exe</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">HardDiskVolumeShadowCopy1</span> <span class="n">of</span><span class="p">=</span><span class="n">g:</span><span class="p">\</span><span class="n">shadow</span><span class="p">.</span><span class="n">img</span> <span class="c"># for Windows, using the above mentioned version of dd, we type `if` and `of` instead of `-if` and `-of`.</span>
+<span class="c"># what&#39;s --localwrt</span>
+</code></pre></div><p>Better go and have a cup of coffee ☕️ since it takes decent amount of time 🕰, tick-tock!</p>
 <h2 id="macos">macOS</h2>
 <h3 id="backups">Backups</h3>
 <p><code>/Users/%username%/Library/Application Support/MobileSync/Backup/</code></p>
@@ -319,7 +319,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

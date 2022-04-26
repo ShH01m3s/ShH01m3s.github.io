@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -260,54 +260,54 @@
 <p><strong>Step 6. Image uploading.</strong> Upload ova/vhd/vmdk/raw image into the S3 bucket.</p>
 <p><strong>Step 7. Image import</strong>. Import uploaded image to be converted to AMI (Amazon VM format).</p>
 <p>AWS commands for uploading images and checking status:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># configure basic stuff like credentials, output format and region</span>
-</span></span><span class="line"><span class="cl">aws configure 
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># create a role on AWS</span>
-</span></span><span class="line"><span class="cl">aws iam create-role --role-name vmimport --assume-role-policy-document <span class="s2">&#34;file:///full/path/to/trust-policy.json&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># create a policy</span>
-</span></span><span class="line"><span class="cl">aws iam put-role-policy --role-name vmimport --policy-name vmimport --policy-document <span class="s2">&#34;file:///full/path/to/role-policy.json&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># import uploaded image to make an AMI file</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># for importinng OVA</span>
-</span></span><span class="line"><span class="cl">aws ec2 import-image <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --disk-containers <span class="nv">Format</span><span class="o">=</span>ova,UserBucket<span class="o">=</span><span class="s2">&#34;{S3Bucket=bucketname,S3Key=path/to/image/in/the/bucket/image.ova}&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># for importinng VMDK</span>
-</span></span><span class="line"><span class="cl">aws ec2 import-image <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --disk-containers <span class="nv">Format</span><span class="o">=</span>vmdk,UserBucket<span class="o">=</span><span class="s2">&#34;{S3Bucket=bucketname,S3Key=path/to/image/in/the/bucket/image.vmdk}&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># note the import-ami to use in the below command</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl"><span class="c1"># check task status</span>
-</span></span><span class="line"><span class="cl">aws ec2 describe-import-image-tasks --import-task-ids import-ami-XXXXXXXXXXXXXX
-</span></span></code></pre></div><p>Failed to get any image that way, got kernel version error all the time 😢. Oh, kernel, what are you doing with me, babe.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># configure basic stuff like credentials, output format and region</span>
+aws configure 
+
+<span class="c1"># create a role on AWS</span>
+aws iam create-role --role-name vmimport --assume-role-policy-document <span class="s2">&#34;file:///full/path/to/trust-policy.json&#34;</span>
+
+<span class="c1"># create a policy</span>
+aws iam put-role-policy --role-name vmimport --policy-name vmimport --policy-document <span class="s2">&#34;file:///full/path/to/role-policy.json&#34;</span>
+
+<span class="c1"># import uploaded image to make an AMI file</span>
+<span class="c1"># for importinng OVA</span>
+aws ec2 import-image <span class="se">\
+</span><span class="se"></span>  --disk-containers <span class="nv">Format</span><span class="o">=</span>ova,UserBucket<span class="o">=</span><span class="s2">&#34;{S3Bucket=bucketname,S3Key=path/to/image/in/the/bucket/image.ova}&#34;</span>
+
+<span class="c1"># for importinng VMDK</span>
+aws ec2 import-image <span class="se">\
+</span><span class="se"></span>  --disk-containers <span class="nv">Format</span><span class="o">=</span>vmdk,UserBucket<span class="o">=</span><span class="s2">&#34;{S3Bucket=bucketname,S3Key=path/to/image/in/the/bucket/image.vmdk}&#34;</span>
+<span class="c1"># note the import-ami to use in the below command</span>
+  
+<span class="c1"># check task status</span>
+aws ec2 describe-import-image-tasks --import-task-ids import-ami-XXXXXXXXXXXXXX
+</code></pre></div><p>Failed to get any image that way, got kernel version error all the time 😢. Oh, kernel, what are you doing with me, babe.</p>
 <p>So, I&rsquo;ve decided to use another way to get a SIFT workstation: get AWS Ubuntu 16.04 instance and install sift manually. Failed for the reason unknown. Then I&rsquo;ve tried with AWS Ubuntu 18.04. Still waiting.</p>
 <p>I then opened the book again and notices, that not EC2 but some AWS Lightsail was recommended. So, I had to dig up ⛏️ the <a href="https://stackoverflow.com/questions/40927189/what-is-difference-between-lightsail-and-ec2">difference</a> between the two. I still don&rsquo;t know which is better for me at the moment, but I suppose I&rsquo;ll use EC2 for  the upcoming 12 months and learn the more complex solution. Moving to the Lightsail version (should the need arise) should be easier than vice versa .</p>
 <p><a href="https://ubuntu.com/tutorials/ubuntu-desktop-aws#1-overview">https://ubuntu.com/tutorials/ubuntu-desktop-aws#1-overview</a></p>
 <p><a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-2-install-gui/">https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-2-install-gui/</a></p>
 <p>To install SIFT manually:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl">wget https://github.com/sans-dfir/sift-cli/releases/download/v1.9.2/sift-cli-linux
-</span></span><span class="line"><span class="cl">wget https://github.com/sans-dfir/sift-cli/releases/download/v1.9.2/sift-cli-linux.sha256.asc
-</span></span><span class="line"><span class="cl">gpg --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 22598A94
-</span></span><span class="line"><span class="cl">gpg --verify sift-cli-linux.sha256.asc
-</span></span><span class="line"><span class="cl">shasum -a <span class="m">256</span> -c sift-cli-linux.sha256.asc
-</span></span><span class="line"><span class="cl">sudo mv sift-cli-linux /usr/local/bin/sift
-</span></span><span class="line"><span class="cl">chmod <span class="m">755</span> /usr/local/bin/sift
-</span></span><span class="line"><span class="cl">sudo sift install
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sift install --mode<span class="o">=</span>server
-</span></span></code></pre></div><p><a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-access-s3-bucket/">https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-access-s3-bucket/</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span>
+wget https://github.com/sans-dfir/sift-cli/releases/download/v1.9.2/sift-cli-linux
+wget https://github.com/sans-dfir/sift-cli/releases/download/v1.9.2/sift-cli-linux.sha256.asc
+gpg --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 22598A94
+gpg --verify sift-cli-linux.sha256.asc
+shasum -a <span class="m">256</span> -c sift-cli-linux.sha256.asc
+sudo mv sift-cli-linux /usr/local/bin/sift
+chmod <span class="m">755</span> /usr/local/bin/sift
+sudo sift install
+
+sift install --mode<span class="o">=</span>server
+</code></pre></div><p><a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-access-s3-bucket/">https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-access-s3-bucket/</a></p>
 <p>Managed to import Ubuntu 16.04, but failed to launch or connect over ssh.</p>
 <p>After all this time I managed to find <a href="https://github.com/teamdfir/sift/issues/465">https://github.com/teamdfir/sift/issues/465</a>. Select us-west-2 region and search for <code>ami-0e18b3270d2ce667d</code>. Eligible for free tier use. So much time waisted, but there is a result <strong>finally</strong>. One thing to note - log in with <code>sansforensics</code> username. Also, install aws console to use s3 bucket.</p>
 <p>Getting data from the bucket (<a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-access-s3-bucket/">install and configure</a>):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws s3 cp s3://my_bucket/my_folder/my_file.ext my_copied_file.ext
-</span></span><span class="line"><span class="cl">aws s3 --recursive cp s3://my_bucket/my_folderw .
-</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
-</span></span><span class="line"><span class="cl">wget https://my_bucket.s3.amazonaws.com/path-to-file
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">aws s3 cp s3://my_bucket/my_folder/my_file.ext my_copied_file.ext
+aws s3 --recursive cp s3://my_bucket/my_folderw .
+<span class="c1"># or</span>
+wget https://my_bucket.s3.amazonaws.com/path-to-file
+</code></pre></div>
   </div>
 </article>
 </div>
@@ -339,7 +339,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   
