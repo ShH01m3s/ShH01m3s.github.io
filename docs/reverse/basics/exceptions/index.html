@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -245,26 +245,26 @@
 <p>⚠️ Note that x64 does not use this mechanism for exception handling.</p>
 </blockquote>
 <p>Consider the following code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="kr">__try</span>
-    <span class="p">{</span>
-        <span class="n">TestExceptions</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="kr">__except</span><span class="p">(</span><span class="n">EXCEPTION_EXECUTE_HANDLER</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Executing SEH __except block</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>How is that code handled in memory?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">__try</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TestExceptions</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">__except</span><span class="p">(</span><span class="n">EXCEPTION_EXECUTE_HANDLER</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Executing SEH __except block</span><span class="se">\r\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>How is that code handled in memory?</p>
 <p>This is usually how the SEH is registered (Assembly view):</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">PUSH 0040184B
-XOR EAX, EAX
-PUSH DWORD PTR FS:[EAX]
-MOV DWORD PTR FS:[EAX], ESP
-</code></pre></div><p>NtGlobalFlag FLG_HEAP_ENABLE_TAIL_CHECK (0x10), FLG_HEAP_ENABLE_FREE_CHECK (0x20), and FLG_HEAP_VALIDATE_PARAMETERS (0x40)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PUSH 0040184B
+</span></span><span class="line"><span class="cl">XOR EAX, EAX
+</span></span><span class="line"><span class="cl">PUSH DWORD PTR FS:[EAX]
+</span></span><span class="line"><span class="cl">MOV DWORD PTR FS:[EAX], ESP
+</span></span></code></pre></div><p>NtGlobalFlag FLG_HEAP_ENABLE_TAIL_CHECK (0x10), FLG_HEAP_ENABLE_FREE_CHECK (0x20), and FLG_HEAP_VALIDATE_PARAMETERS (0x40)</p>
 <h2 id="references">References</h2>
 <p><a href="https://rvsec0n.wordpress.com/2019/09/13/routines-utilizing-tebs-and-pebs/">https://rvsec0n.wordpress.com/2019/09/13/routines-utilizing-tebs-and-pebs/</a></p>
 
@@ -299,7 +299,7 @@ MOV DWORD PTR FS:[EAX], ESP
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -262,18 +262,18 @@
 <h3 id="ollydbgs-built-in-option">OllyDbg&rsquo;s built in option</h3>
 <p>There is a functionality that OllyDbg debugger has, which can be reached out with <code>Plugins -&gt; OllyDump -&gt; Find OEP</code> that can get you something unpacked. Didn&rsquo;t work for me, but might be a low hanging fruit 🍌 for you. Give it a try before getting dragged into the swamp of hardcore reversing.</p>
 <p>Below is what I got when trying to run it against a slightly complicated packed malware that was a part of my job interview once:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">0048DF34 CALL unpackme.0048DF39
-0048DF39 POP EAX
-0048DF3A PUSH EBP
-0048DF3B MOV EDI, EAX...
-0048DF47 ...JMP SHORT unpackme.0048DF4E
-</code></pre></div><p>It was my first executable to unpack (well, I didn&rsquo;t touch anything harder than the labs from <em>Practical Malware Analysis</em>), so I couldn&rsquo;t say whether it was it. Now my guts tell me that it&rsquo;s not. Dumping the code from memory and trying to run it proved this, but I would like to explain it later. Just to be sure I <em>understand</em> why this is not OEP and how to tell just by looking at this code. Let&rsquo;s move to the next one.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0048DF34 CALL unpackme.0048DF39
+</span></span><span class="line"><span class="cl">0048DF39 POP EAX
+</span></span><span class="line"><span class="cl">0048DF3A PUSH EBP
+</span></span><span class="line"><span class="cl">0048DF3B MOV EDI, EAX...
+</span></span><span class="line"><span class="cl">0048DF47 ...JMP SHORT unpackme.0048DF4E
+</span></span></code></pre></div><p>It was my first executable to unpack (well, I didn&rsquo;t touch anything harder than the labs from <em>Practical Malware Analysis</em>), so I couldn&rsquo;t say whether it was it. Now my guts tell me that it&rsquo;s not. Dumping the code from memory and trying to run it proved this, but I would like to explain it later. Just to be sure I <em>understand</em> why this is not OEP and how to tell just by looking at this code. Let&rsquo;s move to the next one.</p>
 <h3 id="hr-esp-4"><code>hr esp-4</code></h3>
 <p>This is another technique - setting a hardware breakpoint on the point when the stack is being squeezed. I got these instructions:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">00490B50 POP ESI 
-00490B51 POP EBP
-00490B52 JMP EDI
-</code></pre></div><p>When I clicked <code>Follow Dump</code> for <code>EAX</code> registry I saw a <code>MZ ... PE</code>-header and the registry&rsquo;s value at the moment is <code>00400000</code>. All I needed to do then was dumping the code and fixing the import table with ImportRec. PEView showed that the file was unpacked. Reopen the file with OllyDbg and the program stops at <code>0x0043A586</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">00490B50 POP ESI 
+</span></span><span class="line"><span class="cl">00490B51 POP EBP
+</span></span><span class="line"><span class="cl">00490B52 JMP EDI
+</span></span></code></pre></div><p>When I clicked <code>Follow Dump</code> for <code>EAX</code> registry I saw a <code>MZ ... PE</code>-header and the registry&rsquo;s value at the moment is <code>00400000</code>. All I needed to do then was dumping the code and fixing the import table with ImportRec. PEView showed that the file was unpacked. Reopen the file with OllyDbg and the program stops at <code>0x0043A586</code>.</p>
 <h3 id="jmp-edi"><code>JMP EDI</code></h3>
 <p>Before the unpacking code handes the control over to the original code, it needs to allocate some memory, but setting a BP on <code>VirtualAlloc</code> didn&rsquo;t work. However, setting it on <code>ZwAllocateVirtualMemory</code>&hellip; Several times did the code stumble on this function. Upon return to the user-code, I saw clearly that memory was allocated for libraries.</p>
 <p>При возврате в user-code было видно, что память выделяется под библиотеки. Сделала первый раз dump на том участке, где выделяется память под comctl_1 (адрес 7CA27320). При этом, ImportRec увидел всего 4 dlls, но OEP найти не вышло таким способом (ставила Hardware Breakpoint on write byte в EAX follow dump, а также после возврата в user-code пыталась с помощью F8 отследить, происходят ли какие-то изменения в dump - никаких результатов).</p>
@@ -323,7 +323,7 @@ BOOL WINAPI VirtualProtect(
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

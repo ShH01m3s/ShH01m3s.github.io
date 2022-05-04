@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -246,43 +246,43 @@
     <p><em>During forensic analysis it&rsquo;s not too rare to run into some suspicious application. In this article I&rsquo;m going to learn to reverse engineer iOS applications.</em></p>
 <h2 id="analysis-flow">Analysis flow</h2>
 <p>First, we need to get IPA file from the device. There are different ways to do so (please, refer to <a href="/docs/toolkit/mobile/ios-btfm-rtfm">BTFM and RTFM</a>). Here I&rsquo;m going to use the easiest one:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipainstaller -i <span class="k">$(</span>ipainstaller -l <span class="p">|</span> grep -i <span class="o">[</span>package_partial_name<span class="o">]</span><span class="k">)</span> <span class="p">|</span> grep Bundle
-scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/Bundle/ . 
-</code></pre></div><p>Note that this method only works <strong>only if</strong> the application was <strong>not</strong> downloaded from AppStore, because the applications installed that way are encrypted and to get the code one needs to dump it decrpyted from memory (<code>frida-ios-dump.py</code> with <code>frida-server</code>) or decrypt it statically ().</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ipainstaller -i <span class="k">$(</span>ipainstaller -l <span class="p">|</span> grep -i <span class="o">[</span>package_partial_name<span class="o">]</span><span class="k">)</span> <span class="p">|</span> grep Bundle
+</span></span><span class="line"><span class="cl">scp root@<span class="o">[</span>device_ip<span class="o">]</span>:/path/to/Bundle/ . 
+</span></span></code></pre></div><p>Note that this method only works <strong>only if</strong> the application was <strong>not</strong> downloaded from AppStore, because the applications installed that way are encrypted and to get the code one needs to dump it decrpyted from memory (<code>frida-ios-dump.py</code> with <code>frida-server</code>) or decrypt it statically ().</p>
 <p>Then open the Bundle folder on PC and look for <code>Info.plist</code>. Let&rsquo;s find any strings that start with <code>NS</code> and end with <code>UsageDescription</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> *.ipa/<span class="o">[</span>package_name<span class="o">]</span>.app
-grep <span class="s1">&#39;UsageDescription&#39;</span> Info.plist -A1
-</code></pre></div><p>You sould see something like that:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;key&gt;</span>NSPhotoLibraryUsageDescription<span class="nt">&lt;/key&gt;</span>
-	<span class="nt">&lt;string&gt;</span>You can choose a profile picture from your photo library<span class="nt">&lt;/string&gt;</span>
-	<span class="nt">&lt;key&gt;</span>NSPhotoLibraryAddUsageDescription<span class="nt">&lt;/key&gt;</span>
-	<span class="nt">&lt;string&gt;</span>Allow Kindle to access your photos to save images.<span class="nt">&lt;/string&gt;</span>
---
-	<span class="nt">&lt;key&gt;</span>NSCameraUsageDescription<span class="nt">&lt;/key&gt;</span>
-	<span class="nt">&lt;string&gt;</span>Kindle would like to access the camera<span class="nt">&lt;/string&gt;</span>
---
-	<span class="nt">&lt;key&gt;</span>NSAppleMusicUsageDescription<span class="nt">&lt;/key&gt;</span>
-	<span class="nt">&lt;string&gt;</span>We use this to play audio in certain interactive books or magazines<span class="nt">&lt;/string&gt;</span>
-</code></pre></div><p>Inspect the application and make sense of all its entitlements. Why, for example, Kindle application needs to access my Camera? May be to set Avatar. And what if it was a simple game? Anyway, always check this since it might be an indication of malware application (although it&rsquo;s very hard to get one uploaded to AppStore, it&rsquo;s still possible. Besides, there are ways to sideload applications).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> *.ipa/<span class="o">[</span>package_name<span class="o">]</span>.app
+</span></span><span class="line"><span class="cl">grep <span class="s1">&#39;UsageDescription&#39;</span> Info.plist -A1
+</span></span></code></pre></div><p>You sould see something like that:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;key&gt;</span>NSPhotoLibraryUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;string&gt;</span>You can choose a profile picture from your photo library<span class="nt">&lt;/string&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;key&gt;</span>NSPhotoLibraryAddUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;string&gt;</span>Allow Kindle to access your photos to save images.<span class="nt">&lt;/string&gt;</span>
+</span></span><span class="line"><span class="cl">--
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;key&gt;</span>NSCameraUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;string&gt;</span>Kindle would like to access the camera<span class="nt">&lt;/string&gt;</span>
+</span></span><span class="line"><span class="cl">--
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;key&gt;</span>NSAppleMusicUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&lt;string&gt;</span>We use this to play audio in certain interactive books or magazines<span class="nt">&lt;/string&gt;</span>
+</span></span></code></pre></div><p>Inspect the application and make sense of all its entitlements. Why, for example, Kindle application needs to access my Camera? May be to set Avatar. And what if it was a simple game? Anyway, always check this since it might be an indication of malware application (although it&rsquo;s very hard to get one uploaded to AppStore, it&rsquo;s still possible. Besides, there are ways to sideload applications).</p>
 <h2 id="entitlements">Entitlements</h2>
 <p><a href="/docs/articles/platforms/apple/ios-intro#entitlements">Here</a> is an article which contains a section about iOS entitlements.</p>
 <p>To decode certificate</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl x509 -in certificate.crt -text -noout
-</code></pre></div><p>Extract xml from <code>Info.plist</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">binwalk -e -y<span class="o">=</span>xml ./Telegram<span class="se">\ </span>X
-r2 -qc <span class="s1">&#39;izz~PropertyList&#39;</span> ./Telegram<span class="se">\ </span>X
-grep -a -A <span class="m">5</span> <span class="s1">&#39;PropertyList&#39;</span> /var/containers/Bundle/Application/
-    15E6A58F-1CA7-44A4-A9E0-6CA85B65FA35/Telegram X.app/Telegram<span class="se">\ </span>X
-</code></pre></div><p>Custom URL schemes and Unviersal URL schemes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -zq Telegram<span class="se">\ </span>X.app/Telegram<span class="se">\ </span>X <span class="p">|</span> grep openURL
-</code></pre></div><h2 id="lacontext">LAContext</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">openssl x509 -in certificate.crt -text -noout
+</span></span></code></pre></div><p>Extract xml from <code>Info.plist</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">binwalk -e -y<span class="o">=</span>xml ./Telegram<span class="se">\ </span>X
+</span></span><span class="line"><span class="cl">r2 -qc <span class="s1">&#39;izz~PropertyList&#39;</span> ./Telegram<span class="se">\ </span>X
+</span></span><span class="line"><span class="cl">grep -a -A <span class="m">5</span> <span class="s1">&#39;PropertyList&#39;</span> /var/containers/Bundle/Application/
+</span></span><span class="line"><span class="cl">    15E6A58F-1CA7-44A4-A9E0-6CA85B65FA35/Telegram X.app/Telegram<span class="se">\ </span>X
+</span></span></code></pre></div><p>Custom URL schemes and Unviersal URL schemes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rabin2 -zq Telegram<span class="se">\ </span>X.app/Telegram<span class="se">\ </span>X <span class="p">|</span> grep openURL
+</span></span></code></pre></div><h2 id="lacontext">LAContext</h2>
 <h2 id="user-presence">User Presence</h2>
 <p>User Presence works with TouchID through Keychain. While LAContext just delegates the credentials check to the system, here Keychain services will present the authentication dialog to the user and return <strong>data</strong> or nil depending on whether a suitable fingerprint was provided or not. LAContext will present success or failure.</p>
 <p><img src="/images/articles/ios/local-auth-framework.png" alt="local-auth-framework"></p>
 <p><a href="https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id">https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id</a></p>
 <p>Both using LocalAuthentication framework.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">otool -L &lt;AppName&gt;.app/&lt;AppName&gt;
-</code></pre></div><p>❓ Unlike macOS and Android, iOS currently (at iOS 12) does not support temporariness of an item&rsquo;s accessibility in the keychain: when there is no additional security check when entering the keychain (e.g. <code>kSecAccessControlUserPresence</code> or similar is set), then once the device is unlocked, a key will be accessible.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">otool -L &lt;AppName&gt;.app/&lt;AppName&gt;
+</span></span></code></pre></div><p>❓ Unlike macOS and Android, iOS currently (at iOS 12) does not support temporariness of an item&rsquo;s accessibility in the keychain: when there is no additional security check when entering the keychain (e.g. <code>kSecAccessControlUserPresence</code> or similar is set), then once the device is unlocked, a key will be accessible.</p>
 <p>MSTG-AUTH-8: &ldquo;Biometric authentication, if any, is not event-bound (i.e. using an API that simply returns &ldquo;true&rdquo; or &ldquo;false&rdquo;). Instead, it is based on unlocking the keychain/keystore.&rdquo;</p>
 <p>MSTG-STORAGE-11: &ldquo;The app enforces a minimum device-access-security policy, such as requiring the user to set a device passcode.&rdquo;</p>
 <p><a href="https://blog.nvisium.com/dont-touch-me-that-way">https://blog.nvisium.com/dont-touch-me-that-way</a></p>
@@ -318,7 +318,7 @@ grep -a -A <span class="m">5</span> <span class="s1">&#39;PropertyList&#39;</spa
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

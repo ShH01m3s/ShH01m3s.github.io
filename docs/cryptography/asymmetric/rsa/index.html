@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -273,47 +273,47 @@
 <p>Just a note a little off topic. They could have used letters instead of numbers, but they would have to convert them into digits anyway. Any letter, digit or a symbol can be converted into a number (computers, binary and stuff), a message &ldquo;Nothing yet&rdquo; would look like this in binary: <code>01001110 01101111 01110100 01101000 01101001 01101110 01100111 00100000 01111001 01100101 01110100</code> and since data is hard for a human to operate with, this is a nicer hex (16 base integers): <code>0x4e 0x6f 0x74 0x68 0x69 0x6e 0x67 0x20 0x79 0x65 0x74</code>. That&rsquo;s why &ldquo;convert&rdquo; is not a good word for that, since all strings, numbers and characters are already digits for a PC.</p>
 </blockquote>
 <p>Try to write down some code that takes an array of digits (this message as an input) and generates an array of  integers <code>secret</code> as an output. Express it in your prefered language, I&rsquo;ll use my beloved Python 🐍:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">message_str</span> <span class="o">=</span> <span class="s2">&#34;Nothing yet&#34;</span>
-<span class="n">message_int</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">secret_message</span><span class="p">:</span>
-  	<span class="c1"># this piece of code takes each char and converts</span>
-    <span class="c1"># it into its hex ASCII representation, </span>
-    <span class="c1"># so for example &#39;A&#39; becomes 0x41</span>
-    <span class="n">message_int</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">))</span>
-<span class="c1"># the following line is optional, but useful for this demo</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&#34;The message from Targarra to Anduin is {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">message_int</span><span class="p">))</span>
-
-<span class="c1"># I could, por supuesto, write print(&#34;The message from Veronica to Anduin is&#34; + str(message_int)), but I won&#39;t :) Learning to write safe and easy to read code</span>
-</code></pre></div><p>At this point Targarra has a message she needs to encrypt. According to this algorithm, Anduin 🤴 now needs to give Targarra 🧝‍♀️  some open lock 🔓 which only he can unlock later with his key 🗝️ that hopefully neither Klutzy 💂, nor Lunair 🥷 can get their hands to this time with their primeval tools. Targarra 🧝‍♀️  will use this lock to encrypt (aka <em>close</em>) the message she wants to send.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">message_str</span> <span class="o">=</span> <span class="s2">&#34;Nothing yet&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">message_int</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">secret_message</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  	<span class="c1"># this piece of code takes each char and converts</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># it into its hex ASCII representation, </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># so for example &#39;A&#39; becomes 0x41</span>
+</span></span><span class="line"><span class="cl">    <span class="n">message_int</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># the following line is optional, but useful for this demo</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The message from Targarra to Anduin is </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">message_int</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># I could, por supuesto, write print(&#34;The message from Veronica to Anduin is&#34; + str(message_int)), but I won&#39;t :) Learning to write safe and easy to read code</span>
+</span></span></code></pre></div><p>At this point Targarra has a message she needs to encrypt. According to this algorithm, Anduin 🤴 now needs to give Targarra 🧝‍♀️  some open lock 🔓 which only he can unlock later with his key 🗝️ that hopefully neither Klutzy 💂, nor Lunair 🥷 can get their hands to this time with their primeval tools. Targarra 🧝‍♀️  will use this lock to encrypt (aka <em>close</em>) the message she wants to send.</p>
 <h3 id="step-1-cragting-a-lock">Step 1. Cragting a Lock</h3>
 <p>Anduin 🤴  chooses two prime numbers 🧙🧙. Write some piece of code that checks whether two given integers are primes and choose two primes. Below is my python version:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># this code is from https://www.geeksforgeeks.org/python-program-to-check-whether-a-number-is-prime-or-not/</span>
-<span class="c1"># a simple solution would be to divide a number by all numbers between 2 and the number previous to the one being checked</span>
-<span class="c1"># but this solution is optimized</span>
-<span class="k">def</span> <span class="nf">isPrime</span><span class="p">():</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="bp">False</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="bp">True</span>
-  
-    <span class="c1"># This is checked so that we can skip  </span>
-    <span class="c1"># middle five numbers in below loop </span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">return</span> <span class="bp">False</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="mi">5</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span> <span class="p">:</span> 
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> 
-            <span class="k">return</span> <span class="bp">False</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">6</span>
-    <span class="k">return</span> <span class="bp">True</span>
-
-<span class="n">prime1</span> <span class="o">=</span> <span class="mi">7</span>
-<span class="n">prime2</span> <span class="o">=</span> <span class="mi">19</span>
-<span class="k">if</span> <span class="n">isPrime</span><span class="p">(</span><span class="n">prime1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isPrime</span><span class="p">(</span><span class="n">prime2</span><span class="p">):</span>
-  <span class="k">print</span><span class="p">(</span><span class="s2">&#34;The chosen numbers are both primes. Good choice!&#34;</span><span class="p">)</span>
-</code></pre></div><p>Then multiply the chosen numbers:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">public_number</span> <span class="o">=</span> <span class="n">prime1</span> <span class="o">*</span> <span class="n">prime2</span>
-</code></pre></div><p>This is how he gets his <em>public number</em>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># this code is from https://www.geeksforgeeks.org/python-program-to-check-whether-a-number-is-prime-or-not/</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># a simple solution would be to divide a number by all numbers between 2 and the number previous to the one being checked</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># but this solution is optimized</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">isPrime</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="c1"># This is checked so that we can skip  </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># middle five numbers in below loop </span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span> <span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> 
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">6</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">prime1</span> <span class="o">=</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl"><span class="n">prime2</span> <span class="o">=</span> <span class="mi">19</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">isPrime</span><span class="p">(</span><span class="n">prime1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isPrime</span><span class="p">(</span><span class="n">prime2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;The chosen numbers are both primes. Good choice!&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>Then multiply the chosen numbers:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">public_number</span> <span class="o">=</span> <span class="n">prime1</span> <span class="o">*</span> <span class="n">prime2</span>
+</span></span></code></pre></div><p>This is how he gets his <em>public number</em>.</p>
 <p>Then, he chooses another prime number 🧙, that is not equal to the previous ones, is odd and doesn&rsquo;t share any common factors with φ(<em>public number</em>) (read about this in the next section). That&rsquo;s his <em>public exponent</em>.</p>
 <p>These numbers (<em>public number</em> and a <em>public exponent</em>) are going to be Anduin&rsquo;s  🤴 open lock 🤴🔓, i.e. he&rsquo;s sending it just like that to Targarra 🧝‍♀️. Keep in mind that Klutzy 💂 is still there, he is going to make a copy of the lock (two numbers).</p>
 <p>How exactly does the lock🔓 look like, mathematically?</p>
@@ -323,51 +323,51 @@
 </blockquote>
 <p>The part of the above formula in orange is Anduin&rsquo;s mathmetical lock! Everything esle I hope is pretty self-explanatory.</p>
 <p>It&rsquo;s time to introduce our parties in code 🙂. Code three classes and instanciate them: Detective, King and Klutzy.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Targarra&#34;</span>
-  <span class="n">__prime1</span> <span class="o">=</span> <span class="mi">7</span>
-  <span class="n">__prime2</span> <span class="o">=</span> <span class="mi">19</span>
-  <span class="n">public_number</span> <span class="o">=</span> <span class="n">__prime1</span> <span class="o">*</span> <span class="n">__prime2</span> <span class="c1"># 133</span>
-  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
-  
-<span class="k">class</span> <span class="nc">King</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Anduin&#34;</span>
-  
-<span class="k">class</span> <span class="nc">Liar</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Klutzy&#34;</span>  
-</code></pre></div><p>I&rsquo;m not bothered with beautiful coding 🦋  and perfect architecture, I&rsquo;m using this code to show, which information which class has.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Targarra&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__prime1</span> <span class="o">=</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__prime2</span> <span class="o">=</span> <span class="mi">19</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_number</span> <span class="o">=</span> <span class="n">__prime1</span> <span class="o">*</span> <span class="n">__prime2</span> <span class="c1"># 133</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">King</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Anduin&#34;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Liar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Klutzy&#34;</span>  
+</span></span></code></pre></div><p>I&rsquo;m not bothered with beautiful coding 🦋  and perfect architecture, I&rsquo;m using this code to show, which information which class has.</p>
 <p>Class <code>King</code> has a name <code>Anduin</code> (just to make it more fun), <em>public exponent</em> <code>5</code> and a <em>public number</em> <code>133</code> and two primes (secret ones) that were used to calculate the public number <code>133</code>.</p>
 <p>Since Anduin&rsquo;s <code>public_number</code> and <code>public_exponent</code> were sent to Targarra using doves controlled by Klutzy as well, everyone in this play has these <code>public_number</code> and <code>public_exponent</code>.  Therefore, classes <code>Detective</code> and <code>Liar</code> also have these properties plus their names hardcoded.</p>
 <p>Let&rsquo;s express it in code as well:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Targarra&#34;</span>
-  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
-  <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
-  
-<span class="k">class</span> <span class="nc">Director</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Anduin&#34;</span>
-  <span class="n">__prime1</span> <span class="o">=</span> <span class="mi">7</span>
-  <span class="n">__prime2</span> <span class="o">=</span> <span class="mi">19</span>
-  <span class="n">public_number</span> <span class="o">=</span> <span class="n">__prime1</span> <span class="o">*</span> <span class="n">__prime2</span> <span class="c1"># 133</span>
-  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
-  
-<span class="k">class</span> <span class="nc">Liar</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Klutzy&#34;</span> 
-  <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
-  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
-</code></pre></div><p>Now, since we know the formula and the numbers, we can finally encrypt the message. Let&rsquo;s edit the <code>Detective</code> class now:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
-  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Veronica&#34;</span>
-  <span class="n">message</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="n">cipher</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
-  <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
-
-  
-  <span class="k">def</span> <span class="nf">lock_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">public_exponent</span><span class="p">,</span> <span class="n">anduins_public_number</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
-    	<span class="n">cipher_int</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">letter</span> <span class="o">**</span> <span class="n">public_exponent</span><span class="p">)</span> <span class="o">%</span> <span class="n">anduins_public_number</span><span class="p">)</span> 
-</code></pre></div><h3 id="step-2-crafting-the-key">Step 2. Crafting the Key</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Targarra&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">  <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Director</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Anduin&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__prime1</span> <span class="o">=</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl">  <span class="n">__prime2</span> <span class="o">=</span> <span class="mi">19</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_number</span> <span class="o">=</span> <span class="n">__prime1</span> <span class="o">*</span> <span class="n">__prime2</span> <span class="c1"># 133</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Liar</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Klutzy&#34;</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span></code></pre></div><p>Now, since we know the formula and the numbers, we can finally encrypt the message. Let&rsquo;s edit the <code>Detective</code> class now:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Detective</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;Veronica&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">message</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cipher</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="n">public_exponent</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">  <span class="n">anduins_public_number</span> <span class="o">=</span> <span class="mi">133</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">def</span> <span class="nf">lock_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">public_exponent</span><span class="p">,</span> <span class="n">anduins_public_number</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    	<span class="n">cipher_int</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">letter</span> <span class="o">**</span> <span class="n">public_exponent</span><span class="p">)</span> <span class="o">%</span> <span class="n">anduins_public_number</span><span class="p">)</span> 
+</span></span></code></pre></div><h3 id="step-2-crafting-the-key">Step 2. Crafting the Key</h3>
 <p>Why <em>a</em> lock, but <em>the</em> key? Well, a lock can be <em>any</em> number of the King&rsquo;s choosing while the key is derived from the lock and is <em>unique</em> for this particular lock. Otherwise, why bother so much with this algorithm and stuff.</p>
 <p>This step is private for Anduin. He needs to craft a key 🗝️ to unlock the lock 🔓 so that he could read the messages that are encrypted with his &ldquo;lock&rdquo;. So, it should be some operation that let&rsquo;s him reverse the operation Targarra 🧝‍♀️ applied to the message using some information he knows but no one else does. What information could that be?</p>
 <p>Did you wonder, why we needed to choose two primes first, multiply them and then share the result? And why both of them are marked as <code>private</code> in code above while the derived number is not <code>private</code>? (in Python 🐍, an underscore <code>_</code> put before an attribute name means <code>private</code>, so when you instanciate the class you can&rsquo;t get or set the value of these variables directly, but only using some public function of this class).</p>
@@ -425,16 +425,16 @@ Simple testing (d = 1, 2, &hellip;) gives d = 7
 Check: ed-1 = 3.7 - 1 = 20, which is divisible by phi.</p>
 </blockquote>
 <p><code>e * d mod φ(n) ≡ 1</code>. So, calculating <em>private key</em> in this case is trivial and comes down to the inversing the modulo, to be precise, <em>modular inverse function</em>. There are different ways to find it, the simplest one (especially in our case of small numbers) is to bruteforce. This method is called <em>naive</em>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">modinverse_naive</span><span class="p">(</span><span class="n">public_exponent</span><span class="p">,</span> <span class="n">phi_of_public_number</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi_of_public_number</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">public_exponent</span> <span class="o">*</span> <span class="n">i</span> <span class="o">%</span> <span class="n">phi_of_public_number</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">i</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-</code></pre></div><p>Another approach involves quite complex (at least, for me) mathematical calculations using <strong>g</strong>reatest <strong>c</strong>ommon <strong>d</strong>ivisor (gcd) and can be calculated in one line in python using <code>libnum.invmod()</code> function:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">libnum</span>
-
-<span class="n">decryption_key</span> <span class="o">=</span> <span class="n">libnum</span><span class="o">.</span><span class="n">invmod</span><span class="p">(</span><span class="n">public_exponent</span><span class="p">,</span><span class="n">phi_of_public_number</span><span class="p">)</span>
-</code></pre></div><p>This is the hardest part, but the key 🗝️ is created and ready to be used and cherished. The most important for Anduin 🤴 at this stage is not to screw up and show it to no one.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">modinverse_naive</span><span class="p">(</span><span class="n">public_exponent</span><span class="p">,</span> <span class="n">phi_of_public_number</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi_of_public_number</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">public_exponent</span> <span class="o">*</span> <span class="n">i</span> <span class="o">%</span> <span class="n">phi_of_public_number</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</span></span></code></pre></div><p>Another approach involves quite complex (at least, for me) mathematical calculations using <strong>g</strong>reatest <strong>c</strong>ommon <strong>d</strong>ivisor (gcd) and can be calculated in one line in python using <code>libnum.invmod()</code> function:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">libnum</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">decryption_key</span> <span class="o">=</span> <span class="n">libnum</span><span class="o">.</span><span class="n">invmod</span><span class="p">(</span><span class="n">public_exponent</span><span class="p">,</span><span class="n">phi_of_public_number</span><span class="p">)</span>
+</span></span></code></pre></div><p>This is the hardest part, but the key 🗝️ is created and ready to be used and cherished. The most important for Anduin 🤴 at this stage is not to screw up and show it to no one.</p>
 <h2 id="references">References</h2>
 <p><a href="https://www.youtube.com/watch?v=6KmhCKxFWOs">https://www.youtube.com/watch?v=6KmhCKxFWOs</a></p>
 <p><a href="https://ccom.uprrp.edu/~humberto/very-small-rsa-example.html">https://ccom.uprrp.edu/~humberto/very-small-rsa-example.html</a></p>
@@ -481,7 +481,7 @@ Check: ed-1 = 3.7 - 1 = 20, which is divisible by phi.</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
