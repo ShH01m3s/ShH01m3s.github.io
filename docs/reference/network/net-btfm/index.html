@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -304,93 +304,95 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="dshell">dshell</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># MacOSX path to directory with pyenv (example):</span>
-</span></span><span class="line"><span class="cl">/Users/<span class="o">[</span>user_name<span class="o">]</span>/.pyenv/versions/3.8.5/envs/python3/lib/python3.8/site-packages/dshell/
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">decode -l <span class="c1"># list decoders</span>
-</span></span><span class="line"><span class="cl">decode -d <span class="o">[</span>decoder_name<span class="o">]</span> <span class="c1"># decoder info</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># who talked to whom</span>
-</span></span><span class="line"><span class="cl">decode -d ip <span class="o">[</span>capture_file_name<span class="o">]</span>.<span class="o">(</span>p<span class="o">)</span>cap
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># by what means (transport layer) i.e. not tcp,udp or icmp</span>
-</span></span><span class="line"><span class="cl">decode -d protocol <span class="o">[</span>capture_file_name<span class="o">]</span>.<span class="o">(</span>p<span class="o">)</span>cap
-</span></span></code></pre></div><h3 id="analysis-example-1">Analysis example 1</h3>
-<p>Downloading some <code>(p)cap</code> file from <a href="https://wiki.wireshark.org/SampleCaptures#Server_Message_Block_.28SMB.29.2FCommon_Internet_File_System_.28CIFS.29">here</a>. Chose some <code>smb</code> file <a href="https://wiki.wireshark.org/SampleCaptures?action=AttachFile&amp;do=get&amp;target=smbtorture.cap.gz">smbtorture.cap.gz</a>. This sample&rsquo;s info: <em>&ldquo;Capture showing a wide range of SMB features. The capture was made using the Samba4 smbtorture suite, against a Windows Vista beta2 server.&rdquo;</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># MacOSX path to directory with pyenv (example):</span>
+/Users/<span class="o">[</span>user_name<span class="o">]</span>/.pyenv/versions/3.8.5/envs/python3/lib/python3.8/site-packages/dshell/
+
+decode -l <span class="c1"># list decoders</span>
+decode -d <span class="o">[</span>decoder_name<span class="o">]</span> <span class="c1"># decoder info</span>
+
+<span class="c1"># who talked to whom</span>
+decode -d ip <span class="o">[</span>capture_file_name<span class="o">]</span>.<span class="o">(</span>p<span class="o">)</span>cap
+
+<span class="c1"># by what means (transport layer) i.e. not tcp,udp or icmp</span>
+decode -d protocol <span class="o">[</span>capture_file_name<span class="o">]</span>.<span class="o">(</span>p<span class="o">)</span>cap
+
+
+</code></pre></div><h3 id="analysis-example-1">Analysis example 1</h3>
+<p>Downloading some <code>(p)cap</code> file from <a href="https://wiki.wireshark.org/SampleCaptures#Server_Message_Block_.28SMB.29.2FCommon_Internet_File_System_.28CIFS.29">here</a>. Chose some <code>smb</code> file <a href="https://wiki.wireshark.org/SampleCaptures?action=AttachFile&amp;do=get&amp;target=smbtorture.cap.gz">smbtorture.cap.gz</a>. This sample&rsquo;s info: <em>&ldquo;Capture showing a wide range of SMB features. The capture was made using the Samba4 smbtorture suite, against a Windows Vista beta2 server.&quot;</em></p>
 <p>Analysing who talked with whom:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">decode -d ip smbtorture.cap
-</span></span></code></pre></div><p>Checking wether this files contains packets that used neither TCP, UDP or ICMP means of transport:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">decode -d protocol smbtorture.cap
-</span></span></code></pre></div><p>Result is:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&lt;...truncated...&gt;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:25  192.168.114.129:      -&gt;       224.0.0.22:      ** PROTOCOL: IGMP <span class="o">(</span>2<span class="o">)</span> **
-</span></span><span class="line"><span class="cl"><span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:25 fe80::20c:29ff:fe30:6027:      -&gt;         ff02::16:      ** PROTOCOL: <span class="m">0</span> <span class="o">(</span>0<span class="o">)</span> **
-</span></span><span class="line"><span class="cl"><span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:26  192.168.114.129:      -&gt;       224.0.0.22:      ** PROTOCOL: IGMP <span class="o">(</span>2<span class="o">)</span> **
-</span></span><span class="line"><span class="cl"><span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:26 fe80::20c:29ff:fe30:6027:      -&gt;         ff02::16:      ** PROTOCOL: <span class="m">0</span> <span class="o">(</span>0<span class="o">)</span> **
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">&lt;...truncated...&gt;
-</span></span></code></pre></div><p>Meaning, yes, there are other transport layer protocols in use - IGMP.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">decode -d ip smbtorture.cap
+</code></pre></div><p>Checking wether this files contains packets that used neither TCP, UDP or ICMP means of transport:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">decode -d protocol smbtorture.cap
+</code></pre></div><p>Result is:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">&lt;...truncated...&gt;
+
+<span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:25  192.168.114.129:      -&gt;       224.0.0.22:      ** PROTOCOL: IGMP <span class="o">(</span>2<span class="o">)</span> **
+<span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:25 fe80::20c:29ff:fe30:6027:      -&gt;         ff02::16:      ** PROTOCOL: <span class="m">0</span> <span class="o">(</span>0<span class="o">)</span> **
+<span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:26  192.168.114.129:      -&gt;       224.0.0.22:      ** PROTOCOL: IGMP <span class="o">(</span>2<span class="o">)</span> **
+<span class="o">[</span>Uncommon Protocols<span class="o">]</span> 2005-11-19 06:38:26 fe80::20c:29ff:fe30:6027:      -&gt;         ff02::16:      ** PROTOCOL: <span class="m">0</span> <span class="o">(</span>0<span class="o">)</span> **
+
+&lt;...truncated...&gt;
+</code></pre></div><p>Meaning, yes, there are other transport layer protocols in use - IGMP.</p>
 <h2 id="scapy">scapy</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">scapy</span>
-</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">rdpcap</span><span class="p">(</span><span class="s2">&#34;smb-direct-man-in-the-middle-02-reassemble-frames9.pcap&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">pcap</span> <span class="o">=</span> <span class="n">rdpcap</span><span class="p">(</span><span class="s2">&#34;smb-direct-man-in-the-middle-02-reassemble-frames9.pcap&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><p>A very useful little script, print all the src addresses (no repeat):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">pkt</span> <span class="ow">in</span> <span class="n">pcap</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl"><span class="o">...</span><span class="p">:</span>     <span class="n">src_ips</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pkt</span><span class="p">[</span><span class="n">IP</span><span class="p">]</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">...</span><span class="p">:</span> 
-</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s1">&#39;192.168.0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;192.168.0.253&#39;</span><span class="p">}</span>
-</span></span></code></pre></div><h3 id="my-modules">My modules</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">scapy</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">rdpcap</span><span class="p">(</span><span class="s2">&#34;smb-direct-man-in-the-middle-02-reassemble-frames9.pcap&#34;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pcap</span> <span class="o">=</span> <span class="n">rdpcap</span><span class="p">(</span><span class="s2">&#34;smb-direct-man-in-the-middle-02-reassemble-frames9.pcap&#34;</span><span class="p">)</span>
+</code></pre></div><p>A very useful little script, print all the src addresses (no repeat):</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">pkt</span> <span class="ow">in</span> <span class="n">pcap</span><span class="p">:</span>
+<span class="o">...</span><span class="p">:</span>     <span class="n">src_ips</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pkt</span><span class="p">[</span><span class="n">IP</span><span class="p">]</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+<span class="o">...</span><span class="p">:</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">src_ips</span>
+<span class="p">{</span><span class="s1">&#39;192.168.0.10&#39;</span><span class="p">,</span> <span class="s1">&#39;192.168.0.253&#39;</span><span class="p">}</span>
+</code></pre></div><h3 id="my-modules">My modules</h3>
 <p>To study network forensics and feel more comfortable with scapy and other tools, I&rsquo;ve started writing a Packet Investigator module that can be downloaded via this <a href="/files/python/packet_investigator.py">link</a>. It is going to be quite primitive for some time but along with my evolvment in python and forensics it&rsquo;s going to become better and better.</p>
 <p>How to use:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># make sure scapy&#39;s installed</span>
-</span></span><span class="line"><span class="cl"><span class="n">python</span> <span class="n">packet_investigator</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">file_name</span><span class="p">]</span><span class="o">.</span><span class="n">pcap</span> <span class="p">[</span><span class="o">-</span><span class="n">unique_ips</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">susp_ips</span> <span class="p">[</span><span class="n">suspicious_IP</span><span class="p">]]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Options</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">  <span class="o">-</span><span class="n">unique_ips</span> <span class="o">-</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">IPs</span> <span class="n">that</span> <span class="n">are</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">pcap</span> <span class="p">(</span><span class="n">both</span> <span class="n">src</span> <span class="ow">and</span> <span class="n">dst</span><span class="p">),</span> <span class="n">but</span> <span class="n">no</span> <span class="n">duplicates</span>
-</span></span><span class="line"><span class="cl">  <span class="o">-</span><span class="n">susp_ips</span> <span class="o">-</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">packets</span><span class="p">,</span> <span class="n">which</span> <span class="n">src</span> <span class="ow">or</span> <span class="n">dst</span> <span class="n">IP</span> <span class="ow">is</span> <span class="p">[</span><span class="n">suspicious_IP</span><span class="p">]</span>
-</span></span></code></pre></div><h2 id="sqlmap">sqlmap</h2>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># make sure scapy&#39;s installed</span>
+<span class="n">python</span> <span class="n">packet_investigator</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">file_name</span><span class="p">]</span><span class="o">.</span><span class="n">pcap</span> <span class="p">[</span><span class="o">-</span><span class="n">unique_ips</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">susp_ips</span> <span class="p">[</span><span class="n">suspicious_IP</span><span class="p">]]</span>
+
+<span class="n">Options</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">unique_ips</span> <span class="o">-</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">IPs</span> <span class="n">that</span> <span class="n">are</span> <span class="n">found</span> <span class="ow">in</span> <span class="n">pcap</span> <span class="p">(</span><span class="n">both</span> <span class="n">src</span> <span class="ow">and</span> <span class="n">dst</span><span class="p">),</span> <span class="n">but</span> <span class="n">no</span> <span class="n">duplicates</span>
+  <span class="o">-</span><span class="n">susp_ips</span> <span class="o">-</span> <span class="nb">list</span> <span class="nb">all</span> <span class="n">packets</span><span class="p">,</span> <span class="n">which</span> <span class="n">src</span> <span class="ow">or</span> <span class="n">dst</span> <span class="n">IP</span> <span class="ow">is</span> <span class="p">[</span><span class="n">suspicious_IP</span><span class="p">]</span>
+</code></pre></div><h2 id="sqlmap">sqlmap</h2>
 <p>Through proxy (Burp running on <code>localhost:8080</code>) in order to control the attack and log all requests:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sqlmap -u &lt;URL&gt; --proxy<span class="o">=</span>http://127.0.0.1:8080
-</span></span></code></pre></div><p>If url is served over HTTPS, you might try chagning http -&gt; https:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sqlmap -u &lt;URL&gt; --proxy<span class="o">=</span>https://127.0.0.1:8080
-</span></span></code></pre></div><p>There are two options: either type all parameters in the command, or pass the request in a file and let sqlpmap do the rest:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sqlmap --proxy<span class="o">=</span>http://127.0.0.1:8080 -r r.txt --current-db
-</span></span></code></pre></div><p>File <code>r.txt</code> might look something like this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">POST /login HTTP/1.1
-</span></span><span class="line"><span class="cl">Host: victim.com
-</span></span><span class="line"><span class="cl">Content-Length: <span class="m">54</span>
-</span></span><span class="line"><span class="cl">Accept: application/json, text/plain, */*
-</span></span><span class="line"><span class="cl">X-XSRF-TOKEN: <span class="m">1234</span>
-</span></span><span class="line"><span class="cl">X-CSRF-TOKEN: <span class="m">12345</span>
-</span></span><span class="line"><span class="cl">X-Requested-With: XMLHttpRequest
-</span></span><span class="line"><span class="cl">User-Agent: Mozilla/5.0 <span class="o">(</span>Macintosh<span class="p">;</span> Intel Mac OS X 11_2_3<span class="o">)</span> AppleWebKit/537.36 <span class="o">(</span>KHTML, like Gecko<span class="o">)</span> Chrome/89.0.4389.128 Safari/537.36
-</span></span><span class="line"><span class="cl">Content-Type: application/json<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>UTF-8
-</span></span><span class="line"><span class="cl">Accept-Encoding: gzip, deflate
-</span></span><span class="line"><span class="cl">Accept-Language: en-US,en<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.9,ru<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.8,es<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.7
-</span></span><span class="line"><span class="cl">Cookie: XSRF-TOKEN<span class="o">=</span>1234<span class="p">;</span> <span class="nv">laravel_session</span><span class="o">=</span><span class="m">1111</span>
-</span></span><span class="line"><span class="cl">Connection: close
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;login&#34;</span>:<span class="s2">&#34;user1&#34;</span>,<span class="s2">&#34;password&#34;</span>:<span class="s2">&#34;111&#34;</span><span class="o">}</span>
-</span></span></code></pre></div><h2 id="arp">arp</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sqlmap -u &lt;URL&gt; --proxy<span class="o">=</span>http://127.0.0.1:8080
+</code></pre></div><p>If url is served over HTTPS, you might try chagning http -&gt; https:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sqlmap -u &lt;URL&gt; --proxy<span class="o">=</span>https://127.0.0.1:8080
+</code></pre></div><p>There are two options: either type all parameters in the command, or pass the request in a file and let sqlpmap do the rest:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sqlmap --proxy<span class="o">=</span>http://127.0.0.1:8080 -r r.txt --current-db
+</code></pre></div><p>File <code>r.txt</code> might look something like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">POST /login HTTP/1.1
+Host: victim.com
+Content-Length: <span class="m">54</span>
+Accept: application/json, text/plain, */*
+X-XSRF-TOKEN: <span class="m">1234</span>
+X-CSRF-TOKEN: <span class="m">12345</span>
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 <span class="o">(</span>Macintosh<span class="p">;</span> Intel Mac OS X 11_2_3<span class="o">)</span> AppleWebKit/537.36 <span class="o">(</span>KHTML, like Gecko<span class="o">)</span> Chrome/89.0.4389.128 Safari/537.36
+Content-Type: application/json<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>UTF-8
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.9,ru<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.8,es<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.7
+Cookie: XSRF-TOKEN<span class="o">=</span>1234<span class="p">;</span> <span class="nv">laravel_session</span><span class="o">=</span><span class="m">1111</span>
+Connection: close
+
+<span class="o">{</span><span class="s2">&#34;login&#34;</span>:<span class="s2">&#34;user1&#34;</span>,<span class="s2">&#34;password&#34;</span>:<span class="s2">&#34;111&#34;</span><span class="o">}</span>
+</code></pre></div><h2 id="arp">arp</h2>
 <p>To view arp tables:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ifconfig <span class="c1"># Mac and Linux</span>
-</span></span><span class="line"><span class="cl">ipconfig /all <span class="c1"># Windows</span>
-</span></span><span class="line"><span class="cl">ip addr show <span class="c1"># some routers</span>
-</span></span></code></pre></div><h2 id="routing-tables">Routing Tables</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -nr <span class="c1"># Mac or Windows</span>
-</span></span><span class="line"><span class="cl">ip route show <span class="c1"># router</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">tracepath
-</span></span><span class="line"><span class="cl">traceroute
-</span></span><span class="line"><span class="cl">tracert
-</span></span></code></pre></div><h2 id="ip-and-mac">ip and mac</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ifconfig <span class="c1"># Mac and Linux</span>
-</span></span><span class="line"><span class="cl">ipconfig /all <span class="c1"># Windows</span>
-</span></span><span class="line"><span class="cl">ip addr show <span class="c1"># some routers</span>
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ifconfig <span class="c1"># Mac and Linux</span>
+ipconfig /all <span class="c1"># Windows</span>
+ip addr show <span class="c1"># some routers</span>
+</code></pre></div><h2 id="routing-tables">Routing Tables</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">netstat -nr <span class="c1"># Mac or Windows</span>
+ip route show <span class="c1"># router</span>
+
+tracepath
+traceroute
+tracert
+</code></pre></div><h2 id="ip-and-mac">ip and mac</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ifconfig <span class="c1"># Mac and Linux</span>
+ipconfig /all <span class="c1"># Windows</span>
+ip addr show <span class="c1"># some routers</span>
+</code></pre></div>
   </div>
 </article>
 </div>
@@ -422,7 +424,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

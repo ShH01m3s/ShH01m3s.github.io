@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -263,18 +263,18 @@
 </blockquote>
 <h3 id="race-condition">Race condition</h3>
 <p>Say, we have two functions and a variable <code>roses</code> 🌹:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">roses</span> <span class="o">=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">triple_roses</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">roses</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">roses</span> <span class="o">*=</span> <span class="mi">3</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl"> <span class="k">def</span> <span class="nf">add_roses</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">roses</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">roses</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">  <span class="k">return</span>
-</span></span></code></pre></div><p>Let&rsquo;s say that <code>triple_roses()</code> and <code>add_roses()</code> are run in separete threads. They both access <code>roses</code> variable. First, <code>add_roses()</code> accesses the variable and checks, whether there is a single 🌹. Since this variable is initialized with 1, yes. It&rsquo;s okay for <code>add_roses()</code> function and it evaluates the condition (<code>if roses == 1</code>) to <code>True</code>. However, before it executes <code>roses += 1</code>, triple <code>triple_roses()</code> gains access to the variable from another thread. Since <code>roses</code> is still equal to 1, <code>if roses == 1</code> condition of <code>triple_roses()</code> also evaluates to <code>True</code> and the next line of code is executed <code>roses *= 3</code>. Now, there are 3 roses. Now, the <code>add_roses()</code> executes its <code>roses += 1</code> and now there are 4 roses. So, to summarize, <code>roses</code> get triples first and then incremented by one.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">roses</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">triple_roses</span><span class="p">():</span>
+  <span class="k">if</span> <span class="n">roses</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">roses</span> <span class="o">*=</span> <span class="mi">3</span>
+  <span class="k">return</span>
+  
+ <span class="k">def</span> <span class="nf">add_roses</span><span class="p">():</span>
+  <span class="k">if</span> <span class="n">roses</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">roses</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">return</span>
+</code></pre></div><p>Let&rsquo;s say that <code>triple_roses()</code> and <code>add_roses()</code> are run in separete threads. They both access <code>roses</code> variable. First, <code>add_roses()</code> accesses the variable and checks, whether there is a single 🌹. Since this variable is initialized with 1, yes. It&rsquo;s okay for <code>add_roses()</code> function and it evaluates the condition (<code>if roses == 1</code>) to <code>True</code>. However, before it executes <code>roses += 1</code>, triple <code>triple_roses()</code> gains access to the variable from another thread. Since <code>roses</code> is still equal to 1, <code>if roses == 1</code> condition of <code>triple_roses()</code> also evaluates to <code>True</code> and the next line of code is executed <code>roses *= 3</code>. Now, there are 3 roses. Now, the <code>add_roses()</code> executes its <code>roses += 1</code> and now there are 4 roses. So, to summarize, <code>roses</code> get triples first and then incremented by one.</p>
 <p><img src="images/1.png" alt="Screenshot 2021-02-11 at 23.46.38"></p>
 <p>❓ <em>But what if <code>add_roses()</code> executed its <code>roses += 1</code> first, immediatly after <code>if roses == 1</code>?</em></p>
 <p>Then, <code>roses</code> would be incremented by 1 first (it would become equal to 2), then <code>triple_roses()</code> would evaluate this condition <code>if roses == 1</code> to <code>False</code> and the amount of roses would remain the same (2).</p>
@@ -329,7 +329,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   
