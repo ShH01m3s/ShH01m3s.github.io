@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Console Activity Analysis Methodology - Analyst</title>
+  <title>MacOS Terminal Logs - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -177,22 +177,10 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a>
-      <ul>
-        <li><a href="#cmd">CMD</a></li>
-        <li><a href="#powershell">PowerShell</a></li>
-        <li><a href="#wsl">WSL</a></li>
-      </ul>
-    </li>
-    <li><a href="#macos">macOS</a>
+    <li>
       <ul>
         <li><a href="#bash-history">Bash History</a></li>
         <li><a href="#zsh">zsh</a></li>
-      </ul>
-    </li>
-    <li><a href="#linux">Linux</a>
-      <ul>
-        <li><a href="#shell">Shell</a></li>
       </ul>
     </li>
   </ul>
@@ -206,7 +194,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Console Activity Analysis Methodology</h1>
+<h1 class="title">MacOS Terminal Logs</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -242,24 +230,21 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Remote vs local commands?</p>
-<h2 id="windows">Windows</h2>
-<h3 id="cmd">CMD</h3>
-<h3 id="powershell">PowerShell</h3>
-<p>Windows PowerShell Event logs Operational Monitoring.</p>
-<p><code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell%Operational.evtx</code>, ID 4103, 4104 (if Windows considers suspicious).</p>
-<p><code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell.evtx</code>. ID 400, 800.</p>
-<p><code>%userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost</code> - poweshell history.</p>
-<h3 id="wsl">WSL</h3>
-<h2 id="macos">macOS</h2>
-<p>By default, all console data is not being logged. Only staff that was typed with <code>sudo</code> is.</p>
-<p>No matter what interpreter is in use, when you type sudo su, it&rsquo;s not loading your env variables by default. To overcome this, add <code>sudo visudo</code>. <code>Defaults env_keep += &quot;PROMPT_COMMAND&quot;</code>.</p>
+    <p>By default, all console data is not being logged. Only staff that was typed with <code>sudo</code> is. Below is the screenshot of the Console app (streaming on) when <code>sudo ls</code> command is typed in the Terminal.
+![[images/sudo-console.png]]
+And here is what&rsquo;s being logged when one types <code>sudo su</code> and then <code>ls</code>.
+![[images/sudo-console-2.png]]
+What about using <code>ls</code> or <code>cat</code> without elevating privileges? Nothing is logged at all (trying <code>helloworld</code>, cat <code>metadata.db</code> or <code>visudo</code>). So, how one keeps logging their Terminal history? It would be also great to add PID of the process, effective and real usernames. Here is how I&rsquo;ve managed to do it on my local machine (to further integrate the logs with Elastic).
+There were several problems that I&rsquo;ve encountered given it&rsquo;s a macOS.
+First of all, macOS default interpreter is zsh, which doesn&rsquo;t have <code>PROMT_COMMAND</code> variable. This variable in bash allows executing some script after each command. I&rsquo;ve found a <a href="https://superuser.com/questions/735660/whats-the-zsh-equivalent-of-bashs-prompt-command">soulution</a> in the internet to overcome this pecularity: add <code>bash precmd() { eval &quot;$PROMPT_COMMAND&quot; }</code> at the beginning of the <code>~/.zshrc</code> file, then add export <code>PROMPT_COMMAND=&quot;&quot;</code> right after it. This would simulate the desired behaviour. Don&rsquo;t forget to <code>source ~/.zshrc</code> or relaunching the Terminal for the changes to be applied.
+Now, we can log most of the commands typed here. However, in this case commands that were typed after <code>sudo su</code> won&rsquo;t be logged. That happens because when using sudo su, most of environment variables are not loaded for safety reasons. However, if you type <code>sudo su -</code> or <code>sudo -l</code> instead, you&rsquo;ll get the data logged. Shoking!
+No matter what interpreter is in use, when you type sudo su, it&rsquo;s not loading your env variables by default. To overcome this, add <code>sudo visudo</code>. <code>Defaults env_keep += &quot;PROMPT_COMMAND&quot;</code>.
+Commands can be retrieved by <code>history</code> command on UNIX machines.
+Now, to the log file itself.  Since I will be integrating it to Elastic (Custom Logging), I&rsquo;d better make it a JSON (ndjson) format. Depending on the user, the history will return different values. We need both the main user&rsquo;s and the root&rsquo;s history. Manually reading</p>
 <h3 id="bash-history">Bash History</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/.bash_sessions
 /Users/%username%/.bash_history
 </code></pre></div><h3 id="zsh">zsh</h3>
-<h2 id="linux">Linux</h2>
-<h3 id="shell">Shell</h3>
 
   </div>
 </article>
