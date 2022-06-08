@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -267,15 +267,19 @@
 <p><strong>Key</strong> 🔑: <code>ControlSet001\Control\FileSystem\NtfsDisableLastAccessUpdate</code>.</p>
 <p>Last access file time settings. If <code>1</code> - disabled (default), <code>0</code> - enabled. ⚠️ If it&rsquo;s disabled (more likely), the access times are not reliable in this case. However, this doesn&rsquo;t apply to MFT file records updates.</p>
 <p>NTFS Last Accessed Update (Win10+) -</p>
-<p>80000000 (hex) = User Managed, Last Access Updates Enabled
-80000001 (hex) = User Managed, Last Access Updates Disabled
-80000002 (hex) = System Managed, Last Access Updates Enabled - default for Windows 11 (in my case).
-80000003 (hex) = System Managed, Last Access Updates Disabled</p>
-<h3 id="system-time">System time</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="m">80000000</span> <span class="o">(</span>hex<span class="o">)</span> <span class="o">=</span> User Managed, Last Access Updates Enabled
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">80000001</span> <span class="o">(</span>hex<span class="o">)</span> <span class="o">=</span> User Managed, Last Access Updates Disabled
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">80000002</span> <span class="o">(</span>hex<span class="o">)</span> <span class="o">=</span> System Managed, Last Access Updates Enabled - default <span class="k">for</span> Windows <span class="m">11</span> <span class="o">(</span>in my <span class="k">case</span><span class="o">)</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">80000003</span> <span class="o">(</span>hex<span class="o">)</span> <span class="o">=</span> System Managed, Last Access Updates Disabled
+</span></span></code></pre></div><h3 id="system-time">System time</h3>
 <p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation\TimeZoneKeyName</code></p>
 <h2 id="aws">AWS</h2>
 <p>On AWS there is a service that can be quieried for EC2 information. Official <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">docs</a>. Querying the EC2 IMDS for different instance information: <code>curl -s &quot;http://169.254.169.254/latest/meta-data/ami-id&quot;</code>. This data can be quieried from within the instance.</p>
 <p>List all buckets: <code>aws s3 ls</code>.</p>
+<p>Turn off IMDS if you don&rsquo;t need it for work.</p>
 
   </div>
 </article>
@@ -308,7 +312,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

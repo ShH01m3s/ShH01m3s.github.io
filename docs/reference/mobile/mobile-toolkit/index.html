@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -368,12 +368,12 @@
 <p><strong>Host platforms</strong>: 🌈</p>
 <p><strong>Target platforms</strong>:  🌈</p>
 <p><strong>Install</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">brew install npm
-<span class="c1"># install node js - https://nodejs.org/en/download/</span>
-<span class="c1"># reopen terminal</span>
-npm install -g passionfruit    
-passionfruit
-</code></pre></div><p><strong>Common commands</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install npm
+</span></span><span class="line"><span class="cl"><span class="c1"># install node js - https://nodejs.org/en/download/</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># reopen terminal</span>
+</span></span><span class="line"><span class="cl">npm install -g passionfruit    
+</span></span><span class="line"><span class="cl">passionfruit
+</span></span></code></pre></div><p><strong>Common commands</strong>:</p>
 <p><code>passionfruit</code> to launch</p>
 <p><strong>Keywords</strong>: multitool, logs</p>
 <p><strong>Analogues</strong>:</p>
@@ -421,38 +421,38 @@ passionfruit
 <h4 id="introspy-ios">Introspy iOS</h4>
 <p><strong>Prerequisites on iDevice</strong>: dpkg (to install <strong>deb</strong>), Applist (for Introspy to get all installed applications), PreferenceLoader  (to appear in Settings menu) and CydiaSubstrate.</p>
 <p>Download <a href="https://github.com/iSECPartners/Introspy-iOS/releases">link</a>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp <span class="o">[</span>introspy_deb<span class="o">]</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:~
-ssh root@<span class="o">[</span>device_ip<span class="o">]</span>
-dpkg -i <span class="o">[</span>introspy_deb<span class="o">]</span>
-killall -HUP SpringBoard
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">scp <span class="o">[</span>introspy_deb<span class="o">]</span> root@<span class="o">[</span>device_ip<span class="o">]</span>:~
+</span></span><span class="line"><span class="cl">ssh root@<span class="o">[</span>device_ip<span class="o">]</span>
+</span></span><span class="line"><span class="cl">dpkg -i <span class="o">[</span>introspy_deb<span class="o">]</span>
+</span></span><span class="line"><span class="cl">killall -HUP SpringBoard
+</span></span></code></pre></div><blockquote>
 <p>🚫 <strong>Error encountered.</strong> At first, I didn&rsquo;t see it in the Settings menu, even after rerunning <code>killall</code> several times. I thought it&rsquo;s just not meant to be. But later after rebooting, rejailbreaking and installing <a href="https://github.com/nabla-c0d3/ssl-kill-switch2">SSL Kill Switch 2</a>, I reran the command <code>killall -HUP SpringBoard</code> and it worked. I don&rsquo;t know how or why it wasn&rsquo;t working at first yet. May be rejailbreaking and restarting worked.</p>
 </blockquote>
 <p>If everything works fine, you should see <strong>Introspy - Apps</strong> and <strong>Introspy - Settings</strong> in the Settings menu of the iDevice in question.</p>
 <h4 id="inropsy-android">Inropsy Android</h4>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install</span>
-pip install git+https://github.com/iSECPartners/Introspy-Analyzer.git
-</code></pre></div><h4 id="introspy-analyzer">Introspy Analyzer</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># install</span>
+</span></span><span class="line"><span class="cl">pip install git+https://github.com/iSECPartners/Introspy-Analyzer.git
+</span></span></code></pre></div><h4 id="introspy-analyzer">Introspy Analyzer</h4>
 <p><strong>Prerequisites on PC</strong>: python 2.6-2.7, pip</p>
 <p>It&rsquo;s the second part of the tool, which is run on PC. Installation:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># option 1. To launch from anywhere</span>
-pip install git+https://github.com/iSECPartners/Introspy-Analyzer.git
-python -m introspy &lt;args&gt;
-
-<span class="c1"># option 2. Lauch from specific dir</span>
-git clone https://github.com/iSECPartners/Introspy-Analyzer.git
-python Introspy-Analyzer.introspy &lt;args&gt;
-</code></pre></div><h3 id="frida">Frida</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># option 1. To launch from anywhere</span>
+</span></span><span class="line"><span class="cl">pip install git+https://github.com/iSECPartners/Introspy-Analyzer.git
+</span></span><span class="line"><span class="cl">python -m introspy &lt;args&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># option 2. Lauch from specific dir</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/iSECPartners/Introspy-Analyzer.git
+</span></span><span class="line"><span class="cl">python Introspy-Analyzer.introspy &lt;args&gt;
+</span></span></code></pre></div><h3 id="frida">Frida</h3>
 <p>This tool also consists of two parts: a server and a client. The server is copied on mobile device.</p>
 <p>Installation:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">pyenv activate python3 <span class="c1"># optional</span>
-pip install frida
-pip install frida-tools
-</code></pre></div><h3 id="objection">Objection</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyenv activate python3 <span class="c1"># optional</span>
+</span></span><span class="line"><span class="cl">pip install frida
+</span></span><span class="line"><span class="cl">pip install frida-tools
+</span></span></code></pre></div><h3 id="objection">Objection</h3>
 <p><strong>Installation</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">pip install frida frida-tools
-pip install objection
-</code></pre></div><p><a href="https://github.com/frida/frida/releases">Download</a> and install <code>frida-server-XX.XX.YY-[platform]-[arch].[extention]</code> where <code>XX.XX</code> is equal to the one installed on PC with pip command and <code>platform</code> is <code>android</code> (get <code>arch</code> from adb <code>adb shell cat /proc/cpuinfo</code> or <code>adb shell getprop ro.product.cpu.abi</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install frida frida-tools
+</span></span><span class="line"><span class="cl">pip install objection
+</span></span></code></pre></div><p><a href="https://github.com/frida/frida/releases">Download</a> and install <code>frida-server-XX.XX.YY-[platform]-[arch].[extention]</code> where <code>XX.XX</code> is equal to the one installed on PC with pip command and <code>platform</code> is <code>android</code> (get <code>arch</code> from adb <code>adb shell cat /proc/cpuinfo</code> or <code>adb shell getprop ro.product.cpu.abi</code>.</p>
 <h3 id="cycript">Cycript</h3>
 <h3 id="mobile-substrate">Mobile Substrate</h3>
 <h2 id="decrypting-applications">Decrypting applications</h2>
@@ -461,28 +461,27 @@ pip install objection
 <h3 id="clutch">Clutch</h3>
 <p>Follow the instructions <a href="https://github.com/KJCracks/Clutch">here</a>. I tried building it myself both ways but neither works on iOS 13.4.1 iPad Air 2. The previous version (2.0.3) works, however, it throws some errors. Trying to run <code>inject /usr/bin/Clutch</code> resulted in broken jb and I had to boot with the volume up key pressed to flush and then - rejailbreak.</p>
 <p><strong>Installation</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># prerequisites</span>
-xcode-select --install
-
-<span class="c1"># disable SDK code signing requirement</span>
-killall Xcode
-cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist ~/
-sudo /usr/libexec/PlistBuddy -c <span class="s2">&#34;Set :DefaultProperties:CODE_SIGNING_REQUIRED NO&#34;</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist
-sudo /usr/libexec/PlistBuddy -c <span class="s2">&#34;Set :DefaultProperties:AD_HOC_CODE_SIGNING_ALLOWED YES&#34;</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist
-
-<span class="c1"># build. Option 1</span>
-xcodebuild clean build
-
-<span class="c1"># build. Option 2</span>
-mkdir build
-<span class="nb">cd</span> build
-cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>Release -DCMAKE_TOOLCHAIN_FILE<span class="o">=</span>../cmake/iphoneos.toolchain.cmake ..
-make -j<span class="k">$(</span>sysctl -n hw.logicalcpu<span class="k">)</span>
-
-<span class="c1"># install on iDevice</span>
-scp ./build/Clutch root@<span class="o">[</span>iDevice.ip<span class="o">]</span>:/usr/bin/Clutch
-
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># prerequisites</span>
+</span></span><span class="line"><span class="cl">xcode-select --install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># disable SDK code signing requirement</span>
+</span></span><span class="line"><span class="cl">killall Xcode
+</span></span><span class="line"><span class="cl">cp /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist ~/
+</span></span><span class="line"><span class="cl">sudo /usr/libexec/PlistBuddy -c <span class="s2">&#34;Set :DefaultProperties:CODE_SIGNING_REQUIRED NO&#34;</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist
+</span></span><span class="line"><span class="cl">sudo /usr/libexec/PlistBuddy -c <span class="s2">&#34;Set :DefaultProperties:AD_HOC_CODE_SIGNING_ALLOWED YES&#34;</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># build. Option 1</span>
+</span></span><span class="line"><span class="cl">xcodebuild clean build
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># build. Option 2</span>
+</span></span><span class="line"><span class="cl">mkdir build
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> build
+</span></span><span class="line"><span class="cl">cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>Release -DCMAKE_TOOLCHAIN_FILE<span class="o">=</span>../cmake/iphoneos.toolchain.cmake ..
+</span></span><span class="line"><span class="cl">make -j<span class="k">$(</span>sysctl -n hw.logicalcpu<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># install on iDevice</span>
+</span></span><span class="line"><span class="cl">scp ./build/Clutch root@<span class="o">[</span>iDevice.ip<span class="o">]</span>:/usr/bin/Clutch
+</span></span></code></pre></div><blockquote>
 <p>❌ Error: <code>Segmentation error 11</code></p>
 <p>🤔 Why? Somewhere there is a memory access violation like a buffer is to be overflow.</p>
 <p>✅ Fix 1: try <code>ulimit -n 512</code> on iDevice before launching <code>clutch</code></p>
@@ -493,20 +492,20 @@ scp ./build/Clutch root@<span class="o">[</span>iDevice.ip<span class="o">]</spa
 <h3 id="tcpdump">Tcpdump</h3>
 <p>Command line tool. For traffic sniffing. Analyzes the full stack of TCP/IP protocol.</p>
 <p><strong>Installation</strong> steps on Android: <a href="https://www.andreafortuna.org/2018/05/28/how-to-install-and-run-tcpdump-on-android-devices/">tcpdump</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb push
-chmod tcpdump -v -s <span class="m">0</span> -w eccouncil.pc tcpdump -v -s <span class="m">0</span> -w insecurebank.v2
-</code></pre></div><h3 id="burp">Burp</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">adb push
+</span></span><span class="line"><span class="cl">chmod tcpdump -v -s <span class="m">0</span> -w eccouncil.pc tcpdump -v -s <span class="m">0</span> -w insecurebank.v2
+</span></span></code></pre></div><h3 id="burp">Burp</h3>
 <p>GUI tool with lots of useful plugins. Acts as a proxy server and allows to sniff and also modify traffic. Operates on Applicaiton Layer of TCP/IP, hence you&rsquo;ll only see HTTP(S).</p>
 <h2 id="reverse-engineering">Reverse Engineering</h2>
 <h3 id="radare2-and-the-guys">radare2 and the guys</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git clone https://github.com/radare/radare2.git
-<span class="nb">cd</span> radare2
-./sys/install.sh
-</code></pre></div><h2 id="exploits">Exploits</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/radare/radare2.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> radare2
+</span></span><span class="line"><span class="cl">./sys/install.sh
+</span></span></code></pre></div><h2 id="exploits">Exploits</h2>
 <h3 id="android-tamer">Android Tamer</h3>
 <p>Useful VM for mobile pentesting and forensics with all tools needed preinstalled is  Android Tamer. To get it work, after VM import, one needs to install several packages:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">install metasploit, zipalign and apache2
-</code></pre></div><h2 id="general-analysis">General Analysis</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">install metasploit, zipalign and apache2
+</span></span></code></pre></div><h2 id="general-analysis">General Analysis</h2>
 <h3 id="drozer">drozer</h3>
 <p>For MacOS: <code>pip install drozer</code>. Better use <code>pyenv</code> and <code>pyenv-virtualenv</code> since drozer is usung python 2.7. Then fix this file <code>/Users/veronicazvereva/.pyenv/versions/2.7.18/envs/python2/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py</code> as discussed <a href="https://github.com/FSecureLABS/drozer/issues/361">here</a>.</p>
 <p>Alternatively (didn&rsquo;t work for me as expected) - download from here - <a href="https://github.com/FSecureLABS/drozer/releases/tag/2.4.3">https://github.com/FSecureLABS/drozer/releases/tag/2.4.3</a> whl version and then do <code>pip install drozer-2.4.3-py2-none-any.whl</code>. Then fix the file mentioned above.</p>
@@ -548,7 +547,7 @@ chmod tcpdump -v -s <span class="m">0</span> -w eccouncil.pc tcpdump -v -s <span
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

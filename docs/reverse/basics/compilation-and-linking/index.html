@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -246,15 +246,15 @@
     <p><em>In this article I am trying to reasearch compilation and linking process.</em></p>
 <h2 id="terms">Terms</h2>
 <p><code>.cpp</code> - is a human-readable file written in any programming language. In this example it&rsquo;s a file written in C++. An example of this file (meaningless for simplicity sake):</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span> 
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p><code>.obj</code>,  <code>.coff</code> - binary file with its own structure. 1 file of source code (<code>*.cpp</code>) is compiled into 1 <code>.obj</code> or <code>.coff</code> file. Consists of sections, symbol table (name and current location of variable or function that can be referenced by other object files), relocation table (addresses referenced in this file that the linker must adjust when it knows the final memory layout) and debug info. A header that says where in the files the sections below are located  A (concatenated) text segment, which contains all the source code (with some missing addresses)  A (concatenated) data segment (which combines all data and the bss segments)</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><code>.obj</code>,  <code>.coff</code> - binary file with its own structure. 1 file of source code (<code>*.cpp</code>) is compiled into 1 <code>.obj</code> or <code>.coff</code> file. Consists of sections, symbol table (name and current location of variable or function that can be referenced by other object files), relocation table (addresses referenced in this file that the linker must adjust when it knows the final memory layout) and debug info. A header that says where in the files the sections below are located  A (concatenated) text segment, which contains all the source code (with some missing addresses)  A (concatenated) data segment (which combines all data and the bss segments)</p>
 <p><code>.exe</code> - an executable file with a PE header. Signature - MZ (<code>0x4d 0x5a</code>). Runs as a separate process. An exampe in hex is shown below. More on PE files in a separate article.</p>
 <p><img src="images/2.png" alt="Screenshot 2021-02-11 at 20.56.02"></p>
 <p><code>.dll</code> - an executable file with a PE header, but some flags are different. Signature is the same - MZ (<code>0x4d 0x5a</code>). Doesn&rsquo;t run as a separate process, loaded by exe. It&rsquo;s <strong>d</strong>ynamically <strong>l</strong>inked <strong>l</strong>ibrary (thus d-l-l).</p>
@@ -327,7 +327,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
