@@ -191,6 +191,16 @@
       </ul>
     </li>
     <li><a href="#aws">AWS</a></li>
+    <li><a href="#android">Android</a>
+      <ul>
+        <li><a href="#battery">Battery:</a></li>
+      </ul>
+    </li>
+    <li><a href="#ios">iOS</a>
+      <ul>
+        <li><a href="#power-log">Power Log</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -280,6 +290,22 @@
 <p>On AWS there is a service that can be quieried for EC2 information. Official <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">docs</a>. Querying the EC2 IMDS for different instance information: <code>curl -s &quot;http://169.254.169.254/latest/meta-data/ami-id&quot;</code>. This data can be quieried from within the instance.</p>
 <p>List all buckets: <code>aws s3 ls</code>.</p>
 <p>Turn off IMDS if you don&rsquo;t need it for work.</p>
+<h2 id="android">Android</h2>
+<h3 id="battery">Battery:</h3>
+<p><strong>Stats</strong>: /data/data/com.google.android.gms/shared_prefs/ Batterystats.xml
+<strong>BatterystatsDumpsysTask</strong>: /data/data/com.google.android.gms/files / BatterystatsDumpsysTask.gz</p>
+<h2 id="ios">iOS</h2>
+<h3 id="power-log">Power Log</h3>
+<ul>
+<li>
+<p>/private/var/containers/Shared/SystemGroup/ [APPGUID]/Library/BatteryLife/CurrentPowerlog. PLSQL</p>
+</li>
+<li>
+<p>/private/var/containers/Shared/SystemGroup/ [APPGUID]/Library/BatteryLife/Archives/powerlog_ DATE_ID.PLSQL.gz</p>
+</li>
+</ul>
+<p>KnowledgeC:</p>
+<pre><code>• /private/var/mobile/Library/CoreDuet/Knowledge/ knowledgeC.db</code></pre>
 
   </div>
 </article>

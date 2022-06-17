@@ -282,7 +282,8 @@
 <p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
 <h3 id="sterilizing-target-media">Sterilizing Target Media</h3>
 <p>Before copying evidence or making a disk image one needs to sterelize the target media to make sure that data that was present on that disk prior to this operation would not medle with the evidence data. Several rounds of writing <code>0</code>s is usually enough. Keep in mind that flash drives work in different manner and that&rsquo;s why simple permanent deletion of a file deems to be unrecoverable.</p>
-<p>On Windows you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). To verify that the disk was indeed sterilized, run <code>Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor.</p>
+<p>On Windows/Linux/MacOS you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). The best practise is to use three-pass zeros, but it&rsquo;s not included in freeware.
+To verify that the disk was indeed sterilized on Windows, run <code>Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor. For MacOS you can also use 010 Editor (1 month for free).</p>
 <blockquote>
 <p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
 <p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>

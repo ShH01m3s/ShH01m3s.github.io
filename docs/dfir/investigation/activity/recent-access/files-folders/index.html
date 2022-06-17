@@ -194,6 +194,12 @@
         <li><a href="#how-to-delete-the-stream">How to delete the stream</a></li>
       </ul>
     </li>
+    <li><a href="#linux">Linux</a>
+      <ul>
+        <li><a href="#trash">Trash</a></li>
+        <li><a href="#recent-files-1">Recent Files</a></li>
+      </ul>
+    </li>
     <li><a href="#macos">macOS</a>
       <ul>
         <li><a href="#appstore-downloads">AppStore Downloads</a></li>
@@ -209,6 +215,16 @@
       <ul>
         <li><a href="#login-activity">Login activity</a></li>
         <li><a href="#service-usage-activity">Service usage activity</a></li>
+      </ul>
+    </li>
+    <li><a href="#ios">iOS</a>
+      <ul>
+        <li><a href="#knowledgec">KnowledgeC:</a></li>
+        <li><a href="#screentime">Screentime:</a>
+          <ul>
+            <li><a href="#snapshots">Snapshots:</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -342,6 +358,11 @@
 <p>If you find a program file with an executable attached, it&rsquo;s almoust always means something malicious is at place. Sometimes, attackers might hide the extension. In this case the file size might be a good reason to dig deeper.</p>
 <h3 id="how-to-delete-the-stream">How to delete the stream</h3>
 <p><code>streams -s -d &lt;directory&gt;</code>. Quite dangerous since you might delete something good instead. Some system files are stored as streams for legitimate reasons. Why, btw?</p>
+<h2 id="linux">Linux</h2>
+<h3 id="trash">Trash</h3>
+<p><code>/home/%username%/.local/share/Trash/</code></p>
+<h3 id="recent-files-1">Recent Files</h3>
+<p><code>/home/%username%/.local/share/recently-used.xbel</code></p>
 <h2 id="macos">macOS</h2>
 <h3 id="appstore-downloads">AppStore Downloads</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Library/Receipts/InstallHistory.plist
@@ -379,6 +400,25 @@
 </ol>
 <h3 id="service-usage-activity">Service usage activity</h3>
 <p>Also, you can go to IAM -&gt; username -&gt; Access Advisor tab to see the services that this user has access to and when these were last used.</p>
+<h2 id="ios">iOS</h2>
+<h3 id="knowledgec">KnowledgeC:</h3>
+<pre><code>https://www.magnetforensics.com/blog/analysis-of-graykey-images-with-axiom-new-knowledgec-database-artifact-additions/
+• /private/var/mobile/Library/CoreDuet/Knowledge/ knowledgeC.db
+</code></pre>
+<h3 id="screentime">Screentime:</h3>
+<ul>
+<li>
+<p>/private/car/mobile/Library/Application</p>
+</li>
+<li>
+<p>Support/com.apple.remotemanagementd/</p>
+</li>
+<li>
+<p>RMAdminStore-Local.sqlite</p>
+<h4 id="snapshots">Snapshots:</h4>
+<p>• /private/var/mobile/Library/Containers/Data/ Application/[APPGUID]/Library/Splashboard/ Snapshots/</p>
+</li>
+</ul>
 <h2 id="references">References</h2>
 <p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/">1</a>] Digital Archaeology Live Lessons by [Michael W Graves](<a href="https://learning.oreilly.com/search/?query=author%3A%22Michael">https://learning.oreilly.com/search/?query=author%3A&quot;Michael</a> W Graves&quot;&amp;page=0)</p>
 
