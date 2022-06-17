@@ -294,15 +294,15 @@ Keep in mind that flash drives and SSD work in different manner and that&rsquo;s
 <blockquote>
 <p>📝 Note, that you can&rsquo;t use any hash algorithm for this procedure instead. Checksum64 will be the same for 1, 2, 30, 10000 zeros. However, the hash will be different for different size of input data.</p>
 </blockquote>
-<p>For Checksum64 any size of input will return the same output as soon as the data is repeated.
-![[images/crc641.png]]
+<p>For Checksum64 any size of input will return the same output as soon as the data is repeated.</p>
+<p><img src="images/crc641.png" alt="crc641">
 Checksum for 0s, 1440 bytes selected. The result is the same, 0000000000000000.
-![[images/crc642.png]]
+<img src="images/crc642.png" alt="crc642">
 Checksum for 0s, 3119 bytes selected. The result is 0000000000000000.</p>
 <p>For MD5 hash, however, that is not the case. Note, that the selected areas are different in size and the resulting hash value is different as well.
-![[images/md51.png]]
+<img src="images/md51.png" alt="md51">
 MD5 hash for the selected 1920 bytes.
-![[images/md52.png]]
+<img src="images/md52.png" alt="md52">
 MD5 hash for the selected 3600 bytes. The value is different.</p>
 <p>In case if you are exceptionally paranoid or have to be and it&rsquo;s an HDD, one additional step prior to zeroing out everything would be making the whole process better: overwriting the contents with random data (<code>diskutil randomDisk</code>). The reason why you might be interested in adding this step is that there are technologies that allow extracting residual magnetic data from a disk.</p>
 <blockquote>
