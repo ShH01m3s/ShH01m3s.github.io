@@ -188,16 +188,29 @@
     </li>
     <li><a href="#collection">Collection</a>
       <ul>
-        <li><a href="#documenting">Documenting</a></li>
-        <li><a href="#take-photos-and-videos">Take photos and videos</a></li>
-        <li><a href="#identify-the-evidence">Identify the evidence</a></li>
+        <li><a href="#documenting">Documenting</a>
+          <ul>
+            <li><a href="#chain-of-custody-checklist">Chain of Custody Checklist</a></li>
+          </ul>
+        </li>
+        <li><a href="#take-photos-and-videos">Take photos and videos</a>
+          <ul>
+            <li><a href="#first-responder-checklist">First Responder Checklist</a></li>
+            <li><a href="#identify-the-evidence">Identify the evidence</a></li>
+          </ul>
+        </li>
         <li><a href="#acquisition">Acquisition</a>
           <ul>
+            <li><a href="#write-blockers">Write Blockers</a></li>
             <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
             <li><a href="#volatile-data">Volatile Data</a></li>
           </ul>
         </li>
-        <li><a href="#preservation">Preservation</a></li>
+        <li><a href="#preservation">Preservation</a>
+          <ul>
+            <li><a href="#evidence-preservation">Evidence Preservation</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#examination--analysis">Examination &amp; Analysis</a>
@@ -287,7 +300,7 @@
 <h3 id="scope">Scope</h3>
 <p>🖼  Get the <strong>scope</strong> for your investigation!</p>
 <h3 id="validate-tools">Validate Tools</h3>
-<p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated prior to each analysis. For example, check that you wiping software has thoroughly WIPED the drive you will be using for the evidence collection.</p>
+<p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated prior to each analysis. For example, check that you wiping software has thoroughly WIPED the drive you will be using for the evidence collectionc (for example, by running a checksum64 against it).</p>
 <p><strong>Choose the appropriate one</strong>. Below are some questions to ask in order to decide.</p>
 <p>Example 1. Logging in remotely to collect artifacts and run preinstalled UI admin tools:</p>
 <table>
@@ -472,47 +485,18 @@
 <p>🗒 For several different case make a checklist</p>
 </blockquote>
 <h3 id="sterilizing-target-media">Sterilizing Target Media</h3>
-<p>Before copying evidence or making a disk image one needs to sterelize the target media to make sure that data that was present on that disk prior to this operation would not medle with the evidence data. Several rounds of writing <code>0</code>s is usually enough. Keep in mind that flash drives work in different manner and that&rsquo;s why simple permanent deletion of a file deems to be unrecoverable.</p>
-<p>On Windows you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). To verify that the disk was indeed sterilized, run <code>Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor.</p>
-<blockquote>
-<p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
-<p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
-</blockquote>
+<p>See <a href="https://bakerst221b.com/docs/dfir/investigation/collection/#sterilising-target-media">here</a> for media sterilisation.</p>
 <h2 id="collection">Collection</h2>
 <p>Begins with first response and arriving to the scene. Opponents will try to discredit your work. Use industry accepted tools. Know the digital footprint of these tools. Document everything. Before anything can be acquired, it needs to be properly documented first. Everything must be recorded and documented <strong>❗️First</strong> responders <strong>first</strong> arrive on the scene (how weird&hellip;.). Not always they are digital forensic experts.</p>
 <h3 id="documenting">Documenting</h3>
 <p>Start documenting even before you get to the scene.</p>
 <p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
-<table>
-<thead>
-<tr>
-<th>questions</th>
-<th>answers</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>❓Where the evidence was found</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Time and date the evidence was collected</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Who found the evidence</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Description of the evidence</td>
-<td></td>
-</tr>
-<tr>
-<td>❓Make, model, and S/N of device (if applicable)</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<h4 id="chain-of-custody-checklist">Chain of Custody Checklist</h4>
+<p>❓Where the evidence was found                      <br>
+❓Time and date the evidence was collected       <br>
+❓Who found the evidence                      <br>
+❓Description of the evidence<br>
+❓Make, model, and S/N of device (if applicable)</p>
 <table>
 <thead>
 <tr>
@@ -610,21 +594,20 @@
 <h3 id="take-photos-and-videos">Take photos and videos</h3>
 <p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
 <p>Below is the checklist for the first Responder to make sure they&rsquo;ve done everything needed before leaving the scene:</p>
+<h4 id="first-responder-checklist">First Responder Checklist</h4>
 <ul>
-<li><input disabled="" type="checkbox"> <em>❓All photos taken before touching the scene?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Chain of custody properly carried out?</em></li>
-<li><input disabled="" type="checkbox"> ❗️Remove evidence drive from the PC</li>
-<li><input disabled="" type="checkbox"> ❗️Sanitize the target disk</li>
-<li><input disabled="" type="checkbox"> <em>❓Is all the write blocker to be used verified prior to this investigation?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Is the imaging software verified according to the policy or at least once a month? (the whole drive is imaged)?</em></li>
-<li><input disabled="" type="checkbox"> ❗️Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables)</li>
-<li><input disabled="" type="checkbox"> <em>❓Is the WB option on?</em></li>
-<li><input disabled="" type="checkbox"> ❗️Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
-<li><input disabled="" type="checkbox"> ❗️Image the evidence.</li>
-<li><input disabled="" type="checkbox"> ❗️Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
-<li><input disabled="" type="checkbox"> ❗️Calculate the <strong>hash of the image that was taken</strong> (post-hash) and make sure it matches the above ones taken previously.</li>
+<li><input disabled="" type="checkbox"> Sanitise the target disk that will be used to copy evidence to</li>
+<li><input disabled="" type="checkbox"> Prepare all the toolkit that will be needed</li>
+<li><input disabled="" type="checkbox"> Start filling out the Chain of Custody form, each evidence assigned a unique ID (see below for examples).</li>
+<li><input disabled="" type="checkbox"> All photos taken before touching the scene</li>
+<li><input disabled="" type="checkbox"> Make sure that Internet, Bluetooth, AirDrop are all turned off on the machine that is used to acquire the image.</li>
+<li><input disabled="" type="checkbox"> Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables) or launch a software write-blocker on the acquirer machine (see below for how-to).</li>
+<li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
+<li><input disabled="" type="checkbox"> Image the evidence.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the image that was taken</strong> (post-hash) and make sure it matches the above ones taken previously.</li>
 </ul>
-<h3 id="identify-the-evidence">Identify the evidence</h3>
+<h4 id="identify-the-evidence">Identify the evidence</h4>
 <p>Assign IDs for each evidence. For example, for a flash drive it would look like this. FD (flash drive) + its <em>sequence number</em> within this case + case number. Subsequent images of these devices will have the same number + copy&rsquo;s sequence number.</p>
 <p>Example: <em>A USB Flash drive was found on the scene during case study 0124. It was the first USB drive found yet. This device was assigned a number FD-01-0124. Then we made two bit-by-bit copies of this drive and these were assigned numbers FD-01-0124-01 and FD-01-0124-02 respectively.</em></p>
 <h3 id="acquisition">Acquisition</h3>
@@ -645,37 +628,39 @@
 <li>Yes. Then transport it as is. Do not forget the charger!</li>
 <li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
 </ul>
+<h4 id="write-blockers">Write Blockers</h4>
+<h5 id="macos-software-write-blocker">macOS Software Write Blocker</h5>
+<p>On the forensic MacBook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<blockquote>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
 <h4 id="hddssd-imaging">HDD/SSD Imaging</h4>
 <p>You may perform either live or dead acquisition.</p>
-<p>For dead acquisition follow the steps:</p>
-<ol>
-<li>Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
-<li>Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li>Attach the write-blocker and the evidence drive.</li>
-</ol>
-<p>For live acquisition follow the steps:</p>
-<ol>
-<li>
-<p>Attach a write blocker or run a software-based one.</p>
-<p>On the forensic Macbook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-</li>
-<li></li>
-</ol>
-<p>On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-<p>List all drives (Linux and macOS):</p>
+<p><strong>For dead acquisition follow the steps:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
+<li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
+<li><input disabled="" type="checkbox"> Attach the write-blocker and the evidence drive.</li>
+<li><input disabled="" type="checkbox"> Connect external HDD or SSD through the write-blocker (if it&rsquo;s hardware-based)</li>
+<li><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD or use the original OS with all remote tools off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker on (if no hardware-blocker is used).</li>
+</ul>
+<p><strong>For live acquisition follow the steps:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one.</li>
+<li><input disabled="" type="checkbox"> List all drives
+On Linux and macOS:</li>
+</ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
 </span></span><span class="line"><span class="cl">lsblk
 </span></span><span class="line"><span class="cl">mount
 </span></span></code></pre></div><p>On Windows:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
 </span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
+</span></span></code></pre></div><ul>
+<li><input disabled="" type="checkbox"> Make an image using bash or</li>
+</ul>
+<p>On Linux and macOS:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
 </span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
@@ -685,15 +670,12 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
 </span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
 </span></span></code></pre></div><blockquote>
-<p>🛑 If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, &hellip;</p>
-<p>✍️ &hellip; go to Disk Utility and unmount the drive but don&rsquo;t eject it.</p>
+<p>🛑 If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, &hellip;
+✍️ &hellip; go to Disk Utility and unmount the drive but don&rsquo;t eject it.</p>
 </blockquote>
-<p>Some commercial tools like <strong>Cyber Triage</strong> allow analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
-<ul>
-<li>Connect external HDD or SSD</li>
-<li>Lauch some forensic distribution (for example, Paladin). Make an image of local HDD</li>
-<li>Analyse it with some forensic kit like autopsy, FTK, EnCase, for example.</li>
-</ul>
+<blockquote>
+<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allow analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
+</blockquote>
 <blockquote>
 <p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases? I mean, for the live USBs.</p>
 </blockquote>
@@ -714,11 +696,13 @@
 <li>Physical configuration, network topolgy</li>
 <li>Archival media</li>
 </ol>
+<blockquote>
 <p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
+</blockquote>
 <p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
 <h3 id="preservation">Preservation</h3>
 <p>Package the evidence for transport. Transport the evidence. Store the evidence while in possession. Use Faraday bags for avoiding remote tampering, anti-static and plastic bags as a protection from discharge and moisture. Tape and seal the bags with the evidence.</p>
-<p><strong>Evidence Preservation</strong></p>
+<h4 id="evidence-preservation">Evidence Preservation</h4>
 <p>Keep in mind the <a href="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil.">Locard&rsquo;s Exchange Principle</a>. To keep the evidence safe and admissable in court, document everything. When acquiring data from memory, use write blockers (soft- or hardware-based). If the device is off, don&rsquo;t turn it on. If it&rsquo;s on - take photos 📸 of all windows, note running applications and processes (mind destructive processes and encryption 🔐). If you see a destructive process running, pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
 <blockquote>
 <p>🗒 Make a list of the most popular disk-wipers with their icons.</p>
@@ -726,7 +710,7 @@
 <p>To avoid remote wiping or evidence tampering - RF shielding (Faraday bag).</p>
 <p>To prevent battery loss (in case we need the device to be on), keep the device connected to the power supply (for example, portable). ⚠️ Turning off might trigger encryption!</p>
 <p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
-<p>=====</p>
+<h5 id="android">Android</h5>
 <p>Obtain and image or physical evidence to work with. For Android, to see installed apps and recent activity:</p>
 <ul>
 <li><code>packages.list</code></li>
