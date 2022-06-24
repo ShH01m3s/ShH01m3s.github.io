@@ -206,9 +206,9 @@
             <li><a href="#volatile-data">Volatile Data</a></li>
           </ul>
         </li>
-        <li><a href="#preservation">Preservation</a>
+        <li><a href="#evidence-preservation">Evidence Preservation</a>
           <ul>
-            <li><a href="#evidence-preservation">Evidence Preservation</a></li>
+            <li><a href="#android">Android</a></li>
           </ul>
         </li>
       </ul>
@@ -295,7 +295,7 @@
 <li>For labeling and documenting (labels, markers, pens, 🖊, evidence tape 🚧).</li>
 <li>Transporting and managing evidence 💼 (Faraday bag , Anti-static bag, evidence log, large envelopes ✉️,  gloves🧤, sanitizer, ).</li>
 <li>Documents (chain of custody, notes 🗒, warrants/subpoenas).</li>
-<li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilize target media, flash drives for live/dead acquisition, bootable).</li>
+<li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilize target media, flash drives for live/dead acquisition, bootable, Apple USB Type-C wires).</li>
 </ul>
 <h3 id="scope">Scope</h3>
 <p>🖼  Get the <strong>scope</strong> for your investigation!</p>
@@ -636,13 +636,21 @@
 </blockquote>
 <h4 id="hddssd-imaging">HDD/SSD Imaging</h4>
 <p>You may perform either live or dead acquisition.</p>
-<p><strong>For dead acquisition follow the steps:</strong></p>
+<p><strong>For dead acquisition follow the steps (non-macOS):</strong></p>
 <ul>
 <li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
 <li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
 <li><input disabled="" type="checkbox"> Attach the write-blocker and the evidence drive.</li>
 <li><input disabled="" type="checkbox"> Connect external HDD or SSD through the write-blocker (if it&rsquo;s hardware-based)</li>
 <li><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD or use the original OS with all remote tools off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker on (if no hardware-blocker is used).</li>
+</ul>
+<p><strong>For dead acquisition follow the steps (macOS):</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
+<li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
+<li><input disabled="" type="checkbox"> On the forensic MacBook make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker is on (if no hardware-blocker is used).</li>
+<li><input disabled="" type="checkbox"> Connect the forensic machine to the target machine using a USB Type-C cable (for newer MacBook) or Thunderbolt cable for older ones.</li>
+<li><input disabled="" type="checkbox"> Turn the target machine in either Target Disk mode (for older MacBook) or Share Disk (for newer MacBook).</li>
 </ul>
 <p><strong>For live acquisition follow the steps:</strong></p>
 <ul>
@@ -700,9 +708,8 @@ On Linux and macOS:</li>
 <p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
 </blockquote>
 <p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
-<h3 id="preservation">Preservation</h3>
+<h3 id="evidence-preservation">Evidence Preservation</h3>
 <p>Package the evidence for transport. Transport the evidence. Store the evidence while in possession. Use Faraday bags for avoiding remote tampering, anti-static and plastic bags as a protection from discharge and moisture. Tape and seal the bags with the evidence.</p>
-<h4 id="evidence-preservation">Evidence Preservation</h4>
 <p>Keep in mind the <a href="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil.">Locard&rsquo;s Exchange Principle</a>. To keep the evidence safe and admissable in court, document everything. When acquiring data from memory, use write blockers (soft- or hardware-based). If the device is off, don&rsquo;t turn it on. If it&rsquo;s on - take photos 📸 of all windows, note running applications and processes (mind destructive processes and encryption 🔐). If you see a destructive process running, pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
 <blockquote>
 <p>🗒 Make a list of the most popular disk-wipers with their icons.</p>
@@ -710,7 +717,7 @@ On Linux and macOS:</li>
 <p>To avoid remote wiping or evidence tampering - RF shielding (Faraday bag).</p>
 <p>To prevent battery loss (in case we need the device to be on), keep the device connected to the power supply (for example, portable). ⚠️ Turning off might trigger encryption!</p>
 <p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
-<h5 id="android">Android</h5>
+<h4 id="android">Android</h4>
 <p>Obtain and image or physical evidence to work with. For Android, to see installed apps and recent activity:</p>
 <ul>
 <li><code>packages.list</code></li>
