@@ -601,7 +601,7 @@
 <li><input disabled="" type="checkbox"> Start filling out the Chain of Custody form, each evidence assigned a unique ID (see below for examples).</li>
 <li><input disabled="" type="checkbox"> All photos taken before touching the scene</li>
 <li><input disabled="" type="checkbox"> Make sure that Internet, Bluetooth, AirDrop are all turned off on the machine that is used to acquire the image.</li>
-<li><input disabled="" type="checkbox"> Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables) or launch a software write-blocker on the acquirer machine (see below for how-to).</li>
+<li><input disabled="" type="checkbox"> Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables) or launch a software write blocker on the acquirer machine (see below for how-to).</li>
 <li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
 <li><input disabled="" type="checkbox"> Image the evidence.</li>
 <li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
@@ -629,22 +629,23 @@
 <li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
 </ul>
 <h4 id="write-blockers">Write Blockers</h4>
-<p>NIST about software write-blockesr: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
+<p>NIST about software write blockesr: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
 Benchmark of different soft and hardware blockers: <a href="https://habr.com/ru/company/bizone/blog/320032/">https://habr.com/ru/company/bizone/blog/320032/</a>.</p>
 <p><strong>macOS Software Write Blocker</strong></p>
 <p>On the forensic MacBook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
 <blockquote>
 <p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
 </blockquote>
-<p><strong>Windows Software Write Blocker</strong></p>
+<p><strong>Windows Software Write Blocker</strong>
+Basically, one can do this manually. This includes changing the value in registry.</p>
 <h4 id="hddssd-imaging">HDD/SSD Imaging</h4>
 <p>You may perform either live or dead acquisition.</p>
 <p><strong>For dead acquisition follow the steps (non-macOS):</strong></p>
 <ul>
 <li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
 <li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li><input disabled="" type="checkbox"> Attach the write-blocker and the evidence drive.</li>
-<li><input disabled="" type="checkbox"> Connect external HDD or SSD through the write-blocker (if it&rsquo;s hardware-based)</li>
+<li><input disabled="" type="checkbox"> Attach the write blocker and the evidence drive.</li>
+<li><input disabled="" type="checkbox"> Connect external HDD or SSD through the write blocker (if it&rsquo;s hardware-based)</li>
 <li><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD or use the original OS with all remote tools off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker on (if no hardware-blocker is used).</li>
 </ul>
 <p><strong>For dead acquisition follow the steps (macOS):</strong></p>
@@ -838,7 +839,7 @@ On Linux and macOS:</li>
 <ol>
 <li>copy original, operate on the copy</li>
 <li>hashes</li>
-<li>write-blocking devices</li>
+<li>write blocking devices</li>
 <li>min files created</li>
 <li>register timestamps before openning files</li>
 </ol>
