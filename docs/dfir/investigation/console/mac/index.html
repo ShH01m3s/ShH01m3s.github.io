@@ -257,8 +257,13 @@ I&rsquo;ve redirected the output to a csv file and imported into Excel (for both
   <span class="nt">&#34;commandid&#34;</span><span class="p">:</span> <span class="s2">&#34;$(history | tail -n 1 | cut -d&#34;</span> <span class="s2">&#34; -f2),
 </span><span class="s2">  &#34;</span><span class="err">command</span><span class="s2">&#34;: &#39;$(history | tail -n 1 | xargs | cut -d&#34;</span> <span class="err">&#34;</span> <span class="err">-f</span><span class="mi">2</span><span class="err">-)&#39;</span>
 <span class="p">}</span>
-</code></pre></div><p>Now, to the effective vs real user. You can read more <a href="https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#:~:text=So%2C%20the%20real%20user%20id,%2C%20there%20are%20some%20exceptions">here</a>. In short, when ordinary user issues commands, both are the same, but whenever the privileges are elevated (for example, with <code>sudo su</code>) or a command is issued from behalf of another user (like <code>sudo -l username</code>) these two are going to be different. This allows us to log the responsible user. Effective user is the one, who the system thinks it is. Someone, whose rights and privileges (if any) the currently logged user is using. Real user is pretty self-explanatory, the logged in user, the one who&rsquo;s been doing staff.</p>
-<h3 id="bash-history">Bash History</h3>
+</code></pre></div><p>Now, to the effective vs real user. You can read more <a href="https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#:~:text=So%2C%20the%20real%20user%20id,%2C%20there%20are%20some%20exceptions">here</a>. In short, when ordinary user issues commands, both are the same, but whenever the privileges are elevated (for example, with <code>sudo su</code>) or a command is issued from behalf of another user (like <code>sudo -l username</code>) these two are going to be different. This allows us to log the responsible user. Effective user is the one, who the system thinks it is. Someone, whose rights and privileges (if any) the currently logged user is using. Real user is pretty self-explanatory, the logged in user, the one who&rsquo;s been doing staff.
+The next problem to solve, is to</p>
+<p>There are different shell interpreters. In order to find the appropriate history file, you&rsquo;ll need to know which one is used on the machine. Run env command and look at the following variables:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">SHELL</span><span class="o">=</span>/bin/zsh
+<span class="nv">ZSH</span><span class="o">=</span>/Users/username/.oh-my-zsh
+<span class="nv">PYENV_SHELL</span><span class="o">=</span>zsh
+</code></pre></div><h3 id="bash-history">Bash History</h3>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/.bash_sessions
 /Users/%username%/.bash_history
 </code></pre></div><h3 id="zsh">zsh</h3>
