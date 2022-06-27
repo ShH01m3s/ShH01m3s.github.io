@@ -182,47 +182,34 @@
         <li><a href="#toolkit-assembly">Toolkit Assembly</a></li>
         <li><a href="#scope">Scope</a></li>
         <li><a href="#validate-tools">Validate Tools</a></li>
-        <li><a href="#define-investigation-type">Define Investigation Type</a></li>
+        <li><a href="#case-specific-investigation-tips">Case-Specific Investigation Tips</a>
+          <ul>
+            <li><a href="#exfiltration">Exfiltration</a></li>
+            <li><a href="#ip-cases-questions">IP cases questions</a></li>
+            <li><a href="#e-discovery">E-discovery</a></li>
+          </ul>
+        </li>
         <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
       </ul>
     </li>
     <li><a href="#collection">Collection</a>
       <ul>
+        <li><a href="#-first-responder-checklist">✅ First Responder Checklist</a></li>
         <li><a href="#documenting">Documenting</a>
           <ul>
             <li><a href="#chain-of-custody-checklist">Chain of Custody Checklist</a></li>
           </ul>
         </li>
-        <li><a href="#take-photos-and-videos">Take photos and videos</a>
-          <ul>
-            <li><a href="#first-responder-checklist">First Responder Checklist</a></li>
-            <li><a href="#identify-the-evidence">Identify the evidence</a></li>
-          </ul>
-        </li>
-        <li><a href="#acquisition">Acquisition</a>
-          <ul>
-            <li><a href="#write-blockers">Write Blockers</a></li>
-            <li><a href="#hddssd-imaging">HDD/SSD Imaging</a></li>
-            <li><a href="#volatile-data">Volatile Data</a></li>
-          </ul>
-        </li>
-        <li><a href="#evidence-preservation">Evidence Preservation</a>
-          <ul>
-            <li><a href="#android">Android</a></li>
-          </ul>
-        </li>
+        <li><a href="#take-photos-and-videos">Take photos and videos</a></li>
+        <li><a href="#identify-the-evidence">Identify the evidence</a></li>
+        <li><a href="#acquisition">Acquisition</a></li>
+        <li><a href="#evidence-preservation">Evidence Preservation</a></li>
       </ul>
     </li>
     <li><a href="#examination--analysis">Examination &amp; Analysis</a>
       <ul>
-        <li><a href="#checklist">Checklist</a></li>
-        <li><a href="#tools">Tools</a>
-          <ul>
-            <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
-          </ul>
-        </li>
-        <li><a href="#guideline">Guideline</a></li>
-        <li><a href="#cyber-triage">Cyber Triage</a></li>
+        <li><a href="#--checklist">✅  Checklist</a></li>
+        <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
         <li><a href="#prioritization-and-process">Prioritization and Process</a></li>
       </ul>
     </li>
@@ -230,13 +217,7 @@
     <li><a href="#dfir-samples">DFIR Samples</a></li>
     <li><a href="#critical-thinking">Critical Thinking</a></li>
     <li><a href="#known-good">Known Good</a></li>
-    <li><a href="#case-specific-tips">Case Specific Tips</a>
-      <ul>
-        <li><a href="#exfiltration">Exfiltration</a></li>
-        <li><a href="#ip-cases-questions">IP cases questions</a></li>
-        <li><a href="#e-discovery">E-discovery</a></li>
-      </ul>
-    </li>
+    <li><a href="#case-specific-tips">Case Specific Tips</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -285,7 +266,8 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="identificationassessment-aka-preparation">Identification/Assessment (aka Preparation)</h2>
+    <p>Before this process starts, there probably has already been some Incident Response done or even finished (refer to <a href="https://bakerst221b.com/docs/dfir/ir-checklist/)">https://bakerst221b.com/docs/dfir/ir-checklist/)</a>.</p>
+<h2 id="identificationassessment-aka-preparation">Identification/Assessment (aka Preparation)</h2>
 <p>In short, understand your scope (technical and legal aspects), your goals and people you are going to work with. Identify the stakeholders. Decide on the tools.</p>
 <h3 id="toolkit-assembly">Toolkit Assembly</h3>
 <ul>
@@ -469,7 +451,8 @@
 <li><input checked="" disabled="" type="checkbox"> ❓ Will there only be live or dead acquisition?</li>
 <li><input checked="" disabled="" type="checkbox"> ❓ Will you make a <strong>logical backup</strong> (doesn&rsquo;t copy all i.e. doesn&rsquo;t copy slack, free space and deleted files) or <strong>imaging</strong> (bit-by-bit copy). ⚠️ Should not be used on a live system!</li>
 </ul>
-<h3 id="define-investigation-type">Define Investigation Type</h3>
+<h3 id="case-specific-investigation-tips">Case-Specific Investigation Tips</h3>
+<p>Determine the investigation type since it will influence the data you need, the scope, extent and strategy.</p>
 <blockquote>
 <p>⚠️ It&rsquo;s a very important thing to note in case of IP (intellectual property cases). Ensure, that data and devices of the suspect are IMMEDIATLY preserved and not accessed by anyone. I guess that&rsquo;s because of the timestamps.</p>
 </blockquote>
@@ -484,10 +467,62 @@
 <blockquote>
 <p>🗒 For several different case make a checklist</p>
 </blockquote>
+<h4 id="exfiltration">Exfiltration</h4>
+<p>It usually means that someone has leaked some confidential information. It also usually means, that the person would exfiltrate it to one person only, i.e. you would be looking for e-mail or chat conversations invlolving just two parties (no CC or BCC).</p>
+<h4 id="ip-cases-questions">IP cases questions</h4>
+<ul>
+<li><input disabled="" type="checkbox"> <em>❓ What processes did the suspect perform in order to get IP from the building?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓How the suspect accessed email accs?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Cloud ⛅️ storage used?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Remote transfer?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓DVDs/CDs/USBs?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Suspects negotiating salary and benefits with the competitors?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Was he/she selling the information?</em></li>
+<li><input disabled="" type="checkbox"> <em>❓Mass deletion or drive wiping?</em></li>
+</ul>
+<h4 id="e-discovery">E-discovery</h4>
+<p>Electronic aspects of identifying, collecting and producing electronically stored info in response to a request for production in a lawsuit or investigation (emails, websites, docs). ❗️Focused on the metadata, not the data itself! <em>How, when and where was the doc created?</em></p>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> <em>❓How, when and where was the doc created?</em></p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ❓ <em>What is the case about?</em></p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ❓ <em>What evidence do we expect to recover?</em></p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ❓ <em>Where is the evidence most likely located?</em></p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ❓ <em>What are the legal restrictions?</em></p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> ❓ <em>Who is involved and what&rsquo;s their role?</em></p>
+</li>
+</ul>
+<blockquote>
+<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
+</blockquote>
 <h3 id="sterilizing-target-media">Sterilizing Target Media</h3>
 <p>See <a href="https://bakerst221b.com/docs/dfir/investigation/collection/#sterilising-target-media">here</a> for media sterilisation.</p>
 <h2 id="collection">Collection</h2>
 <p>Begins with first response and arriving to the scene. Opponents will try to discredit your work. Use industry accepted tools. Know the digital footprint of these tools. Document everything. Before anything can be acquired, it needs to be properly documented first. Everything must be recorded and documented <strong>❗️First</strong> responders <strong>first</strong> arrive on the scene (how weird&hellip;.). Not always they are digital forensic experts.</p>
+<p>For each media type there is a separate section under Incident Investigation -&gt; Collection section on this website - <a href="https://bakerst221b.com/docs/dfir/investigation/collection/">https://bakerst221b.com/docs/dfir/investigation/collection/</a>.</p>
+<h3 id="-first-responder-checklist">✅ First Responder Checklist</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Sanitise the target disk that will be used to copy evidence to</li>
+<li><input disabled="" type="checkbox"> Prepare all the toolkit that will be needed</li>
+<li><input disabled="" type="checkbox"> Start filling out the Chain of Custody form, each evidence assigned a unique ID (see below for examples).</li>
+<li><input disabled="" type="checkbox"> All photos taken before touching the scene</li>
+<li><input disabled="" type="checkbox"> Make sure that Internet, Bluetooth, AirDrop are all turned off on the machine that is used to acquire the image.</li>
+<li><input disabled="" type="checkbox"> Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables) or launch a software write blocker on the acquirer machine (see below for how-to).</li>
+<li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
+<li><input disabled="" type="checkbox"> Image the evidence.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the image that was taken</strong> (post-hash) and make sure it matches the above ones taken previously.</li>
+</ul>
 <h3 id="documenting">Documenting</h3>
 <p>Start documenting even before you get to the scene.</p>
 <p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
@@ -497,6 +532,9 @@
 ❓Who found the evidence                      <br>
 ❓Description of the evidence<br>
 ❓Make, model, and S/N of device (if applicable)</p>
+<blockquote>
+<p>📝 I think, one of the best ways to keep Chain of Custody is on Google Drive or something alike. This way we have a histrory of changes and who has made them. Another way would be to use GitHub.</p>
+</blockquote>
 <table>
 <thead>
 <tr>
@@ -594,24 +632,11 @@
 <h3 id="take-photos-and-videos">Take photos and videos</h3>
 <p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
 <p>Below is the checklist for the first Responder to make sure they&rsquo;ve done everything needed before leaving the scene:</p>
-<h4 id="first-responder-checklist">First Responder Checklist</h4>
-<ul>
-<li><input disabled="" type="checkbox"> Sanitise the target disk that will be used to copy evidence to</li>
-<li><input disabled="" type="checkbox"> Prepare all the toolkit that will be needed</li>
-<li><input disabled="" type="checkbox"> Start filling out the Chain of Custody form, each evidence assigned a unique ID (see below for examples).</li>
-<li><input disabled="" type="checkbox"> All photos taken before touching the scene</li>
-<li><input disabled="" type="checkbox"> Make sure that Internet, Bluetooth, AirDrop are all turned off on the machine that is used to acquire the image.</li>
-<li><input disabled="" type="checkbox"> Connect the write blocker to the PC and the evidence drive to the write blocker (power + data cables) or launch a software write blocker on the acquirer machine (see below for how-to).</li>
-<li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
-<li><input disabled="" type="checkbox"> Image the evidence.</li>
-<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
-<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the image that was taken</strong> (post-hash) and make sure it matches the above ones taken previously.</li>
-</ul>
-<h4 id="identify-the-evidence">Identify the evidence</h4>
+<h3 id="identify-the-evidence">Identify the evidence</h3>
 <p>Assign IDs for each evidence. For example, for a flash drive it would look like this. FD (flash drive) + its <em>sequence number</em> within this case + case number. Subsequent images of these devices will have the same number + copy&rsquo;s sequence number.</p>
 <p>Example: <em>A USB Flash drive was found on the scene during case study 0124. It was the first USB drive found yet. This device was assigned a number FD-01-0124. Then we made two bit-by-bit copies of this drive and these were assigned numbers FD-01-0124-01 and FD-01-0124-02 respectively.</em></p>
 <h3 id="acquisition">Acquisition</h3>
-<p>Don&rsquo;t contaminate the scene (try not to be tempted to eat buiscuits 🍪 and burgers 🍔 on the scene, however hard that might seem). This means, that you should also preserve the physical evidence as well. Don&rsquo;t touch ANYTHING before the lead investigator says &ldquo;OK&rdquo; 👍. Always mind the scope and get it in writing even if it&rsquo;s not a crimial case. Do fingerprints need to be collected? DNA?</p>
+<p>Don’t contaminate the scene (try not to be tempted to eat buiscuits 🍪 and burgers 🍔 on the scene, however hard that might seem). This means, that you should also preserve the physical evidence as well. Don’t touch ANYTHING before the lead investigator says “OK” 👍. Always mind the scope and get it in writing even if it’s not a crimial case. Do fingerprints need to be collected? DNA?</p>
 <p>What types of evidence can I come across?</p>
 <ul>
 <li>Obvious - PC, cameras, flash drives, PDAs, removable media. Mind the chain of custody. Document the physical condition (mouse to left or right as the owner is a lefty or a righty), applications running, keep audio notes.</li>
@@ -623,114 +648,19 @@
 </ul>
 </li>
 </ul>
-<p>The first thing to consider when acquiring a PC is wether it&rsquo;s turned on or off?</p>
+<p>The first thing to consider when acquiring a PC is wether it’s turned on or off?</p>
 <ul>
 <li>Yes. Then transport it as is. Do not forget the charger!</li>
 <li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
 </ul>
-<h4 id="write-blockers">Write Blockers</h4>
-<p>NIST about software write blockesr: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
-Benchmark of different soft and hardware blockers: <a href="https://habr.com/ru/company/bizone/blog/320032/">https://habr.com/ru/company/bizone/blog/320032/</a>.</p>
-<p><strong>macOS Software Write Blocker</strong></p>
-<p>On the forensic MacBook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-<p><strong>Windows Software Write Blocker</strong>
-Basically, one can do this manually. This includes changing the value in registry.</p>
-<h4 id="hddssd-imaging">HDD/SSD Imaging</h4>
-<p>You may perform either live or dead acquisition.</p>
-<p><strong>For dead acquisition follow the steps (non-macOS):</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
-<li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li><input disabled="" type="checkbox"> Attach the write blocker and the evidence drive.</li>
-<li><input disabled="" type="checkbox"> Connect external HDD or SSD through the write blocker (if it&rsquo;s hardware-based)</li>
-<li><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD or use the original OS with all remote tools off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker on (if no hardware-blocker is used).</li>
-</ul>
-<p><strong>For dead acquisition follow the steps (macOS):</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
-<li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li><input disabled="" type="checkbox"> On the forensic MacBook make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker is on (if no hardware-blocker is used) - see above for the latter.</li>
-<li><input disabled="" type="checkbox"> Connect the forensic machine to the target machine using a USB Type-C cable (for newer MacBook) or Thunderbolt cable for older ones.</li>
-<li><input disabled="" type="checkbox"> Turn the target machine in either Target Disk mode (for older MacBook) or Share Disk (for newer MacBook).
-<ul>
-<li><input disabled="" type="checkbox"> <strong>Share Disk</strong>.
-<ul>
-<li><input disabled="" type="checkbox"> Turn the suspect machine off. Press turn on button and hold until you see &ldquo;Continue holding for startup options&rdquo;. Stop holding when &ldquo;Loading startup options&rdquo; appears.</li>
-<li><input disabled="" type="checkbox"> On the top panel choose Utilities -&gt; Share Disk and choose the disk you want to share. You might be asked to unlock it (if FireVault is enabled).</li>
-<li><input disabled="" type="checkbox"> On the forensic machine go to Network () or see the device appear in the side panel in Finder. If doesn&rsquo;t, open Finder -&gt; Preferences -&gt; General and make sure External disks, Connected servers and hard disks are selected. Move to the Sidebar tab and make sure it&rsquo;s all selected there as well.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Target Disk</strong>. There are two ways to boot into this mode. One is simply by pressing the power on button along with a T key while booting. The second one is from Preferences. This is a legacy option that&rsquo;s not present on the latest Apple devices.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>⛔️ I could not make the whole thing work. I even thought that there might be some problem with the geuine Apple cables.
-✍🏻 However, in my case, the issue appears to be something very primitive. Looks like the problem was that my both MacBooks had the same name. AirDrop was smart enough to rename on of them by appending (2), but in this mode it seems it was not that easy. Once I named the PCs differently, it all started to work. Also, I&rsquo;ve changed the HDD names as well just in case.</p>
-</blockquote>
-<blockquote>
-<p>❗️This option is not write-proof one. I managed to delete a folder from the drive. Make sure write blocker is on.</p>
-</blockquote>
-<p><strong>For live acquisition follow the steps:</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one.</li>
-<li><input disabled="" type="checkbox"> List all drives
-On Linux and macOS:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
-</span></span><span class="line"><span class="cl">lsblk
-</span></span><span class="line"><span class="cl">mount
-</span></span></code></pre></div><p>On Windows:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
-</span></span></code></pre></div><ul>
-<li><input disabled="" type="checkbox"> Make an image using bash or</li>
-</ul>
-<p>On Linux and macOS:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
-</span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
-</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
-</span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
-</span></span></code></pre></div><blockquote>
-<p>🛑 If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, &hellip;
-✍️ &hellip; go to Disk Utility and unmount the drive but don&rsquo;t eject it.</p>
-</blockquote>
-<blockquote>
-<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allow analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
-</blockquote>
-<blockquote>
-<p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases? I mean, for the live USBs.</p>
-</blockquote>
-<h4 id="volatile-data">Volatile Data</h4>
-<p>The order of volatility (processes &gt; network connections &gt; routing tables &gt; passwords):</p>
-<ol>
-<li>Regisrers and cache. How to collect them? What&rsquo;s registers? CPU or &hellip;?</li>
-<li>Routing tables, ARP cache, process tables, kernel statistics, memory
-<ol>
-<li>Windows - <code>route print | more</code></li>
-<li>Linux -  <code>ip route</code></li>
-<li>Mac OSX - <code>netstat -rn</code></li>
-</ol>
-</li>
-<li>Temporary file systems?</li>
-<li>Disk</li>
-<li>Remote logging and monitoring data that is revelevant to the system in question</li>
-<li>Physical configuration, network topolgy</li>
-<li>Archival media</li>
-</ol>
-<blockquote>
-<p>⚠️ In case of live capture, mind that there might be a kill switch somewhere or a rootkit that will deem all unusable the moment you try doing something.</p>
-</blockquote>
-<p>Along with the device itself, document and acquire sub-items as well (attached USBs and other stuff, manuals, papers, adapters etc).</p>
 <h3 id="evidence-preservation">Evidence Preservation</h3>
+<ol>
+<li>copy original, operate on the copy</li>
+<li>hashes</li>
+<li>write blocking devices</li>
+<li>min files created</li>
+<li>register timestamps before openning files</li>
+</ol>
 <p>Package the evidence for transport. Transport the evidence. Store the evidence while in possession. Use Faraday bags for avoiding remote tampering, anti-static and plastic bags as a protection from discharge and moisture. Tape and seal the bags with the evidence.</p>
 <p>Keep in mind the <a href="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil.">Locard&rsquo;s Exchange Principle</a>. To keep the evidence safe and admissable in court, document everything. When acquiring data from memory, use write blockers (soft- or hardware-based). If the device is off, don&rsquo;t turn it on. If it&rsquo;s on - take photos 📸 of all windows, note running applications and processes (mind destructive processes and encryption 🔐). If you see a destructive process running, pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
 <blockquote>
@@ -739,40 +669,41 @@ On Linux and macOS:</li>
 <p>To avoid remote wiping or evidence tampering - RF shielding (Faraday bag).</p>
 <p>To prevent battery loss (in case we need the device to be on), keep the device connected to the power supply (for example, portable). ⚠️ Turning off might trigger encryption!</p>
 <p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
-<h4 id="android">Android</h4>
-<p>Obtain and image or physical evidence to work with. For Android, to see installed apps and recent activity:</p>
-<ul>
-<li><code>packages.list</code></li>
-<li><code>packages.xml</code> - to see permissions for <strong>all</strong> applications in one place. For example, if this application has a SMS or messaging permission, you&rsquo;ll know to look. Or, for example, I need all applications that have chat permissions or access to camera.</li>
-<li>com.vending.adnroid</li>
-<li>usagestats</li>
-<li>usage history</li>
-<li>battery stats</li>
-<li>recent images</li>
-<li>snapshots</li>
-</ul>
-<p>tccb on iOS?</p>
-<p>Chromebook - extension preferences file.</p>
-<p>Run commercial tools to parse the info. If not, then try to find some specific parser, may be for similar app and try.</p>
-<p>Create profiles and you any real data for generation.</p>
-<p>Fake data - mockaroo and generatedata.com</p>
-<ol>
-<li>take the snapshot of the system state before populating with data</li>
-<li>Write a script-plan</li>
-<li>take notes</li>
-<li>perform actions 1 min apart</li>
-<li>scrrencap actions</li>
-<li>document them (log with script)</li>
-<li>compare with the the baseline &ldquo;snapshot&rdquo; from step 1.</li>
-</ol>
-<p><a href="https://blog.d204n6.com/2020/08/setting-up-testing-lab-of-ios-and.html">https://blog.d204n6.com/2020/08/setting-up-testing-lab-of-ios-and.html</a></p>
-<p><a href="https://www.mac4n6.com/blog/2020/8/23/step-by-step-iphone-setup-for-ios-research-via-bizzybarney">https://www.mac4n6.com/blog/2020/8/23/step-by-step-iphone-setup-for-ios-research-via-bizzybarney</a></p>
-<p><a href="https://www.mac4n6.com/blog/2020/8/13/step-by-step-macos-setup-for-ios-research-via-bizzybarney">https://www.mac4n6.com/blog/2020/8/13/step-by-step-macos-setup-for-ios-research-via-bizzybarney</a></p>
-<p>Do not make assumptions before testing! For example, a QuizUp game folder contained some usernames and pictures and the assumption would be that this person was in touch with the suspect. However, testing revealed that when you choose to randomly find you a rival from around the globe 🌎, QuizUp automatically adds them to the player&rsquo;s contacts.</p>
-<p>Jessica advices to use appropriate view-managers for specific files, but I would also recommend to check these files in hex as well. There was once a case when I performed vulnerability assessment of a mobile application and I got a SQLite DB, opened it in SQLite Browser DB and couldn&rsquo;t find the data I was looking for. However <code>grep</code>  command showed that this data <em>was</em> in the DB. I opened it in hex and noticed that it might have been damaged because there was an amount of data almoust the same size as the visible one, that was not shown in the viewer. Perhaps that were some deleted rows or the DB <em>was</em> damaged indeed.</p>
-<p>Applications of different versions or platforms may have different data structure. For example, iOS QuizUp had a geolocation field, while Android didn&rsquo;t at that point in time.	[<a href="https://www.eccu.edu/methodology-for-testing-forensic-hypothesis-and-finding-truth/#attend">1</a>]</p>
 <h2 id="examination--analysis">Examination &amp; Analysis</h2>
 <p>Art supersedes science. Know what is garbage. Unexpected places. Don&rsquo;t ignore exculpatory (proving innocence) data.</p>
+<p>❗️ Correlate data with other independent sources. Some data might have been tampered with and you should try to find other evidence that describe the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>
+<ul>
+<li>
+<p>Analysis of non-volatile storage devices</p>
+</li>
+<li>
+<p>Analysis of volatile storage devices (RAM)</p>
+</li>
+<li>
+<p>Analysis of communication devices</p>
+</li>
+<li>
+<p>Physical Storage Media Analysis</p>
+<ul>
+<li>Volume analysis. <strong>Volume</strong> - collection of storage locations.
+<ul>
+<li>File System
+<ul>
+<li>Application</li>
+<li>OS</li>
+</ul>
+</li>
+<li>DB</li>
+<li>Swap space</li>
+</ul>
+</li>
+<li>Memory analysis</li>
+</ul>
+</li>
+<li>
+<p>Network</p>
+</li>
+</ul>
 <p>Bypassing controls (if, say, it&rsquo;s PIN protected, data encrypted, ACL, compression). There will be lots of data and only some is relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. This list is used by Autopsy.</p>
 <p>Testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
 <p>About SIM forensics as well <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf">here</a>.</p>
@@ -825,7 +756,7 @@ On Linux and macOS:</li>
 <p>Manager: categories</p>
 <p>Cyber Truage User: same</p>
 <p>File name &ndash;&gt; meta &ndash;&gt; content</p>
-<h3 id="checklist">Checklist</h3>
+<h3 id="--checklist">✅  Checklist</h3>
 <p>Is this computer compromised? Let&rsquo;s break down into smaller questions. Below will be the full checklist, this one is for overview.</p>
 <ol>
 <li>Malicious Process ❓Are there malprograms (backdoors, key loggers)?
@@ -839,75 +770,11 @@ On Linux and macOS:</li>
 <li>OS Configs ❓Are there malconfigs (services enabled, disabled logging)?</li>
 <li>Hardware ❓Are there Mal hardware changes (firmware, BIOS)?</li>
 </ol>
-<h3 id="tools">Tools</h3>
-<ol>
-<li>Continuous monitoring vs snapshot</li>
-<li>Artifacts vs full images</li>
-</ol>
-<p><a href="https://github.com/meirwah/awesome-incident-response">https://github.com/meirwah/awesome-incident-response</a></p>
-<p>Pivot between artifacts, score them, context about an artifact.</p>
-<h4 id="ntfs-vs-apfs">NTFS vs APFS</h4>
+<h3 id="ntfs-vs-apfs">NTFS vs APFS</h3>
 <p>Mind that APFS <a href="/docs/articles/forensics/analysis/11-apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/articles/forensics/analysis/13-windows/win-artifacts">timestamps</a> are different! With NTFS when you add a file to the system (for example, copy it from USB drive), the MAC times are changed. However, on APFS <em>Added</em> attribute is added, providing you with slightly more information.</p>
 <blockquote>
 <p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
 </blockquote>
-<h3 id="guideline">Guideline</h3>
-<p>PICL - Preservation, Isolation, Correlation, Logging.</p>
-<p><strong>Preservation</strong></p>
-<ol>
-<li>copy original, operate on the copy</li>
-<li>hashes</li>
-<li>write blocking devices</li>
-<li>min files created</li>
-<li>register timestamps before openning files</li>
-</ol>
-<p><strong>Correlation</strong></p>
-<p>Correlate data with other independent sources. Some data might have been tampered with and you should try to find other evidence that describe the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>
-<p><strong>Logging</strong></p>
-<p>Always log and document all you do. This might be important in court. It&rsquo;s especially important when analysing live systems.</p>
-<p><strong>Data analysis</strong></p>
-<ul>
-<li>
-<p>Analysis of non-volatile storage devices</p>
-</li>
-<li>
-<p>Analysis of volatile storage devices (RAM)</p>
-</li>
-<li>
-<p>Analysis of communication devices</p>
-</li>
-<li>
-<p>Physical Storage Media Analysis</p>
-<ul>
-<li>Volume analysis. <strong>Volume</strong> - collection of storage locations.
-<ul>
-<li>File System
-<ul>
-<li>Application</li>
-<li>OS</li>
-</ul>
-</li>
-<li>DB</li>
-<li>Swap space</li>
-</ul>
-</li>
-<li>Memory analysis</li>
-</ul>
-</li>
-<li>
-<p>Network</p>
-</li>
-</ul>
-<h3 id="cyber-triage">Cyber Triage</h3>
-<p>Live, remote or image. Steps:</p>
-<ol>
-<li>Collect artifacts</li>
-<li>Score</li>
-<li>Review</li>
-<li>Deep Dive (optional)</li>
-<li>Report</li>
-</ol>
-<p>We need to analysie user activity, find indicators of malware and check whether configs were changed.</p>
 <h3 id="prioritization-and-process">Prioritization and Process</h3>
 <p>There are different paths to follow to answer the same questions. Some are more efficitent.</p>
 <p>Pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
@@ -973,44 +840,6 @@ On Linux and macOS:</li>
 <p>Not all the files are worth considering. However, it&rsquo;s hard to keep all of them in mind. So, I&rsquo;ve made (about to) several database files that contain information on files on a clean installed system. There will be some diviations, I presume, but I hope it will help eliminate a huge pack of files as well.</p>
 <p>Refer to <a href="/docs/articles/forensics/analysis/materials/newborn-systems">this</a> artcile for more information.</p>
 <h2 id="case-specific-tips">Case Specific Tips</h2>
-<h3 id="exfiltration">Exfiltration</h3>
-<p>It usually means that someone has leaked some confidential information. It also usually means, that the person would exfiltrate it to one person only, i.e. you would be looking for e-mail or chat conversations invlolving just two parties (no CC or BCC).</p>
-<h3 id="ip-cases-questions">IP cases questions</h3>
-<ul>
-<li><input disabled="" type="checkbox"> <em>❓ What processes did the suspect perform in order to get IP from the building?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓How the suspect accessed email accs?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Cloud ⛅️ storage used?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Remote transfer?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓DVDs/CDs/USBs?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Suspects negotiating salary and benefits with the competitors?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Was he/she selling the information?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Mass deletion or drive wiping?</em></li>
-</ul>
-<h3 id="e-discovery">E-discovery</h3>
-<p>Electronic aspects of identifying, collecting and producing electronically stored info in response to a request for production in a lawsuit or investigation (emails, websites, docs). ❗️Focused on the metadata, not the data itself! <em>How, when and where was the doc created?</em></p>
-<ul>
-<li>
-<p><input disabled="" type="checkbox"> <em>❓How, when and where was the doc created?</em></p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> ❓ <em>What is the case about?</em></p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> ❓ <em>What evidence do we expect to recover?</em></p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> ❓ <em>Where is the evidence most likely located?</em></p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> ❓ <em>What are the legal restrictions?</em></p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> ❓ <em>Who is involved and what&rsquo;s their role?</em></p>
-</li>
-</ul>
-<blockquote>
-<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
-</blockquote>
 <h2 id="references">References</h2>
 <p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
 <p>[<a href="https://www.coursera.org/lecture/digital-forensics-concepts/forensics-methodology-and-investigations-33wNN">2</a>] InfoSec Digital Forensics Course, module Forensics Methodology and Investigations</p>

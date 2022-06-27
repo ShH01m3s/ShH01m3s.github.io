@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📸 Collection - Analyst</title>
+  <title>Evidence Collection And Preservation - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-single'>
+<body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -172,51 +172,9 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
+    <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
   </p>
-  <aside>
-   <nav id="TableOfContents">
-  <ul>
-    <li><a href="#triage-collection-across-enterprise">Triage Collection Across Enterprise</a>
-      <ul>
-        <li><a href="#kansa">Kansa</a></li>
-        <li><a href="#powershell-csirt-collectps1">PowerShell (CSIRT-Collect.ps1)</a></li>
-        <li><a href="#kape-kroll-artifact-parser--extractor">KAPE (Kroll Artifact Parser &amp; Extractor)</a></li>
-        <li><a href="#winpmem">Winpmem</a></li>
-        <li><a href="#7zip">7zip</a></li>
-        <li><a href="#arsenal-image-mounter">Arsenal Image Mounter</a></li>
-        <li><a href="#magnet-axiom">Magnet Axiom</a></li>
-      </ul>
-    </li>
-    <li><a href="#imaging">Imaging</a>
-      <ul>
-        <li><a href="#sterilising-target-media">Sterilising Target Media</a>
-          <ul>
-            <li><a href="#tool-check">Tool Check</a></li>
-          </ul>
-        </li>
-        <li><a href="#hddssd-imaging">HDD/SSD Imaging</a>
-          <ul>
-            <li><a href="#macos">macOS</a></li>
-          </ul>
-        </li>
-        <li><a href="#ram">RAM</a>
-          <ul>
-            <li><a href="#macos-1">macOS</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#references">References</a>
-      <ul>
-        <li><a href="#general">General</a></li>
-        <li><a href="#macos-2">macOS</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
- </aside>
- </div>
+ </div> 
 
 
 
@@ -224,199 +182,42 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">📸 Collection</h1>
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    <div class="meta">
-      
-      <div class="article-category">domain: 
-          
-              
-                <i class="fas fa-search"></i>
-              
-          <a class="category-link" href="/domain/forensics">forensics</a>
-          
-      </div> <br />
-      
-      <div class="article-category">doctype:
-          
-            
-              
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
-          
-      </div> <br /><br/>
-      
-      
-      
-      
-
-      
-      
-
-      
-    </div>
-  </header>
 
 
-  <div class="content" itemprop="articleBody">
-    <h2 id="triage-collection-across-enterprise">Triage Collection Across Enterprise</h2>
-<p>Powershell is the best tool to automate and scale evidence collection accross the enterprise.</p>
-<h3 id="kansa">Kansa</h3>
-<p>Not only for collection, but also for analysis (stacking).</p>
-<h3 id="powershell-csirt-collectps1">PowerShell (CSIRT-Collect.ps1)</h3>
-<p>Two directories: one with Winpmem and 7zip, another with Kape, copied from local install. Makes a RAM image, zips it and sends to the network share. Cleans up the host under investigation after that. A very useful thing: it&rsquo;ll capture OS build, needed for <code>vol2.py</code> for profiling.</p>
-<p>Then, it launches KAPE which performs triage.</p>
-<h3 id="kape-kroll-artifact-parser--extractor">KAPE (Kroll Artifact Parser &amp; Extractor)</h3>
-<p>Seems to be very close to what Kansa frawemork does. What&rsquo;s the difference? Kansa for live response and hunt; KAPE for forensics. Also, it seems that Kansa is dying. Better explained <a href="https://www.reddit.com/r/computerforensics/comments/d67vyz/kansa_vs_kape/">here</a> by <a href="https://www.reddit.com/user/sprint_ska/">sprint_ska</a>, thanks man. Also, Kansa relies on Windows built-in tools while Kape doesn&rsquo;t. Kansa scales better.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kape --tsource C: --target RegistryHives --tdest <span class="s2">&#34;\results&#34;</span> 
-</span></span><span class="line"><span class="cl">kape --tsource H --target !ALL --tdest <span class="s2">&#34;dir&#34;</span> --debug  
-</span></span><span class="line"><span class="cl">kape --msource “dir” --module LECmd --mdest <span class="s2">&#34;dir&#34;</span> --trace --debug
-</span></span></code></pre></div><h3 id="winpmem">Winpmem</h3>
-<h3 id="7zip">7zip</h3>
-<h3 id="arsenal-image-mounter">Arsenal Image Mounter</h3>
-<h3 id="magnet-axiom">Magnet Axiom</h3>
-<p>💴 Don&rsquo;t forget it&rsquo;s a paid tool. Nevertheless, it&rsquo;s very easy to use.</p>
-<h2 id="imaging">Imaging</h2>
-<p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
-<p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
-<p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
-<p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
-<h3 id="sterilising-target-media">Sterilising Target Media</h3>
-<p>Before copying evidence or making a disk image one needs to sterelise the target media to make sure that data that was present on that disk prior to this operation would not meddle with the evidence data. Several rounds of writing <code>0</code>s is usually enough.
-Keep in mind that flash drives and SSD work in different manner and that&rsquo;s why simple permanent deletion of a file might deem it to be unrecoverable. However, it&rsquo;s not always the case (due to some optimizations implemented in the controller), that&rsquo;s why for compliancy sake you might still want to follow the below procedures.</p>
-<p>On Windows/Linux/MacOS you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). The best practise is to use three-pass zeros, but it&rsquo;s not included in freeware. You can still run the same command three times. On Mac you can also use <code>diskutil zeroDisk</code> or <code>diskutil randomDisk</code>. The first one will fill the disk with <code>0</code> and the second - with random symbols.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">diskutil list <span class="c1"># to list all the attached and internal devices. Note the drive file name, it looks like /dev/disk[X] where X is a number. If you want to zero out just a volume instead of the whole physical drive, add the second identifier, for example, /dev/disk[X]s[Y] where X is the number of the physical drive and Y is the volume number within this disk.</span>
-</span></span><span class="line"><span class="cl">diskutil zeroDisk /dev/disk4 <span class="c1"># this might take a while. The larger the disk, the more time is required.</span>
-</span></span></code></pre></div><p>To verify that the disk was indeed sterilized on Windows, run <code>Analysis -&gt; Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor (with admin rights).</p>
-<blockquote>
-<p>📝 Note, that you can&rsquo;t use any hash algorithm for this procedure instead. Checksum64 will be the same for 1, 2, 30, 10000 zeros. However, the hash will be different for different size of input data.</p>
-</blockquote>
-<p>For Checksum64 any size of input will return the same output as soon as the data is repeated.</p>
-<p><img src="images/crc641.png" alt="crc641">
-Checksum for 0s, 1440 bytes selected. The result is the same, 0000000000000000.
-<img src="images/crc642.png" alt="crc642">
-Checksum for 0s, 3119 bytes selected. The result is 0000000000000000.</p>
-<p>For MD5 hash, however, that is not the case. Note, that the selected areas are different in size and the resulting hash value is different as well.
-<img src="images/md51.png" alt="md51">
-MD5 hash for the selected 1920 bytes.
-<img src="images/md52.png" alt="md52">
-MD5 hash for the selected 3600 bytes. The value is different.</p>
-<p>In case if you are exceptionally paranoid or have to be and it&rsquo;s an HDD, one additional step prior to zeroing out everything would be making the whole process better: overwriting the contents with random data (<code>diskutil randomDisk</code>). The reason why you might be interested in adding this step is that there are technologies that allow extracting residual magnetic data from a disk.</p>
-<blockquote>
-<p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
-<p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
-</blockquote>
-<h4 id="tool-check">Tool Check</h4>
-<p>📆 <code>17/07/2022</code> - <strong>macOS Monterey 12.3.1 (21E258) - host.</strong></p>
-<ol>
-<li>Active@ KillDisk for macOS, Freeware, Version 14.0.</li>
-<li>Parallels Desktop 17 for Mac, Windows 11, Active@ KillDisk 10.2.8</li>
-<li><code>diskutil</code>, comes with macOS, version unknown. After 1 round of <code>diskutik zeroDisk</code> has all 0 Checksum64, therefore the cleanup works as expected for 1 round (flash drive).</li>
-</ol>
-<h3 id="hddssd-imaging">HDD/SSD Imaging</h3>
-<p>You may perform either live or dead acquisition.</p>
-<p>For dead acquisition follow the steps:</p>
-<ol>
-<li>Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
-<li>Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li>Attach the write-blocker and the evidence drive.</li>
-</ol>
-<p>For live acquisition follow the steps:</p>
-<ol>
-<li>
-<p>Attach a write blocker or run a software-based one.</p>
-<p>On the forensic Macbook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-</li>
-</ol>
-<p>List all drives (Linux and macOS):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
-</span></span><span class="line"><span class="cl">lsblk
-</span></span><span class="line"><span class="cl">mount
-</span></span></code></pre></div><p>On Windows:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
-</span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
-</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
-</span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
-</span></span></code></pre></div><p>If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>, go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
-<p>Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
-<ul>
-<li>Connect external HDD or SSD</li>
-<li>Lauch some forensic distribution (for example, Paladin). Make an image of local HDD</li>
-<li>Analyse it with some forensic kit like autopsy, FTK, EnCase, for example.</li>
-</ul>
-<blockquote>
-<p>Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
-</blockquote>
-<p>On the forensic Macbook turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
-</blockquote>
-<h4 id="macos">macOS</h4>
-<p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they&rsquo;ve added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it and they had to work this out. But after T2 Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics in that there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode as well.</p>
-<p>Another interesting key point is that now the kill signal can be sent over Bluetooth as well. That means than if there is someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) can send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. Sounds made up, but Mac forensics expert said that this is what it looks like now.</p>
-<p>Also, they talked about <a href="https://sumuri.com/product/recon-itr/">ITR</a> tool that images and triages Mac devices. Supports live imaging of Apple Silicon Macs!</p>
-<p>I have an old MacBook (see <a href="/blog/2020/10/how-i-broke-my-husbands-macbook">this</a> blog post) and a new one with M1 chip. Following the instruction from the Udemy <a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2534096?start=1#content">course</a> of Michael Leclair, I&rsquo;ve bougth a Thunderbolt2-Thunderbolt3 cable to connect these two PCs. I&rsquo;ve tried this and this first, but they worked only for connecting Displays. However, whatever cable I tried using, nothing worked. I then tried the Apple ones, but these did not work either. I have run across this text on officical Apple docs for the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter:</p>
-<blockquote>
-<p>This adapter is bidirectional, which means you can use it to connect Thunderbolt 3 devices to a Mac that has a Thunderbolt or Thunderbolt 2 port. In that case, the Mac must be using <a href="https://support.apple.com/kb/HT201260">macOS Sierra or later</a>, and the device using Thunderbolt 3 must provide its own power. [<a href="https://support.apple.com/en-us/HT207266">5</a>]</p>
-</blockquote>
-<p>So, there are two prerequisites:</p>
-<ol>
-<li>macOS Sierra or later</li>
-<li>the device using Thunderbolt 3 must provide its own power.</li>
-</ol>
-<p><a href="https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221">https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221</a> USB TYPE-C Thunderbolt 3 2 к мини DisplayPort DP 4k 60 Гц для Macbook Air Pro Samsung dell XPS13 15 к Apple cinema display</p>
-<p><a href="https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5">https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5</a> Cabletime USB C 3.1 to Mini DP Adapter 4k60hz Projector Type C to Thunderbolt 2 Converter For Laptop Huawei Mate 40 Samsung N428</p>
-<p><a href="https://mrmacintosh.com/filevault-2-target-disk-mode-unlock-using-the-personal-recovery-key/">FileVault 2 Target Disk Mode Unlock Using the Personal Recovery Key</a>. As is stated <a href="https://www.reddit.com/r/mac/comments/7upvss/thunderbolt_bridge_inactive/">here</a> on Reddit:</p>
-<blockquote>
-<p>[&hellip;] usb-c charging cable provided is only usb2.0 for data transfer [&hellip;] to do thunderbolt target disk mode you need a thunderbolt 3 cable (expensive) [&hellip;]</p>
-</blockquote>
-<p>So, trying to use the cable that came with the charger shouldn&rsquo;t work since it supports USB 2.0 transfer only.</p>
-<p><a href="https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/">https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/</a></p>
-<p><strong>Disk Arbitration</strong></p>
-<p>Prevents the host computer from writing data to the target macbook when using Target Disk Mode.</p>
-<p><strong>Fusion Drives</strong></p>
-<p>Fusion drive is the combination of an ordinary drive and a small NAND flash drive as well that appear as one logical volume in the OS, but when you try imaging it, you&rsquo;ll get two different drives and the image will be somewhat corrupted for the analysis tools if you don&rsquo;t assemble it correctly. NAND flash drive stores the most often used files like system ones and also those files that are used by the user more often than others. It seems to me that the idea is pretty much the same as with prefetch in Windows 🌈.</p>
-<h3 id="ram">RAM</h3>
-<h4 id="macos-1">macOS</h4>
-<p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] there is the list of tools to be used for RAM acquisition. I’ve tried several of them and realised, that the current problem of the forensic community is that the tools get old much faster than the information gets updated… Sadly.</em></p>
-<p><code>OSXPmem</code></p>
-<p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There a few complications though.</p>
-<p>⚠️ SIP needs to be disabled. Freboot &gt; CMD+R &gt; Terminal &gt; csrutil disbale &gt; reboot). Otherwise, might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal in order to changes to take place!</p>
-<h2 id="references">References</h2>
-<h3 id="general">General</h3>
-<p>[<a href="https://blog.elcomsoft.com/2019/12/challenges-in-computer-and-mobile-forensics-what-to-expect-in-2020/">1</a>] 2020 overview of forensic challenges for different devices</p>
-<p>[<a href="https://digitalforensicsurvivalpodcast.com/2020/03/03/dfsp-211-mac-forensics-with-steve-whalen/">2</a>] DFSP Podcast, interview with Steve Wahlen (Samuri co-founder)</p>
-<p>[<a href="https://digitalforensicsurvivalpodcast.com/2016/12/13/dfsp-043-imaging-a-mac-survival-tips/">3</a>] Imaging Mac surviving tips (before the release of T2 chip, I presume)</p>
-<p>[<a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2222294#overview">4</a>] Imaging Mac Fusion Drives</p>
-<p>[<a href="https://support.apple.com/en-us/HT207266">5</a>] About the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter</p>
-<p>[<a href="https://bakerstreetforensics.com/presentations/">6</a>] PowerShell Tools for IR Forensics Collection</p>
-<h3 id="macos-2">macOS</h3>
-<p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
-<p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
-<p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
-<p>[<a href="https://support.apple.com/guide/mac-help/permission-files-a-mac-disk-mchlp1204/mac">4</a>] If you don’t have permission to use files on a Mac disk</p>
-<p>[<a href="https://www.macworld.co.uk/how-to/how-turn-off-mac-os-x-system-integrity-protection-rootless-3638975/">5</a>] How to turn off Rootless (SIP, or System Integrity Protection) in OS X</p>
-<p>[<a href="https://dfir.ru/2018/09/08/memory-compression-and-forensics/#more-368">6</a>] Memory compression and forensics</p>
-<p><a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/</a></p>
-<p><a href="https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging">https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging</a></p>
 
-  </div>
-</article>
-</div>
-</div>
+ 
+ <h1 class="title">Evidence Collection And Preservation</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/sterilisation/"> Media Sterilisation</a></h2> 
+    <p> Before copying evidence or making a disk image one needs to sterelise the target media to make sure that data that was present on that disk prior to this operation would not meddle with the evidence data.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/aws/"> ⛅️ AWS Evidence Collection</a></h2> 
+    <p> </p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/ios/"> 🍎 iOS Evidence Collection</a></h2> 
+    <p> File System Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/mac/"> 🍏 Mac Evidence Collection</a></h2> 
+    <p> File Systems APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/linux/"> 🐧 Linux Evidence Collection</a></h2> 
+    <p> File Systems EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.
+Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/android/"> 🤖 Android Evidence Collection</a></h2> 
+    <p> File System Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/tools/"> 🧰 Acquisition Toolkit</a></h2> 
+    <p> Collection Powershell is the best tool to automate and scale evidence collection accross the enterprise.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/win/"> 🪟 Windows Evidence Collection</a></h2> 
+    <p> File Systems FAT12, 32, 64, NTFS, ReFS.
+Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files.</p>
+
+
+
+
 
         </div>
       </div>

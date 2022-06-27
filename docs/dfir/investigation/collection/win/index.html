@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Incident Investigation 🔎 🥷 - Analyst</title>
+  <title>🪟 Windows Evidence Collection - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -170,8 +170,21 @@
         <div class="col-12 col-md-3 mb-3">
           <div class="sidebar">
             
-  <div class="docs-menu">
-   </div> 
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/investigation/collection/"> Back to Evidence Collection And Preservation Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#file-systems">File Systems</a></li>
+    <li><a href="#write-block">Write Block</a></li>
+    <li><a href="#collection-checklist">Collection Checklist</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -179,40 +192,69 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">🪟 Windows Evidence Collection</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="file-systems">File Systems</h2>
+<p>FAT12, 32, 64, NTFS, ReFS.</p>
+<p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
+<h2 id="write-block">Write Block</h2>
+<p><strong>Windows Software Write Blocker</strong> Basically, one can do this manually. This includes changing the value in registry.</p>
+<h2 id="collection-checklist">Collection Checklist</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
+<li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
+<li><input disabled="" type="checkbox"> Attach the write blocker and the evidence drive.</li>
+<li><input disabled="" type="checkbox"> Connect external HDD or SSD through the write blocker (if it’s hardware-based)</li>
+<li><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD or use the original OS with all remote tools off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker on (if no hardware-blocker is used).</li>
+</ul>
+<h2 id="references">References</h2>
+<p>[<a href="https://blog.elcomsoft.com/2019/12/challenges-in-computer-and-mobile-forensics-what-to-expect-in-2020/">1</a>] 2020 overview of forensic challenges for different devices</p>
+<p>[<a href="https://digitalforensicsurvivalpodcast.com/2020/03/03/dfsp-211-mac-forensics-with-steve-whalen/">2</a>] DFSP Podcast, interview with Steve Wahlen (Samuri co-founder)</p>
+<p>[<a href="https://digitalforensicsurvivalpodcast.com/2016/12/13/dfsp-043-imaging-a-mac-survival-tips/">3</a>] Imaging Mac surviving tips (before the release of T2 chip, I presume)</p>
+<p>[<a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2222294#overview">4</a>] Imaging Mac Fusion Drives</p>
+<p>[<a href="https://support.apple.com/en-us/HT207266">5</a>] About the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter</p>
+<p>[<a href="https://bakerstreetforensics.com/presentations/">6</a>] PowerShell Tools for IR Forensics Collection</p>
 
- 
- <h1 class="title">Incident Investigation 🔎 🥷</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/threat-hunting/"> 🐀 Threat Hunting And Intelligence</a></h2> 
-    <p> ATT&amp;CK MITRE Cyber Analitics Repository - https://car.mitre.org/. That&rsquo;s basically what I was planning to write in here, but it&rsquo;s already implemented and in a very neat way.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/devices/"> 🔥 Detection Devices</a></h2> 
-    <p> Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/playbooks/"> 📖 Playbooks</a></h2> 
-    <p> <p><em>In order to detect and response to the incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/ir-checklist/"> 🗒  Incident Response Methodology</a></h2> 
-    <p> Preparation  📝 Compile a list of all your assets (servers, networks, applications etc) 📈 Rank them by level of importance.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/df-checklist/"> 🗒️ Forensic Investigation Methodology</a></h2> 
-    <p> Before this process starts, there probably has already been some Incident Response done or even finished (refer to https://bakerst221b.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/"> 🔎 Incident Investigation</a></h2> 
-    <p> <p><em>Once the incident is confirmed, you need to perfrom an investigation in order to be able fully contain it and remediate. This phase is also crucial to the threat intelligence collection which allows for more targeted hunting for adversaries accross the infrastructure. I found it quite hard to separate incident response and digital forensics articles from one another. For now I am seeing incident response as a more general process that could require more thorough examination (digital forensics) but not neccessarilly. As I see it, we have an event, start IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artifacts to ATCK MITRE framework. Then, to be able to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space etc in order to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching and DF is about details.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/timelines/"> ⏱️ Timelines And Timestamps</a></h2> 
-    <p> If something was downloaded and the accessed in several days - then the suspect knew about this file.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/cases/"> 💼 Sample Cases</a></h2> 
-    <p> </p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>🍏 Mac Evidence Collection - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/investigation/collection/"> Back to Evidence Collection And Preservation Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#file-systems">File Systems</a></li>
+    <li><a href="#write-block">Write Block</a></li>
+    <li><a href="#hddssd">HDD/SSD</a>
+      <ul>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#dead-acquisition-checklist">Dead Acquisition Checklist</a></li>
+        <li><a href="#live-acquisition-checklist">Live Acquisition Checklist</a></li>
+      </ul>
+    </li>
+    <li><a href="#ram">RAM</a></li>
+    <li><a href="#-btfm">📘 <strong>BTFM</strong></a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">🍏 Mac Evidence Collection</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="file-systems">File Systems</h2>
+<p>APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
+<p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
+<h2 id="write-block">Write Block</h2>
+<p>On the forensic MacBook you can turn off disk arbitration or use write blockers.</p>
+<p><strong>Disk Arbitration</strong></p>
+<p>Prevents the host computer from writing data to the target macbook when using Target Disk Mode. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It’s needed so that the forensic machine won’t make changes to the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<blockquote>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
+<h2 id="hddssd">HDD/SSD</h2>
+<h3 id="research">Research</h3>
+<p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they&rsquo;ve added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it and they had to work this out. But after T2 Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics in that there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode as well.</p>
+<p>Another interesting key point is that now the kill signal can be sent over Bluetooth as well. That means than if there is someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) can send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. Sounds made up, but Mac forensics expert said that this is what it looks like now.</p>
+<p>Also, they talked about <a href="https://sumuri.com/product/recon-itr/">ITR</a> tool that images and triages Mac devices. Supports live imaging of Apple Silicon Macs!</p>
+<p>I have an old MacBook (see <a href="/blog/2020/10/how-i-broke-my-husbands-macbook">this</a> blog post) and a new one with M1 chip. Following the instruction from the Udemy <a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2534096?start=1#content">course</a> of Michael Leclair, I&rsquo;ve bougth a Thunderbolt2-Thunderbolt3 cable to connect these two PCs. I&rsquo;ve tried this and this first, but they worked only for connecting Displays. However, whatever cable I tried using, nothing worked. I then tried the Apple ones, but these did not work either. I have run across this text on officical Apple docs for the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter:</p>
+<blockquote>
+<p>This adapter is bidirectional, which means you can use it to connect Thunderbolt 3 devices to a Mac that has a Thunderbolt or Thunderbolt 2 port. In that case, the Mac must be using <a href="https://support.apple.com/kb/HT201260">macOS Sierra or later</a>, and the device using Thunderbolt 3 must provide its own power. [<a href="https://support.apple.com/en-us/HT207266">5</a>]</p>
+</blockquote>
+<p>So, there are two prerequisites:</p>
+<ol>
+<li>macOS Sierra or later</li>
+<li>the device using Thunderbolt 3 must provide its own power.</li>
+</ol>
+<p><a href="https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221">https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221</a> USB TYPE-C Thunderbolt 3 2 к мини DisplayPort DP 4k 60 Гц для Macbook Air Pro Samsung dell XPS13 15 к Apple cinema display</p>
+<p><a href="https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5">https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5</a> Cabletime USB C 3.1 to Mini DP Adapter 4k60hz Projector Type C to Thunderbolt 2 Converter For Laptop Huawei Mate 40 Samsung N428</p>
+<p><a href="https://mrmacintosh.com/filevault-2-target-disk-mode-unlock-using-the-personal-recovery-key/">FileVault 2 Target Disk Mode Unlock Using the Personal Recovery Key</a>. As is stated <a href="https://www.reddit.com/r/mac/comments/7upvss/thunderbolt_bridge_inactive/">here</a> on Reddit:</p>
+<blockquote>
+<p>[&hellip;] usb-c charging cable provided is only usb2.0 for data transfer [&hellip;] to do thunderbolt target disk mode you need a thunderbolt 3 cable (expensive) [&hellip;]</p>
+</blockquote>
+<p>So, trying to use the cable that came with the charger shouldn&rsquo;t work since it supports USB 2.0 transfer only.</p>
+<p><a href="https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/">https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/</a></p>
+<p><strong>Fusion Drives</strong></p>
+<p>Fusion drive is the combination of an ordinary drive and a small NAND flash drive as well that appear as one logical volume in the OS, but when you try imaging it, you&rsquo;ll get two different drives and the image will be somewhat corrupted for the analysis tools if you don&rsquo;t assemble it correctly. NAND flash drive stores the most often used files like system ones and also those files that are used by the user more often than others. It seems to me that the idea is pretty much the same as with prefetch in Windows 🌈.</p>
+<h3 id="dead-acquisition-checklist">Dead Acquisition Checklist</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
+<li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
+<li><input disabled="" type="checkbox"> On the forensic MacBook make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker is on (if no hardware-blocker is used) - see above for the latter.</li>
+<li><input disabled="" type="checkbox"> Connect the forensic machine to the target machine using a USB Type-C cable (for newer MacBook) or Thunderbolt cable for older ones.</li>
+<li><input disabled="" type="checkbox"> Turn the target machine in either Target Disk mode (for older MacBook) or Share Disk (for newer MacBook).
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Share Disk</strong>.
+<ul>
+<li><input disabled="" type="checkbox"> Turn the suspect machine off. Press turn on button and hold until you see “Continue holding for startup options”. Stop holding when “Loading startup options” appears.</li>
+<li><input disabled="" type="checkbox"> On the top panel choose Utilities -&gt; Share Disk and choose the disk you want to share. You might be asked to unlock it (if FireVault is enabled).</li>
+<li><input disabled="" type="checkbox"> On the forensic machine go to Network () or see the device appear in the side panel in Finder. If doesn’t, open Finder -&gt; Preferences -&gt; General and make sure External disks, Connected servers and hard disks are selected. Move to the Sidebar tab and make sure it’s all selected there as well.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Target Disk</strong>. There are two ways to boot into this mode. One is simply by pressing the power on button along with a T key while booting. The second one is from Preferences. This is a legacy option that’s not present on the latest Apple devices.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>⛔️ I could not make the whole thing work. I even thought that there might be some problem with the geuine Apple cables.
+✍🏻 However, in my case, the issue appears to be something very primitive. Looks like the problem was that my both MacBooks had the same name. AirDrop was smart enough to rename on of them by appending (2), but in this mode it seems it was not that easy. Once I named the PCs differently, it all started to work. Also, I’ve changed the HDD names as well just in case.</p>
+</blockquote>
+<blockquote>
+<p>❗️This option is not write-proof one. I managed to delete a folder from the drive. Make sure write blocker is on.</p>
+</blockquote>
+<h3 id="live-acquisition-checklist">Live Acquisition Checklist</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one. On the forensic Macbook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> List all drives to get the id of the target.</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Connect external HDD or SSD</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD (❗️ Won&rsquo;t work for M1 Apple devices).</p>
+<blockquote>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="ram">RAM</h2>
+<p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] there is the list of tools to be used for RAM acquisition. I’ve tried several of them and realised, that the current problem of the forensic community is that the tools get old much faster than the information gets updated… Sadly.</em></p>
+<p><code>OSXPmem</code></p>
+<p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There a few complications though.</p>
+<p>⚠️ SIP needs to be disabled. Freboot &gt; CMD+R &gt; Terminal &gt; csrutil disbale &gt; reboot). Otherwise, might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal in order to changes to take place!</p>
+<h2 id="-btfm">📘 <strong>BTFM</strong></h2>
+<p>List all drives (Linux and macOS):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
+</span></span><span class="line"><span class="cl">lsblk
+</span></span><span class="line"><span class="cl">mount
+</span></span></code></pre></div><p>On Windows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
+</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
+</span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
+</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
+</span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
+</span></span></code></pre></div><blockquote>
+<p>⛔️ If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>,
+✍🏻 go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
+</blockquote>
+<blockquote>
+<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
+</blockquote>
+<blockquote>
+<p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
+</blockquote>
+<h2 id="references">References</h2>
+<p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
+<p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
+<p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
+<p>[<a href="https://support.apple.com/guide/mac-help/permission-files-a-mac-disk-mchlp1204/mac">4</a>] If you don’t have permission to use files on a Mac disk</p>
+<p>[<a href="https://www.macworld.co.uk/how-to/how-turn-off-mac-os-x-system-integrity-protection-rootless-3638975/">5</a>] How to turn off Rootless (SIP, or System Integrity Protection) in OS X</p>
+<p>[<a href="https://dfir.ru/2018/09/08/memory-compression-and-forensics/#more-368">6</a>] Memory compression and forensics</p>
+<p><a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/</a></p>
+<p><a href="https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging">https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging</a></p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
