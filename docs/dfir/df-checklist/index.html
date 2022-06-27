@@ -652,10 +652,28 @@ Basically, one can do this manually. This includes changing the value in registr
 <ul>
 <li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
 <li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li><input disabled="" type="checkbox"> On the forensic MacBook make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker is on (if no hardware-blocker is used).</li>
+<li><input disabled="" type="checkbox"> On the forensic MacBook make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker is on (if no hardware-blocker is used) - see above for the latter.</li>
 <li><input disabled="" type="checkbox"> Connect the forensic machine to the target machine using a USB Type-C cable (for newer MacBook) or Thunderbolt cable for older ones.</li>
-<li><input disabled="" type="checkbox"> Turn the target machine in either Target Disk mode (for older MacBook) or Share Disk (for newer MacBook).</li>
+<li><input disabled="" type="checkbox"> Turn the target machine in either Target Disk mode (for older MacBook) or Share Disk (for newer MacBook).
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Share Disk</strong>.
+<ul>
+<li><input disabled="" type="checkbox"> Turn the suspect machine off. Press turn on button and hold until you see &ldquo;Continue holding for startup options&rdquo;. Stop holding when &ldquo;Loading startup options&rdquo; appears.</li>
+<li><input disabled="" type="checkbox"> On the top panel choose Utilities -&gt; Share Disk and choose the disk you want to share. You might be asked to unlock it (if FireVault is enabled).</li>
+<li><input disabled="" type="checkbox"> On the forensic machine go to Network () or see the device appear in the side panel in Finder. If doesn&rsquo;t, open Finder -&gt; Preferences -&gt; General and make sure External disks, Connected servers and hard disks are selected. Move to the Sidebar tab and make sure it&rsquo;s all selected there as well.</li>
 </ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Target Disk</strong>. There are two ways to boot into this mode. One is simply by pressing the power on button along with a T key while booting. The second one is from Preferences. This is a legacy option that&rsquo;s not present on the latest Apple devices.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>⛔️ I could not make the whole thing work. I even thought that there might be some problem with the geuine Apple cables.
+✍🏻 However, in my case, the issue appears to be something very primitive. Looks like the problem was that my both MacBooks had the same name. AirDrop was smart enough to rename on of them by appending (2), but in this mode it seems it was not that easy. Once I named the PCs differently, it all started to work. Also, I&rsquo;ve changed the HDD names as well just in case.</p>
+</blockquote>
+<blockquote>
+<p>❗️This option is not write-proof one. I managed to delete a folder from the drive. Make sure write blocker is on.</p>
+</blockquote>
 <p><strong>For live acquisition follow the steps:</strong></p>
 <ul>
 <li><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one.</li>
