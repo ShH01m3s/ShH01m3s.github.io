@@ -175,7 +175,39 @@
    <a href="/docs/dfir/investigation/collection/"> Back to 🗳 Evidence Collection And Preservation Section 👈🏼 </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cloud-forensic-evironment">Cloud Forensic Evironment</a>
+      <ul>
+        <li><a href="#how-to-stream-logsdata-to-forensic-account">How to stream logs/data to forensic account?</a></li>
+      </ul>
+    </li>
+    <li><a href="#evidence">Evidence</a>
+      <ul>
+        <li><a href="#ec2-instance-metadata">EC2 instance metadata</a></li>
+        <li><a href="#amazon-ebs-disk-snapshots">Amazon EBS disk snapshots</a></li>
+        <li><a href="#ebs-disks-streamed-to-s3">EBS disks streamed to S3</a></li>
+        <li><a href="#memory-dumps">Memory dumps</a></li>
+        <li><a href="#memory-hibernation">Memory hibernation</a></li>
+        <li><a href="#cloudtrail-logs">CloudTrail logs</a></li>
+        <li><a href="#aws-config-rule-findings">AWS Config rule findings</a></li>
+        <li><a href="#amazon-route-53">Amazon Route 53</a></li>
+        <li><a href="#dns-resolverquery-logs">DNS resolver query logs</a></li>
+        <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
+        <li><a href="#aws-security-hubfindings">AWS Security Hub findings</a></li>
+        <li><a href="#elastic-load-balancing-access-logs">Elastic Load Balancing access logs</a></li>
+        <li><a href="#aws-waf-logs">AWS WAF logs</a></li>
+        <li><a href="#custom-application-logs">Custom application logs</a></li>
+        <li><a href="#system-logs">System logs</a></li>
+        <li><a href="#security-logs">Security logs</a></li>
+        <li><a href="#any-third-party-logs">Any third-party logs</a></li>
+      </ul>
+    </li>
+    <li><a href="#heading"></a></li>
+    <li><a href="#confusing-terms">Confusing Terms</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -223,7 +255,69 @@
 
 
   <div class="content" itemprop="articleBody">
-    
+    <h2 id="cloud-forensic-evironment">Cloud Forensic Evironment</h2>
+<p>First of all, data that is collected for analysis within the cloud needs to be handled properly as well. For this purpose a separate account is created. There are several roles there that all have different purpose and rights:</p>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> <strong>Responder</strong> – acquire evidence</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> <strong>Investigator</strong> – analyze evidence</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> <strong>Data custodian</strong> – manage (copy, move, delete, and expire) evidence</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> <strong>Analyst</strong> – access forensics reports for analytics, trends, and forecasting (threat intelligence)</p>
+</li>
+</ul>
+<p><strong>Below are the main considerations:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Granting access to either the account, or assuming the role needs to be approved by the owner of the IR plan. Preferably, there should be 2 approvers for this.</li>
+<li><input disabled="" type="checkbox"> There should be no network traffic coming from or to this account. and therefore all S3 access must be done through an <a href="https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html">S3 VPC endpoint</a>. </li>
+<li><input disabled="" type="checkbox"> VPC flow logging should be enabled at the Amazon VPC level so that there are records of all network traffic. </li>
+<li><input disabled="" type="checkbox"> <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html">Security groups</a> should be highly restrictive, and deny all ports that aren’t related to the requirements of the forensic tools.</li>
+<li><input disabled="" type="checkbox"> SSH and RDP access should be restricted and governed by auditable mechanisms such as a <a href="https://aws.amazon.com/quickstart/architecture/linux-bastion/">bastion host</a> configured to log all connections and activity, <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html">AWS Systems Manager Session Manager</a>, or similar.</li>
+<li><input disabled="" type="checkbox"> AMI chosen and pre-configured with industry-trusted tools. One of them would be</li>
+</ul>
+<h3 id="how-to-stream-logsdata-to-forensic-account">How to stream logs/data to forensic account?</h3>
+<h2 id="evidence">Evidence</h2>
+<h3 id="ec2-instance-metadata">EC2 instance metadata</h3>
+<h3 id="amazon-ebs-disk-snapshots">Amazon EBS disk snapshots</h3>
+<h3 id="ebs-disks-streamed-to-s3">EBS disks streamed to S3</h3>
+<h3 id="memory-dumps">Memory dumps</h3>
+<h3 id="memory-hibernation">Memory hibernation</h3>
+<p>Memory hibernation captured through hibernation on the root EBS volume</p>
+<h3 id="cloudtrail-logs">CloudTrail logs</h3>
+<p>Stores most of the information about the things that happened in the Cloud (loggin, creating instances etc). Full logs are only seen in <code>json</code> format.</p>
+<h3 id="aws-config-rule-findings">AWS Config rule findings</h3>
+<h3 id="amazon-route-53">Amazon Route 53</h3>
+<p><a href="https://aws.amazon.com/route53/">https://aws.amazon.com/route53/</a></p>
+<h3 id="dns-resolverquery-logs">DNS resolver query logs</h3>
+<p><a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-getting-started.html">https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-getting-started.html</a></p>
+<h3 id="vpc-flow-logs">VPC Flow Logs</h3>
+<p><a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html">https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html</a></p>
+<h3 id="aws-security-hubfindings">AWS Security Hub findings</h3>
+<p><a href="https://aws.amazon.com/security-hub/">https://aws.amazon.com/security-hub/</a></p>
+<h3 id="elastic-load-balancing-access-logs">Elastic Load Balancing access logs</h3>
+<p><a href="https://aws.amazon.com/elasticloadbalancing/">https://aws.amazon.com/elasticloadbalancing/</a></p>
+<h3 id="aws-waf-logs">AWS WAF logs</h3>
+<p><a href="https://aws.amazon.com/waf/">https://aws.amazon.com/waf/</a></p>
+<h3 id="custom-application-logs">Custom application logs</h3>
+<h3 id="system-logs">System logs</h3>
+<h3 id="security-logs">Security logs</h3>
+<h3 id="any-third-party-logs">Any third-party logs</h3>
+<h2 id="heading"></h2>
+<h2 id="confusing-terms">Confusing Terms</h2>
+<p><strong>IAM</strong> - Identity Access Management. This is a service for creating users, groups, roles, permissions, policies.
+Each individual using the AWS service needs to have a separate user in AWS associated with them. So, roughly speaking, user = person.
+Each user can be in 1+ groups. Theoretically, a user can be not a part of any group, but when they are, it’s easier to manage access and permissions.
+Policies are a list of permissions that can be assigned to a group, user, role. Can be created via JSON (raw) or GUI.
+Groups have the same permissions defined by purposes.
+Roles are assigned to services within AWS. Something similar to groups?</p>
+<h2 id="references">References</h2>
+<p>[<a href="https://aws.amazon.com/blogs/security/forensic-investigation-environment-strategies-in-the-aws-cloud/">1</a>]] Forensic investigation environment strategies in the AWS Cloud</p>
+
   </div>
 </article>
 </div>

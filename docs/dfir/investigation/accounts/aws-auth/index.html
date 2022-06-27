@@ -177,7 +177,16 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#btfm">BTFM</a></li>
+    <li><a href="#login-activity">Login activity</a></li>
+    <li><a href="#service-usage-activity">Service usage activity</a></li>
+    <li><a href="#useridentity">userIdentity</a>
+      <ul>
+        <li><a href="#assumedrole"><code>AssumedRole</code></a></li>
+        <li><a href="#iamuser"><code>IAMUser</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#s3-buckets-public">S3 Buckets Public</a></li>
+    <li><a href="#-btfm">📘 BTFM</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -225,7 +234,51 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>This article is about AWS authentication process and how this activity is logged within the system.</em></p>
-<h2 id="btfm">BTFM</h2>
+<h2 id="login-activity">Login activity</h2>
+<p>For admin account go to IAM -&gt; Credential report to see all the users and the following information:</p>
+<ol>
+<li>user name</li>
+<li>arn (acc N + username)</li>
+<li>user_creation_time</li>
+<li>password_enabled</li>
+<li>password_last_used</li>
+<li>password_last_changed</li>
+<li>password_next_rotation</li>
+<li>mfa_active</li>
+<li>access_key_1_active</li>
+<li>access_key_1_last_rotated</li>
+<li>access_key_1_last_used_date</li>
+<li>access_key_1_last_used_region</li>
+<li>access_key_1_last_used_service</li>
+<li>access_key_2_active</li>
+<li>access_key_2_last_rotated</li>
+<li>access_key_2_last_used_date</li>
+<li>access_key_2_last_used_region</li>
+<li>access_key_2_last_used_service</li>
+<li>cert_1_active</li>
+<li>cert_1_last_rotated</li>
+<li>cert_2_active</li>
+<li>cert_2_last_rotated</li>
+</ol>
+<h2 id="service-usage-activity">Service usage activity</h2>
+<p>Also, you can go to IAM -&gt; username -&gt; Access Advisor tab to see the services that this user has access to and when these were last used.</p>
+<h2 id="useridentity">userIdentity</h2>
+<p><code>userIdentity</code> can be either <code>AssumedRole</code> or <code>IAMUser</code>.</p>
+<blockquote>
+<p>An IAM administrator can configure AWS Security Token Service to require that users specify their identity when they use temporary credentials to assume roles.</p>
+</blockquote>
+<h3 id="assumedrole"><code>AssumedRole</code></h3>
+<p>The user can either use their creds directly or use some role (policy instead). In this case, logs will also contain <code>sessionContext</code>.</p>
+<h3 id="iamuser"><code>IAMUser</code></h3>
+<h2 id="s3-buckets-public">S3 Buckets Public</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
+</span></span><span class="line"><span class="cl">aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>Staging-SA <span class="c1"># get the policy for this bucket. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># option 1. Bucket doesn&#39;t exist</span>
+</span></span><span class="line"><span class="cl">An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
+</span></span><span class="line"><span class="cl"><span class="c1"># option 2. Bucket exists.</span>
+</span></span><span class="line"><span class="cl">Will show a json with permissions
+</span></span></code></pre></div><h2 id="-btfm">📘 BTFM</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">&gt; g555-ec2
