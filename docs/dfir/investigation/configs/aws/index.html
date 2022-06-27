@@ -179,6 +179,9 @@
   <ul>
     <li><a href="#useful-commands">Useful commands</a></li>
     <li><a href="#tricks">Tricks</a></li>
+    <li><a href="#terraform">Terraform</a></li>
+    <li><a href="#-btfm">📘 BTFM</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -244,6 +247,39 @@
 </span></span><span class="line"><span class="cl">~/.aws/credentials
 </span></span><span class="line"><span class="cl">~/.aws/config
 </span></span></code></pre></div><h2 id="tricks">Tricks</h2>
+<h2 id="terraform">Terraform</h2>
+<p>Most of the things can be and usually prefered to be configured via Terraform. It&rsquo;s usually refered to as &ldquo;Infrastructure as code&rdquo;, which basically means that you can &ldquo;code&rdquo; the way your infrastructure is built and with what permissions. For example, you can either create an EC2 instance via GUI in AWS Console, or use aws CLI for that or you can do this via Terraform. The latter option allows better managements, transparancy and, of course, automation.</p>
+<p>Following the advice of the instructor from Udemy (see reference below), I&rsquo;ve used Visual Studio (which I usually use for scripting) with a HashiCorp Terraform plugin installed. To install terraform itself follow the instructions here - <a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">https://learn.hashicorp.com/tutorials/terraform/install-cli</a>. Good tutorials are available for free on the Terraform&rsquo;s website as well: <a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">category</span> <span class="s2">&#34;subcategory&#34;</span> <span class="s2">&#34;some_randomname&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="err">mandatory_stuff</span> <span class="err">=</span> <span class="nt">&#34;your value 1&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="err">another_optional_stuff</span> <span class="err">=</span> <span class="s2">&#34;your value 2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_storage_bucket&#34;</span> <span class="s2">&#34;assets&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> 	<span class="err">name</span> <span class="err">=</span> <span class="nt">&#34;sec510-assets-${var.UniqueString}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">provider</span> <span class="s2">&#34;aws&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="err">region</span> <span class="err">=</span> <span class="nt">&#34;eu-west-2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;aws_instance&#34;</span> <span class="s2">&#34;ec2&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="err">ami</span> <span class="err">=</span> <span class="nt">&#34;ami-12390843958&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The suggested workflow would be to store <code>tf</code> files (terraform proprietary format) on git (for version control).</p>
+<h2 id="-btfm">📘 BTFM</h2>
+<p>Terraform prerequisites: account on AWS, Google, Azure or another Cloud provider, Terraform isntalled locally on the PC, credentials from the cloud in question (for example, for AWS these are <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>). For full instructions refer to [<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>].</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">terraform init
+</span></span><span class="line"><span class="cl"><span class="c1"># create some tf file or make changes to the existing one</span>
+</span></span><span class="line"><span class="cl">terraform apply
+</span></span><span class="line"><span class="cl">terraform destroy <span class="c1"># to delete what was deleted</span>
+</span></span></code></pre></div><h2 id="references">References</h2>
+<p>[<a href="https://flohealth.udemy.com/course/terraform-fast-track/learn/lecture/21023824#overview">1</a>] Udemy Course on Terraform</p>
+<p>[<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>] Terraform official website with tutorials</p>
 
   </div>
 </article>
