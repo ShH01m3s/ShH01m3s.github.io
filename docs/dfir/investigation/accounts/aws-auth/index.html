@@ -179,6 +179,7 @@
   <ul>
     <li><a href="#iam">IAM</a></li>
     <li><a href="#login-activity">Login activity</a></li>
+    <li><a href="#tokens">Tokens</a></li>
     <li><a href="#service-usage-activity">Service usage activity</a></li>
     <li><a href="#useridentity">userIdentity</a>
       <ul>
@@ -188,7 +189,7 @@
     </li>
     <li><a href="#-btfm">📘 BTFM</a>
       <ul>
-        <li><a href="#s3-buckets-public">S3 Buckets Public</a></li>
+        <li><a href="#login-in-via-aws-cli">Login in via AWS CLI</a></li>
       </ul>
     </li>
     <li><a href="#root">Root</a></li>
@@ -240,7 +241,19 @@
   <div class="content" itemprop="articleBody">
     <p><em>This article is about AWS authentication process and how this activity is logged within the system.</em></p>
 <h2 id="iam">IAM</h2>
-<p>Stands for <strong>I</strong>dentity <strong>A</strong>ccess <strong>M</strong>anagement.</p>
+<p>Stands for <strong>I</strong>dentity <strong>A</strong>ccess <strong>M</strong>anagement.
+There are several types of IAM identities. They are usually called &ldquo;Principal&rdquo;. This can be either a User or a Role. It can even be a service or an account. Users can assume Roles. Instance Profile is basically a separate IAM Role assumed by this particular instance.</p>
+<blockquote>
+<p>❓ As far as I know, principals (which I suppose is very close to the term entity) has an ID and probably a AccessKey as well.</p>
+</blockquote>
+<p>Roles do not exist on their own. No, they are not ally cats. Instead, when a principal (service, user, account etc) assumes a role, it is given temporary credentials that expire with time. These credentials, btw, are stored in the IMDS. That&rsquo;s what it is for.</p>
+<blockquote>
+<p>❓ If some entity assumed some role, can these temp creds be used by other entity?</p>
+</blockquote>
+<p>There are also ACLs (<strong>A</strong>ccess <strong>C</strong>ontrol <strong>L</strong>ists), they have XML format and define which principals in <em>other</em> AWS accounts can access a resouce in question.</p>
+<p>Nice diagram <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">here</a> showing how exactly AWS decides whether to grant access or not:</p>
+<p>![[images/diagram.png]]</p>
+<p>In order to understand what permissions something has, you need to add identity, resource policy + session restrictions.</p>
 <h2 id="login-activity">Login activity</h2>
 <p>For admin account go to IAM -&gt; Credential report to see all the users and the following information:</p>
 <ol>
@@ -267,6 +280,18 @@
 <li>cert_2_active</li>
 <li>cert_2_last_rotated</li>
 </ol>
+<h2 id="tokens">Tokens</h2>
+<p>On AWS there are several types of tokens.
+IMDSv2 tokens live for 6 hours, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">here</a>:</p>
+<blockquote>
+<p>The <code>PUT</code> request must include a header that specifies the time to live (TTL) for the token, in seconds, up to a maximum of six hours (21,600 seconds).</p>
+</blockquote>
+<p>IMDSv1 doesn&rsquo;t have token at all.</p>
+<p>Tokens for users can be configired, see <a href="https://docs.aws.amazon.com/cli/latest/reference/sts/get-session-token.html">here</a>:</p>
+<blockquote>
+<p>The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default.</p>
+</blockquote>
+<p>For this use <code>get-session-token</code> with <code>--duration-seconds</code> option. This is for temp credentials only. These creds can&rsquo;t get to IAM info (if no MFA is also included) or STS API, aka Security Token Service (other than <code>AssumeRole</code> or <code>GetCallerIdentity</code>).</p>
 <h2 id="service-usage-activity">Service usage activity</h2>
 <p>Also, you can go to IAM -&gt; username -&gt; Access Advisor tab to see the services that this user has access to and when these were last used.</p>
 <h2 id="useridentity">userIdentity</h2>
@@ -278,33 +303,14 @@
 <p>The user can either use their creds directly or use some role (policy instead). In this case, logs will also contain <code>sessionContext</code>.</p>
 <h3 id="iamuser"><code>IAMUser</code></h3>
 <h2 id="-btfm">📘 BTFM</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/&#34;</span>
+<h3 id="login-in-via-aws-cli">Login in via AWS CLI</h3>
+<p>Ensure you have <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI</a> installed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&#34;ASIAJKJHASDKJHSDKJLA&#34;</span>  
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&#34;akljhdljkhljhewhjjkhsd/s&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_SESSION_TOKEN</span><span class="o">=</span><span class="s2">&#34;kajsdhkjsaha&#34;</span> <span class="c1"># optional. AWS_SESSION_TOKEN is required with temp creds only.</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">&gt; g555-ec2
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/g555-ec2&#34;</span>
-</span></span></code></pre></div><p>The result is something like the following:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Code&#34;</span> <span class="p">:</span> <span class="s2">&#34;Success&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Last Updated&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-04-16T18:00:00Z&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS-HMAC&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;AccessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;1234567890&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;SecretAcessKey&#34;</span><span class="p">:</span> <span class="s2">&#34;12345678901234567890&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Token&#34;</span><span class="p">:</span> <span class="s2">&#34;a long base64 encoded string&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;2025-04-16T18:00:00Z&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h3 id="s3-buckets-public">S3 Buckets Public</h3>
-<p>First, if you have multiple profiles, set them following the instuctions:</p>
-<blockquote>
-<p>📝 TODO</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
-</span></span><span class="line"><span class="cl">aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>profilename <span class="c1"># get the policy for this bucket. </span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># option 1. Bucket doesn&#39;t exist</span>
-</span></span><span class="line"><span class="cl">An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
-</span></span><span class="line"><span class="cl"><span class="c1"># option 2. Bucket exists.</span>
-</span></span><span class="line"><span class="cl">Will show a json with permissions
+</span></span><span class="line"><span class="cl">aws <span class="nb">help</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># You&#39;ll see all available options. For example, you can run aws ec2 to see what you can do to the EC2 instances from within the CLI</span>
 </span></span></code></pre></div><h2 id="root">Root</h2>
 <p>It&rsquo;s not recommended to use <code>root</code> user for any activity on AWS unless it&rsquo;s something that only root can done. <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html</a>
 <a href="https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root">https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root</a></p>

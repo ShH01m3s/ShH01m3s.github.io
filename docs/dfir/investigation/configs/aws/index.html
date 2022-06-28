@@ -180,7 +180,12 @@
     <li><a href="#useful-commands">Useful commands</a></li>
     <li><a href="#tricks">Tricks</a></li>
     <li><a href="#terraform">Terraform</a></li>
-    <li><a href="#-btfm">📘 BTFM</a></li>
+    <li><a href="#-btfm">📘 BTFM</a>
+      <ul>
+        <li><a href="#imds">IMDS</a></li>
+      </ul>
+    </li>
+    <li><a href="#-toolkit">🧰 Toolkit</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -277,7 +282,38 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># create some tf file or make changes to the existing one</span>
 </span></span><span class="line"><span class="cl">terraform apply
 </span></span><span class="line"><span class="cl">terraform destroy <span class="c1"># to delete what was deleted</span>
-</span></span></code></pre></div><h2 id="references">References</h2>
+</span></span></code></pre></div><h3 id="imds">IMDS</h3>
+<p>Following the best practices, one would use IMDSv2, but if it&rsquo;s not the case, then one can <code>ssh</code> into EC2 and run the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt; my-ec2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/my-ec2&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># if you see something juicy here, not that great. If it&#39;s IMDSv1, even worse.</span>
+</span></span></code></pre></div><p>The result is something like the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Code&#34;</span> <span class="p">:</span> <span class="s2">&#34;Success&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Last Updated&#34;</span><span class="p">:</span> <span class="s2">&#34;2021-01-16T08:00:00Z&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS-HMAC&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;AccessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;1234567890&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;SecretAcessKey&#34;</span><span class="p">:</span> <span class="s2">&#34;12345678901234567890&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Token&#34;</span><span class="p">:</span> <span class="s2">&#34;a very long base64 encoded string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;2025-04-16T08:00:00Z&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>How to use IMDSv2 - <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html</a>. IMDSv2 has several protections in place to ensure SSRF is not possible: TTL=1 (IP, network layer, of TCP/IP, network), req,uire PUT request (most WAF don&rsquo;t support it), deny all requests with <code>X-Forwarded-For</code>, <code>X-aws-ec2-metadata-token-ttl-seconds</code> and <code>X- aws-ec2-metadata-token</code> custom headers are required. One only needs to <a href="https://stackoverflow.com/questions/64595032/how-to-tell-what-version-of-instance-metadata-serviceimds-ec2-instance-is-usin#:~:text=If%20you%20want%20to%20determine,what%20the%20status%20code%20is">make sure they have IMDSv2</a> instead of version 1.</p>
+<p>If one uses <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#metadata-options">Terraform</a>, try using the below settings:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">...</span>
+</span></span><span class="line"><span class="cl"><span class="err">metadata_options</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">http_endpoint</span> <span class="err">=</span> <span class="nt">&#34;enabled&#34;</span> <span class="err">#</span> <span class="err">better</span> <span class="err">set</span> <span class="err">disabled</span> <span class="err">in</span> <span class="err">case</span> <span class="err">it&#39;s</span> <span class="err">not</span> <span class="err">required</span> <span class="err">by</span> <span class="err">EC</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="err">http_tokens</span> <span class="err">=</span> <span class="s2">&#34;required&#34;</span> <span class="err">#</span> <span class="err">one</span> <span class="err">way</span> <span class="err">to</span> <span class="err">prevent</span> <span class="err">SSRF</span>
+</span></span><span class="line"><span class="cl">    <span class="err">http_put_response_hop_limit</span> <span class="err">=</span> <span class="mi">1</span> <span class="err">#</span> <span class="err">requests</span> <span class="err">will</span> <span class="err">be</span> <span class="err">blocked</span> <span class="err">if</span> <span class="err">requested</span> <span class="err">by</span> <span class="err">any</span> <span class="err">other</span> <span class="err">machine</span> <span class="err">other</span> <span class="err">then</span> <span class="err">the</span> <span class="err">EC</span><span class="mi">2</span> <span class="err">itself.</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">...</span>
+</span></span></code></pre></div><h2 id="-toolkit">🧰 Toolkit</h2>
+<p><a href="https://rhinosecuritylabs.com/aws/pacu-open-source-aws-exploitation-framework/">Pacu</a>, AWS exploitation framework. Might be good to use when you need to find the flaw in your infrastructure.</p>
+<p><a href="https://github.com/duo-labs/parliament">Parliament</a>. Find vulnerabilities in IAM policies statically.</p>
+<h2 id="references">References</h2>
 <p>[<a href="https://flohealth.udemy.com/course/terraform-fast-track/learn/lecture/21023824#overview">1</a>] Udemy Course on Terraform</p>
 <p>[<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>] Terraform official website with tutorials</p>
 

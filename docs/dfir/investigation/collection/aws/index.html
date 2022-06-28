@@ -177,11 +177,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#cloud-forensic-evironment">Cloud Forensic Evironment</a>
-      <ul>
-        <li><a href="#how-to-stream-logsdata-to-forensic-account">How to stream logs/data to forensic account?</a></li>
-      </ul>
-    </li>
+    <li><a href="#cloud-forensic-evironment">Cloud Forensic Evironment</a></li>
     <li><a href="#evidence">Evidence</a>
       <ul>
         <li><a href="#ec2-instance-metadata">EC2 instance metadata</a></li>
@@ -201,9 +197,15 @@
         <li><a href="#system-logs">System logs</a></li>
         <li><a href="#security-logs">Security logs</a></li>
         <li><a href="#any-third-party-logs">Any third-party logs</a></li>
+        <li><a href="#ec2-snapshots">EC2 snapshots</a></li>
       </ul>
     </li>
-    <li><a href="#heading"></a></li>
+    <li><a href="#-btfm">📘 BTFM</a>
+      <ul>
+        <li><a href="#s3-buckets-check-for-public-access">S3 Buckets. Check for Public Access</a></li>
+        <li><a href="#s3-buckets-download-bucket-contents">S3 Buckets. Download bucket contents</a></li>
+      </ul>
+    </li>
     <li><a href="#confusing-terms">Confusing Terms</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -280,17 +282,30 @@
 <li><input disabled="" type="checkbox"> SSH and RDP access should be restricted and governed by auditable mechanisms such as a <a href="https://aws.amazon.com/quickstart/architecture/linux-bastion/">bastion host</a> configured to log all connections and activity, <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html">AWS Systems Manager Session Manager</a>, or similar.</li>
 <li><input disabled="" type="checkbox"> AMI chosen and pre-configured with industry-trusted tools. One of them would be</li>
 </ul>
-<h3 id="how-to-stream-logsdata-to-forensic-account">How to stream logs/data to forensic account?</h3>
 <h2 id="evidence">Evidence</h2>
 <p>Are there any Shadow Cloud Accounts? Could be the first place to look when investigating.</p>
 <h3 id="ec2-instance-metadata">EC2 instance metadata</h3>
-<h3 id="amazon-ebs-disk-snapshots">Amazon EBS disk snapshots</h3>
+<p>Some sensitive information can be stored in IMDS if it&rsquo;s not configured properly. T1522 (MITRE). Not the case with service-managed accounts.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -i <span class="s2">&#34;PUBLIC_KEY.pem&#34;</span> USERNAME@INSTANCE_PUBLIC_IP_OR_DOMAIN
+</span></span><span class="line"><span class="cl">curl –s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/security-groups/&#34;</span>
+</span></span></code></pre></div><blockquote>
+<p>⛔️ If you get curl: (6) Could not resolve host: xn&ndash;s-5gn,
+✍🏻 Refer to this issue <a href="https://stackoverflow.com/questions/43734502/curl-command-could-not-resolve-xn-x-5gn-post-on-ubuntu">https://stackoverflow.com/questions/43734502/curl-command-could-not-resolve-xn-x-5gn-post-on-ubuntu</a>. Try typing all dashes manually.</p>
+</blockquote>
+<p><strong>Case #1. Capital One</strong>
+In 2019, Capital One, there was a SSRF + IMDS. See <a href="https://pumasecurity.io/resources/blog/cloud-security-instance-metadata/">here</a>. CLOUD SECURITY - ATTACKING THE METADATA SERVICE <a href="https://pumasecurity.io/resources/blog/cloud-security-instance-metadata/">https://pumasecurity.io/resources/blog/cloud-security-instance-metadata/</a>. IMDSv2 has several protections in place to ensure SSRF is not possible: TTL=1, require PUT request (most WAF don&rsquo;t support it), deny all requests with X-Forwarded-For, X-aws-ec2-metadata-token-ttl-seconds and X- aws-ec2-metadata-token custom headers are required. One only needs to <a href="https://stackoverflow.com/questions/64595032/how-to-tell-what-version-of-instance-metadata-serviceimds-ec2-instance-is-usin#:~:text=If%20you%20want%20to%20determine,what%20the%20status%20code%20is">make sure they have IMDSv2</a> instead of version 1.</p>
+<p>How to determine the version:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s http://169.254.169.254/
+</span></span><span class="line"><span class="cl"><span class="c1"># I guess, if you get 1.0 in response, then it&#39;s not well.</span>
+</span></span></code></pre></div><h3 id="amazon-ebs-disk-snapshots">Amazon EBS disk snapshots</h3>
 <h3 id="ebs-disks-streamed-to-s3">EBS disks streamed to S3</h3>
+<p>How to stream logs/data to forensic account?</p>
 <h3 id="memory-dumps">Memory dumps</h3>
 <h3 id="memory-hibernation">Memory hibernation</h3>
 <p>Memory hibernation captured through hibernation on the root EBS volume</p>
 <h3 id="cloudtrail-logs">CloudTrail logs</h3>
-<p>Stores most of the information about the things that happened in the Cloud (loggin, creating instances etc). Full logs are only seen in <code>json</code> format.</p>
+<p>Stores most of the information about the things that happened in the Cloud (loggin, creating instances etc). Full logs are only seen in <code>json</code> format.
+How to stream logs/data to forensic account?</p>
 <h3 id="aws-config-rule-findings">AWS Config rule findings</h3>
 <h3 id="amazon-route-53">Amazon Route 53</h3>
 <p><a href="https://aws.amazon.com/route53/">https://aws.amazon.com/route53/</a></p>
@@ -308,8 +323,26 @@
 <h3 id="system-logs">System logs</h3>
 <h3 id="security-logs">Security logs</h3>
 <h3 id="any-third-party-logs">Any third-party logs</h3>
-<h2 id="heading"></h2>
-<h2 id="confusing-terms">Confusing Terms</h2>
+<h3 id="ec2-snapshots">EC2 snapshots</h3>
+<h2 id="-btfm">📘 BTFM</h2>
+<h3 id="s3-buckets-check-for-public-access">S3 Buckets. Check for Public Access</h3>
+<p>First, if you have multiple profiles, set them following the instuctions:</p>
+<blockquote>
+<p>📝 TODO</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
+</span></span><span class="line"><span class="cl">aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>profilename <span class="c1"># get the policy for this bucket. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># option 1. Bucket doesn&#39;t exist</span>
+</span></span><span class="line"><span class="cl">An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
+</span></span><span class="line"><span class="cl"><span class="c1"># option 2. Bucket exists.</span>
+</span></span><span class="line"><span class="cl">Will show a json with permissions
+</span></span></code></pre></div><h3 id="s3-buckets-download-bucket-contents">S3 Buckets. Download bucket contents</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ aws s3api list-buckets
+</span></span><span class="line"><span class="cl"><span class="c1"># choose the bucket you want to and ... </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ... download bucket contents</span>
+</span></span><span class="line"><span class="cl">$ aws s3 sync s3://juicy-staff /tmp/juicy-staff-on-attackers-pc
+</span></span></code></pre></div><h2 id="confusing-terms">Confusing Terms</h2>
 <p><strong>IAM</strong> - Identity Access Management. This is a service for creating users, groups, roles, permissions, policies.
 Each individual using the AWS service needs to have a separate user in AWS associated with them. So, roughly speaking, user = person.
 Each user can be in 1+ groups. Theoretically, a user can be not a part of any group, but when they are, it’s easier to manage access and permissions.
