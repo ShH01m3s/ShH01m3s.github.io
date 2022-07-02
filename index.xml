@@ -146,6 +146,34 @@ A user, who&amp;rsquo;s the owner of the file or another object defines who can 
     </item>
     
     <item>
+      <title>Apple Partition Map</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/apm/</link>
+      <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/apm/</guid>
+      <description>APFS is not very much described from the forensic perspective. I wonder how much APM is described.</description>
+    </item>
+    
+    <item>
+      <title>GUID Partition Table</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/gpt/</link>
+      <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/gpt/</guid>
+      <description>GUID is an identifier of the following format: 8-4-4-4-12. There is still a protective MBR at 0 so that Windows will not try to format the disk.</description>
+    </item>
+    
+    <item>
+      <title>Master Boot Record</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/mbr/</link>
+      <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/mbr/</guid>
+      <description>Stands for Master Boot Record.
+Primary partitions (bootable). Can have at most 4 bootable partitions, since it&amp;rsquo;s limited to 4 partition entries in parition table, each entry 16 bytes in length.</description>
+    </item>
+    
+    <item>
       <title>🧰 Data Recovery Techniques</title>
       <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/methodology/</link>
       <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
@@ -445,6 +473,15 @@ CSMA/CD =</description>
       
       <guid>https://bakerst221b.com/docs/notes/gcfa/3-intrusion-analysis/</guid>
       <description>Legend Below is the skeleton from SAN508 course description. I am using it to make up my study plan.</description>
+    </item>
+    
+    <item>
+      <title>File Systems Overview</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/overview/</link>
+      <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/overview/</guid>
+      <description>Name Partition size (min/max) Cluster size (min/max) File Max Size fstab code     FAT16 16Mb/2Gb 2Kb/32Kb     FAT32 260Mb/32Gb 🔍 2Kb/32Kb     NTFS 1.</description>
     </item>
     
     <item>
@@ -1026,6 +1063,15 @@ Intro SSL makes use of assymmetric encryption for verification and symmetric enc
     </item>
     
     <item>
+      <title>APFS</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/apfs/</link>
+      <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/apfs/</guid>
+      <description>APFS APM and APFS seem to be unable to live together. APFS requires GUID. I have come to that conclusion when I tried formating the drive with a APM and then APFS with DiskUtility.</description>
+    </item>
+    
+    <item>
       <title>Data Types</title>
       <link>https://bakerst221b.com/docs/reverse/basics/data-types/</link>
       <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
@@ -1035,12 +1081,33 @@ Intro SSL makes use of assymmetric encryption for verification and symmetric enc
     </item>
     
     <item>
-      <title>File Systems</title>
-      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/</link>
+      <title>ExtX</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/extx/</link>
       <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
       
-      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/</guid>
-      <description>File Systems Overview    Name Partition size (min/max) Cluster size (min/max) File Max Size fstab code     FAT16 16Mb/2Gb 2Kb/32Kb     FAT32 260Mb/32Gb 🔍 2Kb/32Kb     NTFS 1.</description>
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/extx/</guid>
+      <description>2 No journaling
+3 Same but + journaling
+4 New FS</description>
+    </item>
+    
+    <item>
+      <title>FAT</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/</link>
+      <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/</guid>
+      <description>Any FAT partition has two main parts: system area and data area. System area contains FAT boot record (every file system has a boot record), 1st FAT and 2nd FAT.</description>
+    </item>
+    
+    <item>
+      <title>HFS and HFS&#43;</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/hfs/</link>
+      <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/hfs/</guid>
+      <description>HFS HFS+ Since 1998, since macOS 8.1. Was replaced by APFS.
+Didn&amp;rsquo;t natively support full disk encryption (FV2 was added later).</description>
     </item>
     
     <item>
@@ -1053,12 +1120,31 @@ Intro SSL makes use of assymmetric encryption for verification and symmetric enc
     </item>
     
     <item>
-      <title>Partition Schemas</title>
-      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/</link>
+      <title>NTFS</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/</link>
       <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
       
-      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/</guid>
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/</guid>
+      <description>Developed in collaboration with IBM. POSIX compliant. Official docs for NTFS here.
+ ⚠️ Everything is a file!</description>
+    </item>
+    
+    <item>
+      <title>Partition Schemas Overview</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/overview/</link>
+      <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/overview/</guid>
       <description>Bootcode and Booting Process Partition tables Partitioning is the address range where the volume with a file system can sit.</description>
+    </item>
+    
+    <item>
+      <title>ReiserFS</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/reiser/</link>
+      <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/reiser/</guid>
+      <description>Allows storing multiple files in a single sector. exclamation mark ❗️Unique to this FS!</description>
     </item>
     
     <item>
@@ -2176,6 +2262,15 @@ Network • /etc/*-release
       
       <guid>https://bakerst221b.com/docs/reference/windows/win-overview/</guid>
       <description>Plan for Windows Forensics Done (Udemy watched, tools installed and used, conclusions made) is bolded:</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/xfs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/xfs/</guid>
+      <description>Good for multimedia files.</description>
     </item>
     
     <item>
