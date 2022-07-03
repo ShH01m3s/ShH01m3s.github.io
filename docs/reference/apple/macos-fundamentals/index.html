@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -303,7 +303,7 @@
 <h3 id="mount-and-umount"><code>mount</code> and <code>umount</code></h3>
 <p>Mostly used for network volumes. You will also need to refresh disk arbitration with <code>disktool r</code> (which is not available on the latest Mac versions) after using either of the two commands.</p>
 <h2 id="volinfodatabase"><code>volinfo.database</code></h2>
-<p>Keeps track of the volumes. <code>sudo su &amp;&amp; cat /var/db/volinfo.database</code> to see the list of volumes' UIDs.</p>
+<p>Keeps track of the volumes. <code>sudo su &amp;&amp; cat /var/db/volinfo.database</code> to see the list of volumes&rsquo; UIDs.</p>
 <h2 id="fstab"><code>fstab</code></h2>
 <p>Doesn&rsquo;t exist by default. To create it run <code>sudo vifs</code> and then quit saving the file (<code>Esc &gt; Shift + ZZ</code>). Now, <code>/etc/fstab</code> exists. Allows mounting file systems in particular locations at system startup.</p>
 <p>Important note here.</p>
@@ -313,11 +313,11 @@
 <p>So, if you want to mount a disk to a specific location like disk <code>/dev/disk0s1</code> to mount at <code>/</code> , this won&rsquo;t work, since you might get another disk number the next time the system reboots. Create a label in <code>fstab</code> instead (for example, <code>LABEL=Disk2 /Disk2 hfs rw 0 0</code>).</p>
 <h2 id="sip">SIP</h2>
 <p>System Integrity Protection. Introduced in El Capital OS (10.11). Restricts user actions on protected parts of the OS (<code>System</code>, <code>usr</code>, <code>bin</code>, <code>sbin</code>, pre-installed apps). SIP prevents imaging of a live system. Can be disabled:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Boot into recovery mode by pressing CMD+R on restart</span>
-<span class="c1"># Open Terminal</span>
-csrutil disable
-<span class="c1"># Restart</span>
-</code></pre></div><p>Later versions protect a whole separate read-only volume.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Boot into recovery mode by pressing CMD+R on restart</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Open Terminal</span>
+</span></span><span class="line"><span class="cl">csrutil disable
+</span></span><span class="line"><span class="cl"><span class="c1"># Restart</span>
+</span></span></code></pre></div><p>Later versions protect a whole separate read-only volume.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.recompute.com.au/blog/zapping-the-pram-how-when-and-why-to-reset-the-pram-and-smc-on-your-mac/">1</a>] Zapping The PRAM: How, When, and Why To Reset The PRAM and SMC On Your Mac, Team Recompute on 29th Apr 2019</p>
 
@@ -352,7 +352,7 @@ csrutil disable
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

