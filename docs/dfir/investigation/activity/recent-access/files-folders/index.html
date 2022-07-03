@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -335,13 +335,13 @@
 <h3 id="ads">ADS</h3>
 <p>Alternate data streams, see more <a href="/docs/dfir/forensic-investigation/reference/windows/win-ads">here</a>. Are there such streams for other OS? If yes, how to make them and discover them?</p>
 <p>To ensure compatability between NTFS and HFS. Allows hiding files.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-</span></span><span class="line"><span class="cl"><span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-</span></span><span class="line"><span class="cl"><span class="n">C:</span><span class="p">\</span><span class="n">mklink</span> <span class="n">innocent</span><span class="p">.</span><span class="n">exe</span> <span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c"># to run</span>
-</span></span><span class="line"><span class="cl"><span class="n">innocent</span><span class="p">.</span><span class="n">exe</span>
-</span></span></code></pre></div><p>But <code>dir /r</code> - will display <strong>all</strong> streams. LNS and Sfind will hunt down such files. Also, when you copy files from and to a FAT partition - all residual files will be deleted.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">C:</span><span class="p">\</span><span class="nb">type </span><span class="n">C:</span><span class="p">\</span><span class="n">mal</span><span class="p">.</span><span class="n">exe</span> <span class="p">&gt;</span> <span class="n">C:</span><span class="p">\</span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+<span class="nb">start </span><span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+<span class="n">C:</span><span class="p">\</span><span class="n">mklink</span> <span class="n">innocent</span><span class="p">.</span><span class="n">exe</span> <span class="n">readme</span><span class="p">.</span><span class="n">txt</span><span class="err">:</span><span class="n">naughty</span><span class="p">.</span><span class="n">exe</span>
+
+<span class="c"># to run</span>
+<span class="n">innocent</span><span class="p">.</span><span class="n">exe</span>
+</code></pre></div><p>But <code>dir /r</code> - will display <strong>all</strong> streams. LNS and Sfind will hunt down such files. Also, when you copy files from and to a FAT partition - all residual files will be deleted.</p>
 <p>On Windows machines (NTFS file system) it&rsquo;s possible to <em>&ldquo;append&rdquo;</em> a file to another file in such a way that this files is not visible with standard tools. This notion is called an <em>alternate data stream</em>. There are several problems that arise in this case:</p>
 <ul>
 <li>The <em>host</em> file&rsquo;s hash is not changed, because technically it is not a part of this file. To check - <code>fciv</code>.</li>
@@ -365,13 +365,13 @@
 <p><code>/home/%username%/.local/share/recently-used.xbel</code></p>
 <h2 id="macos">macOS</h2>
 <h3 id="appstore-downloads">AppStore Downloads</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Library/Receipts/InstallHistory.plist
-</span></span></code></pre></div><h3 id="search">Search</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Library/Receipts/InstallHistory.plist
+</code></pre></div><h3 id="search">Search</h3>
 <h4 id="spotlight-shortcuts">Spotlight shortcuts</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
-</span></span></code></pre></div><h4 id="finder-mru">Finder MRU</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Preferences/com.apple.finder.plist
-</span></span></code></pre></div><h2 id="aws">AWS</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
+</code></pre></div><h4 id="finder-mru">Finder MRU</h4>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/Library/Preferences/com.apple.finder.plist
+</code></pre></div><h2 id="aws">AWS</h2>
 <h3 id="login-activity">Login activity</h3>
 <p>For admin account go to IAM -&gt; Credential report to see all the users and the following information:</p>
 <ol>
@@ -453,7 +453,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -231,37 +231,39 @@
 
   <div class="content" itemprop="articleBody">
     <p>I&rsquo;ve been longing to finish Hacking the Art of Exploitation book, but I needed VM for that and this wasn&rsquo;t very convenient. But recently I&rsquo;ve set my EC2 AWS environment and am going to use VMs remotely. This makes it easier to finally finish the book 📚.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># compile</span>
-</span></span><span class="line"><span class="cl">gcc firstprog.c
-</span></span><span class="line"><span class="cl"><span class="c1"># check a.out</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># ls -l a.out </span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># run</span>
-</span></span><span class="line"><span class="cl">./a.out
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">objdump -D a.out <span class="p">|</span> grep -A20 main.:
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">gcc -g firstprog.c
-</span></span><span class="line"><span class="cl">gcc -o char_array char_array.c
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">gdb -q ./firstprog.o
-</span></span><span class="line"><span class="cl"><span class="nb">break</span> main
-</span></span><span class="line"><span class="cl">run
-</span></span><span class="line"><span class="cl">info registers
-</span></span></code></pre></div><p><a href="https://www.geeksforgeeks.org/compile-32-bit-program-64-bit-gcc-c-c/">https://www.geeksforgeeks.org/compile-32-bit-program-64-bit-gcc-c-c/</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># compile</span>
+gcc firstprog.c
+<span class="c1"># check a.out</span>
+<span class="c1"># ls -l a.out </span>
+
+<span class="c1"># run</span>
+./a.out
+
+objdump -D a.out <span class="p">|</span> grep -A20 main.:
+
+gcc -g firstprog.c
+gcc -o char_array char_array.c
+
+gdb -q ./firstprog.o
+<span class="nb">break</span> main
+run
+info registers
+
+
+</code></pre></div><p><a href="https://www.geeksforgeeks.org/compile-32-bit-program-64-bit-gcc-c-c/">https://www.geeksforgeeks.org/compile-32-bit-program-64-bit-gcc-c-c/</a></p>
 <p><a href="https://unix.stackexchange.com/questions/374118/how-to-install-multiple-version-of-gcc-gcc-3-3-on-ubuntu-16">https://unix.stackexchange.com/questions/374118/how-to-install-multiple-version-of-gcc-gcc-3-3-on-ubuntu-16</a></p>
 <p>Failed to install gcc of the previous versions therefore decided to compile with the VM on other laptop and copy on AWS.</p>
 <p><code>gdb</code> with a <code>-g</code> flag will simply allow access to source code and use the debugging symbols (for example, to label functions with their original names).</p>
 <p>Now, the examine command.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> x/x <span class="nv">$eip</span> <span class="c1"># display the value of eip as a 32-bit (64 for 64bit OS) hex value</span>
-</span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> x/2x <span class="nv">$eip</span> <span class="c1"># display 8 bytes (64bits) starting at address in eip in hex</span>
-</span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> x/2o <span class="nv">$eip</span> <span class="c1"># display 8 bytes (64bits) starting at address in eip in octal</span>
-</span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> x/8xb <span class="nv">$eip</span> <span class="c1"># display 8 * 4 bytes starting from eip as blocks of 1 byte</span>
-</span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> x/10i <span class="nv">$eip</span> <span class="c1"># display 10 instructions starting from eip</span>
-</span></span></code></pre></div><p>To print the call stack, type <code>bt</code> (backtrace). Type in again to review the current stack.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="p">&amp;</span>address <span class="c1"># show the address of the variable </span>
-</span></span><span class="line"><span class="cl">*address <span class="c1"># show the contents of the variable, called dereference</span>
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>gdb<span class="o">)</span> x/x <span class="nv">$eip</span> <span class="c1"># display the value of eip as a 32-bit (64 for 64bit OS) hex value</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/2x <span class="nv">$eip</span> <span class="c1"># display 8 bytes (64bits) starting at address in eip in hex</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/2o <span class="nv">$eip</span> <span class="c1"># display 8 bytes (64bits) starting at address in eip in octal</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/8xb <span class="nv">$eip</span> <span class="c1"># display 8 * 4 bytes starting from eip as blocks of 1 byte</span>
+<span class="o">(</span>gdb<span class="o">)</span> x/10i <span class="nv">$eip</span> <span class="c1"># display 10 instructions starting from eip</span>
+</code></pre></div><p>To print the call stack, type <code>bt</code> (backtrace). Type in again to review the current stack.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="p">&amp;</span>address <span class="c1"># show the address of the variable </span>
+*address <span class="c1"># show the contents of the variable, called dereference</span>
+</code></pre></div>
   </div>
 </article>
 </div>
@@ -293,7 +295,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

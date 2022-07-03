@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -286,18 +286,18 @@
 <p>Are there any Shadow Cloud Accounts? Could be the first place to look when investigating.</p>
 <h3 id="ec2-instance-metadata">EC2 instance metadata</h3>
 <p>Some sensitive information can be stored in IMDS if it&rsquo;s not configured properly. T1522 (MITRE). Not the case with service-managed accounts.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -i <span class="s2">&#34;PUBLIC_KEY.pem&#34;</span> USERNAME@INSTANCE_PUBLIC_IP_OR_DOMAIN
-</span></span><span class="line"><span class="cl">curl –s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/security-groups/&#34;</span>
-</span></span></code></pre></div><blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh -i <span class="s2">&#34;PUBLIC_KEY.pem&#34;</span> USERNAME@INSTANCE_PUBLIC_IP_OR_DOMAIN
+curl –s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/security-groups/&#34;</span>
+</code></pre></div><blockquote>
 <p>⛔️ If you get curl: (6) Could not resolve host: xn&ndash;s-5gn,
 ✍🏻 Refer to this issue <a href="https://stackoverflow.com/questions/43734502/curl-command-could-not-resolve-xn-x-5gn-post-on-ubuntu">https://stackoverflow.com/questions/43734502/curl-command-could-not-resolve-xn-x-5gn-post-on-ubuntu</a>. Try typing all dashes manually.</p>
 </blockquote>
 <p><strong>Case #1. Capital One</strong>
 In 2019, Capital One, there was a SSRF + IMDS. See <a href="https://pumasecurity.io/resources/blog/cloud-security-instance-metadata/">here</a>. CLOUD SECURITY - ATTACKING THE METADATA SERVICE <a href="https://pumasecurity.io/resources/blog/cloud-security-instance-metadata/">https://pumasecurity.io/resources/blog/cloud-security-instance-metadata/</a>. IMDSv2 has several protections in place to ensure SSRF is not possible: TTL=1, require PUT request (most WAF don&rsquo;t support it), deny all requests with X-Forwarded-For, X-aws-ec2-metadata-token-ttl-seconds and X- aws-ec2-metadata-token custom headers are required. One only needs to <a href="https://stackoverflow.com/questions/64595032/how-to-tell-what-version-of-instance-metadata-serviceimds-ec2-instance-is-usin#:~:text=If%20you%20want%20to%20determine,what%20the%20status%20code%20is">make sure they have IMDSv2</a> instead of version 1.</p>
 <p>How to determine the version:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s http://169.254.169.254/
-</span></span><span class="line"><span class="cl"><span class="c1"># I guess, if you get 1.0 in response, then it&#39;s not well.</span>
-</span></span></code></pre></div><h3 id="amazon-ebs-disk-snapshots">Amazon EBS disk snapshots</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">curl -s http://169.254.169.254/
+<span class="c1"># I guess, if you get 1.0 in response, then it&#39;s not well.</span>
+</code></pre></div><h3 id="amazon-ebs-disk-snapshots">Amazon EBS disk snapshots</h3>
 <h3 id="ebs-disks-streamed-to-s3">EBS disks streamed to S3</h3>
 <p>How to stream logs/data to forensic account?</p>
 <h3 id="memory-dumps">Memory dumps</h3>
@@ -330,19 +330,19 @@ How to stream logs/data to forensic account?</p>
 <blockquote>
 <p>📝 TODO</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
-</span></span><span class="line"><span class="cl">aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>profilename <span class="c1"># get the policy for this bucket. </span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># option 1. Bucket doesn&#39;t exist</span>
-</span></span><span class="line"><span class="cl">An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
-</span></span><span class="line"><span class="cl"><span class="c1"># option 2. Bucket exists.</span>
-</span></span><span class="line"><span class="cl">Will show a json with permissions
-</span></span></code></pre></div><h3 id="s3-buckets-download-bucket-contents">S3 Buckets. Download bucket contents</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ aws s3api list-buckets
-</span></span><span class="line"><span class="cl"><span class="c1"># choose the bucket you want to and ... </span>
-</span></span><span class="line"><span class="cl"><span class="c1"># ... download bucket contents</span>
-</span></span><span class="line"><span class="cl">$ aws s3 sync s3://juicy-staff /tmp/juicy-staff-on-attackers-pc
-</span></span></code></pre></div><h2 id="confusing-terms">Confusing Terms</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
+aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>profilename <span class="c1"># get the policy for this bucket. </span>
+
+<span class="c1"># option 1. Bucket doesn&#39;t exist</span>
+An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
+<span class="c1"># option 2. Bucket exists.</span>
+Will show a json with permissions
+</code></pre></div><h3 id="s3-buckets-download-bucket-contents">S3 Buckets. Download bucket contents</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ aws s3api list-buckets
+<span class="c1"># choose the bucket you want to and ... </span>
+<span class="c1"># ... download bucket contents</span>
+$ aws s3 sync s3://juicy-staff /tmp/juicy-staff-on-attackers-pc
+</code></pre></div><h2 id="confusing-terms">Confusing Terms</h2>
 <p><strong>IAM</strong> - Identity Access Management. This is a service for creating users, groups, roles, permissions, policies.
 Each individual using the AWS service needs to have a separate user in AWS associated with them. So, roughly speaking, user = person.
 Each user can be in 1+ groups. Theoretically, a user can be not a part of any group, but when they are, it’s easier to manage access and permissions.
@@ -383,7 +383,7 @@ Roles are assigned to services within AWS. Something similar to groups?</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

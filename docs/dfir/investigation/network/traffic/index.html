@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.9d91cbb32c96c334ae7b38c3d99d30727e0836e1182125cc5f007d215f0b9e59.css">
   
 
   
@@ -298,15 +298,15 @@
 <p>📝 Make a list of processes and connections of several clean systems for &ldquo;known-good&rdquo; reference.</p>
 </blockquote>
 <p>Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
-</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
-</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl"> <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
-</span></span></code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
+ <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
+ <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
+ 
+ <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
+</code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
 <p><strong>External IPs reputations</strong>. 🛠 <code>hostintel</code>. For running the tool, you&rsquo;ll also need to create a file with a list of IPs. I&rsquo;ve created a file <code>i.txt</code> in the <code>hostintel</code> directory and so my command was:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python hostintel.py config.conf i.txt
-</span></span></code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python hostintel.py config.conf i.txt
+</code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
 <p>To use <a href="https://github.com/keithjjones/hostintel">hostintel</a>, install it following the instructions on GitHub. Then install geoip2 using  <code>pip install &quot;geoip2==3.0.0&quot; </code>. I got an error that <code>geoip.database</code> was not installed when I installed it with <code>pip install geoip2</code> or from GitHub. This module is for working with GeoIP databases.</p>
 <p>To actually use these databases (one is included with the tool, but it mught get outdated), signup <a href="https://www.maxmind.com/en/geoip2-databases">here</a> and download GeoLite2 City from <a href="https://www.maxmind.com/en/accounts/410417/geoip/downloads">here</a>. This is an archive, unpack it and put the *.mmb file in <code>hostintel/data</code> folder (replace). These dbs are used by other tools as well, so you might want to keep it elsewhere and change its path in config.</p>
 <p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
@@ -318,7 +318,7 @@
 <h3 id="windows-dns-cache">Windows DNS Cache</h3>
 <p>in research.</p>
 <h3 id="dns-names">DNS names</h3>
-<p>Check IP reputation: <a href="https://www.reverse.it">www.reverse.it</a>, <a href="https://www.urlvoid.com">www.urlvoid.com</a>.</p>
+<p>Check IP reputation: <a href="http://www.reverse.it">www.reverse.it</a>, <a href="http://www.urlvoid.com">www.urlvoid.com</a>.</p>
 <h2 id="wireshark-filters">Wireshark Filters</h2>
 <p><code>http.request</code> - show only HTTP request. Useful to get rid of all ARP and TCP handshake garbage.</p>
 <p><code>ip.src == 192.168.22.94 and udp.port == 67</code> - show the DHCP requests for this machine. Can show the computer name.</p>
@@ -359,7 +359,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   
