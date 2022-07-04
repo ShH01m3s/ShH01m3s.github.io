@@ -190,7 +190,12 @@
     <li><a href="#-btfm">📘 <strong>BTFM</strong></a>
       <ul>
         <li><a href="#list-all-drives">List all drives</a></li>
-        <li><a href="#turn-off-disk-arbitration">Turn off Disk Arbitration</a></li>
+        <li><a href="#turn-off-disk-arbitration">Turn off Disk Arbitration</a>
+          <ul>
+            <li><a href="#older-mac">Older Mac:</a></li>
+            <li><a href="#monterey">Monterey</a></li>
+          </ul>
+        </li>
         <li><a href="#turn-on-disk-arbitration">Turn on Disk Arbitration</a></li>
       </ul>
     </li>
@@ -255,8 +260,10 @@
 <p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
 </blockquote>
 <blockquote>
-<p>🧪 When attaching my MacBook to another one via Share Disk mode, I managed to delete files from the target MacBook. Is it because of the DA wasn&rsquo;t off?</p>
+<p>🧪 When attaching my MacBook to another one via Share Disk mode, I managed to delete files from the target MacBook. Is it because of the DA wasn&rsquo;t off?
+I was trying different channels and forums, but there seemed to obvious answer. This required quite an amount of research. By now I can conclude the following. Share Disk is very different from Target Disk and is relatively useless for forensic purposes. Share Disk, unlike its preceder, is working over SMB protocol and is not mounted like a normal drive. In fact, <code>diskutil</code> (or its GUI Disk Utility), Disk Arbitrator or even <code>ls /dev/ | grep disk</code> won&rsquo;t show it. Since its mount is not really goverened by <code>diskarbitrationd</code> (framework for mounting and managing drives). Even though in GUI it looks like it&rsquo;s mounted, different APIs seem to be in place. So, for example, when I set the contents of <code>/etc/fstab</code> (had to create it first) to <code>LABEL=&quot;Macintosh HD&quot; /suspect apfs ro,noauto</code>, also tried using the volume&rsquo;s UUID from Recovery mode -&gt; Terminal -&gt; <code>diskutil info /Volumes/Macintosh\'s\ HD | grep -i uuid</code> (by the way, UUIDs are different for the same command from the recovery mode and when PC is just turned on). This is basically a network share and you have pretty much the same rights as the user of that PC. I don&rsquo;t know yet if there is any way to control the restrictions here, but at the moment the most forensically sound  way would be to use a physical write blocker. This <a href="https://sumuri.com/how-to-image-an-apple-silicon-mac-with-recon-itr-live/">tool</a> from SUMURI is for Live acquisition only.</p>
 </blockquote>
+<p>There is also a tool <a href="https://github.com/aburgh/Disk-Arbitrator">https://github.com/aburgh/Disk-Arbitrator</a>. That can very much help and ease the work. Need to check this out.</p>
 <h2 id="hddssd">HDD/SSD</h2>
 <h3 id="research">Research</h3>
 <p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they&rsquo;ve added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it and they had to work this out. But after T2 Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics in that there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode as well.</p>
@@ -359,12 +366,22 @@
 <p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
 </blockquote>
 <h3 id="turn-off-disk-arbitration">Turn off Disk Arbitration</h3>
+<h4 id="older-mac">Older Mac:</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /etc/mach_init.d
 </span></span><span class="line"><span class="cl"> ls
 </span></span><span class="line"><span class="cl"> 
 </span></span><span class="line"><span class="cl"> sudo cp diskarbitrationd.plist /
 </span></span><span class="line"><span class="cl"> ls /
 </span></span><span class="line"><span class="cl">sudo rm diskarbitrationd.plist.
+</span></span></code></pre></div><h4 id="monterey">Monterey</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Option #1. Kill the process</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cat /var/run/diskarbitrationd.pid gives the PID </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ps -ex gives the proc list</span>
+</span></span><span class="line"><span class="cl">ps -ex <span class="p">|</span> grep <span class="k">$(</span>cat /var/run/diskarbitrationd.pid<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Option #2. Remove the plist</span>
+</span></span><span class="line"><span class="cl">sudo cp /System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist /
+</span></span><span class="line"><span class="cl"><span class="c1"># give read only FS</span>
 </span></span></code></pre></div><h3 id="turn-on-disk-arbitration">Turn on Disk Arbitration</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
 </span></span></code></pre></div><h2 id="references">References</h2>
