@@ -178,6 +178,8 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#file-systems">File Systems</a></li>
+    <li><a href="#target-disk-intel">Target Disk (Intel)</a></li>
+    <li><a href="#share-disk-on-m1">Share Disk on M1</a></li>
     <li><a href="#write-block">Write Block</a></li>
     <li><a href="#hddssd">HDD/SSD</a>
       <ul>
@@ -252,6 +254,12 @@
     <h2 id="file-systems">File Systems</h2>
 <p>APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
 <p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
+<h2 id="target-disk-intel">Target Disk (Intel)</h2>
+<h2 id="share-disk-on-m1">Share Disk on M1</h2>
+<p>I was trying different channels and forums, but there seemed to obvious answer. This took quite an amount of research. By now I can conclude the following.</p>
+<p>Share Disk is very different from Target Disk and is relatively useless for forensic purposes (from what I&rsquo;ve seen for now). Share Disk, unlike its preceder, operates over SMB protocol and is not mounted like a normal drive. In fact, <code>diskutil list</code> (or its GUI version Disk Utility), <a href="https://github.com/aburgh/Disk-Arbitrator">Disk Arbitrator</a> (custom tool) or even <code>ls /dev/ | grep disk</code> won&rsquo;t show it. It seems that its mounting is not really goverened by <code>diskarbitrationd</code> (framework for mounting and managing drives). Even though in GUI it looks like it&rsquo;s mounted, different APIs seem to be in place.</p>
+<p>I&rsquo;ve tried creating a file <code>/etc/fstab</code> and using custom settings for mounting my test USB drive: <code>LABEL=&quot;TestDrive&quot; none apfs ro,noauto</code>. This USB device was not automatically mounted, and when I mounted it manually, it was in read-only mode (<code>ro</code> option). I did the same for the Macintosh HD, which is the label for my drive on target MacBook: <code>LABEL=&quot;Macintosh HD&quot; /suspect apfs ro,noauto</code>. Just in case I acquired the volume&rsquo;s UUID via <code>diskutil info /Volumes/Macintosh\'s\ HD | grep -i uuid</code> from both the recovery mode and when booted normally (which were different).</p>
+<p>This is basically a network share and you have pretty much the same rights as the user of that PC. I don&rsquo;t know yet if there is any way to control the restrictions here, but at the moment the most forensically sound  way would be to use a physical write blocker. This <a href="https://sumuri.com/how-to-image-an-apple-silicon-mac-with-recon-itr-live/">tool</a> from SUMURI is for Live acquisition only. And the page on the forum <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a> has not been updated for a while.</p>
 <h2 id="write-block">Write Block</h2>
 <p>On the forensic MacBook you can turn off disk arbitration or use write blockers.</p>
 <p><strong>Disk Arbitration</strong></p>
@@ -260,8 +268,8 @@
 <p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
 </blockquote>
 <blockquote>
-<p>🧪 When attaching my MacBook to another one via Share Disk mode, I managed to delete files from the target MacBook. Is it because of the DA wasn&rsquo;t off?
-I was trying different channels and forums, but there seemed to obvious answer. This required quite an amount of research. By now I can conclude the following. Share Disk is very different from Target Disk and is relatively useless for forensic purposes. Share Disk, unlike its preceder, is working over SMB protocol and is not mounted like a normal drive. In fact, <code>diskutil</code> (or its GUI Disk Utility), Disk Arbitrator or even <code>ls /dev/ | grep disk</code> won&rsquo;t show it. Since its mount is not really goverened by <code>diskarbitrationd</code> (framework for mounting and managing drives). Even though in GUI it looks like it&rsquo;s mounted, different APIs seem to be in place. So, for example, when I set the contents of <code>/etc/fstab</code> (had to create it first) to <code>LABEL=&quot;Macintosh HD&quot; /suspect apfs ro,noauto</code>, also tried using the volume&rsquo;s UUID from Recovery mode -&gt; Terminal -&gt; <code>diskutil info /Volumes/Macintosh\'s\ HD | grep -i uuid</code> (by the way, UUIDs are different for the same command from the recovery mode and when PC is just turned on). This is basically a network share and you have pretty much the same rights as the user of that PC. I don&rsquo;t know yet if there is any way to control the restrictions here, but at the moment the most forensically sound  way would be to use a physical write blocker. This <a href="https://sumuri.com/how-to-image-an-apple-silicon-mac-with-recon-itr-live/">tool</a> from SUMURI is for Live acquisition only.</p>
+<p>🧪 When attaching my MacBook to another one via Share Disk mode, I managed to delete files from the target MacBook even with DA off. Why?
+Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsquo;s actually a SMB share. See full research above.</p>
 </blockquote>
 <p>There is also a tool <a href="https://github.com/aburgh/Disk-Arbitrator">https://github.com/aburgh/Disk-Arbitrator</a>. That can very much help and ease the work. Need to check this out.</p>
 <h2 id="hddssd">HDD/SSD</h2>
