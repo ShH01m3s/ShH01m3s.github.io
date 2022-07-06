@@ -175,7 +175,12 @@
    <a href="/docs/dfir/investigation/logs/"> Back to 🪵 Log Analysis Section 👈🏼 </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cloudtrail">CloudTrail</a></li>
+    <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
+  </ul>
+</nav>
  </aside>
  </div>
 
@@ -250,6 +255,7 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>This document is devoted to AWS logs. Several examples are analysed and useful fields are marked.</em></p>
+<h2 id="cloudtrail">CloudTrail</h2>
 <p>This is an example log from a AWS CTF <a href="https://cyberdefenders.org/blueteam-ctf-challenges/84">challenge</a>. I am going to use this one in order to get an idea of what is being logged and how this can be useful for investigations.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nt">&#34;Records&#34;</span><span class="p">:</span> <span class="p">[</span>
@@ -328,6 +334,8 @@
 </span></span><span class="line"><span class="cl">  <span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail.</p>
+<h2 id="vpc-flow-logs">VPC Flow Logs</h2>
+<p>Traffic logs between VPCs withing the same org/acc.</p>
   </div>
 </article>
 </div>

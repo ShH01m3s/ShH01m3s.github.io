@@ -180,6 +180,13 @@
     <li><a href="#useful-commands">Useful commands</a></li>
     <li><a href="#tricks">Tricks</a></li>
     <li><a href="#terraform">Terraform</a></li>
+    <li><a href="#vpc">VPC</a>
+      <ul>
+        <li><a href="#nat">NAT</a></li>
+        <li><a href="#elastic-ip">Elastic IP</a></li>
+        <li><a href="#vpl-flow-logs">VPL Flow Logs</a></li>
+      </ul>
+    </li>
     <li><a href="#-btfm">📘 BTFM</a>
       <ul>
         <li><a href="#imds">IMDS</a></li>
@@ -276,6 +283,25 @@
 </span></span><span class="line"><span class="cl">	<span class="err">instance_type</span> <span class="err">=</span> <span class="s2">&#34;t2.micro&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>The suggested workflow would be to store <code>tf</code> files (terraform proprietary format) on git (for version control).</p>
+<h2 id="vpc">VPC</h2>
+<p>The main concern is that something provate can be poked from the outside. There are several controls in place to avoid this and following the best practicies of Defense-in-Depth policy we are better to leverage all of them properly. But the bigger the organization becomes, the harder it gets to configure everything correctly.</p>
+<p>For something to be publicly availble, a Internet Gateway is required.</p>
+<p>Default VPC is very lax. Therefore, it should not be used for anything more serious than I personal blog or lab exercises and stuff like that. However, traffic is determined by both the NACL (which is overly permissive for the default VPC) and security group. For default EC2 security group (presuming no changes were made when deploying it) all ingress traffic will be blocked. When EC2 is greated via CLI, it&rsquo;s less &ldquo;open-minded&rdquo; and allows less crap 💩 to flow through. Default security group (ingress all from the same sec group, egress allow traffic on all ports) != default EC2 security group.</p>
+<blockquote>
+<p>⚠️ Important note!
+By default, security groups, do not allow any ingress and allow all egress traffic. Anything that was not specified, is <strong>denied by default</strong>.
+NACL are stateless, which means that if the request was allowed to pass through, the response might not be if it was not configured. Rules are evaluated in order until a match is found (allow or deny) and the remaining rules in the list are skipped.
+Security groups on the other hand are stateful. So, if the request passed through, the response will as well. Moreover, all rules are evaluted before decision is made. If there are some conflicting rules, then, the most permissive will get the medal 🥇.
+How rules are evaluated after NACL and SG specific are evaluated?</p>
+</blockquote>
+<h3 id="nat">NAT</h3>
+<p>A NAT gateway is a Network Address Translation (NAT) service. You can use a NAT gateway so that instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances. Can be public (for the internet) or private (between VPCs).
+<a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway">https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway</a>
+<a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html</a></p>
+<h3 id="elastic-ip">Elastic IP</h3>
+<p>Weird enough, but it means static IP.</p>
+<h3 id="vpl-flow-logs">VPL Flow Logs</h3>
+<p>If these are enabled, you will be able to tell, who connected to what resource and when.</p>
 <h2 id="-btfm">📘 BTFM</h2>
 <p>Terraform prerequisites: account on AWS, Google, Azure or another Cloud provider, Terraform isntalled locally on the PC, credentials from the cloud in question (for example, for AWS these are <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>). For full instructions refer to [<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>].</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">terraform init
