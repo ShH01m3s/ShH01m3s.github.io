@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>How To Setup SSH Access - Analyst</title>
+  <title>SSH Access Setup Explained - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -185,7 +185,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">How To Setup SSH Access</h1>
+<h1 class="title">SSH Access Setup Explained</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -234,8 +234,8 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>In order to perform actions with you public/private key pair (git, ssh access), you&rsquo;ll need to configure it first. I found it quite hard to grasp, although it&rsquo;s pretty straitforward if you just copy/paste the commands.</p>
-<p>Let&rsquo;s take GitHub and its manual in order to understand what we are doing and why. This will help in thoubleshooting later if we need it.</p>
+    <p>In order to perform actions with you public/private key pair (git, ssh access), you&rsquo;ll need to configure it first. I found it quite hard to grasp at first with all the nuances, although it&rsquo;s pretty straitforward if you just copy/paste the commands.</p>
+<p>Let&rsquo;s take GitHub and its <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">manual</a> in order to understand what we are doing and why. This will help in thoubleshooting later if we need it.</p>
 <p>In order to use private/public keys, you will need to generate a pair first. All these keys on macOS and Linux machines are stored at <code>~/.ssh</code> by default (hidden folder). Public keys have <code>pub</code> at the end, private have the same name but no <code>pub</code> extension. For example, a public key file would be named something like <code>id_rsa.pub</code>, unless you give it a different name and its corresponding private key would be called just <code>id_rsa</code>.</p>
 <p>Let&rsquo;s say that there is nothing in the <code>~/.ssh</code> folder and we need to generate a new key pair. It&rsquo;s as simple as running <code>shell ssh-keygen -t ed25519 -C &quot;your_email@example.com</code> or <code>shell ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;</code>. The difference is the algorithm (<code>ed25519</code> or <code>rsa</code>). You need to know the technical requirements for the keys that are used for the system you are trying to set up access to. For example, GitHub prefers <code>ed25519</code>, however they do support rsa at the moment as well (📆 <code>08/07/2022</code>).</p>
 <p>![[ssh-key-name.png]]</p>

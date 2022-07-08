@@ -188,7 +188,12 @@
         <li><a href="#elastic-ip">Elastic IP</a></li>
         <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
         <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
-        <li><a href="#aws-vpc-endpoints">AWS VPC Endpoints</a></li>
+        <li><a href="#aws-vpc-endpoints">AWS VPC Endpoints</a>
+          <ul>
+            <li><a href="#gateway">Gateway</a></li>
+            <li><a href="#interface">Interface</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#default-configurations">Default Configurations</a></li>
@@ -321,7 +326,58 @@ NAT is not required for completely private network and private endpoints. All th
 <h3 id="vpc-traffic-mirroring">VPC Traffic Mirroring</h3>
 <p>A great idea to use. Deploying an EC2 with some IDS, mirror traffic there for detection. Filter for the most relevant stuff to pass it to SIEM?</p>
 <h3 id="aws-vpc-endpoints">AWS VPC Endpoints</h3>
-<h2 id="default-configurations">Default Configurations</h2>
+<p>By default, even private VPCs will talk over the Intenet, raising unneccessary interest of the attackers. VPC Endpoints are used in order to establish a connection for separate VPCs without exposing themselves to the public.</p>
+<p><a href="https://www.linkedin.com/pulse/aws-interface-endpoint-vs-gateway-alex-chang/">https://www.linkedin.com/pulse/aws-interface-endpoint-vs-gateway-alex-chang/</a>
+<a href="https://aws.amazon.com/blogs/architecture/choosing-your-vpc-endpoint-strategy-for-amazon-s3/">https://aws.amazon.com/blogs/architecture/choosing-your-vpc-endpoint-strategy-for-amazon-s3/</a></p>
+<h4 id="gateway">Gateway</h4>
+<p>Free to use. Dynamo and S3 use this type of endpoint. Reside within the VPC globally.</p>
+<h4 id="interface">Interface</h4>
+<p>Using static IP. Reside inside the subnet (which is inside the VPC). Cost something.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">##</span> <span class="err">INTERFACE</span> <span class="err">ENDPOINT</span>
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;aws_vpc_endpoint&#34;</span> <span class="s2">&#34;passwordstore&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="err">vpc_id</span> <span class="err">=</span> <span class="err">aws_vpc.app.id</span>
+</span></span><span class="line"><span class="cl">	<span class="err">service_name</span> <span class="err">=</span> <span class="nt">&#34;com.amazonaws.${local.region}.passwordstore&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="err">vpc_endpoint_type</span> <span class="err">=</span> <span class="s2">&#34;Interface&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="err">subnet_ids</span> <span class="err">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">		<span class="err">aws_subnet.private</span><span class="mi">1</span><span class="err">.id</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="err">aws_subnet.private</span><span class="mi">2</span><span class="err">.id</span>
+</span></span><span class="line"><span class="cl">	<span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="err">security_group_ids</span> <span class="err">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">		<span class="err">aws_security_group.passwordstore.id</span>
+</span></span><span class="line"><span class="cl">	<span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="err">private_dns_enabled</span> <span class="err">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">INTEFRACEE</span> <span class="err">ENDPOINT,</span> <span class="err">require</span> <span class="err">private</span> <span class="err">access,</span> <span class="err">restrict</span> <span class="err">access</span> <span class="err">to</span> <span class="mi">1</span> <span class="err">VPC</span>
+</span></span><span class="line"><span class="cl"><span class="err">data</span> <span class="s2">&#34;aws_iam_policy_document&#34;</span> <span class="s2">&#34;passwordstore&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="err">statement</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">		<span class="err">actions</span> <span class="err">=</span> <span class="err">[</span><span class="nt">&#34;passwordstore:GetSecretValue&#34;</span><span class="err">]</span>
+</span></span><span class="line"><span class="cl">		<span class="err">resources</span> <span class="err">=</span> <span class="err">*</span>
+</span></span><span class="line"><span class="cl">		<span class="err">effect</span> <span class="err">=</span> <span class="s2">&#34;Allow&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="err">condition</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="err">test</span> <span class="err">=</span> <span class="nt">&#34;StringEquals&#34;</span>
+</span></span><span class="line"><span class="cl">			<span class="err">variable</span> <span class="err">=</span> <span class="s2">&#34;aws:SourceVpc&#34;</span>
+</span></span><span class="line"><span class="cl">			<span class="err">values</span> <span class="err">=</span> <span class="p">[</span><span class="err">aws_vpc.app.id</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span> 
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">##</span> <span class="err">SECURITY</span> <span class="err">GROUP</span>
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;aws_security_group&#34;</span> <span class="s2">&#34;passwordstore&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="err">name</span> <span class="err">=</span> <span class="nt">&#34;passwordstore&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="err">description</span> <span class="err">=</span> <span class="s2">&#34;Sec group to for PassStore VPC endpoint&#34;</span> <span class="err">vpc_id</span> <span class="err">=</span> <span class="err">aws_vpc.app.id</span>
+</span></span><span class="line"><span class="cl">	<span class="err">ingress</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;HTTPS from the subnet containing the EC2 instance&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="err">from_port</span> <span class="err">=</span> <span class="mi">443</span>
+</span></span><span class="line"><span class="cl">		<span class="err">to_port</span> <span class="err">=</span> <span class="mi">443</span>
+</span></span><span class="line"><span class="cl">		<span class="err">protocol</span> <span class="err">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="err">cidr_blocks</span> <span class="err">=</span> <span class="p">[</span><span class="err">aws_subnet.public</span><span class="mi">1</span><span class="err">.cidr_block</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="default-configurations">Default Configurations</h2>
 <p>By default, SSH 22 and RDP 3389 are closed, but these are suggested to be opened when creaing them, warning how dangeroud this is. What&rsquo;s <a href="https://docs.aws.amazon.com/vpc/latest/mirroring/what-is-traffic-mirroring.html">traffic mirroring</a>? Using <a href="https://docs.aws.amazon.com/vpc/latest/mirroring/tm-example-open-source.html">this functionality with</a> open-source tools.</p>
 <h2 id="-btfm">📘 BTFM</h2>
 <p>Terraform prerequisites: account on AWS, Google, Azure or another Cloud provider, Terraform isntalled locally on the PC, credentials from the cloud in question (for example, for AWS these are <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>). For full instructions refer to [<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>].</p>
