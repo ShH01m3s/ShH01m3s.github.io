@@ -242,6 +242,9 @@
 <blockquote>
 <p>❗️ Note the data that&rsquo;s of low frequency.</p>
 </blockquote>
+<p>Another good way to quicly filter out the logs is the <code>fzf</code> <a href="https://github.com/junegunn/fzf">utility</a>. It works both on macOS and Linux. I am not sure about Windows, but you could always utilise WSL there. Here is a <a href="https://www.youtube.com/watch?v=tB-AgxzBmH8">video</a> how one can dive into this utility and use to spead up searching. Thanks to my genius collegue Kieran for the below command and for his advice to use <code>fzf</code>! Below is an example of quickly filtering the logs for AWS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs filter-log-events --log-group-name /something/aything --profile prodserver <span class="p">|</span> jq -c <span class="s1">&#39;.events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;cat {}&#39;</span>
+</span></span></code></pre></div><p>You can go to Logs -&gt; Logs Insights and there you can query the logs using a query language. To the right there are lots of useful examples under Query -&gt; Sample queries.</p>
 
   </div>
 </article>

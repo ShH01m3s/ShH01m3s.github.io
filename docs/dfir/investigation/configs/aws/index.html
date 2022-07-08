@@ -182,14 +182,20 @@
     <li><a href="#terraform">Terraform</a></li>
     <li><a href="#vpc">VPC</a>
       <ul>
+        <li><a href="#nacl">NACL</a></li>
+        <li><a href="#security-group">Security Group</a></li>
         <li><a href="#nat">NAT</a></li>
         <li><a href="#elastic-ip">Elastic IP</a></li>
-        <li><a href="#vpl-flow-logs">VPL Flow Logs</a></li>
+        <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
+        <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
+        <li><a href="#aws-vpc-endpoints">AWS VPC Endpoints</a></li>
       </ul>
     </li>
+    <li><a href="#default-configurations">Default Configurations</a></li>
     <li><a href="#-btfm">📘 BTFM</a>
       <ul>
         <li><a href="#imds">IMDS</a></li>
+        <li><a href="#flow-logs">Flow Logs</a></li>
       </ul>
     </li>
     <li><a href="#-toolkit">🧰 Toolkit</a></li>
@@ -284,24 +290,39 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>The suggested workflow would be to store <code>tf</code> files (terraform proprietary format) on git (for version control).</p>
 <h2 id="vpc">VPC</h2>
-<p>The main concern is that something provate can be poked from the outside. There are several controls in place to avoid this and following the best practicies of Defense-in-Depth policy we are better to leverage all of them properly. But the bigger the organization becomes, the harder it gets to configure everything correctly.</p>
+<p>The main concern is that something provate can be poked from the outside. There are several controls in place to avoid this and following the best practicies of Defense-in-Depth policy we are better to leverage all of them properly. But the bigger the organization becomes, the harder it gets to configure everything correctly. Default VPC is very lax. Therefore, it should not be used for anything more serious than I personal blog or lab exercises and stuff like that.</p>
 <p>For something to be publicly availble, a Internet Gateway is required.</p>
-<p>Default VPC is very lax. Therefore, it should not be used for anything more serious than I personal blog or lab exercises and stuff like that. However, traffic is determined by both the NACL (which is overly permissive for the default VPC) and security group. For default EC2 security group (presuming no changes were made when deploying it) all ingress traffic will be blocked. When EC2 is greated via CLI, it&rsquo;s less &ldquo;open-minded&rdquo; and allows less crap 💩 to flow through. Default security group (ingress all from the same sec group, egress allow traffic on all ports) != default EC2 security group.</p>
+<h3 id="nacl">NACL</h3>
+<p>Network Access Control list. Whever there is a match, further list trversal is ceised. Traffic restrictions are determined by both the NACL (which is overly permissive for the default VPC) and a security group (see the next subsection).</p>
+<blockquote>
+<p>⚠️ Important note! NACL are stateless, which means that if the request was allowed to pass through, the response might not be if it was not configured. Rules are evaluated in order until a match is found (allow or deny) and the remaining rules in the list are skipped.</p>
+</blockquote>
+<h3 id="security-group">Security Group</h3>
+<p>For default EC2 security group (presuming no changes were made when deploying it) all ingress traffic will be blocked. When EC2 is greated via CLI, it&rsquo;s less &ldquo;open-minded&rdquo; and allows less crap 💩 to flow through. Default security group (ingress all from the same sec group, egress allow traffic on all ports) != default EC2 security group.</p>
 <blockquote>
 <p>⚠️ Important note!
 By default, security groups, do not allow any ingress and allow all egress traffic. Anything that was not specified, is <strong>denied by default</strong>.
-NACL are stateless, which means that if the request was allowed to pass through, the response might not be if it was not configured. Rules are evaluated in order until a match is found (allow or deny) and the remaining rules in the list are skipped.
-Security groups on the other hand are stateful. So, if the request passed through, the response will as well. Moreover, all rules are evaluted before decision is made. If there are some conflicting rules, then, the most permissive will get the medal 🥇.
-How rules are evaluated after NACL and SG specific are evaluated?</p>
+Security groups are stateful. So, if the request has passed through, the response will as well. Moreover, all rules are evaluted before decision is made. If there are some conflicting rules, then, the most permissive will get the medal 🥇.</p>
+</blockquote>
+<blockquote>
+<p>❓ How rules are evaluated after NACL and SG specific are evaluated?</p>
 </blockquote>
 <h3 id="nat">NAT</h3>
 <p>A NAT gateway is a Network Address Translation (NAT) service. You can use a NAT gateway so that instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances. Can be public (for the internet) or private (between VPCs).
 <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway">https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway</a>
-<a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html</a></p>
+<a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html</a>
+NAT is not required for completely private network and private endpoints. All this access is managed by policies and role-based access controls.</p>
 <h3 id="elastic-ip">Elastic IP</h3>
 <p>Weird enough, but it means static IP.</p>
-<h3 id="vpl-flow-logs">VPL Flow Logs</h3>
-<p>If these are enabled, you will be able to tell, who connected to what resource and when.</p>
+<h3 id="vpc-flow-logs">VPC Flow Logs</h3>
+<p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
+<p>Logs are sent then either to the CloudWatch or S3 (depending on the configuration). An IAM role needs to be created prior to that. Here are the minimum requirements for the CloudWatch role: CreateLogGroup, CreateLogStream, PutLogEvents, DescribeLogGroups, DescribeLogStreams need to beallowed for all resources. To be able to assume this role, VPC Flow Logs service needs to have its own policy where <code>&quot;service&quot;:&quot;vpc-flow-logs.amazonaws.com&quot;</code> is set to allow <code>AssumeRole</code> action. See <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-cwl.html">here</a> for more details.</p>
+<p>Log <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records">breakthrough</a>. Looks like a simple string with a space as a delimiter. Each field has its place within the string.</p>
+<h3 id="vpc-traffic-mirroring">VPC Traffic Mirroring</h3>
+<p>A great idea to use. Deploying an EC2 with some IDS, mirror traffic there for detection. Filter for the most relevant stuff to pass it to SIEM?</p>
+<h3 id="aws-vpc-endpoints">AWS VPC Endpoints</h3>
+<h2 id="default-configurations">Default Configurations</h2>
+<p>By default, SSH 22 and RDP 3389 are closed, but these are suggested to be opened when creaing them, warning how dangeroud this is. What&rsquo;s <a href="https://docs.aws.amazon.com/vpc/latest/mirroring/what-is-traffic-mirroring.html">traffic mirroring</a>? Using <a href="https://docs.aws.amazon.com/vpc/latest/mirroring/tm-example-open-source.html">this functionality with</a> open-source tools.</p>
 <h2 id="-btfm">📘 BTFM</h2>
 <p>Terraform prerequisites: account on AWS, Google, Azure or another Cloud provider, Terraform isntalled locally on the PC, credentials from the cloud in question (for example, for AWS these are <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>). For full instructions refer to [<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>].</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">terraform init
@@ -336,7 +357,12 @@ How rules are evaluated after NACL and SG specific are evaluated?</p>
 </span></span><span class="line"><span class="cl">    <span class="err">http_put_response_hop_limit</span> <span class="err">=</span> <span class="mi">1</span> <span class="err">#</span> <span class="err">requests</span> <span class="err">will</span> <span class="err">be</span> <span class="err">blocked</span> <span class="err">if</span> <span class="err">requested</span> <span class="err">by</span> <span class="err">any</span> <span class="err">other</span> <span class="err">machine</span> <span class="err">other</span> <span class="err">then</span> <span class="err">the</span> <span class="err">EC</span><span class="mi">2</span> <span class="err">itself.</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="err">...</span>
-</span></span></code></pre></div><h2 id="-toolkit">🧰 Toolkit</h2>
+</span></span></code></pre></div><h3 id="flow-logs">Flow Logs</h3>
+<p>Retrieve the logs:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
+</span></span><span class="line"><span class="cl">aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
+</span></span></code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
+<h2 id="-toolkit">🧰 Toolkit</h2>
 <p><a href="https://rhinosecuritylabs.com/aws/pacu-open-source-aws-exploitation-framework/">Pacu</a>, AWS exploitation framework. Might be good to use when you need to find the flaw in your infrastructure.</p>
 <p><a href="https://github.com/duo-labs/parliament">Parliament</a>. Find vulnerabilities in IAM policies statically.</p>
 <h2 id="references">References</h2>

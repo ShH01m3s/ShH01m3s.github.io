@@ -336,6 +336,9 @@
 </span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail.</p>
 <h2 id="vpc-flow-logs">VPC Flow Logs</h2>
 <p>Traffic logs between VPCs withing the same org/acc.</p>
+<p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. AWS states that loggin rejected traffic is sufficient for bad actor detection. The recommended log retention period is 1 year. However, these logs can be archived and stored elsewhere where it&rsquo;s cheaper.</p>
+<p>It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
+<p>Logs are sent then either to the CloudWatch or S3 (depending on the configuration). Min delay between the capture and its copying to the above mentioned services is 1-6 minutes.</p>
   </div>
 </article>
 </div>
