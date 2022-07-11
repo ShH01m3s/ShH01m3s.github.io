@@ -177,7 +177,13 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#bash">Bash</a></li>
+    <li><a href="#bash">Bash</a>
+      <ul>
+        <li><a href="#lateral-movement">Lateral movement</a></li>
+        <li><a href="#malicious-modifications">Malicious modifications</a></li>
+        <li><a href="#recon">Recon</a></li>
+      </ul>
+    </li>
     <li><a href="#zsh">ZSH</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -228,12 +234,28 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="bash">Bash</h2>
-<p>On most Linux machines bash is the default shell interpereter.</p>
+<p>On most Linux machines bash is the default shell interpereter. Each user has a separate bash history. However, if the user has escalated to root, everything goes to the root&rsquo;s history file (<code>~/.bash_history</code>). ❗️ Not only root&rsquo;s history is interesting!</p>
+<blockquote>
+<p>📝 Set history time env variable to record timestamps for the <code>q</code> file.</p>
+</blockquote>
+<p>It&rsquo;s not always easy to determine if this activity is a legitimate admin activity or if it&rsquo;s something adversary (given that they have managed to escalate).</p>
+<blockquote>
+<p>⚠️ Bash hostory can be tampered with or turned of.</p>
+</blockquote>
 <blockquote>
 <p>By default, the bash_history is stored in memory when you&rsquo;re running commands on a system. This means that nothing is actually written to disk until you run the &ldquo;exit&rdquo; command and exit the shell. [<a href="https://www.linkedin.com/pulse/incident-response-case-study-linux-cryptominer-debacle-ronald-craft/?trackingId=iWqzrUB1zPSuO50joDGSHQ%3D%3D">1</a>]</p>
 </blockquote>
 <p><code>kill -9 $$</code> to kill the bash shell. This way whatever was in memory for bash_history won&rsquo;t be written to disk.</p>
 <p>If you simply delete <code>bash_history</code> one can recover it using photorec or other carving utility, for example (unless the sectors for this files were overwritten).</p>
+<h3 id="lateral-movement">Lateral movement</h3>
+<p><code>ssh</code>, <code>netcat</code> and <code>telnet</code> are frequently used for lateral movement. ssh and telnet will give a target IP as well. Agregate and make a frequency analysis. Note all the IPs that the system has connected to.</p>
+<blockquote>
+<p>💡 I would also check with the baseline (which machines this machine usually connects to).</p>
+</blockquote>
+<h3 id="malicious-modifications">Malicious modifications</h3>
+<p><code>vim</code>, <code>nano</code>. Which files were changed? somthing in <code>/etc/</code>. Look for archiving activity: <code>tar</code>, <code>7zip</code> etc. What&rsquo;s archived and why?</p>
+<h3 id="recon">Recon</h3>
+<p><code>whoami</code>, <code>cat</code>, <code>ifconfig</code> etc. Amount of this commands. Short span. First is usually to run whoami, then might be something else.</p>
 <h2 id="zsh">ZSH</h2>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.linkedin.com/pulse/incident-response-case-study-linux-cryptominer-debacle-ronald-craft/?trackingId=iWqzrUB1zPSuO50joDGSHQ%3D%3D">1</a>] An Incident Response Case Study: The Linux cryptominer debacle.</p>

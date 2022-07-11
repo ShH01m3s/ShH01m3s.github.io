@@ -179,29 +179,14 @@
   <ul>
     <li><a href="#identificationassessment-aka-preparation">Identification/Assessment (aka Preparation)</a>
       <ul>
-        <li><a href="#toolkit-assembly-for-physical-acquisition">Toolkit Assembly For Physical Acquisition</a></li>
         <li><a href="#scope">Scope</a></li>
-        <li><a href="#validate-tools">Validate Tools</a></li>
-        <li><a href="#case-specific-investigation-tips">Case-Specific Investigation Tips</a>
-          <ul>
-            <li><a href="#exfiltration">Exfiltration</a></li>
-            <li><a href="#ip-cases-questions">IP cases questions</a></li>
-            <li><a href="#e-discovery">E-discovery</a></li>
-          </ul>
-        </li>
         <li><a href="#sterilizing-target-media">Sterilizing Target Media</a></li>
       </ul>
     </li>
     <li><a href="#collection">Collection</a>
       <ul>
         <li><a href="#-first-responder-checklist">✅ First Responder Checklist</a></li>
-        <li><a href="#documenting">Documenting</a>
-          <ul>
-            <li><a href="#chain-of-custody">Chain Of Custody</a></li>
-          </ul>
-        </li>
-        <li><a href="#take-photos-and-videos">Take photos and videos</a></li>
-        <li><a href="#identify-the-evidence">Identify the evidence</a></li>
+        <li><a href="#documenting-and-recording">Documenting And Recording</a></li>
         <li><a href="#acquisition">Acquisition</a></li>
         <li><a href="#evidence-preservation">Evidence Preservation</a></li>
       </ul>
@@ -269,230 +254,13 @@
     <p>Before this process starts, there probably has already been some Incident Response done or even finished (refer to <a href="https://bakerst221b.com/docs/dfir/ir-checklist/)">https://bakerst221b.com/docs/dfir/ir-checklist/)</a>.</p>
 <h2 id="identificationassessment-aka-preparation">Identification/Assessment (aka Preparation)</h2>
 <p>In short, understand your scope (technical and legal aspects), your goals and people you are going to work with. Identify the stakeholders. Decide on the tools.</p>
-<h3 id="toolkit-assembly-for-physical-acquisition">Toolkit Assembly For Physical Acquisition</h3>
-<ul>
-<li>A PC technician&rsquo;s toolkit 🧰 (screwdrivers 🪛, squeezers, scissors✂️ , portable batteries 🔋and etc) to be able to remove HDD, lockdown cables etc) ✅.</li>
-<li>Digital camera 📸  that embed timestamps on the photos. 📝 Take photos, the more the better!</li>
-<li>Video camera 📹. 📝 Take a video, the longer the better.</li>
-<li>For labeling and documenting (labels, markers, pens, 🖊, evidence tape 🚧).</li>
-<li>Transporting and managing evidence 💼 (Faraday bag , Anti-static bag, evidence log, large envelopes ✉️,  gloves🧤, sanitizer, ).</li>
-<li>Documents (chain of custody, notes 🗒, warrants/subpoenas).</li>
-<li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilize target media, flash drives for live/dead acquisition, bootable, Apple USB Type-C wires).</li>
-</ul>
 <h3 id="scope">Scope</h3>
 <p>🖼  Get the <strong>scope</strong> for your investigation!</p>
-<h3 id="validate-tools">Validate Tools</h3>
-<p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated prior to each analysis. For example, check that you wiping software has thoroughly WIPED the drive you will be using for the evidence collectionc (for example, by running a checksum64 against it).</p>
-<p><strong>Choose the appropriate one</strong>. Below are some questions to ask in order to decide.</p>
-<p>Example 1. Logging in remotely to collect artifacts and run preinstalled UI admin tools:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Hard 🧱: Many non-DFIR tools</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Easy 💸: if remote connection is allowed</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Hard 🧱: not DFIR specific</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Hard 🍯-🧱: Depends</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Hard 🧱: one at a time</td>
-</tr>
-</tbody>
-</table>
-<p>Example 2. Logging in remotely to collect artifacts with cmd tools:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Medium 🍯. Many tools, but can be scripted. Generally free.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Hard 🧱: have to copy tools to the system.</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Hard 🧱: not DFIR specific</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Hard 🧱: Many output files</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Hard 🧱: one at a time</td>
-</tr>
-</tbody>
-</table>
-<p>Example 3. Continuous monitoring:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Easy 💸: for artifacts being monitored. Hard 🧱: for others.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Easy 💸: if configured.</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Medium 🍯: depends on the tools.</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Medium 🍯: depends on the tools.</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Easy 💸: if monitoring is enabled</td>
-</tr>
-</tbody>
-</table>
-<p>Example 4. Full image:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Hard 🧱to get full image and also there is a need to parse it. But reliable.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Medium 🍯: depends</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Medium 🍯: depends on the parser tool.</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Medium 🍯: depends on the parser tool.</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Medium 🍯: depends on aquisition tools.</td>
-</tr>
-</tbody>
-</table>
-<p>Example 5. Cyber Triage:</p>
-<table>
-<thead>
-<tr>
-<th>Question</th>
-<th>Answer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Easy to collect artifacts?</td>
-<td>Easy 💸: one exe for local or remote.</td>
-</tr>
-<tr>
-<td>Easy to connect remotely?</td>
-<td>Easy 💸: easy to send over network.</td>
-</tr>
-<tr>
-<td>Identify relevant data?</td>
-<td>Medium 🍯: scores data.</td>
-</tr>
-<tr>
-<td>Pivoting</td>
-<td>Easy 💸: navigation via UI.</td>
-</tr>
-<tr>
-<td>Scaling</td>
-<td>Multiple</td>
-</tr>
-</tbody>
-</table>
 <p><strong>Choose the appropriate media.</strong></p>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> ❓ What&rsquo;s the file system and OS of the target media? Depending on the answer you might need to appropriately format the evidence drive and assemple a flash drive with the tools needed.</li>
-</ul>
-<p><strong>Windows</strong>: FAT12, 32, 64, NTFS, ReFS.</p>
-<p><strong>Linux</strong>: EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.</p>
-<p><strong>MacOS</strong>: APFS, HFS+, Offers a novel technique to acquire disk copies using a firewire cable between two PCs: Target Disk Mode. Press F (?).</p>
+<p>❓ What&rsquo;s the file system and OS of the target media? Depending on the answer you might need to appropriately format the evidence drive and assemple a flash drive with the tools needed.</p>
 <p><strong>Choose the acquision method.</strong></p>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> ❓ Will there only be live or dead acquisition?</li>
-<li><input checked="" disabled="" type="checkbox"> ❓ Will you make a <strong>logical backup</strong> (doesn&rsquo;t copy all i.e. doesn&rsquo;t copy slack, free space and deleted files) or <strong>imaging</strong> (bit-by-bit copy). ⚠️ Should not be used on a live system!</li>
-</ul>
-<h3 id="case-specific-investigation-tips">Case-Specific Investigation Tips</h3>
-<p>Determine the investigation type since it will influence the data you need, the scope, extent and strategy.</p>
-<blockquote>
-<p>⚠️ It&rsquo;s a very important thing to note in case of IP (intellectual property cases). Ensure, that data and devices of the suspect are IMMEDIATLY preserved and not accessed by anyone. I guess that&rsquo;s because of the timestamps.</p>
-</blockquote>
-<ul>
-<li>❓ <em>What is the case about?</em></li>
-<li>❓ <em>What evidence do we expect to recover?</em></li>
-<li>❓ <em>Where is the evidence most likely located?</em></li>
-<li>❓ <em>What are the legal restrictions?</em></li>
-<li>❓ <em>Who is involved and what&rsquo;s their role?</em></li>
-</ul>
-<p>Develop a plan to collect the data. Each type of data will require separate plan. This plan should prioritise the sources and the order. For example, if you are dealing with a system that is turned on, first, take photos of the screen, then collect the volatile data (RAM) and them make a copy of a hard drive. Then turn it off and send to the lab in a safety bag. Maintain chain of custody.</p>
-<blockquote>
-<p>🗒 For several different case make a checklist</p>
-</blockquote>
-<h4 id="exfiltration">Exfiltration</h4>
-<p>It usually means that someone has leaked some confidential information. It also usually means, that the person would exfiltrate it to one person only, i.e. you would be looking for e-mail or chat conversations invlolving just two parties (no CC or BCC).</p>
-<h4 id="ip-cases-questions">IP cases questions</h4>
-<ul>
-<li><input disabled="" type="checkbox"> <em>❓ What processes did the suspect perform in order to get IP from the building?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓How the suspect accessed email accs?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Cloud ⛅️ storage used?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Remote transfer?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓DVDs/CDs/USBs?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Suspects negotiating salary and benefits with the competitors?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Was he/she selling the information?</em></li>
-<li><input disabled="" type="checkbox"> <em>❓Mass deletion or drive wiping?</em></li>
-</ul>
-<h4 id="e-discovery">E-discovery</h4>
-<p>Electronic aspects of identifying, collecting and producing electronically stored info in response to a request for production in a lawsuit or investigation (emails, websites, docs). ❗️Focused on the metadata, not the data itself! <em>How, when and where was the doc created?</em></p>
-<ul>
-<li><input disabled="" type="checkbox"> <em>❓How, when and where was the doc created?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>What is the case about?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>What evidence do we expect to recover?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>Where is the evidence most likely located?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>What are the legal restrictions?</em></li>
-<li><input disabled="" type="checkbox"> ❓ <em>Who is involved and what&rsquo;s their role?</em></li>
-</ul>
-<blockquote>
-<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
-</blockquote>
+<p>❓ Will there only be live or dead acquisition?
+❓ Will you make a <strong>logical backup</strong> (doesn&rsquo;t copy all i.e. doesn&rsquo;t copy slack, free space and deleted files) or <strong>imaging</strong> (bit-by-bit copy). ⚠️ Should not be used on a live system!</p>
 <h3 id="sterilizing-target-media">Sterilizing Target Media</h3>
 <p>See <a href="https://bakerst221b.com/docs/dfir/investigation/collection/#sterilising-target-media">here</a> for media sterilisation.</p>
 <h2 id="collection">Collection</h2>
@@ -515,42 +283,10 @@
 <li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
 <li><input disabled="" type="checkbox"> Calculate the <strong>hash of the image that was taken</strong> (post-hash) and make sure it matches the above ones taken previously.</li>
 </ul>
-<h3 id="documenting">Documenting</h3>
-<p>Start documenting even before you get to the scene.</p>
+<h3 id="documenting-and-recording">Documenting And Recording</h3>
+<p>Start documenting even before you get to the scene. First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible). Identify and asign unique ids to the evidence collected</p>
 <p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
-<h4 id="chain-of-custody">Chain Of Custody</h4>
-<p>❓Where the evidence was found</p>
-<p>❓Time and date the evidence was collected</p>
-<p>❓Who found the evidence</p>
-<p>❓Description of the evidence</p>
-<p>❓Make, model, and S/N of device (if applicable)</p>
-<blockquote>
-<p>📝 I think, one of the best ways to keep Chain of Custody is on Google Drive or something alike. This way we have a histrory of changes and who has made them. Another way would be to use GitHub.</p>
-</blockquote>
-<h3 id="take-photos-and-videos">Take photos and videos</h3>
-<p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
-<p>Below is the checklist for the first Responder to make sure they&rsquo;ve done everything needed before leaving the scene:</p>
-<h3 id="identify-the-evidence">Identify the evidence</h3>
-<p>Assign IDs for each evidence. For example, for a flash drive it would look like this. FD (flash drive) + its <em>sequence number</em> within this case + case number. Subsequent images of these devices will have the same number + copy&rsquo;s sequence number.</p>
-<p>Example: <em>A USB Flash drive was found on the scene during case study 0124. It was the first USB drive found yet. This device was assigned a number FD-01-0124. Then we made two bit-by-bit copies of this drive and these were assigned numbers FD-01-0124-01 and FD-01-0124-02 respectively.</em></p>
 <h3 id="acquisition">Acquisition</h3>
-<p>Don’t contaminate the scene (try not to be tempted to eat buiscuits 🍪 and burgers 🍔 on the scene, however hard that might seem). This means, that you should also preserve the physical evidence as well. Don’t touch ANYTHING before the lead investigator says “OK” 👍. Always mind the scope and get it in writing even if it’s not a crimial case. Do fingerprints need to be collected? DNA?</p>
-<p>What types of evidence can I come across?</p>
-<ul>
-<li>Obvious - PC, cameras, flash drives, PDAs, removable media. Mind the chain of custody. Document the physical condition (mouse to left or right as the owner is a lefty or a righty), applications running, keep audio notes.</li>
-<li>Non-obvious
-<ul>
-<li>manuals for devices that were not found - look for these devices</li>
-<li>digital media taken with some device that was not found -look for this device</li>
-<li>Sticky notes or liitle papers with scrambled notes.</li>
-</ul>
-</li>
-</ul>
-<p>The first thing to consider when acquiring a PC is wether it’s turned on or off?</p>
-<ul>
-<li>Yes. Then transport it as is. Do not forget the charger!</li>
-<li>No. Depending on the case nature, turn off or perform the RAM capture.</li>
-</ul>
 <h3 id="evidence-preservation">Evidence Preservation</h3>
 <ol>
 <li>copy original, operate on the copy</li>
@@ -559,14 +295,6 @@
 <li>min files created</li>
 <li>register timestamps before openning files</li>
 </ol>
-<p>Package the evidence for transport. Transport the evidence. Store the evidence while in possession. Use Faraday bags for avoiding remote tampering, anti-static and plastic bags as a protection from discharge and moisture. Tape and seal the bags with the evidence.</p>
-<p>Keep in mind the <a href="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil.">Locard&rsquo;s Exchange Principle</a>. To keep the evidence safe and admissable in court, document everything. When acquiring data from memory, use write blockers (soft- or hardware-based). If the device is off, don&rsquo;t turn it on. If it&rsquo;s on - take photos 📸 of all windows, note running applications and processes (mind destructive processes and encryption 🔐). If you see a destructive process running, pull the plug from the PC (not the wall), take out the battery or shut it down immediatly. You need to be able to identify at least some of disk-wiping software. However, some of them might be command line and get triggered when USB is plugged in (<a href="/docs/dfir/antiforensics/usbkill-switch">kill switch</a>).</p>
-<blockquote>
-<p>🗒 Make a list of the most popular disk-wipers with their icons.</p>
-</blockquote>
-<p>To avoid remote wiping or evidence tampering - RF shielding (Faraday bag).</p>
-<p>To prevent battery loss (in case we need the device to be on), keep the device connected to the power supply (for example, portable). ⚠️ Turning off might trigger encryption!</p>
-<p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
 <h2 id="examination--analysis">Examination &amp; Analysis</h2>
 <p>Art supersedes science. Know what is garbage. Unexpected places. Don&rsquo;t ignore exculpatory (proving innocence) data.</p>
 <p>❗️ Correlate data with other independent sources. Some data might have been tampered with and you should try to find other evidence that describe the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>
@@ -717,17 +445,6 @@
 </blockquote>
 <p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
 <h2 id="repoting">Repoting</h2>
-<p>This is also a crucial part to share the findings, IOCs and info about threat actors with the threat hunting team 🔪 .</p>
-<p>The final report should contain the following:</p>
-<ul>
-<li>case summary (who requested, who&rsquo;s in charge, principles involved, when did the incident occur, when was this report filed, what allegedly happened, copies of all legal authorizations to proceed);</li>
-<li>Authorizations (original request in writing, warrants, subpoenas, written permissions);</li>
-<li>procedural docs (inventory of items examined and chain of custody for each, tools used, timeline of procedures, list of people performing these procedures, hashed before and after);</li>
-<li>case notes (all logs extracted from the target system and from the forensic tools, a diagram of network where investigation occurred (sometimes));</li>
-<li>what physical evidence were collected (videos, pics, copies of docs, interview transcripts);</li>
-<li>conclusion (ties all together, supports or refuses the original claim, does NOT prove guilt/innocence).</li>
-</ul>
-<p>Make electronic copies of the report. An archive copy is maintained by the team. DVDs for distribution. Copies of written docs are filed. A summary report is provided along with timelines and written + electronic docs.</p>
 <h2 id="dfir-samples">DFIR Samples</h2>
 <p><a href="https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e">https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e</a></p>
 <h2 id="critical-thinking">Critical Thinking</h2>

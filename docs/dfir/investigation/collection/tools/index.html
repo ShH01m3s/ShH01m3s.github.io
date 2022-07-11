@@ -177,6 +177,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#validate-tools">Validate Tools</a></li>
     <li><a href="#collection">Collection</a>
       <ul>
         <li><a href="#kansa">Kansa</a></li>
@@ -188,6 +189,11 @@
         <li><a href="#magnet-axiom">Magnet Axiom</a></li>
         <li><a href="#cyber-triage">Cyber Triage</a></li>
         <li><a href="#awesome-incident-response">Awesome Incident Response</a></li>
+      </ul>
+    </li>
+    <li><a href="#hashing">Hashing</a>
+      <ul>
+        <li><a href="#native-hashing-tools">Native Hashing Tools</a></li>
       </ul>
     </li>
     <li><a href="#write-blockers">Write Blockers</a></li>
@@ -240,7 +246,166 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="collection">Collection</h2>
+    <h2 id="validate-tools">Validate Tools</h2>
+<p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
+<p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated prior to each analysis. For example, check that you wiping software has thoroughly WIPED the drive you will be using for the evidence collectionc (for example, by running a checksum64 against it).</p>
+<p><strong>Choose the appropriate one</strong>. Below are some questions to ask in order to decide.</p>
+<p>Example 1. Logging in remotely to collect artifacts and run preinstalled UI admin tools:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Hard 🧱: Many non-DFIR tools</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Easy 💸: if remote connection is allowed</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Hard 🧱: not DFIR specific</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Hard 🍯-🧱: Depends</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Hard 🧱: one at a time</td>
+</tr>
+</tbody>
+</table>
+<p>Example 2. Logging in remotely to collect artifacts with cmd tools:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Medium 🍯. Many tools, but can be scripted. Generally free.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Hard 🧱: have to copy tools to the system.</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Hard 🧱: not DFIR specific</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Hard 🧱: Many output files</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Hard 🧱: one at a time</td>
+</tr>
+</tbody>
+</table>
+<p>Example 3. Continuous monitoring:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Easy 💸: for artifacts being monitored. Hard 🧱: for others.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Easy 💸: if configured.</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Medium 🍯: depends on the tools.</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Medium 🍯: depends on the tools.</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Easy 💸: if monitoring is enabled</td>
+</tr>
+</tbody>
+</table>
+<p>Example 4. Full image:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Hard 🧱to get full image and also there is a need to parse it. But reliable.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Medium 🍯: depends</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Medium 🍯: depends on the parser tool.</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Medium 🍯: depends on the parser tool.</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Medium 🍯: depends on aquisition tools.</td>
+</tr>
+</tbody>
+</table>
+<p>Example 5. Cyber Triage:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Easy to collect artifacts?</td>
+<td>Easy 💸: one exe for local or remote.</td>
+</tr>
+<tr>
+<td>Easy to connect remotely?</td>
+<td>Easy 💸: easy to send over network.</td>
+</tr>
+<tr>
+<td>Identify relevant data?</td>
+<td>Medium 🍯: scores data.</td>
+</tr>
+<tr>
+<td>Pivoting</td>
+<td>Easy 💸: navigation via UI.</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Multiple</td>
+</tr>
+</tbody>
+</table>
+<h2 id="collection">Collection</h2>
 <p>Powershell is the best tool to automate and scale evidence collection accross the enterprise.</p>
 <h3 id="kansa">Kansa</h3>
 <p>Not only for collection, but also for analysis (stacking). Can be scaled. Good for acquisition across enterprise.</p>
@@ -269,6 +434,11 @@
 <p>We need to analysie user activity, find indicators of malware and check whether configs were changed.</p>
 <h3 id="awesome-incident-response">Awesome Incident Response</h3>
 <p><a href="https://github.com/meirwah/awesome-incident-response">https://github.com/meirwah/awesome-incident-response</a></p>
+<h2 id="hashing">Hashing</h2>
+<h3 id="native-hashing-tools">Native Hashing Tools</h3>
+<p><strong>Windows</strong>. certutil -file [filename] -hash [md5, sha1, sha256 etc].</p>
+<p><strong>macOS</strong>. <code>md5</code>, <code>shasum</code>.</p>
+<p><strong>Linux</strong>. <code>md5sum</code>, <code>sha256sum</code> etc.</p>
 <h2 id="write-blockers">Write Blockers</h2>
 <p>NIST about software write blockesr: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
 Benchmark of different soft and hardware blockers: <a href="https://habr.com/ru/company/bizone/blog/320032/">https://habr.com/ru/company/bizone/blog/320032/</a>.</p>
