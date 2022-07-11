@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.f5ee5a6a50d29b6390e5652a9df2ffcaffd904244cc05d6f936d9e4feeb76a3d.css">
   
 
   
@@ -194,15 +194,11 @@
     <li><a href="#examination--analysis">Examination &amp; Analysis</a>
       <ul>
         <li><a href="#-examiner-checklist">✅ Examiner Checklist</a></li>
-        <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
         <li><a href="#prioritization-and-process">Prioritization and Process</a></li>
       </ul>
     </li>
-    <li><a href="#repoting">Repoting</a></li>
-    <li><a href="#dfir-samples">DFIR Samples</a></li>
     <li><a href="#critical-thinking">Critical Thinking</a></li>
     <li><a href="#known-good">Known Good</a></li>
-    <li><a href="#case-specific-tips">Case Specific Tips</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -287,6 +283,8 @@
 <p>Start documenting even before you get to the scene. First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible). Identify and asign unique ids to the evidence collected</p>
 <p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
 <h3 id="acquisition">Acquisition</h3>
+<p>Dead Acquisition</p>
+<p>Live Acquisition</p>
 <h3 id="evidence-preservation">Evidence Preservation</h3>
 <ol>
 <li>copy original, operate on the copy</li>
@@ -331,6 +329,7 @@
 </li>
 </ul>
 <h3 id="-examiner-checklist">✅ Examiner Checklist</h3>
+<p>{{ &lt;details &ldquo;Expand &hellip; &ldquo;&gt;}}</p>
 <p>Is this computer compromised? Let&rsquo;s break down into smaller questions. Below will be the full checklist, this one is for overview.</p>
 <ul>
 <li><input disabled="" type="checkbox"> Malicious Process
@@ -357,6 +356,7 @@
 </ul>
 </li>
 </ul>
+<p>{{ &lt;/ details&gt;}}</p>
 <p>Bypassing controls (if, say, it&rsquo;s PIN protected, data encrypted, ACL, compression). There will be lots of data and only some is relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. This list is used by Autopsy.</p>
 <p>Testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
 <p>About SIM forensics as well <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf">here</a>.</p>
@@ -409,11 +409,6 @@
 <p>Manager: categories</p>
 <p>Cyber Truage User: same</p>
 <p>File name &ndash;&gt; meta &ndash;&gt; content</p>
-<h3 id="ntfs-vs-apfs">NTFS vs APFS</h3>
-<p>Mind that APFS <a href="/docs/articles/forensics/analysis/11-apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/articles/forensics/analysis/13-windows/win-artifacts">timestamps</a> are different! With NTFS when you add a file to the system (for example, copy it from USB drive), the MAC times are changed. However, on APFS <em>Added</em> attribute is added, providing you with slightly more information.</p>
-<blockquote>
-<p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
-</blockquote>
 <h3 id="prioritization-and-process">Prioritization and Process</h3>
 <p>There are different paths to follow to answer the same questions. Some are more efficitent.</p>
 <p>Pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
@@ -444,9 +439,6 @@
 <p>Cyber Triage: can I mark something as bad and run analysis for this piece of evidence again. - yes</p>
 </blockquote>
 <p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
-<h2 id="repoting">Repoting</h2>
-<h2 id="dfir-samples">DFIR Samples</h2>
-<p><a href="https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e">https://medium.com/@soji256/where-can-you-find-images-that-you-can-use-to-learn-forensics-141c6c8cdc9e</a></p>
 <h2 id="critical-thinking">Critical Thinking</h2>
 <p><strong>Challenge assumptions</strong> (sometimes its something you have not seen or dealt with before), consider alternatives, evaluate data, identify key drivers, understand context.</p>
 <p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorize these assumptions based on the certainty. Refine and remove those assumptions that are proven to be wrong. Identify addition data needs for those assumptions that are still uncertain. Research?</p>
@@ -466,10 +458,8 @@
 </blockquote>
 <h2 id="known-good">Known Good</h2>
 <p>Not all the files are worth considering. However, it&rsquo;s hard to keep all of them in mind. So, I&rsquo;ve made (about to) several database files that contain information on files on a clean installed system. There will be some diviations, I presume, but I hope it will help eliminate a huge pack of files as well.</p>
-<p>Refer to <a href="/docs/articles/forensics/analysis/materials/newborn-systems">this</a> artcile for more information.</p>
-<h2 id="case-specific-tips">Case Specific Tips</h2>
 <h2 id="references">References</h2>
-<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
+<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&rdquo;&amp;sort=relevance&amp;highlight=true)</p>
 <p>[<a href="https://www.coursera.org/lecture/digital-forensics-concepts/forensics-methodology-and-investigations-33wNN">2</a>] InfoSec Digital Forensics Course, module Forensics Methodology and Investigations</p>
 <p>[<a href="https://www.eccu.edu/methodology-for-testing-forensic-hypothesis-and-finding-truth/#attend">3</a>] Webinar, METHODOLOGY FOR TESTING FORENSIC HYPOTHESIS AND FINDING TRUTH by Jessica Hyde</p>
 <p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">4</a>] Live vs Dead System Acquisition</p>

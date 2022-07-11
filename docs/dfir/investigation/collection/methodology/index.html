@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.eeb61b3f25f73088eb3aeb02bc61f28d33975f447fc5649add3b83c10059c331.css">
+  <link rel="stylesheet" href="/css/style.min.f5ee5a6a50d29b6390e5652a9df2ffcaffd904244cc05d6f936d9e4feeb76a3d.css">
   
 
   
@@ -183,20 +183,8 @@
       <ul>
         <li><a href="#physical-integrity">Physical Integrity</a></li>
         <li><a href="#digital-integrity">Digital Integrity</a></li>
-      </ul>
-    </li>
-    <li><a href="#hahahugoshortcode-s0-hbhb">HAHAHUGOSHORTCODE-s0-HBHB</a>
-      <ul>
-        <li><a href="#chain-of-custody">Chain Of Custody</a>
-          <ul>
-            <li><a href="#identify-the-evidence">Identify the evidence</a></li>
-          </ul>
-        </li>
-        <li><a href="#report">Report</a>
-          <ul>
-            <li><a href="#photos-and-videos">Photos And Videos</a></li>
-          </ul>
-        </li>
+        <li><a href="#chain-of-custody">Chain Of Custody</a></li>
+        <li><a href="#report">Report</a></li>
       </ul>
     </li>
     <li><a href="#-btfm">📘 BTFM</a></li>
@@ -255,7 +243,9 @@
 <p>⚠️ There are some caveats which need to be handled, though. For example, at the moment of this writing (📆 <code>11/07/2022</code>) macOS has introduces Share Disk mode for the newest M1 machines. Unlike the Target disk mode, which would treat the disk as external, making it possible to turn on the write blocker for it, this new mode is more like a network share and works over SMB (over the wire). This way that target disk won&rsquo;t show with <code>diskutil list</code> and thus all common procedures for write blocking won&rsquo;t work. I don&rsquo;t know yet if an ordinary physical write blocker will work since the mechanism is different. I have posted this question on <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">forensicfocus.com</a> but have not received any updates yet.</p>
 </blockquote>
 <h2 id="evidence">Evidence</h2>
-<blockquote>
+<details>
+    <summary>Expand &hellip;</summary>
+    <blockquote>
 <p>❗️Mind the scope when collecting the evidene. For example, you might not have permission to collect personal devices.</p>
 </blockquote>
 <p><strong>Obvious Physical Evidence</strong>. PC, cameras, flash drives, PDAs, removable media, mobile devices. Mind the chain of custody.</p>
@@ -264,8 +254,12 @@
 <blockquote>
 <p>⚠️ Do not forget the charger!</p>
 </blockquote>
+
+  </details>
 <h2 id="toolkit-assembly-for-physical-acquisition">Toolkit Assembly For Physical Acquisition</h2>
-<ul>
+<details>
+    <summary>Expand &hellip;</summary>
+    <ul>
 <li>A PC technician&rsquo;s toolkit 🧰 (screwdrivers 🪛, squeezers, scissors✂️ , portable batteries 🔋and etc) to be able to remove HDD, lockdown cables etc) ✅.</li>
 <li>Digital camera 📸  that embed timestamps on the photos. 📝 Take photos, the more the better!</li>
 <li>Video camera 📹. 📝 Take a video, the longer the better.</li>
@@ -274,6 +268,8 @@
 <li>Documents (chain of custody, notes 🗒, warrants/subpoenas).</li>
 <li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilize target media, flash drives for live/dead acquisition, bootable, Apple USB Type-C wires).</li>
 </ul>
+
+  </details>
 <h2 id="evidence-integrity">Evidence Integrity</h2>
 <p>One of the most important parts is to ensure evidence integrity. Hashing and Chain of Custody (CoC) exist for this purpose. You can always video record all you are doing on the screen as well, commenting every step. Evidence also need to be transported and stored in a safe way.</p>
 <h3 id="physical-integrity">Physical Integrity</h3>
@@ -299,12 +295,10 @@
 <blockquote>
 <p>⚠️ Turning off might trigger encryption!</p>
 </blockquote>
-<h2 id="hahahugoshortcode-s0-hbhb"><details>
-    <summary>CLICK ME</summary>
-    wadsa
-</details></h2>
 <h3 id="chain-of-custody">Chain Of Custody</h3>
-<p>❓Where the evidence was found
+<details>
+    <summary>Expand &hellip;</summary>
+    <p>❓Where the evidence was found
 ❓Time and date the evidence was collected       <br>
 ❓Who found the evidence                      <br>
 ❓Description of the evidence<br>
@@ -315,8 +309,12 @@
 <h4 id="identify-the-evidence">Identify the evidence</h4>
 <p>Assign IDs for each evidence. For example, for a flash drive it would look like this. FD (flash drive) + its <em>sequence number</em> within this case + case number. Subsequent images of these devices will have the same number + copy&rsquo;s sequence number.</p>
 <p>Example: <em>A USB Flash drive was found on the scene during case study 0124. It was the first USB drive found yet. This device was assigned a number FD-01-0124. Then we made two bit-by-bit copies of this drive and these were assigned numbers FD-01-0124-01 and FD-01-0124-02 respectively.</em></p>
+
+  </details>
 <h3 id="report">Report</h3>
-<p>Keep track of all the steps taken, reason for these steps and the outcome. Document the physical condition (mouse to left or right as the owner is a lefty or a righty), applications running, keep audio notes. Make photos and videos, make notes. Maintain the Chain of Custody at all times.</p>
+<details>
+    <summary>Expand &hellip;</summary>
+    <p>Keep track of all the steps taken, reason for these steps and the outcome. Document the physical condition (mouse to left or right as the owner is a lefty or a righty), applications running, keep audio notes. Make photos and videos, make notes. Maintain the Chain of Custody at all times.</p>
 <p>Reports are often read by those who are not very techie. Besides, you would want your report to be usable at court, should the need arise.</p>
 <p>This is also a crucial part to share the findings, IOCs and info about threat actors with the threat hunting team 🔪 .</p>
 <p>The final report should contain the following:</p>
@@ -331,6 +329,8 @@
 <p>Make electronic copies of the report. An archive copy is maintained by the team. DVDs for distribution. Copies of written docs are filed. A summary report is provided along with timelines and written + electronic docs.</p>
 <h4 id="photos-and-videos">Photos And Videos</h4>
 <p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
+
+  </details>
 <h2 id="-btfm">📘 BTFM</h2>
 
   </div>
