@@ -184,9 +184,9 @@
     </li>
     <li><a href="#detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</a>
       <ul>
-        <li>
+        <li><a href="#common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</a>
           <ul>
-            <li><a href="#common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</a></li>
+            <li><a href="#spillage">Spillage</a></li>
           </ul>
         </li>
         <li><a href="#documentation">Documentation</a></li>
@@ -274,11 +274,12 @@
 <li><strong>Normal vs Evil</strong>. You know what&rsquo;s considered normal for the given system/user and something that&rsquo;s not usual is a primary suspect for the further analysis.</li>
 <li><strong>IoC</strong>. Indicators of compromise, like some virus hashes or file extensions used by a known cryptor malware.</li>
 </ul>
+<p>For AWS - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html</a></p>
 <p>After the incident is confirmed, you initiate an investigation.</p>
 <blockquote>
 <p>📝 I found it quite hard to separate incident response and digital forensics articles from one another. For now I am seeing incident response as a more general process that could require more thorough examination (digital forensics) but not neccessarilly. As I see it, we have an event, start IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artifacts to ATCK MITRE framework. Then, to be able to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space etc in order to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching and DF is about details.</p>
 </blockquote>
-<h4 id="common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</h4>
+<h3 id="common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</h3>
 <p><strong>Mapping</strong>. Attackers need to <strong>collect information</strong> about the target system first:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong></p>
 <ul>
 <li>record traffic</li>
@@ -359,6 +360,8 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 <li>IAM access keys unused for 90 days</li>
 <li>Dangerous user privileged access to RDS</li>
 </ol>
+<h4 id="spillage">Spillage</h4>
+<p>If it&rsquo;s AWS - open up a case with AWS Business Support. Report spillage findings and response actions, DoD 5220.</p>
 <h3 id="documentation">Documentation</h3>
 <p>This is the stage when you start taking notes for the incident (or event). Current status of the incident, summary, indicators, other incidents related, actions taken by all, chain of custody*, impact assessment, contacts, list of evidence, comments from incident handlers (IH), next steps to be taken (rebuild the host/upgrade).</p>
 <p>How to categorize the incident? Simply put, how bad is that?</p>
@@ -440,12 +443,16 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 <p>Learn from your experience so you can better respond to future security events. Adjust your playbooks accordingly.</p>
 <h2 id="cloud-ir-specifics">Cloud IR Specifics</h2>
 <p>In case there are any shared resources with other companies which do not care about security as much, you might be into trouble. For example, several companies host their web application on one website.</p>
+<p>Cloud IR is easier. Some tools and methods are available ONLY for the Cloud. IR Semulation on AWS.</p>
+<p><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/security-incident-response-simulations.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/security-incident-response-simulations.html</a></p>
+<p>Automation - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/automation-1.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/automation-1.html</a></p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">1</a>] IBM course</p>
 <p>[<a href="https://www.sentinelone.com/labs/macos-incident-response-part-1-collecting-device-file-system-data/">2</a>] Mac IR</p>
 <p>[<a href="https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide">3</a>] NIST vs SANS IR frameworks</p>
 <p>[<a href="https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021">4</a>] Documentation is to Incident Response as an Air Tank is to Scuba Diving</p>
 <p>[<a href="https://www.cynet.com/incident-response/incident-response-sans-the-6-steps-in-depth/">5</a>] Incident Response SANS: The 6 Steps in Depth</p>
+<p>[<a href="https://aws.amazon.com/blogs/publicsector/building-a-cloud-specific-incident-response-plan/">6</a>] IR in the Cloud, SANS</p>
 
   </div>
 </article>

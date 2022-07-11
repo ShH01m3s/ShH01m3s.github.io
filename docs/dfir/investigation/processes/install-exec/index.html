@@ -181,22 +181,8 @@
       <ul>
         <li><a href="#dr-watson">Dr Watson</a></li>
         <li><a href="#installed-programs-and-applications">Installed programs and applications</a></li>
-        <li><a href="#prefetch">Prefetch</a>
-          <ul>
-            <li><a href="#ℹ-information-contained">ℹ️ Information Contained</a></li>
-            <li><a href="#-timestamps">⏰ Timestamps</a></li>
-            <li><a href="#-structure-and-analysis">🔎 Structure and Analysis</a></li>
-            <li><a href="#-caveats">🤨 Caveats</a></li>
-            <li><a href="#-tools">🛠 Tools</a></li>
-          </ul>
-        </li>
-        <li><a href="#amcache">AmCache</a>
-          <ul>
-            <li><a href="#ℹ-information-contained-1">ℹ️ Information Contained</a></li>
-            <li><a href="#-timestamps-1">⏰ Timestamps</a></li>
-            <li><a href="#-tools-1">🛠 Tools</a></li>
-          </ul>
-        </li>
+        <li><a href="#prefetch">Prefetch</a></li>
+        <li><a href="#amcache">AmCache</a></li>
         <li><a href="#appcompatcache-aka-shimcache">AppCompatCache aka ShimCache</a></li>
         <li><a href="#bam">BAM</a></li>
         <li><a href="#muicache">MUICache</a></li>
@@ -207,6 +193,8 @@
         <li><a href="#uninstalled-applications">Uninstalled applications</a></li>
       </ul>
     </li>
+    <li><a href="#macos">macOS</a></li>
+    <li><a href="#linux">Linux</a></li>
     <li><a href="#android">Android</a>
       <ul>
         <li><a href="#installed-applications">Installed Applications:</a></li>
@@ -283,6 +271,7 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>There are lot&rsquo;s of evidence of installation and execution. Based on this data one can prove that the user knew about it or not. Below are the main evidence, tools for analysis and .</em></p>
+<p>It&rsquo;s not always about malware. Sometimes it&rsquo;s just about user activity.</p>
 <h2 id="windows">Windows</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\P</span>refetch
 </span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\a</span>ppcompat<span class="se">\P</span>rograms<span class="se">\R</span>ecentFileCache.bcf
@@ -295,7 +284,9 @@
 <p><strong>Key</strong> 🔑: <code>Wiw6432Node</code> (<code>SYSTEM</code> hive root node) - those that run a 32-bit mode. Separate sub-keys for different versions of a program.</p>
 <p><strong>Key</strong> 🔑: <code>Classes\Installer\Products</code> - installed using Miscrosoft installer (those with <code>msi</code> extension).</p>
 <h3 id="prefetch">Prefetch</h3>
-<p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Each prefetch file name follows the pattern: <code>&lt;EXENAME&gt;-&lt;PATHHASHED+CMDARGS&gt;.pf</code>.</p>
+<details>
+    <summary>Expand &hellip;</summary>
+    <p>Prefetch is for efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Each prefetch file name follows the pattern: <code>&lt;EXENAME&gt;-&lt;PATHHASHED+CMDARGS&gt;.pf</code>.</p>
 <h4 id="ℹ-information-contained">ℹ️ Information Contained</h4>
 <ul>
 <li>Filename</li>
@@ -405,10 +396,14 @@
 <p><strong>PECmd</strong>. Eric Zimmerman&rsquo;s tool.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">pffile</span><span class="p">&gt;.</span><span class="n">pf</span>
 </span></span><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="n">-d</span> <span class="s2">&#34;Prefetch folder&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;outoutdir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;outputfile&#34;</span>
-</span></span></code></pre></div><h3 id="amcache">AmCache</h3>
-<p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>.</p>
+</span></span></code></pre></div>
+  </details>
+<h3 id="amcache">AmCache</h3>
+<details>
+    <summary>Expand &hellip;</summary>
+    <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>.</p>
 <p>Since Windows 8. Stored information about program execution, including those, that were run from a USB drive.</p>
-<h4 id="ℹ-information-contained-1">ℹ️ Information Contained</h4>
+<h4 id="ℹ-information-contained">ℹ️ Information Contained</h4>
 <ul>
 <li>install date and time</li>
 <li>name</li>
@@ -433,14 +428,16 @@
 <p><code>InventoryDeviceContainer</code>. Contains <code>ModelName</code> and <code>FriendlyName</code>. When devices get connected, they might install some software to be able to work correctly.</p>
 <p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
 <p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
-<h4 id="-timestamps-1">⏰ Timestamps</h4>
-<h4 id="-tools-1">🛠 Tools</h4>
+<h4 id="-timestamps">⏰ Timestamps</h4>
+<h4 id="-tools">🛠 Tools</h4>
 <p>AmCacheParser.exe + Timeline Explorer.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
 </span></span></code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
 <blockquote>
 <p>⚠️ In my case on a macOS with Parallels and Windows 10 installed, this evidence also contained mac executables.</p>
 </blockquote>
+
+  </details>
 <h3 id="appcompatcache-aka-shimcache">AppCompatCache aka ShimCache</h3>
 <p><strong>Key</strong> 🔑: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code>.</p>
 <p><strong>🛠</strong>: ShimCacheParser.py (requires Python2), AppCompatCacheParser</p>
@@ -491,6 +488,8 @@
 </blockquote>
 <h3 id="uninstalled-applications">Uninstalled applications</h3>
 <p><strong>Key</strong> 🔑:  <code>Microsoft\Windows\CurrentVersion\Uninstall</code></p>
+<h2 id="macos">macOS</h2>
+<h2 id="linux">Linux</h2>
 <h2 id="android">Android</h2>
 <h3 id="installed-applications">Installed Applications:</h3>
 <p>• /system/packages.list<br>
