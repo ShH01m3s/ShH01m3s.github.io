@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.f5ee5a6a50d29b6390e5652a9df2ffcaffd904244cc05d6f936d9e4feeb76a3d.css">
+  <link rel="stylesheet" href="/css/style.min.db3caafe6a984767cd07d8f7f7b9971e33b100ebae5974470b9f3b83c6b1f195.css">
   
 
   
@@ -179,6 +179,16 @@
   <ul>
     <li><a href="#cloudtrail">CloudTrail</a></li>
     <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
+    <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
+    <li><a href="#vpn">VPN</a></li>
+    <li><a href="#s3-logs">S3 logs</a></li>
+    <li><a href="#cloudwatch">CloudWatch</a></li>
+    <li><a href="#-btfm">📘 BTFM</a>
+      <ul>
+        <li><a href="#flow-logs">Flow Logs</a></li>
+        <li><a href="#check-for-ssm-with-imdsv2">Check for SSM with IMDSv2</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -333,8 +343,11 @@
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl">  <span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail.</p>
+</span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail. If SSM is enabled, captures this activity as well. Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
 <h2 id="vpc-flow-logs">VPC Flow Logs</h2>
+<p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
+<p>Logs are sent then either to the CloudWatch or S3 (depending on the configuration). An IAM role needs to be created prior to that. Here are the minimum requirements for the CloudWatch role: CreateLogGroup, CreateLogStream, PutLogEvents, DescribeLogGroups, DescribeLogStreams need to beallowed for all resources. To be able to assume this role, VPC Flow Logs service needs to have its own policy where <code>&quot;service&quot;:&quot;vpc-flow-logs.amazonaws.com&quot;</code> is set to allow <code>AssumeRole</code> action. See <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-cwl.html">here</a> for more details.</p>
+<p>Log <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records">breakthrough</a>. Looks like a simple string with a space as a delimiter. Each field has its place within the string.</p>
 <p>Traffic logs between VPCs withing the same org/acc.</p>
 <p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. AWS states that loggin rejected traffic is sufficient for bad actor detection. The recommended log retention period is 1 year. However, these logs can be archived and stored elsewhere where it&rsquo;s cheaper.</p>
 <p>It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
@@ -342,6 +355,22 @@
 <blockquote>
 <p>📝 <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/logging-and-events.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/logging-and-events.html</a></p>
 </blockquote>
+<h2 id="vpc-traffic-mirroring">VPC Traffic Mirroring</h2>
+<p>A great idea to use. Deploying an EC2 with some IDS, mirror traffic there for detection. Filter for the most relevant stuff to pass it to SIEM?</p>
+<h2 id="vpn">VPN</h2>
+<p>If the organization uses a VPN in order to connect, an investigator will need the VPN logs as well (IPsec or OpenVPN).</p>
+<h2 id="s3-logs">S3 logs</h2>
+<h2 id="cloudwatch">CloudWatch</h2>
+<p>Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
+<h2 id="-btfm">📘 BTFM</h2>
+<h3 id="flow-logs">Flow Logs</h3>
+<p>Retrieve the logs:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
+</span></span><span class="line"><span class="cl">aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
+</span></span></code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
+<h3 id="check-for-ssm-with-imdsv2">Check for SSM with IMDSv2</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo snap install amazon-ssm-agent --channel<span class="o">=</span>candidate
+</span></span></code></pre></div>
   </div>
 </article>
 </div>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>📚 Kerberos - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.db3caafe6a984767cd07d8f7f7b9971e33b100ebae5974470b9f3b83c6b1f195.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.svg" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-forensics 🔍 and incident response 🥷">
+      <a href="/docs/dfir">
+        <span>Forensics 🔍 and Incident Response 🥷</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/reference/network/protocols/"> Back to 📚 Network Protocols Section 👈🏼 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#structure">Structure</a></li>
+    <li><a href="#the-flow">The Flow</a></li>
+    <li><a href="#keys">Keys</a></li>
+    <li><a href="#messages">Messages</a></li>
+    <li><a href="#the-play">The Play</a>
+      <ul>
+        <li><a href="#step-1-user-initiates-authentication">Step 1. User initiates authentication</a></li>
+        <li><a href="#step-2-as-generates-a-ticket-granting-ticket">Step 2. AS generates a Ticket Granting Ticket</a></li>
+        <li><a href="#step-3-user-requests-the-ticket">Step 3. User requests the ticket</a></li>
+        <li><a href="#step-4-user-gets-the-ticket">Step 4. User gets the ticket</a></li>
+        <li><a href="#the-end">The End</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+ </div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">📚 Kerberos</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+      <div class="article-category">
+          
+            
+              <i class="fab fa-windows"></i>          
+            
+            
+            
+            
+            
+          <a class="platform-link" href="/platforms/windows">windows</a>
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="structure">Structure</h2>
+<h2 id="the-flow">The Flow</h2>
+<p>- Wanna talk</p>
+<p>- Ok. Let&rsquo;s talk. Here is my public key. Here are the protocols that I support.</p>
+<p>- Thanks <em>Checks for known hosts locally</em>. Here&rsquo;s my password.</p>
+<h2 id="keys">Keys</h2>
+<p>There are several keys that are used in this play. Three keys exist at the very begining. A user has his green key, TGS has its yellow one and the HTTP server has a black one. Each key is private to the party and is not know by other parties. Two more keys are generated during the authentication process: a purple and a crimson one. Keys also need to be printer out: one copy for green, black and yellow keys and two copies for purple and crimson ones. Here is the ininital &ldquo;state&rdquo;.</p>
+<p><img src="intro.png" alt="intro"></p>
+<h2 id="messages">Messages</h2>
+<p>Below are all the messages that need to be printed. These messages are going to be exchanged and &ldquo;decrypted&rdquo; during the play. Each message has a symbol of envelope ✉️ at the right corner. Its color corresponds to the party&rsquo;s color: user&rsquo;s green, AS&rsquo;s blue, TGS&rsquo; yellow, HTTP server&rsquo;s black. The same goes for the locks that can be drawn right upon the envelope sign. These locks mean that the message is encrypted. It&rsquo;s never encrypted with the key that belongs to the author of the message, so the colors of locks and enveloped never match! For example, if the lock is yellow and the envelop is blue, it means that the message was generated by AS (since it&rsquo;s blue) and encrypted with a TGS key (since the lock is yellow). To unlock the message one needs a yellow key.</p>
+<p>All the keys that a particular party has is listed by its avatar.</p>
+<p><img src="reference/network/protocols/kerberos/images/messages/1.png" alt="1"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/2.png" alt="2"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/3.png" alt="3"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/4.png" alt="4"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/5.png" alt="5"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/6.png" alt="6"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/7.png" alt="7"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/8.png" alt="8"></p>
+<p><img src="reference/network/protocols/kerberos/images/messages/9.png" alt="9"></p>
+<h2 id="the-play">The Play</h2>
+<p>When I was working in DrWeb I have designed an interactive presentation that helped to understand how Kerberos worked. My four collegues all were wearing T-shirts of different colours: green, black, blue and yellow. Luckily, these were the colours I used in my presentation as well (just a coincidence).</p>
+<p>Each colleague was to play a ceratin role in this play: a user (green 🌱), an authentication service (blue 💦), a TGS (yellow 🌞) and an HTTP server (black 🥷). Instead of an HTTP there could be any other server, Afterall, all of these operations were designed to ensure secure authentication to some server. Could as well be an FTP or something less boring.</p>
+<p>Each person representing a party was given an envelope colored with his color (blue, green, black or yellow), which contained appropriately colored messages and keys (yes, I&rsquo;ve actually printed on the paper and cut these messages and keys).</p>
+<h3 id="step-1-user-initiates-authentication">Step 1. User initiates authentication</h3>
+<p>A user 🤣 wants to connect to an HTTP server, but he cannot do so just like that. He needs to go through several levels of hell to achieve that goal and we are about to see them under the microscope.</p>
+<p><img src="reference/network/protocols/kerberos/images/1.png" alt="step1"></p>
+<p>So, as is we can clearly see from the picture above, this message (the first in this chain) is called Authentication request. It contains several data fields: <code>userid</code>, <code>tgsid</code> (id number of a Ticket Granting Ticket), user&rsquo;s <code>IP</code> address and the <code>lifetime</code> this request is valid for. This message is destined for the AS 💂‍♀️ (Authentication server).</p>
+<blockquote>
+<p>-  <em>I wanna see the pictures of cute snakes 🐍</em>.</p>
+<p><em>The collegue playing the user 🤣 (green) hands an authentication request message to the person who&rsquo;s playing the AS 💂‍♀️.</em></p>
+</blockquote>
+<h3 id="step-2-as-generates-a-ticket-granting-ticket">Step 2. AS generates a Ticket Granting Ticket</h3>
+<p>AS 💂‍♀️now generates the crimson key 🔑 for the user 🤣 and TGS 👨🏼‍💼 communication.</p>
+<p><img src="reference/network/protocols/kerberos/images/2.png" alt="2"></p>
+<p>AS 💂‍♀️ then generates two messages: Response and Ticket Granting Ticket. Both messages contain this newly created crimson key. The contents of these messages is almoust the same (see below). The only difference is that Ticket Granting Ticket contains user id as well.</p>
+<p>The Response is encrypted with the user&rsquo;s green lock and only the user&rsquo;s green key can unlock it.</p>
+<p>Ticket Granting Ticket is locked (encrypted) with the TGS 👨🏼‍💼 yellow key and thus only TGS 👨🏼‍💼 can unlock it with its yellow key 🔑.</p>
+<p>So, even though the user 🤣 receives this Ticket Granting Ticket, he cannot read it. He only can view the contents of the Response that he has a key for. The crimson key is found in both messages, so that the user 🤣 wouldn&rsquo;t be able to tamper the TGS session key. Since the second message is encrypted and the user 🤣 presumably doesn&rsquo;t have a key (he shouldn&rsquo;t), he can tamper only the key that&rsquo;s in his own message. But in this case the key in Ticket Granting Ticket  won&rsquo;t be able to open (dectrypt) the Authenticator message.</p>
+<p><img src="reference/network/protocols/kerberos/images/3.png" alt="3"></p>
+<blockquote>
+<p>- 💂‍♀️<em>Here is your ticket to get the ticket, pal!</em></p>
+<p>The person playing AS hands the person playing the user two messages: Response locked with a green lock and a TGT locked with a yellow lock. Both messages have crimson keys attached. User keeps all of that for now.</p>
+</blockquote>
+<h3 id="step-3-user-requests-the-ticket">Step 3. User requests the ticket</h3>
+<p>So, the user 🤣 has nothing else to other that open the Response. Now, ther user 🤣 can grab the crimson key and add it to his collection.</p>
+<p><img src="reference/network/protocols/kerberos/images/4.png" alt="4"></p>
+<p>Now the user 🤣 has the crimson key and can lock messages with crimson locks and unlock them as well.</p>
+<p>But wait, to whom is this Ticket Granting Ticket destined? Do you remember, it&rsquo;s still in the user&rsquo;s archive! It&rsquo;s for TGS 👨🏼‍💼, of course. TGS 👨🏼‍💼 is the only party that has a yellow key 🔑. So, the user just forwards it to the TGS.</p>
+<p>Remember, that the ultimate goal is to get the ticket for HTTP server. But at this stage the user only has the Ticket Granting Ticket, basically a ticket to get another ticket! It&rsquo;s needed by the TGS to issue a ticket that the user really wanted to get from the very start.</p>
+<p><img src="reference/network/protocols/kerberos/images/5.png" alt="5"></p>
+<p>So, the user 🤣 generates two messages: Request (unencrypted) and Authenticator (locked with crimson lock). These two messages are then forwarded to TGS 👨🏼‍💼 along with the TGT that was received from AS 💂‍♀️ and remains encrypted.</p>
+<blockquote>
+<p>- <em>I have the Ticket to get the ticket. Give me <strong>the</strong> ticket!</em>, - the user says, handing the TGS player three messages along with the TGT and the second copy of the crimson key. See the picture above.</p>
+</blockquote>
+<h3 id="step-4-user-gets-the-ticket">Step 4. User gets the ticket</h3>
+<p>Now, TGS 👨🏼‍💼finally uses his yellow key to unlock the TGT and grabs the crimson key as well.</p>
+<p><img src="reference/network/protocols/kerberos/images/6.png" alt="6"></p>
+<p>TGS 👨🏼‍💼 has now the key to unlock the Authenticator message from the user locked with a crimson lock.</p>
+<p><img src="reference/network/protocols/kerberos/images/7.png" alt="7"></p>
+<p>TGS 👨🏼‍💼takes some time to compare the data in these messages, validate IP address and cache. It also checks whether the TGS session key (crimson key) is not expired, by the way!</p>
+<p><img src="reference/network/protocols/kerberos/images/8.png" alt="8"></p>
+<p>If everything is in order, TGS 👨🏼‍💼 generated yet another key, the purple one (HTTP session key is its boring name).</p>
+<p><img src="reference/network/protocols/kerberos/images/9.png" alt="9"></p>
+<p>The following responses resemble the ones that were sent by AS during the second step. Except that they encrypted with other keys and contain other keys as well.</p>
+<p><img src="reference/network/protocols/kerberos/images/10.png" alt="10"></p>
+<p>Both HTTP Server ticket and Response contain a purple key. However, remember that the use only has the crimson key. Who has the black one then? HTTP server 😵‍💫! So, user can only unlock the Response and get the purple key, adding it to the collection.</p>
+<p><img src="reference/network/protocols/kerberos/images/11.png" alt="11"></p>
+<p>The second message remains locked and just gets forwared to the HTTP server 😵‍💫 since it&rsquo;s the only one who can open it.</p>
+<p><img src="reference/network/protocols/kerberos/images/12.png" alt="12"></p>
+<p><img src="reference/network/protocols/kerberos/images/13.png" alt="13"></p>
+<p>HTTP server 😵‍💫 uses its black key to open the black lock and read the HTTP Server Ticket. It grabs the purple key from the message and uses it to unlock the Authenticator message.</p>
+<p><img src="reference/network/protocols/kerberos/images/14.png" alt="14"></p>
+<p>The following check are exactly the same as the TGS performed earlier: compaing userid, timestamp, session expiration date. Checking cache and user IP.</p>
+<p><img src="reference/network/protocols/kerberos/images/15.png" alt="15"></p>
+<p>🤺 By the way, this black key can be stolen by the attacker to craft</p>
+<p>If everything is ok, the user finally gets his ticket!!!</p>
+<p><img src="reference/network/protocols/kerberos/images/16.png" alt="16"></p>
+<h3 id="the-end">The End</h3>
+<p>That&rsquo;s the final set up with the keys. The user 🤣 has a green, purple and crimson keys. AS 💂‍♀️ has crimson only. TGS 👨🏼‍💼 - yellow, crimson and purple. HTTP server 😵‍💫 - black and purple only.</p>
+<p><img src="reference/network/protocols/kerberos/images/17.png" alt="17"></p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.f5ee5a6a50d29b6390e5652a9df2ffcaffd904244cc05d6f936d9e4feeb76a3d.css">
+  <link rel="stylesheet" href="/css/style.min.db3caafe6a984767cd07d8f7f7b9971e33b100ebae5974470b9f3b83c6b1f195.css">
   
 
   
@@ -232,31 +232,31 @@
 <ol>
 <li><code>netstat -lpeanut</code> shows that there are two dhcp clients running, one using unusual port and user:</li>
 </ol>
-<p><img src="images/4.png" alt="4"></p>
+<p><img src="dfir/cases/forensic-cases/case2/images/4.png" alt="4"></p>
 <ol>
 <li><code>ps aux | grep 40500</code> or <code>ps aux | grep dhclient</code> shows the running processes and sometimes commands used to run them. This suspicious client was run from <code>/tmp</code> folder:</li>
 </ol>
-<p><img src="images/5.png" alt="5"></p>
+<p><img src="dfir/cases/forensic-cases/case2/images/5.png" alt="5"></p>
 <ol>
 <li><code>ls -la /tmp/</code> to see the file that was launched. But nothing there. Seems that the file was deleted after being launched:</li>
 </ol>
-<p><img src="images/6.png" alt="6"></p>
+<p><img src="dfir/cases/forensic-cases/case2/images/6.png" alt="6"></p>
 <ol>
 <li><code>lsof -p 40500</code> to see the files the were opened by the prog with certain PID. Shows that dhclient was indeed deleted and the socket files still open (red):</li>
 </ol>
-<p><img src="images/7.png" alt="7"></p>
+<p><img src="dfir/cases/forensic-cases/case2/images/7.png" alt="7"></p>
 <blockquote>
 <p>❗ In Linux a file can be deleted and still be run.</p>
 </blockquote>
 <ol start="5">
 <li><code>/procfs</code> is like a snapshot of RAM. Linux maps its memory to a temp virtual file system. Explore as it&rsquo;s mapped onto the disk. <code>cd /proc/40500/</code> and <code>ls</code>. See <code>exe</code> symlink in red. Run <code>ls -l</code> to see where the symlink points to and it points to the deleted suspicious file 🦹‍♂️. But despite this, one can still get the file from memory.</li>
 </ol>
-<p><img src="images/8.png" alt="8"></p>
+<p><img src="dfir/cases/forensic-cases/case2/images/8.png" alt="8"></p>
 <ol>
 <li><code>cp /proc/40500/exe /tmp/copy</code> and <code>cat /proc/40500/exe &gt; /tmp/reassembled</code>. Compare hashes <code>md5sum</code> and <code>sha1sum</code>.</li>
 <li>Find these hashes in other directories (in case it was copied) and on other machines <code>sudo find / -type f -exec md5sum {} \; | grep &lt;hash_from_step_5&gt;</code> or <code>sudo find /bin/ -type f -exec md5sum {} \; | grep &lt;hash&gt;</code>:</li>
 </ol>
-<p><img src="images/9.png" alt="9"></p>
+<p><img src="dfir/cases/forensic-cases/case2/images/9.png" alt="9"></p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.magnetforensics.com/resources/performing-linux-forensic-analysis-why-you-should-care-dec-2/?submission=https://go.magnetforensics.com/l/52162/2020-12-04/kwzwtz">1</a>] Magnet webinar on Linux Forensics</p>
 

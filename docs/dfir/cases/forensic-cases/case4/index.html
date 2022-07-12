@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.f5ee5a6a50d29b6390e5652a9df2ffcaffd904244cc05d6f936d9e4feeb76a3d.css">
+  <link rel="stylesheet" href="/css/style.min.db3caafe6a984767cd07d8f7f7b9971e33b100ebae5974470b9f3b83c6b1f195.css">
   
 
   
@@ -237,15 +237,15 @@
 <li><code>sudo mount -o remount,ro $rootvol</code></li>
 </ul>
 <p>User activity: <code>/etc/passwd</code>. <code>sudo debugfs -R 'stat &lt;1835260&gt;' /dev/...</code>.</p>
-<p><img src="images/2.png" alt="2"></p>
+<p><img src="dfir/cases/forensic-cases/case4/images/2.png" alt="2"></p>
 <p>checking groups. <code>tail -n 4 /etc/group</code>, <code>grep -E 'mail' | php' /etc/group</code></p>
 <p>checking files. Searching for files that had the metadata changed withing the last 5 days: <code>find / -type f -newermt 2019-10-04</code> or <code>find / -type f -newerct 2019-10-04</code>. Failed logins: <code>/var/log/faillog</code>, <code>/var/www/html/jabc/scripts</code>, <code>/var/www/html/jabc/scripts/update.php</code>, <code>/etc/gshadow</code>, <code>/etc/group</code> etc. Home dirs of suspicious users.</p>
 <p>Checking user bash history (<code>.bashrc_history</code> ) <code>.bashrc</code> for certain commands and the order of exe.</p>
-<p><img src="images/13.png" alt="13"></p>
+<p><img src="dfir/cases/forensic-cases/case4/images/13.png" alt="13"></p>
 <ol start="6">
 <li>Suspicious directories. <code>sudo debugfs -R 'stat &lt;1835263&gt;' /dev..</code>, <code>ls -lhat /usr/php</code>.</li>
 </ol>
-<p><img src="images/14.png" alt="14"></p>
+<p><img src="dfir/cases/forensic-cases/case4/images/14.png" alt="14"></p>
 <ol start="7">
 <li>
 <p>Last logged in users:</p>
@@ -263,17 +263,17 @@
 </span></span></code></pre></div><ol start="8">
 <li><code>sudo cat /var/log/auth.log</code> showed failed attempts to bruteforce root password. Then:</li>
 </ol>
-<p><img src="images/15.png" alt="15"></p>
+<p><img src="dfir/cases/forensic-cases/case4/images/15.png" alt="15"></p>
 </li>
 </ol>
 <blockquote>
 <p>The /<strong>etc</strong>/<strong>skel</strong> directory contains <strong>files</strong> and directories that are automatically copied over to a new user&rsquo;s when it is created from useradd command. This will ensure that all the users gets same intial settings and environment.</p>
 </blockquote>
-<p>​		<img src="images/16.png" alt="16"></p>
+<p>​		<img src="dfir/cases/forensic-cases/case4/images/16.png" alt="16"></p>
 <ol start="8">
 <li>Examine <code>error.log</code> of Apache server for IPs that was spotted before:</li>
 </ol>
-<p><img src="images/17.png" alt="17"></p>
+<p><img src="dfir/cases/forensic-cases/case4/images/17.png" alt="17"></p>
 <ol start="9">
 <li>Checking Apache <code>access.log</code></li>
 </ol>
