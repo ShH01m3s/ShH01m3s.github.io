@@ -202,6 +202,7 @@
         <li><a href="#power-log">Power Log</a></li>
       </ul>
     </li>
+    <li><a href="#kubernetes">Kubernetes</a></li>
   </ul>
 </nav>
  </aside>
@@ -308,7 +309,13 @@
 </li>
 </ul>
 <p>KnowledgeC:</p>
-<pre><code>• /private/var/mobile/Library/CoreDuet/Knowledge/ knowledgeC.db</code></pre>
+<pre><code>• /private/var/mobile/Library/CoreDuet/Knowledge/ knowledgeC.db
+</code></pre>
+<h2 id="kubernetes">Kubernetes</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe node <span class="p">|</span> grep -i image <span class="c1"># get OS info</span>
+</span></span><span class="line"><span class="cl">kubectl describe pod &lt;podname&gt; <span class="p">|</span> grep -i node <span class="c1"># get image info and master node info as well as lots of other information</span>
+</span></span><span class="line"><span class="cl">kubectl describe pod &lt;podname&gt; <span class="c1"># get the amount of containers within the pod</span>
+</span></span></code></pre></div><p><code>kubectl describe pod &lt;podname&gt;</code>  would also contain events section which can be though of as some sort of logs.</p>
 
   </div>
 </article>
