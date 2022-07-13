@@ -172,27 +172,19 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/activity/"> Back to 🧑🏻‍💻 User Activity Analysis Section 👈🏼 </a>
+   <a href="/docs/dfir/investigation/activity/"> Back to Other Userful Artefacts For User Acvtivity Section 👈🏼 </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a>
+    <li><a href="#common-activity-indicators">Common Activity Indicators</a>
       <ul>
-        <li><a href="#recycle-bin">Recycle Bin</a></li>
+        <li><a href="#secondary-artefacts">Secondary artefacts</a></li>
+        <li><a href="#primary-artefacts">Primary Artefacts</a></li>
       </ul>
     </li>
+    <li><a href="#windows">Windows</a></li>
     <li><a href="#macos">macOS</a></li>
-    <li><a href="#ios">iOS</a></li>
-    <li><a href="#android">Android</a>
-      <ul>
-        <li><a href="#usage-stats">Usage Stats:</a></li>
-        <li><a href="#recent-images">Recent Images:</a></li>
-        <li><a href="#recent-tasks">Recent Tasks:</a></li>
-        <li><a href="#digital-wellbeing-dashboard">Digital Wellbeing Dashboard:</a></li>
-        <li><a href="#snapshots">Snapshots:</a></li>
-      </ul>
-    </li>
   </ul>
 </nav>
  </aside>
@@ -240,45 +232,67 @@
 
 
   <div class="content" itemprop="articleBody">
-    <ul>
-<li><input checked="" disabled="" type="checkbox"> Address book 📖</li>
-<li><input disabled="" type="checkbox"> Call history ☎️ <em>(for mobile or Mac)</em></li>
-<li><input disabled="" type="checkbox"> SMS 💬 <em>(for mobile or Mac)</em></li>
-<li><input disabled="" type="checkbox"> MMS 💬 🌄 <em>(for mobile or Mac)</em></li>
-<li><input disabled="" type="checkbox"> Email ✉️</li>
-<li><input checked="" disabled="" type="checkbox"> Web browser history</li>
-<li><input disabled="" type="checkbox"> Photos 📷</li>
-<li><input disabled="" type="checkbox"> Videos 📹</li>
-<li><input disabled="" type="checkbox"> Music 🎵</li>
-<li><input disabled="" type="checkbox"> Documents 📃</li>
-<li><input disabled="" type="checkbox"> Calendar 📆</li>
-<li><input disabled="" type="checkbox"> Network communication 🌐</li>
-<li><input disabled="" type="checkbox"> Maps 🗺️</li>
-<li><input disabled="" type="checkbox"> Social networking 🦜</li>
-<li><input disabled="" type="checkbox"> Deleted data 🗑️</li>
+    <p><em>Basically, all of the artefacts that are listed in the Investigation section fall under the category &ldquo;user activity&rdquo; one way or another. Even if some process spawned some other process, somewhere in the past the user interaction was still required. That&rsquo;s why I find it so hard to find the perfect categorization. I&rsquo;ve decided to devote this section to common strategies of how one would investigate user activity and which artefacts they would use at what point in time.</em></p>
+<h2 id="common-activity-indicators">Common Activity Indicators</h2>
+<p>Below is the list of the most common artefacts that could be used to determine user activity. Some of them are mobile specific.</p>
+<p>I&rsquo;ve devided them into two main groups: primary and secondary. Primary artefacts are those that are specifically designed to provide this information. For example, you can view contacts via address book or read SMS messages.</p>
+<p>Secondary artefacts are like data lakes: they aggreagate lots sort of information that might or might not contain something relevant. In requires wits and analysis in order to retrieve something useful from there if anything is there. For example, to determine if a person knows another person, you could see their contact list (which is the easiest way). However, not all connections are added there. So, you&rsquo;d probably refer to mailing activity as well. The last resort would be to see photos and videos in order to find a familiar face. There is small chance to also find this information in some notes. For example, &ldquo;I met Julia Roberts yesterday on the tube! Imagine that!&rdquo; Some artefacts are listed both under secondary and primary sections since for some purposes they might be secondary. For example, social media is basically a very sophisticated address book + messages system. However, there are feeds there as well and as with all messages in general you sometime find something relevant there. For instance, if you are not sure if the person did work this day and check their social media page where there was a photo from a bar posted at 2pm on Thursday (too early, ey!), you might be relatively sure that no, the person was no at work that time.</p>
+<h3 id="secondary-artefacts">Secondary artefacts</h3>
+<ul>
+<li>Notes</li>
+<li>Voice assistant&rsquo;s logs</li>
+<li>Browser activity</li>
+<li>Photos, videos (local, online)</li>
+<li>Screen or voice recordings</li>
+<li>Calendar events</li>
+<li>Music</li>
+<li>Gaming</li>
+<li>Social media</li>
+</ul>
+<h3 id="primary-artefacts">Primary Artefacts</h3>
+<ul>
+<li>👥 Contacts and Connections
+<ul>
+<li>📖 Address book</li>
+<li>💬 Messangers</li>
+<li>💬 Social media</li>
+<li>✉️ Mail</li>
+<li>SMS/MMS</li>
+<li>☎️ Call history (video, phone)</li>
+</ul>
+</li>
+<li>🗺 Geo posisition
+<ul>
+<li>Device IP</li>
+<li>Traffic (if logged)</li>
+<li>Social communications metadata</li>
+<li>Maps applications</li>
+<li>VPNs used (logs if any)</li>
+<li>Photos and videos</li>
+<li>Documents saved/downloaded/deleted/modified</li>
+<li>Calendar events</li>
+<li>Web browsing</li>
+<li>Screen or voice recordings</li>
+</ul>
+</li>
+<li>Computer Activity
+<ul>
+<li>System logs (logs, prefetch, events etc)</li>
+<li>Documents saved/downloaded/deleted/modified/renamed/copied</li>
+<li>Folders traversed</li>
+<li>USB and other external media attached</li>
+<li>Processes running/terminated/spawned</li>
+<li>Encryption/wiping software usage</li>
+<li>Shortcuts, symbolic links and links</li>
+<li>Configuration files (etc, plist, registry)</li>
+<li>Network connections opened/closed</li>
+</ul>
+</li>
 </ul>
 <h2 id="windows">Windows</h2>
 <p>There are several artifacts indicating user activity. One of them is <code>LNK</code> files. To analyse acquired LNK files use 🛠 <a href="https://ericzimmerman.github.io/#!index.md">LECmd</a> (E. Zimmerman&rsquo;s) or <a href="https://4discovery.com/our-tools/link-parser/">Link Parser</a>.</p>
 <p>Enother mechanism is Prefetch. It&rsquo;s usually located at <code>C:\Windows\Prefetch</code>. Several tools are available for viewing this artifact: Magnet AXIOM 💰, PECmd.</p>
-<h3 id="recycle-bin">Recycle Bin</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\$</span>Recycle.Bin<span class="se">\ </span><span class="o">(</span><span class="nv">$R</span><span class="p">&amp;</span><span class="nv">$I</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="se">\R</span>ECYCLER
-</span></span></code></pre></div><h2 id="macos">macOS</h2>
-<h2 id="ios">iOS</h2>
-<p>Screentime contains statistics about recent user activity.</p>
-<p><a href="https://www.magnetforensics.com/blog/getting-evidence-from-ios-screen-time-artifacts/">https://www.magnetforensics.com/blog/getting-evidence-from-ios-screen-time-artifacts/</a></p>
-<h2 id="android">Android</h2>
-<h3 id="usage-stats">Usage Stats:</h3>
-<p>• /data/system/usagestats/0/</p>
-<h3 id="recent-images">Recent Images:</h3>
-<p>• /system_ce/0/recent_images</p>
-<h3 id="recent-tasks">Recent Tasks:</h3>
-<p>• /system_ce/0/recent_tasks</p>
-<h3 id="digital-wellbeing-dashboard">Digital Wellbeing Dashboard:</h3>
-<p>• /data.data/com.google.android.apps.wellbeing/ databases/app_usage</p>
-<h3 id="snapshots">Snapshots:</h3>
-<p>• /system_ce/0/snapshots</p>
-
+<h2 id="macos">macOS</h2>
   </div>
 </article>
 </div>
