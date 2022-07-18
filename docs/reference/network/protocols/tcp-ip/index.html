@@ -260,15 +260,15 @@
 </ul>
 <h2 id="analogy">Analogy</h2>
 <p>There is this far far away world. It this world there are lots of cities, but we are going to talk about very peculiar one - Revencole. It is so peculiar because of the way they are messaging. They have something that looks very much like a Russian <a href="https://en.wikipedia.org/wiki/Matryoshka_doll">matryoshka doll</a> for exchanging messages. Here&rsquo;s a matryoshka:</p>
-<p><img src="nesting-dolls_1fa86.png" alt="nesting-dolls_1fa86"></p>
+<p><img src="images/nesting-dolls_1fa86.png" alt="nesting-dolls_1fa86"></p>
 <p>As you may already know, it&rsquo;s a hollow doll, which has another doll inside, also hollow and which also &hellip; well, you get the idea. That&rsquo;s why they are called - nested dolls. Now imagine that in this city people actually talk using this dolls.</p>
 <p>Mark is an accountant at a big company in Revencole. He is a serious person and he needs to fill out different forms and tables and send them to different agencies and goverment bodies (like a IRS to pay taxes or something like that). Each agency or government body has it&rsquo;s own set of standarts for their documents. For example, Revencole&rsquo;s IRS requires all documents about taxes to start with <em>&ldquo;This is for IRS with love 💌 &ldquo;</em> (they are weird) and the total amount of taxes paid in the end of the document.</p>
-<p><img src="irs-report.png" alt="irs-report"></p>
+<p><img src="images/irs-report.png" alt="irs-report"></p>
 <p>Also, Mark&rsquo;s ordering pencils in one company in the city, and this shop requires all orders to be filled in the form of a table with a <em>&ldquo;I need a pencil&rdquo;</em> at the top and a table of goods following it in a form of a table.</p>
-<p><img src="pen-shop.png" alt="pen-shop"></p>
+<p><img src="images/pen-shop.png" alt="pen-shop"></p>
 <p>When IRS receives something that doesn&rsquo;t start with <em>&ldquo;This is for IRS with love 💌 &ldquo;</em>, they don&rsquo;t continue reading and just throw it away 🗑️ informing Mark&rsquo;s or any other company that the document was invalid. If it&rsquo;s valid, they simply take the last digit in the form and take is a total. So, if Mark confuses Tax Code and Total fields, he&rsquo;ll be in trouble.</p>
 <p>So, one gloomy evening Mark is preparing a tax report for IRS. He takes a paper with a blank form and writes  <em>&ldquo;This is for IRS with love 💌 &ldquo;</em> at the top.</p>
-<p><img src="irs-report-blank.png" alt="irs-report-blank"></p>
+<p><img src="images/irs-report-blank.png" alt="irs-report-blank"></p>
 <p>Then Mark fills out all the blanks in the form according to his calculations. He then folds it twice and puts the report in an envelope ✉. On this envelope he writes the name of an employee at IRS who usually handles his company - Thomas.</p>
 <p>The he puts this into a small box 📦  and writes the house number on it (<code>23</code>). Then he puts it in a bigger box 📦 and puts a house number on it (<code>Good St.</code>).</p>
 <p>Finally he puts the bigger box 📦 into a bag 👝 and orders a postman on a bike 🚴‍♂️ to take it to IRS.</p>
@@ -296,13 +296,13 @@
 <p>There is a nice family of Jack and Mary. They like pears 🍐 so let&rsquo;s mark their realm with one. They both like this website and use it pretty often (grapes realm 🍇). But since these realms are quite far from each other, they can only communicate over some intermediary networks (network A ruled by <code>Router A</code> and network B ruled by <code>Router B</code>).</p>
 <p>Let&rsquo;s just asume that our PC with IP <code>192.168.1.70</code> (local address) and the website with IP <code>185.199.110.153</code> (public address) are on two different VLAN&rsquo;s that are connected via three routers. What will happen if Mary goes to <code>bakerst221b.com</code>?</p>
 <p>Let&rsquo;s examine our current network architecture first:</p>
-<p><img src="network-architecture.png" alt="network-architecture"></p>
+<p><img src="images/network-architecture.png" alt="network-architecture"></p>
 <p>Green arrows and green names with IP addresses (🍐 realm) is Mary&rsquo;s and Jack&rsquo;s home network. Only Jack&rsquo;s and Mary&rsquo;s Router knows their internal IP addresses. Whenever any device wants to talk to the outside world, it uses on singe IP - the routers one (orange <code>184.10.199.12</code>). He is like a ambassador for them, representing them in the public network.</p>
 <p>Orange 🍊 realm contains two Routers A and B. They are representing someone else. Who exactly - it is irrelevant for this example. For Jack and Mary they are simply  intermediary nodes (almost like a road to the  🚴‍♂️ postman on a bike).</p>
 <p>The grapes 🍇 realm is where web server with <code>bakerst221b.com</code> resides with its own ambassador Router who talks from its behalf. Notice that I&rsquo;ve not put any local addresses (local addresses known only to the router and devices connected to it usually begin with <code>192.168.</code>) for <code>bakerst221b.com</code> and it&rsquo;s Router. It&rsquo;s because from Mary&rsquo;s or Jack&rsquo;s point of view there is not wat to know it. They only see and care about the public IPs.</p>
 <p>When Mary connects to <code>bakerst221b.com</code>  using her laptop, her request goes to the <code>Jack's and Mary's Router</code>, then to the <code>Router A</code>, then <code>Router B</code> and get to <code>Bakerst221b.com's Router</code>. The latter will then forward the request to <code>bakerst221b.com</code>. So the route is 🍐 -&gt; 🍊 -&gt; 🍇. The response will go the same route but reversed (🍇 -&gt; 🍊 -&gt; 🍐).</p>
 <p>Let&rsquo;s see this work in more details using an example. One sunny day Mary decides to visit <code>bakerst221b.com</code> and check it for updates. She opens her laptop and opens a web browser. Then she types in the address bar <code>https://bakerst221b.com</code> and hits <code>Enter</code>. Her laptop is not panicking. It knows what to do. It needs to pack the following parcel:</p>
-<p><img src="http-request.png" alt="http-request"></p>
+<p><img src="images/http-request.png" alt="http-request"></p>
 <p><code>XXX</code> in red stand for some data that the PC 🖥️ doesn&rsquo;t know at the moment:</p>
 <ul>
 <li><code>bakerst221b.com</code>&rsquo;s IP address</li>
@@ -325,9 +325,9 @@
 <p>Unnecessary info I&rsquo;ve found out while writing this article. It turns out,  Mary&rsquo;s laptop first tries doing this over IPv6 (red square) and fails. Two requests: for A and AAAA records (see <a href="#">DNS article</a>) to get both IPv4 and IPv6 addresses for <code>bakerst221b.com</code>. For both requests itgot a <code>Refused</code> response - I don&rsquo;t understand the whole internals of this, but guess IPv6 connection is not supported for my hosting server 💡 .</p>
 </blockquote>
 <p>Then it tries to ask over IPv4 for the same both records (A and AAAA) and gets the addresses it needed (purple square):</p>
-<p><img src="dns-query.png" alt="dns-query"></p>
+<p><img src="images/dns-query.png" alt="dns-query"></p>
 <p>Since there are no IPv6 addresses assigned, 🖥️ PC only needs the response for A record.  Ok, not that 🖥️ gets its IPs, it can finally sign his first envelope, the IP header (see the outer envelope ✉  <code>To</code> field filled in):</p>
-<p><img src="http-request2.png" alt="http-request2"></p>
+<p><img src="images/http-request2.png" alt="http-request2"></p>
 <p>But there are also transport and datalink layers&hellip;. His parcel now looks like this :</p>
 <h2 id="step-2-get-the-mac-address">Step 2. Get the MAC address</h2>
 <p>Data Link layer, is tricky one. The 🖥️ itself doesn&rsquo;t do that dirty job. It just puts its router&rsquo;s MAC address, knowing that the router will know what to do. How does it know the Router&rsquo;s MAC? well, it asks. It knows that the router sits at <code>192.168.1.1</code>. So, it sends an ARP request (just like the ones we will see below in a minute), asking for <code>192.168.1.1</code>&rsquo;s MAC. But this won&rsquo;t be as complex as the example below. Since these devices are on the same network, there only going to be one ARP request and a single response from the J&amp;M Router.</p>
@@ -335,7 +335,7 @@
 <ol>
 <li>J&amp;M Router puts <code>ff:ff:ff:ff:ff:ff</code> MAC address in the Enthernet header&rsquo;s <code>To</code> field (which means broadcast and therefor all Jack&rsquo;s and Mary&rsquo;s router&rsquo;s buddies are going to get this message) and its own in MAC <code>From</code> field (orange square). In the ARP request it puts the newly discovered IP of <code>bakerst221b.com</code> as <code>Target IP</code> and its own MAC and IP as a <code>Sender MAC</code> and <code>Sender IP</code> (see the scheme below, purple square):</li>
 </ol>
-<p><img src="arp-request.png" alt="arp-request"></p>
+<p><img src="images/arp-request.png" alt="arp-request"></p>
 <ol start="2">
 <li>
 <p>Router A get&rsquo;s the ARP request from Jack and Mary&rsquo;s Router. It reads the request, reads the <code>Target IP</code>, checks its records and realized that it doesn&rsquo;t know the guy. That&rsquo;s why it asks his fellow Router B. In the Ethernet II header it puts its own MAC address in <code>From</code> and <code>ff:ff:ff:ff:ff:ff</code> in <code>To</code> fields (orange square). It leaves the ARP request itself untouched (purple square). So, <code>Target MAC</code> remains untouched. ❓</p>
@@ -345,25 +345,23 @@
 </li>
 <li>
 <p><code>Bakerst221b</code>&rsquo;s Router receives the request. It reads the ARP request, reads the  <code>Target IP</code>, checks its records and realized that it&rsquo;s itself. So, in its response it switches <code>Source</code> and <code>Target</code> fields&rsquo; values and puts its own MAC in <code>Source MAC</code> field. It then sends the packet to Router B. So now it would look something like this:</p>
-<p><img src="arp-response-1.png" alt="arp-response-1"></p>
+<p><img src="images/arp-response-1.png" alt="arp-response-1"></p>
 </li>
 <li>
 <p>Router B just relays the answer, substituting <code>From</code> to its MAC address and <code>To</code> to the Router&rsquo;s A MAC in Ethernet II (Data link layer).</p>
-<p><img src="arp-response-2.png" alt="arp-response-2"></p>
+<p><img src="images/arp-response-2.png" alt="arp-response-2"></p>
 </li>
 <li>
 <p>Router A receives the package and relays it to Jack&rsquo;s and Mary&rsquo;s router, substituting <code>From</code> to its MAC address and <code>To</code> to the J&amp;M Router&rsquo;s MAC in Ethernet II (Data link layer).</p>
 </li>
 </ol>
-<p><img src="arp-response-3.png" alt="arp-response-3"></p>
+<p><img src="images/arp-response-3.png" alt="arp-response-3"></p>
 <p>Here are ARP request and response intercepted in real traffic:</p>
-<p><img src="arp-request-iris.png" alt="arp-request-iris"></p>
-<p><img src="arp-response-iris.png" alt="arp-response-iris"></p>
+<p><img src="images/arp-request-iris.png" alt="arp-request-iris"></p>
+<p><img src="images/arp-response-iris.png" alt="arp-response-iris"></p>
 <p>Now, J&amp;M saves the data for some time for future requests. The main idea is that the device is asking <em>&ldquo;Who has 185.199.110.153? Tell 184.10.199.12&rdquo;</em> recursively thorogh a network of interconnected network devices. As soon as it gets the answer, it fills the data link layer header with the correct MAC address.  Please note, that ARP is only packed into data link (Ethernet) envelope 📩 , not subsequent wrappings into IP and TCP envelopes since we are not actually sending any data and don&rsquo;t need IP and TCP envelopes for that. Our postoffice clerk 1 and postoffice clerk 2 are both having a rest 🌴 .</p>
-<p>So, Mary&rsquo;s laptop already knows the destination IP that he acquired with the help of DNS request: <code>185.199.110.153</code>. It also knows its own MAC and IP (obviously).  Let&rsquo;s keep in mind mind that Mary&rsquo;s laptop doesn&rsquo;t talk to the outer world on its own. So, it puts its representative&rsquo;s MAC in Ethernet II header (<code>To</code> field) instead of <code>bakerst221b.com</code>&rsquo;s MAC. For example, I&rsquo;ve requested a <code>sherlock.com</code> page and captured the request. The purple square is my router&rsquo;s MAC, and the green - my laptop&rsquo;s.</p>
-<p><img src="images/ethernet-header.png" alt="ethernet-header"></p>
-<p>However, IP and port are of <code>sherlock.com</code>, of course. It also inserts its local IP as the <code>Source IP</code> in IP header (see the <code>Source Address</code> in the screenshot below, it&rsquo;s local since starts with <code>192.168.</code>) but you need a public one to talk to others.</p>
-<p><img src="ip-header.png" alt="ip-header"></p>
+<p>So, Mary&rsquo;s laptop already knows the destination IP that he acquired with the help of DNS request: <code>185.199.110.153</code>. It also knows its own MAC and IP (obviously).  Let&rsquo;s keep in mind mind that Mary&rsquo;s laptop doesn&rsquo;t talk to the outer world on its own. So, it puts its representative&rsquo;s MAC in Ethernet II header (<code>To</code> field) instead of <code>bakerst221b.com</code>&rsquo;s MAC. For example, I&rsquo;ve requested a <code>sherlock.com</code> page and captured the request. However, IP and port are of <code>sherlock.com</code>, of course. It also inserts its local IP as the <code>Source IP</code> in IP header (see the <code>Source Address</code> in the screenshot below, it&rsquo;s local since starts with <code>192.168.</code>) but you need a public one to talk to others.</p>
+<p><img src="images/ip-header.png" alt="ip-header"></p>
 <p>That&rsquo;s why when the router receives the package, it performs two importnant modifications.</p>
 <ul>
 <li>changes the <code>From</code> and <code>To</code> MAC addresses in Ethernet II header. <code>From</code> its own MAC and <code>To</code> Router&rsquo;s A MAC.</li>
@@ -371,7 +369,7 @@
 </ul>
 <p>The J&amp;M Router also takes a note, that the machine with local address <code>192.168.1.70</code> send this request. It&rsquo;s needed, of course, to be able to deliever the reply to Mary&rsquo;s laptop 💻 later.</p>
 <p>So, now the request is going to look as follows:</p>
-<p><img src="mary-final-req.png" alt="mary-final-req"></p>
+<p><img src="images/mary-final-req.png" alt="mary-final-req"></p>
 <p>Now the port, how does it get the port to connect to? For more details see the article about TCP/UDP <a href="#">here</a>.</p>
 <h2 id="references">References</h2>
 <p><a href="http://www.firewall.cx/">firewall.cx</a></p>
