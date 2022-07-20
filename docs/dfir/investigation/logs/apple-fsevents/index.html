@@ -59,6 +59,12 @@
       </a>
     </li>
     
+    <li class="menu-item-threat hunting">
+      <a href="/docs/thunting">
+        <span>Threat Hunting</span>
+      </a>
+    </li>
+    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
@@ -125,6 +131,12 @@
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting">
+      <a href="/docs/thunting">
+        <span>Threat Hunting</span>
       </a>
     </li>
     
@@ -294,9 +306,13 @@
 <p><code>FSEventsParser</code>. More about FSEvents might be seen here [<a href="http://www.osdfcon.org/presentations/2017/Ibrahim-Understanding-MacOS-File-Ststem-Events-with-FSEvents-Parser.pdf">10</a>]. Thanks to Nicole Ibrahim from OSDFCon, we have this filetype reverse engineered and documented. At least, v1.</p>
 <blockquote>
 <p>😭 Getting an error when trying to run <code>FSEventsParser</code> on a M1. No excpetion when running it on an Intel machine though.
-😊 ✅ My solution was to run a windows version on a VM. Worked fine.</p>
+😊 ✅ My solution was to run a windows version on a VM. Worked fine.
+✍🏻 Another solution is to use mac_apt.py</p>
 </blockquote>
-<h2 id="querying-interesting-data">Querying Interesting Data</h2>
+<p><code>mac_apt.py</code>. Requires python to be installed. Consists of: extract_apfs_fs, ios_apt, mac_apt_artifact_only, mac_apt_mounted_sys_data and mac_apt.</p>
+<p>Usage example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python mac_apt_artifact_only.py SCREENTIME -i <span class="s2">&#34;/Users/username/Documents/RMAdminStore-Local.sqlite&#34;</span> -o <span class="s2">&#34;/Users/username/Documents/&#34;</span>
+</span></span></code></pre></div><h2 id="querying-interesting-data">Querying Interesting Data</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">_ROWID_</span><span class="w"> </span><span class="s2">&#34;NAVICAT_ROWID&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">
