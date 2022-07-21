@@ -202,7 +202,8 @@
     </li>
     <li><a href="#macos">macOS</a>
       <ul>
-        <li><a href="#usb">USB</a>
+        <li><a href="#usb">USB</a></li>
+        <li><a href="#usbmuxdplist">usbmuxd.plist</a>
           <ul>
             <li><a href="#0x5ac"><code>0x5ac</code></a></li>
             <li><a href="#tracev3"><code>tracev3</code></a></li>
@@ -342,6 +343,57 @@
 </blockquote>
 <p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
 <p>Lots of devices that are in fact built-in into the Mac, are considered as external connection by tracev3 log files. So, if you see the <code>0x5ac</code> vendor id in the logs, it might be the keyboard or trackpad.</p>
+<h3 id="usbmuxdplist">usbmuxd.plist</h3>
+<p>Also gives the uid of the user and group responsible for USB mount.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">plutil -p <span class="s2">&#34;./Volume 0/root/private/var/db/dslocal/nodes/Default/users/_usbmuxd.plist&#34;</span>
+</span></span><span class="line"><span class="cl">plutil -p <span class="s2">&#34;./Volume 0/root/private/var/db/dslocal/nodes/Default/groups/usbmuxd.plist&#34;</span>
+</span></span></code></pre></div><p>``<br>
+The file structure:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;generateduid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;FFFFEEEE-DDDD-CCCC-BBBB-AAAA000000D5&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;gid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;213&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;home&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;/var/db/lockdown&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;name&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;_usbmuxd&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;passwd&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;*&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;realname&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;iPhone OS Device Helper&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;shell&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;/usr/bin/false&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;uid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;213&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;generateduid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;ABCDEFAB-CDEF-ABCD-EFAB-CDEF000000D5&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;gid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;213&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;name&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;_usbmuxd&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;passwd&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;*&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;realname&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
+</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;iPhone OS Device Helper&#34;</span>  
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Then, cd here <code>/private/var/db/dslocal/nodes/Default/users</code> and <code>/private/var/db/dslocal/nodes/Default/groups</code> run <code>grep -r</code> for either gid or uid mentioned above and get the user/group.</p>
 <h4 id="0x5ac"><code>0x5ac</code></h4>
 <p>Apple&rsquo;s vendor ID.</p>
 <h4 id="tracev3"><code>tracev3</code></h4>
