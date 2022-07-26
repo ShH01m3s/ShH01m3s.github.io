@@ -4,21 +4,21 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📚 Network Layer Description - Analyst</title>
+  <title>📚 Network Layer Protocols - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.1af15d612be2936e296de738ed7062bbcecd3efedde8f895f919d76ce622691e.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
 
 </head>
 
-<body class='page page-default-single'>
+<body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -56,6 +56,12 @@
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting">
+      <a href="/docs/thunting">
+        <span>Threat Hunting</span>
       </a>
     </li>
     
@@ -128,6 +134,12 @@
       </a>
     </li>
     
+    <li class="menu-item-threat hunting">
+      <a href="/docs/thunting">
+        <span>Threat Hunting</span>
+      </a>
+    </li>
+    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
@@ -172,24 +184,9 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/reference/network/protocols/"> Back to 📚 Network Protocols Section 👈🏼 </a>
+    <a href="/docs/reference/network/protocols/"> Back to 📚 Network Protocols Section 👈🏼 </a>
   </p>
-  <aside>
-   <nav id="TableOfContents">
-  <ul>
-    <li><a href="#attacks">Attacks</a>
-      <ul>
-        <li><a href="#mac-flooding">MAC flooding</a></li>
-        <li><a href="#span-port">Span port</a></li>
-        <li><a href="#promiscous-mode">Promiscous mode</a></li>
-        <li><a href="#arp-poisoning">ARP poisoning</a></li>
-        <li><a href="#mac-spoofing">MAC spoofing</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
- </aside>
- </div>
+ </div> 
 
 
 
@@ -197,64 +194,30 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">📚 Network Layer Description</h1>
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    <div class="meta">
-      
-      <div class="article-category">domain: 
-          
-              
-                <i class="fas fa-archive"></i>
-              
-          <a class="category-link" href="/domain/general">general</a>
-          
-      </div> <br />
-      
-      <div class="article-category">doctype:
-          
-            
-              
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
-          
-      </div> <br /><br/>
-      
-      
-      
-      
-
-      
-      
-
-      
-    </div>
-  </header>
 
 
-  <div class="content" itemprop="articleBody">
-    <p>Network Address Translation - mostly to map local IPs to public ones, but sometimes used to map between two public or local networks.</p>
-<p><strong>Static</strong> - one to one mapping.</p>
-<p><strong>Dynamic</strong> - many to many.</p>
-<p><strong>Overload</strong> - many to one.</p>
-<h2 id="attacks">Attacks</h2>
-<h3 id="mac-flooding">MAC flooding</h3>
-<h3 id="span-port">Span port</h3>
-<p>Everytime you receive messages fir these ports (say 1 to 10), also send them to the span port 25. But to turn it on, you need an access to switch&rsquo;s config. Moreover, some switches are made in a way not to let span port talk, only listen. It&rsquo;s a useful option for admins (basically turning a switch into some sort of lame hub). CISCO - SPAN (Switched Port Analyser), RSPAN (Remote Switched Port Analyser). RAP (Roving Analysis Port), 3Com switches.</p>
-<h3 id="promiscous-mode">Promiscous mode</h3>
-<p>NIC (network card) can operate in this mode and process all packets that it recieves. The packet&rsquo;s destination is determined by MAC address, however, I&rsquo;m putting this here for reference.</p>
-<h3 id="arp-poisoning">ARP poisoning</h3>
-<p>ARP poisoning aka ARP spoofing is an attacking technique when a hacker broadcasts their MAC address and other devices write this into their ARP cache. Since ARP cache is not persistent, in order to keep their spoofed MAC in the devices&rsquo; caches, one would need to send this broadcast continuously.</p>
-<p>Why is this useful? Well, in a simple world (simple for hackers), every network device would be a hub. Hubs simply don&rsquo;t care. But switches are very meticulous, they are checking the destination MAC address before relaying the packet. To overcome this, an attacker needs such attack.</p>
-<p><em>#todo: more</em></p>
-<h3 id="mac-spoofing">MAC spoofing</h3>
 
-  </div>
-</article>
-</div>
-</div>
+ 
+ <h1 class="title">📚 Network Layer Protocols</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/netlayer/overview/"> 📚 Network Layer Description</a></h2> 
+    <p> Network Address Translation - mostly to map local IPs to public ones, but sometimes used to map between two public or local networks.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/netlayer/arp/"> 📚 ARP</a></h2> 
+    <p> This article is about ARP protocol. It&rsquo;s used to map IP addresses to physical (MAC) addresses.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/netlayer/icmp/"> 📚 ICMP</a></h2> 
+    <p> ICMP protocol is needed for troubleshooting.
+For an TCP/IP stack here is what ICMP request looks like in a frame:</p>
+
+    <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/netlayer/ip/"> 📚 IP</a></h2> 
+    <p> This article is about IP protocol (v4, v6 and IPX).
+IPv4 Number on top and along the left edge are bits (not bytes).</p>
+
+
+
+
 
         </div>
       </div>
