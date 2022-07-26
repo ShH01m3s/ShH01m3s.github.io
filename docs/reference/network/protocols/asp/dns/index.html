@@ -192,6 +192,7 @@
     <li><a href="#dns-poisoning">DNS poisoning</a></li>
     <li><a href="#dns-redirection">DNS redirection</a></li>
     <li><a href="#dns-cache">DNS Cache</a></li>
+    <li><a href="#dns-leak">DNS Leak</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -254,6 +255,9 @@
 
   <div class="content" itemprop="articleBody">
     <p><strong>D</strong>omain <strong>N</strong>ame <strong>S</strong>ystem. Translates IPs to domain names like <code>192.168.1.1</code> to <code>router.lan</code> and visa versa.</p>
+<p>DNS querying can be either recursive or non-recursive.</p>
+<p><strong>Recursive</strong>. ISP DNS server queries other DNS servers until it finds the answer. Once it&rsquo;s found, it&rsquo;s returned by the ISP DNS to the client.
+<strong>Non-recursive</strong>. ISP DNS is not involved? Response comes directly from the DNS server queried the last. So, who has asked initially, would be shown in the last DNS server&rsquo;s logs 📝.</p>
 <h2 id="dns-poisoning">DNS poisoning</h2>
 <h2 id="dns-redirection">DNS redirection</h2>
 <p>In case a malware beacons to its server via DNS, you have two options to trick it:</p>
@@ -263,6 +267,8 @@
 </ul>
 <h2 id="dns-cache">DNS Cache</h2>
 <p>Windows</p>
+<h2 id="dns-leak">DNS Leak</h2>
+<p>See <a href="/docs/reference/network/net-anon#dns-leaks">here</a>.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://2019.phdays.com/en/program/reports/once-upon-a-time-in-the-west-a-story-about-dns-attacks/">1</a>] Once upon a time in the West: a story about DNS attacks</p>
 
