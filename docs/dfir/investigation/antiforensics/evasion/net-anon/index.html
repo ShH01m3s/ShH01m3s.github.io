@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>🕶️ Anti-Forensics - Analyst</title>
+  <title>🦑 Countering Evasion Techniques - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -184,9 +184,22 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/"> Back to 🔎 Incident Investigation Section 👈🏼 </a>
+   <a href="/docs/dfir/investigation/antiforensics/"> Back to 🕶️ Anti-Forensics Section 👈🏼 </a>
   </p>
- </div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#vpn">VPN</a></li>
+    <li><a href="#ip-spoofing">IP spoofing</a></li>
+    <li><a href="#source-routing">Source routing</a></li>
+    <li><a href="#proxies--anonymizers">Proxies / Anonymizers</a></li>
+    <li><a href="#tor">TOR</a></li>
+    <li><a href="#tcp-fragmentation">TCP fragmentation</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+ </div>
 
 
 
@@ -194,42 +207,86 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">🦑 Countering Evasion Techniques</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-archive"></i>
+              
+          <a class="category-link" href="/domain/general">general</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
+            
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          <a class="platform-link" href="/tools/nmap">nmap</a>
+          
+          <a class="platform-link" href="/tools/ads">ADS</a>
+          
+      </div> <br />
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/network" rel="tag">network</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/vpn" rel="tag">vpn</a>
+          
+           ,  
+          <a class="tag-link" href="/tags/evasion" rel="tag">evasion</a>
+          
+      </div> 
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <p>Evasion techniques and what possible forensic footprints they are likely to leave?</p>
+<h2 id="vpn">VPN</h2>
+<p>Virtual private network. As an additional bonus - avoid bandwidth throttling (when ISP cuts your speed or bandwidth for certain resources like torrents). Also useful on public networks.</p>
+<p>Below are the two examples of using the Internet without a VPN or any other anonymising tool. The first connection (🥕 marked), is just a simple plaintext HTTP connection. The rest (🥒 and 🌽) show a very simplified HTTPS connection. Basically, ISP 🍋  won&rsquo;t see the contents of the message with the SSL/TLS (HTTPS) in use, as well as a MiM, of course (both those that are within 👀🫐  and outside 👀🍆 your network).</p>
+<p>![img][images/https-http.png]</p>
+<p>In order to understand why so, refer to the articles about TLS and SSL and also to the Deffie-Hellman key exchange algorithm (see the Reference section).</p>
+<h2 id="ip-spoofing">IP spoofing</h2>
+<h2 id="source-routing">Source routing</h2>
+<h2 id="proxies--anonymizers">Proxies / Anonymizers</h2>
+<h2 id="tor">TOR</h2>
+<h2 id="tcp-fragmentation">TCP fragmentation</h2>
+<p>Will look like garbage for IDS:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -sS -A -f &lt;target_IP&gt;
+</span></span></code></pre></div><h2 id="references">References</h2>
 
- 
- <h1 class="title">🕶️ Anti-Forensics</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/forged-images/"> Forged Image Detection</a></h2> 
-    <p> https://29a.ch/photo-forensics/#forensic-magnifier
-Images can be forged or cloned. Regions can be manipulated with. Hard to detect with naked eye.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/antivirus/"> Evading Antivirus</a></h2> 
-    <p> Windows https://tyeyeah.github.io/2021/08/02/2021-08-02-Bypass-Anti-Virus/
-macOS Linux </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/hiding-data/"> Hiding Data</a></h2> 
-    <p> Alternative data stream Alternate data streams. Specific for Windows. See more here. Are there such streams for other OS?</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/logs-turnoff/"> Turning Off Logging</a></h2> 
-    <p> macOS From Apple&rsquo;s official documentation:
- In some cases, the contents of a volume are sufficiently secret that it is not appropriate to log them.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/evasion/hiding-data/"> 🦑 Countering Evasion Techniques</a></h2> 
-    <p> Evasion techniques and what possible forensic footprints they are likely to leave?
-Alternative data stream Alternate data streams.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/evasion/net-anon/"> 🦑 Countering Evasion Techniques</a></h2> 
-    <p> Evasion techniques and what possible forensic footprints they are likely to leave?
-VPN Virtual private network.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/usbkill-switch/"> USBKill Switch</a></h2> 
-    <p> A software that could be used for anti-forensics. By default, configs are at /etc and named usbkill.</p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
