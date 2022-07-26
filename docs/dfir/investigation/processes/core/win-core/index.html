@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -390,13 +390,13 @@
 <p><strong>Account</strong>: Local System</p>
 <p><strong>Start time</strong>: Boot</p>
 <p><strong>Windows Credential Guard</strong>. Only for Windows 10 Enterprise or Windows Server 2016 and above. Also, this exe is present on a Windows 11 system, but is not running. It&rsquo;s a singleton and is located on disk in System32 directory. It runs under local system account and it&rsquo;s parent is <code>winint.exe</code>. Works in the isolated user mode, so that even the kernel doesn&rsquo;t have access to it. Secure Kernel protected by Hyper-V is talking to lsaiso instead. Kernel Mode and Secure Kernel are talking using a small buffer. VSL calls. Between SK and lsaiso - sys call. VSM container: lsaiso, credentials, secure kernel, kernel mode code integrity. HVCI - Hyper-V code integrity.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
-</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">version</span>
-</span></span><span class="line"><span class="cl"><span class="n">privilege</span><span class="p">::</span><span class="n">debug</span>
-</span></span><span class="line"><span class="cl"><span class="n">securlsa</span><span class="p">::</span><span class="n">logonpasswords</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">misc</span><span class="p">::</span><span class="n">memssp</span>
-</span></span></code></pre></div><h3 id="userinit"><code>userinit</code></h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
+<span class="p">&gt;</span> <span class="n">version</span>
+<span class="n">privilege</span><span class="p">::</span><span class="n">debug</span>
+<span class="n">securlsa</span><span class="p">::</span><span class="n">logonpasswords</span>
+
+<span class="p">&gt;</span> <span class="n">misc</span><span class="p">::</span><span class="n">memssp</span>
+</code></pre></div><h3 id="userinit"><code>userinit</code></h3>
 <p><strong>Parent</strong> 🤱: <code>winlogon</code></p>
 <p><strong>Children</strong> 👧 :  <a href="#explorer">explore</a></p>
 <p><strong>Singleton</strong> ☝️:</p>
@@ -435,22 +435,22 @@
 <h3 id="singletons-vs-cloners">Singletons vs Cloners</h3>
 <p><strong>Singletons</strong>: System, wininit, lsass.exe, lsm.exe, lsaiso, services.exe</p>
 <p><strong>Cloners</strong>: sms, taskhost, winlogon, iexplore, explorer, svchost, csrss</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; singletons.txt
-</span></span></code></pre></div><h3 id="boot-vs-varies">Boot vs Varies</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; singletons.txt
+</code></pre></div><h3 id="boot-vs-varies">Boot vs Varies</h3>
 <p><strong>Boot</strong>:  System, sms, wininit, lsass, lsm, svchost*, services, csrss</p>
 <p><strong>Varies</strong>: taskhost, winlogon, iexplore, explorer, svchost*</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|csrss)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; boottime.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">grep -E -i -v &lt;2019-01-20&gt; psscan.txt &gt; nonboot.txt
-</span></span></code></pre></div><h3 id="system32-vs-other">System32 vs Other</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|csrss)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; boottime.txt
+
+grep -E -i -v &lt;2019-01-20&gt; psscan.txt &gt; nonboot.txt
+</code></pre></div><h3 id="system32-vs-other">System32 vs Other</h3>
 <p><strong>System32</strong>: System, sms, wininit, taskhost, lsass, winlogon, lsm, svchost, services, csrss, lsaiso</p>
 <p><strong>Other</strong>: iexplore, explorer</p>
 <h3 id="wincore-vs-other">WinCore vs Other</h3>
 <p><strong>Non Wincore</strong>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i -v <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; all_non_core.txt
-</span></span></code></pre></div><p><strong>WinCore</strong>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; all_non_core.txt
-</span></span></code></pre></div><h2 id="references">References</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i -v <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; all_non_core.txt
+</code></pre></div><p><strong>WinCore</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> <span class="s2">&#34;psscan.txt|pslist.txt&#34;</span> &gt; all_non_core.txt
+</code></pre></div><h2 id="references">References</h2>
 <p>[<a href="">1</a>] SDF Podcast, by Michael Leclair</p>
   </div>
 </article>
@@ -483,7 +483,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

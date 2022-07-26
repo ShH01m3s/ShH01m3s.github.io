@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -381,22 +381,22 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 <h2 id="-btfm">📘 <strong>BTFM</strong></h2>
 <h3 id="list-all-drives">List all drives</h3>
 <p>(Linux and macOS):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
-</span></span><span class="line"><span class="cl">lsblk
-</span></span><span class="line"><span class="cl">mount
-</span></span></code></pre></div><p>On Windows:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
-</span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
-</span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
-</span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
-</span></span></code></pre></div><blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo fdisk -l <span class="c1"># Linux</span>
+lsblk
+mount
+</code></pre></div><p>On Windows:</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">diskpart</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
+sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
+
+sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
+sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
+
+<span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
+<span class="c1"># to install on macOS - brew install dc3dd</span>
+sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
+</code></pre></div><blockquote>
 <p>⛔️ If you get <code>dd: /dev/disk4: Resource busy</code> on macOS when trying to make an image with <code>dd</code>,
 ✍🏻 go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
 </blockquote>
@@ -408,24 +408,24 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 </blockquote>
 <h3 id="turn-off-disk-arbitration">Turn off Disk Arbitration</h3>
 <h4 id="older-mac">Older Mac:</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /etc/mach_init.d
-</span></span><span class="line"><span class="cl"> ls
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl"> sudo cp diskarbitrationd.plist /
-</span></span><span class="line"><span class="cl"> ls /
-</span></span><span class="line"><span class="cl">sudo rm diskarbitrationd.plist.
-</span></span></code></pre></div><h4 id="monterey">Monterey</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Option #1. Kill the process</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># cat /var/run/diskarbitrationd.pid gives the PID </span>
-</span></span><span class="line"><span class="cl"><span class="c1"># ps -ex gives the proc list</span>
-</span></span><span class="line"><span class="cl">ps -ex <span class="p">|</span> grep <span class="k">$(</span>cat /var/run/diskarbitrationd.pid<span class="k">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Option #2. Remove the plist</span>
-</span></span><span class="line"><span class="cl">sudo cp /System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist /
-</span></span><span class="line"><span class="cl"><span class="c1"># give read only FS</span>
-</span></span></code></pre></div><h3 id="turn-on-disk-arbitration">Turn on Disk Arbitration</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
-</span></span></code></pre></div><h2 id="references">References</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /etc/mach_init.d
+ ls
+ 
+ sudo cp diskarbitrationd.plist /
+ ls /
+sudo rm diskarbitrationd.plist.
+</code></pre></div><h4 id="monterey">Monterey</h4>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Option #1. Kill the process</span>
+<span class="c1"># cat /var/run/diskarbitrationd.pid gives the PID </span>
+<span class="c1"># ps -ex gives the proc list</span>
+ps -ex <span class="p">|</span> grep <span class="k">$(</span>cat /var/run/diskarbitrationd.pid<span class="k">)</span>
+
+<span class="c1"># Option #2. Remove the plist</span>
+sudo cp /System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist /
+<span class="c1"># give read only FS</span>
+</code></pre></div><h3 id="turn-on-disk-arbitration">Turn on Disk Arbitration</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
+</code></pre></div><h2 id="references">References</h2>
 <p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
 <p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
 <p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
@@ -476,7 +476,7 @@ Sarah Edwards
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

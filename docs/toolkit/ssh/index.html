@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -260,27 +260,27 @@
 <p>Let&rsquo;s now move into our <code>~/.ssh</code> folder and see what&rsquo;s there. So, there are <code>asgardmasterkey.pub</code> (public key) and <code>asgardmasterkey</code>(private). There are also several other files: <code>config</code> and <code>known_hosts</code>, both are very important!</p>
 <p>We need to tell the ssh deamon that there is an update it needs to harvest. So, that&rsquo;s why we first check if its running at all: <code>shell eval &quot;$(ssh-agent -s)&quot;</code>. You get a PID in respone, you are good to move forward. Otherwise, start it with <code>sudo -s -H</code> or <code>exec ssh-agent bash</code> or <code>exec ssh-agent zsh</code> or whatever else works for your system.</p>
 <p>For macOS users (like myself) there is an additional step to do - change the <code>config</code> file. Say, for example, that I need this key to connect to github.com (private Asgard repo!):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Host github.com
-</span></span><span class="line"><span class="cl">  AddKeysToAgent yes
-</span></span><span class="line"><span class="cl">  UseKeychain yes
-</span></span><span class="line"><span class="cl">  IdentityFile ~/.ssh/asgardmasterkey
-</span></span></code></pre></div><p>On GitHub they say you should put <code>Host *</code> instead, but this way, in case you ever add other ssh keys for other services, you&rsquo;ll likely face errors. This line would mean that whatever you are connecting to, use this key. This name (<code>github.com</code>) can actually be something like <code>privateasgardrepo</code> or anything you like. Think of it as an alias, if you will. There are some additional things that can be used here but most of the time the below settings are enough. For more info see man <code>ssh_config</code>, <code>Host</code> and <code>PATTERNS</code> sections.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/asgardmasterkey
+</code></pre></div><p>On GitHub they say you should put <code>Host *</code> instead, but this way, in case you ever add other ssh keys for other services, you&rsquo;ll likely face errors. This line would mean that whatever you are connecting to, use this key. This name (<code>github.com</code>) can actually be something like <code>privateasgardrepo</code> or anything you like. Think of it as an alias, if you will. There are some additional things that can be used here but most of the time the below settings are enough. For more info see man <code>ssh_config</code>, <code>Host</code> and <code>PATTERNS</code> sections.</p>
 <p>Usually, when connecting to a remote machine over <code>ssh</code>, you&rsquo;d do something like the following:</p>
 <p><code>ssh loki@192.168.1.2</code></p>
 <p>You&rsquo;d be promted with a passoword then. Now let&rsquo;s say that we have the following contents of the <code>config</code> file:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host privateasgardrepo 
-</span></span><span class="line"><span class="cl">  HostName 192.168.1.2
-</span></span><span class="line"><span class="cl">  User loki
-</span></span><span class="line"><span class="cl">  IdentityFile ~/.ssh/asgardmasterkey
-</span></span></code></pre></div><p>In this case you&rsquo;d only run <code>ssh privateasgardrepo</code>. This does sound like an overkill, however, it&rsquo;s easier in case you have miltiple endpoint to connect to and you can&rsquo;t remember all the IPs or domain names.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Host privateasgardrepo 
+  HostName 192.168.1.2
+  User loki
+  IdentityFile ~/.ssh/asgardmasterkey
+</code></pre></div><p>In this case you&rsquo;d only run <code>ssh privateasgardrepo</code>. This does sound like an overkill, however, it&rsquo;s easier in case you have miltiple endpoint to connect to and you can&rsquo;t remember all the IPs or domain names.</p>
 <p>The next step is where you add your private key to the ssh daemon. <code>shell ssh-add -K ~/.ssh/asgardmasterkey</code>.</p>
 <p>The next step is to share you <strong>public</strong> key (the one ending in <code>pub</code>) with the remote server. In case of GitHub you copy whatever is in the <code>pub</code> file (in our example, it&rsquo;s <code>asgardmasterkey.pub</code>) go to your Account settings in the browser, open SSH keys and paste the contents of that file there.</p>
 <p>If you&rsquo;ve configured the <code>config</code> file correctly, you can now <code>ssh privateasgardrepo</code> (or whatever boring name there might be instead). Once you&rsquo;ve connected to the host for the first time (in the example above, this would be some host at <code>192.168.1.2</code>) you&rsquo;ll be promted with something like the following message:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">The authenticity of host <span class="s1">&#39;192.168.1.2 (192.168.1.2)&#39;</span> can<span class="err">&#39;</span>t be established.
-</span></span><span class="line"><span class="cl">ED25519 key fingerprint is SHA256:Q<span class="o">[</span>...<span class="o">]</span>A34.
-</span></span><span class="line"><span class="cl">This key is not known by any other names
-</span></span><span class="line"><span class="cl">Are you sure you want to <span class="k">continue</span> connecting <span class="o">(</span>yes/no/<span class="o">[</span>fingerprint<span class="o">])</span>?
-</span></span></code></pre></div><p>It means that you&rsquo;ve generated the keys, but you have not received the keys from the server yet. For this type connection both you <strong>and</strong> the server have a separate key pair which are <strong>different</strong>! You share <em>your</em> public key, server shares its. <em>This</em> is the point when you literally saying <em>&ldquo;Remember this server&rdquo;</em>. Now, it will be added to the <code>known_hosts</code> file and you won&rsquo;t be prompted for this again in future unless the key changes or, for example, you have some 🐀 as the man-in-the-middle.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">The authenticity of host <span class="s1">&#39;192.168.1.2 (192.168.1.2)&#39;</span> can<span class="err">&#39;</span>t be established.
+ED25519 key fingerprint is SHA256:Q<span class="o">[</span>...<span class="o">]</span>A34.
+This key is not known by any other names
+Are you sure you want to <span class="k">continue</span> connecting <span class="o">(</span>yes/no/<span class="o">[</span>fingerprint<span class="o">])</span>?
+</code></pre></div><p>It means that you&rsquo;ve generated the keys, but you have not received the keys from the server yet. For this type connection both you <strong>and</strong> the server have a separate key pair which are <strong>different</strong>! You share <em>your</em> public key, server shares its. <em>This</em> is the point when you literally saying <em>&ldquo;Remember this server&rdquo;</em>. Now, it will be added to the <code>known_hosts</code> file and you won&rsquo;t be prompted for this again in future unless the key changes or, for example, you have some 🐀 as the man-in-the-middle.</p>
 
   </div>
 </article>
@@ -313,7 +313,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

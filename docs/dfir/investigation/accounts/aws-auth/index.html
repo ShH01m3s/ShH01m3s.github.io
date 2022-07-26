@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -285,79 +285,79 @@ There are several types of IAM identities. They are usually called &ldquo;Princi
 <p>Policy created can be assigned to a user, a group, a resource, other principal.</p>
 <p>There are several types of policies.</p>
 <p><strong>Organization Service Control Policy (SCP)</strong>. This is one of the major. It specifies the maximum permissions that can be granted to IB or RB policies within the organization. Below is an example of such policy. It basically doesn&rsquo;t allow IAM actions applied to any of the resources in case the request is not coming from eu-west-1 region.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span> 
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-08-06&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">		<span class="p">{</span>
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;SCP Policy&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Deny&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;NotAction&#34;</span><span class="p">:</span> <span class="s2">&#34;iam:*&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;Condition&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">				<span class="nt">&#34;StringNotEquals&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">					<span class="nt">&#34;aws:RequestedRegion&#34;</span><span class="p">:</span> <span class="s2">&#34;eu-west-1&#34;</span>
-</span></span><span class="line"><span class="cl">				<span class="p">}</span>
-</span></span><span class="line"><span class="cl">			<span class="p">}</span>
-</span></span><span class="line"><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><strong>Resource-based</strong>. Describe principles that are allowed to touch this particular resource.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span> 
+	<span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-08-06&#34;</span><span class="p">,</span>
+	<span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
+		<span class="p">{</span>
+			<span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;SCP Policy&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Deny&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;NotAction&#34;</span><span class="p">:</span> <span class="s2">&#34;iam:*&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span><span class="p">,</span>
+			<span class="nt">&#34;Condition&#34;</span><span class="p">:</span> <span class="p">{</span>
+				<span class="nt">&#34;StringNotEquals&#34;</span><span class="p">:</span> <span class="p">{</span>
+					<span class="nt">&#34;aws:RequestedRegion&#34;</span><span class="p">:</span> <span class="s2">&#34;eu-west-1&#34;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>Resource-based</strong>. Describe principles that are allowed to touch this particular resource.</p>
 <blockquote>
 <p>❗️ Not all resources support RB policies.</p>
 </blockquote>
 <p>Example:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>  
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-08-06&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span> 
-</span></span><span class="line"><span class="cl">		<span class="p">{</span>
-</span></span><span class="line"><span class="cl">			 <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;my-ec2 Resource-based Policy&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			 <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			 <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span> 
-</span></span><span class="line"><span class="cl">				 <span class="s2">&#34;ec2:*&#34;</span> 
-</span></span><span class="line"><span class="cl">			 <span class="p">],</span> 
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;Principal&#34;</span><span class="p">:</span> <span class="p">{</span> 
-</span></span><span class="line"><span class="cl">				<span class="nt">&#34;AWS&#34;</span><span class="p">:[</span>
-</span></span><span class="line"><span class="cl">					<span class="s2">&#34;arn:aws:iam::123456789:role/my-ec2&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">					<span class="s2">&#34;arn:aws:iam::123456789:user/superadmin&#34;</span>
-</span></span><span class="line"><span class="cl">				<span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><strong>Identity-based</strong>. Specify resources that these identities are allowed to touch. Example:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>  
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-08-06&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span> 
-</span></span><span class="line"><span class="cl">		<span class="p">{</span>
-</span></span><span class="line"><span class="cl">			 <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;my-ec2 Identity-based Policy&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			 <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			 <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span> 
-</span></span><span class="line"><span class="cl">				 <span class="s2">&#34;s3:*&#34;</span> 
-</span></span><span class="line"><span class="cl">			 <span class="p">],</span> 
-</span></span><span class="line"><span class="cl">			<span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span> 
-</span></span><span class="line"><span class="cl">		<span class="p">}</span>
-</span></span><span class="line"><span class="cl">	<span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><strong>Session policy</strong>. Used when programmatically creating a session. Limits the permissions. First, one needs to create a session. Let&rsquo;s say, Ezio is a product manager but needs to access some accounting information.<code>aws sts assume-role --role-arn &quot;arn:aws:iam::123456789:role/accountant&quot; --role-session-name &quot;accountant-alice-session&quot; --policy file://policy.json</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>  
+	<span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-08-06&#34;</span><span class="p">,</span>
+	<span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span> 
+		<span class="p">{</span>
+			 <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;my-ec2 Resource-based Policy&#34;</span><span class="p">,</span>
+			 <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+			 <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span> 
+				 <span class="s2">&#34;ec2:*&#34;</span> 
+			 <span class="p">],</span> 
+			<span class="nt">&#34;Principal&#34;</span><span class="p">:</span> <span class="p">{</span> 
+				<span class="nt">&#34;AWS&#34;</span><span class="p">:[</span>
+					<span class="s2">&#34;arn:aws:iam::123456789:role/my-ec2&#34;</span><span class="p">,</span>
+					<span class="s2">&#34;arn:aws:iam::123456789:user/superadmin&#34;</span>
+				<span class="p">]</span>
+<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>Identity-based</strong>. Specify resources that these identities are allowed to touch. Example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>  
+	<span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-08-06&#34;</span><span class="p">,</span>
+	<span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span> 
+		<span class="p">{</span>
+			 <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;my-ec2 Identity-based Policy&#34;</span><span class="p">,</span>
+			 <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+			 <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span> 
+				 <span class="s2">&#34;s3:*&#34;</span> 
+			 <span class="p">],</span> 
+			<span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span> 
+		<span class="p">}</span>
+	<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>Session policy</strong>. Used when programmatically creating a session. Limits the permissions. First, one needs to create a session. Let&rsquo;s say, Ezio is a product manager but needs to access some accounting information.<code>aws sts assume-role --role-arn &quot;arn:aws:iam::123456789:role/accountant&quot; --role-session-name &quot;accountant-alice-session&quot; --policy file://policy.json</code>.</p>
 <p><code>--role-arn arn:aws:iam::123456789:role/accountant</code> - it&rsquo;s the IB policy. Resource policy is evaluated behind the scenes.</p>
 <p><code>--policy file://policy.json</code> is our session policy (if any).</p>
-<p>The example above basically says the following: <em>&ldquo;I am Ezio and I want to become an accountant for a day to access some resource. May I?&rdquo;</em>. Example of such policy:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>  <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-06-08&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">   <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">     <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;s3:ListBucket&#34;</span><span class="p">],</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;arn:aws:s3:::accountinginfo&#34;</span><span class="p">],</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Condition&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;StringLike&#34;</span><span class="p">:{</span> <span class="nt">&#34;s3:prefix&#34;</span><span class="p">:[</span><span class="s2">&#34;ezio/*&#34;</span><span class="p">]</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">     <span class="p">{</span>
-</span></span><span class="line"><span class="cl">       <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">       <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;s3:GetObject&#34;</span><span class="p">],</span>
-</span></span><span class="line"><span class="cl">       <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:s3:::accountinginfo/ezio/*&#34;</span> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">]}</span>
-</span></span></code></pre></div><p><strong>Permissions boundary</strong>. This is very close to the SCP in that it limits the maximum permissions that can be granted to a principal.</p>
+<p>The example above basically says the following: <em>&ldquo;I am Ezio and I want to become an accountant for a day to access some resource. May I?&quot;</em>. Example of such policy:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>  <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2022-06-08&#34;</span><span class="p">,</span>
+   <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
+
+     <span class="p">{</span>
+        <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;s3:ListBucket&#34;</span><span class="p">],</span>
+        <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;arn:aws:s3:::accountinginfo&#34;</span><span class="p">],</span>
+        <span class="nt">&#34;Condition&#34;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;StringLike&#34;</span><span class="p">:{</span> <span class="nt">&#34;s3:prefix&#34;</span><span class="p">:[</span><span class="s2">&#34;ezio/*&#34;</span><span class="p">]</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>
+
+     <span class="p">{</span>
+       <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+       <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;s3:GetObject&#34;</span><span class="p">],</span>
+       <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:s3:::accountinginfo/ezio/*&#34;</span> <span class="p">}</span>
+
+<span class="p">]}</span>
+</code></pre></div><p><strong>Permissions boundary</strong>. This is very close to the SCP in that it limits the maximum permissions that can be granted to a principal.</p>
 <p><strong>Access control lists</strong>. ❗️ XML. Basically, RB policies but for cross-account stuff.</p>
 <h3 id="access-decision-tree">Access Decision Tree</h3>
 <p>The official doc&rsquo;s here [<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">2</a>].</p>
@@ -433,28 +433,28 @@ There are several types of IAM identities. They are usually called &ldquo;Princi
 <h2 id="-btfm">📘 BTFM</h2>
 <h3 id="login-in-via-aws-cli">Login in via AWS CLI</h3>
 <p>Ensure you have <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI</a> installed.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&#34;ASIAJKJHASDKJHSDKJLA&#34;</span>  
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&#34;akljhdljkhljhewhjjkhsd/s&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_SESSION_TOKEN</span><span class="o">=</span><span class="s2">&#34;kajsdhkjsaha&#34;</span> <span class="c1"># optional. AWS_SESSION_TOKEN is required with temp creds only.</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">aws <span class="nb">help</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># You&#39;ll see all available options. For example, you can run aws ec2 to see what you can do to the EC2 instances from within the CLI</span>
-</span></span></code></pre></div><h3 id="retieve-metadata-from-ec2">Retieve Metadata from EC2</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ssh into the machine in question</span>
-</span></span><span class="line"><span class="cl">ssh user@machineIPorDNSname
-</span></span><span class="line"><span class="cl"><span class="c1"># when promted for the password for user, enter it (in case public key encryption is not being used)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># The next two commands are issued from the EC2&#39;s console</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># IMDSv1</span>
-</span></span><span class="line"><span class="cl">curl –s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># IMDSv2</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># to retrieve the token</span>
-</span></span><span class="line"><span class="cl"><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>curl -s -X PUT -H <span class="s2">&#34;X-aws-ec2-metadata-token-ttl-seconds: 21600&#34;</span> http://169.254.169.254/latest/api/token<span class="k">)</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># set X-aws-ec2-metadata-token header to that value</span>
-</span></span><span class="line"><span class="cl"> curl -H <span class="s2">&#34;X-aws-ec2-metadata-token: </span><span class="nv">$TOKEN</span><span class="s2">&#34;</span> http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name<span class="s2">&#34;
-</span></span></span></code></pre></div><h2 id="root">Root</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&#34;ASIAJKJHASDKJHSDKJLA&#34;</span>  
+<span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&#34;akljhdljkhljhewhjjkhsd/s&#34;</span>
+<span class="nb">export</span> <span class="nv">AWS_SESSION_TOKEN</span><span class="o">=</span><span class="s2">&#34;kajsdhkjsaha&#34;</span> <span class="c1"># optional. AWS_SESSION_TOKEN is required with temp creds only.</span>
+
+aws <span class="nb">help</span>
+<span class="c1"># You&#39;ll see all available options. For example, you can run aws ec2 to see what you can do to the EC2 instances from within the CLI</span>
+</code></pre></div><h3 id="retieve-metadata-from-ec2">Retieve Metadata from EC2</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ssh into the machine in question</span>
+ssh user@machineIPorDNSname
+<span class="c1"># when promted for the password for user, enter it (in case public key encryption is not being used)</span>
+
+<span class="c1"># The next two commands are issued from the EC2&#39;s console</span>
+
+<span class="c1"># IMDSv1</span>
+curl –s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name&#34;</span>
+
+<span class="c1"># IMDSv2</span>
+<span class="c1"># to retrieve the token</span>
+<span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>curl -s -X PUT -H <span class="s2">&#34;X-aws-ec2-metadata-token-ttl-seconds: 21600&#34;</span> http://169.254.169.254/latest/api/token<span class="k">)</span>
+<span class="c1"># set X-aws-ec2-metadata-token header to that value</span>
+ curl -H <span class="s2">&#34;X-aws-ec2-metadata-token: </span><span class="nv">$TOKEN</span><span class="s2">&#34;</span> http://169.254.169.254/latest/meta-data/iam/security-credentials/role-name<span class="s2">&#34;
+</span></code></pre></div><h2 id="root">Root</h2>
 <p>It&rsquo;s not recommended to use <code>root</code> user for any activity on AWS unless it&rsquo;s something that only root can done. <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html</a>
 <a href="https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root">https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root</a></p>
 <h2 id="references">References</h2>
@@ -491,7 +491,7 @@ There are several types of IAM identities. They are usually called &ldquo;Princi
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -261,24 +261,24 @@ First of all, macOS default interpreter is zsh, which doesn&rsquo;t have <code>P
 I&rsquo;ve redirected the output to a csv file and imported into Excel (for both <code>history</code> and <code>zsh_history</code>). The first thing that caught the eye was the amount of blank lines for the latter. The second - some commands were split into several lines for <code>zsh_history</code>. While the blank lines could be eliminated with <code>cat ~/.zsh_history| sed '/^$/d' | wc -l</code>, the second problem is trickier. But do I need to cope with it? What do I need from this file? Timestamp. So, it&rsquo;s easier to run and log <code>date</code> before or after each command instead. I will only be referring to the <code>history</code> output then.</p>
 </blockquote>
 <p>Now, to the log file itself.  Since I will be integrating it to Elastic (Custom Logging), I&rsquo;d better make it a JSON (ndjson) format. Below is the beginning of my <code>~/.zshrc</code> file (other contents is irrelevant for this matter).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="err">$(date)</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;real_username&#34;</span><span class="p">:</span> <span class="s2">&#34;$(id -p | head -n1 | cut -f2)&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;effective_username&#34;</span><span class="p">:</span> <span class="s2">&#34;$(whoami)&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;pid&#34;</span><span class="p">:</span> <span class="err">$$</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;commandid&#34;</span><span class="p">:</span> <span class="s2">&#34;$(history | tail -n 1 | cut -d&#34;</span> <span class="s2">&#34; -f2),
-</span></span></span><span class="line"><span class="cl"><span class="s2">  &#34;</span><span class="err">command</span><span class="s2">&#34;: &#39;$(history | tail -n 1 | xargs | cut -d&#34;</span> <span class="err">&#34;</span> <span class="err">-f</span><span class="mi">2</span><span class="err">-)&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>Now, to the effective vs real user. You can read more <a href="https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#:~:text=So%2C%20the%20real%20user%20id,%2C%20there%20are%20some%20exceptions">here</a>. In short, when ordinary user issues commands, both are the same, but whenever the privileges are elevated (for example, with <code>sudo su</code>) or a command is issued from behalf of another user (like <code>sudo -l username</code>) these two are going to be different. This allows us to log the responsible user. Effective user is the one, who the system thinks it is. Someone, whose rights and privileges (if any) the currently logged user is using. Real user is pretty self-explanatory, the logged in user, the one who&rsquo;s been doing staff.
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="err">$(date)</span><span class="p">,</span> 
+  <span class="nt">&#34;real_username&#34;</span><span class="p">:</span> <span class="s2">&#34;$(id -p | head -n1 | cut -f2)&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;effective_username&#34;</span><span class="p">:</span> <span class="s2">&#34;$(whoami)&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;pid&#34;</span><span class="p">:</span> <span class="err">$$</span><span class="p">,</span>
+  <span class="nt">&#34;commandid&#34;</span><span class="p">:</span> <span class="s2">&#34;$(history | tail -n 1 | cut -d&#34;</span> <span class="s2">&#34; -f2),
+</span><span class="s2">  &#34;</span><span class="err">command</span><span class="s2">&#34;: &#39;$(history | tail -n 1 | xargs | cut -d&#34;</span> <span class="err">&#34;</span> <span class="err">-f</span><span class="mi">2</span><span class="err">-)&#39;</span>
+<span class="p">}</span>
+</code></pre></div><p>Now, to the effective vs real user. You can read more <a href="https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#:~:text=So%2C%20the%20real%20user%20id,%2C%20there%20are%20some%20exceptions">here</a>. In short, when ordinary user issues commands, both are the same, but whenever the privileges are elevated (for example, with <code>sudo su</code>) or a command is issued from behalf of another user (like <code>sudo -l username</code>) these two are going to be different. This allows us to log the responsible user. Effective user is the one, who the system thinks it is. Someone, whose rights and privileges (if any) the currently logged user is using. Real user is pretty self-explanatory, the logged in user, the one who&rsquo;s been doing staff.
 The next problem to solve, is to</p>
 <p>There are different shell interpreters. In order to find the appropriate history file, you&rsquo;ll need to know which one is used on the machine. Run env command and look at the following variables:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">SHELL</span><span class="o">=</span>/bin/zsh
-</span></span><span class="line"><span class="cl"><span class="nv">ZSH</span><span class="o">=</span>/Users/username/.oh-my-zsh
-</span></span><span class="line"><span class="cl"><span class="nv">PYENV_SHELL</span><span class="o">=</span>zsh
-</span></span></code></pre></div><h3 id="bash-history">Bash History</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/.bash_sessions
-</span></span><span class="line"><span class="cl">/Users/%username%/.bash_history
-</span></span></code></pre></div><h3 id="zsh">zsh</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">SHELL</span><span class="o">=</span>/bin/zsh
+<span class="nv">ZSH</span><span class="o">=</span>/Users/username/.oh-my-zsh
+<span class="nv">PYENV_SHELL</span><span class="o">=</span>zsh
+</code></pre></div><h3 id="bash-history">Bash History</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/.bash_sessions
+/Users/%username%/.bash_history
+</code></pre></div><h3 id="zsh">zsh</h3>
 
   </div>
 </article>
@@ -311,7 +311,7 @@ The next problem to solve, is to</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

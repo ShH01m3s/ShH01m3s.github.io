@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -310,9 +310,9 @@
 </table>
 <p>Win8+ - new file format.</p>
 <p>Not as common, but just as good. <code>imagecopy</code> plugin converts different formats into raw format to speed up. Hiberfile - compressed. Determine the OS profile and run the plugin.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
-</span></span><span class="line"><span class="cl">vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
-</span></span></code></pre></div><p>C:\hiberfil.sys</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
+vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
+</code></pre></div><p>C:\hiberfil.sys</p>
 <p>C:\Memory.dmp</p>
 <p>What is <a href="https://www.howtogeek.com/howto/15140/what-is-hiberfil.sys-and-how-do-i-delete-it/">hyberfil.sys</a>. Two types of compression.</p>
 <p><code>imageinfo</code> - to identify the profile for memory image. Running <code>vol.py imageinfo -f hiberfil.sys</code> is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
@@ -351,10 +351,10 @@
 </table>
 <p>To copy this file use <code>RawCopy64.exe /FileNamePath:c:\pagefile.sys</code>.</p>
 <p>To parse this file:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> egrep <span class="s2">&#34;^https?://&#34;</span> <span class="c1"># show URLs found in memory</span>
-</span></span><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-z]:\\\\&#34;</span> <span class="c1"># file paths used are shown</span>
-</span></span><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-zA-Z09_]*=.*&#34;</span> <span class="c1"># env vars</span>
-</span></span></code></pre></div><p>Apply <a href="https://github.com/matonis/page_brute">yarn rules</a> against <code>pagefile</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">strings pagefile.sys <span class="p">|</span> egrep <span class="s2">&#34;^https?://&#34;</span> <span class="c1"># show URLs found in memory</span>
+strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-z]:\\\\&#34;</span> <span class="c1"># file paths used are shown</span>
+strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-zA-Z09_]*=.*&#34;</span> <span class="c1"># env vars</span>
+</code></pre></div><p>Apply <a href="https://github.com/matonis/page_brute">yarn rules</a> against <code>pagefile</code>.</p>
 <h3 id="vmem">VMEM</h3>
 <p><code>python3 vol.py -f 1.vmem windows.vadinfo.VadInfo</code> to view Virtual Address Descriptors (<a href="https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/">VAD</a>).</p>
 <h2 id="references">References</h2>
@@ -392,7 +392,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

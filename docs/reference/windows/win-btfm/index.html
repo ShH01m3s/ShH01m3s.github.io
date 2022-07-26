@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -273,38 +273,45 @@
   <div class="content" itemprop="articleBody">
     <h2 id="fuc">FUC</h2>
 <p>(Frequently Used Commands)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h2 id="user">User</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h2 id="user">User</h2>
 <p>Get user&rsquo;s SID:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="n">useraccount</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;veronicazvereva&#39;</span> <span class="n">get</span> <span class="n">sid</span>
-</span></span><span class="line"><span class="cl"><span class="c"># or</span>
-</span></span><span class="line"><span class="cl"><span class="n">whoami</span> <span class="p">/</span><span class="n">user</span> <span class="c"># for current user</span>
-</span></span></code></pre></div><h2 id="system">System</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h3 id="usb">USB</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h3 id="mounting">Mounting</h3>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">wmic</span> <span class="n">useraccount</span> <span class="nb">where </span><span class="n">name</span><span class="p">=</span><span class="s1">&#39;veronicazvereva&#39;</span> <span class="n">get</span> <span class="n">sid</span>
+<span class="c"># or</span>
+<span class="n">whoami</span> <span class="p">/</span><span class="n">user</span> <span class="c"># for current user</span>
+</code></pre></div><h2 id="system">System</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h3 id="usb">USB</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h3 id="mounting">Mounting</h3>
 <p>USB devices on are mounted automatically, but VHD drives might need to be mounted manually. To do so, go to disk management utility, choose <code>Attach VHD</code> from the top menu, select it, open and ok.</p>
 <h3 id="diskpart">DISKPART</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">volume</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="nb">select </span><span class="n">disk</span> <span class="n">0</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">clean</span> <span class="c"># wipe the selected disk</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">partition</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="nb">select </span><span class="n">partition</span> <span class="n">1</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">active</span> 
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">format</span> <span class="n">fs</span><span class="p">=</span><span class="n">ntfs</span> <span class="n">label</span><span class="p">=</span><span class="n">test</span> <span class="n">qiuck</span>
-</span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">delete</span> <span class="n">partition</span>
-</span></span></code></pre></div><h2 id="remote">Remote</h2>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">diskpart</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">volume</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="nb">select </span><span class="n">disk</span> <span class="n">0</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">clean</span> <span class="c"># wipe the selected disk</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">partition</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="nb">select </span><span class="n">partition</span> <span class="n">1</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">active</span> 
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">format</span> <span class="n">fs</span><span class="p">=</span><span class="n">ntfs</span> <span class="n">label</span><span class="p">=</span><span class="n">test</span> <span class="n">qiuck</span>
+<span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">delete</span> <span class="n">partition</span>
+</code></pre></div><h2 id="remote">Remote</h2>
 <p><strong>FTP</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h2 id="processes">Processes</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h2 id="memory">Memory</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h2 id="files">Files</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># search for a pattern or word (like grep)</span>
-</span></span><span class="line"><span class="cl">findstr <span class="o">[</span>flags<span class="o">]</span> <span class="o">[</span>term<span class="o">]</span> path filename
-</span></span></code></pre></div><h3 id="compare">Compare</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></div><h2 id="network">Network</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ipconfig 
-</span></span><span class="line"><span class="cl">netstat
-</span></span><span class="line"><span class="cl">arp 
-</span></span></code></pre></div><h2 id="about">About</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h2 id="processes">Processes</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h2 id="memory">Memory</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h2 id="files">Files</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># search for a pattern or word (like grep)</span>
+findstr <span class="o">[</span>flags<span class="o">]</span> <span class="o">[</span>term<span class="o">]</span> path filename
+</code></pre></div><h3 id="compare">Compare</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">
+</code></pre></div><h2 id="network">Network</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipconfig 
+netstat
+arp 
+</code></pre></div><h2 id="about">About</h2>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.windows-commandline.com/get-sid-of-user/">1</a>] Windows Command Line</p>
 
@@ -339,7 +346,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

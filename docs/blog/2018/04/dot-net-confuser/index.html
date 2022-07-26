@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -342,34 +342,34 @@
 <p><img src="images/strin2-e1531316812864.png" alt="strin2-e1531316812864"></p>
 <p><img src="images/string3-e1531304883543.png" alt="string3-e1531304883543"></p>
 <p>Программа проявляет изрядный интерес к серийному номеру жесткого диска. Согласно библиотеке MSDN, это параметр класса <code>Win32_LogicalDisk</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">Access</span> <span class="nl">type</span><span class="p">:</span> <span class="n">Read</span><span class="o">-</span><span class="n">only</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nl">Qualifiers</span><span class="p">:</span> <span class="o">**</span><span class="n">MappingStrings</span><span class="o">**</span> <span class="p">(</span><span class="s">&#34;Win32API|File System Functions**GetVolumeInformation**)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">**</span><span class="n">Volume</span> <span class="n">serial</span> <span class="n">number</span> <span class="n">of</span> <span class="n">the</span> <span class="n">logical</span> <span class="n">disk</span><span class="p">.</span><span class="o">**</span>
-</span></span></code></pre></div><p>⏰ <code>10:10</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="n">Access</span> <span class="nl">type</span><span class="p">:</span> <span class="n">Read</span><span class="o">-</span><span class="n">only</span>
+
+<span class="nl">Qualifiers</span><span class="p">:</span> <span class="o">**</span><span class="n">MappingStrings</span><span class="o">**</span> <span class="p">(</span><span class="s">&#34;Win32API|File System Functions**GetVolumeInformation**)</span>
+
+<span class="o">**</span><span class="n">Volume</span> <span class="n">serial</span> <span class="n">number</span> <span class="n">of</span> <span class="n">the</span> <span class="n">logical</span> <span class="n">disk</span><span class="p">.</span><span class="o">**</span>
+</code></pre></div><p>⏰ <code>10:10</code></p>
 <p>И вот, в первый раз за долгое время отладки наконец-то попадаю в другой класс - в 8-ой, где, по всей видимости, и происходят какие-то загадочные манипуляции с файлами &ldquo;руками&rdquo; <code>CreateDirectory(path4)</code>.</p>
 <p><img src="images/string4-e1531227874625.png" alt="string4-e1531227874625"></p>
 <blockquote>
 <p>Программа, используя функцию <code>CreateDirectory(path4)</code> &ldquo;вьёт себе гнёздышко&rdquo;, чтоб сложить туда все &ldquo;пожитки&rdquo; и позже &ldquo;улететь&rdquo;. &ldquo;Пожитки&rdquo; можно рассмотреть во всей красе сначала в окне локальных переменных, а потом и в директории, которые, как видно из картинки, создаются на компьютере.</p>
 </blockquote>
 <p>В одной из своих &ldquo;дневниковых&rdquo; записей уже была мысль, что строки - это, пожалуй основной помощник исследователя. Лучше них вряд ли что-то может поведать, что за чертовщина творится в программе. Вот и тут та же песня: сплошная радость! Какие интересные создаются директории&hellip; И зачем же вдруг <strong>Firefox.exe</strong> полез в папку Chrome? Промышленный шпионаж? Не думаю&hellip;.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\G</span>oogle<span class="se">\C</span>hrome<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\O</span>pera Software<span class="se">\O</span>pera Stable<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\K</span>ometa<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\O</span>rbitum<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>omodo<span class="se">\D</span>ragon<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\A</span>migo<span class="se">\U</span>ser<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\T</span>orch<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\T</span>emp<span class="se">\/</span>iszqgdr5hoe.fv”
-</span></span></code></pre></div><p>Собственно, все ясно с вами, мистер &ldquo;<strong>Firefox.exe</strong>&rdquo;!</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\G</span>oogle<span class="se">\C</span>hrome<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\O</span>pera Software<span class="se">\O</span>pera Stable<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\K</span>ometa<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\O</span>rbitum<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>omodo<span class="se">\D</span>ragon<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\A</span>migo<span class="se">\U</span>ser<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\T</span>orch<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\L</span>ogin Data”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\T</span>emp<span class="se">\/</span>iszqgdr5hoe.fv”
+</code></pre></div><p>Собственно, все ясно с вами, мистер &ldquo;<strong>Firefox.exe</strong>&rdquo;!</p>
 <p><img src="images/string6-e1531228160537.webp" alt="string6-e1531228160537"></p>
 <blockquote>
 <p>На скриншоте видно, что программа собирает SQL запрос (конечно, если знать синтаксис SQL языка, тогда видно). Собрав пару запросов, программа сможет получить информацию, которой так жаждет.</p>
@@ -383,26 +383,26 @@
 <p>&ldquo;Установить следующую инструкцию&rdquo; это словно вместо того, чтобы решать задачку по математике в школе, просто сдать пустую тетрадку. Понятное дело, что задача не решена все равно, но на текущий вечер появятся свободные часы. Безусловно, у этого подхода есть свои минусы, никто не спорит, но в данном случае важно было пройти дальше. Плохо было б, если бы от этой строки что-то дальше сильно зависело, но в моем случае - нет, всё сработало!</p>
 <p><img src="images/dnspy_fishechka-e1531228404878.png" alt="dnspy_fishechka-e1531228404878"></p>
 <p>Собственно, появилась копия этого файла. Теперь пару раз опять натыкаюсь на ошибки (такое с вирусами бывает нередко) и вот что вижу: этот вредитель шарахается по моим &ldquo;печенькам&rdquo; из разных браузеров.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\G</span>oogle<span class="se">\C</span>hrome<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\O</span>pera Software<span class="se">\O</span>pera Stable<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\K</span>ometa<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\O</span>rbitum<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>omodo<span class="se">\D</span>ragon<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\A</span>migo<span class="se">\U</span>ser<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\T</span>orch<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\G</span>oogle<span class="se">\C</span>hrome<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\W</span>eb Data”
-</span></span></code></pre></div><p>И вот SQL запросы, которыми программа собирает информацию.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">“CREATE TABLE cookies <span class="o">(</span>creation_utc INTEGER NOT NULL UNIQUE PRIMARY KEY,host_key TEXT NOT NULL,name TEXT NOT NULL,value TEXT NOT NULL,path TEXT NOT NULL,expires_utc INTEGER NOT NULL,secure INTEGER NOT NULL,httponly INTEGER NOT NULL,last_access_utc INTEGER NOT NULL, has_expires INTEGER NOT NULL DEFAULT 1, persistent INTEGER NOT NULL DEFAULT 1,priority INTEGER NOT NULL DEFAULT 1,encrypted_value BLOB DEFAULT ”,firstpartyonly INTEGER NOT NULL DEFAULT 0<span class="o">)</span>”
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">“CREATE TABLE credit_cards <span class="o">(</span> guid VARCHAR PRIMARY KEY, name_on_card VARCHAR, expiration_month INTEGER, expiration_year INTEGER, card_number_encrypted BLOB, date_modified INTEGER NOT NULL DEFAULT 0, origin VARCHAR DEFAULT ”, use_count INTEGER NOT NULL DEFAULT 0, use_date INTEGER NOT NULL DEFAULT 0, billing_address_id VARCHAR<span class="o">)</span>”
-</span></span></code></pre></div><p>Ничего себе! Она не просто собирает &ldquo;печеньки&rdquo; браузеров, так еще и данные кредитных карт! Ай-ай-ай&hellip;</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\G</span>oogle<span class="se">\C</span>hrome<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\O</span>pera Software<span class="se">\O</span>pera Stable<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\K</span>ometa<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\O</span>rbitum<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>omodo<span class="se">\D</span>ragon<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\A</span>migo<span class="se">\U</span>ser<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\T</span>orch<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\C</span>ookies”
+
+@”C:<span class="se">\U</span>sers<span class="se">\$</span>herl0ck<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\G</span>oogle<span class="se">\C</span>hrome<span class="se">\U</span>ser Data<span class="se">\D</span>efault<span class="se">\W</span>eb Data”
+</code></pre></div><p>И вот SQL запросы, которыми программа собирает информацию.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">“CREATE TABLE cookies <span class="o">(</span>creation_utc INTEGER NOT NULL UNIQUE PRIMARY KEY,host_key TEXT NOT NULL,name TEXT NOT NULL,value TEXT NOT NULL,path TEXT NOT NULL,expires_utc INTEGER NOT NULL,secure INTEGER NOT NULL,httponly INTEGER NOT NULL,last_access_utc INTEGER NOT NULL, has_expires INTEGER NOT NULL DEFAULT 1, persistent INTEGER NOT NULL DEFAULT 1,priority INTEGER NOT NULL DEFAULT 1,encrypted_value BLOB DEFAULT ”,firstpartyonly INTEGER NOT NULL DEFAULT 0<span class="o">)</span>”
+
+“CREATE TABLE credit_cards <span class="o">(</span> guid VARCHAR PRIMARY KEY, name_on_card VARCHAR, expiration_month INTEGER, expiration_year INTEGER, card_number_encrypted BLOB, date_modified INTEGER NOT NULL DEFAULT 0, origin VARCHAR DEFAULT ”, use_count INTEGER NOT NULL DEFAULT 0, use_date INTEGER NOT NULL DEFAULT 0, billing_address_id VARCHAR<span class="o">)</span>”
+</code></pre></div><p>Ничего себе! Она не просто собирает &ldquo;печеньки&rdquo; браузеров, так еще и данные кредитных карт! Ай-ай-ай&hellip;</p>
 <p>⏰ <code>10:20 AM</code></p>
 <p>Сделаю перерыв. Почитаю &ldquo;Охотники за сокровищами&rdquo; и выпью кофе.</p>
 <h3 id="остановка-соберу-вещи-и-застрелюсь">Остановка &ldquo;Соберу вещи и застрелюсь&rdquo;</h3>
@@ -416,8 +416,8 @@
 <p><img src="images/result1.png" alt="result1"></p>
 <p><img src="images/result2.png" alt="result2"></p>
 <p>И вот после всех этих извращений с моей бедной виртуально машиной (не с виртуальной машиной конфьюзера! Эти значения не стоит путать) появилась еще какая-то ерунда (информацию по команде можно найти тут):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="o">@</span><span class="s2">&#34;/C choice /C Y /N /D Y /T 1 &amp; Del &#34;&#34;C:\Users\$herl0ck\AppData\Local\Temp\D09F4560\temp.exe&#34;&#34;&#34;</span><span class="w">
-</span></span></span></code></pre></div><p>Что, собственно происходит? Очевидно: удаление exe-шника (программы) по указанному пути. Все, миссия выполнена, смысл жизни потерян, программа делает себе харакири. Тот кто сидит там, по ту сторону, сегодня не получил свои 0 Bitcoin от $herl0ck. Ну что же, не везет нам обоим.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="o">@</span><span class="s2">&#34;/C choice /C Y /N /D Y /T 1 &amp; Del &#34;&#34;C:\Users\$herl0ck\AppData\Local\Temp\D09F4560\temp.exe&#34;&#34;&#34;</span>
+</code></pre></div><p>Что, собственно происходит? Очевидно: удаление exe-шника (программы) по указанному пути. Все, миссия выполнена, смысл жизни потерян, программа делает себе харакири. Тот кто сидит там, по ту сторону, сегодня не получил свои 0 Bitcoin от $herl0ck. Ну что же, не везет нам обоим.</p>
 
   </div>
 </article>
@@ -450,7 +450,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

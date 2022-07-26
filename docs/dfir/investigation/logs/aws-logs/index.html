@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -279,83 +279,84 @@
     <p><em>This document is devoted to AWS logs. Several examples are analysed and useful fields are marked.</em></p>
 <h2 id="cloudtrail">CloudTrail</h2>
 <p>This is an example log from a AWS CTF <a href="https://cyberdefenders.org/blueteam-ctf-challenges/84">challenge</a>. I am going to use this one in order to get an idea of what is being logged and how this can be useful for investigations.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;Records&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;1.05&#34;</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;userIdentity&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWSService&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;invokedBy&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventTime&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-11-28T22:31:59Z&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventSource&#34;</span><span class="p">:</span> <span class="s2">&#34;sts.amazonaws.com&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventName&#34;</span><span class="p">:</span> <span class="s2">&#34;AssumeRole&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;awsRegion&#34;</span><span class="p">:</span> <span class="s2">&#34;us-east-1&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;sourceIPAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;userAgent&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;requestParameters&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;roleSessionName&#34;</span><span class="p">:</span> <span class="s2">&#34;d190d14a-2404-45d6-9113-4eda22d7f2c7&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;roleArn&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/level3&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;responseElements&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;credentials&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;sessionToken&#34;</span><span class="p">:</span> <span class="s2">&#34;FQoGZXIvYXdzEFAaDEbnJXLefTT+kjlmKSKSBNgEUj8tJVL+szjaH5q2npYc2FIPgrLmfkRjK9KqtSW7+lo4WxteBTd77aeAcmIip4GceNBbU86zxGgS1IdNBzEOLnDw6biAzijG0Du/Qazx136qjy+kahHxPlR36C4y/0QrCUZpTFmP3uELsRIKkvhGvuBr6S10pTOZ+GjtUXN3iFV8Ea0KOo/fSP0d4LbZGwI957aJxs2I7N8ji/lKTfwPdq+sxXvSWnaOseinUxZUDS0zdI69CKb6C+qwhR5YTifqyuOvC9OoSlfcBN2FyHpRZf5Bd+Z+mPYTldbAvD/HcdbQo7U4jqlR2WGuXoBfwvypt/Kb6HtPp4g9O0HlTCc7Sb4uiJY81WMbaNFmmYXyj62gi+BN5QaA90YhWn9cU1x9gqt0uEgvSk/RdrwtulTtNyJcuuFvhlD1gaJHGc4eCoWApr+J9nrbPTvSo00sc8IYIVvwOi3NRsmP+ZA9aQOV/qg2L1cYxScQrQ/pKVOnYWJ4XuB0WL8gRYdo1bGI6LWGAtOV+fzVoXU0SfWH7UmPcvttqkWsv1Rr50pspmJneXeY6Ge1szNsvyHqmPFJj7GAXnEKl9xthHK3IaDc6HEprFqYw8SyQqYWGdpeism2S+V4XpIMbQJlC06BxyOg94H0Fiffzs8wwnCUpBU0s69X2tN8sxb4U3FqKl28mwCOuuaweZeGWq5MWxU7Fop2dmjaKN+u/N8F&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;accessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;ASIAZQNB3KHGNXWXBSJS&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;Nov 29, 2018 4:31:59 AM&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;requestID&#34;</span><span class="p">:</span> <span class="s2">&#34;6b7d6c60-f35d-11e8-becc-39e7d43d4afe&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventID&#34;</span><span class="p">:</span> <span class="s2">&#34;6177ca7e-860e-482c-bde9-50c735af58d6&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;resources&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;ARN&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/level3&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;accountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS::IAM::Role&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="p">],</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventType&#34;</span><span class="p">:</span> <span class="s2">&#34;AwsApiCall&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;recipientAccountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;sharedEventID&#34;</span><span class="p">:</span> <span class="s2">&#34;1d18bf74-8392-4496-9dc4-a45cb799b8b4&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;1.05&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;userIdentity&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWSService&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;invokedBy&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventTime&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-11-28T22:31:59Z&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventSource&#34;</span><span class="p">:</span> <span class="s2">&#34;sts.amazonaws.com&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventName&#34;</span><span class="p">:</span> <span class="s2">&#34;AssumeRole&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;awsRegion&#34;</span><span class="p">:</span> <span class="s2">&#34;us-east-1&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;sourceIPAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;userAgent&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;requestParameters&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;roleSessionName&#34;</span><span class="p">:</span> <span class="s2">&#34;d190d14a-2404-45d6-9113-4eda22d7f2c7&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;roleArn&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/ecsTaskExecutionRole&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;responseElements&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;credentials&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;sessionToken&#34;</span><span class="p">:</span> <span class="s2">&#34;FQoGZXIvYXdzEFAaDAhihig4wSQxSSiMjSKSBOW1B0tXzW8SIP7MtRZEikuZamVqb7hEQtmgX5LDeDzpOxpP4G9U8r3cZK74HNErY8W+Scri3Y8NVr/VO7MyzIXnpXiEDo10JfNYnA+urhxB+rYtPF6o8uzm40w/lqdq1/DyOkYYuFRtqWfS4Jy1t83KYAFTuX5IkTGekMidOkIcdnHjsZKQSqKs4U3MQ4doUG4nCyEERDv9yckTPq/R4fKEPTF1BN0jycyiSiR3OTPAWaLGMGxHthAKSA5IXosrPBAq0yD2HhSKZc0kbskCZyGOQCcmVAQK4IdEjyk4Lytc+PEDasvWiGoCQPEqlwwqFJm7EPm838MjCTi4ojN9nVYRP9hFYkXdvnVG6ScwoBfbg135vN1bqYgEKDncW780xUBRYwElM4Q2/6zv7DMj0UegbRJmAwtys4phLrItQqNLWPmBbW/pNgMYoT1IKfzDmuc27AyTHtL8t25hkYOLWZG19EYKm+XeHU9gbs0aDTPssjBFPZp7ssR35IHhgcw5m+etXSoXMxMuHNbVR46ZJ6uieR8roEZ8QfiIijyB8J7i2sH2JOY0HIOonbVYmqdtv++0D+1idTO+6ZbXJIKhEmDmZZDeenF2ZXQGH4PgA4udIdBXnhVLzVFkEKc1MWG3aAhuOhZLvnXkOpkn1XjwfDx3N0UyenOUR4x/gkY9+MEXMZAyO8Va2Y1vNZvnSCvTJtHDKN+u/N8F&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;accessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;ASIAZQNB3KHGMG7YRUEW&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;Nov 29, 2018 4:31:59 AM&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="p">},</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;requestID&#34;</span><span class="p">:</span> <span class="s2">&#34;6b80a0b1-f35d-11e8-becc-39e7d43d4afe&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventID&#34;</span><span class="p">:</span> <span class="s2">&#34;457af3a9-0b1b-44ca-91e1-8f4a0f873149&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;resources&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="p">{</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;ARN&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/ecsTaskExecutionRole&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;accountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">          <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS::IAM::Role&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">      <span class="p">],</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;eventType&#34;</span><span class="p">:</span> <span class="s2">&#34;AwsApiCall&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;recipientAccountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;sharedEventID&#34;</span><span class="p">:</span> <span class="s2">&#34;5397e1a9-82c7-4a00-9b1c-e44cbd688aa1&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail. If SSM is enabled, captures this activity as well. Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;Records&#34;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;eventVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;1.05&#34;</span><span class="p">,</span> 
+      <span class="nt">&#34;userIdentity&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWSService&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;invokedBy&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;eventTime&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-11-28T22:31:59Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;eventSource&#34;</span><span class="p">:</span> <span class="s2">&#34;sts.amazonaws.com&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;eventName&#34;</span><span class="p">:</span> <span class="s2">&#34;AssumeRole&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;awsRegion&#34;</span><span class="p">:</span> <span class="s2">&#34;us-east-1&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;sourceIPAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;userAgent&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;requestParameters&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;roleSessionName&#34;</span><span class="p">:</span> <span class="s2">&#34;d190d14a-2404-45d6-9113-4eda22d7f2c7&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;roleArn&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/level3&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;responseElements&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;credentials&#34;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&#34;sessionToken&#34;</span><span class="p">:</span> <span class="s2">&#34;FQoGZXIvYXdzEFAaDEbnJXLefTT+kjlmKSKSBNgEUj8tJVL+szjaH5q2npYc2FIPgrLmfkRjK9KqtSW7+lo4WxteBTd77aeAcmIip4GceNBbU86zxGgS1IdNBzEOLnDw6biAzijG0Du/Qazx136qjy+kahHxPlR36C4y/0QrCUZpTFmP3uELsRIKkvhGvuBr6S10pTOZ+GjtUXN3iFV8Ea0KOo/fSP0d4LbZGwI957aJxs2I7N8ji/lKTfwPdq+sxXvSWnaOseinUxZUDS0zdI69CKb6C+qwhR5YTifqyuOvC9OoSlfcBN2FyHpRZf5Bd+Z+mPYTldbAvD/HcdbQo7U4jqlR2WGuXoBfwvypt/Kb6HtPp4g9O0HlTCc7Sb4uiJY81WMbaNFmmYXyj62gi+BN5QaA90YhWn9cU1x9gqt0uEgvSk/RdrwtulTtNyJcuuFvhlD1gaJHGc4eCoWApr+J9nrbPTvSo00sc8IYIVvwOi3NRsmP+ZA9aQOV/qg2L1cYxScQrQ/pKVOnYWJ4XuB0WL8gRYdo1bGI6LWGAtOV+fzVoXU0SfWH7UmPcvttqkWsv1Rr50pspmJneXeY6Ge1szNsvyHqmPFJj7GAXnEKl9xthHK3IaDc6HEprFqYw8SyQqYWGdpeism2S+V4XpIMbQJlC06BxyOg94H0Fiffzs8wwnCUpBU0s69X2tN8sxb4U3FqKl28mwCOuuaweZeGWq5MWxU7Fop2dmjaKN+u/N8F&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;accessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;ASIAZQNB3KHGNXWXBSJS&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;Nov 29, 2018 4:31:59 AM&#34;</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;requestID&#34;</span><span class="p">:</span> <span class="s2">&#34;6b7d6c60-f35d-11e8-becc-39e7d43d4afe&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;eventID&#34;</span><span class="p">:</span> <span class="s2">&#34;6177ca7e-860e-482c-bde9-50c735af58d6&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;resources&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;ARN&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/level3&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;accountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS::IAM::Role&#34;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&#34;eventType&#34;</span><span class="p">:</span> <span class="s2">&#34;AwsApiCall&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;recipientAccountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;sharedEventID&#34;</span><span class="p">:</span> <span class="s2">&#34;1d18bf74-8392-4496-9dc4-a45cb799b8b4&#34;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&#34;eventVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;1.05&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;userIdentity&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWSService&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;invokedBy&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;eventTime&#34;</span><span class="p">:</span> <span class="s2">&#34;2018-11-28T22:31:59Z&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;eventSource&#34;</span><span class="p">:</span> <span class="s2">&#34;sts.amazonaws.com&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;eventName&#34;</span><span class="p">:</span> <span class="s2">&#34;AssumeRole&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;awsRegion&#34;</span><span class="p">:</span> <span class="s2">&#34;us-east-1&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;sourceIPAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;userAgent&#34;</span><span class="p">:</span> <span class="s2">&#34;ecs-tasks.amazonaws.com&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;requestParameters&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;roleSessionName&#34;</span><span class="p">:</span> <span class="s2">&#34;d190d14a-2404-45d6-9113-4eda22d7f2c7&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;roleArn&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/ecsTaskExecutionRole&#34;</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;responseElements&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;credentials&#34;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&#34;sessionToken&#34;</span><span class="p">:</span> <span class="s2">&#34;FQoGZXIvYXdzEFAaDAhihig4wSQxSSiMjSKSBOW1B0tXzW8SIP7MtRZEikuZamVqb7hEQtmgX5LDeDzpOxpP4G9U8r3cZK74HNErY8W+Scri3Y8NVr/VO7MyzIXnpXiEDo10JfNYnA+urhxB+rYtPF6o8uzm40w/lqdq1/DyOkYYuFRtqWfS4Jy1t83KYAFTuX5IkTGekMidOkIcdnHjsZKQSqKs4U3MQ4doUG4nCyEERDv9yckTPq/R4fKEPTF1BN0jycyiSiR3OTPAWaLGMGxHthAKSA5IXosrPBAq0yD2HhSKZc0kbskCZyGOQCcmVAQK4IdEjyk4Lytc+PEDasvWiGoCQPEqlwwqFJm7EPm838MjCTi4ojN9nVYRP9hFYkXdvnVG6ScwoBfbg135vN1bqYgEKDncW780xUBRYwElM4Q2/6zv7DMj0UegbRJmAwtys4phLrItQqNLWPmBbW/pNgMYoT1IKfzDmuc27AyTHtL8t25hkYOLWZG19EYKm+XeHU9gbs0aDTPssjBFPZp7ssR35IHhgcw5m+etXSoXMxMuHNbVR46ZJ6uieR8roEZ8QfiIijyB8J7i2sH2JOY0HIOonbVYmqdtv++0D+1idTO+6ZbXJIKhEmDmZZDeenF2ZXQGH4PgA4udIdBXnhVLzVFkEKc1MWG3aAhuOhZLvnXkOpkn1XjwfDx3N0UyenOUR4x/gkY9+MEXMZAyO8Va2Y1vNZvnSCvTJtHDKN+u/N8F&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;accessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;ASIAZQNB3KHGMG7YRUEW&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;Nov 29, 2018 4:31:59 AM&#34;</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="nt">&#34;requestID&#34;</span><span class="p">:</span> <span class="s2">&#34;6b80a0b1-f35d-11e8-becc-39e7d43d4afe&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;eventID&#34;</span><span class="p">:</span> <span class="s2">&#34;457af3a9-0b1b-44ca-91e1-8f4a0f873149&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;resources&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&#34;ARN&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::653711331788:role/ecsTaskExecutionRole&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;accountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
+          <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS::IAM::Role&#34;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&#34;eventType&#34;</span><span class="p">:</span> <span class="s2">&#34;AwsApiCall&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;recipientAccountId&#34;</span><span class="p">:</span> <span class="s2">&#34;653711331788&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;sharedEventID&#34;</span><span class="p">:</span> <span class="s2">&#34;5397e1a9-82c7-4a00-9b1c-e44cbd688aa1&#34;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+
+</code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail. If SSM is enabled, captures this activity as well. Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
 <h2 id="vpc-flow-logs">VPC Flow Logs</h2>
 <p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
 <p>Logs are sent then either to the CloudWatch or S3 (depending on the configuration). An IAM role needs to be created prior to that. Here are the minimum requirements for the CloudWatch role: CreateLogGroup, CreateLogStream, PutLogEvents, DescribeLogGroups, DescribeLogStreams need to beallowed for all resources. To be able to assume this role, VPC Flow Logs service needs to have its own policy where <code>&quot;service&quot;:&quot;vpc-flow-logs.amazonaws.com&quot;</code> is set to allow <code>AssumeRole</code> action. See <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-cwl.html">here</a> for more details.</p>
@@ -377,12 +378,12 @@
 <h2 id="-btfm">📘 BTFM</h2>
 <h3 id="flow-logs">Flow Logs</h3>
 <p>Retrieve the logs:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
-</span></span><span class="line"><span class="cl">aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
-</span></span></code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
+aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
+</code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
 <h3 id="check-for-ssm-with-imdsv2">Check for SSM with IMDSv2</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo snap install amazon-ssm-agent --channel<span class="o">=</span>candidate
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo snap install amazon-ssm-agent --channel<span class="o">=</span>candidate
+</code></pre></div>
   </div>
 </article>
 </div>
@@ -414,7 +415,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

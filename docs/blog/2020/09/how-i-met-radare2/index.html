@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -290,66 +290,66 @@
 <p>For the purpose of iOS pentesting I faced the urge to learn the new tool <strong>radare2</strong>. Just for now I don&rsquo;t see the advantages over IDA, but OWASP is insisting on that tool rather than on IDA, so there must be an explanation. Besides, if I&rsquo;m serious about further developing my forensics skills, I need to know that tool quite well for it was developed specifically for the purpose of forensic investigation. Two possible advantages that I see so far is that it&rsquo;s completely free and that it supports many platfroms including mobile ones. Since I&rsquo;m turning my poor old iPad into a security assessment and investigation tool, I&rsquo;d better learn to use it.</p>
 <h2 id="meet-radare-">Meet radare 👋</h2>
 <p>🕰 <code>10:47</code> I&rsquo;m using <a href="https://medium.com/@jacob16682/reverse-engineering-using-radare2-588775ea38d5">this</a> article to first dive into radar2. The installation steps for Mac seem to be the same as for Linux and rather straightforward.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/radare/radare2
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> radare2
-</span></span><span class="line"><span class="cl">sudo sys/install.sh
-</span></span></code></pre></div><p>Oops&hellip; lot&rsquo;s of warnings against running with root&hellip; Good. Let&rsquo;s also try them for iPad (after all, that was the main idea of using it in the first place). Uf&hellip; <code>You need GNU make to build me</code>. Then, I can download the binary for iOS from <a href="https://radare.mikelloc.com/list">here</a>, although the developers insist I compile it myself. But may be another time when I &ldquo;feel the flow&rdquo; with radare2.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git clone https://github.com/radare/radare2
+<span class="nb">cd</span> radare2
+sudo sys/install.sh
+</code></pre></div><p>Oops&hellip; lot&rsquo;s of warnings against running with root&hellip; Good. Let&rsquo;s also try them for iPad (after all, that was the main idea of using it in the first place). Uf&hellip; <code>You need GNU make to build me</code>. Then, I can download the binary for iOS from <a href="https://radare.mikelloc.com/list">here</a>, although the developers insist I compile it myself. But may be another time when I &ldquo;feel the flow&rdquo; with radare2.</p>
 <p>🕰 <code>11:00</code> That way it didn&rsquo;t work as well. Also, I&rsquo;ve noticed, that after executing it on iPad and getting <code>Killed: 9</code> error the iPad starts lagging and throws strange errors in Cydia. I don&rsquo;t know yet how these events might be interconnected&hellip; May be it&rsquo;s really better to compile it myself for iPad&hellip; I&rsquo;ve already had my coffee and I&rsquo;m just dying to have another one&hellip; . But I can&rsquo;t be distracted, I have to get to some logical point first.</p>
 <p>When trying to find the sources and instructions, I&rsquo;ve run into <a href="https://github.com/radareorg/radare2/releases">this</a>. Using ssh I&rsquo;ve got my iPad&rsquo;s arch:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/bin/arch
-</span></span><span class="line"><span class="cl">&gt; arm64
-</span></span></code></pre></div><p>So, I&rsquo;ve decided to give the easiest way another try 😄. ​I must note that radare2 takes lot&rsquo;s of time to be downloaded. May be it&rsquo;s a good time to make a cup of ☕ or to read the article further and try to &ldquo;feel the flow&rdquo; with the radare2 on PC at last. (Running a CLI tool on touch screen is another challenging step, better be comfortable with the commands first). ​</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/usr/bin/arch
+&gt; arm64
+</code></pre></div><p>So, I&rsquo;ve decided to give the easiest way another try 😄. ​I must note that radare2 takes lot&rsquo;s of time to be downloaded. May be it&rsquo;s a good time to make a cup of ☕ or to read the article further and try to &ldquo;feel the flow&rdquo; with the radare2 on PC at last. (Running a CLI tool on touch screen is another challenging step, better be comfortable with the commands first). ​</p>
 <p>🕰 <code>11:08</code> Almost downloaded. Droping it via ssh to my mobile device&hellip;</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">scp radare2-aarch64_4.5.1_iphoneos-arm.deb root@<span class="o">[</span>my_iPad_IP😉<span class="o">]</span>:~ <span class="c1"># drop the *.deb package on iDevice</span>
-</span></span><span class="line"><span class="cl">ssh root@<span class="o">[</span>my_iPad_IP😉<span class="o">]</span>
-</span></span><span class="line"><span class="cl">dpkg -i radare2-aarch64_4.5.1_iphoneos-arm.deb
-</span></span><span class="line"><span class="cl">&gt; Selecting previously unselected package radare2.
-</span></span><span class="line"><span class="cl">&gt; <span class="o">(</span>Reading database ... <span class="m">2480</span> files and directories currently installed.<span class="o">)</span>
-</span></span><span class="line"><span class="cl">&gt; Preparing to unpack radare2-aarch64_4.5.1_iphoneos-arm.deb ...
-</span></span><span class="line"><span class="cl">&gt; Unpacking radare2 <span class="o">(</span>4.5.1<span class="o">)</span> ...
-</span></span><span class="line"><span class="cl">&gt; Setting up radare2 <span class="o">(</span>4.5.1<span class="o">)</span> ...
-</span></span></code></pre></div><p>CLI tool for reverse engineering&hellip;. That&rsquo;s rather challenging. I remember when I used <strong>gdb</strong> for debugging an impressively huge executuable for Linux reversing and that was not a very sweet memory&hellip;. Well, one has to leave the comfort zone in order to evolve. So, let&rsquo;s evolve. Besides, I found Hiew to be exremely comfortable to use, so, may be I&rsquo;m not that a great stranger to unfriendly-UI-less tools.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scp radare2-aarch64_4.5.1_iphoneos-arm.deb root@<span class="o">[</span>my_iPad_IP😉<span class="o">]</span>:~ <span class="c1"># drop the *.deb package on iDevice</span>
+ssh root@<span class="o">[</span>my_iPad_IP😉<span class="o">]</span>
+dpkg -i radare2-aarch64_4.5.1_iphoneos-arm.deb
+&gt; Selecting previously unselected package radare2.
+&gt; <span class="o">(</span>Reading database ... <span class="m">2480</span> files and directories currently installed.<span class="o">)</span>
+&gt; Preparing to unpack radare2-aarch64_4.5.1_iphoneos-arm.deb ...
+&gt; Unpacking radare2 <span class="o">(</span>4.5.1<span class="o">)</span> ...
+&gt; Setting up radare2 <span class="o">(</span>4.5.1<span class="o">)</span> ...
+</code></pre></div><p>CLI tool for reverse engineering&hellip;. That&rsquo;s rather challenging. I remember when I used <strong>gdb</strong> for debugging an impressively huge executuable for Linux reversing and that was not a very sweet memory&hellip;. Well, one has to leave the comfort zone in order to evolve. So, let&rsquo;s evolve. Besides, I found Hiew to be exremely comfortable to use, so, may be I&rsquo;m not that a great stranger to unfriendly-UI-less tools.</p>
 <h2 id="meet-rabin-">Meet rabin 👋</h2>
 <p>Let&rsquo;s run <code>rabin2</code> against something simple:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rabin2 -I intro <span class="c1"># intro is the simple hello-world-executable that Jacob Pimental has kindly compiled and shared along with his article I&#39;m following</span>
-</span></span><span class="line"><span class="cl">&gt; arch     x86
-</span></span><span class="line"><span class="cl">&gt; baddr    0x0
-</span></span><span class="line"><span class="cl">&gt; binsz    <span class="m">6485</span>
-</span></span><span class="line"><span class="cl">&gt; bintype  elf
-</span></span><span class="line"><span class="cl">&gt; bits     <span class="m">64</span>
-</span></span><span class="line"><span class="cl">&gt; canary   <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">&gt; class    ELF64
-</span></span><span class="line"><span class="cl">&gt; compiler GCC: <span class="o">(</span>GNU<span class="o">)</span> 7.2.0
-</span></span><span class="line"><span class="cl">&gt; crypto   <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">&gt; endian   little
-</span></span><span class="line"><span class="cl">&gt; havecode <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">&gt; intrp    /lib64/ld-linux-x86-64.so.2
-</span></span><span class="line"><span class="cl">&gt; laddr    0x0
-</span></span><span class="line"><span class="cl">&gt; lang     c
-</span></span><span class="line"><span class="cl">&gt; linenum  <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">&gt; lsyms    <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">&gt; machine  AMD x86-64 architecture
-</span></span><span class="line"><span class="cl">&gt; maxopsz  <span class="m">4</span>
-</span></span><span class="line"><span class="cl">&gt; minopsz  <span class="m">4</span>
-</span></span><span class="line"><span class="cl">&gt; nx       <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">&gt; os       linux
-</span></span><span class="line"><span class="cl">&gt; pcalign  <span class="m">4</span>
-</span></span><span class="line"><span class="cl">&gt; pic      <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">&gt; relocs   <span class="nb">true</span>
-</span></span><span class="line"><span class="cl">&gt; relro    partial
-</span></span><span class="line"><span class="cl">&gt; rpath    NONE
-</span></span><span class="line"><span class="cl">&gt; sanitiz  <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">&gt; static   <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">&gt; stripped <span class="nb">false</span>
-</span></span><span class="line"><span class="cl">&gt; subsys   linux
-</span></span><span class="line"><span class="cl">&gt; va       <span class="nb">true</span>
-</span></span></code></pre></div><p>Now getting the strings from data section along with that:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rabin2 -z intro 
-</span></span><span class="line"><span class="cl">&gt; <span class="o">[</span>Strings<span class="o">]</span>
-</span></span><span class="line"><span class="cl">nth paddr      vaddr      len size section <span class="nb">type</span>  string
-</span></span><span class="line"><span class="cl">―――――――――――――――――――――――――――――――――――――――――――――――――――――――
-</span></span><span class="line"><span class="cl"><span class="m">0</span>   0x000006e4 0x000006e4 <span class="m">11</span>  <span class="m">12</span>   .rodata ascii Hello World
-</span></span></code></pre></div><p>But to be fare, if the executable is big enough, then there would be the hell of information in the console&hellip; Not very comfortable to overview. And calling <code>rabin2 -zz</code> would just kill me (shows ALL the strings from the binary). Even for that teeny-tiny executable there was a hell bunch of strings that would be rather demotivating even for a very enthusiastic person (which I couldn&rsquo;t call myself yet)&hellip; It&rsquo;s hard to imagine how to cope with a real-world binary. In the reverse engineering strings are little gods&hellip; The main source of hints.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -I intro <span class="c1"># intro is the simple hello-world-executable that Jacob Pimental has kindly compiled and shared along with his article I&#39;m following</span>
+&gt; arch     x86
+&gt; baddr    0x0
+&gt; binsz    <span class="m">6485</span>
+&gt; bintype  elf
+&gt; bits     <span class="m">64</span>
+&gt; canary   <span class="nb">false</span>
+&gt; class    ELF64
+&gt; compiler GCC: <span class="o">(</span>GNU<span class="o">)</span> 7.2.0
+&gt; crypto   <span class="nb">false</span>
+&gt; endian   little
+&gt; havecode <span class="nb">true</span>
+&gt; intrp    /lib64/ld-linux-x86-64.so.2
+&gt; laddr    0x0
+&gt; lang     c
+&gt; linenum  <span class="nb">true</span>
+&gt; lsyms    <span class="nb">true</span>
+&gt; machine  AMD x86-64 architecture
+&gt; maxopsz  <span class="m">4</span>
+&gt; minopsz  <span class="m">4</span>
+&gt; nx       <span class="nb">true</span>
+&gt; os       linux
+&gt; pcalign  <span class="m">4</span>
+&gt; pic      <span class="nb">true</span>
+&gt; relocs   <span class="nb">true</span>
+&gt; relro    partial
+&gt; rpath    NONE
+&gt; sanitiz  <span class="nb">false</span>
+&gt; static   <span class="nb">false</span>
+&gt; stripped <span class="nb">false</span>
+&gt; subsys   linux
+&gt; va       <span class="nb">true</span>
+</code></pre></div><p>Now getting the strings from data section along with that:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -z intro 
+&gt; <span class="o">[</span>Strings<span class="o">]</span>
+nth paddr      vaddr      len size section <span class="nb">type</span>  string
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――
+<span class="m">0</span>   0x000006e4 0x000006e4 <span class="m">11</span>  <span class="m">12</span>   .rodata ascii Hello World
+</code></pre></div><p>But to be fare, if the executable is big enough, then there would be the hell of information in the console&hellip; Not very comfortable to overview. And calling <code>rabin2 -zz</code> would just kill me (shows ALL the strings from the binary). Even for that teeny-tiny executable there was a hell bunch of strings that would be rather demotivating even for a very enthusiastic person (which I couldn&rsquo;t call myself yet)&hellip; It&rsquo;s hard to imagine how to cope with a real-world binary. In the reverse engineering strings are little gods&hellip; The main source of hints.</p>
 <h2 id="beware--appreciation-is-contagious">Beware ❗ Appreciation is contagious</h2>
 <p>🕰 <code>12:15 PM</code> Wow. I thought it&rsquo;s just a CLI tool, but it actually has a nice CLI-pdedoGUI interface. It&rsquo;s a hex editor as well and has some tools packed with it:</p>
 <p><img src="images/cli_gui_r2.png" alt="cli_gui_r2"></p>
@@ -366,41 +366,42 @@
 <p>Basically, the idea is as follows (more detailed walkthrough&rsquo;s can be found in the articles mentioned above):</p>
 <ol>
 <li>find a vulnerable function (such that uses, for example, <code>puts</code> or <code>gets</code>)</li>
-<li>pass this function a ridiculously huge garbage-string where symbols&rsquo; sequences do not repeat (smart people say <em>De Bruijn Pattern</em>) so that given 4 symbols it&rsquo;s can be easily and unambiguously located within that garbage string</li>
+<li>pass this function a ridiculously huge garbage-string where symbols' sequences do not repeat (smart people say <em>De Bruijn Pattern</em>) so that given 4 symbols it&rsquo;s can be easily and unambiguously located within that garbage string</li>
 <li>this string will overwrite the stack and will most likely overwrite the return address. When the function get&rsquo;s the return address from the stack, it puts its value into <code>eip</code>. We get the <code>eip</code> value and ask <code>r2</code> with <code>wop0</code> command to locate the position of these symbols inside the garbage string</li>
 <li>Now we now the exact amount of garbage to pass the program in order to overwrite the <code>ret addr</code>.</li>
 </ol>
 <p>🕰 <code>7:55 PM</code> Thanks to Megabeet once again, I&rsquo;ve learned about <code>pwntools</code>. I like <code>Python</code>. <strong>7:56 PM</strong> OMG&hellip; It appears as I&rsquo;ve accidentally broken my <code>pyenv</code> config in <code>.zshrc</code>&hellip; Somehow it was completely overwritten with <code>oh my zsh</code> theme&hellip; Thanks to my poor understanding of all this stuff back then that led to dublications of configs across several files, including <code>bash_profile</code>. So, fixing it was just the matter of copy-pasting.</p>
 <p>🕰 <code>7:59 PM</code>. It worked :happy: <code>pyenv</code> works now and I can activate my python3 environment to install <code>pwntools</code>. I&rsquo;ll open <code>Visual Code</code> which is just perfect for coding simple programs and scripts.</p>
 <p>🕰 <code>8:09 PM</code> I&rsquo;ve copied the script and fixed a small <a href="https://reverseengineering.stackexchange.com/questions/19776/what-is-the-right-way-to-pack-a-payload-with-python3s-pwntools">bug</a> following the instructions. When I copied it to my Kali I&rsquo;ve run:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod +x exploit.py
-</span></span><span class="line"><span class="cl">python3 exploit.py
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># and got this error:</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Starting <span class="nb">local</span> process <span class="s1">&#39;./megabeets_0x2&#39;</span>: pid <span class="m">1469</span>
-</span></span><span class="line"><span class="cl">Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
-</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;exploit.py&#34;</span>, line 36, in &lt;module&gt;
-</span></span><span class="line"><span class="cl">    main<span class="o">()</span>
-</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;exploit.py&#34;</span>, line 31, in main
-</span></span><span class="line"><span class="cl">    <span class="nv">leak</span> <span class="o">=</span> u32<span class="o">(</span>leak<span class="o">)</span>
-</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/context/__init__.py&#34;</span>, line 1468, in setter
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">function</span><span class="o">(</span>*a, **kw<span class="o">)</span>
-</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/util/packing.py&#34;</span>, line 338, in routine
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">{(</span><span class="s2">&#34;little&#34;</span>, True  <span class="o">)</span>: ls,
-</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/util/packing.py&#34;</span>, line 306, in routine
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> ops<span class="o">[</span>op<span class="o">](</span>fmt,data<span class="o">)</span>
-</span></span><span class="line"><span class="cl">  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/util/packing.py&#34;</span>, line 289, in &lt;lambda&gt;
-</span></span><span class="line"><span class="cl">    <span class="nv">ops</span>   <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;p&#39;</span>: struct.pack, <span class="s1">&#39;u&#39;</span>: lambda *a: struct.unpack<span class="o">(</span>*<span class="o">(</span>
-</span></span><span class="line"><span class="cl">struct.error: unpack requires a buffer of <span class="m">4</span> bytes
-</span></span></code></pre></div><p>I&rsquo;ve started googling it at first. But then I don&rsquo;t know why, I tried to run</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod -x exploit.py
-</span></span><span class="line"><span class="cl">python3 exploit.py
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># and voila!</span>
-</span></span><span class="line"><span class="cl">root@kali:/home/sherlock/Documents# python3 exploit.py 
-</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Starting <span class="nb">local</span> process <span class="s1">&#39;./megabeets_0x2&#39;</span>: pid <span class="m">1482</span>
-</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> puts is at 0xf7d6a590
-</span></span></code></pre></div><p>I don&rsquo;t know why on Earth would I chown this in the first place, but it&rsquo;s an interesting thing to note. But for today I guess that&rsquo;s it. It was a difficult and very efficient day and I&rsquo;ve deserved some rest 🍺.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo chmod +x exploit.py
+python3 exploit.py
+
+<span class="c1"># and got this error:</span>
+<span class="o">[</span>+<span class="o">]</span> Starting <span class="nb">local</span> process <span class="s1">&#39;./megabeets_0x2&#39;</span>: pid <span class="m">1469</span>
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&#34;exploit.py&#34;</span>, line 36, in &lt;module&gt;
+    main<span class="o">()</span>
+  File <span class="s2">&#34;exploit.py&#34;</span>, line 31, in main
+    <span class="nv">leak</span> <span class="o">=</span> u32<span class="o">(</span>leak<span class="o">)</span>
+  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/context/__init__.py&#34;</span>, line 1468, in setter
+    <span class="k">return</span> <span class="k">function</span><span class="o">(</span>*a, **kw<span class="o">)</span>
+  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/util/packing.py&#34;</span>, line 338, in routine
+    <span class="k">return</span> <span class="o">{(</span><span class="s2">&#34;little&#34;</span>, True  <span class="o">)</span>: ls,
+  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/util/packing.py&#34;</span>, line 306, in routine
+    <span class="k">return</span> ops<span class="o">[</span>op<span class="o">](</span>fmt,data<span class="o">)</span>
+  File <span class="s2">&#34;/usr/local/lib/python3.8/dist-packages/pwnlib/util/packing.py&#34;</span>, line 289, in &lt;lambda&gt;
+    <span class="nv">ops</span>   <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;p&#39;</span>: struct.pack, <span class="s1">&#39;u&#39;</span>: lambda *a: struct.unpack<span class="o">(</span>*<span class="o">(</span>
+struct.error: unpack requires a buffer of <span class="m">4</span> bytes
+</code></pre></div><p>I&rsquo;ve started googling it at first. But then I don&rsquo;t know why, I tried to run</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">chmod -x exploit.py
+python3 exploit.py
+
+<span class="c1"># and voila!</span>
+root@kali:/home/sherlock/Documents# python3 exploit.py 
+<span class="o">[</span>+<span class="o">]</span> Starting <span class="nb">local</span> process <span class="s1">&#39;./megabeets_0x2&#39;</span>: pid <span class="m">1482</span>
+<span class="o">[</span>*<span class="o">]</span> puts is at 0xf7d6a590
+
+</code></pre></div><p>I don&rsquo;t know why on Earth would I chown this in the first place, but it&rsquo;s an interesting thing to note. But for today I guess that&rsquo;s it. It was a difficult and very efficient day and I&rsquo;ve deserved some rest 🍺.</p>
 <p>Off for now!</p>
 <h2 id="references">References</h2>
 <p>[<a href="">1</a>] Megabeets blog (part 1 and part 2)</p>
@@ -436,7 +437,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -279,87 +279,87 @@
 😊 ✅ My solution was to run a windows version on a VM. Worked fine.</p>
 </blockquote>
 <p>Mount activity: DMGs, External devices or Shared network drives.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;mask&#34; LIKE &#39;%mount%&#39;
-</span></span></code></pre></div><p>Internet activity (websites visited)</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;filename&#34; LIKE
-</span></span><span class="line"><span class="cl">&#39;Users/%/Library/Caches/Metadata/Safari/History/%&#39;
-</span></span><span class="line"><span class="cl">OR &#34;filename&#34; LIKE &#39;Users/%/Library/Application
-</span></span><span class="line"><span class="cl">Support/Google/Chrome/Default/Local Storage/%&#39;
-</span></span></code></pre></div><p>User folders activity</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;filename&#34; LIKE &#39;Users/%/Documents/%’
-</span></span><span class="line"><span class="cl">OR &#34;filename&#34; LIKE &#39;Users/%/Downloads/%’
-</span></span><span class="line"><span class="cl">OR &#34;filename&#34; LIKE &#39;Users/%/Desktop/%&#39;
-</span></span></code></pre></div><p><strong>🗑 Trash activity</strong>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
-</span></span></code></pre></div><p><strong>Unified logs</strong>. <code>/private/var/db/diagnostics</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;mask&#34; LIKE &#39;%mount%&#39;
+</code></pre></div><p>Internet activity (websites visited)</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE
+&#39;Users/%/Library/Caches/Metadata/Safari/History/%&#39;
+OR &#34;filename&#34; LIKE &#39;Users/%/Library/Application
+Support/Google/Chrome/Default/Local Storage/%&#39;
+</code></pre></div><p>User folders activity</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;Users/%/Documents/%’
+OR &#34;filename&#34; LIKE &#39;Users/%/Downloads/%’
+OR &#34;filename&#34; LIKE &#39;Users/%/Desktop/%&#39;
+</code></pre></div><p><strong>🗑 Trash activity</strong>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;Users/%/.Trash/%&#39;
+</code></pre></div><p><strong>Unified logs</strong>. <code>/private/var/db/diagnostics</code></p>
 <h2 id="windows">Windows</h2>
 <p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
 <p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
 <h3 id="system-and-event-logs">System and Event Logs</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\w</span>inevt<span class="se">\l</span>ogs<span class="se">\*</span>.evtx
-</span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\S</span>RU<span class="se">\s</span>rudb.dat
-</span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\i</span>nf<span class="se">\s</span>etupapi.dev.log
-</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>onnectedDevicesPlatform<span class="se">\*\A</span>ctivitiesCache.db
-</span></span></code></pre></div><h3 id="anti-virus-logs">Anti-virus logs</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\w</span>inevt<span class="se">\l</span>ogs<span class="se">\*</span>.evtx
+<span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\S</span>RU<span class="se">\s</span>rudb.dat
+<span class="se">\W</span>indows<span class="se">\i</span>nf<span class="se">\s</span>etupapi.dev.log
+<span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>onnectedDevicesPlatform<span class="se">\*\A</span>ctivitiesCache.db
+</code></pre></div><h3 id="anti-virus-logs">Anti-virus logs</h3>
 <h2 id="linuxessss">Linuxessss</h2>
 <h2 id="ios">iOS</h2>
 <p>Same as for macOS. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
 <p>Internet activity</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;filename&#34; LIKE &#39;%websitedata/local%&#39;
-</span></span></code></pre></div><p>Email activity</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;filename&#34; LIKE &#39;mobile/Library/Mail/%’
-</span></span></code></pre></div><p>iCloud synced files</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
-</span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;
-</span></span><span class="line"><span class="cl">FROM
-</span></span><span class="line"><span class="cl">&#34;fsevents&#34;
-</span></span><span class="line"><span class="cl">WHERE
-</span></span><span class="line"><span class="cl">&#34;filename&#34; LIKE &#39;mobile/Library/Mobile
-</span></span><span class="line"><span class="cl">Documents/com~apple~CloudDocs/%&#39;
-</span></span></code></pre></div><h3 id="syslog">Syslog</h3>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;%websitedata/local%&#39;
+</code></pre></div><p>Email activity</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;mobile/Library/Mail/%’
+</code></pre></div><p>iCloud synced files</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">SELECT
+*, _ROWID_ &#34;NAVICAT_ROWID&#34;
+FROM
+&#34;fsevents&#34;
+WHERE
+&#34;filename&#34; LIKE &#39;mobile/Library/Mobile
+Documents/com~apple~CloudDocs/%&#39;
+</code></pre></div><h3 id="syslog">Syslog</h3>
 <p>According to <a href="https://developer.apple.com/documentation/os/logging">Apple docs</a>, NSLog now doesn&rsquo;t write to syslog, therefore I didn&rsquo;t find a <code>syslog.sock</code> or <code>syslog</code> file itself.</p>
 <blockquote>
 <p>Important</p>
 <p>The unified logging system is available in iOS 10. and later, macOS 10.12 and later, tvOS 10.0 and later, and watchOS 3.0 and later. This system supersedes the Apple System Logger (ASL) and Syslog APIs.</p>
 </blockquote>
 <p>That&rsquo;s why now with newer devices you can&rsquo;t view logs with</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># gives an error</span>
-</span></span><span class="line"><span class="cl">socat<span class="o">[</span>2520<span class="o">]</span> E connect<span class="o">(</span>5, <span class="nv">LEN</span><span class="o">=</span><span class="m">31</span> <span class="nv">AF</span><span class="o">=</span><span class="m">1</span> <span class="s2">&#34;/var/run/lockdown/syslog.sock&#34;</span>, 31<span class="o">)</span>: No such file or directory
-</span></span></code></pre></div><p>ondeviceconsole tool won&rsquo;t help either, since it uses the same socket (see <a href="https://github.com/eswick/ondeviceconsole/blob/master/main.m">main.c</a>):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define SOCKET_PATH &#34;/var/run/lockdown/syslog.sock&#34;
-</span></span></span></code></pre></div><p>There is a socket file <code>syslog</code> (checked by trying to <code>cp</code> it), but using the above techniques with it didn&rsquo;t work.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
+
+<span class="c1"># gives an error</span>
+socat<span class="o">[</span>2520<span class="o">]</span> E connect<span class="o">(</span>5, <span class="nv">LEN</span><span class="o">=</span><span class="m">31</span> <span class="nv">AF</span><span class="o">=</span><span class="m">1</span> <span class="s2">&#34;/var/run/lockdown/syslog.sock&#34;</span>, 31<span class="o">)</span>: No such file or directory
+</code></pre></div><p>ondeviceconsole tool won&rsquo;t help either, since it uses the same socket (see <a href="https://github.com/eswick/ondeviceconsole/blob/master/main.m">main.c</a>):</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#define SOCKET_PATH &#34;/var/run/lockdown/syslog.sock&#34;
+</span></code></pre></div><p>There is a socket file <code>syslog</code> (checked by trying to <code>cp</code> it), but using the above techniques with it didn&rsquo;t work.</p>
 <h3 id="nslog">NSlog</h3>
 <p>With newer versions of iOS the Oslog API is used. To see the logs, use <code>oslog</code> utility from Cydia repository or <code>Passionfruit</code> multitool. Can pipe to grep to filter output.</p>
 <h2 id="android">Android</h2>
@@ -410,7 +410,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

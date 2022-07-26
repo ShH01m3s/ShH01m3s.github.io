@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -288,31 +288,31 @@
 <p>On the pictire above I’ve selected this IndexedDB (purple square). It’s more like Elastic of MongoDB (noSQL databases). It looks much more like a dictionary or hashtable to me. For example, <code>Users</code> table contains one single entry: <code>ucf8XXXXXX45446</code>, which has a set of properties like <code>emailAddress</code>, <code>fasttrack</code>, <code>id</code>, <code>internal</code>, <code>locale</code> (language of the GUI, I presume), <code>optInReasons</code> and <code>optInTime</code>. <code>optInReasons</code>, in turn, has it’s own property of type array with only one item with the value <code>0</code>.</p>
 <p><img src="images/google-drive-indexeddb.png" alt="google-drive-indexeddb"></p>
 <p>An example of working with such a database [<a href="https://www.magnetforensics.com/resources/mvs-recording-hang-on-thats-not-sqlite-chrome-electron-and-leveldb/?submission=https://go.magnetforensics.com/l/52162/2021-05-07/kynrnl">4</a>]:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">dbOpenReq</span><span class="p">.</span><span class="nx">onupgradeneeded</span> <span class="o">=</span> <span class="nx">ev</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;db creating/upgrading&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">upgradedb</span> <span class="o">=</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">result</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">upgradedb</span><span class="p">.</span><span class="nx">objectStoreNames</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s2">&#34;objStore1&#34;</span><span class="p">)){</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">objectStore</span> <span class="o">=</span> <span class="nx">upgradedb</span><span class="p">.</span><span class="nx">createObjectStore</span><span class="p">(</span><span class="s1">&#39;objStore1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">keyPath</span><span class="o">:</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nx">autoIncrement</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexA&#34;</span><span class="p">,</span> <span class="s2">&#34;indexA&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexB&#34;</span><span class="p">,</span> <span class="s2">&#34;indexB&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">upgradedb</span><span class="p">.</span><span class="nx">objectStoreNames</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s2">&#34;objStore2&#34;</span><span class="p">)){</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">objectStore</span> <span class="o">=</span> <span class="nx">upgradedb</span><span class="p">.</span><span class="nx">createObjectStore</span><span class="p">(</span><span class="s1">&#39;objStore2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">keyPath</span><span class="o">:</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nx">autoIncrement</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexC&#34;</span><span class="p">,</span> <span class="s2">&#34;indexC&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexD&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>Storing the data is not complicated either:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">addData</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">transcation</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">transcation</span><span class="p">([</span><span class="s2">&#34;objStore1&#34;</span><span class="p">,</span> <span class="s2">&#34;objStore2&#34;</span><span class="p">],</span> <span class="s2">&#34;readwrite&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">objectStore1</span> <span class="o">=</span> <span class="nx">transcation</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">(</span><span class="s2">&#34;objStore1&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexA&#34;</span><span class="o">:</span> <span class="s2">&#34;a.1&#34;</span><span class="p">,</span> <span class="s2">&#34;indexB&#34;</span><span class="o">:</span> <span class="s2">&#34;Some data for indexB&#34;</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexA&#34;</span><span class="o">:</span> <span class="s2">&#34;a.2&#34;</span><span class="p">,</span> <span class="s2">&#34;indexB&#34;</span><span class="o">:</span> <span class="s2">&#34;Some more data for indexB&#34;</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">let</span> <span class="nx">objectStore2</span> <span class="o">=</span> <span class="nx">transcation</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">(</span><span class="s2">&#34;objStore2&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexC&#34;</span><span class="o">:</span> <span class="s2">&#34;c.1&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="o">:</span> <span class="s2">&#34;Some data for indexD&#34;</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexC&#34;</span><span class="o">:</span> <span class="s2">&#34;c.2&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="o">:</span> <span class="s2">&#34;Some more data for indexD&#34;</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>When you download a file from GoogleDocs, it’s stored in this <code>IndexedDB -&gt; Documents</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">dbOpenReq</span><span class="p">.</span><span class="nx">onupgradeneeded</span> <span class="o">=</span> <span class="nx">ev</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;db creating/upgrading&#34;</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">upgradedb</span> <span class="o">=</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">result</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">upgradedb</span><span class="p">.</span><span class="nx">objectStoreNames</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s2">&#34;objStore1&#34;</span><span class="p">)){</span>
+    <span class="kd">let</span> <span class="nx">objectStore</span> <span class="o">=</span> <span class="nx">upgradedb</span><span class="p">.</span><span class="nx">createObjectStore</span><span class="p">(</span><span class="s1">&#39;objStore1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">keyPath</span><span class="o">:</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nx">autoIncrement</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexA&#34;</span><span class="p">,</span> <span class="s2">&#34;indexA&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexB&#34;</span><span class="p">,</span> <span class="s2">&#34;indexB&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+  <span class="p">}</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">upgradedb</span><span class="p">.</span><span class="nx">objectStoreNames</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s2">&#34;objStore2&#34;</span><span class="p">)){</span>
+    <span class="kd">let</span> <span class="nx">objectStore</span> <span class="o">=</span> <span class="nx">upgradedb</span><span class="p">.</span><span class="nx">createObjectStore</span><span class="p">(</span><span class="s1">&#39;objStore2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">keyPath</span><span class="o">:</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nx">autoIncrement</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexC&#34;</span><span class="p">,</span> <span class="s2">&#34;indexC&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+    <span class="nx">objectStore</span><span class="p">.</span><span class="nx">createIndex</span><span class="p">(</span><span class="s2">&#34;indexD&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">unique</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Storing the data is not complicated either:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">addData</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">transcation</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">transcation</span><span class="p">([</span><span class="s2">&#34;objStore1&#34;</span><span class="p">,</span> <span class="s2">&#34;objStore2&#34;</span><span class="p">],</span> <span class="s2">&#34;readwrite&#34;</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">objectStore1</span> <span class="o">=</span> <span class="nx">transcation</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">(</span><span class="s2">&#34;objStore1&#34;</span><span class="p">);</span>
+  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexA&#34;</span><span class="o">:</span> <span class="s2">&#34;a.1&#34;</span><span class="p">,</span> <span class="s2">&#34;indexB&#34;</span><span class="o">:</span> <span class="s2">&#34;Some data for indexB&#34;</span><span class="p">});</span>
+  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexA&#34;</span><span class="o">:</span> <span class="s2">&#34;a.2&#34;</span><span class="p">,</span> <span class="s2">&#34;indexB&#34;</span><span class="o">:</span> <span class="s2">&#34;Some more data for indexB&#34;</span><span class="p">});</span>
+  <span class="kd">let</span> <span class="nx">objectStore2</span> <span class="o">=</span> <span class="nx">transcation</span><span class="p">.</span><span class="nx">objectStore</span><span class="p">(</span><span class="s2">&#34;objStore2&#34;</span><span class="p">);</span>
+    <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexC&#34;</span><span class="o">:</span> <span class="s2">&#34;c.1&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="o">:</span> <span class="s2">&#34;Some data for indexD&#34;</span><span class="p">});</span>
+  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexC&#34;</span><span class="o">:</span> <span class="s2">&#34;c.2&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="o">:</span> <span class="s2">&#34;Some more data for indexD&#34;</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div><p>When you download a file from GoogleDocs, it’s stored in this <code>IndexedDB -&gt; Documents</code>.</p>
 <p><img src="images/google-drive-indexeddb-documents.png" alt="google-drive-indexeddb-documents"></p>
 <p>On Windows machine it’s stored here: <code>$USER\AppData\Local\Google\Chrome\User Data\Default\IndexedDB</code>. Contains multiple folders, one for each domain. Usually have the extension <code>leveldb</code>. The LevelDB store for a particular domain will be found in the IndexedDB folder with a name in the form: <code>[host with concurrent separators replaced an underscore]_[dbid].indexeddb.leveldb</code>.</p>
 <p>LevelDB is the actual storage mechanism of IndexedDB, IndexedDB is built on top of a LevelDB store. IndexedDB is just an API to use, while LevelDB is the artefact that’s creted when this API is used. It’s based on the ideas of BigTable. It’s a key-value store, both are arbitrary blobs, i.e. can store any data in key or value. Looks something like the below picture.</p>
@@ -328,25 +328,25 @@
 <li>Index. Location and sized of Data blocks are listed here.</li>
 <li>Footer. 48 bytes, always at the end. Starts with offsets and lengths of Index and Index Meta blocks. Contains the signature: 8 bytes at the end: <code>57 FB 80 8B 24 75 47 DB</code>.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BlockHandle</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="n">VarInt</span> <span class="n">offset</span><span class="p">;</span> <span class="c1">// little-endian
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">VarInt</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// little-endian
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
-</span></span></code></pre></div><p><code>BlockHandle</code> structure is used in the footer for Index Blocks and in Index Block for Data and Meta Blocks Blocks.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">BlockHandle</span> <span class="p">{</span>
+	<span class="n">VarInt</span> <span class="n">offset</span><span class="p">;</span> <span class="c1">// little-endian
+</span><span class="c1"></span>  <span class="n">VarInt</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// little-endian
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p><code>BlockHandle</code> structure is used in the footer for Index Blocks and in Index Block for Data and Meta Blocks Blocks.</p>
 <p>Each block contains zero or more <code>BlockEntry</code> structs followed by a restart-array (for speeding-up data reading, but not mandatory). Blocks are always followed by a 5-byte long trailer: 1 byte defines comression (<code>0</code> - none, <code>1</code> - snappy), 4 byte (CRC32 of data). This data is not included when calculating <code>BlockHandle.size</code>. Snappy compression algorithm is fast, but not utterly efficient, so, one might even see some recognizable strings. You can even get hits when performing keyword search.</p>
 <p>Block entries contain the data for each key/value pair. Key is encoded using key sharing.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">BlockEntry</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="n">VarInt</span> <span class="n">shared_key_length</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">VarInt</span> <span class="n">inline_key_length</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">VarInt</span> <span class="n">value_length</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">inline_key</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">value</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><strong>Key Sharing</strong>. Allows keys with common prefixes to be encoded efficiently. That means that a keyword search might miss some things. Example of key sharing:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">theBestGirlEva</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="nx">inline_key</span><span class="o">=</span><span class="nx">theBestGirlEva</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="nx">theBestGirlNika</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="nx">inline_key</span><span class="o">=</span><span class="nx">Nika</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="nx">theBestBoyAlex</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">7</span><span class="p">;</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">7</span><span class="p">;</span> <span class="nx">inline_key</span><span class="o">=</span><span class="nx">BoyAlex</span><span class="p">);</span>
-</span></span></code></pre></div><p>In the last 8 bytes of the key there is metadata (56 bit sequence number of the operation that the levelDB has already performed, and key state either deleted or live). Added by the file format, not the programmer. So, you can always order the operations in levelDB. So, if one has different interactions with this key, in levelDB it’s going to have different sequence numbers.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">BlockEntry</span> <span class="p">{</span>
+  <span class="n">VarInt</span> <span class="n">shared_key_length</span><span class="p">;</span>
+  <span class="n">VarInt</span> <span class="n">inline_key_length</span><span class="p">;</span>
+  <span class="n">VarInt</span> <span class="n">value_length</span><span class="p">;</span>
+  <span class="n">inline_key</span><span class="p">;</span>
+  <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>Key Sharing</strong>. Allows keys with common prefixes to be encoded efficiently. That means that a keyword search might miss some things. Example of key sharing:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">theBestGirlEva</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="nx">inline_key</span><span class="o">=</span><span class="nx">theBestGirlEva</span><span class="p">);</span>
+<span class="nx">theBestGirlNika</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="nx">inline_key</span><span class="o">=</span><span class="nx">Nika</span><span class="p">);</span>
+<span class="nx">theBestBoyAlex</span> <span class="p">(</span><span class="nx">shared_key_length</span><span class="o">=</span><span class="mi">7</span><span class="p">;</span> <span class="nx">inline_key_length</span><span class="o">=</span><span class="mi">7</span><span class="p">;</span> <span class="nx">inline_key</span><span class="o">=</span><span class="nx">BoyAlex</span><span class="p">);</span>
+</code></pre></div><p>In the last 8 bytes of the key there is metadata (56 bit sequence number of the operation that the levelDB has already performed, and key state either deleted or live). Added by the file format, not the programmer. So, you can always order the operations in levelDB. So, if one has different interactions with this key, in levelDB it’s going to have different sequence numbers.</p>
 <h3 id="log-file-structure">Log File Structure</h3>
 <p>Consists of multiple 32k blocks of data and the data is never compressed. Has a 7 byte header:</p>
 <table>
@@ -372,20 +372,20 @@
 </tbody>
 </table>
 <p><strong>Batch or Record format.</strong> Data written to <code>levelDB</code> can be batched. So, different blocks of log files can be batched together. Data will flow across those blocks, but the metadata at the start of each block will interrupt the record (batch) data at boundaries. Batch header = 12 bytes. The sequence number is the same as for the key sequence number.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Batch</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="c1">// header
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">int64</span> <span class="n">seq_num</span><span class="p">;</span> <span class="c1">// 8 bytes
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">int32</span> <span class="n">record_count</span><span class="p">;</span> <span class="c1">// 4 bytes
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Record</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">record_state</span><span class="p">;</span> <span class="c1">// 1 - deleted, 0 - live
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">VarInt32</span> <span class="n">key_length</span><span class="p">;</span> <span class="c1">//little-endian
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">key</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">VarInt32</span>	<span class="n">value_length</span><span class="p">;</span> <span class="c1">//little-endian
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">value</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>No metadata is encoded in the key and no snappy!</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">Batch</span> <span class="p">{</span>
+  <span class="c1">// header
+</span><span class="c1"></span>  <span class="n">int64</span> <span class="n">seq_num</span><span class="p">;</span> <span class="c1">// 8 bytes
+</span><span class="c1"></span>  <span class="n">int32</span> <span class="n">record_count</span><span class="p">;</span> <span class="c1">// 4 bytes
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="k">struct</span> <span class="nc">Record</span> <span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">record_state</span><span class="p">;</span> <span class="c1">// 1 - deleted, 0 - live
+</span><span class="c1"></span>  <span class="n">VarInt32</span> <span class="n">key_length</span><span class="p">;</span> <span class="c1">//little-endian
+</span><span class="c1"></span>  <span class="n">key</span><span class="p">;</span>
+  <span class="n">VarInt32</span>	<span class="n">value_length</span><span class="p">;</span> <span class="c1">//little-endian
+</span><span class="c1"></span>  <span class="n">value</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>No metadata is encoded in the key and no snappy!</p>
 <h3 id="deleted-data">Deleted Data</h3>
 <p>Logs and Level Zero LDB can potentially contain old versions of or deleted records, however, when moved at last to the Level One LDB, these records that contain deleted or updated records get erased. However Level One LDB might contain logically deleted data, if this data was marked for deletion in log or Level Zero LDB.</p>
 <h3 id="data-types">Data Types</h3>
@@ -401,27 +401,27 @@
 <p>[<a href="https://carlmastrangelo.com/blog/lets-make-a-varint">3</a>] Protobuf and VarInt</p>
 <h2 id="cookies">Cookies</h2>
 <p>An example of creating a cookie:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span> <span class="o">=</span> <span class="s2">&#34;username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC&#34;</span><span class="p">;</span>
-</span></span></code></pre></div><p>There are several attacks on cookies (session hijaking, session fixation, reversing cookies when applicable).</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span> <span class="o">=</span> <span class="s2">&#34;username=John Doe; expires=Thu, 18 Dec 2013 12:00:00 UTC&#34;</span><span class="p">;</span>
+</code></pre></div><p>There are several attacks on cookies (session hijaking, session fixation, reversing cookies when applicable).</p>
 <h2 id="webstorage">WebStorage</h2>
 <p>An example of using <code>localStorage</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">,</span> <span class="s1">&#39;Tom&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">cat</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
-</span></span></code></pre></div><p>An example of using <code>sessionStorage</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="c1">// Save data to sessionStorage
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// Get saved data from sessionStorage
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// Remove saved data from sessionStorage
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// Remove all saved data from sessionStorage
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
-</span></span></code></pre></div><p>Data in <code>localStorage</code> doesn’t expire, data in <code>sessionStorage</code> is cleared when the page session ends (is valid only for one particular tab). Openning the same web-application in another tab creates a new page session, which is different from the <em>cookie</em> mechanism. But! Duplicating the tab <em>copies</em> the tab’s sessionStorage into the new tab, i.e. and from that moment forward they might start being different.</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">,</span> <span class="s1">&#39;Tom&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cat</span> <span class="o">=</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">);</span>
+<span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;myCat&#39;</span><span class="p">);</span>
+<span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+</code></pre></div><p>An example of using <code>sessionStorage</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="c1">// Save data to sessionStorage
+</span><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">);</span>
+
+<span class="c1">// Get saved data from sessionStorage
+</span><span class="c1"></span><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
+
+<span class="c1">// Remove saved data from sessionStorage
+</span><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">);</span>
+
+<span class="c1">// Remove all saved data from sessionStorage
+</span><span class="c1"></span><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+</code></pre></div><p>Data in <code>localStorage</code> doesn’t expire, data in <code>sessionStorage</code> is cleared when the page session ends (is valid only for one particular tab). Openning the same web-application in another tab creates a new page session, which is different from the <em>cookie</em> mechanism. But! Duplicating the tab <em>copies</em> the tab’s sessionStorage into the new tab, i.e. and from that moment forward they might start being different.</p>
 <p>As for the <code>localStorage</code>, private mode creates a new <code>localStorage</code> that’s cleared is cleared when the last “private” tab is closed.</p>
 <p>Both <code>localStorage</code> and <code>sessionStorage</code> are read-only.</p>
 <h2 id="file-system-api">File System API</h2>
@@ -474,7 +474,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

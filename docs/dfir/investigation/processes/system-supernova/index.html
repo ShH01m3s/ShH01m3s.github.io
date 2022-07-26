@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -265,7 +265,7 @@
 <li>Turn off FileVault</li>
 <li>Not sure that it might drastically influence the file contents, but the theme I chose was dark</li>
 </ul>
-<p>I have made a clean install on MacBook 13&rsquo;&rsquo; (2012) and captured the following things:</p>
+<p>I have made a clean install on MacBook 13'' (2012) and captured the following things:</p>
 <ul>
 <li>
 <p><input checked="" disabled="" type="checkbox"> Open Activity Monitor and put down all processes running.</p>
@@ -275,9 +275,9 @@
 </li>
 <li>
 <p><input checked="" disabled="" type="checkbox"> Capture the list of all files in <code>/System/Library</code> and <code>/Library</code> folders and their contents. Root directory&rsquo;s folders (to view hidden - <code>Shift+Cmd+&gt;</code>). Optionally: make a tree of these folders in some editor or file along with a corresponding hash. Takes quite a while even on a small</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># get a hash for each file in the folder </span>
-</span></span><span class="line"><span class="cl">sudo find . -type f  -exec shasum <span class="o">{}</span> <span class="s1">&#39;;&#39;</span> &gt; &gt;sums.txt
-</span></span></code></pre></div></li>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get a hash for each file in the folder </span>
+sudo find . -type f  -exec shasum <span class="o">{}</span> <span class="s1">&#39;;&#39;</span> &gt; &gt;sums.txt
+</code></pre></div></li>
 <li>
 <p><input checked="" disabled="" type="checkbox"> View open sockets with <code>netstat -anvp tcp</code>.</p>
 </li>
@@ -299,32 +299,32 @@
 <p>This only is possible for a jailbroken device. Same python script can be used, but I&rsquo;d rather try writing a batch to make as little impact on the system as possible.</p>
 <h2 id="python-crawler-script-idea-">Python crawler-script idea 💡</h2>
 <p>Crawl of the files recursively, put down the folder name and the file name into a nested dictionary. Put down a file hash as well. Write this down into a xml or sqlite file?</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">FileDesc</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">md5_hash</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">full_path</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">parent</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> 
-</span></span><span class="line"><span class="cl">  <span class="nb">hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="n">f</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FileDesc</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">  <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span>
-</span></span><span class="line"><span class="cl">  <span class="n">f</span><span class="o">.</span><span class="n">md5_hash</span> <span class="o">=</span> <span class="nb">hash</span>
-</span></span><span class="line"><span class="cl">  <span class="n">f</span><span class="o">.</span><span class="n">full_path</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">path</span>
-</span></span><span class="line"><span class="cl">  <span class="n">f</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">parent</span>
-</span></span><span class="line"><span class="cl">  <span class="c1"># f.desc = &#34;This file does that and that&#34;</span>
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">retrieve_file_desc</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">md5_hash</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">md5_hash</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">do</span> <span class="n">this</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">  <span class="k">elif</span> <span class="n">file_name</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">do</span> <span class="n">that</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl"><span class="c1"># Corner cases:</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># files with the same hash or name =&gt; select by full path.</span>
-</span></span></code></pre></div><p>This script will populate my DB of files of a clean system. Then, I can refer to it later and get the information if the file exists upon new install or not and what does it do.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">FileDesc</span><span class="p">:</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+  <span class="n">md5_hash</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+  <span class="n">full_path</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+  <span class="n">parent</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+
+<span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> 
+  <span class="nb">hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+  <span class="n">f</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FileDesc</span><span class="p">()</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">name</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">md5_hash</span> <span class="o">=</span> <span class="nb">hash</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">full_path</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">path</span>
+  <span class="n">f</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">parent</span>
+  <span class="c1"># f.desc = &#34;This file does that and that&#34;</span>
+  
+
+<span class="k">def</span> <span class="nf">retrieve_file_desc</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">md5_hash</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">md5_hash</span><span class="p">:</span>
+    <span class="n">do</span> <span class="n">this</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
+  <span class="k">elif</span> <span class="n">file_name</span><span class="p">:</span>
+    <span class="n">do</span> <span class="n">that</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">desc</span><span class="p">)</span>
+    
+<span class="c1"># Corner cases:</span>
+<span class="c1"># files with the same hash or name =&gt; select by full path.</span>
+</code></pre></div><p>This script will populate my DB of files of a clean system. Then, I can refer to it later and get the information if the file exists upon new install or not and what does it do.</p>
 <h2 id="references">References</h2>
   </div>
 </article>
@@ -357,7 +357,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

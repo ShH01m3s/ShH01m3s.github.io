@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -285,10 +285,10 @@
     <p><em>There are lot&rsquo;s of evidence of installation and execution. Based on this data one can prove that the user knew about it or not. Below are the main evidence, tools for analysis and .</em></p>
 <p>It&rsquo;s not always about malware. Sometimes it&rsquo;s just about user activity.</p>
 <h2 id="windows">Windows</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\P</span>refetch
-</span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\a</span>ppcompat<span class="se">\P</span>rograms<span class="se">\R</span>ecentFileCache.bcf
-</span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\a</span>ppcompat<span class="se">\P</span>rograms<span class="se">\A</span>mcache.hve
-</span></span></code></pre></div><h3 id="dr-watson">Dr Watson</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\W</span>indows<span class="se">\P</span>refetch
+<span class="se">\W</span>indows<span class="se">\a</span>ppcompat<span class="se">\P</span>rograms<span class="se">\R</span>ecentFileCache.bcf
+<span class="se">\W</span>indows<span class="se">\a</span>ppcompat<span class="se">\P</span>rograms<span class="se">\A</span>mcache.hve
+</code></pre></div><h3 id="dr-watson">Dr Watson</h3>
 <p>Drwtsn32.log, traps a crashing program. Can create a file named <code>User.dmp</code>. 100% prove that the program <em><strong>was</strong></em> executed.</p>
 <h3 id="installed-programs-and-applications">Installed programs and applications</h3>
 <p><strong>Key</strong> 🔑: <code>Microsoft\Windows\CurrentVersion\Uninstall</code>. There can be some data for programs that do not exist on the system anymore. The last write time is when the application was installed.</p>
@@ -381,8 +381,8 @@
 </tbody>
 </table>
 <p>You can check it with <code>rip.exe</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
-</span></span></code></pre></div><h4 id="-caveats">🤨 Caveats</h4>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</code></pre></div><h4 id="-caveats">🤨 Caveats</h4>
 <p>On servers is usually turned off. And starting with Win10 - compressed. For systems with solid state drives it&rsquo;s also disabled. With Win8 - additional run times recorded. Also, there is latency issue - some apps are not closed upon clicking X, but remain running in background. Hence, the last time run might be different.</p>
 <blockquote>
 <p>If the app was deleted and then reinstalled? What the firtst run time will be?</p>
@@ -399,16 +399,16 @@
 <p><strong>FTK Imager Lite</strong>. Fairly heavy footprint - 15-16Mb.</p>
 <p><strong>CDQR</strong>. This tool focuses on the <code>pf</code> intself rather than on a data it contains. It&rsquo;s useful for making timelines.</p>
 <p><strong>RegRipper (GUI and CUI)</strong>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
-</span></span></code></pre></div><p><strong>Prefetch parser.</strong> More info than with WinPrefetchView</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">prefetch.py -c -d -e
-</span></span><span class="line"><span class="cl">prefetch.py -c -d &gt; pf.csv
-</span></span><span class="line"><span class="cl">prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
-</span></span></code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter,</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
+</code></pre></div><p><strong>Prefetch parser.</strong> More info than with WinPrefetchView</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prefetch.py -c -d -e
+prefetch.py -c -d &gt; pf.csv
+prefetch.py -f &lt;file_to_parse&gt; &gt; pf.txt
+</code></pre></div><p>Columns: last executed, MFT sequence number, MFT record number, executable name, run counter,</p>
 <p><strong>PECmd</strong>. Eric Zimmerman&rsquo;s tool.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">pffile</span><span class="p">&gt;.</span><span class="n">pf</span>
-</span></span><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="n">-d</span> <span class="s2">&#34;Prefetch folder&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;outoutdir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;outputfile&#34;</span>
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">pffile</span><span class="p">&gt;.</span><span class="n">pf</span>
+<span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="n">-d</span> <span class="s2">&#34;Prefetch folder&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;outoutdir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;outputfile&#34;</span>
+</code></pre></div>
   </details>
 <h3 id="amcache">AmCache</h3>
 <details>
@@ -443,8 +443,8 @@
 <h4 id="-timestamps">⏰ Timestamps</h4>
 <h4 id="-tools">🛠 Tools</h4>
 <p>AmCacheParser.exe + Timeline Explorer.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
-</span></span></code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
+<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+</code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
 <blockquote>
 <p>⚠️ In my case on a macOS with Parallels and Windows 10 installed, this evidence also contained mac executables.</p>
 </blockquote>
@@ -464,7 +464,7 @@
 <blockquote>
 <p>⚠️ Windows 10 only!</p>
 </blockquote>
-<p>Background Activity Monitor. Organaized by user SID. Windows apps&rsquo; names are not parsed very well here. Gives last executed time ⏰ , 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
+<p>Background Activity Monitor. Organaized by user SID. Windows apps' names are not parsed very well here. Gives last executed time ⏰ , 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
 <h3 id="muicache">MUICache</h3>
 <p><strong>Key</strong> 🔑: <code>Local Settings\Software\Microsoft\Windows\Shell\MuiCache</code>.</p>
 <p>Installed and executed applications for <strong>that particular user</strong>. But no timestamps for this acts, only last write data and time for the key in registry.</p>
@@ -504,25 +504,25 @@
 <p><code>/Users/username/.zsh_history</code> look for something like <code>hdiutil mount silenteye-0.4.1b-snowleopard.dmg</code> and <code>sudo cp -R /Volumes/SilentEye/silenteye-0.4.1b-snowleopard_installer.app /Applications</code>.</p>
 <p>Also, <code>/Users/sneaky/Library/Application Support/com.apple.spotlight/com.apple.spotlight.Shortcuts</code> if it was then searched via Spotlight.</p>
 <p><code>plutil -p &quot;/Users/sneaky/Library/Preferences/com.apple.dock.plist&quot;</code> . Also gives some information on the file location, timestamps and bundle id.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">1</span> <span class="o">=</span>&gt; <span class="o">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;GUID&#34;</span> <span class="o">=</span>&gt; <span class="m">2221790314</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;tile-data&#34;</span> <span class="o">=</span>&gt; <span class="o">{</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;book&#34;</span> <span class="o">=</span>&gt; <span class="o">{</span><span class="nv">length</span> <span class="o">=</span> 592, <span class="nv">bytes</span> <span class="o">=</span> 0x626f6f6b <span class="m">50020000</span> <span class="m">00000410</span> <span class="m">30000000</span> ... <span class="m">04000000</span> <span class="m">00000000</span> <span class="o">}</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;bundle-identifier&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;com.bitrock.installbuilder&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;dock-extra&#34;</span> <span class="o">=</span>&gt; <span class="m">0</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;file-data&#34;</span> <span class="o">=</span>&gt; <span class="o">{</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;_CFURLString&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;file:///Applications/silenteye-0.4.1b-snowleopard_installer.app/&#34;</span>
-</span></span><span class="line"><span class="cl">          <span class="s2">&#34;_CFURLStringType&#34;</span> <span class="o">=</span>&gt; <span class="m">15</span>
-</span></span><span class="line"><span class="cl">        <span class="o">}</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;file-label&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;silenteye-0.4.1b-snowleopard_installer&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;file-mod-date&#34;</span> <span class="o">=</span>&gt; <span class="m">187534827240406</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;file-type&#34;</span> <span class="o">=</span>&gt; <span class="m">1</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;parent-mod-date&#34;</span> <span class="o">=</span>&gt; <span class="m">187380208417750</span>
-</span></span><span class="line"><span class="cl">      <span class="o">}</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;tile-type&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;file-tile&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">}</span>
-</span></span></code></pre></div><blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">1</span> <span class="o">=</span>&gt; <span class="o">{</span>
+
+      <span class="s2">&#34;GUID&#34;</span> <span class="o">=</span>&gt; <span class="m">2221790314</span>
+      <span class="s2">&#34;tile-data&#34;</span> <span class="o">=</span>&gt; <span class="o">{</span>
+        <span class="s2">&#34;book&#34;</span> <span class="o">=</span>&gt; <span class="o">{</span><span class="nv">length</span> <span class="o">=</span> 592, <span class="nv">bytes</span> <span class="o">=</span> 0x626f6f6b <span class="m">50020000</span> <span class="m">00000410</span> <span class="m">30000000</span> ... <span class="m">04000000</span> <span class="m">00000000</span> <span class="o">}</span>
+        <span class="s2">&#34;bundle-identifier&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;com.bitrock.installbuilder&#34;</span>
+        <span class="s2">&#34;dock-extra&#34;</span> <span class="o">=</span>&gt; <span class="m">0</span>
+        <span class="s2">&#34;file-data&#34;</span> <span class="o">=</span>&gt; <span class="o">{</span>
+          <span class="s2">&#34;_CFURLString&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;file:///Applications/silenteye-0.4.1b-snowleopard_installer.app/&#34;</span>
+          <span class="s2">&#34;_CFURLStringType&#34;</span> <span class="o">=</span>&gt; <span class="m">15</span>
+        <span class="o">}</span>
+        <span class="s2">&#34;file-label&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;silenteye-0.4.1b-snowleopard_installer&#34;</span>
+        <span class="s2">&#34;file-mod-date&#34;</span> <span class="o">=</span>&gt; <span class="m">187534827240406</span>
+        <span class="s2">&#34;file-type&#34;</span> <span class="o">=</span>&gt; <span class="m">1</span>
+        <span class="s2">&#34;parent-mod-date&#34;</span> <span class="o">=</span>&gt; <span class="m">187380208417750</span>
+      <span class="o">}</span>
+      <span class="s2">&#34;tile-type&#34;</span> <span class="o">=</span>&gt; <span class="s2">&#34;file-tile&#34;</span>
+    <span class="o">}</span>
+</code></pre></div><blockquote>
 <p>🗒 TODO:
 Binary file ./0/root/Users/sneaky/Library/Application Support/com.apple.spotlight/appList.dat matches
 Binary file ./0/root/Users/sneaky/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteVolumes.sfl2 matches
@@ -576,7 +576,7 @@ Binary file ./0/root/Users/sneaky/Library/Application Support/com.apple.sharedfi
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

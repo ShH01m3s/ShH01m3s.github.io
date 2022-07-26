@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -300,24 +300,24 @@
 <p>A very important note for people like me 🤦‍♀️  . When you see a series of files with extensions looking like this, for example: <code>e01</code>, <code>e02</code>, <code>e03</code> or <code>001</code>, <code>002</code>, <code>003</code> etc, even though there are no  <code>e02</code>, <code>e03</code> or <code>002</code>, <code>003</code> in the real life, these numbers at the end indicate that these files are <strong>parts</strong> of the <strong>same</strong> image. To load it into Autopsy, just choose the <strong>first</strong> one (those ending with <code>1</code>, for example, <code>e01</code> or <code>001</code>). It took me a while to get this. See the <a href="https://sleuthkit.org/autopsy/docs/user-docs/3.1/ds_page.html">link</a>.</p>
 <p>So, the first task is to check data source integrity. For <code>E01</code> files the hash is usually calculated upon acquisition, and <em>Autopsy</em> verifies it if you run a <em>Data Source Integrity</em> digest module against this image. In case the acquisition and the calculated hashes do <strong>not</strong> match, I will see and error under <em>Results -&gt; Extracted Content -&gt; Verification Failure</em>. In my case, there were no errors hence for the <code>E01</code> image the acquisition and verification hash do match.</p>
 <p>Now to the second one. Along with the images I had a log file for <code>001</code> image where md5 hashes were calculated for each fragment during acquisition. I&rsquo;ve run <code>md5 SCHA*</code> command line against these files to calculate all md5 hashes for these images and got the results:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.001<span class="o">)</span> <span class="o">=</span> 28a9b613d6eefe8a0515ef0a675bdebd
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.002<span class="o">)</span> <span class="o">=</span> c7227e7eea82d218663257397679a7c4
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.003<span class="o">)</span> <span class="o">=</span> ebba35acd7b8aa85a5a7c13f3dd733d2
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.004<span class="o">)</span> <span class="o">=</span> 669b6636dcb4783fd5509c4710856c59
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.005<span class="o">)</span> <span class="o">=</span> c46e5760e3821522ee81e675422025bb
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.006<span class="o">)</span> <span class="o">=</span> 99511901da2dea772005b5d0d764e750
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.007<span class="o">)</span> <span class="o">=</span> 99511901da2dea772005b5d0d764e750
-</span></span><span class="line"><span class="cl">MD5 <span class="o">(</span>SCHARDT.008<span class="o">)</span> <span class="o">=</span> 8194a79a5356df79883ae2dc7415929f
-</span></span></code></pre></div><p>And these are the values from the aquisition log:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">* SCHARDT.001 28A9B613 D6EEFE8A 0515EF0A 675BDEBD...
-</span></span><span class="line"><span class="cl">* SCHARDT.002 C7227E7E EA82D218 <span class="m">66325739</span> 7679A7C4...
-</span></span><span class="line"><span class="cl">* SCHARDT.003 EBBA35AC D7B8AA85 A5A7C13F 3DD733D2...
-</span></span><span class="line"><span class="cl">* SCHARDT.004 669B6636 DCB4783F D5509C47 10856C59...
-</span></span><span class="line"><span class="cl">* SCHARDT.005 C46E5760 E3821522 EE81E675 422025BB...
-</span></span><span class="line"><span class="cl">* SCHARDT.006 <span class="m">99511901</span> DA2DEA77 2005B5D0 D764E750
-</span></span><span class="line"><span class="cl">* SCHARDT.007 <span class="m">99511901</span> DA2DEA77 2005B5D0 D764E750
-</span></span><span class="line"><span class="cl">* SCHARDT.008 8194A79A 5356DF79 883AE2DC 7415929F
-</span></span></code></pre></div><p>These match too.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">MD5 <span class="o">(</span>SCHARDT.001<span class="o">)</span> <span class="o">=</span> 28a9b613d6eefe8a0515ef0a675bdebd
+MD5 <span class="o">(</span>SCHARDT.002<span class="o">)</span> <span class="o">=</span> c7227e7eea82d218663257397679a7c4
+MD5 <span class="o">(</span>SCHARDT.003<span class="o">)</span> <span class="o">=</span> ebba35acd7b8aa85a5a7c13f3dd733d2
+MD5 <span class="o">(</span>SCHARDT.004<span class="o">)</span> <span class="o">=</span> 669b6636dcb4783fd5509c4710856c59
+MD5 <span class="o">(</span>SCHARDT.005<span class="o">)</span> <span class="o">=</span> c46e5760e3821522ee81e675422025bb
+MD5 <span class="o">(</span>SCHARDT.006<span class="o">)</span> <span class="o">=</span> 99511901da2dea772005b5d0d764e750
+MD5 <span class="o">(</span>SCHARDT.007<span class="o">)</span> <span class="o">=</span> 99511901da2dea772005b5d0d764e750
+MD5 <span class="o">(</span>SCHARDT.008<span class="o">)</span> <span class="o">=</span> 8194a79a5356df79883ae2dc7415929f
+</code></pre></div><p>And these are the values from the aquisition log:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">* SCHARDT.001 28A9B613 D6EEFE8A 0515EF0A 675BDEBD...
+* SCHARDT.002 C7227E7E EA82D218 <span class="m">66325739</span> 7679A7C4...
+* SCHARDT.003 EBBA35AC D7B8AA85 A5A7C13F 3DD733D2...
+* SCHARDT.004 669B6636 DCB4783F D5509C47 10856C59...
+* SCHARDT.005 C46E5760 E3821522 EE81E675 422025BB...
+* SCHARDT.006 <span class="m">99511901</span> DA2DEA77 2005B5D0 D764E750
+* SCHARDT.007 <span class="m">99511901</span> DA2DEA77 2005B5D0 D764E750
+* SCHARDT.008 8194A79A 5356DF79 883AE2DC 7415929F
+</code></pre></div><p>These match too.</p>
 <p>Also, both data sources have the same general hash (for all fragments) - <code>aee4fcd9301c03b3b054623ca261959a</code> indicating that these images are the same image in two different formats.</p>
 <p>🗒 One thing that I&rsquo;ve noticed is that <code>SCHARDT.006</code> and <code>SCHARDT.007</code> are identical. Mistake? Collision?</p>
 <h3 id="what-operating-system-was-used-on-the-computer">What operating system was used on the computer?</h3>
@@ -440,7 +440,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

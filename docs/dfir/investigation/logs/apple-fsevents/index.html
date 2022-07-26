@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -287,8 +287,8 @@
 <blockquote>
 <p>⚠️ Records are stored alphabetically, not chronologically!!! By alphabetically I mean sorted by file/dir full path.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/.fseventsd <span class="c1"># root of the system partition</span>
-</span></span></code></pre></div><p>Like <code>$UsnJrnl</code> for Windows. Contains lots of logs gzip-compressed archive files. Magic number: <code>1SLD</code> or <code>2SLD</code> in an uncompressed file marks a page.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/.fseventsd <span class="c1"># root of the system partition</span>
+</code></pre></div><p>Like <code>$UsnJrnl</code> for Windows. Contains lots of logs gzip-compressed archive files. Magic number: <code>1SLD</code> or <code>2SLD</code> in an uncompressed file marks a page.</p>
 <p>Log entries contain file ids which is useful for sequencing files and events. Since there are dozens of entries, it&rsquo;s better to filter them. &ldquo;Renamed&rdquo; can mean the file was moved on the same volume.</p>
 <p>Like <code>$UsnJrnl</code>. ❗️It keeps track of file ids, which is useful for <strong>sequencing</strong> events. Can be found <code>/.fseventsd</code>. Lot&rsquo;s of gzip archives.</p>
 <blockquote>
@@ -296,8 +296,8 @@
 <p>👌 I have found it here: <code>./System/Volumes/Data/.fseventsd</code>. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
 </blockquote>
 <p><img src="images/fseventsd-path.png" alt="fseventsd-path"></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out
-</span></span></code></pre></div><p><strong>Keywords</strong>: Mount/Volume, Safari/Chrome (web search), Renamed/.trash (trash).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">  python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out
+</code></pre></div><p><strong>Keywords</strong>: Mount/Volume, Safari/Chrome (web search), Renamed/.trash (trash).</p>
 <p>Lot&rsquo;s of information, so, think well whether to process it or not, since it&rsquo;ll take time.</p>
 <blockquote>
 <p>⚠️ If you insert a FAT-formatted thumb drive into a macOS machine, it will create fervents.</p>
@@ -311,42 +311,42 @@
 </blockquote>
 <p><code>mac_apt.py</code>. Requires python to be installed. Consists of: extract_apfs_fs, ios_apt, mac_apt_artifact_only, mac_apt_mounted_sys_data and mac_apt.</p>
 <p>Usage example:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python mac_apt_artifact_only.py SCREENTIME -i <span class="s2">&#34;/Users/username/Documents/RMAdminStore-Local.sqlite&#34;</span> -o <span class="s2">&#34;/Users/username/Documents/&#34;</span>
-</span></span></code></pre></div><h2 id="querying-interesting-data">Querying Interesting Data</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">_ROWID_</span><span class="w"> </span><span class="s2">&#34;NAVICAT_ROWID&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">FROM</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="s2">&#34;fsevents&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">WHERE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="s2">&#34;filename&#34;</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;Users/%/.Trash/%&#39;</span><span class="w">
-</span></span></span></code></pre></div><h2 id="010-editor-template">010 Editor Template</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python mac_apt_artifact_only.py SCREENTIME -i <span class="s2">&#34;/Users/username/Documents/RMAdminStore-Local.sqlite&#34;</span> -o <span class="s2">&#34;/Users/username/Documents/&#34;</span>
+</code></pre></div><h2 id="querying-interesting-data">Querying Interesting Data</h2>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span>
+<span class="o">*</span><span class="p">,</span> <span class="n">_ROWID_</span> <span class="s2">&#34;NAVICAT_ROWID&#34;</span>
+<span class="k">FROM</span>
+<span class="s2">&#34;fsevents&#34;</span>
+<span class="k">WHERE</span>
+<span class="s2">&#34;filename&#34;</span> <span class="k">LIKE</span> <span class="s1">&#39;Users/%/.Trash/%&#39;</span>
+</code></pre></div><h2 id="010-editor-template">010 Editor Template</h2>
 <p>I&rsquo;m writing a template for parsing these files. However, the v2 seems to be a little different from the v1, which was described in the presentation mentioned above. Below is the structure of a file header + single page for v1.</p>
 <blockquote>
 <p>🔬 v2 might need more research from my part.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">//------------------------------------------------
-</span></span></span><span class="line"><span class="cl"><span class="c1">//--- 010 Editor v11.0.1 Binary Template
-</span></span></span><span class="line"><span class="cl"><span class="c1">//
-</span></span></span><span class="line"><span class="cl"><span class="c1">//      File: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//   Authors: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//   Version: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//   Purpose: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//  Category: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">// File Mask: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//  ID Bytes: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//   History: 
-</span></span></span><span class="line"><span class="cl"><span class="c1">//------------------------------------------------
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cRed</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="kt">char</span>     <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cNone</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span>     <span class="n">unknown</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cYellow</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span>     <span class="n">pagesize</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cPurple</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="n">string</span>  <span class="n">full_path1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">uint64</span> <span class="n">event_id</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">reason_flags</span><span class="p">;</span>
-</span></span></code></pre></div><p>The structure is however quite trivial. Following the header of 4 bytes and 4 bytes of some undocumented mysterious value, there are 4 bytes defining page size, the full path of the file and the event id of the event.</p>
+<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">//------------------------------------------------
+</span><span class="c1">//--- 010 Editor v11.0.1 Binary Template
+</span><span class="c1">//
+</span><span class="c1">//      File: 
+</span><span class="c1">//   Authors: 
+</span><span class="c1">//   Version: 
+</span><span class="c1">//   Purpose: 
+</span><span class="c1">//  Category: 
+</span><span class="c1">// File Mask: 
+</span><span class="c1">//  ID Bytes: 
+</span><span class="c1">//   History: 
+</span><span class="c1">//------------------------------------------------
+</span><span class="c1"></span><span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cRed</span> <span class="p">);</span>
+<span class="kt">char</span>     <span class="n">header</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cNone</span> <span class="p">);</span>
+<span class="kt">int</span>     <span class="n">unknown</span><span class="p">;</span>
+<span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cYellow</span> <span class="p">);</span>
+<span class="kt">int</span>     <span class="n">pagesize</span><span class="p">;</span>
+<span class="n">SetForeColor</span><span class="p">(</span> <span class="n">cPurple</span> <span class="p">);</span>
+<span class="n">string</span>  <span class="n">full_path1</span><span class="p">;</span>
+<span class="n">uint64</span> <span class="n">event_id</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">reason_flags</span><span class="p">;</span>
+</code></pre></div><p>The structure is however quite trivial. Following the header of 4 bytes and 4 bytes of some undocumented mysterious value, there are 4 bytes defining page size, the full path of the file and the event id of the event.</p>
 <blockquote>
 <p>❓ May be it&rsquo;s better to write a script for 010 Editor?</p>
 </blockquote>
@@ -413,7 +413,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

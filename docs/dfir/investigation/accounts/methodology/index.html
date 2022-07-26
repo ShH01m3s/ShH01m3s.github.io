@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -257,25 +257,25 @@
 <p>To crack Windows NTLM hashes (for local accounts only), you&rsquo;ll need both SYSTEM and SAM hives. SYSTEM contains an AES key 🔑 for NTLM decryption and SAM contains the encrypted hash. After the hash is decrypted, either brute-force 💪 or dictionary 📖 attack needs.</p>
 <p>Xbox on later versions is a built-in game center. It also contains some information about the user (if he uses it for fames): <code>C:\Users\%Username%\AppData\Local\LocalState\ModelManager\Xboxlivegamer.xml</code> (user profile).</p>
 <p>Also, collect DPAPI master user and system keys: <a href="https://www.youtube.com/watch?v=vA4qa0uWRHU">https://www.youtube.com/watch?v=vA4qa0uWRHU</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>esktop
-</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>ocuments
-</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>ownloads
-</span></span></code></pre></div><h3 id="password-hashes">Password hashes</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\
+</span><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>esktop
+<span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>ocuments
+<span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>ownloads
+</code></pre></div><h3 id="password-hashes">Password hashes</h3>
 <p>SAM hive + SYSTEM.</p>
 <h2 id="macos">macOS</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/
-</span></span></code></pre></div><h3 id="password-hashes-1">Password hashes</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
-</span></span></code></pre></div><h3 id="account-info">Account Info</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist
-</span></span></code></pre></div><p>Contains name, profile name, password hint, account image, UID</p>
-<p>Get uids of users (incuding services&rsquo; uids): <code>/private/var/db/dslocal/nodes/Default/sqlindex</code> (SQLite DB).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/Users/%username%/
+</code></pre></div><h3 id="password-hashes-1">Password hashes</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
+</code></pre></div><h3 id="account-info">Account Info</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist
+</code></pre></div><p>Contains name, profile name, password hint, account image, UID</p>
+<p>Get uids of users (incuding services' uids): <code>/private/var/db/dslocal/nodes/Default/sqlindex</code> (SQLite DB).</p>
 <h3 id="login-history">Login History</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /private/var/log/asl 
-</span></span><span class="line"><span class="cl">cat BB.&lt;date&gt;.asl
-</span></span></code></pre></div><p>BB.date.asl - Best before.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo su
+<span class="nb">cd</span> /private/var/log/asl 
+cat BB.&lt;date&gt;.asl
+</code></pre></div><p>BB.date.asl - Best before.</p>
 <blockquote>
 <p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
 </blockquote>
@@ -315,7 +315,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

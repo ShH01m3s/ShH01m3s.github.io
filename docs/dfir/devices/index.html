@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -316,19 +316,20 @@
 <p><code>tar -xfv ossec-hids-version.tar.gz &amp;&amp; cd ossec-hids-version</code> to unpack the files.</p>
 <p>To start: <code>/etc/init.d/ossec start</code>.</p>
 <p><strong>Install the agent</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /var/ossec/bin
-</span></span><span class="line"><span class="cl">./manage_agents
-</span></span><span class="line"><span class="cl">&gt; a
-</span></span><span class="line"><span class="cl">&gt; some IP
-</span></span><span class="line"><span class="cl">&gt; y
-</span></span><span class="line"><span class="cl">&gt; e <span class="c1"># extract the key</span>
-</span></span><span class="line"><span class="cl">&gt; <span class="m">001</span> <span class="c1"># agent id, copy the key</span>
-</span></span></code></pre></div><p>Install it on the Windows machine (for example). Now, connect to the server. On the server go to <code>cd ../logs &amp;&amp; less ossec.log</code>. You can <code>cd alerts</code> and see the alerts.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /var/ossec/bin
+./manage_agents
+&gt; a
+&gt; some IP
+&gt; y
+&gt; e <span class="c1"># extract the key</span>
+&gt; <span class="m">001</span> <span class="c1"># agent id, copy the key</span>
+
+</code></pre></div><p>Install it on the Windows machine (for example). Now, connect to the server. On the server go to <code>cd ../logs &amp;&amp; less ossec.log</code>. You can <code>cd alerts</code> and see the alerts.</p>
 <h3 id="samhain">Samhain</h3>
 <p><code>apt install samhain &amp;&amp; cd /etc/samhain</code>. Open the config file.</p>
 <p><code>samhain -t init -p info</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vi /etc/samhain/samhainrc
-</span></span></code></pre></div><p>In this file go to the Trusted User option and type something like the following: <code>TrustedUser = 104</code>. Then run <code>samhain -t update</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vi /etc/samhain/samhainrc
+</code></pre></div><p>In this file go to the Trusted User option and type something like the following: <code>TrustedUser = 104</code>. Then run <code>samhain -t update</code>.</p>
 <p><strong>To run</strong></p>
 <p><code>samhain -t check</code> then <code>cd /var/log/samhain</code> and open the <code>samhain-init.log</code> and <code>samhain.log</code>.</p>
 <h3 id="centralized-logging">Centralized logging</h3>
@@ -370,11 +371,11 @@
 <p>For Wireshark 🦈  - <code>ip.src==192.168.1.65 and tcp.port==80</code>.</p>
 <p>For Python 🐍:</p>
 <h3 id="snort">Snort</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install snort
-</span></span><span class="line"><span class="cl">cat /etc/snort/dafault
-</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
-</span></span><span class="line"><span class="cl">cat /etc/init.d/snort
-</span></span></code></pre></div><h2 id="logs">Logs</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo apt-get install snort
+cat /etc/snort/dafault
+<span class="c1"># or</span>
+cat /etc/init.d/snort
+</code></pre></div><h2 id="logs">Logs</h2>
 <h3 id="event-viewer-">Event Viewer 🌈</h3>
 <blockquote>
 <p>❓ How could an attacker delete entries from the Event Viewer and what level of access would they need?</p>
@@ -430,15 +431,15 @@
 <p>Hashing only applies to the file contents, but not to the file name, since the file name is stored in the file table and the file itself is stored on the file system. Running <code>ls -la</code> shows information about the files, including the hidden ones. On Windows machine you can run properties on the file to see the same data. To see hidden files on the Windows machine follow the <a href="https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-10-97fbc472-c603-9d90-91d0-1166d1d9f4b5#:~:text=Open%20File%20Explorer%20from%20the,folders%2C%20and%20drives%20and%20OK.">instructions</a>.</p>
 <p>Looking for file permissions changes is very important (owners or write/read/execute permissions added).</p>
 <p>Remove existing files from the repository:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
-</span></span></code></pre></div><p>Add this line:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">.DS_Store
-</span></span></code></pre></div><p>to the file <code>.gitignore</code>, which can be found at the top level of your repository (or create the file if it isn&rsquo;t there already). You can do this easily with this command in the top directory:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo .DS_Store &gt;&gt; .gitignore
-</span></span></code></pre></div><p>Then commit the file to the repo:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git add .gitignore
-</span></span><span class="line"><span class="cl">git commit -m &#39;.DS_Store banished!&#39;
-</span></span></code></pre></div><h2 id="firewall">Firewall</h2>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+</code></pre></div><p>Add this line:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.DS_Store
+</code></pre></div><p>to the file <code>.gitignore</code>, which can be found at the top level of your repository (or create the file if it isn&rsquo;t there already). You can do this easily with this command in the top directory:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">echo .DS_Store &gt;&gt; .gitignore
+</code></pre></div><p>Then commit the file to the repo:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">git add .gitignore
+git commit -m &#39;.DS_Store banished!&#39;
+</code></pre></div><h2 id="firewall">Firewall</h2>
 <h3 id="stateless-inspection">Stateless Inspection</h3>
 <p>Each packet is inspected one at a time with no knowledge of the previous ones. Firwall 🔥 reads the IP and determines if it&rsquo;s allowed according to the ACL. The destination port is also checked. Benefits: faster, troubleshooting, useful for routers with virtualization (control traffic routing through the use of routing instances?), control traffic, QoS and CoS (quality of service switches for traffic prioritisation).</p>
 <h3 id="stateful-inspection">Stateful Inspection</h3>
@@ -496,7 +497,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
   
 
   
@@ -237,18 +237,18 @@
 </blockquote>
 <p>I&rsquo;ve decided to go with a RAM analysis since I was not sure about full functionality of the malware and what impact any of my manipulations could  have caused on a live system. What if it starts deleting files when you try attaching a debugger?</p>
 <p>So, I started <code>WinDD.exe</code>  from a USB drive, saving the file as <code>poormark.dmp</code>. As a good diligent forensicator, I immediately calculated MD5 and SHA256 hash values to put them into a report.</p>
-<p>So, the first thing I usually do and am going to do now is running a vol3 <code>netscan</code> pluging to see all open connections. Sometimes it&rsquo;s the quickest way to spot that something is not right, since there is not that wealth of info unlike with other plugins&rsquo; output (using <a href="https://blog.onfvp.com/post/volatility-cheatsheet/">this</a> and <a href="https://book.hacktricks.xyz/forensics/basic-forensic-methodology/memory-dump-analysis/volatility-examples">this</a> cheat sheets).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python39 <span class="c1"># activating python39 with a alias for pyenv</span>
-</span></span><span class="line"><span class="cl">vol3 -f poormark.dmp windows.netscan.NetScan &gt; netscan.csv
-</span></span></code></pre></div><p>Since I already know I will need the output for several other commands, it&rsquo;s better to do so now.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol3 -f poormark.dmp windows.pslist.PsList &gt; pslist.csv
-</span></span><span class="line"><span class="cl">vol3 -f poormark.dmp windows.psscan.PsScan &gt; psscan.csv
-</span></span><span class="line"><span class="cl">vol3 -f poormark.dmp windows.pstree.PsTree &gt; pstree.csv
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">vol3 -f poormark.dmp windows.cmdline &gt; cmdline.csv
-</span></span><span class="line"><span class="cl">vol3 -f poormark.dmp windows.filescan.FileScan &gt; filescan.csv
-</span></span><span class="line"><span class="cl">vol3 -f poormark.dmp windows.malfind.Malfind &gt; malfind.txt
-</span></span></code></pre></div><p>Now, I am going to import this data to an Excel workbook, a sheet for each output (File -&gt; Import -&gt; CSV file, space as a delimiter). Now, I can add filters to each, delete blank rows and start working.</p>
+<p>So, the first thing I usually do and am going to do now is running a vol3 <code>netscan</code> pluging to see all open connections. Sometimes it&rsquo;s the quickest way to spot that something is not right, since there is not that wealth of info unlike with other plugins' output (using <a href="https://blog.onfvp.com/post/volatility-cheatsheet/">this</a> and <a href="https://book.hacktricks.xyz/forensics/basic-forensic-methodology/memory-dump-analysis/volatility-examples">this</a> cheat sheets).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python39 <span class="c1"># activating python39 with a alias for pyenv</span>
+vol3 -f poormark.dmp windows.netscan.NetScan &gt; netscan.csv
+</code></pre></div><p>Since I already know I will need the output for several other commands, it&rsquo;s better to do so now.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol3 -f poormark.dmp windows.pslist.PsList &gt; pslist.csv
+vol3 -f poormark.dmp windows.psscan.PsScan &gt; psscan.csv
+vol3 -f poormark.dmp windows.pstree.PsTree &gt; pstree.csv
+
+vol3 -f poormark.dmp windows.cmdline &gt; cmdline.csv
+vol3 -f poormark.dmp windows.filescan.FileScan &gt; filescan.csv
+vol3 -f poormark.dmp windows.malfind.Malfind &gt; malfind.txt
+</code></pre></div><p>Now, I am going to import this data to an Excel workbook, a sheet for each output (File -&gt; Import -&gt; CSV file, space as a delimiter). Now, I can add filters to each, delete blank rows and start working.</p>
 <p>Sip, sip ☕️ &hellip; .</p>
 <p><img src="https://media3.giphy.com/media/g43ZqCrsNRbpu/giphy.gif?cid=790b7611cf82928f0a99a24c32a1caccd506483f0abf837d&amp;rid=giphy.gif&amp;ct=g" alt="img"></p>
 <p>That&rsquo;s ok&hellip; . The sooner I finish, the sooner I can get myself a treat.</p>
@@ -275,12 +275,12 @@
 <p><img src="images/firefoxpath.png" alt="firefoxpath"></p>
 <p>⏰ <code>7:40 AM</code></p>
 <p>Ok, that&rsquo;s it. Enough of this peeking and stalking. That&rsquo;s get my hands on this sample at get it thoroughly examined. I know its PID and I can try dumping it with the <code>dumpfiles</code> plugin.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol3 -f poormark.dmp  windows.dumpfiles.DumpFiles --pid <span class="m">1234</span>
-</span></span></code></pre></div><p>Cool! Let&rsquo;s get now the second fellow!</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol3 -f poormark.dmp  windows.dumpfiles.DumpFiles --pid <span class="m">1234</span>
+</code></pre></div><p>Cool! Let&rsquo;s get now the second fellow!</p>
 <p>⏰ <code>7:41 AM</code></p>
 <p>Oops. This one doesn&rsquo;t give up that easily. However, I could try dumping it using the offsets that I got from the <code>filescan</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol3 -f poormark.dmp  windows.dumpfiles.DumpFiles --physaddr 0xxxxxxx
-</span></span></code></pre></div><p>It worked 🧟‍♂️🧪! It&rsquo;s now time to upload them both to a VirusTotal then.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol3 -f poormark.dmp  windows.dumpfiles.DumpFiles --physaddr 0xxxxxxx
+</code></pre></div><p>It worked 🧟‍♂️🧪! It&rsquo;s now time to upload them both to a VirusTotal then.</p>
 <p>⏰ <code>7:45 AM</code></p>
 <p>It looks like these are both the same thing and that thing is not nice. Going by the name <em>BitcoinBlackmailer.exe</em> or <em>Jigsaw Ransomware</em>, it might be spooky, but not that desctructive as it may seem. Looks like it&rsquo;s a .NET malware (meaning, it can be decompiled into something more friendly than hardcore Assembly) and moreover looks like the data needed for decryption is contained in that executable. Wow. Piece of cake? Or a trap&hellip; ?</p>
 <p><img src="images/Picture1.png" alt="Picture 1"></p>
@@ -291,45 +291,45 @@
 <p>⏰ <code>7:47 AM</code></p>
 <p>What the heck? This one is yet another instance of the same crap. Looks like I am getting to the point when reverse engineering is unavoidable.</p>
 <p>Well, how about approaching this from another end? Grepping and stuff. What if I check, what clues can I get from the <code>AssassinsCreedUnity</code> keyword&rsquo;s surroundings in RAM.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings poormark.dmp <span class="p">|</span> grep <span class="s2">&#34;AssassinsCreedUnity&#34;</span> -C2
-</span></span><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\Y</span>bpny<span class="se">\Q</span>ecok<span class="se">\q</span>ecok.rkr
-</span></span><span class="line"><span class="cl">C:<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\D</span>ownloads<span class="se">\A</span>ssassinsCreedUnity<span class="se">\i</span>nstall.exe
-</span></span><span class="line"><span class="cl">URLDownloadToCacheFileW
-</span></span></code></pre></div><p>Aha! Gotcha! Wait, what? Official Windows API <a href="https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775122(v=vs.85)">docs</a> give a little insight as to what this function is used for. Looks like this one is responsible for automatically saving the files on the system and showing that pop-up <em>Open</em> when it&rsquo;s done, in IE. Good, looks like Mark was digging his own grave with his own hands 🙌. Looks like Mark wanted to save some money on AssassinsCreed Edition&hellip; . Ay Ay Ay! Since the Downloads folder contained this malware, it could be great proof of knowledge and intentional download of the file. However, that wouldn&rsquo;t prove that the user knew about the true functionality of the executable.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">strings poormark.dmp <span class="p">|</span> grep <span class="s2">&#34;AssassinsCreedUnity&#34;</span> -C2
+...
+<span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\Y</span>bpny<span class="se">\Q</span>ecok<span class="se">\q</span>ecok.rkr
+C:<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\D</span>ownloads<span class="se">\A</span>ssassinsCreedUnity<span class="se">\i</span>nstall.exe
+URLDownloadToCacheFileW
+</code></pre></div><p>Aha! Gotcha! Wait, what? Official Windows API <a href="https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775122(v=vs.85)">docs</a> give a little insight as to what this function is used for. Looks like this one is responsible for automatically saving the files on the system and showing that pop-up <em>Open</em> when it&rsquo;s done, in IE. Good, looks like Mark was digging his own grave with his own hands 🙌. Looks like Mark wanted to save some money on AssassinsCreed Edition&hellip; . Ay Ay Ay! Since the Downloads folder contained this malware, it could be great proof of knowledge and intentional download of the file. However, that wouldn&rsquo;t prove that the user knew about the true functionality of the executable.</p>
 <p>But wait, there is also something pretty weird above this <em>AssassinsCreedUnity</em> keyword. Some string, that looks pretty much like a ROT13 encoded path. Let&rsquo;s see, what it really is (using <a href="https://cryptii.com/pipes/rot13-decoder">Cryptii</a> for that):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\Y</span>bpny<span class="se">\Q</span>ecok<span class="se">\q</span>ecok.rkr
-</span></span><span class="line"><span class="cl"><span class="c1"># turns into, wait for it... .</span>
-</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\D</span>rpbx<span class="se">\d</span>rpbx.exe
-</span></span></code></pre></div><p>Why is it ROT13 encoded then? Well, it might be a UserAssist key, since the paths are indeed ROT13 encoded when written there. Ok, may be I will find other clues using the save technique, but a different keyword:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings poormark.dmp <span class="p">|</span> grep <span class="s2">&#34;qecok.rkr&#34;</span> -C2
-</span></span><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\E</span>bnzvat<span class="se">\S</span>esk<span class="se">\s</span>versbk.rkr
-</span></span><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\Q</span>bjaybnqf<span class="se">\N</span>ffnffvafPerrqHavgl<span class="se">\v</span>afgnyy.rkr
-</span></span><span class="line"><span class="cl">...
-</span></span></code></pre></div><p>Voilà! Something again.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\E</span>bnzvat<span class="se">\S</span>esk<span class="se">\s</span>versbk.rkr
-</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\D</span>ownloads<span class="se">\A</span>ssassinsCreedUnity
-</span></span><span class="line"><span class="cl"><span class="c1"># turns into, wait for it... .</span>
-</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\F</span>rfx<span class="se">\f</span>irefox.exe
-</span></span><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\Q</span>bjaybnqf<span class="se">\N</span>ffnffvafPerrqHavgl<span class="se">\v</span>afgnyy.rkr
-</span></span></code></pre></div><p>So, now I know that all the three malicious executables are likely present in UserAssist registry key. So, that&rsquo;s where I think I am going to go next. Since registry is hanging out in RAM while the PC is running, being updated constantly, there is an option to dump the whole hive (failed doing so) or just dump specific keys using <code>windows.registry.printkey.PrintKey</code> or plugins specific to the key (<code>windows.registry.printkey.PrintKey</code>).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\Y</span>bpny<span class="se">\Q</span>ecok<span class="se">\q</span>ecok.rkr
+<span class="c1"># turns into, wait for it... .</span>
+<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\D</span>rpbx<span class="se">\d</span>rpbx.exe
+</code></pre></div><p>Why is it ROT13 encoded then? Well, it might be a UserAssist key, since the paths are indeed ROT13 encoded when written there. Ok, may be I will find other clues using the save technique, but a different keyword:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">strings poormark.dmp <span class="p">|</span> grep <span class="s2">&#34;qecok.rkr&#34;</span> -C2
+...
+<span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\E</span>bnzvat<span class="se">\S</span>esk<span class="se">\s</span>versbk.rkr
+<span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\Q</span>bjaybnqf<span class="se">\N</span>ffnffvafPerrqHavgl<span class="se">\v</span>afgnyy.rkr
+...
+</code></pre></div><p>Voilà! Something again.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\N</span>ccQngn<span class="se">\E</span>bnzvat<span class="se">\S</span>esk<span class="se">\s</span>versbk.rkr
+<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\D</span>ownloads<span class="se">\A</span>ssassinsCreedUnity
+<span class="c1"># turns into, wait for it... .</span>
+<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\F</span>rfx<span class="se">\f</span>irefox.exe
+<span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\Q</span>bjaybnqf<span class="se">\N</span>ffnffvafPerrqHavgl<span class="se">\v</span>afgnyy.rkr
+</code></pre></div><p>So, now I know that all the three malicious executables are likely present in UserAssist registry key. So, that&rsquo;s where I think I am going to go next. Since registry is hanging out in RAM while the PC is running, being updated constantly, there is an option to dump the whole hive (failed doing so) or just dump specific keys using <code>windows.registry.printkey.PrintKey</code> or plugins specific to the key (<code>windows.registry.printkey.PrintKey</code>).</p>
 <p>⏰ <code>7:54 AM</code></p>
 <p>So, let&rsquo;s see, what&rsquo;s inside this UserAssist&hellip; .</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol3 -f poormark.dmp windows.registry.userassist.UserAssist
-</span></span><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl"><span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\Q</span>bjaybnqf<span class="se">\N</span>ffnffvafPerrqHavgl<span class="se">\v</span>afgnyy.rkr
-</span></span><span class="line"><span class="cl"><span class="s2">&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 00 00 01 00 00 00	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 00 00 00 00 00 00	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 80 bf 00 00 80 bf	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 80 bf 00 00 80 bf	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 80 bf 00 00 80 bf	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 80 bf 00 00 80 bf	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">00 00 80 bf 00 00 80 bf	........
-</span></span></span><span class="line"><span class="cl"><span class="s2">ff ff ff ff 70 29 0A D5	.....,^`
-</span></span></span><span class="line"><span class="cl"><span class="s2">74 1F d8 01 00 00 00 00	........&#34;</span>	False
-</span></span></code></pre></div><p>Aha! So, there <em>is</em> this <code>install.exe</code> there. At the end of this hex digits row there is a timestamp. I will use DCode utility to convert little-endian hex <code>70290AD5741FD801</code> into Windows filetime UTC.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">vol3 -f poormark.dmp windows.registry.userassist.UserAssist
+...
+<span class="se">\H</span>fref<span class="se">\N</span>qzvavfgengbe<span class="se">\Q</span>bjaybnqf<span class="se">\N</span>ffnffvafPerrqHavgl<span class="se">\v</span>afgnyy.rkr
+<span class="s2">&#34;
+</span><span class="s2">00 00 00 00 01 00 00 00	........
+</span><span class="s2">00 00 00 00 00 00 00 00	........
+</span><span class="s2">00 00 80 bf 00 00 80 bf	........
+</span><span class="s2">00 00 80 bf 00 00 80 bf	........
+</span><span class="s2">00 00 80 bf 00 00 80 bf	........
+</span><span class="s2">00 00 80 bf 00 00 80 bf	........
+</span><span class="s2">00 00 80 bf 00 00 80 bf	........
+</span><span class="s2">ff ff ff ff 70 29 0A D5	.....,^`
+</span><span class="s2">74 1F d8 01 00 00 00 00	........&#34;</span>	False
+</code></pre></div><p>Aha! So, there <em>is</em> this <code>install.exe</code> there. At the end of this hex digits row there is a timestamp. I will use DCode utility to convert little-endian hex <code>70290AD5741FD801</code> into Windows filetime UTC.</p>
 <p><img src="images/dcode.png" alt="dcode"></p>
 <p>What I can conlude by now is that this <code>install.exe</code> was launhed via its executable (not a shortcut). It was run a minute after <code>firefox.exe</code> and almost instantly followed by <code>drpbx.exe</code> which might suggest that it was this mysterious parent of <code>drpbx.exe</code>. Right after giving birth 🤰 to this clone of its, this <code>install.exe</code> exited leaving the &ldquo;baby&rdquo; on its own.</p>
 <p><code>01 00</code> at offset <code>0x4</code> tells me that this program was run once (<a href="https://bakerst221b.com/docs/dfir/investigation/configs/win-registry/#user-assist">ref</a>). However, the focus count is 0 and time focused is <code>0:00:00.500000</code> (<code>userassist</code> plugin converts this data from hex for readability). Looks like the user didn&rsquo;t spend too much time looking at at 👀.</p>
@@ -342,10 +342,10 @@
 <p>I can see Event logs in RAM as well. Let&rsquo;s try dumping them using <code>filescan</code> plugin with the offset again. May be something of interest will be there.</p>
 <p>⏰ <code>8:04 AM</code></p>
 <p>Ok, I&rsquo;ve managed to restore some of Event Logs using <code>CQEVTXRecovery.exe</code>, and run chainsaw utility against it hoping to spot anything suspicious.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chainsaw hunt . --mapping /Users/user/Documents/toolkit/win/chainsaw/mapping_files/sigma-mapping.yml --rules /Users/user/Documents/toolkit/win/chainsaw/sigma_rules/ --csv result.csv
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">CQEVTXRecovery.exe -in pathwithlogs -out pathforresult
-</span></span></code></pre></div><p>However, nothing was found this way.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">chainsaw hunt . --mapping /Users/user/Documents/toolkit/win/chainsaw/mapping_files/sigma-mapping.yml --rules /Users/user/Documents/toolkit/win/chainsaw/sigma_rules/ --csv result.csv
+
+CQEVTXRecovery.exe -in pathwithlogs -out pathforresult
+</code></pre></div><p>However, nothing was found this way.</p>
 <p>Ok, I an as well open them with Event Viewer on a Windows VM and review manually (luckily, not to many records there). Or am I just not good enough in manually scrolling through these logs?</p>
 <p><img src="https://media.giphy.com/media/rMckaUH3vrIk0/giphy.gif" alt="img"></p>
 <p>⏰ <code>8:24 AM</code></p>
@@ -444,26 +444,26 @@
 </ol>
 <p>I&rsquo;ve also recommended him to buy the Unity edition, it&rsquo;s totally worth it anyway! And if he <em>is</em> risking online that carelessly, at least, use another user account, or even better, another PC.</p>
 <p>If I didn&rsquo;t know Mark in person, I would probably try finding this link he used. For example, using regex or scrolling through the Event Logs.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings poormark.dmp <span class="p">|</span>  grep -Eo <span class="s2">&#34;(http|https)://[a-zA-Z0-9./?=_-]*&#34;</span> <span class="p">|</span> sort -u &gt; links.txt
-</span></span></code></pre></div><p>⏰ <code>11:50 AM</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">strings poormark.dmp <span class="p">|</span>  grep -Eo <span class="s2">&#34;(http|https)://[a-zA-Z0-9./?=_-]*&#34;</span> <span class="p">|</span> sort -u &gt; links.txt
+</code></pre></div><p>⏰ <code>11:50 AM</code></p>
 <p>The victory tastes almoust dizzyingly sweet.</p>
 <p>PS. It took much less time to google the IV instead of manually reversing the file to get it. However, I just felt utterly uncomfortable not knowing why I cannot attach the debugger and not being able to get this IV myself.</p>
 <p>PPS. By the way, below is my pythong script for decrypting using the above mentioned key 🔑 and IV.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># activate python39 env if you are using pyen or virtualenv</span>
-</span></span><span class="line"><span class="cl">python39
-</span></span><span class="line"><span class="cl">pip install pycryptodome
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.Padding</span> <span class="kn">import</span> <span class="n">pad</span><span class="p">,</span> <span class="n">unpad</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">base64</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">key</span><span class="o">=</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="s2">&#34;OoIsAwwF23cICQoLDA0ODe==&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">flag</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/path/to/important/file.fun&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">flag_file</span><span class="o">=</span><span class="n">flag</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">iv</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;0103530100206760&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="n">iv</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">original_data</span> <span class="o">=</span> <span class="n">unpad</span><span class="p">(</span><span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">flag_file</span><span class="p">),</span> <span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">original_data</span><span class="p">)</span>
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># activate python39 env if you are using pyen or virtualenv</span>
+python39
+pip install pycryptodome
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
+<span class="kn">from</span> <span class="nn">Crypto.Util.Padding</span> <span class="kn">import</span> <span class="n">pad</span><span class="p">,</span> <span class="n">unpad</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+
+<span class="n">key</span><span class="o">=</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="s2">&#34;OoIsAwwF23cICQoLDA0ODe==&#34;</span><span class="p">)</span>
+<span class="n">flag</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&#34;/path/to/important/file.fun&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span>
+<span class="n">flag_file</span><span class="o">=</span><span class="n">flag</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">iv</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;0103530100206760&#39;</span>
+<span class="n">cipher</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv</span><span class="o">=</span><span class="n">iv</span><span class="p">)</span>
+<span class="n">original_data</span> <span class="o">=</span> <span class="n">unpad</span><span class="p">(</span><span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">flag_file</span><span class="p">),</span> <span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">original_data</span><span class="p">)</span>
+</code></pre></div>
   </div>
 </article>
 </div>
@@ -495,7 +495,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
   
 
   
