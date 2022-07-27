@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -268,21 +268,21 @@
     <p><strong>D</strong>ynamic <strong>H</strong>ost <strong>C</strong>onfiguration <strong>P</strong>rotocol. Listening on 67 port. Sending from 68.</p>
 <h2 id="mechanism">Mechanism</h2>
 <h3 id="dhcp-discover-broadcast-c--s">DHCP Discover (Broadcast) C-&gt; S</h3>
-<p>[new PC] 🧸 <em>&ldquo;I need an IP, I am new here. Only have this stupid useless 169.254.X.X address. Where do I register? Guys! Who knows where the DHCP is?&quot;</em></p>
+<p>[new PC] 🧸 <em>&ldquo;I need an IP, I am new here. Only have this stupid useless 169.254.X.X address. Where do I register? Guys! Who knows where the DHCP is?&rdquo;</em></p>
 <p><code>DHCPDISCOVER</code> is broadcasted in the network. Every machine, even non-DHCP once, hear this message.</p>
 <h3 id="dhcp-offer-broadcastunicat-s---c">DHCP Offer (Broadcast/Unicat) S -&gt; C</h3>
-<p>[DHCP server] 🥸 <em>&ldquo;I&rsquo;m DHCP. How can I help?&quot;</em></p>
+<p>[DHCP server] 🥸 <em>&ldquo;I&rsquo;m DHCP. How can I help?&rdquo;</em></p>
 <p>DHCP server sends a DHCPOFFER to the [new PC] offering its help.</p>
 <h3 id="dhcp-request-broadcast-c---s">DHCP Request (Broadcast) C -&gt; S</h3>
-<p>[new PC] 🧸  <em>&ldquo;I want an IP!&quot;</em></p>
+<p>[new PC] 🧸  <em>&ldquo;I want an IP!&rdquo;</em></p>
 <p>PC in question responds with a DHCPREQUEST packet.</p>
 <h3 id="dhcp-ack-broadcastunicat-s---c">DHCP Ack (Broadcast/Unicat) S -&gt; C</h3>
-<p>[DHCP server] 🥸 <em>&ldquo;Here you are. Fetch your configs also!&quot;</em>
+<p>[DHCP server] 🥸 <em>&ldquo;Here you are. Fetch your configs also!&rdquo;</em>
 DHCP sends the PC IP address with the settings in a DHCPACK packet and put this data into its registry table as well, striking through the IP already in use now.</p>
 <p>Mnemonics - DORA (Discover, Offer, Request and Acknowledge)</p>
 <h2 id="-btfm">📘 BTFM</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ipconfig <span class="se">\r</span>efresh <span class="c1"># Windows</span>
-</code></pre></div><h2 id="dhcp-starvation">DHCP starvation</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ipconfig <span class="se">\r</span>efresh <span class="c1"># Windows</span>
+</span></span></code></pre></div><h2 id="dhcp-starvation">DHCP starvation</h2>
 <p>Get a legitimate DHCP down, become a DHCP server for the network, config PCs with the new GW (gateway), DNS, domain, subnet mask, IP etc. Get the legitimate DHCP down and set up a rougue one. All traffic comes through the fake DHCP.
 Step 1. Change local MAC address so that DHCP thinks I&rsquo;m someone else.
 Step 2. Send a lot of (hunderds, thousands) DHCPREQUESTs thus delpleting the server&rsquo;s pool of available IP addresses. The overwhelmed and terrified legitimate DHCP crashes.
@@ -344,7 +344,7 @@ Step 3. Introduce my own rogue DHCP server.</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

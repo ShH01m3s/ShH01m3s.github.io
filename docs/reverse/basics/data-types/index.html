@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -272,24 +272,24 @@
 <li>Convert this binary into decimal for the ordinary world of <code>int</code>s.</li>
 </ol>
 <p>The code for this operation is listed below (Python 🐍) [<a href="https://www.cclsolutionsgroup.com/post/indexeddb-on-chromium">1</a>], I only have fixed a little bug in the pseudocode from the link:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">is_32_bit</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">if</span> <span class="n">is_32_bit</span> <span class="k">else</span> <span class="mi">10</span>
-<span class="nb">buffer</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0xe3</span><span class="p">,</span> <span class="mh">0x1</span><span class="p">]</span>
-
-<span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
-    <span class="c1"># (buffer[idx] &amp; 0x7f, 0x7f is a mask 0111 1111. Applying AND with this mask clears the first bit of a byte (the one that tells whether to read the next byte or not). We do that so that this byte is not considered when calculating the actual value</span>
-    <span class="c1"># &lt;&lt; (idx * 7) - we shift each byte processed so that it is put on its place (i.e. reversing the order step)</span>
-    <span class="n">result</span> <span class="o">|=</span> <span class="p">((</span><span class="nb">buffer</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">7</span><span class="p">))</span>
-    
-    <span class="c1"># 0x80 is 1000 0000 mask which when applied to a number, converts it to the following pattern: either 00000000 or 10000000, depending on whether the leftmost bit was set to 1.</span>
-    <span class="k">if</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x80</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-      <span class="k">break</span>
-    <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
-    
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div><h2 id="zigzag">ZigZag</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">is_32_bit</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl"><span class="n">limit</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">if</span> <span class="n">is_32_bit</span> <span class="k">else</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">buffer</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0xe3</span><span class="p">,</span> <span class="mh">0x1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># (buffer[idx] &amp; 0x7f, 0x7f is a mask 0111 1111. Applying AND with this mask clears the first bit of a byte (the one that tells whether to read the next byte or not). We do that so that this byte is not considered when calculating the actual value</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># &lt;&lt; (idx * 7) - we shift each byte processed so that it is put on its place (i.e. reversing the order step)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">|=</span> <span class="p">((</span><span class="n">buffer</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">7</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 0x80 is 1000 0000 mask which when applied to a number, converts it to the following pattern: either 00000000 or 10000000, depending on whether the leftmost bit was set to 1.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">buffer</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x80</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">      <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="zigzag">ZigZag</h2>
 <p>Since <code>VarInt</code> is not good for negative numbers, Google came up with another encoding: ZigZag. Why such a strange name?</p>
 <table>
 <thead>
@@ -322,16 +322,16 @@
 </tbody>
 </table>
 <p>The code for this operation is listed below (Python 🐍) [<a href="https://www.cclsolutionsgroup.com/post/indexeddb-on-chromium">1</a>]:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">raw</span> <span class="o">=</span> <span class="mh">0x3</span>
-
-<span class="n">is_negative</span> <span class="o">=</span> <span class="n">raw</span> <span class="o">&amp;</span> <span class="mh">0x01</span> <span class="o">&gt;</span> <span class="mi">0</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">raw</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
-
-<span class="k">if</span> <span class="n">is_negative</span><span class="p">:</span>
-  <span class="n">result</span> <span class="o">=</span> <span class="o">-</span><span class="n">result</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div><h2 id="biginteger">BigInteger</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">raw</span> <span class="o">=</span> <span class="mh">0x3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">is_negative</span> <span class="o">=</span> <span class="n">raw</span> <span class="o">&amp;</span> <span class="mh">0x01</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">result</span> <span class="o">=</span> <span class="n">raw</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">is_negative</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  <span class="n">result</span> <span class="o">=</span> <span class="o">-</span><span class="n">result</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="biginteger">BigInteger</h2>
 <p>Read a varint; the least significant bit gives you the sign of the number (1 for negative). Bit-shift the value left 4 bits; this shifted value tells you how many unsigned integers to read – 32-bit integers on 32-bit systems, 64-bit bit integers on 64-bit systems. Take the concatenated value and read it with the endianness of the system. [<a href="https://www.cclsolutionsgroup.com/post/indexeddb-on-chromium">1</a>]</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.cclsolutionsgroup.com/post/indexeddb-on-chromium">1</a>] IndexedDB on Chromium</p>
@@ -367,7 +367,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -305,102 +305,101 @@
 <p>But how does it really work under the hood? We have a Dalvik VM car or ART 🚘. That&rsquo;s not actually a VM (though it was called that way). When we talk about a VM, we almost always think of Vbox, VMWare or Parallels or whatever other tool you prefer or know. This piece of software emulates a machine with a whole OS running on its top. However, sometimes a VM is something way less complex. I am planning on writing a blog post about VMs in crackmes and malware, but for you to get a notion I&rsquo;ll leave a couple of words here. May skip it if not interested, it&rsquo;s not that crucuial to this narrative.</p>
 <p>Machine code is ugly (some might argue with that) and &hellip; well <em>machinery</em>. Meaning, it&rsquo;s takes quite a time to read it and understand. One simple program that prints &ldquo;Hello world!&rdquo; might take dozens of assembly instructions. For PC however there is really no assembly. For me it looks like (and may be it is so) was the first attempt to <em>humanise</em> the machine code which consists of <code>1</code>s and <code>0</code>s only. For example, it would certainly take ages clock 🕰 for a human being to be fluent with something like this: <code>11000111010010</code>. It&rsquo;s definetely easier to read <code>0x31d2</code> (which is nothing more than a hex equivalent of <code>11000111010010</code>), but still not very readable 😓. That&rsquo;s why humans decided that <code>11000111010010</code> can be interpreted like <code>xor edx, edx</code>, which means apply <code>xor</code> operation to <code>edx</code>, zeroing it out. Of course, it&rsquo;s much easier to read it now.</p>
 <p>You might be thinking &ldquo;<em>Where is this all going?</em>&rdquo; Well, imagine there is a piece of code inside a highly obfuscated program that has some peculiar code that translate some garbage-looking binary (hex) digits into real assembly instructions (machine code). For example, this opcode (<code>0x31d2</code>).</p>
-<div class="highlight"><pre class="chroma"><code class="language-swift" data-lang="swift"><span class="n">array</span> <span class="p">=</span> <span class="p">[</span><span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">]</span>
-<span class="n">current_instruction</span> <span class="p">=</span> <span class="mh">0x0</span>
-<span class="k">switch</span> <span class="n">current_instruction</span> <span class="p">{</span>
-	<span class="k">case</span> <span class="mh">0x12</span><span class="p">:</span>
-  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x5b</span>
-  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;pop ebx&#34;</span>
-  <span class="k">case</span> <span class="mh">0x13</span><span class="p">:</span>
-  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x83c201</span>
-  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;add edx, 0x1&#34;</span>
-  <span class="k">case</span> <span class="mh">0x14</span><span class="p">:</span>
-  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x31d2</span>
-  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;xor edx, edx&#34;</span>
-  <span class="k">case</span> <span class="mh">0x15</span><span class="p">:</span>
-  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x84c9</span>
-  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;test cl, cl&#34;</span>
-<span class="p">}</span>
-
-</code></pre></div><p>This is an example of a very simple VM. It has only 4 instructions which it translates to real assembly. <code>0x12</code> means <code>0x5b</code> which in human-readable assebly means <code>pop ebx</code>, telling the CPU to put the last value from the stack into <code>ebx</code> and move the stack pointer to the next value. <code>0x13</code> means <code>0x83c201</code> in real machine code, which can be interpreted as <code>add edx, 0x1</code>, which tells the CPU to add <code>1</code> to the value stored in <code>edx</code> registy. And so on. So, basically, a VM in this case is just a switch statement that translated its own bytecode into the one that the CPU understands. I presume, Dalvik VM, Java VM and ART are based on the same principle.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="n">array</span> <span class="p">=</span> <span class="p">[</span><span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">current_instruction</span> <span class="p">=</span> <span class="mh">0x0</span>
+</span></span><span class="line"><span class="cl"><span class="k">switch</span> <span class="n">current_instruction</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">case</span> <span class="mh">0x12</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x5b</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;pop ebx&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mh">0x13</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x83c201</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;add edx, 0x1&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mh">0x14</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x31d2</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;xor edx, edx&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">case</span> <span class="mh">0x15</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">hex</span> <span class="p">=</span> <span class="mh">0x84c9</span>
+</span></span><span class="line"><span class="cl">  	<span class="n">assembly</span> <span class="p">=</span> <span class="s">&#34;test cl, cl&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>This is an example of a very simple VM. It has only 4 instructions which it translates to real assembly. <code>0x12</code> means <code>0x5b</code> which in human-readable assebly means <code>pop ebx</code>, telling the CPU to put the last value from the stack into <code>ebx</code> and move the stack pointer to the next value. <code>0x13</code> means <code>0x83c201</code> in real machine code, which can be interpreted as <code>add edx, 0x1</code>, which tells the CPU to add <code>1</code> to the value stored in <code>edx</code> registy. And so on. So, basically, a VM in this case is just a switch statement that translated its own bytecode into the one that the CPU understands. I presume, Dalvik VM, Java VM and ART are based on the same principle.</p>
 <p>So, there is this Dalvik VM (ART for the later versions) which is like a one-way interpreter: listening to one party and delivering the information to another party in the form that it understands. However, as I&rsquo;ve already mentioned, there is this <em>native</em> code part. This one is called by the Dalvik VM (which reads this plea from the Java bytecode), but it&rsquo;s run <em>natively</em>, i.e. directly by Linux kernel. Here is a little sketch of how this whole thing works:</p>
 <p><img src="images/android-process-arch.png" alt="android-process-arch"></p>
 <p>🗒</p>
 <p>Java and native code talk via a JNI bridge (an arrow on the diagram above). Now, in order to debug both parts we need to understand, how this communication really works.</p>
-<p>Native code is invoked via <code>System.load()</code> method (something similar to <code>LoadLibrary</code> for WinAPI, I guess). Android uses <code>bionic</code> instead of <code>glibc</code>, since it has some code specific to a mobile platform. JNI means Java Native Interface. <code>JNIEnv</code> is a pointer to a table. This table contains a list of functions' offsets. This offsets point to their interfaces, that can be used to run a function. This is how Java code can <em>talk</em> to the native code.</p>
+<p>Native code is invoked via <code>System.load()</code> method (something similar to <code>LoadLibrary</code> for WinAPI, I guess). Android uses <code>bionic</code> instead of <code>glibc</code>, since it has some code specific to a mobile platform. JNI means Java Native Interface. <code>JNIEnv</code> is a pointer to a table. This table contains a list of functions&rsquo; offsets. This offsets point to their interfaces, that can be used to run a function. This is how Java code can <em>talk</em> to the native code.</p>
 <h2 id="debugging-java">Debugging Java</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the PID of the application to be debugged</span>
-<span class="c1"># option 1. List all debuggable apps</span>
-adb jdwp
-<span class="c1"># option 2</span>
-drozer console connect
-run app.package.attacksurface &lt;package_name&gt;
-<span class="c1"># option 3. List all debuggable apps </span>
-drozer console connect
-run app.package.debuggable
-<span class="c1"># option 4</span>
-frida-ps -U <span class="p">|</span> grep &lt;package_name_full_or_partial&gt;
-
-<span class="c1"># forward </span>
-adb forward tcp:12345 jdwp:&lt;PID_of_app&gt;
-
-<span class="c1"># connect</span>
-jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1"># windows</span>
-jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
-<span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:12345 <span class="c1"># suspend the process and attach</span>
-</code></pre></div><h2 id="debugging-native-code">Debugging Native Code</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># get the PID of the application to be debugged</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># option 1. List all debuggable apps</span>
+</span></span><span class="line"><span class="cl">adb jdwp
+</span></span><span class="line"><span class="cl"><span class="c1"># option 2</span>
+</span></span><span class="line"><span class="cl">drozer console connect
+</span></span><span class="line"><span class="cl">run app.package.attacksurface &lt;package_name&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># option 3. List all debuggable apps </span>
+</span></span><span class="line"><span class="cl">drozer console connect
+</span></span><span class="line"><span class="cl">run app.package.debuggable
+</span></span><span class="line"><span class="cl"><span class="c1"># option 4</span>
+</span></span><span class="line"><span class="cl">frida-ps -U <span class="p">|</span> grep &lt;package_name_full_or_partial&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># forward </span>
+</span></span><span class="line"><span class="cl">adb forward tcp:12345 jdwp:&lt;PID_of_app&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># connect</span>
+</span></span><span class="line"><span class="cl">jdb -connect com.sun.jdi.SocketAttach:port<span class="o">=</span><span class="m">12345</span> <span class="c1"># windows</span>
+</span></span><span class="line"><span class="cl">jdb -attach localhost:12345 <span class="c1"># linux/mac</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:12345 <span class="c1"># suspend the process and attach</span>
+</span></span></code></pre></div><h2 id="debugging-native-code">Debugging Native Code</h2>
 <p>I needed Adnroid NDK to be able to analyse native code. I tried using <code>brew install --cask android-ndk</code>, but this didn&rsquo;t work for me. So, I followed instructions from <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/appendix/0x08-testing-tools#android-ndk">here</a>.</p>
 <p>To explore the symbols:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -s libnative-lib.so <span class="p">|</span> grep -i Java 
-&gt; <span class="m">3</span>   0x00000e78 0x00000e78 GLOBAL FUNC   <span class="m">16</span>       Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI
-</code></pre></div><p>Below are the commands to run <code>gdb</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">adb shell
-su
-<span class="c1"># run gdb server and attach to the target process using its PID (process ID)</span>
-<span class="c1"># to find the process PID use frida or jdwp or something else of your liking</span>
-/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span>
-
-<span class="c1"># in another tab on PC</span>
-adb forward tcp:1234 tcp:1234
-
-<span class="c1"># on the PC run this command from the apk directory containing the lib in question</span>
-<span class="nv">$TOOLCHAIN</span>/bin/gdb libnative-lib.so
-<span class="c1"># connect the client gdb on PC to the gdb server on the mobile device</span>
-&gt; target remote :1234
-</code></pre></div><p>In case some native function is called right upon the start, you might need to suspend the process first in Java code (since Java code is calling the native part).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rabin2 -s libnative-lib.so <span class="p">|</span> grep -i Java 
+</span></span><span class="line"><span class="cl">&gt; <span class="m">3</span>   0x00000e78 0x00000e78 GLOBAL FUNC   <span class="m">16</span>       Java_sg_vantagepoint_helloworldjni_MainActivity_stringFromJNI
+</span></span></code></pre></div><p>Below are the commands to run <code>gdb</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">adb shell
+</span></span><span class="line"><span class="cl">su
+</span></span><span class="line"><span class="cl"><span class="c1"># run gdb server and attach to the target process using its PID (process ID)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># to find the process PID use frida or jdwp or something else of your liking</span>
+</span></span><span class="line"><span class="cl">/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># in another tab on PC</span>
+</span></span><span class="line"><span class="cl">adb forward tcp:1234 tcp:1234
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># on the PC run this command from the apk directory containing the lib in question</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$TOOLCHAIN</span>/bin/gdb libnative-lib.so
+</span></span><span class="line"><span class="cl"><span class="c1"># connect the client gdb on PC to the gdb server on the mobile device</span>
+</span></span><span class="line"><span class="cl">&gt; target remote :1234
+</span></span></code></pre></div><p>In case some native function is called right upon the start, you might need to suspend the process first in Java code (since Java code is calling the native part).</p>
 <h3 id="step-1-wait-for-debugger">Step 1. Wait for Debugger</h3>
 <p>Turn on the &ldquo;Wait for Debugger&rdquo; option. This will suspend the process from the very start.</p>
 <h3 id="step-2-run-jdb-client">Step 2. Run JDB client</h3>
 <p>Run <code>jdb</code> client, attach it to the process to be debugged.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get the process PID to debug</span>
-adb jdwp
-<span class="c1"># forward the port to attach the jdb </span>
-adb forward tcp:7777 jdwp:<span class="o">[</span>PID<span class="o">]</span>
-
-<span class="c1"># suspend the process and attach</span>
-<span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:7777
-</code></pre></div><p>Now, the <code>jdb</code> is attached. Set the breakpoint at <code>System.LoadLibrary()</code> call (the one that loads native code into process memory) with <code>stop in java.lang.System.loadLibrary</code> command in <code>jdb</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># get there</span>
-&gt; resume
-<span class="c1"># stop right after System.LoadLibrary() returns</span>
-&gt; step up
-</code></pre></div><p>This is what success looks like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># get the process PID to debug</span>
+</span></span><span class="line"><span class="cl">adb jdwp
+</span></span><span class="line"><span class="cl"><span class="c1"># forward the port to attach the jdb </span>
+</span></span><span class="line"><span class="cl">adb forward tcp:7777 jdwp:<span class="o">[</span>PID<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># suspend the process and attach</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="nb">echo</span> <span class="s2">&#34;suspend&#34;</span><span class="p">;</span> cat<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> jdb -attach localhost:7777
+</span></span></code></pre></div><p>Now, the <code>jdb</code> is attached. Set the breakpoint at <code>System.LoadLibrary()</code> call (the one that loads native code into process memory) with <code>stop in java.lang.System.loadLibrary</code> command in <code>jdb</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># get there</span>
+</span></span><span class="line"><span class="cl">&gt; resume
+</span></span><span class="line"><span class="cl"><span class="c1"># stop right after System.LoadLibrary() returns</span>
+</span></span><span class="line"><span class="cl">&gt; step up
+</span></span></code></pre></div><p>This is what success looks like:</p>
 <p><img src="images/run-jdb-client.png" alt="run-jdb-client"></p>
 <h3 id="step-3-run-the-gdbserver">Step 3. Run the <code>gdbserver</code></h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># forward the port to connect the gdb client to the gdb server</span>
-adb forward tcp:1234 tcp:1234
-adb shell
-su
-<span class="c1"># gdbserver should be installed on Android device</span>
-/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span> 
-</code></pre></div><p>🍀 This is what success looks like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># forward the port to connect the gdb client to the gdb server</span>
+</span></span><span class="line"><span class="cl">adb forward tcp:1234 tcp:1234
+</span></span><span class="line"><span class="cl">adb shell
+</span></span><span class="line"><span class="cl">su
+</span></span><span class="line"><span class="cl"><span class="c1"># gdbserver should be installed on Android device</span>
+</span></span><span class="line"><span class="cl">/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span> 
+</span></span></code></pre></div><p>🍀 This is what success looks like:</p>
 <p><img src="images/run-gdbserver.png" alt="run-gdbserver"></p>
 <p>Now, it&rsquo;s time to attach the <code>gdb</code> client (on PC 🖥️) to the running <code>gdbserver</code> (on mobile device📱).</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># start the gdb client on your PC</span>
-<span class="nv">$TOOLCHAIN</span>/arm-linux-androideabi-gdb libnative-lib.so
-<span class="c1"># attach to the process </span>
-target remote :<span class="o">[</span>PID<span class="o">]</span>
-</code></pre></div><p>🍀 This is what success looks like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># start the gdb client on your PC</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$TOOLCHAIN</span>/arm-linux-androideabi-gdb libnative-lib.so
+</span></span><span class="line"><span class="cl"><span class="c1"># attach to the process </span>
+</span></span><span class="line"><span class="cl">target remote :<span class="o">[</span>PID<span class="o">]</span>
+</span></span></code></pre></div><p>🍀 This is what success looks like:</p>
 <p><img src="images/run-gdb-client.png" alt="run-jdb-client"></p>
 <blockquote>
 <p><strong>Problem 🛑 1.</strong> When running <code>gdb</code> client on PC at the very end, you might get a &ldquo;Remote connection closed&rdquo;. That means that for some reason it cannot connect to the target <code>gdbserver</code> on the mobile device.</p>
@@ -421,28 +420,28 @@ target remote :<span class="o">[</span>PID<span class="o">]</span>
 </blockquote>
 <p>To start instrumenting (tracing Java methods), the official documentation suggests using <code>Debug.startMethodTracing(&quot;sample&quot;)</code>. However, this is a good advice when you have source code. I&rsquo;ve decided to get the bytecode for this line to be able to patch the bytecode.</p>
 <p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>disabled</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.method protected onCreate(Landroid/os/Bundle;)V
-    .locals 2
-    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
-    .line 31
-    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
-    .line 32
-    const-string v0, &#34;hello2&#34;
-    iput-object v0, p0, Lcom/example/vulnerableapplication18/MainActivity;-&gt;hello:Ljava/lang/String
-    .line 33
-    new-instance v0, Ljava/lang/StringBuilder;
-</code></pre></div><p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>enabled</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">.method protected onCreate(Landroid/os/Bundle;)V
-    .locals 2
-    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
-    .line 31
-    const-string v0, &#34;sample&#34;
-    invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V
-    .line 32
-    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
-    .line 33
-    const-string v0, &#34;hello2&#34;
-</code></pre></div><p>Lines added are <code> const-string v0, &quot;sample&quot;</code> and <code>invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V</code>. This resulted in shifting the line numbering. So, other than adding these lines to the smali file of the <code>MainActivity</code> (the first activity usually called), we need to fix the line numbering (if we do). When running the application with this line of code added, we are supposed to find a <code>.trace</code> file called <code>sampel</code> somewhere on <code>/sdcard</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">.method protected onCreate(Landroid/os/Bundle;)V
+</span></span><span class="line"><span class="cl">    .locals 2
+</span></span><span class="line"><span class="cl">    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
+</span></span><span class="line"><span class="cl">    .line 31
+</span></span><span class="line"><span class="cl">    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+</span></span><span class="line"><span class="cl">    .line 32
+</span></span><span class="line"><span class="cl">    const-string v0, &#34;hello2&#34;
+</span></span><span class="line"><span class="cl">    iput-object v0, p0, Lcom/example/vulnerableapplication18/MainActivity;-&gt;hello:Ljava/lang/String
+</span></span><span class="line"><span class="cl">    .line 33
+</span></span><span class="line"><span class="cl">    new-instance v0, Ljava/lang/StringBuilder;
+</span></span></code></pre></div><p>Here are the first lines of <code>onCreate()</code> method of bytecode with tracing <strong>enabled</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">.method protected onCreate(Landroid/os/Bundle;)V
+</span></span><span class="line"><span class="cl">    .locals 2
+</span></span><span class="line"><span class="cl">    .param p1, &#34;savedInstanceState&#34;    # Landroid/os/Bundle;
+</span></span><span class="line"><span class="cl">    .line 31
+</span></span><span class="line"><span class="cl">    const-string v0, &#34;sample&#34;
+</span></span><span class="line"><span class="cl">    invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V
+</span></span><span class="line"><span class="cl">    .line 32
+</span></span><span class="line"><span class="cl">    invoke-super {p0, p1}, Landroidx/appcompat/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+</span></span><span class="line"><span class="cl">    .line 33
+</span></span><span class="line"><span class="cl">    const-string v0, &#34;hello2&#34;
+</span></span></code></pre></div><p>Lines added are <code> const-string v0, &quot;sample&quot;</code> and <code>invoke-static {v0}, Landroid/os/Debug;-&gt;startMethodTracing(Ljava/lang/String;)V</code>. This resulted in shifting the line numbering. So, other than adding these lines to the smali file of the <code>MainActivity</code> (the first activity usually called), we need to fix the line numbering (if we do). When running the application with this line of code added, we are supposed to find a <code>.trace</code> file called <code>sampel</code> somewhere on <code>/sdcard</code>.</p>
 <p>However, it looks like tracing is limited by the buffer size. So, it&rsquo;s better to add this line to a <code>onCreate</code> method and adding <code>stopMethodTracing</code> to a <code>onDestroy</code> method of the same activity. Surprise&hellip; this is how the method looks in bytecode: <code>invoke-static {}, Landroid/os/Debug;-&gt;stopMethodTracing()V</code>.</p>
 <p>Pull the logs 📄 on the PC: <code>adb pull path-on-device/sample.trace ~/Documents/trace-logs/</code>. These logs then can be imported and viewed like this in Android Studio:</p>
 <blockquote>
@@ -486,114 +485,114 @@ target remote :<span class="o">[</span>PID<span class="o">]</span>
 <p>Use runtime analysis tools like <code>frida</code> to hook the methods and manipulate the return values.</p>
 <h3 id="timing">Timing</h3>
 <p>Developers might check the timing. Debugging slows down the execution. An example of such code (taken from <a href="isDebuggerConnectedandroid.os.Debug">Mobile Gitbook</a>) is shown below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">detect_threadCpuTimeNanos</span><span class="o">(){</span>
-  <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
-
-  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">1000000</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
-    <span class="k">continue</span><span class="o">;</span>
-
-  <span class="kt">long</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
-
-  <span class="k">if</span><span class="o">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">10000000</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-  <span class="o">}</span>
-  <span class="k">else</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>⛏ <em>How to circumvent?</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">detect_threadCpuTimeNanos</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">1000000</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">continue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kt">long</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">Debug</span><span class="o">.</span><span class="na">threadCpuTimeNanos</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span><span class="o">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">10000000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>⛏ <em>How to circumvent?</em></p>
 <p>Check for such code using <strong>ByteCode Viewer</strong>. If this is the technique used, hook the method with a runtime analysis tool like <code>frida</code> and make it always return <code>false</code>.</p>
 <h3 id="isdebuggerconnected">isDebuggerConnected</h3>
 <p>Using <code>isDebuggerConnected</code> or <code>(gDvm.debuggerConnected || gDvm.debuggerActive)</code> developers may detect whther the current process is being debugged.</p>
 <h3 id="using-jdwp-data-structures">Using JDWP Data Structures</h3>
 <p>The older versions of Android architecture included Dalvik machine. The global virtual machine state is stored in the <code>DvmGlobals</code> structure, which is pointed to by the global variable <code>gDvm</code> . This structure, among other things, determines whether the application can be debugged:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">struct</span> <span class="nc">DvmGlobals</span> <span class="p">{</span>
-    <span class="cm">/*
-</span><span class="cm">     * Some options that could be worth tampering with :)
-</span><span class="cm">     */</span>
-
-    <span class="kt">bool</span>        <span class="n">jdwpAllowed</span><span class="p">;</span>        <span class="c1">// debugging allowed for this process?
-</span><span class="c1"></span>    <span class="kt">bool</span>        <span class="n">jdwpConfigured</span><span class="p">;</span>     <span class="c1">// has debugging info been provided?
-</span><span class="c1"></span>    <span class="n">JdwpTransportType</span> <span class="n">jdwpTransport</span><span class="p">;</span>
-    <span class="kt">bool</span>        <span class="n">jdwpServer</span><span class="p">;</span>
-    <span class="kt">char</span><span class="o">*</span>       <span class="n">jdwpHost</span><span class="p">;</span>
-    <span class="kt">int</span>         <span class="n">jdwpPort</span><span class="p">;</span>
-    <span class="kt">bool</span>        <span class="n">jdwpSuspend</span><span class="p">;</span>
-
-    <span class="n">Thread</span><span class="o">*</span>     <span class="n">threadList</span><span class="p">;</span>
-
-    <span class="kt">bool</span>        <span class="n">nativeDebuggerActive</span><span class="p">;</span>
-    <span class="kt">bool</span>        <span class="n">debuggerConnected</span><span class="p">;</span>      <span class="cm">/* debugger or DDMS is connected */</span>
-    <span class="kt">bool</span>        <span class="n">debuggerActive</span><span class="p">;</span>         <span class="cm">/* debugger is making requests */</span>
-    <span class="n">JdwpState</span><span class="o">*</span>  <span class="n">jdwpState</span><span class="p">;</span>
-
-<span class="p">};</span>
-</code></pre></div><p>Developers might use the following code to make use of the above structure and trigger a crash on any attempt to attach a debugger:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">JNIEXPORT</span> <span class="n">jboolean</span> <span class="n">JNICALL</span> <span class="nf">Java_poc_c_crashOnInit</span> <span class="o">(</span> <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">,</span> <span class="n">jobject</span> <span class="o">)</span> <span class="o">{</span>
-  <span class="n">gDvm</span><span class="o">.</span><span class="na">methDalvikDdmcServer_dispatch</span> <span class="o">=</span> <span class="n">NULL</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></div><p>Since ART doesn&rsquo;t have access to this structure, the above technique will be deemed useless. But there is something that can be done though using exported <code>vtables</code> for <code>JdwpAdbState</code> and <code>JdwpSocketState</code>. If the developer substitutes <code>jdwpAdbState::ProcessIncoming</code> with the address of <code>JdwpAdbState::Shutdown</code> and the same for <code>JdwpAdbState</code> as well, the any connected Java debugger is disconnected, further attempts will fail and without enything being written to log.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">DvmGlobals</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * Some options that could be worth tampering with :)
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span>        <span class="n">jdwpAllowed</span><span class="p">;</span>        <span class="c1">// debugging allowed for this process?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">bool</span>        <span class="n">jdwpConfigured</span><span class="p">;</span>     <span class="c1">// has debugging info been provided?
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">JdwpTransportType</span> <span class="n">jdwpTransport</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span>        <span class="n">jdwpServer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span><span class="o">*</span>       <span class="n">jdwpHost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span>         <span class="n">jdwpPort</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span>        <span class="n">jdwpSuspend</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Thread</span><span class="o">*</span>     <span class="n">threadList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span>        <span class="n">nativeDebuggerActive</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span>        <span class="n">debuggerConnected</span><span class="p">;</span>      <span class="cm">/* debugger or DDMS is connected */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span>        <span class="n">debuggerActive</span><span class="p">;</span>         <span class="cm">/* debugger is making requests */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">JdwpState</span><span class="o">*</span>  <span class="n">jdwpState</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Developers might use the following code to make use of the above structure and trigger a crash on any attempt to attach a debugger:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">JNIEXPORT</span> <span class="n">jboolean</span> <span class="n">JNICALL</span> <span class="nf">Java_poc_c_crashOnInit</span> <span class="o">(</span> <span class="n">JNIEnv</span><span class="o">*</span> <span class="n">env</span> <span class="o">,</span> <span class="n">jobject</span> <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">gDvm</span><span class="o">.</span><span class="na">methDalvikDdmcServer_dispatch</span> <span class="o">=</span> <span class="n">NULL</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>Since ART doesn&rsquo;t have access to this structure, the above technique will be deemed useless. But there is something that can be done though using exported <code>vtables</code> for <code>JdwpAdbState</code> and <code>JdwpSocketState</code>. If the developer substitutes <code>jdwpAdbState::ProcessIncoming</code> with the address of <code>JdwpAdbState::Shutdown</code> and the same for <code>JdwpAdbState</code> as well, the any connected Java debugger is disconnected, further attempts will fail and without enything being written to log.</p>
 <p>An example of such code, taken from <a href="https://web.archive.org/web/20200307152820/https://www.vantagepoint.sg/blog/88-anti-debugging-fun-with-android-art">here</a> (Bernhard Mueller&rsquo;s blog, now archived 😞):</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;android/log.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;dlfcn.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;jdwp/jdwp.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define log(FMT, ...) __android_log_print(ANDROID_LOG_VERBOSE, &#34;JDWPFun&#34;, FMT, ##__VA_ARGS__)
-</span><span class="cp"></span>
-<span class="c1">// Vtable structure. Just to make messing around with it more intuitive
-</span><span class="c1"></span>
-<span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="p">{</span>
-    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">;</span>
-    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">y</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">JdwpSocketState_destructor</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">_JdwpSocketState_destructor</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">Accept</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">showmanyc</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">ShutDown</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="o">*</span> <span class="n">ProcessIncoming</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">extern</span> <span class="s">&#34;C&#34;</span>
-
-<span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="n">Java_sg_vantagepoint_jdwptest_MainActivity_JDWPfun</span><span class="p">(</span>
-        <span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>
-        <span class="n">jobject</span> <span class="cm">/* this */</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="kt">void</span><span class="o">*</span> <span class="n">lib</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="s">&#34;libart.so&#34;</span><span class="p">,</span> <span class="n">RTLD_NOW</span><span class="p">);</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">lib</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">log</span><span class="p">(</span><span class="s">&#34;Error loading libart.so&#34;</span><span class="p">);</span>
-        <span class="n">dlerror</span><span class="p">();</span>
-    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-
-        <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="n">vtable</span> <span class="o">=</span> <span class="p">(</span> <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="p">)</span><span class="n">dlsym</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&#34;_ZTVN3art4JDWP12JdwpAdbStateE&#34;</span><span class="p">);</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">vtable</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Couldn&#39;t resolve symbol &#39;_ZTVN3art4JDWP12JdwpAdbStateE&#39;.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
-        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
-
-            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Vtable for JdwpAdbState at: %08x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vtable</span><span class="p">);</span>
-
-            <span class="c1">// Let the fun begin!
-</span><span class="c1"></span>
-            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pagesize</span> <span class="o">=</span> <span class="n">sysconf</span><span class="p">(</span><span class="n">_SC_PAGE_SIZE</span><span class="p">);</span>
-            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">page</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">vtable</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">pagesize</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-
-            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">);</span>
-
-            <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ProcessIncoming</span> <span class="o">=</span> <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ShutDown</span><span class="p">;</span>
-
-            <span class="c1">// Reset permissions &amp; flush cache
-</span><span class="c1"></span>
-            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">);</span>
-
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>⛏ <em>How to circumvent?</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;android/log.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;dlfcn.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;sys/mman.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;jdwp/jdwp.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define log(FMT, ...) __android_log_print(ANDROID_LOG_VERBOSE, &#34;JDWPFun&#34;, FMT, ##__VA_ARGS__)
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Vtable structure. Just to make messing around with it more intuitive
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span> <span class="n">JdwpSocketState_destructor</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span> <span class="n">_JdwpSocketState_destructor</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span> <span class="n">Accept</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span> <span class="n">showmanyc</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span> <span class="n">ShutDown</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span> <span class="n">ProcessIncoming</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="s">&#34;C&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span> <span class="n">Java_sg_vantagepoint_jdwptest_MainActivity_JDWPfun</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jobject</span> <span class="cm">/* this */</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span><span class="o">*</span> <span class="n">lib</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="s">&#34;libart.so&#34;</span><span class="p">,</span> <span class="n">RTLD_NOW</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">lib</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="p">(</span><span class="s">&#34;Error loading libart.so&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dlerror</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="n">vtable</span> <span class="o">=</span> <span class="p">(</span> <span class="k">struct</span> <span class="nc">VT_JdwpAdbState</span> <span class="o">*</span><span class="p">)</span><span class="n">dlsym</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&#34;_ZTVN3art4JDWP12JdwpAdbStateE&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">vtable</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Couldn&#39;t resolve symbol &#39;_ZTVN3art4JDWP12JdwpAdbStateE&#39;.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">log</span><span class="p">(</span><span class="s">&#34;Vtable for JdwpAdbState at: %08x</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">vtable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// Let the fun begin!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">pagesize</span> <span class="o">=</span> <span class="n">sysconf</span><span class="p">(</span><span class="n">_SC_PAGE_SIZE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">page</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">vtable</span> <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">pagesize</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span> <span class="o">|</span> <span class="n">PROT_WRITE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ProcessIncoming</span> <span class="o">=</span> <span class="n">vtable</span><span class="o">-&gt;</span><span class="n">ShutDown</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// Reset permissions &amp; flush cache
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">            <span class="n">mprotect</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">page</span><span class="p">,</span> <span class="n">pagesize</span><span class="p">,</span> <span class="n">PROT_READ</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>⛏ <em>How to circumvent?</em></p>
 <p>Well, fix the <code>vtable</code> that was broken with this function after it was run.</p>
 <h2 id="references">References</h2>
 <p>[1] <a href="https://mobile-security.gitbook.io/mobile-security-testing-guide/android-testing-guide/0x05h-testing-platform-interaction#testing-for-fragment-injection-mstg-platform-2">Mobile SecGuide</a>.</p>
@@ -633,7 +632,7 @@ target remote :<span class="o">[</span>PID<span class="o">]</span>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

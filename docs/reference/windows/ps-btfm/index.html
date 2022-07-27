@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -312,303 +312,302 @@
 <p>It&rsquo;s better to associate powershell scripts with notepad.exe that PowerShell for security reasons.</p>
 <h3 id="execution-policy">Execution Policy</h3>
 <p><strong>Get Execution Policy</strong>. Powershell execution policy is applied to scripts only. Here are the main policies used:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-ExecutionPolicy</span>
-<span class="p">&gt;</span> <span class="n">Restricted</span> <span class="c"># no scripts are allowed (default for desktop)</span>
-<span class="p">&gt;</span> <span class="n">RemoteSigned</span> <span class="c"># downloaded scripts should be signed (preferred, default for WinServer). For local scripts no signature is required.</span>
-<span class="p">&gt;</span> <span class="n">Unrestricted</span> <span class="c"># everything is allowed (dangerous)</span>
-<span class="p">&gt;</span> <span class="n">Undefined</span> <span class="c"># Restricted for Win and RemoteSigned for WinServer</span>
-<span class="p">&gt;</span> <span class="n">AllSigned</span> <span class="c"># Signatures are required for local scripts also</span>
-<span class="p">&gt;</span> <span class="n">ByPass</span> <span class="c"># Nothing is blocked, no warnings and prompts</span>
-</code></pre></div><p>Other policies, official doc [<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">2</a>].</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-ExecutionPolicy</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">Restricted</span> <span class="c"># no scripts are allowed (default for desktop)</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">RemoteSigned</span> <span class="c"># downloaded scripts should be signed (preferred, default for WinServer). For local scripts no signature is required.</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">Unrestricted</span> <span class="c"># everything is allowed (dangerous)</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">Undefined</span> <span class="c"># Restricted for Win and RemoteSigned for WinServer</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">AllSigned</span> <span class="c"># Signatures are required for local scripts also</span>
+</span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">ByPass</span> <span class="c"># Nothing is blocked, no warnings and prompts</span>
+</span></span></code></pre></div><p>Other policies, official doc [<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">2</a>].</p>
 <p><strong>Set Execution Policy</strong>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Set-ExecutionPolicy</span> <span class="n">-ExecutionPolicy</span> <span class="n">RemoteSigned</span>
-</code></pre></div><h3 id="start-services">Start Services</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Set-ExecutionPolicy</span> <span class="n">-ExecutionPolicy</span> <span class="n">RemoteSigned</span>
+</span></span></code></pre></div><h3 id="start-services">Start Services</h3>
 <h3 id="registry">Registry</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-ChildItem</span> <span class="n">HKLM</span><span class="err">:</span><span class="n">Software</span> <span class="p">|</span> <span class="nb">Format-Wide</span>
-</code></pre></div><h2 id="fuc">FUC</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">HKLM</span><span class="err">:</span><span class="n">Software</span> <span class="p">|</span> <span class="nb">Format-Wide</span>
+</span></span></code></pre></div><h2 id="fuc">FUC</h2>
 <p>Frequently Used Commands.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Help</span> <span class="n">-ShowWindows</span><span class="p">/</span><span class="n">-Online</span><span class="p">/</span><span class="n">-full</span> <span class="c"># withough any option - short help in the console itself</span>
-</code></pre></div><h2 id="working-with-files">Working With Files</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Writing to file. </span>
-<span class="c"># Method 1</span>
-<span class="nb">echo </span><span class="s2">&#34;Name, EmployeeID, Eligibility&#34;</span> <span class="p">&gt;</span> <span class="n">employee_eligibility_status</span><span class="p">.</span><span class="n">csv</span>
-
-<span class="c"># Method 2</span>
-<span class="nv">$output_file</span> <span class="p">=</span> <span class="s2">&#34;employee_eligibility_status.csv&#34;</span>
-<span class="nb">Write-Output</span> <span class="s2">&#34;Name,EmployeeID,Eleigibility Status&#34;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="nv">$output_file</span>  <span class="p">[</span><span class="n">-Append</span><span class="p">]</span> <span class="c"># Append is optional, of course</span>
-
-<span class="c"># Enum files in the dir, filter and do something with each one</span>
-<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">testfolder</span> <span class="n">-Filter</span> <span class="s2">&#34;*.emp&#34;</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
- <span class="nv">$emp</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">BaseName</span> <span class="c"># get the filename</span>
- <span class="c"># do something</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Copy-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
-<span class="nb">Move-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
-<span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="n">-Recurse</span>
-<span class="nb">Rename-Item</span> <span class="n">-Path</span> <span class="n">-NewName</span>
-<span class="nb">Test-Path</span> <span class="s2">&#34;Path&#34;</span> <span class="c"># check whether the file exists</span>
-<span class="nb">Get-Content</span> <span class="s2">&#34;file&#34;</span> <span class="c"># read the file</span>
-<span class="nb">Get-Content</span> <span class="s2">&#34;file&#34;</span> <span class="p">|</span> <span class="n">Tail</span> <span class="p">-</span><span class="n">2</span> <span class="c"># last 2 lines</span>
-<span class="nb">Get-Content</span> <span class="s2">&#34;hugelogfile.txt&#34;</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span> <span class="o">-like</span> <span class="s2">&#34;*ERROR*&#34;</span><span class="p">}</span>
-<span class="nb">Select-String</span> <span class="c"># +\- grep</span>
-
-<span class="c"># removing files older than</span>
-<span class="nv">$dir</span> <span class="p">=</span> <span class="s2">&#34;C:\Windows\tmp&#34;</span>
-<span class="nv">$retention</span> <span class="p">=</span> <span class="n">10</span>
-<span class="nb">Get-ChildItem</span> <span class="o">-File</span> <span class="n">-Recurse</span> <span class="nv">$dir</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LastWriteTime</span> <span class="o">-lt</span> <span class="p">(</span><span class="nb">get-date</span><span class="p">).</span><span class="n">adddays</span><span class="p">(-</span><span class="nv">$retention</span><span class="p">)</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">fullname</span> <span class="p">|</span> <span class="nb">del </span><span class="n">-Force</span> <span class="p">}}</span>
-</code></pre></div><h3 id="csv">CSV</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Add-Content  uses .ToString() on the input</span>
-<span class="nb">Add-Content</span> <span class="n">-Path</span> <span class="s2">&#34;file.csv&#34;</span> <span class="n">-Value</span> <span class="s2">&#34;Name, Surname, Age&#34;</span>
-<span class="nv">$students</span> <span class="p">=</span> <span class="p">@(</span>
-<span class="s1">&#39;&#34;Alex&#34;, &#34;Zverev&#34;, &#34;30&#34;&#39;</span><span class="p">,</span>
-<span class="s1">&#39;&#34;Veronica&#34;, &#34;Zvereva&#34;, &#34;29&#34;&#39;</span><span class="p">,</span>
-<span class="s1">&#39;&#34;Johnny&#34;, &#34;Depp&#34;, &#34;50&#34;&#39;</span><span class="p">)</span> 
-
-<span class="nv">$students</span> <span class="p">|</span> <span class="k">foreach</span> <span class="p">{</span> <span class="nb">Add-Content</span> <span class="n">-Path</span> <span class="s2">&#34;file.csv&#34;</span> <span class="n">-Value</span> <span class="nv">$_</span> <span class="p">}</span>
-
-<span class="nb">echo </span><span class="s2">&#34;&#34;</span>
-<span class="nv">$contents</span> <span class="p">=</span> <span class="nb">Import-csv</span> <span class="s2">&#34;file.csv&#34;</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">Age</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="s2">&#34;sortedfile.csv&#34;</span>
-</code></pre></div><h3 id="xml">XML</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="no">[xml]</span><span class="nv">$content</span> <span class="p">=</span> <span class="nb">Get-Content</span> <span class="s2">&#34;file.xml&#34;</span>
-<span class="nv">$content</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
-<span class="nv">$content</span><span class="p">.</span><span class="n">MAIN_NODE</span><span class="p">.</span><span class="n">COMP</span>
-
-
-<span class="k">foreach</span> <span class="p">(</span><span class="nv">$entity</span> <span class="k">in</span> <span class="nv">$content</span><span class="p">.</span><span class="n">GetElementsByTagName</span><span class="p">(</span><span class="s2">&#34;COMP&#34;</span><span class="p">))</span> <span class="p">{</span>
-    <span class="nb">Write-Output</span> <span class="nv">$entity</span><span class="p">.</span><span class="n">IP</span>
-<span class="p">}</span>
-
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span> <span class="p">|</span> <span class="nb">Export-Clixml</span> <span class="n">output</span><span class="p">.</span><span class="n">xml</span>
-</code></pre></div><h3 id="json">JSON</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$json</span> <span class="p">=</span> <span class="nb">Get-Content</span> <span class="s2">&#34;file.json&#34;</span> <span class="p">|</span> <span class="nb">Out-String</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
-</code></pre></div><h2 id="useful-for-investigation">Useful For Investigation</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Help</span> <span class="n">-ShowWindows</span><span class="p">/</span><span class="n">-Online</span><span class="p">/</span><span class="n">-full</span> <span class="c"># withough any option - short help in the console itself</span>
+</span></span></code></pre></div><h2 id="working-with-files">Working With Files</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># Writing to file. </span>
+</span></span><span class="line"><span class="cl"><span class="c"># Method 1</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo </span><span class="s2">&#34;Name, EmployeeID, Eligibility&#34;</span> <span class="p">&gt;</span> <span class="n">employee_eligibility_status</span><span class="p">.</span><span class="n">csv</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Method 2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$output_file</span> <span class="p">=</span> <span class="s2">&#34;employee_eligibility_status.csv&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Output</span> <span class="s2">&#34;Name,EmployeeID,Eleigibility Status&#34;</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="nv">$output_file</span>  <span class="p">[</span><span class="n">-Append</span><span class="p">]</span> <span class="c"># Append is optional, of course</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Enum files in the dir, filter and do something with each one</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">testfolder</span> <span class="n">-Filter</span> <span class="s2">&#34;*.emp&#34;</span> <span class="p">|</span> <span class="nb">ForEach-Object</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="nv">$emp</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">BaseName</span> <span class="c"># get the filename</span>
+</span></span><span class="line"><span class="cl"> <span class="c"># do something</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Copy-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Move-Item</span> <span class="n">-Path</span> <span class="n">-Destination</span> <span class="n">-Recurse</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Remove-Item</span> <span class="n">-Path</span> <span class="n">-Recurse</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Rename-Item</span> <span class="n">-Path</span> <span class="n">-NewName</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Test-Path</span> <span class="s2">&#34;Path&#34;</span> <span class="c"># check whether the file exists</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Content</span> <span class="s2">&#34;file&#34;</span> <span class="c"># read the file</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Content</span> <span class="s2">&#34;file&#34;</span> <span class="p">|</span> <span class="n">Tail</span> <span class="p">-</span><span class="n">2</span> <span class="c"># last 2 lines</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Content</span> <span class="s2">&#34;hugelogfile.txt&#34;</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span> <span class="o">-like</span> <span class="s2">&#34;*ERROR*&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Select-String</span> <span class="c"># +\- grep</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># removing files older than</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$dir</span> <span class="p">=</span> <span class="s2">&#34;C:\Windows\tmp&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$retention</span> <span class="p">=</span> <span class="n">10</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="o">-File</span> <span class="n">-Recurse</span> <span class="nv">$dir</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">LastWriteTime</span> <span class="o">-lt</span> <span class="p">(</span><span class="nb">get-date</span><span class="p">).</span><span class="n">adddays</span><span class="p">(-</span><span class="nv">$retention</span><span class="p">)</span> <span class="p">|</span> <span class="p">%</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">fullname</span> <span class="p">|</span> <span class="nb">del </span><span class="n">-Force</span> <span class="p">}}</span>
+</span></span></code></pre></div><h3 id="csv">CSV</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># Add-Content  uses .ToString() on the input</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Add-Content</span> <span class="n">-Path</span> <span class="s2">&#34;file.csv&#34;</span> <span class="n">-Value</span> <span class="s2">&#34;Name, Surname, Age&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$students</span> <span class="p">=</span> <span class="p">@(</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#34;Alex&#34;, &#34;Zverev&#34;, &#34;30&#34;&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#34;Veronica&#34;, &#34;Zvereva&#34;, &#34;29&#34;&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#34;Johnny&#34;, &#34;Depp&#34;, &#34;50&#34;&#39;</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$students</span> <span class="p">|</span> <span class="k">foreach</span> <span class="p">{</span> <span class="nb">Add-Content</span> <span class="n">-Path</span> <span class="s2">&#34;file.csv&#34;</span> <span class="n">-Value</span> <span class="nv">$_</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo </span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$contents</span> <span class="p">=</span> <span class="nb">Import-csv</span> <span class="s2">&#34;file.csv&#34;</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">Age</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="s2">&#34;sortedfile.csv&#34;</span>
+</span></span></code></pre></div><h3 id="xml">XML</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="no">[xml]</span><span class="nv">$content</span> <span class="p">=</span> <span class="nb">Get-Content</span> <span class="s2">&#34;file.xml&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$content</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$content</span><span class="p">.</span><span class="n">MAIN_NODE</span><span class="p">.</span><span class="n">COMP</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$entity</span> <span class="k">in</span> <span class="nv">$content</span><span class="p">.</span><span class="n">GetElementsByTagName</span><span class="p">(</span><span class="s2">&#34;COMP&#34;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Write-Output</span> <span class="nv">$entity</span><span class="p">.</span><span class="n">IP</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span> <span class="p">|</span> <span class="nb">Export-Clixml</span> <span class="n">output</span><span class="p">.</span><span class="n">xml</span>
+</span></span></code></pre></div><h3 id="json">JSON</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$json</span> <span class="p">=</span> <span class="nb">Get-Content</span> <span class="s2">&#34;file.json&#34;</span> <span class="p">|</span> <span class="nb">Out-String</span> <span class="p">|</span> <span class="nb">ConvertFrom-Json</span>
+</span></span></code></pre></div><h2 id="useful-for-investigation">Useful For Investigation</h2>
 <p>You can get the previously executed commands with <code>Get-History</code> cmdlet. However, what if the last command executed was <code>Clear-History</code>? That might be suspicious and a lead.</p>
 <h3 id="services">Services</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="n">like</span> <span class="s1">&#39;*a*&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;Stopped&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">3</span>
-
-<span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;running&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Service</span> <span class="n">-WhatIf</span> <span class="c"># Get services that are rinning, select the first one in the list and tell me what will be stopped if I run Stop-Service (but don&#39;t run it yet).</span>
-
-<span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">ServiceType</span>
-
-<span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span> <span class="n">displayname</span><span class="p">,</span> <span class="n">status</span>
-<span class="nb">ConvertTo-Csv</span>
-<span class="nb">ConvertTo-Json</span>
-<span class="nb">ConvertTo-Xml</span>
-</code></pre></div><h3 id="processes">Processes</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
-
-<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span>
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Get-Member</span>
-<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">CPU</span>
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">CPU</span> <span class="o">-ge</span> <span class="n">1000</span> <span class="p">}</span>
-
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="c"># get the process list, sort by CPU usage and display the first 10 processes</span>
-<span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;powershell*&#34;</span> <span class="p">|</span> <span class="nb">Select </span><span class="p">*</span> <span class="c"># display ALL info about the process</span>
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s2">&#34;file.txt&#34;</span>
-
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10000</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Process</span> <span class="c"># Stop the most cpu costy process</span>
-
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">BaseProperty</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">BaseProperty</span>
-<span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">processname</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">pm</span>
-</code></pre></div><h3 id="files">Files</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># useful for a supernova</span>
-<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;C:\Windows&#34;</span> <span class="n">-Recurse</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span><span class="n">fullname</span> <span class="n">-CssUril</span> <span class="n">mycss</span><span class="p">.</span><span class="n">css</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s1">&#39;files_in_Windows.html&#39;</span>
-
-<span class="nv">$head</span><span class="p">=@</span><span class="s2">&#34;Some css&#34;</span><span class="p">@</span>
-<span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;C:\Windows&#34;</span> <span class="n">-Recurse</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span><span class="n">fullname</span> <span class="n">-Head</span> <span class="nv">$head</span> <span class="n">-Title</span> <span class="s2">&#34;Report&#34;</span>  <span class="p">|</span> <span class="nb">Out-File</span> <span class="s1">&#39;files_in_Windows.html&#39;</span>
-
-</code></pre></div><h2 id="remote-connection">Remote connection</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Name</span> <span class="n">like</span> <span class="s1">&#39;*a*&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;Stopped&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Status</span> <span class="o">-eq</span> <span class="s1">&#39;running&#39;</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Service</span> <span class="n">-WhatIf</span> <span class="c"># Get services that are rinning, select the first one in the list and tell me what will be stopped if I run Stop-Service (but don&#39;t run it yet).</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">ServiceType</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Service</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span> <span class="n">displayname</span><span class="p">,</span> <span class="n">status</span>
+</span></span><span class="line"><span class="cl"><span class="nb">ConvertTo-Csv</span>
+</span></span><span class="line"><span class="cl"><span class="nb">ConvertTo-Json</span>
+</span></span><span class="line"><span class="cl"><span class="nb">ConvertTo-Xml</span>
+</span></span></code></pre></div><h3 id="processes">Processes</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Get-Member</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;*a*&#34;</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">CPU</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">CPU</span> <span class="o">-ge</span> <span class="n">1000</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="c"># get the process list, sort by CPU usage and display the first 10 processes</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="n">-Name</span> <span class="s2">&#34;powershell*&#34;</span> <span class="p">|</span> <span class="nb">Select </span><span class="p">*</span> <span class="c"># display ALL info about the process</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s2">&#34;file.txt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">cpu</span> <span class="o">-gt</span> <span class="n">10000</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="p">|</span> <span class="nb">Select </span><span class="n">-First</span> <span class="n">1</span> <span class="p">|</span> <span class="nb">Stop-Process</span> <span class="c"># Stop the most cpu costy process</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">BaseProperty</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">BaseProperty</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-Process</span> <span class="p">|</span> <span class="nb">Sort-Object</span> <span class="n">cpu</span> <span class="n">-Descending</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-First</span> <span class="n">10</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">processname</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">pm</span>
+</span></span></code></pre></div><h3 id="files">Files</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># useful for a supernova</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;C:\Windows&#34;</span> <span class="n">-Recurse</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span><span class="n">fullname</span> <span class="n">-CssUril</span> <span class="n">mycss</span><span class="p">.</span><span class="n">css</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="s1">&#39;files_in_Windows.html&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$head</span><span class="p">=@</span><span class="s2">&#34;Some css&#34;</span><span class="p">@</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;C:\Windows&#34;</span> <span class="n">-Recurse</span> <span class="p">|</span> <span class="nb">ConvertTo-Html</span> <span class="n">-Property</span> <span class="n">name</span><span class="p">,</span><span class="n">fullname</span> <span class="n">-Head</span> <span class="nv">$head</span> <span class="n">-Title</span> <span class="s2">&#34;Report&#34;</span>  <span class="p">|</span> <span class="nb">Out-File</span> <span class="s1">&#39;files_in_Windows.html&#39;</span>
+</span></span></code></pre></div><h2 id="remote-connection">Remote connection</h2>
 <p>See what connections are open and what protocols they are using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-CimSession</span>
-</code></pre></div><h3 id="dcom">DCOM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-CimSession</span>
+</span></span></code></pre></div><h3 id="dcom">DCOM</h3>
 <h3 id="wsman">WSMan</h3>
 <h2 id="queries">Queries</h2>
 <h3 id="cim">CIM</h3>
 <h3 id="wmi">WMI</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="s1">&#39;root\cimv2&#39;</span> <span class="n">-List</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
-</code></pre></div><h2 id="scripting">Scripting</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nv">$localvar</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
-<span class="nv">$global:var</span> <span class="c"># accessible not only from the script, Get-Variable will show it. But open another shell - it won&#39;t be there.</span>
-
-<span class="nb">Set-Variable</span> <span class="n">-Constant</span> <span class="p">-</span> <span class="n">ReadOnly</span> <span class="c"># check if exists and change if it does</span>
-<span class="nb">New-Variable</span>
-<span class="nb">Clear-Variable</span>
-<span class="nb">Remove-Variable</span>
-
-<span class="nv">$var</span> <span class="n">-s</span> <span class="no">[int]</span> <span class="c"># check if int</span>
-
-<span class="no">[int]</span><span class="nv">$var</span> <span class="p">=</span> <span class="n">100</span> <span class="c"># force the variable $var to ALWAYS be of int type</span>
-<span class="nv">$var</span> <span class="p">=</span> <span class="no">[int]</span><span class="n">100</span> <span class="c"># apply on var to ensure that the data for this user input is correct</span>
-
-<span class="no">[string]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;Question?&#34;</span> <span class="n">-AsSecureString</span> <span class="c"># get user input, convert to string -AsSecureString will not show the contents of the $answer</span>
-<span class="p">[</span><span class="k">validateset</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span><span class="s2">&#34;Y&#34;</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">,</span> <span class="s2">&#34;N&#34;</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;Are you ok? (y/n)&#34;</span>
-<span class="p">[</span><span class="k">validatelength</span><span class="p">(</span><span class="n">5</span><span class="p">,</span><span class="n">120</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;What&#39;s your name?&#34;</span>
-<span class="p">[</span><span class="k">validaterange</span><span class="p">(</span><span class="n">5</span><span class="p">,</span><span class="n">120</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;How old are you?&#34;</span>
-<span class="c"># Get more with Get-Help about_Functions_advanced_Parameters -ShowWindow</span>
-
-<span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">-BackgroundColor</span> <span class="c"># doesn&#39;t return an object, so you CAN&#39;T PIPE the result!!!!</span>
-<span class="nb">Write-Output</span> <span class="c"># outputs something but also CAN be piped to another command</span>
-<span class="nb">Write-Error</span>
-<span class="nb">Write-Warning</span>
-<span class="nb">Write-Debug</span> <span class="n">-Debug</span>
-<span class="nb">Write-Verbose</span> <span class="n">-Verbose</span>
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="s1">&#39;root\cimv2&#39;</span> <span class="n">-List</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+</span></span></code></pre></div><h2 id="scripting">Scripting</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$localvar</span><span class="p">.</span><span class="n">GetType</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$global:var</span> <span class="c"># accessible not only from the script, Get-Variable will show it. But open another shell - it won&#39;t be there.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Set-Variable</span> <span class="n">-Constant</span> <span class="p">-</span> <span class="n">ReadOnly</span> <span class="c"># check if exists and change if it does</span>
+</span></span><span class="line"><span class="cl"><span class="nb">New-Variable</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Clear-Variable</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Remove-Variable</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$var</span> <span class="n">-s</span> <span class="no">[int]</span> <span class="c"># check if int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">[int]</span><span class="nv">$var</span> <span class="p">=</span> <span class="n">100</span> <span class="c"># force the variable $var to ALWAYS be of int type</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$var</span> <span class="p">=</span> <span class="no">[int]</span><span class="n">100</span> <span class="c"># apply on var to ensure that the data for this user input is correct</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="no">[string]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;Question?&#34;</span> <span class="n">-AsSecureString</span> <span class="c"># get user input, convert to string -AsSecureString will not show the contents of the $answer</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="k">validateset</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span><span class="s2">&#34;Y&#34;</span><span class="p">,</span> <span class="s2">&#34;n&#34;</span><span class="p">,</span> <span class="s2">&#34;N&#34;</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;Are you ok? (y/n)&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="k">validatelength</span><span class="p">(</span><span class="n">5</span><span class="p">,</span><span class="n">120</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;What&#39;s your name?&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="k">validaterange</span><span class="p">(</span><span class="n">5</span><span class="p">,</span><span class="n">120</span><span class="p">)]</span><span class="nv">$answer</span> <span class="p">=</span> <span class="nb">Read-Host</span> <span class="s2">&#34;How old are you?&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Get more with Get-Help about_Functions_advanced_Parameters -ShowWindow</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Host</span> <span class="n">-ForegroundColor</span> <span class="n">-BackgroundColor</span> <span class="c"># doesn&#39;t return an object, so you CAN&#39;T PIPE the result!!!!</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Output</span> <span class="c"># outputs something but also CAN be piped to another command</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Error</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Warning</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Debug</span> <span class="n">-Debug</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Write-Verbose</span> <span class="n">-Verbose</span>
+</span></span></code></pre></div><blockquote>
 <p>⚠️ Double quotes resolve to variale value, while single quotes - don&rsquo;t. To override this behaviour of double quotes <code>&quot;&quot;</code>, use a ``` sign.</p>
 </blockquote>
 <h3 id="operators">Operators</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># resemble Hugo&#39;s syntax, but the operator is placed between the operands.</span>
-<span class="c"># also resembles assembly</span>
-<span class="n">eq</span> 
-<span class="n">ceq</span> <span class="c"># case-sensitive operator</span>
-<span class="n">neq</span>
-<span class="n">lt</span><span class="p">,</span> <span class="n">gt</span><span class="p">.</span> <span class="n">le</span><span class="p">,</span> <span class="n">ge</span>
-<span class="n">like</span> <span class="c"># contains</span>
-<span class="n">clike</span> <span class="c"># case-senstive contains</span>
-<span class="n">notlike</span>
-<span class="n">match</span> <span class="c"># use regex</span>
-<span class="n">contains</span> <span class="c"># return True or False</span>
-</code></pre></div><p>Example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="p">@(</span><span class="n">THis</span> <span class="n">is</span> <span class="n">a</span> <span class="n">big</span> <span class="n">text</span> <span class="n">to</span> <span class="n">search</span> <span class="n">some</span> <span class="n">keywords</span> <span class="k">in</span><span class="p">)</span> <span class="o">-like</span> <span class="s2">&#34;text&#34;</span>
-</code></pre></div><h3 id="strings">Strings</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">string</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
-<span class="n">string</span><span class="p">.</span><span class="n">Trim</span><span class="p">()</span>
-<span class="n">string</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">()</span>
-<span class="n">string</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">)</span>
-<span class="n">string</span><span class="p">.</span><span class="n">Contains</span><span class="p">()</span>
-
-<span class="n">string</span><span class="p">.</span><span class="n">GetMember</span><span class="p">()</span> <span class="c"># print all available operations for strings</span>
-
-<span class="nv">$this_is_a_multiline</span> <span class="p">=</span> <span class="p">@</span><span class="s2">&#34;Hello
-</span><span class="s2">world, I have a question: &#34;</span><span class="n">How</span>
-<span class="n">are</span> <span class="n">you</span><span class="s2">&#34;?&#34;</span><span class="p">@</span>
-</code></pre></div><h3 id="conditions">Conditions</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nv">$n</span> <span class="o">-le</span> <span class="nv">$n2</span><span class="p">))</span> <span class="p">{</span>
-  <span class="s2">&#34;Good&#34;</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="s2">&#34;Happy snowman!&#34;</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">1</span> <span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="o">-and</span> <span class="p">(</span><span class="n">2</span> <span class="p">=</span> <span class="n">2</span><span class="p">){</span>
-	<span class="s2">&#34;Math is not broken!&#34;</span>
-<span class="p">}</span>
-<span class="k">else</span> <span class="p">{</span>
-	<span class="s2">&#34;The Universe seems to be exploding&#34;</span>
-<span class="p">}</span>
-
-<span class="k">switch</span><span class="p">(</span><span class="nv">$num</span><span class="p">)</span>
-<span class="p">{</span>
-	<span class="n">1</span> <span class="p">{</span><span class="s2">&#34;Good&#34;</span><span class="p">}</span>
-  <span class="n">2</span> <span class="p">{</span><span class="s2">&#34;Hm&#34;</span><span class="p">}</span>
-  <span class="n">3</span> <span class="p">{</span><span class="s2">&#34;Hmhm&#34;</span><span class="p">}</span>
-  <span class="k">default</span> <span class="p">(</span><span class="s2">&#34;Happy snowman&#34;</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="collections">Collections</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># array list</span>
-<span class="nv">$array</span> <span class="p">=</span> <span class="p">@(</span><span class="n">1</span><span class="p">,</span><span class="n">2</span><span class="p">,</span><span class="n">4</span><span class="p">)</span> <span class="c"># IsFixedSize</span>
-<span class="nv">$array</span><span class="p">[</span><span class="n">1</span><span class="p">..</span><span class="n">2</span><span class="p">]</span>
-
-<span class="c"># list</span>
-<span class="nv">$list</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">ArrayList</span>
-
-<span class="c"># disctionary, not {} instead of ()</span>
-<span class="nv">$hash_table</span> <span class="p">=</span> <span class="p">@{</span>
-    <span class="s2">&#34;127.0.0.1&#34;</span> <span class="p">=</span> <span class="s2">&#34;localhost&#34;</span><span class="p">;</span>
-	<span class="s2">&#34;192.168.1.1&#34;</span> <span class="p">=</span> <span class="s2">&#34;router1&#34;</span><span class="p">;</span>
-<span class="p">}</span>
-	
-	
-</code></pre></div><h3 id="timestamps">Timestamps</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># Find diff between today and some point in time</span>
-<span class="c"># Method 1</span>
-<span class="nv">$emp_date</span> <span class="p">=</span> <span class="no">[string]</span><span class="nv">$emp_data</span><span class="p">[</span><span class="n">2</span><span class="p">]</span> <span class="o">-replace</span> <span class="s2">&#34;-&#34;</span><span class="p">,</span> <span class="s2">&#34;/&#34;</span><span class="p">;</span>
-<span class="no">[datetime]</span><span class="nv">$emp_date</span> <span class="p">+=</span> <span class="s2">&#34; 00:00&#34;</span><span class="p">;</span>
-<span class="nv">$diff</span> <span class="p">=</span> <span class="nb">NEW-TIMESPAN</span> <span class="err">–</span><span class="nb">Start </span><span class="nv">$emp_date</span> <span class="err">–</span><span class="k">End</span> <span class="nv">$today</span>
-<span class="k">if</span> <span class="p">(</span><span class="nv">$diff</span> <span class="o">-ge</span> <span class="n">365</span><span class="p">*</span><span class="n">5</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c"># do something</span>
-<span class="p">}</span>
-
-<span class="c"># Method 2</span>
-<span class="nv">$emp_date</span> <span class="p">=</span> <span class="nv">$emp_data</span><span class="p">[</span><span class="n">2</span><span class="p">];</span>
-<span class="nv">$DOJ</span><span class="p">=</span><span class="no">[datetime]</span><span class="p">::</span><span class="n">ParseExact</span><span class="p">(</span><span class="nv">$date</span><span class="p">,</span> <span class="s2">&#34;yyyy-mm-dd&#34;</span><span class="p">,</span> <span class="nv">$null</span><span class="p">)</span>
-<span class="k">if</span><span class="p">(</span><span class="nv">$DOJ</span> <span class="o">-le</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(-</span><span class="n">5</span><span class="p">)</span>  <span class="p">){</span>
-	<span class="c"># do something</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="functions">Functions</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># unnamed local arg</span>
-<span class="k">function</span> <span class="n">Hello-World</span> <span class="p">{</span>
-	<span class="nb">echo </span><span class="nv">$args</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>
- <span class="c"># do something</span>
-<span class="p">}</span>
-
-<span class="n">Hello-World</span> <span class="n">1</span>
-<span class="c"># prints 1</span>
-
-<span class="c"># named local arg</span>
-<span class="k">function</span> <span class="n">Hello-World</span><span class="p">(</span><span class="nv">$names</span><span class="p">){</span>
-	<span class="k">foreach</span> <span class="nv">$name</span> <span class="k">in</span> <span class="nv">$names</span><span class="p">{</span>
-		<span class="nb">echo </span><span class="s2">&#34;hello&#34;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-
-<span class="nv">$names</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&#34;Jessica&#34;</span><span class="p">,</span> <span class="s2">&#34;Mark&#34;</span><span class="p">,</span> <span class="s2">&#34;Jason&#34;</span><span class="p">)</span>
-<span class="n">Hello-World</span> <span class="nv">$names</span>
-
-<span class="c"># parameters ++++</span>
-<span class="k">function</span> <span class="n">Hello-World-Remastered</span><span class="p">{</span>
-	<span class="k">param</span>
-	<span class="p">(</span>
-		<span class="no">[string]</span><span class="n">Name</span><span class="p">,</span>
-		<span class="no">[int]</span><span class="n">age</span><span class="p">,</span>
-		<span class="no">[bool]</span><span class="n">agree</span> <span class="p">=</span> <span class="n">1</span> <span class="c"># default value</span>
-	<span class="p">)</span>
-	<span class="nb">Write-Output</span> <span class="s2">&#34;Hello, $Name who is $age old! You said $agree&#34;</span>
-<span class="p">}</span>
-
-<span class="n">Hello-World-Remastered</span> <span class="n">-Name</span> <span class="n">Tariel</span> <span class="n">-age</span> <span class="n">21</span> <span class="n">-agree</span> <span class="n">0</span>
-</code></pre></div><h3 id="error-handling">Error Handling</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-Content</span> <span class="s2">&#34;file&#34;</span> <span class="n">-ErrorAction</span> <span class="p">[</span><span class="n">Stop</span><span class="p">|</span><span class="n">SilentlyContinue</span><span class="p">]</span> <span class="n">-ErrorVariable</span> <span class="nv">$err</span>
-
-
-<span class="k">try</span><span class="p">{</span>
-	<span class="nb">Get-Help</span> <span class="s2">&#34;Something&#34;</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="n">-ErrorVariable</span> <span class="nv">$error</span>
-<span class="p">}</span>
-<span class="k">catch</span> <span class="no">[System.IO.FileNotFoundException]</span><span class="p">{</span>
-	<span class="nv">$ErrorMessage</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span>
-	<span class="nv">$ErrorMessage</span>
-	<span class="nb">Write-Output</span> <span class="s2">&#34;Error caught $ErrorMessage&#34;</span> <span class="n">-Foreground</span> <span class="n">Yellow</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="classes">Classes</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">class</span> <span class="nb">Cat </span><span class="p">{</span>
-	<span class="no">[int32]</span> <span class="n">age</span><span class="p">;</span>
-	<span class="no">[String]</span> <span class="n">name</span><span class="p">;</span>
-	
-	<span class="no">[int32]</span> <span class="n">number_of_kittens</span> <span class="p">()</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">3</span>
-	<span class="p">}</span>
-
-<span class="p">}</span>
-</code></pre></div><h3 id="emails">Emails</h3>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="c"># create a Mail object</span>
-<span class="nv">$message</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Mail</span><span class="p">.</span><span class="n">MailMessage</span>
-<span class="nv">$message</span><span class="p">.</span><span class="n">body</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
-<span class="nv">$message</span><span class="p">.</span><span class="n">subject</span> <span class="p">=</span> <span class="nv">$subject</span>
-<span class="nv">$message</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="nv">$to</span><span class="p">)</span>
-<span class="nv">$message</span><span class="p">.</span><span class="n">from</span> <span class="p">=</span> <span class="nv">$from</span>
-
-<span class="c"># create a SMPT client</span>
-<span class="nv">$SMTPServer</span> <span class="p">=</span> <span class="s2">&#34;smtp.gmail.com&#34;</span>
-<span class="nv">$SMTPPort</span> <span class="p">=</span> <span class="n">465</span>
-<span class="nv">$smtp</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Mail</span><span class="p">.</span><span class="n">SmtpClient</span><span class="p">(</span><span class="nv">$SMTPServer</span><span class="p">,</span> <span class="nv">$SMTPPort</span><span class="p">);</span>
-
-<span class="c"># Provide creds if needed</span>
-<span class="nv">$smtp</span><span class="p">.</span><span class="n">Credentials</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">NetworkCredential</span><span class="p">(</span><span class="nv">$Username</span><span class="p">,</span> <span class="nv">$Password</span><span class="p">);</span>
-
-<span class="c"># use SSL in case you fancy it or if the server requires </span>
-<span class="nv">$smtp</span><span class="p">.</span><span class="n">EnableSSL</span> <span class="p">=</span> <span class="nv">$true</span>
-
-<span class="c"># send the message</span>
-<span class="nv">$smtp</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">)</span>
-</code></pre></div><h2 id="references">References</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># resemble Hugo&#39;s syntax, but the operator is placed between the operands.</span>
+</span></span><span class="line"><span class="cl"><span class="c"># also resembles assembly</span>
+</span></span><span class="line"><span class="cl"><span class="n">eq</span> 
+</span></span><span class="line"><span class="cl"><span class="n">ceq</span> <span class="c"># case-sensitive operator</span>
+</span></span><span class="line"><span class="cl"><span class="n">neq</span>
+</span></span><span class="line"><span class="cl"><span class="n">lt</span><span class="p">,</span> <span class="n">gt</span><span class="p">.</span> <span class="n">le</span><span class="p">,</span> <span class="n">ge</span>
+</span></span><span class="line"><span class="cl"><span class="n">like</span> <span class="c"># contains</span>
+</span></span><span class="line"><span class="cl"><span class="n">clike</span> <span class="c"># case-senstive contains</span>
+</span></span><span class="line"><span class="cl"><span class="n">notlike</span>
+</span></span><span class="line"><span class="cl"><span class="n">match</span> <span class="c"># use regex</span>
+</span></span><span class="line"><span class="cl"><span class="n">contains</span> <span class="c"># return True or False</span>
+</span></span></code></pre></div><p>Example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">@(</span><span class="n">THis</span> <span class="n">is</span> <span class="n">a</span> <span class="n">big</span> <span class="n">text</span> <span class="n">to</span> <span class="n">search</span> <span class="n">some</span> <span class="n">keywords</span> <span class="k">in</span><span class="p">)</span> <span class="o">-like</span> <span class="s2">&#34;text&#34;</span>
+</span></span></code></pre></div><h3 id="strings">Strings</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">string</span><span class="p">.</span><span class="n">IndexOf</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="p">.</span><span class="n">Trim</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="p">.</span><span class="n">Replace</span><span class="p">(</span><span class="s2">&#34;a&#34;</span><span class="p">,</span> <span class="s2">&#34;b&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="p">.</span><span class="n">Contains</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="p">.</span><span class="n">GetMember</span><span class="p">()</span> <span class="c"># print all available operations for strings</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$this_is_a_multiline</span> <span class="p">=</span> <span class="p">@</span><span class="s2">&#34;Hello
+</span></span></span><span class="line"><span class="cl"><span class="s2">world, I have a question: &#34;</span><span class="n">How</span>
+</span></span><span class="line"><span class="cl"><span class="n">are</span> <span class="n">you</span><span class="s2">&#34;?&#34;</span><span class="p">@</span>
+</span></span></code></pre></div><h3 id="conditions">Conditions</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nv">$n</span> <span class="o">-le</span> <span class="nv">$n2</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Good&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;Happy snowman!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">1</span> <span class="p">=</span> <span class="n">1</span><span class="p">)</span> <span class="o">-and</span> <span class="p">(</span><span class="n">2</span> <span class="p">=</span> <span class="n">2</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;Math is not broken!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;The Universe seems to be exploding&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">switch</span><span class="p">(</span><span class="nv">$num</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">1</span> <span class="p">{</span><span class="s2">&#34;Good&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">2</span> <span class="p">{</span><span class="s2">&#34;Hm&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="n">3</span> <span class="p">{</span><span class="s2">&#34;Hmhm&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">default</span> <span class="p">(</span><span class="s2">&#34;Happy snowman&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="collections">Collections</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># array list</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$array</span> <span class="p">=</span> <span class="p">@(</span><span class="n">1</span><span class="p">,</span><span class="n">2</span><span class="p">,</span><span class="n">4</span><span class="p">)</span> <span class="c"># IsFixedSize</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$array</span><span class="p">[</span><span class="n">1</span><span class="p">..</span><span class="n">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># list</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$list</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">ArrayList</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># disctionary, not {} instead of ()</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$hash_table</span> <span class="p">=</span> <span class="p">@{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;127.0.0.1&#34;</span> <span class="p">=</span> <span class="s2">&#34;localhost&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;192.168.1.1&#34;</span> <span class="p">=</span> <span class="s2">&#34;router1&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	
+</span></span></code></pre></div><h3 id="timestamps">Timestamps</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># Find diff between today and some point in time</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Method 1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$emp_date</span> <span class="p">=</span> <span class="no">[string]</span><span class="nv">$emp_data</span><span class="p">[</span><span class="n">2</span><span class="p">]</span> <span class="o">-replace</span> <span class="s2">&#34;-&#34;</span><span class="p">,</span> <span class="s2">&#34;/&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="no">[datetime]</span><span class="nv">$emp_date</span> <span class="p">+=</span> <span class="s2">&#34; 00:00&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$diff</span> <span class="p">=</span> <span class="nb">NEW-TIMESPAN</span> <span class="err">–</span><span class="nb">Start </span><span class="nv">$emp_date</span> <span class="err">–</span><span class="k">End</span> <span class="nv">$today</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nv">$diff</span> <span class="o">-ge</span> <span class="n">365</span><span class="p">*</span><span class="n">5</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c"># do something</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Method 2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$emp_date</span> <span class="p">=</span> <span class="nv">$emp_data</span><span class="p">[</span><span class="n">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$DOJ</span><span class="p">=</span><span class="no">[datetime]</span><span class="p">::</span><span class="n">ParseExact</span><span class="p">(</span><span class="nv">$date</span><span class="p">,</span> <span class="s2">&#34;yyyy-mm-dd&#34;</span><span class="p">,</span> <span class="nv">$null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="nv">$DOJ</span> <span class="o">-le</span> <span class="p">(</span><span class="nb">Get-Date</span><span class="p">).</span><span class="n">AddYears</span><span class="p">(-</span><span class="n">5</span><span class="p">)</span>  <span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="c"># do something</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="functions">Functions</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># unnamed local arg</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nb">Hello-World</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">echo </span><span class="nv">$args</span><span class="p">[</span><span class="n">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"> <span class="c"># do something</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Hello-World</span> <span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="c"># prints 1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># named local arg</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nb">Hello-World</span><span class="p">(</span><span class="nv">$names</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="k">foreach</span> <span class="nv">$name</span> <span class="k">in</span> <span class="nv">$names</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">echo </span><span class="s2">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$names</span> <span class="p">=</span> <span class="p">@(</span><span class="s2">&#34;Jessica&#34;</span><span class="p">,</span> <span class="s2">&#34;Mark&#34;</span><span class="p">,</span> <span class="s2">&#34;Jason&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Hello-World</span> <span class="nv">$names</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># parameters ++++</span>
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="nb">Hello-World</span><span class="n">-Remastered</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">param</span>
+</span></span><span class="line"><span class="cl">	<span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="no">[string]</span><span class="n">Name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="no">[int]</span><span class="n">age</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="no">[bool]</span><span class="n">agree</span> <span class="p">=</span> <span class="n">1</span> <span class="c"># default value</span>
+</span></span><span class="line"><span class="cl">	<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">Write-Output</span> <span class="s2">&#34;Hello, $Name who is $age old! You said $agree&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Hello-World</span><span class="n">-Remastered</span> <span class="n">-Name</span> <span class="n">Tariel</span> <span class="n">-age</span> <span class="n">21</span> <span class="n">-agree</span> <span class="n">0</span>
+</span></span></code></pre></div><h3 id="error-handling">Error Handling</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-Content</span> <span class="s2">&#34;file&#34;</span> <span class="n">-ErrorAction</span> <span class="p">[</span><span class="n">Stop</span><span class="p">|</span><span class="n">SilentlyContinue</span><span class="p">]</span> <span class="n">-ErrorVariable</span> <span class="nv">$err</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">Get-Help</span> <span class="s2">&#34;Something&#34;</span> <span class="n">-ErrorAction</span> <span class="n">Stop</span> <span class="n">-ErrorVariable</span> <span class="nv">$error</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">catch</span> <span class="no">[System.IO.FileNotFoundException]</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">$ErrorMessage</span> <span class="p">=</span> <span class="nv">$_</span><span class="p">.</span><span class="n">Exception</span><span class="p">.</span><span class="n">Message</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">$ErrorMessage</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">Write-Output</span> <span class="s2">&#34;Error caught $ErrorMessage&#34;</span> <span class="n">-Foreground</span> <span class="n">Yellow</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="classes">Classes</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">class</span> <span class="nb">Cat </span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="no">[int32]</span> <span class="n">age</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="no">[String]</span> <span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	
+</span></span><span class="line"><span class="cl">	<span class="no">[int32]</span> <span class="n">number_of_kittens</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">3</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="emails">Emails</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># create a Mail object</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$message</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Mail</span><span class="p">.</span><span class="n">MailMessage</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$message</span><span class="p">.</span><span class="n">body</span> <span class="p">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$message</span><span class="p">.</span><span class="n">subject</span> <span class="p">=</span> <span class="nv">$subject</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$message</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="nv">$to</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$message</span><span class="p">.</span><span class="n">from</span> <span class="p">=</span> <span class="nv">$from</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># create a SMPT client</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$SMTPServer</span> <span class="p">=</span> <span class="s2">&#34;smtp.gmail.com&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$SMTPPort</span> <span class="p">=</span> <span class="n">465</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$smtp</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Mail</span><span class="p">.</span><span class="n">SmtpClient</span><span class="p">(</span><span class="nv">$SMTPServer</span><span class="p">,</span> <span class="nv">$SMTPPort</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Provide creds if needed</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$smtp</span><span class="p">.</span><span class="n">Credentials</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">NetworkCredential</span><span class="p">(</span><span class="nv">$Username</span><span class="p">,</span> <span class="nv">$Password</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># use SSL in case you fancy it or if the server requires </span>
+</span></span><span class="line"><span class="cl"><span class="nv">$smtp</span><span class="p">.</span><span class="n">EnableSSL</span> <span class="p">=</span> <span class="nv">$true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># send the message</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$smtp</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="references">References</h2>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/07-working-with-wmi?view=powershell-7.1">1</a>] WMI and CIM docs</p>
 <p>[<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">2</a>] PowerShell execution policies for scripts</p>
 
@@ -643,7 +642,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

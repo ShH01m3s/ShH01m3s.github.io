@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -284,8 +284,8 @@
 <h2 id="memory-segmentation">Memory Segmentation</h2>
 <h3 id="cmd-args-and-env-vars">Cmd args and env vars</h3>
 <p>This is our first 📘, right on the floor. We are executing a program with some command line argument which now has the highest address in memory (around <code>0xffffffff</code>):</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ping ya.ru
-</code></pre></div><p>This goes on the very bottom of the pile. There is pretty much of space left!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping ya.ru
+</span></span></code></pre></div><p>This goes on the very bottom of the pile. There is pretty much of space left!</p>
 <h3 id="stack">Stack</h3>
 <p>Grows towards lower memory addresses.</p>
 <table>
@@ -319,33 +319,33 @@
 </tbody>
 </table>
 <p>To see the stack frame in <code>gdb</code> - <code>x/16xw $esp</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>Both <code>main</code> and <code>function</code> have a <code>stack_var</code>. They are not the same. They only share the name, but in fact these only exist while the function&rsquo;s context exists. These are local variables.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Both <code>main</code> and <code>function</code> have a <code>stack_var</code>. They are not the same. They only share the name, but in fact these only exist while the function&rsquo;s context exists. These are local variables.</p>
 <p>Say, our custom ping program has a function <code>dns_request</code>. Let&rsquo;s have a closer look:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-  <span class="k">static</span> <span class="kt">int</span> <span class="n">dns_request</span><span class="p">;</span>
-  
-  <span class="c1">//make request
-</span><span class="c1"></span>  <span class="n">dns_request</span><span class="p">(</span><span class="s">&#34;ya.ru&#34;</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="n">function</span> <span class="kt">bool</span> <span class="n">dns_request</span> <span class="p">(</span><span class="kt">char</span> <span class="n">domain_name</span><span class="p">[])</span> <span class="p">{</span>
-     <span class="kt">bool</span> <span class="n">result</span><span class="p">;</span>
-     <span class="k">struct</span> <span class="n">dns_request</span><span class="p">;</span>     
-     <span class="n">dns_request</span><span class="p">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain_name</span><span class="p">;</span>
-     <span class="p">...</span>
-     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">somefunc</span><span class="p">(</span><span class="n">dns_request</span><span class="p">);</span>
-     <span class="p">}</span>
-     <span class="p">...</span> 
-     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">int</span> <span class="n">dns_request</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">//make request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">dns_request</span><span class="p">(</span><span class="s">&#34;ya.ru&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">bool</span> <span class="n">dns_request</span> <span class="p">(</span><span class="kt">char</span> <span class="n">domain_name</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="kt">bool</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="k">struct</span> <span class="n">dns_request</span><span class="p">;</span>     
+</span></span><span class="line"><span class="cl">     <span class="n">dns_request</span><span class="p">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain_name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">...</span>
+</span></span><span class="line"><span class="cl">     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">somefunc</span><span class="p">(</span><span class="n">dns_request</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}</span>
+</span></span><span class="line"><span class="cl">     <span class="p">...</span> 
+</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><blockquote>
 <p>There is an interesting article <a href="https://opensource.com/article/19/5/how-write-good-c-main-function#:~:text=The%20main()%20function%20has,(negative%20one)%20on%20failure.&amp;text=The%20argument%20vector%2C%20argv%2C%20is,line%20that%20invoked%20your%20program.">about</a> main function.</p>
 </blockquote>
 <p>What goes right on the stack? In general, everything that dies after function&rsquo;s finished executing and before it returns. Specifically (from the snippet above):</p>
@@ -354,30 +354,30 @@
 <li>Local variables (<code>bool result</code>, <code>int i</code>)</li>
 </ol>
 <p>Depending on archetecture and calling conventions, the code may differ a little, but I would like to show a snippet of C and corresponding assembly below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="n">function</span> <span class="kt">void</span> <span class="nf">_func1</span><span class="p">(){</span>
-  <span class="c1">//assembly equivalent
-</span><span class="c1"></span>  <span class="c1">//push 3
-</span><span class="c1"></span>	<span class="c1">//push 2
-</span><span class="c1"></span>	<span class="c1">//call _func2
-</span><span class="c1"></span>  <span class="n">_func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">function</span> <span class="kt">int</span> <span class="nf">_func2</span><span class="p">(</span><span class="kt">int</span> <span class="n">arg1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">arg2</span><span class="p">){</span>
-  <span class="c1">//function prologue (behind the curtain --&gt; no equivalent in C)
-</span><span class="c1"></span>  <span class="c1">//push ebp
-</span><span class="c1"></span>	<span class="c1">//mov ebp, esp
-</span><span class="c1"></span>  
-  <span class="c1">//mov eax, [ebp + 8]
-</span><span class="c1"></span>	<span class="c1">//mov edx, [ebp + 12]
-</span><span class="c1"></span>	<span class="c1">//add eax, edx
-</span><span class="c1"></span>  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">arg1</span> <span class="o">+</span> <span class="n">arg2</span><span class="p">;</span>
-  
-  <span class="c1">//pop ebp
-</span><span class="c1"></span>	<span class="c1">//ret
-</span><span class="c1"></span>  <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><p>What goes on the stack (in assembly)? Everything that was <code>push</code>ed (<code>_func1</code>: <code>3</code> and <code>2</code>; <code>_func2</code>: <code>ebp</code>). So, in assemblu it&rsquo;s obvious what goes on the stack.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">void</span> <span class="nf">_func1</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//assembly equivalent
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//push 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//push 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//call _func2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">_func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">int</span> <span class="nf">_func2</span><span class="p">(</span><span class="kt">int</span> <span class="n">arg1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">arg2</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//function prologue (behind the curtain --&gt; no equivalent in C)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//push ebp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//mov ebp, esp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">  <span class="c1">//mov eax, [ebp + 8]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//mov edx, [ebp + 12]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//add eax, edx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">arg1</span> <span class="o">+</span> <span class="n">arg2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">//pop ebp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//ret
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>What goes on the stack (in assembly)? Everything that was <code>push</code>ed (<code>_func1</code>: <code>3</code> and <code>2</code>; <code>_func2</code>: <code>ebp</code>). So, in assemblu it&rsquo;s obvious what goes on the stack.</p>
 <p><a href="http://eleceng.dit.ie/frank/IntroToC/Memory.html">Here</a> is an interesting article about different layers of memory of a C-program. The author, inter alia, states that we cannot use local variables to return values, due to the fact that the stack is freed after program execution. But the the thing (is far as I know) that the return values are put into eax register before returning, so they are not technically on the stack any more. Of course, if you use not the value from the returned function, but an address of the local variable (which would be utterly weird), then yes, there is no garantee it wasn&rsquo;t overwritten.</p>
 <p>What I&rsquo;d also like to mention in the context of stack, is that even though they say it&rsquo;s freed, it not actually freed per se. There is a esp register, which is very interesting.</p>
 <p>Is underflow specific to stack?</p>
@@ -385,49 +385,49 @@
 <p>Stack vs Heap <a href="https://gribblelab.org/CBootCamp/7_Memory_Stack_vs_Heap.html">article</a>.</p>
 <p>Doesn&rsquo;t have a fixed size. The growth of the heap moves downward toward higer memory addresses. So, heap grows toward stack and stack - toward heap. One day when they meet (if they meet), you&rsquo;ll deal with stack or heap overflow.</p>
 <p>Variable need to be allocated first with a <code>malloc()</code> function. Pointers are usually used to reference heap variables.</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">heap_var</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div><p>In case it can&rsquo;t allocate memory, it will return <code>NULL</code> pointer (<code>0x0</code>). There once was a vulnerability in BootROM on iOS devices regarding this (Alloc8 exploit).</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="cp"># Good code
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="o">*</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">pointer</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// handle error
-</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="c1">// pointer is valid, continue
-</span><span class="c1"></span><span class="p">}</span>
-
-<span class="cp"># Bad code in alloc8 vulnerable BootROM
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="o">*</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">pointer</span> <span class="o">==</span> <span class="mh">0x8</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// handle error
-</span><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	<span class="c1">// pointer is valid, continue
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>For some reason, the return value was compared to <code>0x8</code>, not <code>NULL</code> or even <code>0x0</code>. Typo?</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">heap_var</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>In case it can&rsquo;t allocate memory, it will return <code>NULL</code> pointer (<code>0x0</code>). There once was a vulnerability in BootROM on iOS devices regarding this (Alloc8 exploit).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp"># Good code
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">pointer</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// handle error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// pointer is valid, continue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp"># Bad code in alloc8 vulnerable BootROM
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">pointer</span> <span class="o">==</span> <span class="mh">0x8</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// handle error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// pointer is valid, continue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>For some reason, the return value was compared to <code>0x8</code>, not <code>NULL</code> or even <code>0x0</code>. Typo?</p>
 <p>After the memory is no longer needed, you need to call <code>free()</code> on this memory location. However, even after freeing the memory space doesn&rsquo;t mean it will be reused once the new <code>malloc</code> is called. It depends on the system, how the allocaiton functions are implemented and the size of the block to allocate.</p>
 <h3 id="bss">.BSS</h3>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">global_var</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">static</span> <span class="kt">int</span> <span class="n">uninit_var</span><span class="p">;</span>
-  <span class="c1">// some code
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><p>This memory segment holds <strong>uninitialized</strong> global and static variables. Have fixed size. Writable.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">global_var</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">int</span> <span class="n">uninit_var</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// some code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>This memory segment holds <strong>uninitialized</strong> global and static variables. Have fixed size. Writable.</p>
 <h3 id="data">.Data</h3>
 <p><a href="https://www.studytonight.com/cpp/static-keyword.php">Here</a> you can read about static variables, functions, classes and class members.</p>
 <p>This memory segment holds <strong>initialized</strong> global and static variables. Have fixed size. Writable.</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">global_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">static</span> <span class="kt">int</span> <span class="n">uninit_var</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="c1">// some code
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></div><h3 id="text">.Text</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">global_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">int</span> <span class="n">uninit_var</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// some code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><h3 id="text">.Text</h3>
 <p>Contains the actual code of the program. It&rsquo;s usually (and better be) read-only to prevent changes to the code. Also, this portion of memory can be shared by different istances of the same process.</p>
 
   </div>
@@ -461,7 +461,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

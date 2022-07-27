@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -349,8 +349,8 @@
 <p>Some of the settings can only be found on a live system (🍇). SAM hive and all of its subkeys will not be accessible.</p>
 <p>⚠️ There is no <code>CurrentControlSet</code> on a dead-box. To determine which one of the <code>ControlSet</code>s is current, use <code>Select\Current</code> key (usually <code>1</code>, which means <code>ControlSet001</code>). <code>Last Known Goog</code> is usually <code>2</code> (which means <code>ControlSet002</code>), used for recovery purposes.</p>
 <p>Non-live registry (missing some hives) can be accessed from a disk image for example. <code>C:\Windows\System32\config</code> contains 4 main hives: SAM, System, Security and Software. <code>C:\Windows\appcompat\Programs</code> contains <code>amcahce.hve</code>. User-related files mentioned above can be found at <code>C:\Users\%Username%\NTUser.dat</code> and <code>C:\Users\%Username%\AppData\Local\Microsoft\Windows\UsrClass.dat</code>. So, those mysterious <code>XXX.dat</code> files are actually a registry file.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">Get-ChildItem</span> <span class="n">HKLM</span><span class="err">:</span><span class="n">Software</span> <span class="p">|</span> <span class="nb">Format-Wide</span>
-</code></pre></div><h2 id="sam">SAM</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">HKLM</span><span class="err">:</span><span class="n">Software</span> <span class="p">|</span> <span class="nb">Format-Wide</span>
+</span></span></code></pre></div><h2 id="sam">SAM</h2>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\System32\config\SAM</code>.</p>
 <p>⚠️ This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
 <p><img src="images/sam-hive-permissions.png" alt="sam-hive-permissions"></p>
@@ -376,25 +376,25 @@
 <li><input disabled="" type="checkbox"> Create a word list from the current case (may export from Autopsy, EnCase etc).</li>
 <li><input disabled="" type="checkbox"> Run a dictionary 📖 or brute-force attack 💪 against this NTLM hash (🛠: <code>hashcat</code> 🐈‍⬛ , <code>John the Ripper</code> 🔪, Cain and Able 🔪 🐏).</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># decrypt the hashes:</span>
-mimikatz
-&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
-
-<span class="c1"># crack the hash with john (NTHash)</span>
-john --format<span class="o">=</span>nt hash.txt
-<span class="c1"># crack the hash with hashcat (NTHash)</span>
-hashcat -m <span class="m">1000</span> -a <span class="m">3</span> hash.txt
-
-<span class="c1"># crack the hash with john (NTLMv1) </span>
-john --format<span class="o">=</span>netntlm hash.txt
-<span class="c1"># crack the hash with hashcat (NTLMv1) </span>
-hashcat -m <span class="m">5500</span> -a <span class="m">3</span> hash.txt
-
-<span class="c1"># crack the hash with john (NTLMv2) </span>
-john --format<span class="o">=</span>netntlmv2 hash.txt
-<span class="c1"># crack the hash with hashcat (NTLMv2) </span>
-hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt 
-</code></pre></div><p><strong>Other values stored in this sub-key</strong>. <code>ForcePasswordReset</code> speaks for itself and <code>SupplementalCredentials</code> do not. There also can be a <code>UserPasswordHint</code>, sometimes contains the actual password. It also contains RID, which can be changed in <a href="/docs/dfir/host/reference/windows/win-lsa#rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># decrypt the hashes:</span>
+</span></span><span class="line"><span class="cl">mimikatz
+</span></span><span class="line"><span class="cl">&gt; lsadump::sam /system:<span class="s2">&#34;path_to_SYSTEM&#34;</span> /SAM:<span class="s2">&#34;path_to_SAM&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with john (NTHash)</span>
+</span></span><span class="line"><span class="cl">john --format<span class="o">=</span>nt hash.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with hashcat (NTHash)</span>
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">1000</span> -a <span class="m">3</span> hash.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with john (NTLMv1) </span>
+</span></span><span class="line"><span class="cl">john --format<span class="o">=</span>netntlm hash.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with hashcat (NTLMv1) </span>
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">5500</span> -a <span class="m">3</span> hash.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with john (NTLMv2) </span>
+</span></span><span class="line"><span class="cl">john --format<span class="o">=</span>netntlmv2 hash.txt
+</span></span><span class="line"><span class="cl"><span class="c1"># crack the hash with hashcat (NTLMv2) </span>
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt 
+</span></span></code></pre></div><p><strong>Other values stored in this sub-key</strong>. <code>ForcePasswordReset</code> speaks for itself and <code>SupplementalCredentials</code> do not. There also can be a <code>UserPasswordHint</code>, sometimes contains the actual password. It also contains RID, which can be changed in <a href="/docs/dfir/host/reference/windows/win-lsa#rid-hijacking">RID hijacking attack</a>. There is also a technique that allows resetting local account password by clearing <code>lmpw_len</code> (LM password hash length) and <code>ntpw_len</code> (NTLM password hash length) at <code>0x2c</code> and <code>0x30</code> respectively [<a href="http://www.ijfcc.org/vol5/455-F005.pdf">8</a>].</p>
 <h3 id="microsoft-accounts">Microsoft Accounts</h3>
 <p>Since Win8. Can be logged in if there is internet access. Profiles and settings are stored in the cloud ☁️. Additional values are stored in SAM: <code>InternetUID</code> and <code>InternetUserName</code>. Both are unique to the user. <code>InternetUID</code> is a 16 byte Unicode string. <code>InternetUserName</code> - usually an email used as a login.</p>
 <h3 id="domain-accounts--">Domain Accounts  ⚠️</h3>
@@ -511,7 +511,7 @@ hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt
 <blockquote>
 <p>⚠️ Windows 10 only!</p>
 </blockquote>
-<p>Background Activity Monitor. Organaized by user SID. Windows apps' names are not parsed very well here. Gives last executed time ⏰ , 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
+<p>Background Activity Monitor. Organaized by user SID. Windows apps&rsquo; names are not parsed very well here. Gives last executed time ⏰ , 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
 <h2 id="nt-user">NT User</h2>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Users\%Username%\NTUser.dat</code>.</p>
 <p>Key interesting for a forensic examiner are listed below.</p>
@@ -626,8 +626,8 @@ hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt
 <p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
 <p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
 <p><strong>Tools</strong> 🛠: AmCacheParser.exe + Timeline Explorer.</p>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
-</code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
+</span></span></code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
 <blockquote>
 <p>⚠️ In my case on a macOS with Parallels and Windows 10 installed, this evidence also contained mac executables.</p>
 </blockquote>
@@ -672,7 +672,7 @@ hashcat -m <span class="m">5600</span> -a <span class="m">3</span> hash.txt
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

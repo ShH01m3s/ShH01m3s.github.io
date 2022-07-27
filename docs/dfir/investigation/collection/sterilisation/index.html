@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -243,9 +243,9 @@
     <p>Before copying evidence or making a disk image one needs to sterelise the target media to make sure that data that was present on that disk prior to this operation would not meddle with the evidence data. Several rounds of writing <code>0</code>s is usually enough.
 Keep in mind that flash drives and SSD work in different manner and that&rsquo;s why simple permanent deletion of a file might deem it to be unrecoverable. However, it&rsquo;s not always the case (due to some optimizations implemented in the controller), that&rsquo;s why for compliancy sake you might still want to follow the below procedures.</p>
 <p>On Windows/Linux/MacOS you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). The best practise is to use three-pass zeros, but it&rsquo;s not included in freeware. You can still run the same command three times. On Mac you can also use <code>diskutil zeroDisk</code> or <code>diskutil randomDisk</code>. The first one will fill the disk with <code>0</code> and the second - with random symbols.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">diskutil list <span class="c1"># to list all the attached and internal devices. Note the drive file name, it looks like /dev/disk[X] where X is a number. If you want to zero out just a volume instead of the whole physical drive, add the second identifier, for example, /dev/disk[X]s[Y] where X is the number of the physical drive and Y is the volume number within this disk.</span>
-diskutil zeroDisk /dev/disk4 <span class="c1"># this might take a while. The larger the disk, the more time is required.</span>
-</code></pre></div><p>To verify that the disk was indeed sterilized on Windows, run <code>Analysis -&gt; Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor (with admin rights).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">diskutil list <span class="c1"># to list all the attached and internal devices. Note the drive file name, it looks like /dev/disk[X] where X is a number. If you want to zero out just a volume instead of the whole physical drive, add the second identifier, for example, /dev/disk[X]s[Y] where X is the number of the physical drive and Y is the volume number within this disk.</span>
+</span></span><span class="line"><span class="cl">diskutil zeroDisk /dev/disk4 <span class="c1"># this might take a while. The larger the disk, the more time is required.</span>
+</span></span></code></pre></div><p>To verify that the disk was indeed sterilized on Windows, run <code>Analysis -&gt; Checksums -&gt; Checksum 64</code> in <code>HxD</code> hex editor (with admin rights).</p>
 <blockquote>
 <p>📝 Note, that you can&rsquo;t use any hash algorithm for this procedure instead. Checksum64 will be the same for 1, 2, 30, 10000 zeros. However, the hash will be different for different size of input data.</p>
 </blockquote>
@@ -307,7 +307,7 @@ MD5 hash for the selected 3600 bytes. The value is different.</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

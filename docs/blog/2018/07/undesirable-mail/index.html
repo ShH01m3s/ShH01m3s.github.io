@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -258,7 +258,7 @@
 <p><img src="/images/blog/2018/undesirablemail/7b7ff61cdd8d739404054.png" alt="img"></p>
 <p>There are 5 OLE_DOCUMENT__malware__<!-- raw HTML omitted -->.bin named by RTFScanner when making a dump. Let&rsquo;s see&hellip; I&rsquo;ll copy one of these names and search my VM for it (the scanner doesn&rsquo;t save them in the current directory and having a squirrel-like memory, alas!) I don&rsquo;t remember where to look for it.</p>
 <p><img src="/images/blog/2018/undesirablemail/33d3ecebd6833195f330a.png" alt="img"></p>
-<p>At the destination I found all the five &ldquo;prisoners&rdquo; and copied them to my host to view in hex. Scrolling the first dumped OLE object almost to the very end, I noticed very familiar strings (<strong>&ldquo;Dim&rdquo;, &ldquo;For i = 13 To 85&rdquo;, &ldquo;String = &ldquo;dkV&hellip;&quot;</strong>) indicating that there WAS macro lurking inside!</p>
+<p>At the destination I found all the five &ldquo;prisoners&rdquo; and copied them to my host to view in hex. Scrolling the first dumped OLE object almost to the very end, I noticed very familiar strings (<strong>&ldquo;Dim&rdquo;, &ldquo;For i = 13 To 85&rdquo;, &ldquo;String = &ldquo;dkV&hellip;&rdquo;</strong>) indicating that there WAS macro lurking inside!</p>
 <p><img src="/images/blog/2018/undesirablemail/02e49ae99d01941df9a96.png" alt="img"></p>
 <p>Next questing I asked myself was &ldquo;Are they all different?&rdquo; Pulling a <strong>sha1deep.exe</strong>from my toolkit, I have calculated the hash and it turned out to be the same (<strong>9a9ba8040952200d264637d0b2001225de826dc4</strong>), proving me right! So, no need to analyze them all, one would be enough.</p>
 <p>Ok, once I got that OLE dump I need some tool to extract macro code. Let&rsquo;s see&hellip; Aha! OfficeMalScanner will do the trick. Righty-right! Off we go with that:</p>
@@ -277,25 +277,25 @@
 <p><img src="/images/blog/2018/undesirablemail/e31e636144e7a446f02c4.png" alt="img"></p>
 <p><strong>13:03</strong>. Need a break&hellip;</p>
 <p><strong>13:15</strong>. After having a nice break I can get back to the file.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">simple_decipher</span> <span class="p">(</span><span class="n">p_string</span><span class="p">,</span> <span class="n">p_key</span><span class="p">):</span>
-  <span class="n">result</span> <span class="o">=</span> <span class="err">“”</span>
-  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_string</span><span class="p">):</span>
-  <span class="n">result</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p_string</span><span class="p">[</span><span class="n">count</span><span class="p">:</span><span class="n">count</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="err">–</span> <span class="n">p_key</span><span class="p">)</span>
-  <span class="n">count</span> <span class="o">+=</span> <span class="mi">2</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">result</span>
-
-<span class="n">simple_decipher</span><span class="p">(</span><span class="err">“</span><span class="mi">8</span><span class="n">CA0A1AB8FA7AAA39AA7A7A366B1A5A68DAB979EA1AD</span><span class="err">”</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
-<span class="n">simple_decipher</span><span class="p">(</span><span class="err">“</span><span class="mi">8</span><span class="n">F8B9BAAA1A8AC668BA09DA4A4</span><span class="err">”</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
-<span class="n">simple_decipher</span><span class="p">(</span><span class="err">“</span><span class="mi">8</span><span class="n">AADA6</span><span class="err">”</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
-</code></pre></div><p>And the resulting decoded strings are these:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml">ThisWorkbook.ymnUs_fiu
-WScript.Shell
-Run
-</code></pre></div><p>&hellip;which reveals the intentions pretty well:</p>
-<div class="highlight"><pre class="chroma"><code class="language-vb" data-lang="vb"><span class="n">CallByName</span> <span class="n">CreateObject</span><span class="p">(</span><span class="n">I_RZl</span><span class="p">(</span><span class="s">&#34;8F8B9BAAA1A8AC668BA09DA4A4&#34;</span><span class="p">)),</span> <span class="n">I_RZl</span><span class="p">(</span><span class="s">&#34;8AADA6&#34;</span><span class="p">),</span> <span class="n">VbMethod</span><span class="p">,</span> <span class="n">I_RZl</span><span class="p">(</span><span class="n">ThisWorkbook</span><span class="p">.</span><span class="n">Sheets</span><span class="p">(</span><span class="s">&#34;Opto&#34;</span><span class="p">).</span><span class="n">Range</span><span class="p">(</span><span class="s">&#34;H211&#34;</span><span class="p">).</span><span class="n">Value</span><span class="p">),</span> <span class="n">0</span><span class="p">,</span> <span class="k">True</span>
-</code></pre></div><p>Code refers to some Opto Sheet, but there is no such thing in the whole document! Why?! I&rsquo;ve really searched for the entire document and its structure, no such thing as &ldquo;Opto Sheet&rdquo;&hellip; And the it struck me like a lightning bolt! What if I open it in Hiew again and search for &ldquo;Opto&rdquo;&hellip;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">simple_decipher</span> <span class="p">(</span><span class="n">p_string</span><span class="p">,</span> <span class="n">p_key</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">result</span> <span class="o">=</span> <span class="err">“”</span>
+</span></span><span class="line"><span class="cl">  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">  <span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_string</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="n">result</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p_string</span><span class="p">[</span><span class="n">count</span><span class="p">:</span><span class="n">count</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="err">–</span> <span class="n">p_key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">count</span> <span class="o">+=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">result</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">simple_decipher</span><span class="p">(</span><span class="err">“</span><span class="mi">8</span><span class="n">CA0A1AB8FA7AAA39AA7A7A366B1A5A68DAB979EA1AD</span><span class="err">”</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">simple_decipher</span><span class="p">(</span><span class="err">“</span><span class="mi">8</span><span class="n">F8B9BAAA1A8AC668BA09DA4A4</span><span class="err">”</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">simple_decipher</span><span class="p">(</span><span class="err">“</span><span class="mi">8</span><span class="n">AADA6</span><span class="err">”</span><span class="p">,</span> <span class="mi">56</span><span class="p">)</span>
+</span></span></code></pre></div><p>And the resulting decoded strings are these:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">ThisWorkbook.ymnUs_fiu
+</span></span><span class="line"><span class="cl">WScript.Shell
+</span></span><span class="line"><span class="cl">Run
+</span></span></code></pre></div><p>&hellip;which reveals the intentions pretty well:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vb" data-lang="vb"><span class="line"><span class="cl"><span class="n">CallByName</span> <span class="n">CreateObject</span><span class="p">(</span><span class="n">I_RZl</span><span class="p">(</span><span class="s">&#34;8F8B9BAAA1A8AC668BA09DA4A4&#34;</span><span class="p">)),</span> <span class="n">I_RZl</span><span class="p">(</span><span class="s">&#34;8AADA6&#34;</span><span class="p">),</span> <span class="n">VbMethod</span><span class="p">,</span> <span class="n">I_RZl</span><span class="p">(</span><span class="n">ThisWorkbook</span><span class="p">.</span><span class="n">Sheets</span><span class="p">(</span><span class="s">&#34;Opto&#34;</span><span class="p">).</span><span class="n">Range</span><span class="p">(</span><span class="s">&#34;H211&#34;</span><span class="p">).</span><span class="n">Value</span><span class="p">),</span> <span class="n">0</span><span class="p">,</span> <span class="k">True</span>
+</span></span></code></pre></div><p>Code refers to some Opto Sheet, but there is no such thing in the whole document! Why?! I&rsquo;ve really searched for the entire document and its structure, no such thing as &ldquo;Opto Sheet&rdquo;&hellip; And the it struck me like a lightning bolt! What if I open it in Hiew again and search for &ldquo;Opto&rdquo;&hellip;</p>
 <p>Voila!</p>
 <p><img src="/images/blog/2018/undesirablemail/ddb4d804263571c8e4d84.png" alt="img"></p>
 <p>Let&rsquo;s copy these hex digits and run my Pthy against it&hellip; Aha! That&rsquo;s interesting&hellip;. Deserves further investigation ! To make it easier to look through, it&rsquo;s better to view it in Notepad++ with Batch as a language to beautify it a bit&hellip;and ta-da! My efforts have finally paid off. Look at this pearls!</p>
@@ -344,7 +344,7 @@ Run
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

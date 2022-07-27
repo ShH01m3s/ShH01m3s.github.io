@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -272,59 +272,59 @@
 <p>If the organization uses Terraform, you could look for any resources that were <strong>NOT</strong> created via Terraform.</p>
 <h2 id="-btfm">📘 BTFM</h2>
 <h3 id="get-credentials">Get credentials</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Get current creds and region for aws CLI</span>
-~/.aws/credentials
-~/.aws/config
-</code></pre></div><h3 id="terraform-init">Terraform Init</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Get current creds and region for aws CLI</span>
+</span></span><span class="line"><span class="cl">~/.aws/credentials
+</span></span><span class="line"><span class="cl">~/.aws/config
+</span></span></code></pre></div><h3 id="terraform-init">Terraform Init</h3>
 <p>Terraform prerequisites: account on AWS, Google, Azure or another Cloud provider, Terraform isntalled locally on the PC, credentials from the cloud in question (for example, for AWS these are <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>). For full instructions refer to [<a href="https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started">2</a>].</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">terraform init
-<span class="c1"># create some tf file or make changes to the existing one</span>
-terraform apply
-terraform destroy <span class="c1"># to delete what was deleted</span>
-</code></pre></div><h3 id="s3-buckets-check-for-public-access">S3 Buckets. Check for Public Access</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">terraform init
+</span></span><span class="line"><span class="cl"><span class="c1"># create some tf file or make changes to the existing one</span>
+</span></span><span class="line"><span class="cl">terraform apply
+</span></span><span class="line"><span class="cl">terraform destroy <span class="c1"># to delete what was deleted</span>
+</span></span></code></pre></div><h3 id="s3-buckets-check-for-public-access">S3 Buckets. Check for Public Access</h3>
 <p>First, if you have multiple profiles, set them following the instuctions:</p>
 <blockquote>
 <p>📝 TODO</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
-aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>profilename <span class="c1"># get the policy for this bucket. </span>
-
-<span class="c1"># option 1. Bucket doesn&#39;t exist</span>
-An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
-<span class="c1"># option 2. Bucket exists.</span>
-Will show a json with permissions
-</code></pre></div><h3 id="imds">IMDS</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat ~/.aws/config<span class="p">|</span> grep <span class="o">[</span>accnumber<span class="o">]</span> -B3 <span class="p">|</span> grep profile --color<span class="o">=</span>always <span class="c1"># get the account name</span>
+</span></span><span class="line"><span class="cl">aws s3api get-bucket-acl --bucket <span class="o">[</span>bucketname<span class="o">]</span> --profile<span class="o">=</span>profilename <span class="c1"># get the policy for this bucket. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># option 1. Bucket doesn&#39;t exist</span>
+</span></span><span class="line"><span class="cl">An error occurred <span class="o">(</span>NoSuchBucket<span class="o">)</span> when calling the GetBucketAcl operation: The specified bucket does not exist
+</span></span><span class="line"><span class="cl"><span class="c1"># option 2. Bucket exists.</span>
+</span></span><span class="line"><span class="cl">Will show a json with permissions
+</span></span></code></pre></div><h3 id="imds">IMDS</h3>
 <p>Following the best practices, one would use IMDSv2, but if it&rsquo;s not the case, then one can <code>ssh</code> into EC2 and run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/&#34;</span>
-
-&gt; my-ec2
-
-curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/my-ec2&#34;</span>
-
-<span class="c1"># if you see something juicy here, not that great. If it&#39;s IMDSv1, even worse.</span>
-</code></pre></div><p>The result is something like the following:</p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-	<span class="nt">&#34;Code&#34;</span> <span class="p">:</span> <span class="s2">&#34;Success&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;Last Updated&#34;</span><span class="p">:</span> <span class="s2">&#34;2021-01-16T08:00:00Z&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;Type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS-HMAC&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;AccessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;1234567890&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;SecretAcessKey&#34;</span><span class="p">:</span> <span class="s2">&#34;12345678901234567890&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;Token&#34;</span><span class="p">:</span> <span class="s2">&#34;a very long base64 encoded string&#34;</span><span class="p">,</span>
-	<span class="nt">&#34;Expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;2025-04-16T08:00:00Z&#34;</span>
-<span class="p">}</span>
-</code></pre></div><p>How to use IMDSv2 - <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html</a>. IMDSv2 has several protections in place to ensure SSRF is not possible: TTL=1 (IP, network layer, of TCP/IP, network), req,uire PUT request (most WAF don&rsquo;t support it), deny all requests with <code>X-Forwarded-For</code>, <code>X-aws-ec2-metadata-token-ttl-seconds</code> and <code>X- aws-ec2-metadata-token</code> custom headers are required. One only needs to <a href="https://stackoverflow.com/questions/64595032/how-to-tell-what-version-of-instance-metadata-serviceimds-ec2-instance-is-usin#:~:text=If%20you%20want%20to%20determine,what%20the%20status%20code%20is">make sure they have IMDSv2</a> instead of version 1.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt; my-ec2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/security-credentials/my-ec2&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># if you see something juicy here, not that great. If it&#39;s IMDSv1, even worse.</span>
+</span></span></code></pre></div><p>The result is something like the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Code&#34;</span> <span class="p">:</span> <span class="s2">&#34;Success&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Last Updated&#34;</span><span class="p">:</span> <span class="s2">&#34;2021-01-16T08:00:00Z&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Type&#34;</span><span class="p">:</span> <span class="s2">&#34;AWS-HMAC&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;AccessKeyId&#34;</span><span class="p">:</span> <span class="s2">&#34;1234567890&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;SecretAcessKey&#34;</span><span class="p">:</span> <span class="s2">&#34;12345678901234567890&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Token&#34;</span><span class="p">:</span> <span class="s2">&#34;a very long base64 encoded string&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">&#34;Expiration&#34;</span><span class="p">:</span> <span class="s2">&#34;2025-04-16T08:00:00Z&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>How to use IMDSv2 - <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html</a>. IMDSv2 has several protections in place to ensure SSRF is not possible: TTL=1 (IP, network layer, of TCP/IP, network), req,uire PUT request (most WAF don&rsquo;t support it), deny all requests with <code>X-Forwarded-For</code>, <code>X-aws-ec2-metadata-token-ttl-seconds</code> and <code>X- aws-ec2-metadata-token</code> custom headers are required. One only needs to <a href="https://stackoverflow.com/questions/64595032/how-to-tell-what-version-of-instance-metadata-serviceimds-ec2-instance-is-usin#:~:text=If%20you%20want%20to%20determine,what%20the%20status%20code%20is">make sure they have IMDSv2</a> instead of version 1.</p>
 <p>If one uses <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#metadata-options">Terraform</a>, try using the below settings:</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="p">...</span>
-<span class="n">metadata_options</span> <span class="p">{</span>
-    <span class="n">http_endpoint</span> <span class="o">=</span> <span class="s">&#34;enabled&#34;</span> <span class="c1">// better set disabled in case it&#39;s not required by EC2
-</span><span class="c1"></span>    <span class="n">http_tokens</span> <span class="o">=</span> <span class="s">&#34;required&#34;</span> <span class="c1">// one way to prevent SSRF
-</span><span class="c1"></span>    <span class="n">http_put_response_hop_limit</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">// requests will be blocked if requested by any other machine other then the EC2 itself.
-</span><span class="c1"></span><span class="p">}</span>
-<span class="p">...</span>
-</code></pre></div><h4 id="get-imds-version">Get IMDS version</h4>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">curl -s http://169.254.169.254/
-<span class="c1"># I guess, if you get 1.0 in response, then it&#39;s not well.</span>
-</code></pre></div><h2 id="-toolkit">🧰 Toolkit</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">metadata_options</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">http_endpoint</span> <span class="o">=</span> <span class="s">&#34;enabled&#34;</span> <span class="c1">// better set disabled in case it&#39;s not required by EC2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">http_tokens</span> <span class="o">=</span> <span class="s">&#34;required&#34;</span> <span class="c1">// one way to prevent SSRF
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">http_put_response_hop_limit</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">// requests will be blocked if requested by any other machine other then the EC2 itself.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span></code></pre></div><h4 id="get-imds-version">Get IMDS version</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -s http://169.254.169.254/
+</span></span><span class="line"><span class="cl"><span class="c1"># I guess, if you get 1.0 in response, then it&#39;s not well.</span>
+</span></span></code></pre></div><h2 id="-toolkit">🧰 Toolkit</h2>
 <p><a href="https://rhinosecuritylabs.com/aws/pacu-open-source-aws-exploitation-framework/">Pacu</a>, AWS exploitation framework. Might be good to use when you need to find the flaw in your infrastructure.</p>
 <p><a href="https://github.com/duo-labs/parliament">Parliament</a>. Find vulnerabilities in IAM policies statically.</p>
 <h2 id="references">References</h2>
@@ -362,7 +362,7 @@ curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/iam/securi
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

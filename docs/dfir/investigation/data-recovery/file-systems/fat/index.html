@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -387,8 +387,8 @@
 <li><input disabled="" type="checkbox"> sector per FAT (four bytes ar offset <code>0x24</code>) - marked with blue 🌊</li>
 </ul>
 <p>All this information is needed to get the offset to the start of data area (in sectors!!!!). Since root directory is the first in the data area (FAT32 only), this will give us what we are looking for. Root directory is usually at the 2nd cluster <strong>relative to the start of the VBR</strong>, but better check at the offset <code>0x2C</code> (keep in mind the endianness). Then, we need to calculate the number of bytes to the data area/root directory.</p>
-<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="kt">int</span> <span class="n">root</span> <span class="o">=</span> <span class="p">(</span><span class="n">number_of_FATs</span> <span class="o">*</span> <span class="n">sectors_per_fat</span><span class="p">)</span> <span class="o">+</span> <span class="n">reserved_sectors</span>
-</code></pre></div><p>Here is an example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">root</span> <span class="o">=</span> <span class="p">(</span><span class="n">number_of_FATs</span> <span class="o">*</span> <span class="n">sectors_per_fat</span><span class="p">)</span> <span class="o">+</span> <span class="n">reserved_sectors</span>
+</span></span></code></pre></div><p>Here is an example:</p>
 <p><img src="fat32-root-dir-find.png" alt="fat32-root-dir-find"></p>
 <p>The values on the right pane represent raw data in hex, and on the left - its human-readable interpretation by Active@Disk Editor using a FAT32 Boot Record template. We get the value at <code>0x0B</code> which is <code>0x200</code> (when coverted to little-endian) and which equals 512 in decimal (marked in red). These are <strong>bytes per sector</strong> 🍊.</p>
 <p>We then go to offset <code>0x0D</code> which is <code>0x8</code> and 8 in decimal (marked in green). That&rsquo;s <strong>sectors per cluster</strong> 🍏. Reading at offset <code>0x0E</code> 🫐 I get the <strong>number of reserved sectors</strong> (4110 in decimal). The <strong>number of FATs</strong> 🦞 is 2 (standard for FAT32) at offset <code>0x10</code> and the <strong>number of sectors per FAT</strong> 🌊 is 2041 in decimal.</p>
@@ -549,7 +549,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

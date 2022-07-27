@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -278,40 +278,40 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="rabin2">Rabin2</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rabin2 -I <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># main info about the prog</span>
-rabin2 -z <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># the strings from the binary&#39;s data section</span>
-rabin2 -zz <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># all strings from the binary</span>
-rabin2 -zqq <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># strings only without additional info</span>
-rabin2 -x iGoat-Swift <span class="c1"># thin the binary</span>
-</code></pre></div><h2 id="r2">R2</h2>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">r2 <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># launch radare2 </span>
-&gt; s main <span class="c1"># seak main function and go to it</span>
-&gt; aa <span class="c1"># find all strings</span>
-&gt; v <span class="c1"># psedu GUI mode (Hex editor)</span>
-&gt; VV <span class="c1"># graph mode</span>
-&gt; afvn user_input input <span class="c1"># rename local var and all the places it was referenced</span>
-<span class="c1"># rename function</span>
-&gt; s function_old_name
-&gt; afn function_new_name
-&gt; c <span class="c1"># show cursor in visual mode</span>
-&gt; afvd <span class="c1"># print all local variables</span>
-&gt; u <span class="c1"># back?</span>
-&gt; fs strings<span class="p">;</span> f <span class="c1"># load flag space of strings and load them</span>
-&gt; axt @@ &lt;address or ref&gt; <span class="c1"># go to the xrefs for this item (string,import,function)</span>
-&gt; f~bio <span class="c1"># load currently selected flag space and grep for flags containing &#34;bio&#34;</span>
-&gt; fs imports<span class="p">;</span>f~BiometricAuth <span class="c1"># select imports flag space, load it and grep for &#34;BiometricAuth&#34;</span>
-&gt; pds <span class="c1"># disassemble summary</span>
-</code></pre></div><h3 id="graph-mode">Graph mode</h3>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">VV <span class="c1"># open Graph</span>
-
-<span class="c1"># go to a function via shortcut (;[ao])</span>
-o <span class="c1"># first type &#39;o&#39; key</span>
-&gt; a <span class="c1"># then enter the second letter from the brakets</span>
-</code></pre></div><h2 id="cmd">CMD</h2>
-<div class="highlight"><pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">rundll32</span><span class="p">.</span><span class="n">dll</span> <span class="no">[dllname].dll,[dllsexportedfuncname_or_ordeal]</span>
-<span class="c"># rundll32.dll malicious.dll,ExportedFuncName</span>
-<span class="c"># rundll32.dll malicious.dll,#6</span>
-</code></pre></div><p>Test this <a href="https://r2wiki.readthedocs.io/en/latest/tools/radare2/">https://r2wiki.readthedocs.io/en/latest/tools/radare2/</a>. One good <a href="https://gist.github.com/williballenthin/6857590dab3e2a6559d7">reference</a> and another <a href="https://ben.the-collective.net/my-notes/radare2-cheatsheet/">here</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rabin2 -I <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># main info about the prog</span>
+</span></span><span class="line"><span class="cl">rabin2 -z <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># the strings from the binary&#39;s data section</span>
+</span></span><span class="line"><span class="cl">rabin2 -zz <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># all strings from the binary</span>
+</span></span><span class="line"><span class="cl">rabin2 -zqq <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># strings only without additional info</span>
+</span></span><span class="line"><span class="cl">rabin2 -x iGoat-Swift <span class="c1"># thin the binary</span>
+</span></span></code></pre></div><h2 id="r2">R2</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">r2 <span class="o">[</span>progname<span class="o">]</span> <span class="c1"># launch radare2 </span>
+</span></span><span class="line"><span class="cl">&gt; s main <span class="c1"># seak main function and go to it</span>
+</span></span><span class="line"><span class="cl">&gt; aa <span class="c1"># find all strings</span>
+</span></span><span class="line"><span class="cl">&gt; v <span class="c1"># psedu GUI mode (Hex editor)</span>
+</span></span><span class="line"><span class="cl">&gt; VV <span class="c1"># graph mode</span>
+</span></span><span class="line"><span class="cl">&gt; afvn user_input input <span class="c1"># rename local var and all the places it was referenced</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rename function</span>
+</span></span><span class="line"><span class="cl">&gt; s function_old_name
+</span></span><span class="line"><span class="cl">&gt; afn function_new_name
+</span></span><span class="line"><span class="cl">&gt; c <span class="c1"># show cursor in visual mode</span>
+</span></span><span class="line"><span class="cl">&gt; afvd <span class="c1"># print all local variables</span>
+</span></span><span class="line"><span class="cl">&gt; u <span class="c1"># back?</span>
+</span></span><span class="line"><span class="cl">&gt; fs strings<span class="p">;</span> f <span class="c1"># load flag space of strings and load them</span>
+</span></span><span class="line"><span class="cl">&gt; axt @@ &lt;address or ref&gt; <span class="c1"># go to the xrefs for this item (string,import,function)</span>
+</span></span><span class="line"><span class="cl">&gt; f~bio <span class="c1"># load currently selected flag space and grep for flags containing &#34;bio&#34;</span>
+</span></span><span class="line"><span class="cl">&gt; fs imports<span class="p">;</span>f~BiometricAuth <span class="c1"># select imports flag space, load it and grep for &#34;BiometricAuth&#34;</span>
+</span></span><span class="line"><span class="cl">&gt; pds <span class="c1"># disassemble summary</span>
+</span></span></code></pre></div><h3 id="graph-mode">Graph mode</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VV <span class="c1"># open Graph</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># go to a function via shortcut (;[ao])</span>
+</span></span><span class="line"><span class="cl">o <span class="c1"># first type &#39;o&#39; key</span>
+</span></span><span class="line"><span class="cl">&gt; a <span class="c1"># then enter the second letter from the brakets</span>
+</span></span></code></pre></div><h2 id="cmd">CMD</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">rundll32</span><span class="p">.</span><span class="n">dll</span> <span class="no">[dllname].dll,[dllsexportedfuncname_or_ordeal]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># rundll32.dll malicious.dll,ExportedFuncName</span>
+</span></span><span class="line"><span class="cl"><span class="c"># rundll32.dll malicious.dll,#6</span>
+</span></span></code></pre></div><p>Test this <a href="https://r2wiki.readthedocs.io/en/latest/tools/radare2/">https://r2wiki.readthedocs.io/en/latest/tools/radare2/</a>. One good <a href="https://gist.github.com/williballenthin/6857590dab3e2a6559d7">reference</a> and another <a href="https://ben.the-collective.net/my-notes/radare2-cheatsheet/">here</a>.</p>
 <p><a href="https://labs.detectify.com/2016/05/19/7-tools-that-have-influenced-the-reversing-community/#:~:text=Radare2%20is%20similar%20to%20IDA,from%20Linux%20ELIF%20to%20ARM">https://labs.detectify.com/2016/05/19/7-tools-that-have-influenced-the-reversing-community/#:~:text=Radare2%20is%20similar%20to%20IDA,from%20Linux%20ELIF%20to%20ARM</a>.</p>
 <h2 id="workshop-for-refresh">Workshop for refresh</h2>
 <p><a href="https://malwareunicorn.org/#/workshops">https://malwareunicorn.org/#/workshops</a></p>
@@ -351,7 +351,7 @@ o <span class="c1"># first type &#39;o&#39; key</span>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

