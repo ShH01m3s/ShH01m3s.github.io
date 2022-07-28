@@ -11,7 +11,7 @@
   <link href="/css/style-classic.css"></link>
   
   
-  <link rel="stylesheet" href="/css/style.min.957e71ad2cb873132802e19798d6ca577b82e708fa80d1e90b00bc9e23855023.css">
+  <link rel="stylesheet" href="/css/style.min.fdbd9d5cb0cf0052278919e6215fcb4d1e74fc19130407295de2bbe2ee68d0d0.css">
   
 
   
@@ -35,9 +35,9 @@
       </a>
     </li>
     
-    <li class="menu-item-forensics 🔍 and incident response 🥷">
+    <li class="menu-item-dfir 🔍">
       <a href="/docs/dfir">
-        <span>Forensics 🔍 and Incident Response 🥷</span>
+        <span>DFIR 🔍</span>
       </a>
     </li>
     
@@ -59,9 +59,9 @@
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤🐀">
+    <li class="menu-item-threat hunting 🪤">
       <a href="/docs/thunting">
-        <span>Threat Hunting 🪤🐀</span>
+        <span>Threat Hunting 🪤</span>
       </a>
     </li>
     
@@ -110,9 +110,9 @@
       </a>
     </li>
     
-    <li class="menu-item-forensics 🔍 and incident response 🥷">
+    <li class="menu-item-dfir 🔍">
       <a href="/docs/dfir">
-        <span>Forensics 🔍 and Incident Response 🥷</span>
+        <span>DFIR 🔍</span>
       </a>
     </li>
     
@@ -134,9 +134,9 @@
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤🐀">
+    <li class="menu-item-threat hunting 🪤">
       <a href="/docs/thunting">
-        <span>Threat Hunting 🪤🐀</span>
+        <span>Threat Hunting 🪤</span>
       </a>
     </li>
     
@@ -184,7 +184,7 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/data-recovery/partiation-schemas/"> Back to Partition Schemas Section 👈🏼 </a>
+   <a href="/docs/dfir/investigation/data-recovery/partiation-schemas/"> 👈🏼 Back to </br> Partition Schemas </a>
   </p>
   <aside>
    <nav id="TableOfContents">
@@ -247,13 +247,13 @@
 </li>
 <li><code>0x55 AA</code> - the end signature. Indicated the end of the MBR.</li>
 </ul>
-<p><img src="mbr-struct.png" alt="mbr-struct"></p>
+<p><img src="images/mbr-struct.png" alt="mbr-struct"></p>
 <blockquote>
 <p>🧪  &ldquo;We can look at offset <code>0x440</code> to see which volumes are maped to which drive letter in the registry&rdquo;.</p>
 </blockquote>
 <p>Only one partion can be bootable. Only one can be an extended logical partition. Mind that an extended logical partition cannot be bootable ❗️</p>
 <p>What is the extended logical partition? Since MBR is limited to 4 partitions, to be able to create more, this notion was invented. Extended logical partition (ELP) starts with a partition table. Partition addresses are relative to its first sector. The first entry in the partition table is pointing to itself, the second - to the next logical partition. At physical sector 0 of the ELP we have a partition table that will point to the next partition. This partition table (PT) will have 2 entries: pointer to itself and to the next ELP.</p>
-<p><img src="elp.jpg" alt="elp"></p>
+<p><img src="images/elp.jpg" alt="elp"></p>
 <p>In the example above, there are two ELPs. In the PT of the first ELP there are two entries. The first one starts at <code>0x80 00 00 00</code> and is <code>0x 00 40 06 00</code> sectors long. This entry shows the location of the ELP itself (where it starts and how log it is). The second one is at <code>0x80 40 06 00</code> and is <code>0x80 E0 06 00</code> sectors long. This entry is the same as the first entry of the second ELP (second picture), which shows the start location and the size of the second ELP. So, since the second ELP is the last one, it only points to itself. If there were the third ELP, the second one would have the second entry pointing right to it. ❗️These location addresses are relative to the ELP start, unlike the normal partition types which are relative to the physical drive start!</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.coursera.org/learn/windows-os-forensics/">1</a>] InfoSec Institute Course, Coursera (all pictures are from the course or from the lab that I followed when watching the course). Definitely the one worth buying. Believe me.</p>
