@@ -189,13 +189,17 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#cloudtrail">CloudTrail</a></li>
+    <li><a href="#cloudtrail">CloudTrail</a>
+      <ul>
+        <li><a href="#-btfm">📘 BTFM</a></li>
+      </ul>
+    </li>
     <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
     <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
     <li><a href="#vpn">VPN</a></li>
     <li><a href="#s3-logs">S3 logs</a></li>
     <li><a href="#cloudwatch">CloudWatch</a></li>
-    <li><a href="#-btfm">📘 BTFM</a>
+    <li><a href="#-btfm-1">📘 BTFM</a>
       <ul>
         <li><a href="#flow-logs">Flow Logs</a></li>
         <li><a href="#cloudtrail-1">CloudTrail</a></li>
@@ -357,7 +361,31 @@
 </span></span><span class="line"><span class="cl">  <span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail. If SSM is enabled, captures this activity as well. Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
-<h2 id="vpc-flow-logs">VPC Flow Logs</h2>
+<h3 id="-btfm">📘 BTFM</h3>
+<p>Here is my bash to retrieve CT logs for a all keys in the account, filtered by API call <code>Decrypt</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">loggroupname</span><span class="o">=</span><span class="s2">&#34;aws-controltower/CloudTrailLogs&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> keyname in <span class="k">$(</span>aws kms list-aliases --profile ProfileName <span class="p">|</span> jq -r <span class="s1">&#39;.Aliases[].AliasName&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;keyname is \e[92m</span><span class="nv">$keyname</span><span class="s2">\e[0m&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">key_arn</span><span class="o">=</span><span class="k">$(</span>aws kms describe-key --key-id <span class="nv">$keyname</span> --profile ProfileName <span class="p">|</span> jq -r <span class="s1">&#39;.KeyMetadata.Arn&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;Key ARN is </span><span class="nv">$key_arn</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">query_id</span><span class="o">=</span><span class="k">$(</span>aws logs --profile ProfileName start-query --log-group-name <span class="nv">$loggroupname</span> --start-time <span class="m">1655588640</span> --end-time <span class="m">1659109342</span> --query-string <span class="s2">&#34;FIELD eventTime, userIdentity.userName, sourceIPAddress | SORT eventTime DESC | FILTER eventName = &#39;Decrypt&#39; AND resources.0.ARN = &#39;</span><span class="nv">$key_arn</span><span class="s2">&#39;&#34;</span> <span class="p">|</span> jq -r <span class="s1">&#39;.queryId&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">    sleep <span class="m">60</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;\e[96m</span><span class="k">$(</span>aws logs --profile ProfileName get-query-results --query-id <span class="nv">$query_id</span><span class="k">)</span><span class="s2">\e[0m&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>If you receive something like the following snippet for all the keys and you suspect some of them were used at least once during the timespan, try another log group. In my case, the log group that produced such results was disabled (checked in AWS GUI Management Console).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;results&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;statistics&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;recordsMatched&#34;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;recordsScanned&#34;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;bytesScanned&#34;</span><span class="p">:</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;Complete&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Another useful command to see view these events with <code>fzf</code> timestamps:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs get-query-results --profile ProfileName --query-id <span class="s2">&#34;</span><span class="nv">$query_id</span><span class="s2">&#34;</span> <span class="p">|</span> jq -c <span class="s1">&#39;.results[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;echo {} | jq .&#39;</span>
+</span></span></code></pre></div><h2 id="vpc-flow-logs">VPC Flow Logs</h2>
 <p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
 <p>Logs are sent then either to the CloudWatch or S3 (depending on the configuration). An IAM role needs to be created prior to that. Here are the minimum requirements for the CloudWatch role: CreateLogGroup, CreateLogStream, PutLogEvents, DescribeLogGroups, DescribeLogStreams need to beallowed for all resources. To be able to assume this role, VPC Flow Logs service needs to have its own policy where <code>&quot;service&quot;:&quot;vpc-flow-logs.amazonaws.com&quot;</code> is set to allow <code>AssumeRole</code> action. See <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-cwl.html">here</a> for more details.</p>
 <p>Log <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records">breakthrough</a>. Looks like a simple string with a space as a delimiter. Each field has its place within the string.</p>
@@ -375,7 +403,7 @@
 <h2 id="s3-logs">S3 logs</h2>
 <h2 id="cloudwatch">CloudWatch</h2>
 <p>Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
-<h2 id="-btfm">📘 BTFM</h2>
+<h2 id="-btfm-1">📘 BTFM</h2>
 <h3 id="flow-logs">Flow Logs</h3>
 <p>Retrieve the logs:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
