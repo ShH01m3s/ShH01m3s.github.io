@@ -220,9 +220,14 @@
     <li><a href="#ios">iOS</a>
       <ul>
         <li><a href="#power-log">Power Log</a></li>
+        <li><a href="#-btfm-3">📘 BTFM</a></li>
       </ul>
     </li>
-    <li><a href="#kubernetes">Kubernetes</a></li>
+    <li><a href="#kubernetes">Kubernetes</a>
+      <ul>
+        <li><a href="#-btfm-4">📘 BTFM</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -332,18 +337,15 @@
 </span></span></code></pre></div><h2 id="ios">iOS</h2>
 <p>If <a href="https://command-not-found.com/ideviceinfo">this</a> package is installed, run <code>ideviceinfo</code>. Will also show data for connected devices. With this utility you can also target specific device by its UUID. One of the use cases: connect an iOS device and query. Read full focs <a href="https://libimobiledevice.org/#examples">here</a>. How to use <code>ideviceinfo</code> command <a href="https://docs.libimobiledevice.org/libimobiledevice/latest/">here</a>.</p>
 <h3 id="power-log">Power Log</h3>
-<ul>
-<li>
-<p>/private/var/containers/Shared/SystemGroup/ [APPGUID]/Library/BatteryLife/CurrentPowerlog. PLSQL</p>
-</li>
-<li>
-<p>/private/var/containers/Shared/SystemGroup/ [APPGUID]/Library/BatteryLife/Archives/powerlog_ DATE_ID.PLSQL.gz</p>
-</li>
-</ul>
-<p>KnowledgeC:</p>
-<pre><code>• /private/var/mobile/Library/CoreDuet/Knowledge/ knowledgeC.db
-</code></pre>
-<h2 id="kubernetes">Kubernetes</h2>
+<h3 id="-btfm-3">📘 BTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/private/var/containers/Shared/SystemGroup/<span class="o">[</span>APPGUID<span class="o">]</span>/Library/BatteryLife/CurrentPowerlog.PLSQL
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/private/var/containers/Shared/SystemGroup/<span class="o">[</span>APPGUID<span class="o">]</span>/Library/BatteryLife/Archives/powerlog_ DATE_ID.PLSQL.gz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># KnowledgeC</span>
+</span></span><span class="line"><span class="cl">/private/var/mobile/Library/CoreDuet/Knowledge/knowledgeC.db
+</span></span></code></pre></div><h2 id="kubernetes">Kubernetes</h2>
+<h3 id="-btfm-4">📘 BTFM</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe node <span class="p">|</span> grep -i image <span class="c1"># get OS info</span>
 </span></span><span class="line"><span class="cl">kubectl describe pod &lt;podname&gt; <span class="p">|</span> grep -i node <span class="c1"># get image info and master node info as well as lots of other information</span>
 </span></span><span class="line"><span class="cl">kubectl describe pod &lt;podname&gt; <span class="c1"># get the amount of containers within the pod</span>
