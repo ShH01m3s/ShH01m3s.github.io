@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>🔎 Incident Investigation - Analyst</title>
+  <title>OSINT Techniques - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -184,9 +184,43 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+   <a href="/docs/dfir/investigation/"> 👈🏼 Back to </br> 🔎 Incident Investigation </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#search-engines">Search Engines</a>
+      <ul>
+        <li><a href="#google">Google</a>
+          <ul>
+            <li><a href="#-btfm">📘 BTFM</a></li>
+          </ul>
+        </li>
+        <li><a href="#yandex">Yandex</a></li>
+        <li><a href="#baidu">Baidu</a></li>
+      </ul>
+    </li>
+    <li><a href="#languages">Languages</a></li>
+    <li><a href="#social">Social</a>
+      <ul>
+        <li><a href="#google-groups">Google Groups</a></li>
+        <li><a href="#yahoo-groups">Yahoo Groups</a>
+          <ul>
+            <li><a href="#-btfm-1">📘 BTFM</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#news">News</a>
+      <ul>
+        <li><a href="#google-news">Google News</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -194,144 +228,77 @@
         </div>
         <div class="col-12 col-md-9">
           
-
-
-
- 
- <h1 class="title">🔎 Incident Investigation</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/accounts/"> 👥 Account Information Analysis</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/system-info/"> 🖥 System Information</a></h2> 
-    <p> Windows Installed programs and applications Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/network/"> Network Activity Analysis</a></h2> 
-    <p> <p><em>In order to detect and response to the incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/"> Data Recovery</a></h2> 
-    <p> <p><em>In order to detect and response to the incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/geo/"> Geo Location</a></h2> 
-    <p> Android • /data/data/com.google.android.apps.maps/databases/ gmm_storage.db User Photos
-/data/media/0/DCIM/Camera
-/data/data/com.androidproviders.media/databases/
-external.db
-/data/media/0/bluetooth
-/data/media/0/Download
-/data/media/0/Pictures/Screenshots
-/data/media/0/Pictures/Twitter
-iOS Geolocation</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/console/"> Console Activity Analysis</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/permissions/"> 🎫 Permissions and Policies</a></h2> 
-    <p> Windows Group policies
-macOS iOS Android AWS IAM - Identity and Access Management. By default - no permissions.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/backup/"> 🪦 Backups</a></h2> 
-    <p> Windows Volume Shadow Copies and Restore \System Volume Information\ Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/cloud/"> ⛅️ Cloud Storage</a></h2> 
-    <p> Windows For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/"> 🕶️ Anti-Forensics</a></h2> 
-    <p> </p>
-
-
-
-
-
-<style>
-    body {
-    color: #212121;
-}
-
-h2 {
-    font-weight: bold;
-    
-}
-
- 
- 
- 
-.pagination {
-    display: flex;
-    list-style: none;
-    border-radius: .25rem;
-    margin: 20px 0;
-    padding: 0;
-    justify-content: center;
-}
-
-.page-link {
-    position: relative;
-    display: block;
-    padding: .75rem 1rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #2bbc8a;
-    background-color: #fff;
-}
-
-.homepage .page-link,
-.listing .page-link {
-    background-color: #fff;
-}
-
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
-
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #2bbc8a;;
-    border-color:#2bbc8a;
-    border-radius: 30px;
-}
-
-</style>
-<nav aria-label="page navigation">
-    <ul class="pagination">
-        
-        
-
-        
-        <li class="page-item"><a href="/docs/dfir/investigation/" rel="prev" class="page-link">‹ Prev</a></li>
-        
-
-        
+<h1 class="title">OSINT Techniques</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      <div class="article-category">domain: 
+          
+              
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
+          
+      </div> <br />
+      
+      <div class="article-category">doctype:
+          
             
-             
-            <li class="page-item"><a href="/docs/dfir/investigation/" class="page-link">1</a></li>
-            
-        
-             
-            <li class="page-item active"><a href="/docs/dfir/investigation/page/2/" class="page-link">2</a></li>
-            
-        
-            
-             
-            <li class="page-item"><a href="/docs/dfir/investigation/page/3/" class="page-link">3</a></li>
-            
-        
+              
+                <i class="fa fa-graduation-cap"></i>
+              
+          <a class="platform-link" href="/doctype/article">article</a>
+          
+      </div> <br /><br/>
+      
+      
+      
+      
 
-        
-        <li class="page-item"><a href="/docs/dfir/investigation/page/3/" rel="next" class="page-link">Next ›</a></li>
-        
+      
+      
 
-        
-        
-    </ul>
-</nav>
+      
+    </div>
+  </header>
 
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This all about searching for the information publicly available.</em></p>
+<h2 id="search-engines">Search Engines</h2>
+<p>In order to find which search engine is used in a specific country, use <a href="https://www.searchenginecolossus.com/">https://www.searchenginecolossus.com/</a>.</p>
+<h3 id="google">Google</h3>
+<p>Respects the demand of a web resource not to index it. You can limit by geo, time/date.</p>
+<h4 id="-btfm">📘 BTFM</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">site:bakerst221b.com
+</span></span><span class="line"><span class="cl">ext:pdf intext:michael inurl:forensics
+</span></span></code></pre></div><h3 id="yandex">Yandex</h3>
+<p>Ignores the demand of a web resource not to index it. You can find something here, what you won&rsquo;t find with Google. Also, here you&rsquo;ll find a lot more pirated stuff than in Google.</p>
+<h3 id="baidu">Baidu</h3>
+<p>Ignores the demand of a web resource not to index it.</p>
+<h2 id="languages">Languages</h2>
+<p>You can use Google extension to translate pages to your language.</p>
+<p>Also, you can use <a href="https://2lingual.com/">https://2lingual.com/</a> to look for pages within different regions simultaneously.</p>
+<h2 id="social">Social</h2>
+<h3 id="google-groups">Google Groups</h3>
+<p>Won&rsquo;t be able to search for email addresses due to the crawlers protection. Remove <code>@</code> and add spaced instead of <code>.</code>. You can also search for something within the group of choice.</p>
+<p>Although you won&rsquo;t see email address by the username, if someone has replied to the message and quoted it, you&rsquo;ll get a masked email.</p>
+<h3 id="yahoo-groups">Yahoo Groups</h3>
+<h4 id="-btfm-1">📘 BTFM</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># though Google (since Yahoo&#39;s search is no good)</span>
+</span></span><span class="line"><span class="cl">site:groups.yahoo.com <span class="s2">&#34;something&#34;</span>
+</span></span></code></pre></div><h2 id="news">News</h2>
+<h3 id="google-news">Google News</h3>
+<p><code>news.google.com</code> searches for Google News archives. Not the same as Google -&gt; News tab in the search engine which searches through web and then filters for what it believes to be news.</p>
+<h2 id="references">References</h2>
+<p>{{ &lt;details &ldquo;Expand &hellip;&quot;&gt; }}</p>
+<p>{{ <!-- raw HTML omitted --> }}</p>
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
