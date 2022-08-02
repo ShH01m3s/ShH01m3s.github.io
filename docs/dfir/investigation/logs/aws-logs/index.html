@@ -203,7 +203,11 @@
     <li><a href="#vpn">VPN</a></li>
     <li><a href="#logs-archieved-in-s3">Logs Archieved In S3</a></li>
     <li><a href="#cloudwatch">CloudWatch</a></li>
-    <li><a href="#sqs">SQS</a></li>
+    <li><a href="#sqs">SQS</a>
+      <ul>
+        <li><a href="#-btfm-2">📘 BTFM</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -230,16 +234,6 @@
           
       </div> <br />
       
-      <div class="article-category">doctype:
-          
-            
-              
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
-          
-      </div> <br /><br/>
-      
       
       
       
@@ -265,14 +259,6 @@
       
       
 
-      
-      <div class="article-tag">
-          <i class="fas fa-tag"></i>
-          
-          
-          <a class="tag-link" href="/tags/was" rel="tag">was</a>
-          
-      </div> 
       
     </div>
   </header>
@@ -359,6 +345,12 @@
 </span></span><span class="line"><span class="cl">  <span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>To access logs for this region? you need to login and go to CloudTrail. If SSM is enabled, captures this activity as well. Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
+<blockquote>
+<p>⚠️ Not any CloudTrail log entry will have a <code>resources</code> part. For example, <code>LookupEvents</code> doesn&rsquo;t.</p>
+</blockquote>
+<blockquote>
+<p>💡 By the way, using CLI to lookup the events gets logged by CloudTrail.</p>
+</blockquote>
 <h3 id="-btfm">📘 BTFM</h3>
 <p>Here is my bash to retrieve CT logs for a all keys in the account, filtered by API call <code>Decrypt</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">loggroupname</span><span class="o">=</span><span class="s2">&#34;aws-controltower/CloudTrailLogs&#34;</span>
@@ -439,6 +431,14 @@
 <h2 id="cloudwatch">CloudWatch</h2>
 <p>Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
 <h2 id="sqs">SQS</h2>
+<p>This can be used for various things but one of the usages could be a log buffer.</p>
+<h3 id="-btfm-2">📘 BTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws sqs list-queues  --profile ProfileName
+</span></span><span class="line"><span class="cl">aws sqs send-message --queue-url &lt;value&gt; --message-body &lt;value&gt;
+</span></span><span class="line"><span class="cl">aws sqs receive-message --queue-url &lt;value&gt;
+</span></span></code></pre></div><blockquote>
+<p>🧪 I would like to see if messages will disappear from the queue once <code>receive-message</code> was invoked.</p>
+</blockquote>
   </div>
 </article>
 </div>

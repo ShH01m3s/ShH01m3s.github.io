@@ -257,15 +257,17 @@
   <div class="content" itemprop="articleBody">
     <p><em>This article is about ARP protocol. It&rsquo;s used to map IP addresses to physical (MAC) addresses. Devices usually keep an ARP cache not to send ARP request continuously. Also there are certain attacks on ARP that exploit its internals.</em></p>
 <h2 id="analogy">Analogy</h2>
-<p>If we were to compare a device to a human body, we could say that CPU is a brain, battery power is a heart, camera is an eye and NIC is a mouth. What&rsquo;s a NIC? It stands for (Network Interface Controller) and each device which was designed to connect to the Internet is supposed to have one. This device inside a device is responsible for establishing connection to other devices. It has MAC (Media Access Control) which is basically six groups of two hexadecimal digits and is assigned to each NIC during manufacturing. This address is the heart of Ethernet II (Data link layer of TCP/IP stack).</p>
+<p>If we were to compare a device to a human body, we could say that CPU is a brain 🧠, battery power is a heart ♥️, camera is an eye 👁 and NIC is a mouth 👄 (yeah, let&rsquo;s forget about microphones 🎤 for a while).</p>
+<p>What&rsquo;s a NIC? It stands for (Network Interface Controller) and each device which was designed to connect to the Internet is supposed to have one. This device inside a device is responsible for establishing connection to other devices. It has MAC (Media Access Control) which is basically six groups of two hexadecimal digits and is assigned to each NIC during manufacturing. This address is the heart of Ethernet II (Data link layer of TCP/IP stack). The first part of this number is unique to the vendor, the second one is supposed to be unique to a device (you can imagine how feasible it is given the amount of devices out there). Also, weirdly enough, even though MAC identifies NIC (which is hardware) and one would expect it to be immutable, it can be changed programatically (<a href="https://www.top-password.com/blog/change-mac-address-on-windows/#:~:text=Within%20the%20Property%20list%2C%20scroll,ipconfig%20%2Fall%20and%20hit%20Enter.">see</a> here an example for Windows).</p>
 <p>To get a packet to another computer one needs to know the following things:</p>
 <ul>
-<li>IP address (its own and the recipient&rsquo;s)</li>
-<li>MAC address (its own and the recipient&rsquo;s)</li>
-<li>TCP or UDP port number (its own and the recipient&rsquo;s)</li>
-<li>Data to send</li>
+<li>IP address (its own and the recipient&rsquo;s). Identified someone&rsquo;s network on the Internet.</li>
+<li>MAC address (its own and the recipient&rsquo;s). Identifies the machine.</li>
+<li>TCP or UDP port number (its own and the recipient&rsquo;s). Identifies the service talking.</li>
+<li>Data to send. <em>If I need to expand on this, I probably need to stop mainataining this website.</em> 😠</li>
 </ul>
-<p>While IP, port and data is out of the intended scope of this article, I&rsquo;ll leave it unexplained here (see corresponding articles in the section and also an overview of TCP/IP stack). For now I am devotin my full attention to MAC addresses and how PCs get them when composing a packet for another PC.</p>
+<p>Since IP, port and data are out of the intended scope of this article, I&rsquo;ll leave it unexplained here (see corresponding articles in the section and also an overview of TCP/IP stack). For now I am devoting my full attention to MAC addresses and how PCs get them when composing a packet for another PC.</p>
+<p><img src="images/network-architecture.png" alt="img"></p>
 <h2 id="get-a-microscope">Get a microscope</h2>
 <p>Devices that talk in terms of MACs are: hubs, repeaters and switches. The thing you have at home to access the internet is most likely not a switch, but a router (which works on higher levels).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">arp -a 
