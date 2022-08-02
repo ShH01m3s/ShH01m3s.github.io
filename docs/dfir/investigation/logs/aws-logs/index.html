@@ -194,18 +194,16 @@
         <li><a href="#-btfm">📘 BTFM</a></li>
       </ul>
     </li>
-    <li><a href="#vpc-flow-logs">VPC Flow Logs</a></li>
-    <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
-    <li><a href="#vpn">VPN</a></li>
-    <li><a href="#s3-logs">S3 logs</a></li>
-    <li><a href="#cloudwatch">CloudWatch</a></li>
-    <li><a href="#-btfm-1">📘 BTFM</a>
+    <li><a href="#vpc-flow-logs">VPC Flow Logs</a>
       <ul>
-        <li><a href="#flow-logs">Flow Logs</a></li>
-        <li><a href="#cloudtrail-1">CloudTrail</a></li>
-        <li><a href="#check-for-ssm-with-imdsv2">Check for SSM with IMDSv2</a></li>
+        <li><a href="#-btfm-1">📘 BTFM</a></li>
       </ul>
     </li>
+    <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
+    <li><a href="#vpn">VPN</a></li>
+    <li><a href="#logs-archieved-in-s3">Logs Archieved In S3</a></li>
+    <li><a href="#cloudwatch">CloudWatch</a></li>
+    <li><a href="#sqs">SQS</a></li>
   </ul>
 </nav>
  </aside>
@@ -385,6 +383,15 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Another useful command to see view these events with <code>fzf</code> timestamps:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs get-query-results --profile ProfileName --query-id <span class="s2">&#34;</span><span class="nv">$query_id</span><span class="s2">&#34;</span> <span class="p">|</span> jq -c <span class="s1">&#39;.results[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;echo {} | jq .&#39;</span>
+</span></span></code></pre></div><p>The following examples are limited to three events. You&rsquo;ll need to remove <code>--max-results 3</code> after testing it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> aws cloudtrail lookup-events --profile ProfileName --max-results <span class="m">3</span> <span class="p">|</span> jq -c <span class="s1">&#39;.Events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;echo {} | jq .&#39;</span> <span class="c1"># --profile ProfileName is optional and is used in case of SSO auth only. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># limit by UNIX timestamps</span>
+</span></span><span class="line"><span class="cl">aws cloudtrail lookup-events --profile ProfileName --start-time <span class="m">1655535200</span> --end-time <span class="m">1655542800</span> <span class="p">|</span> jq -c <span class="s1">&#39;.Events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;echo {} | jq .&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># useful command to covert to UNIX timestamps</span>
+</span></span><span class="line"><span class="cl">date -ju -f <span class="s2">&#34;%F %T&#34;</span> <span class="s2">&#34;2022-06-18 08:00:00&#34;</span> <span class="s2">&#34;+%s&#34;</span>
 </span></span></code></pre></div><h2 id="vpc-flow-logs">VPC Flow Logs</h2>
 <p>If these are enabled, you will be able to tell, who connected to what resource and when. Flow Logs are not enabled by default. It&rsquo;s not the same as pcap file! It doesn&rsquo;t provide full packet info. Just statistics, addresses, ports, result (accept/reject).</p>
 <p>Logs are sent then either to the CloudWatch or S3 (depending on the configuration). An IAM role needs to be created prior to that. Here are the minimum requirements for the CloudWatch role: CreateLogGroup, CreateLogStream, PutLogEvents, DescribeLogGroups, DescribeLogStreams need to beallowed for all resources. To be able to assume this role, VPC Flow Logs service needs to have its own policy where <code>&quot;service&quot;:&quot;vpc-flow-logs.amazonaws.com&quot;</code> is set to allow <code>AssumeRole</code> action. See <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-cwl.html">here</a> for more details.</p>
@@ -396,32 +403,42 @@
 <blockquote>
 <p>📝 <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/logging-and-events.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/logging-and-events.html</a></p>
 </blockquote>
-<h2 id="vpc-traffic-mirroring">VPC Traffic Mirroring</h2>
-<p>A great idea to use. Deploying an EC2 with some IDS, mirror traffic there for detection. Filter for the most relevant stuff to pass it to SIEM?</p>
-<h2 id="vpn">VPN</h2>
-<p>If the organization uses a VPN in order to connect, an investigator will need the VPN logs as well (IPsec or OpenVPN).</p>
-<h2 id="s3-logs">S3 logs</h2>
-<h2 id="cloudwatch">CloudWatch</h2>
-<p>Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
-<h2 id="-btfm-1">📘 BTFM</h2>
-<h3 id="flow-logs">Flow Logs</h3>
+<h3 id="-btfm-1">📘 BTFM</h3>
 <p>Retrieve the logs:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
 </span></span><span class="line"><span class="cl">aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
 </span></span></code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
-<h3 id="cloudtrail-1">CloudTrail</h3>
-<p>The following examples are limited to three events. You&rsquo;ll need to remove <code>--max-results 3</code> after testing it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> aws cloudtrail lookup-events --profile ProfileName --max-results <span class="m">3</span> <span class="p">|</span> jq -c <span class="s1">&#39;.Events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;echo {} | jq .&#39;</span> <span class="c1"># --profile ProfileName is optional and is used in case of SSO auth only. </span>
+<h2 id="vpc-traffic-mirroring">VPC Traffic Mirroring</h2>
+<p>A great idea to use. Deploying an EC2 with some IDS, mirror traffic there for detection. Filter for the most relevant stuff to pass it to SIEM?</p>
+<h2 id="vpn">VPN</h2>
+<p>If the organization uses a VPN in order to connect, an investigator will need the VPN logs as well (IPsec or OpenVPN).</p>
+<h2 id="logs-archieved-in-s3">Logs Archieved In S3</h2>
+<p>CloudTrail logs are not available forever. If the company backs up all events as they come and sends them to a S3 bucket. How to query them? To search for a particular string within the logs. For example, by event_id or username.</p>
+<p>Bash script below will look through the files recursively and run <code>grep</code> against each. This is very time consuming, so you&rsquo;d better narrow down the search and choose the keyword wisely.</p>
+<blockquote>
+<p>⚠️ Make sure you’ve logged in the Log Archive first and you have set up the profile for SSO in <code>~/.aws/config</code>.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">keyword</span><span class="o">=</span><span class="s2">&#34;bucket-name&#34;</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># limit by UNIX timestamps</span>
-</span></span><span class="line"><span class="cl">aws cloudtrail lookup-events --profile ProfileName --start-time <span class="m">1655535200</span> --end-time <span class="m">1655542800</span> <span class="p">|</span> jq -c <span class="s1">&#39;.Events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;echo {} | jq .&#39;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># useful command to covert to UNIX timestamps</span>
-</span></span><span class="line"><span class="cl">date -ju -f <span class="s2">&#34;%F %T&#34;</span> <span class="s2">&#34;2022-06-18 08:00:00&#34;</span> <span class="s2">&#34;+%s&#34;</span>
-</span></span></code></pre></div><h3 id="check-for-ssm-with-imdsv2">Check for SSM with IMDSv2</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo snap install amazon-ssm-agent --channel<span class="o">=</span>candidate
-</span></span></code></pre></div>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in <span class="k">$(</span>aws s3 ls --profile ProfileName --recursive <span class="s2">&#34;s3://bucket-name/path/to/CloudTrail/logs/&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">echo</span> <span class="nv">$file</span> <span class="p">|</span> grep -q <span class="s2">&#34;unique string&#34;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;========================================&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;Looking for keywords in the file \e[36m</span><span class="nv">$file</span><span class="s2">...\e[0m&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">result</span><span class="o">=</span><span class="k">$(</span>aws s3 cp <span class="s2">&#34;s3://bucket-name/</span><span class="nv">$file</span><span class="s2">&#34;</span> --profile ProfileName - <span class="p">|</span> gzip -d - <span class="k">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">echo</span> <span class="nv">$result</span> <span class="p">|</span> grep -q <span class="nv">$keyword</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">echo</span> <span class="nv">$result</span> <span class="p">|</span> jq -C .
+</span></span><span class="line"><span class="cl">            <span class="nb">echo</span> <span class="nv">$result</span> <span class="p">|</span> jq -C . &gt;&gt; result.txt
+</span></span><span class="line"><span class="cl">        <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">echo</span> <span class="s2">&#34;========================================&#34;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p><code>$(aws s3 ls --profile ProfileName --recursive &quot;s3://bucket-name/path/to/CloudTrail/logs/&quot;)</code> will return a table: time - bytes - path (each on a separate line). So, when iterating through the files in S3 buckets, you&rsquo;ll get time after the first iteration, size in bytes after the second one and the last iteration will get you the path itself. For the script to work, we need path only, that&rsquo;s why I added this line if <code>echo $file | grep -q &quot;bucket-name&quot;; then. This command aws s3 cp &quot;s3://bucket-name/$file&quot; --profile Backup - | gzip -d -</code>  will copy the contents of the file to the stdout (<code>-</code>) and pipe to <code>gzip</code> (since log files are usually compressed) and send to stdout again (<code>-</code>). If the file has the <code>$keyword</code> (<code>if echo $result | grep -q $keyword; then</code>) I run<code> jq -C .</code> (coloured <code>jq</code> output) and also save the result in a text file (append).</p>
+<h2 id="cloudwatch">CloudWatch</h2>
+<p>Similarly, session activity audit logs can be captured in S3 or CloudWatch logs.</p>
+<h2 id="sqs">SQS</h2>
   </div>
 </article>
 </div>
