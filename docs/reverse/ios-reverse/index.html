@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Reverse Engineering iOS Applications 🍏 - Analyst</title>
+  <title>iOS Applications RE - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -204,7 +204,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Reverse Engineering iOS Applications 🍏</h1>
+<h1 class="title">iOS Applications RE</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -290,7 +290,6 @@
 </span></span></code></pre></div><h2 id="lacontext">LAContext</h2>
 <h2 id="user-presence">User Presence</h2>
 <p>User Presence works with TouchID through Keychain. While LAContext just delegates the credentials check to the system, here Keychain services will present the authentication dialog to the user and return <strong>data</strong> or nil depending on whether a suitable fingerprint was provided or not. LAContext will present success or failure.</p>
-<p><img src="/images/articles/ios/local-auth-framework.png" alt="local-auth-framework"></p>
 <p><a href="https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id">https://developer.apple.com/documentation/localauthentication/accessing_keychain_items_with_face_id_or_touch_id</a></p>
 <p>Both using LocalAuthentication framework.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">otool -L &lt;AppName&gt;.app/&lt;AppName&gt;
