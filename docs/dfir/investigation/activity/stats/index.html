@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>macOS Containment - Analyst</title>
+  <title>User Statistics - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -184,12 +184,21 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/cleanup/containment/"> 👈🏼 Back to </br> 🧻 Containment Steps </a>
+   <a href="/docs/dfir/investigation/activity/"> 👈🏼 Back to </br> Other Userful Artefacts For User Acvtivity </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#jamf">JAMF</a></li>
+    <li><a href="#ios">iOS</a></li>
+    <li><a href="#android">Android</a>
+      <ul>
+        <li><a href="#usage-stats">Usage Stats:</a></li>
+        <li><a href="#recent-images">Recent Images:</a></li>
+        <li><a href="#recent-tasks">Recent Tasks:</a></li>
+        <li><a href="#digital-wellbeing-dashboard">Digital Wellbeing Dashboard:</a></li>
+        <li><a href="#snapshots">Snapshots:</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -202,7 +211,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">macOS Containment</h1>
+<h1 class="title">User Statistics</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -211,7 +220,9 @@
       <div class="article-category">domain: 
           
               
-          <a class="category-link" href="/domain/ir">ir</a>
+                <i class="fas fa-search"></i>
+              
+          <a class="category-link" href="/domain/forensics">forensics</a>
           
       </div> <br />
       
@@ -239,8 +250,20 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>This is about &hellip; .</em></p>
-<h2 id="jamf">JAMF</h2>
-<p>One of the third-party tools for managing macOS machines, is JAMF. It allows several useful options. For example, blocking the PC remptely. <a href="https://docs.jamf.com/jamf-now/documentation/Remote_Lock_for_Apple_Devices.html">Here</a> are the steps to follow from the official documentation.</p>
+<h2 id="ios">iOS</h2>
+<p>Screentime contains statistics about recent user activity.</p>
+<p><a href="https://www.magnetforensics.com/blog/getting-evidence-from-ios-screen-time-artifacts/">https://www.magnetforensics.com/blog/getting-evidence-from-ios-screen-time-artifacts/</a></p>
+<h2 id="android">Android</h2>
+<h3 id="usage-stats">Usage Stats:</h3>
+<p>• /data/system/usagestats/0/</p>
+<h3 id="recent-images">Recent Images:</h3>
+<p>• /system_ce/0/recent_images</p>
+<h3 id="recent-tasks">Recent Tasks:</h3>
+<p>• /system_ce/0/recent_tasks</p>
+<h3 id="digital-wellbeing-dashboard">Digital Wellbeing Dashboard:</h3>
+<p>• /data.data/com.google.android.apps.wellbeing/ databases/app_usage</p>
+<h3 id="snapshots">Snapshots:</h3>
+<p>• /system_ce/0/snapshots</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand &hellip;</summary>
