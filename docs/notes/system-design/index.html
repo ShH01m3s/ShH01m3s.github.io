@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>🧑🏼‍🎨 System Design - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/notes/"> 👈🏼 Back to </br> Notes </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#8-steps-to-design-a-system">8 Steps to Design a system</a>
+      <ul>
+        <li><a href="#step-1-read-and-understand-the-problem">Step 1. Read and Understand the Problem</a>
+          <ul>
+            <li><a href="#example-1">Example 1</a></li>
+          </ul>
+        </li>
+        <li><a href="#step-2-defining-the-scope">Step 2. Defining the Scope</a></li>
+        <li><a href="#step-3-back-of-envelope-calculations">Step 3. Back of Envelope Calculations*</a></li>
+        <li><a href="#step-4-service-api-design">Step 4. Service API Design</a>
+          <ul>
+            <li><a href="#example-1-1">Example 1.</a></li>
+            <li><a href="#example-2">Example 2</a></li>
+          </ul>
+        </li>
+        <li><a href="#step-5-database-design">Step 5. Database Design</a></li>
+        <li><a href="#step-6-high-level-design">Step 6. High-level Design</a></li>
+        <li><a href="#step-7-low-level-design">Step 7. Low-level Design</a>
+          <ul>
+            <li><a href="#example-1-2">Example 1</a></li>
+          </ul>
+        </li>
+        <li><a href="#step-8-non-functional-requirements">Step 8. Non Functional Requirements</a></li>
+      </ul>
+    </li>
+    <li><a href="#pieces-of-system-design">Pieces of System Design</a>
+      <ul>
+        <li><a href="#choose-database">Choose Database</a></li>
+        <li><a href="#cap">CAP</a></li>
+        <li><a href="#choosing-the-protocol">Choosing the protocol</a></li>
+      </ul>
+    </li>
+    <li><a href="#todo">Todo</a></li>
+    <li><a href="#useful-tips">Useful Tips</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">🧑🏼‍🎨 System Design</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>System design is very important for any IT specialist. Software engineers are not the only ones who get frequently asked about this when interviewed in some top IT companies. Security engineers face this kind of questions as well. Here are my notes and ideas that I&rsquo;ve made about system design. I had no prior knowledge whatsoever when I started learning this. I&rsquo;m not even sure what kind of problems I am to expect for a security position. That&rsquo;s why I&rsquo;ll try to cover some courses to get the idea and try to come up with my own system design interview questions and how to answer them.</em></p>
+<ol>
+<li>Design a social network (from the course)</li>
+<li>Design Amazon-like e-store (from the course) and scale it to million users.</li>
+<li>Explain how DNS works (my presumption)</li>
+<li>Design a web application (front-end, back-end, load balancer, WAF) (my presumption)</li>
+<li>Design a system that uses IDS, IPS and firewalls. Which would you use and where? (my presumption)</li>
+<li>Hubs, switches and stuff (my presumption)</li>
+<li>Security policies and prevention systems to react to an incident (my presumption)</li>
+<li>Online shopping website backend using Microservices</li>
+<li>Recommendation engine like Netflix (AI, BD)</li>
+<li>How will you build a scalable auto suggest feature?</li>
+<li>How will you build a simple LRU Cache?</li>
+<li>Health monitoring system that gives overal score of a user?</li>
+<li>Design an image classification system? (IA, BD)</li>
+</ol>
+<blockquote>
+<p>💡 I think a good idea is to design some building block which can later be used to design a complete system. Like, demilitarised zone (what&rsquo;s in there and why), IDS, IPS, back + front + WAF and something like that. Of course, the most important, since it&rsquo;s a security position, is to make a building block for security policies and controls (that are needed for incident response). Also, it&rsquo;s a good thing to come up with my own ideas regarding the matter. Divide and conquer 🙂 👍 . Also make some templates that will require some minor adjustments. There are alsready some best practices.</p>
+</blockquote>
+<h2 id="8-steps-to-design-a-system">8 Steps to Design a system</h2>
+<p>Below are the steps. For each step I&rsquo;m choosing different problems and try to learn each step separately.</p>
+<h3 id="step-1-read-and-understand-the-problem">Step 1. Read and Understand the Problem</h3>
+<p>What building block will you need? Database, website? Cloud (private or public)? Ask specifying questions (scalable, how many users etc).</p>
+<h4 id="example-1">Example 1</h4>
+<blockquote>
+<p>❓ URL shortening service</p>
+</blockquote>
+<ul>
+<li>How many users are we going to have?</li>
+<li>How many URLs per user?</li>
+<li>Is this system to be scalable?</li>
+<li>How long should the links live?</li>
+<li>Do we need some analytics like what are the most visited links?</li>
+</ul>
+<h3 id="step-2-defining-the-scope">Step 2. Defining the Scope</h3>
+<p>Meaning, defining some additional features.</p>
+<blockquote>
+<p>❓ Design twitter</p>
+</blockquote>
+<ul>
+<li>Would only users be posting or there are some automatic posts as well?</li>
+<li>Follow another user</li>
+<li>User timelines</li>
+<li>How many users?</li>
+</ul>
+<blockquote>
+<p>❓ URL shortening service</p>
+</blockquote>
+<ul>
+<li>Any additional features like choose the pattern for links?</li>
+<li>Should it be accessible as API for other services?</li>
+<li>Do we need some accounts, or all can be manages with an API keys?</li>
+</ul>
+<h3 id="step-3-back-of-envelope-calculations">Step 3. Back of Envelope Calculations*</h3>
+<p>It&rsquo;s an optional stage. Ask whether needed. Calculate some resources needed. Possible resources:</p>
+<ol>
+<li>Scale of system, active users per data</li>
+<li>DB size. Advice to limit uploads (DoS type attack otherwise is possible)</li>
+<li>Network bandwidth</li>
+<li>Memory usage, cache</li>
+</ol>
+<p>💡 DoS protection</p>
+<p>💡 For how long to keep the data</p>
+<blockquote>
+<p>❓ Question: Design a Youtube</p>
+</blockquote>
+<p>Calcluation example:</p>
+<table>
+<thead>
+<tr>
+<th>description</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number of users</td>
+<td>1 billion</td>
+</tr>
+<tr>
+<td>Daily active</td>
+<td>500 million</td>
+</tr>
+<tr>
+<td>Average video views per person in a Day</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Number of Videos uploaded</td>
+<td>1/300 watched</td>
+</tr>
+<tr>
+<td>Video size on average</td>
+<td>100 mb</td>
+</tr>
+<tr>
+<td>Each video upload bandwidth</td>
+<td>500 000 000 * 5 * 1/300 * 100 per day = 500 000 000 * 5 * 1/300 * 100 * 1/(24 * 60 * 60) = 0.17 mb/sec</td>
+</tr>
+<tr>
+<td>View per sec</td>
+<td>(500 000 000 * 5) / 24 * 60 * 60 = 29k views/sec</td>
+</tr>
+<tr>
+<td>Upload per sec</td>
+<td>29k / 300 = 97 uploads/sec</td>
+</tr>
+<tr>
+<td>Storage size</td>
+<td>97 * 100 mb = 97000 Mb/sec ~ 10 Gb /sec. 315 Petabytes per year</td>
+</tr>
+<tr>
+<td>Bandwidth per sec</td>
+<td>0.17 * 97 = 16.49 Mb/sec</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>❓ Design Yelp</p>
+<p>❓ Design Yelp love messages chat</p>
+</blockquote>
+<blockquote>
+<p>❓ URL shortening</p>
+</blockquote>
+<p>This system reads more that writes. Since it reads more that writes, it&rsquo;s useful to implement indexing in DB.</p>
+<table>
+<thead>
+<tr>
+<th>description</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>users</td>
+<td>1 billion</td>
+</tr>
+<tr>
+<td>read per day</td>
+<td>5 000 000</td>
+</tr>
+<tr>
+<td>writes per day</td>
+<td>reads * 1/100 = 50 000</td>
+</tr>
+<tr>
+<td>writes per sec</td>
+<td>50 000 / 86400 sec = 0.57  writes/sec</td>
+</tr>
+<tr>
+<td>read per sec</td>
+<td>0.57 writes * 100 = 57 reads/sec</td>
+</tr>
+<tr>
+<td>Url size</td>
+<td>500 bytes</td>
+</tr>
+<tr>
+<td>read bandwidth</td>
+<td>57 reads/sec * 500 bytes = 28Kb/sec</td>
+</tr>
+<tr>
+<td>write bandwidth</td>
+<td>0.57 writes/sec * 500 bytes = 286 bytes/sec</td>
+</tr>
+<tr>
+<td>each url lives for</td>
+<td>5 years</td>
+</tr>
+<tr>
+<td>db size</td>
+<td>5 years * 500 bytes * 50 000 writes/day = 365 days * 50 000 writes/day * 500 bytes = 8Gb. Some additional space just in case - 10Gb</td>
+</tr>
+<tr>
+<td>Cache size</td>
+<td>8Gb * 0.2 = 1.6 Gb</td>
+</tr>
+</tbody>
+</table>
+<p>If we follow the <strong>80-20 rule</strong>, meaning 20% of URLs generate 80% of traffic, we would like to cache these 20% hot URLs.</p>
+<h3 id="step-4-service-api-design">Step 4. Service API Design</h3>
+<ol>
+<li>
+<p>REST or SOAP API. Determine which methods you&rsquo;ll have.</p>
+</li>
+<li>
+<p>Security and logging, authentication</p>
+</li>
+<li>
+<p>Segregate</p>
+</li>
+<li>
+<p>Code</p>
+<p>💡 3DS</p>
+</li>
+</ol>
+<h4 id="example-1-1">Example 1.</h4>
+<blockquote>
+<p>❓ Ticket booking app.</p>
+</blockquote>
+<p>I need such methods as <code>buyTickets</code> and <code>searchMovies</code>, for example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">buyTickets</span><span class="p">(</span><span class="n">apiKey</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">movie</span><span class="p">,</span> <span class="n">cinemaHall</span><span class="p">,</span> <span class="n">seat</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># </span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">searchMovies</span><span class="p">(</span><span class="n">apiKey</span><span class="p">,</span> <span class="n">srchQry</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># check apiKey and available movies</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># connect to DB securely</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># get a list of movies and convert into JSON for example</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># call page generator (some ViewController) and pass JSON to it.</span>
+</span></span></code></pre></div><blockquote>
+<p>🗒 Difference between RESTful\less and SOAP</p>
+</blockquote>
+<h4 id="example-2">Example 2</h4>
+<blockquote>
+<p>❓ URL shortening</p>
+</blockquote>
+<p>What apis do I need? read and write obviously. Then update, delete probably as well. For other services, perhaps, analytics.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_redirect</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>  
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">add_url</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">orig_url</span><span class="p">,</span> <span class="n">ttl</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">update_url</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">orig_url</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">delete_url</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">orig_url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_reads_per_day</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">short_url</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span>
+</span></span></code></pre></div><h3 id="step-5-database-design">Step 5. Database Design</h3>
+<p>Relational DB or noSQL? ER Diagram. Don&rsquo;t go into too much detail</p>
+<blockquote>
+<p>🗒 ER diagram. Learn to write them and relations to tables.</p>
+</blockquote>
+<h3 id="step-6-high-level-design">Step 6. High-level Design</h3>
+<p>Few boxes: servers, caches, db&rsquo;s. Explain the role of each component.</p>
+<blockquote>
+<p>❓ Design Twitter</p>
+</blockquote>
+<p><img src="/docs/coursenotes/pics/high-level-design.png" alt="high-level-design"></p>
+<p><img src="pics/high-level-design.png" alt="high-level-design"></p>
+<h3 id="step-7-low-level-design">Step 7. Low-level Design</h3>
+<p>Which feature to design in detail?</p>
+<h4 id="example-1-2">Example 1</h4>
+<blockquote>
+<p>❓ LinkedIn. Design the linked in feed feature as part of low level design.</p>
+</blockquote>
+<ul>
+<li>Requirements. Acquired before</li>
+<li>Exceptional scenarios: a celebrity who&rsquo;s posting too much 😄</li>
+<li>build. Controllers, Loaders, What goes in the feed, feed object.</li>
+<li>Performance. Precomputing, storing in cache</li>
+</ul>
+<h3 id="step-8-non-functional-requirements">Step 8. Non Functional Requirements</h3>
+<ol>
+<li>Availability and scalability. 🔑</li>
+<li>Security</li>
+<li>Performance (caching, load balancing, preloading)</li>
+<li>Testing</li>
+<li>Bottlenecks in the system (possible points of failure, how to improve)</li>
+</ol>
+<h2 id="pieces-of-system-design">Pieces of System Design</h2>
+<h3 id="choose-database">Choose Database</h3>
+<p>ACID principle. Only SQL DBs are ACID compliant. They also claim that NoSQL wide column is also ACID compliant.</p>
+<ol>
+<li><strong>Atomicity</strong>. An operation is performed to the end or cancelled completele. So, for example, if there is a payment operation, you can&rsquo;t add it to DB before it was completed successfully. If something goes wrong, all the mini-operations used in that operation are cancelled.</li>
+<li><strong>Consistency</strong>. All items comply with certain rules and guaranteed to have certain properties. For example, for DB of usernames, each is guaranteed to have a name.</li>
+<li><strong>Isolation</strong>. Operations cannot interfere with each other.</li>
+<li><strong>Durability</strong>. Everything should be saved even in case of a system crash.</li>
+</ol>
+<p>SQL is better for such applications as banks. If it&rsquo;s structured and unchanging. For a rapid growth and high traffic - NoSQL. Presumably, for cases when BigData is in place.</p>
+<blockquote>
+<p>🗒 Determine which is better for social media and messaging apps. It sound like NoSQL is better for Social Media and SQL is better for messaging. Social media is less structured. There are lots of thing that users might not fill in, while messaging is always of the same structure (text, from, to, time, delivered, read etc).</p>
+</blockquote>
+<p>Types of NoSQL:</p>
+<ul>
+<li>
+<p><strong>Key-Value</strong>. Like and XML file (<code>plist</code>)</p>
+</li>
+<li>
+<p><strong>Document</strong>.A file system (the way you organize folders and files within them) is something like that.</p>
+</li>
+<li>
+<p><strong>Wide Colimn</strong>. For large data sets. Good for:</p>
+<ul>
+<li>Sensor Logs  [<a href="http://www.dataversity.net/internet-things-iot/">Internet of Things (IOT</a>)]</li>
+<li>User preferences</li>
+<li>Geographic information</li>
+<li>Reporting systems</li>
+<li>Time Series Data</li>
+<li>Logging and other write heavy applications</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>nosql Columnar</th>
+<th>Relational (SQL)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>keyspace</td>
+<td>schema</td>
+</tr>
+<tr>
+<td>column family</td>
+<td>table</td>
+</tr>
+<tr>
+<td>row &ndash;&gt; columns</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>Column family consists of:</p>
+<ul>
+<li><strong>Row Key</strong>. Each row has a unique key, which is a unique identifier for that row.</li>
+<li><strong>Column</strong>. Each column contains a name, a value, and timestamp.</li>
+<li><strong>Name</strong>. This is the name of the name/value pair.</li>
+<li><strong>Value</strong>. This is the value of the name/value pair.</li>
+<li><strong>Timestamp</strong>. This provides the date and time that the data was inserted. This can be used to determine the most recent version of data.</li>
+</ul>
+<p>Cassandra allows nesting columns. As I see it, Bob in the above image could have a pet Kiki that had its own set of attributes. Probably like a class having an attribute that is an instance of another class in programming. Like there is an object <code>Person</code> and <code>Dog</code> and <code>class Person</code> can have an attribute difined as: <code>Dog dog = new Dog()</code>. Examples: Bigtable, Cassandra, Druid, HBase, Accumulo, Hybertable.</p>
+<ul>
+<li><strong>Graph</strong>. Good for speeding up a search. See <a href="https://en.wikipedia.org/wiki/Trie">here</a> for more details.</li>
+</ul>
+<p>SQL databases are normalized databases where the data is broken down into various logical tables to avoid data redundancy and data duplication. In this scenario, SQL databases are faster than their NoSQL counterparts for joins, queries, updates, etc.</p>
+<p>On the other hand, NoSQL databases are specifically designed for unstructured data which can be document-oriented, column-oriented, graph-based, etc. In this case, a particular data entity is stored together and not partitioned. So performing read or write operations on a single data entity is faster for NoSQL databases as compared to SQL databases.</p>
+<p>The great thing about column stores is that you can retrieve all related information using a single record ID, rather than using the complex Structured Query Language (SQL) join as in an RDBMS. Doing so does require a little upfront modeling and data analysis, though.</p>
+<p>In the example shown, you can retrieve all order information by selecting a single column store row, which means the developer doesn’t need to be aware of the exact complex join syntax of a query in a column store, unlike they would have to be using complex SQL joins in an RDBMS.</p>
+<h3 id="cap">CAP</h3>
+<ul>
+<li><strong>Availability</strong>. Usually means having some replicas of data in case of a crash.</li>
+<li><strong>Partition tolerance</strong>. If something fails, keep on working.</li>
+<li><strong>Consistency</strong>. There are some rules to the structures that we need to comply with.</li>
+</ul>
+<p>It&rsquo;s impossible to provide all the three. At most - 2. 1 +2: Cassandra, CouchDB; 2+3: BigTable, Mongo, HBase.</p>
+<h3 id="choosing-the-protocol">Choosing the protocol</h3>
+<p><strong>Ajax-polling</strong>. The client asks the server for the updates every N seconds. ➖ HTTP overhead since many responses are empty.</p>
+<p><strong>Long-polling</strong>. Also know as hanging GET. Client sends the request, but the server doesn&rsquo;t respons immediatly. It waits for update and sends the response only when it has something to send. Each connection has a timeout anyway.</p>
+<p><strong>WebSockets</strong>. The TCP connection is persistent. Initiated with WebSocket handshake. This is a two way communication. The best choice for messaging.</p>
+<p><strong>Server-sent events</strong>. Something like WebSockets, but the client remains a client and cannot send requests to the server. Some notification or push-notifications are the best choice for that.</p>
+<h2 id="todo">Todo</h2>
+<p>AWS read and watch, might be very useful. IA is also something to keep in mind.</p>
+<p>Another course by Rajat Mehta about system design interviews in depth.</p>
+<h2 id="useful-tips">Useful Tips</h2>
+<ol>
+<li>Don&rsquo;t go into detail prematurely</li>
+<li>Don&rsquo;t talk all the time. Wait for feedback along the way. Make pauses.</li>
+<li>Don&rsquo;t have a set architecture in mind</li>
+<li>KISS (Keep it Simple Stupid)</li>
+<li>Making points without justifications</li>
+<li>Aware of current technologies</li>
+</ol>
+<p>💡 Regular security audit</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    <p><a href="https://www.udemy.com/course/intro-system-design-interviews/learn/lecture/17567018?start=0#overview">https://www.udemy.com/course/intro-system-design-interviews/learn/lecture/17567018?start=0#overview</a></p>
+<p><a href="https://www.youtube.com/watch?v=CtmBGH8MkX4">https://www.youtube.com/watch?v=CtmBGH8MkX4</a></p>
+<p>Thanks to the guy from the previous video, I&rsquo;ve learned about this course - <a href="https://www.educative.io/courses/grokking-the-system-design-interview/B8nMkqBWONo">https://www.educative.io/courses/grokking-the-system-design-interview/B8nMkqBWONo</a>.</p>
+<p><a href="https://www.forbes.com/sites/metabrown/2018/03/31/get-the-basics-on-nosql-databases-wide-column-store-databases/?sh=6c34a826e508">https://www.forbes.com/sites/metabrown/2018/03/31/get-the-basics-on-nosql-databases-wide-column-store-databases/?sh=6c34a826e508</a></p>
+<p><a href="https://database.guide/what-is-a-column-store-database/">https://database.guide/what-is-a-column-store-database/</a></p>
+<p>NoSQL vs SQL -https://www.geeksforgeeks.org/sql-vs-nosql-which-one-is-better-to-use/</p>
+<p>Why NoSQL is better for BG - <a href="https://www.dezyre.com/article/nosql-vs-sql-4-reasons-why-nosql-is-better-for-big-data-applications/86">https://www.dezyre.com/article/nosql-vs-sql-4-reasons-why-nosql-is-better-for-big-data-applications/86</a></p>
+<p>Columnar NoSQL vs SQL - <a href="https://www.dummies.com/programming/big-data/columnar-data-in-nosql/">https://www.dummies.com/programming/big-data/columnar-data-in-nosql/</a></p>
+
+</details>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
