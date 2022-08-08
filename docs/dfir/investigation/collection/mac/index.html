@@ -246,18 +246,21 @@
           
       </div> <br />
       
-      <div class="article-category">doctype:
+      
+      
+      
+      <div class="article-category">
           
             
-              
-                <i class="fa fa-graduation-cap"></i>
-              
-          <a class="platform-link" href="/doctype/article">article</a>
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+            
+          <a class="platform-link" href="/platforms/mac">mac</a>
           
-      </div> <br /><br/>
-      
-      
-      
+      </div> <br />
       
 
       
@@ -277,6 +280,9 @@
 Automatically collection live info. Quite a heavy footprint. But if we are not collecting RAM, not the biggest issue. This script was designed for Linux, however, it can be adjusted for macOS. For example, adding <code>system_profiler</code>, <code>sw_vers</code>. Substitute <code>prinenv</code> for <code>env</code>.</p>
 <blockquote>
 <p>💡 My plan would be to review all these commands and try running them. This will both help understanding the type of evidence present on the system as well as make neccessary macOS specific substitutions.</p>
+</blockquote>
+<blockquote>
+<p>🗒 Write a macOS triage tool similar to Kansa but bash-based and targeting macOS specifically. Do the same for iOS, Android, Linux, AWS etc. Check Sarah&rsquo;s github to ensure that there is nothing of that sort yet. Use <a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a> to collect dbs,  <a href="https://github.com/mac4n6/macMRU-Parser">https://github.com/mac4n6/macMRU-Parser</a> to collect plists, <a href="https://github.com/mac4n6/Mac-Locations-Scraper">https://github.com/mac4n6/Mac-Locations-Scraper</a> location dbs, <a href="https://github.com/mac4n6/iOS-Frequent-Locations-Dumper">https://github.com/mac4n6/iOS-Frequent-Locations-Dumper</a> frequent locations,</p>
 </blockquote>
 <h2 id="dead-acquisition">Dead Acquisition</h2>
 <p>For newer MacBooks it gets tricky. Posted the question <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a>. No answer still (📆 <code>02/08/2022</code>).</p>
@@ -427,15 +433,17 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 </span></span></code></pre></div><h3 id="turn-on-disk-arbitration">Turn on Disk Arbitration</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
 </span></span></code></pre></div><h2 id="references">References</h2>
-<p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
+<details>
+    <summary>Expand&hellip;</summary>
+    <p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
 <p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
 <p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
 <p>[<a href="https://support.apple.com/guide/mac-help/permission-files-a-mac-disk-mchlp1204/mac">4</a>] If you don’t have permission to use files on a Mac disk</p>
 <p>[<a href="https://www.macworld.co.uk/how-to/how-turn-off-mac-os-x-system-integrity-protection-rootless-3638975/">5</a>] How to turn off Rootless (SIP, or System Integrity Protection) in OS X</p>
 <p>[<a href="https://dfir.ru/2018/09/08/memory-compression-and-forensics/#more-368">6</a>] Memory compression and forensics</p>
 <p><a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/</a></p>
-<p><a href="https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging">https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging</a></p>
-<p><a href="https://darkdefender.medium.com/brief-introduction-to-macos-forensics-f817c9c83609">Brief Introduction to MacOS Forensics | by darkdefender | Medium</a>
+<p><a href="https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging">https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging</a>
+<a href="https://darkdefender.medium.com/brief-introduction-to-macos-forensics-f817c9c83609">Brief Introduction to MacOS Forensics | by darkdefender | Medium</a>
 <a href="https://forensicswiki.xyz/wiki/index.php?title=Mac_OS_X">https://forensicswiki.xyz/wiki/index.php?title=Mac_OS_X</a>
 <a href="https://medium.com/about-developer-blog/macos-forensics-diy-style-3369868505dd">https://medium.com/about-developer-blog/macos-forensics-diy-style-3369868505dd</a>
 <a href="http://www.computerpi.com/forensic-acquisition-of-mac-computers/">http://www.computerpi.com/forensic-acquisition-of-mac-computers/</a>
@@ -445,6 +453,9 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 Sarah Edwards
 <a href="https://github.com/mac4n6/Presentations">GitHub - mac4n6/Presentations: Presentation Archives for my macOS and iOS Related Research</a>
 <a href="http://www.mac4n6.com/">mac4n6.com</a></p>
+<p><a href="https://github.com/mac4n6/Presentations">https://github.com/mac4n6/Presentations</a></p>
+
+</details>
 
   </div>
 </article>
