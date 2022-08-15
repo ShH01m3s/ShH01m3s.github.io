@@ -165,15 +165,6 @@ FireVault No recovery once this password is lost.</description>
     </item>
     
     <item>
-      <title>🔥 Detection Devices</title>
-      <link>https://bakerst221b.com/docs/dfir/devices/</link>
-      <pubDate>Sun, 20 Sep 2020 11:04:28 +0300</pubDate>
-      
-      <guid>https://bakerst221b.com/docs/dfir/devices/</guid>
-      <description>Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</description>
-    </item>
-    
-    <item>
       <title>📚 Overview</title>
       <link>https://bakerst221b.com/docs/reference/network/protocols/phys/overview/</link>
       <pubDate>Sun, 29 Nov 2020 15:20:08 +0300</pubDate>
@@ -348,8 +339,9 @@ macOS iOS Android AWS IAM - Identity and Access Management. By default - no perm
       <pubDate>Mon, 12 Oct 2020 17:50:01 +0300</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/processes/malware/</guid>
-      <description>https://malware-traffic-analysis.net
-Signed executable. It&amp;rsquo;s a rare case, but it exists. Around 3% of malware is signed.</description>
+      <description>Malware Databases Repos https://app.any.run/submissions/ https://github.com/Endermanch/MalwareDatabase https://bazaar.abuse.ch/browse.php?search=tag%3AMami https://success.trendmicro.com/dcx/s/solution/TP000091942-ThreatDV-Malware-Filter-Package-1429?language=en_US https://thezoo.morirt.com/ https://zeltser.com/malware-sample-sources/
+Info https://www.hybrid-analysis.com/sample/9fe55c51af6230c8640e140104645b32ba83ac868bf0f1571733f14761701247 https://www.f-secure.com/v-descs/trojan-spy_w32_finspy_a.shtml https://malshare.com/
+My own is maintained in Notion for now.</description>
     </item>
     
     <item>
@@ -535,6 +527,36 @@ Contains the list of all recent documents as a bunch and also the same data sort
     </item>
     
     <item>
+      <title>File Settings</title>
+      <link>https://bakerst221b.com/docs/dfir/defense/file-setting/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/defense/file-setting/</guid>
+      <description>Hashing only applies to the file contents, but not to the file name, since the file name is stored in the file table and the file itself is stored on the file system.</description>
+    </item>
+    
+    <item>
+      <title>Firewalls</title>
+      <link>https://bakerst221b.com/docs/dfir/defense/firewalls/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/defense/firewalls/</guid>
+      <description>Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</description>
+    </item>
+    
+    <item>
+      <title>Host-based IDP/IPS</title>
+      <link>https://bakerst221b.com/docs/dfir/defense/host/ids-ips/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/defense/host/ids-ips/</guid>
+      <description>&lt;p&gt;Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.&lt;/p&gt;
+&lt;p&gt;IDS and IPS as firewall&amp;rsquo;s filters. There are Control Plane (looks after the OS and routing table) and the Forwarding Plane (makes decisions on routing and discarding). If something happens to the Control Plane, the device will still forward the traffic (really???).&lt;/p&gt;
+&lt;p&gt;By default IDS only &lt;strong&gt;listens 👂&lt;/strong&gt; the traffic. It&amp;rsquo;s usually connected to the span port on a switch. Looks for anomalies and sends alerts. Won&amp;rsquo;t take any actions by default, but can be configured in such a way. If the IDS is down, nothing is changed for the rest of the network, it&amp;rsquo;s still operating.&lt;/p&gt;
+&lt;p&gt;IPS takes actions on its own. It is not connected to the span port, but rather is a gateway. Before it inspects and allows a packet through, nothing can move forward. So, if IPS is down, everyone is down (unless there is some load balancing enabled or may be some policy for such cases). Positioned right after the router, edge device or a firewall.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Interesting Observations</title>
       <link>https://bakerst221b.com/docs/dfir/investigation/observations/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
@@ -553,12 +575,30 @@ Contains the list of all recent documents as a bunch and also the same data sort
     </item>
     
     <item>
+      <title>Logs</title>
+      <link>https://bakerst221b.com/docs/dfir/defense/logs/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/defense/logs/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is about using logs as a detection mechanism.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>macOS Containment</title>
       <link>https://bakerst221b.com/docs/dfir/cleanup/containment/mac/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/cleanup/containment/mac/</guid>
       <description>&lt;p&gt;&lt;em&gt;This is about &amp;hellip; .&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>macOS Defense</title>
+      <link>https://bakerst221b.com/docs/dfir/defense/host/mac/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/defense/host/mac/</guid>
+      <description>&lt;p&gt;&lt;em&gt;In this article I will assemble everything I know about macOS defense mechanisms (both built-in and 3rd party).&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -577,6 +617,15 @@ Contains the list of all recent documents as a bunch and also the same data sort
       
       <guid>https://bakerst221b.com/docs/reverse/exploits/meltdown/</guid>
       <description>&lt;p&gt;&lt;em&gt;This article is the product of my attempt to understand Meltdown vulnerability.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Network-based</title>
+      <link>https://bakerst221b.com/docs/dfir/defense/network/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/defense/network/</guid>
+      <description>A network-based IDS usually monitors the network, logs it and alerts the admin if something catches its eye.</description>
     </item>
     
     <item>

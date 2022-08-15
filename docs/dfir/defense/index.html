@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>forensics - Analyst</title>
+  <title>Defence Mechanisms - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -173,154 +173,62 @@
     
     
     
-
     
     
 
-
-
- 
- <h1 class="title">forensics</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/reference/mobile/android-btfm-rtfm/"> 📘 BTFM and RTFM Android</a></h2> 
-    <p> This is a combination of BTFM and RTFM (Blue Team Field Manual and Red Team Field Manual) for Android devices and applications.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/accounts/linux-auth/"> Linux Authentication</a></h2> 
-    <p> User Account/Data
-• /home/%username%/* • /etc/passwd
-• /etc/shadow
-• /etc/sudoers
-• /etc/group
-Effective ID vs Real ID</p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/cloud/general/"> 📚 Overview</a></h2> 
-    <p> Virtualization vs Cloud Cloud computing is the on-demand availability of resources.
-   PROS CONS     flexibility, agility and choices Security?</p>
-
-    <h2><a href="https://bakerst221b.com/docs/notes/gcfa/cases/2-cybercorp1/"> CyberCorp CTF</a></h2> 
-    <p> Memory It took me almoust half a day (which means the whole day when a baby is in the picture) trying to make both volatility and rekall work on different OSes.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/notes/gcfa/cases/1-network/"> Network 🌏</a></h2> 
-    <p> ftp_attack.pcap This file is taken from here. I don&rsquo;t have access to the task, but I can deduce from the pcap file itself and the its name.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/notes/gcfa/8-sample-questions/"> Sample Questions</a></h2> 
-    <p> List of tools List of reg entries List of known malware and ioc Terminology List of artefacts (Win and Lin) List of attacks List of scans and their footprint (try map against different OS and log the results) Re-read those diaries, might be of help Configure laboratory (Wins I have + WinXP + Linux Hacking + Linux Kali) Install WinServer VM with AD and learn the basics (Udemy course may be + Hahacking + questions)  ❓ Which of the following encryption methods use the RC4 technology?</p>
-
-
-
-
-
-<style>
-    body {
-    color: #212121;
-}
-
-h2 {
-    font-weight: bold;
     
-}
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+    <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+  </p>
+</div> 
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+
+
 
  
+ <h1 class="title">Defence Mechanisms</h1> 
  
- 
-.pagination {
-    display: flex;
-    list-style: none;
-    border-radius: .25rem;
-    margin: 20px 0;
-    padding: 0;
-    justify-content: center;
-}
 
-.page-link {
-    position: relative;
-    display: block;
-    padding: .75rem 1rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #2bbc8a;
-    background-color: #fff;
-}
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/file-setting/"> File Settings</a></h2> 
+    <p> Hashing only applies to the file contents, but not to the file name, since the file name is stored in the file table and the file itself is stored on the file system.</p>
 
-.homepage .page-link,
-.listing .page-link {
-    background-color: #fff;
-}
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/firewalls/"> Firewalls</a></h2> 
+    <p> Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
 
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/host/ids-ips/"> Host-based IDP/IPS</a></h2> 
+    <p> <p>Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
+<p>IDS and IPS as firewall&rsquo;s filters. There are Control Plane (looks after the OS and routing table) and the Forwarding Plane (makes decisions on routing and discarding). If something happens to the Control Plane, the device will still forward the traffic (really???).</p>
+<p>By default IDS only <strong>listens 👂</strong> the traffic. It&rsquo;s usually connected to the span port on a switch. Looks for anomalies and sends alerts. Won&rsquo;t take any actions by default, but can be configured in such a way. If the IDS is down, nothing is changed for the rest of the network, it&rsquo;s still operating.</p>
+<p>IPS takes actions on its own. It is not connected to the span port, but rather is a gateway. Before it inspects and allows a packet through, nothing can move forward. So, if IPS is down, everyone is down (unless there is some load balancing enabled or may be some policy for such cases). Positioned right after the router, edge device or a firewall.</p></p>
 
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #2bbc8a;;
-    border-color:#2bbc8a;
-    border-radius: 30px;
-}
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/logs/"> Logs</a></h2> 
+    <p> <p><em>This is about using logs as a detection mechanism.</em></p></p>
 
-</style>
-<nav aria-label="page navigation">
-    <ul class="pagination">
-        
-        
-        <li class="page-item"><a href="/domain/forensics/" rel="first" class="page-link">« First</a></li>
-        
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/host/mac/"> macOS Defense</a></h2> 
+    <p> <p><em>In this article I will assemble everything I know about macOS defense mechanisms (both built-in and 3rd party).</em></p></p>
 
-        
-        <li class="page-item"><a href="/domain/forensics/page/11/" rel="prev" class="page-link">‹ Prev</a></li>
-        
-
-        
-             
-            
-            <li class="page-item disabled"><a class="page-link">...</a></li>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-             
-            <li class="page-item"><a href="/domain/forensics/page/10/" class="page-link">10</a></li>
-            
-        
-            
-             
-            <li class="page-item"><a href="/domain/forensics/page/11/" class="page-link">11</a></li>
-            
-        
-             
-            <li class="page-item active"><a href="/domain/forensics/page/12/" class="page-link">12</a></li>
-            
-        
-
-        
-
-        
-        
-    </ul>
-</nav>
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/network/"> Network-based</a></h2> 
+    <p> A network-based IDS usually monitors the network, logs it and alerts the admin if something catches its eye.</p>
 
 
+
+
+
+        </div>
+      </div>
+    </div>
     
   </div>
 

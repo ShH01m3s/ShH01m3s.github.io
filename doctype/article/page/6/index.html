@@ -183,9 +183,6 @@
  <h1 class="title">article</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/ipsec/ah/"> Authentication Header</a></h2> 
-    <p> <p><em>Everyone from security knows about three main pillars of our field: integrity, confidantiality and availability. The mechanism described in this article is how integrity can be achieved for TCP/IP packets.</em></p></p>
-
     <h2><a href="https://bakerst221b.com/docs/dfir/investigation/processes/persistence/win/autostart/"> Autostart</a></h2> 
     <p> <p><em>There are several ways to stay persistant on a Windows machine. One of them is to set up the program to be automatically started at certain time (most often - at system startup).</em></p></p>
 
@@ -204,14 +201,20 @@
     <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/ipsec/esp/"> Encapsulating Security Payload</a></h2> 
     <p> <p><em>This is about &hellip; .</em></p></p>
 
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/file-setting/"> File Settings</a></h2> 
+    <p> Hashing only applies to the file contents, but not to the file name, since the file name is stored in the file table and the file itself is stored on the file system.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/firewalls/"> Firewalls</a></h2> 
+    <p> Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/defense/host/ids-ips/"> Host-based IDP/IPS</a></h2> 
+    <p> <p>Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
+<p>IDS and IPS as firewall&rsquo;s filters. There are Control Plane (looks after the OS and routing table) and the Forwarding Plane (makes decisions on routing and discarding). If something happens to the Control Plane, the device will still forward the traffic (really???).</p>
+<p>By default IDS only <strong>listens 👂</strong> the traffic. It&rsquo;s usually connected to the span port on a switch. Looks for anomalies and sends alerts. Won&rsquo;t take any actions by default, but can be configured in such a way. If the IDS is down, nothing is changed for the rest of the network, it&rsquo;s still operating.</p>
+<p>IPS takes actions on its own. It is not connected to the span port, but rather is a gateway. Before it inspects and allows a packet through, nothing can move forward. So, if IPS is down, everyone is down (unless there is some load balancing enabled or may be some policy for such cases). Positioned right after the router, edge device or a firewall.</p></p>
+
     <h2><a href="https://bakerst221b.com/docs/dfir/investigation/observations/"> Interesting Observations</a></h2> 
     <p> <p><em>I will be collecting some random stuff that I&rsquo;ve noticed about people&rsquo;s usage of IT systems.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/reference/network/protocols/ipsec/tunnel/"> IP</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/cleanup/containment/mac/"> macOS Containment</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
 
 
 
@@ -337,6 +340,8 @@ h2 {
         
             
         
+            
+        
 
         
         <li class="page-item"><a href="/doctype/article/page/7/" rel="next" class="page-link">Next ›</a></li>
@@ -344,7 +349,7 @@ h2 {
 
         
         
-        <li class="page-item"><a href="/doctype/article/page/17/" rel="last" class="page-link">Last »</a></li>
+        <li class="page-item"><a href="/doctype/article/page/18/" rel="last" class="page-link">Last »</a></li>
         
     </ul>
 </nav>
