@@ -191,8 +191,15 @@
   <ul>
     <li><a href="#slack-plan-explorts">Slack Plan Explorts</a></li>
     <li><a href="#retention">Retention</a></li>
-    <li><a href="#autdit-api">Autdit API</a></li>
-    <li><a href="#ediscovery-api">eDiscovery API</a></li>
+    <li><a href="#autdit-api">Autdit API</a>
+      <ul>
+        <li><a href="#threat-modelling">Threat Modelling</a>
+          <ul>
+            <li><a href="#identifying-key-actors">Identifying Key Actors</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
     <li><a href="#slack-investigative-framework">Slack Investigative Framework</a>
       <ul>
         <li><a href="#live-acquisitions-vs-export">Live Acquisitions vs Export</a></li>
@@ -289,6 +296,7 @@
 </li>
 </ul>
 <h2 id="autdit-api">Autdit API</h2>
+<p>eDiscovery API -&gt; Audit API.</p>
 <p>Only available for Enterprise plan. RESTful API -&gt; JSON. Can be incorporated into SIEM. Actions monitored:</p>
 <ul>
 <li>Logins</li>
@@ -298,16 +306,9 @@
 <li>Channels created/deleted/privielges changed</li>
 <li>Guest behaviour</li>
 </ul>
-<h2 id="ediscovery-api">eDiscovery API</h2>
-<p>RESTful API, returns JSON</p>
-<ul>
-<li>logins</li>
-<li>Exports of channels or files</li>
-<li>Changing retention policies</li>
-<li>Joining, leaving channels</li>
-<li>Create, delete, priv change on channels</li>
-<li>guest behaviour</li>
-</ul>
+<p>❗️ Does not track message content. For this use eDiscovery solution. For inappropriately used info (credit cards, SSN etc) -&gt; DLP.</p>
+<p>❗️ max 9999 event per request.</p>
+<h3 id="threat-modelling">Threat Modelling</h3>
 <p>You can process it with some third party of custom scripts.</p>
 <ol>
 <li>Insider threats
@@ -327,8 +328,8 @@
 </ol>
 </li>
 </ol>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="n">user_login</span><span class="o">`</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="o">`</span><span class="n">user_logout</span><span class="o">`</span><span class="p">,</span><span class="w"> </span><span class="o">`</span><span class="n">user_channel_join</span><span class="o">`</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="o">`</span><span class="n">user_channel_leave</span><span class="w">
-</span></span></span></code></pre></div><p>Accounts:</p>
+<p><code>user_login</code> and <code>user_logout</code>, <code>user_channel_join</code> and `user_channel_leave</p>
+<p>Accounts:</p>
 <ul>
 <li>Account created <code>user_created</code> or <code>guest_created</code></li>
 <li>Account deleted <code>user_deactivated</code> or <code>guest_deactivated</code></li>
@@ -343,6 +344,18 @@
 <p>❗ API tracks user actions, not message content!!! 9999 request max. Only for Enterprise users. No review of message or file content. Can’t prevent problems.Cannot categorize suspect acrivity. Limited support for events related to private messaging. Used as a part of investigatin Slack, not the whole.</p>
 <p>If the target of inquire is exporting data (messages, files) -&gt; eDeiscovery API</p>
 <p>If there are concerns that the target has leaked some info -&gt; DLP</p>
+<h4 id="identifying-key-actors">Identifying Key Actors</h4>
+<ul>
+<li>Log in/out times (<code>user_login</code>, <code>user_logout</code>)</li>
+<li>Join/leave channel (<code>user_channel_join</code> and <code>user_channel_leave</code>)</li>
+<li>Account management
+<ul>
+<li>Created (<code>user_created</code> <code>guest_created</code>)</li>
+<li>Deleted (<code>user_deactivated</code>, <code>guest_deactivated</code>)</li>
+<li>Reactivation (<code>user_reactivated</code>, <code>guest_reactivated</code>)</li>
+</ul>
+</li>
+</ul>
 <h2 id="slack-investigative-framework">Slack Investigative Framework</h2>
 <ol>
 <li>Retrieve the audit data</li>
