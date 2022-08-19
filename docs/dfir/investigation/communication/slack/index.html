@@ -189,17 +189,16 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#slack-plan-explorts">Slack Plan Explorts</a></li>
+    <li><a href="#retention">Retention</a></li>
+    <li><a href="#autdit-api">Autdit API</a></li>
     <li><a href="#ediscovery-api">eDiscovery API</a></li>
     <li><a href="#slack-investigative-framework">Slack Investigative Framework</a>
       <ul>
         <li><a href="#live-acquisitions-vs-export">Live Acquisitions vs Export</a></li>
       </ul>
     </li>
-    <li><a href="#windows">Windows</a></li>
-    <li><a href="#macos">macOS</a></li>
-    <li><a href="#linux">Linux</a></li>
-    <li><a href="#ios">iOS</a></li>
-    <li><a href="#android">Android</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -252,6 +251,11 @@
     <p><em>These are primarily my course notes from <a href="https://www.magnetforensics.com/resources/slacking-on-insider-threats-investigative-and-monitoring-approaches-to-use-within-slack-to-locate-bad-actors-webinar/">Slacking on insider threat</a> by Magnet Forensics. Thank you, guys, for sharing! I will put a quote paragraph with a 💡at the beginning whenever I have some ideas or thoughts along the way.</em></p>
 <p>Instant messaging with channels and file sharing. Also, provides logs and eDiscovery.</p>
 <p>Cloud-based, collection is not enough (non reviewable format), your plan matters, tons of functionality.</p>
+<ul>
+<li>Workspaces</li>
+<li>Channels</li>
+<li>DMs</li>
+</ul>
 <p>With certain settings users of workspace can override retention settings. It’s recommended to turn this feature off, so that all logs are preserved.</p>
 <p>Best practices:</p>
 <ul>
@@ -261,6 +265,39 @@
 <li>Check data retention settings</li>
 </ul>
 <p>Basic shifts in security is towards cload-based services, how much people are sharing and also that insider threats are becoming more dangerous because of this.</p>
+<h2 id="slack-plan-explorts">Slack Plan Explorts</h2>
+<ol>
+<li>Standart (Public channels content only, including deleted data)</li>
+<li>Corporate (DM + groups + private channels + links to files)</li>
+<li>eDiscovery and DLP (all of the above)</li>
+</ol>
+<h2 id="retention">Retention</h2>
+<ul>
+<li>Message
+<ul>
+<li>Let members override settings</li>
+<li>Delete messages/edits/deletes</li>
+<li>Keep messages - don&rsquo;t track edits or deletes</li>
+<li>Keep all</li>
+</ul>
+</li>
+<li>File
+<ul>
+<li>Keep for N days</li>
+<li>Keep all</li>
+</ul>
+</li>
+</ul>
+<h2 id="autdit-api">Autdit API</h2>
+<p>Only available for Enterprise plan. RESTful API -&gt; JSON. Can be incorporated into SIEM. Actions monitored:</p>
+<ul>
+<li>Logins</li>
+<li>Exports (channels, files)</li>
+<li>Changing retention policies</li>
+<li>Users joining, leaving channels etc</li>
+<li>Channels created/deleted/privielges changed</li>
+<li>Guest behaviour</li>
+</ul>
 <h2 id="ediscovery-api">eDiscovery API</h2>
 <p>RESTful API, returns JSON</p>
 <ul>
@@ -335,11 +372,13 @@
 <p>💡 Exporting everything is too much. Go from the smallest amount of data and if nothing is found there, widen the circle.</p>
 </blockquote>
 <p>Exports are available only for 10 days after they are intitally downloaded and they don’t include attachments. For downloading attachments you need corresponsing tokens. However, if those have been revoked, oops, no way to download the files.</p>
-<h2 id="windows">Windows</h2>
-<h2 id="macos">macOS</h2>
-<h2 id="linux">Linux</h2>
-<h2 id="ios">iOS</h2>
-<h2 id="android">Android</h2>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    <p><a href="https://www.magnetforensics.com/resources/slacking-on-insider-threats-investigative-and-monitoring-approaches-to-use-within-slack-to-locate-bad-actors-webinar/?submission=https://go.magnetforensics.com/l/52162/2020-10-28/kvjkh4">https://www.magnetforensics.com/resources/slacking-on-insider-threats-investigative-and-monitoring-approaches-to-use-within-slack-to-locate-bad-actors-webinar/?submission=https://go.magnetforensics.com/l/52162/2020-10-28/kvjkh4</a> 2020</p>
+<p><a href="https://www.magnetforensics.com/resources/slacking-on-insider-threats-webinar-july6/?submission=https://go.magnetforensics.com/l/52162/2022-07-06/l7y8br">https://www.magnetforensics.com/resources/slacking-on-insider-threats-webinar-july6/?submission=https://go.magnetforensics.com/l/52162/2022-07-06/l7y8br</a> 2022</p>
+
+</details>
 
   </div>
 </article>
