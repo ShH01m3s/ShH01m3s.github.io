@@ -203,17 +203,22 @@
   <header>
     <div class="meta">
       
-      <div class="article-category">domain: 
-          
-              
-          <a class="category-link" href="/domain/diary">Diary</a>
-          
-      </div> <br />
-      
-      
-      
       
 
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          
+          <a class="platform-link" href="/tools/oletools">oletools</a> 
+          
+           , 
+          <a class="platform-link" href="/tools/procmon">ProcMon</a> 
+          
+           , 
+          <a class="platform-link" href="/tools/process-explorer">Process Explorer</a> 
+          
+      </div> <br />
       
       
 
@@ -224,14 +229,11 @@
           
           <a class="tag-link" href="/tags/malware" rel="tag">malware</a>
           
-           ,  
+          
           <a class="tag-link" href="/tags/reverse" rel="tag">reverse</a>
           
-           ,  
-          <a class="tag-link" href="/tags/ole" rel="tag">ole</a>
           
-           ,  
-          <a class="tag-link" href="/tags/how-i..." rel="tag">how i...</a>
+          <a class="tag-link" href="/tags/stealer" rel="tag">stealer</a>
           
       </div> 
       
@@ -243,34 +245,34 @@
     <p><em><strong>Wednesday</strong></em></p>
 <p>*<strong>Ничего так, тепло.*</strong></p>
 <p><em>Где-то в тёмном-тёмном лесу, среди высоких старых деревьев, притаившись в кустах выжидают свою жертву хищники. И даже несмотря на то, что они могут быть не такими страшными, как товарищ из фильма, тем не менее могут принести немало проблем. Мало кто воспринимает интернет как &ldquo;страшный и таинственный лес&rdquo;, но тем не менее в какой-то степени так и есть. И хищники там тоже есть, и поверьте мне, они не такие милые как пушистое создание на картинке.</em></p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/da63235c8ad9d8ed5ea8f.jpg" alt="img"></p>
+<p><img src="images/da63235c8ad9d8ed5ea8f.jpg" alt="img"></p>
 <p><strong>Среда</strong>: VBox Version 5.2.12 r122591 (Qt5.6.2), Win7x64 SP1</p>
 <p><strong>Инструменты</strong>: ProcMon v 3.4, Process Explorer v16.21, песочница, мозг , глаза</p>
 <p><strong>SHA-1</strong>: 0ff773a55381634d7e56fc919b792545328e8a73 (VirusTotal)</p>
 <p><strong>10:14</strong>. Приятный горячий кофе развеял остатки сонливости и под немного надоедающий шум кондиционера открываю я свой полигон. А там ничего, все как обычно. Тихо и спокойно. Как будто даже слишком&hellip; Что же это? Не знаю, но чует мое аналитическое сердце что-то очень интересное! А может и нет.</p>
 <p>Прежде чем пускать программу играться в песочнице, неплохо было бы посмотреть на нее в общем при помощи обычного hex-редактора и то, что привлекло мое внимание уже навело на мысли:</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/4fb51e9c19a4a8a10447b.png" alt="img"></p>
+<p><img src="images/4fb51e9c19a4a8a10447b.png" alt="img"></p>
 <p>Очевидно у этого зверька есть планы что-то кому-то отправлять методом <strong>POST</strong>(можно почитать тут). Если кратко, то это способ отправки данных, один из. Строка &ldquo;<strong>application/octet-stream</strong>&rdquo; - тоже относится к HTTP запросу (можно почитать там же). А метод этот частенько используют, чтобы отправить то, что обычный человек отправлять и не подумает. Например, свои пароли. Ну допустим, действует презумпция невиновности (программа не виновата пока не доказано обратное), поэтому дам ей возможность оправдать себя. Надо посмотреть, что за строки еще есть.</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/f504ccbf8a7ea0ef52165.png" alt="img"></p>
+<p><img src="images/f504ccbf8a7ea0ef52165.png" alt="img"></p>
 <p>Чем дальше, тем страшнее, на самом деле &hellip;</p>
 <p>Отчет песочницы прям кричит: *&ldquo;Осторожно Опасно! Какая-то вредная фигня!&rdquo;.*Охотно верю, куку, охотно верю. Мне самой не нравится это все. Копирую &ldquo;подозреваемого&rdquo; на свою ВМ, запускаю <strong>Process Monitor</strong> и <strong>Process Explorer</strong> , переименовываю как-нибудь оригинально файл (например, <strong>malware.exe</strong>, почему нет?) и запускаю&hellip; Поехали!</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/f0438470cce5031a408f4.png" alt="img"></p>
+<p><img src="images/f0438470cce5031a408f4.png" alt="img"></p>
 <p>На картинке показан фильтр из <strong>Process Monitor</strong>, чтобы можно было наблюдать лишь за интересующим файлом. Более подробно про то, как пользоваться этой утилитой, можно почитать тут. В данном случае, отфильтровала по имени процесса (Process Name).</p>
 <p>Через какое-то непродолжительное время файл исчезает из Process Explorer. При этом, нет никаких окон, ничего. Это уже само по себе довольно неприятно пахнет. Но ничего, <strong>Process Monitor</strong> все это время работал и писал . Посмотрим, что он там записал&hellip; Очень показательным будет фильтр на запись, вот его и посмотрю в первую очередь:</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/f5ac986d8519f88c43b51.png" alt="img"></p>
+<p><img src="images/f5ac986d8519f88c43b51.png" alt="img"></p>
 <p>Кликнув на &ldquo;File Summary&rdquo; (голубой квадратик ) я вижу все операции над файлами. Так как главный фильтр стоит на название процесса &ldquo;<strong>malware.exe</strong>&rdquo;, то я увижу все операции над файлами, сделанные этой программой.</p>
 <p>Открывается окошечко и вот что видно:</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/ef8be1116225e8b8ba046.png" alt="img"></p>
+<p><img src="images/ef8be1116225e8b8ba046.png" alt="img"></p>
 <p>Вопросов больше нет, ваша честь ! Подсудимый пойман с поличным! Давайте посмотрим его карманы!</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/315d145721b4d4797cc45.png" alt="img"></p>
+<p><img src="images/315d145721b4d4797cc45.png" alt="img"></p>
 <p>А где??? Где архив, где документы? Остался лишь какой-то непонятный файл {a8}.txt. Грусть-тоска&hellip; Мы вот-вот можем проиграть дело!</p>
 <p>Открою файл {a8}.txt, так уж и быть&hellip;</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/cfff5731109bdd4bd81d4.png" alt="img"></p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/4c59aae84631ee1087739.png" alt="img"></p>
+<p><img src="images/cfff5731109bdd4bd81d4.png" alt="img"></p>
+<p><img src="images/4c59aae84631ee1087739.png" alt="img"></p>
 <p>SQL запрос, который нужен был, чтобы добыть информацию. То есть, найдено орудие преступления ! Замечательно, конечно, но дело все равно у нас уже в кармане, тут в общем уже никуда не деться: надежный свидетель видел файлы. Но все же, куда они делись? Удалились, конечно же, куда ж еще. Так что надо просто успеть скопировать все, пока вирус за собой не почистит.</p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/ba39630ce456250ea0e7f.png" alt="img"></p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/7fc6f54549cac029d84b5.png" alt="img"></p>
-<p><img src="/images/blog/2018/analyticprotivkhishnika/8efbe78dcb15bfc1fffee.png" alt="img"></p>
+<p><img src="images/ba39630ce456250ea0e7f.png" alt="img"></p>
+<p><img src="images/7fc6f54549cac029d84b5.png" alt="img"></p>
+<p><img src="images/8efbe78dcb15bfc1fffee.png" alt="img"></p>
 <p>Готово! Подсудимый сознался! PREDATOR THE THIEF v2.1.0. (То есть, этой каки больше одного релиза было&hellip; )</p>
 <p>Скриншоты говорят сами за себя. Подсудимого хищника (<em>англ. predator</em>) велено отправить за решетку ! Ну вот, день прошел не зря, задержан и осужден еще один вредитель!</p>
 

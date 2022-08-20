@@ -223,30 +223,53 @@
   <header>
     <div class="meta">
       
-      <div class="article-category">domain: 
+      
+      <div class="article-category">
           
-              
-                <i class="fas fa-search"></i>
-              
-          <a class="category-link" href="/domain/forensics">forensics</a>
+            
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+            
+            
+          
           
       </div> <br />
       
-      <div class="article-category">doctype:
-          
-            
-              
-          <a class="platform-link" href="/doctype/case">case</a>
-          
-      </div> <br /><br/>
+
       
-      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          
+          <a class="platform-link" href="/tools/grep">grep</a> 
+          
+           , 
+          <a class="platform-link" href="/tools/plutil">plutil</a> 
+          
+           , 
+          <a class="platform-link" href="/tools/mac_apt">mac_apt</a> 
+          
+           , 
+          <a class="platform-link" href="/tools/strings">strings</a> 
+          
+           , 
+          <a class="platform-link" href="/tools/steghide">steghide</a> 
+          
+      </div> <br />
       
       
 
       
-      
-
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/spoiler" rel="tag">spoiler</a>
+          
+      </div> 
       
     </div>
   </header>
@@ -354,7 +377,13 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">find . -name <span class="s2">&#34;*fseve*&#34;</span><span class="sb">`</span>
 </span></span><span class="line"><span class="cl">python mac_apt_artifact_only.py -i samples/FruitBook/fsevents -o . FSEVENTS
 </span></span></code></pre></div><h2 id="find-the-flag-in-the-goodexamplejpg-image-its-hidden-with-better-tools">Find the flag in the GoodExample.jpg image. It&rsquo;s hidden with better tools.</h2>
-<h2 id="whats-the-uid-of-the-user-who-is-responsible-for-connecting-mobile-devices">What&rsquo;s the UID of the user who is responsible for connecting mobile devices?</h2>
+<p>On a Windows VM I used PowerShell and steghide:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">steghide</span> <span class="n">info</span> <span class="n">GoodExample</span><span class="p">.</span><span class="n">jpg</span>
+</span></span><span class="line"><span class="cl"><span class="n">Enter</span> <span class="n">passphrase</span><span class="err">:</span> <span class="c"># no password</span>
+</span></span><span class="line"><span class="cl">  <span class="n">embedded</span> <span class="n">file</span> <span class="s2">&#34;steganopayload27635.txt&#34;</span><span class="err">:</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[...]</span>
+</span></span><span class="line"><span class="cl"><span class="n">steghide</span> <span class="n">extract</span> <span class="n">-sf</span> <span class="n">GoodExample</span><span class="p">.</span><span class="n">jpg</span> <span class="p">-</span><span class="n">-passphrase</span> <span class="s2">&#34;&#34;</span>
+</span></span></code></pre></div><h2 id="whats-the-uid-of-the-user-who-is-responsible-for-connecting-mobile-devices">What&rsquo;s the UID of the user who is responsible for connecting mobile devices?</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">find . -name <span class="s2">&#34;*zsh*&#34;</span>                                                 
 </span></span><span class="line"><span class="cl">./Volume 4/root/bin/zsh  
 </span></span><span class="line"><span class="cl">./Volume 0/root/Users/sneaky/zsh_history  
