@@ -190,7 +190,12 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#malicious-pdf">Malicious PDF</a></li>
-    <li><a href="#malicious-office-docs">Malicious Office Docs</a></li>
+    <li><a href="#malicious-office-docs">Malicious Office Docs</a>
+      <ul>
+        <li><a href="#macros">Macros</a></li>
+        <li><a href="#templates">Templates</a></li>
+      </ul>
+    </li>
     <li><a href="#metadata">Metadata</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -239,14 +244,17 @@
 <h2 id="malicious-pdf">Malicious PDF</h2>
 <h2 id="malicious-office-docs">Malicious Office Docs</h2>
 <p>You can use oletools (cross-platform) to investigate malicious documents. Office docs can also be first manually unzipped with some unarchiver and inspected as is. ALternatively use oletools, which is easier.</p>
+<h3 id="macros">Macros</h3>
 <p>A letter <code>m</code> at the end of extension means that doc has some macros inside. Not always when there is some macros inside, the doc has a different extension.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">oleid &lt;docname&gt; <span class="c1"># see info about a file </span>
 </span></span><span class="line"><span class="cl">oleobj &lt;docname&gt;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">oledump.py report.docm
+</span></span><span class="line"><span class="cl">oledump.py -s <span class="m">3</span> --vbadecompresscorrupt report.docm
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">olevba &lt;docname&gt; <span class="c1"># get the macro from the doc</span>
-</span></span></code></pre></div><h2 id="metadata">Metadata</h2>
+</span></span></code></pre></div><h3 id="templates">Templates</h3>
+<p>Another way to get naughty for an office doc is to use remote templates. There a lot of legit templates which you can see in Word GUI when you open the program (without openning any file). Open <code>_rels</code> folder, <code>settings.xml.rels</code> file and check the <code>Relationship</code> tag, <code>Target</code> attribute. Check out the link to decide if this is a malware.</p>
+<h2 id="metadata">Metadata</h2>
 <h2 id="references">References</h2>
 <p>{{ &lt;details &ldquo;Expand &hellip;&quot;&gt; }}
 [<a href="https://github.com/filipi86/MalwareAnalysis-in-PDF">1</a>]
