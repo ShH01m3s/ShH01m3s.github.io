@@ -184,7 +184,7 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/reverse/firmware/"> 👈🏼 Back to </br> 📚 Hardware </a>
+   <a href="/docs/reverse/firmware/"> 👈🏼 Back to </br> 📚 Firmware </a>
   </p>
   <aside>
    <nav id="TableOfContents">
@@ -221,10 +221,10 @@
     <p><em>In this article I will dissect what TLB is. It can help understand how Meltdown and Specter work.</em></p>
 <p>Usually, OS performs translations between PA and VA. Those addresses already translated are cached in TLB (Translation Lookaside Buffer). The 1st priority is TLB, the second - page table lookup (since it takes more time).</p>
 <p>If TLB&rsquo;s full, least used entry will be replaced with the one just requested.</p>
-<p><img src="reverse/firmware/tlb/images/diagram.png" alt="img"></p>
+<p><img src="images/diagram.png" alt="img"></p>
 <p>So, on the picture above virtual page #3 = physical page #6.</p>
 <p>If the requested memory address is on Disk, there will be TLB miss (nothing found). Then TLB eviction (popping off the least used entry) and reading from DISK then which is very costy.</p>
-<p><img src="kernel-user-space.png" alt="img"></p>
+<p><img src="images/kernel-user-space.png" alt="img"></p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
