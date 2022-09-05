@@ -199,6 +199,13 @@
         <li><a href="#-btfm-1">📘 BTFM</a></li>
       </ul>
     </li>
+    <li><a href="#resource-timeline">Resource Timeline</a></li>
+    <li><a href="#iam-activity">IAM Activity</a>
+      <ul>
+        <li><a href="#iamhomecredential_report">iam/home#/credential_report</a></li>
+        <li><a href="#access-advisor">Access Advisor</a></li>
+      </ul>
+    </li>
     <li><a href="#vpc-traffic-mirroring">VPC Traffic Mirroring</a></li>
     <li><a href="#vpn">VPN</a></li>
     <li><a href="#logs-archieved-in-s3">Logs Archieved In S3</a></li>
@@ -347,6 +354,7 @@
 <blockquote>
 <p>💡 By the way, using CLI to lookup the events gets logged by CloudTrail.</p>
 </blockquote>
+<p>CloudTrail events that are relevant from security perspective - <a href="https://www.chrisfarris.com/post/aws-ir/">https://www.chrisfarris.com/post/aws-ir/</a>.</p>
 <h3 id="-btfm">📘 BTFM</h3>
 <p>Here is my bash to retrieve CT logs for a all keys in the account, filtered by API call <code>Decrypt</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">loggroupname</span><span class="o">=</span><span class="s2">&#34;aws-controltower/CloudTrailLogs&#34;</span>
@@ -396,6 +404,42 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws ec2 describe-flow-logs <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
 </span></span><span class="line"><span class="cl">aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
 </span></span></code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
+<h2 id="resource-timeline">Resource Timeline</h2>
+<p>In AWS go to Config → Resources → <!-- raw HTML omitted --> → Resource Timeline (in the upper right corner). Shows all the changed made to the resource (created, configuration changed, resource deleted).</p>
+<h2 id="iam-activity">IAM Activity</h2>
+<p>Two places to look at it.</p>
+<ul>
+<li>Credentials report</li>
+<li></li>
+</ul>
+<h3 id="iamhomecredential_report">iam/home#/credential_report</h3>
+<p>Contains the following fields:</p>
+<ol>
+<li>user</li>
+<li>arn</li>
+<li>user_creation_time</li>
+<li>password_enabled</li>
+<li>password_last_used</li>
+<li>password_last_changed</li>
+<li>password_next_rotation</li>
+<li>mfa_active</li>
+<li>access_key_1_active</li>
+<li>access_key_1_last_rotated</li>
+<li>access_key_1_last_used_date</li>
+<li>access_key_1_last_used_region</li>
+<li>access_key_1_last_used_service</li>
+<li>access_key_2_active</li>
+<li>access_key_2_last_rotated</li>
+<li>access_key_2_last_used_date</li>
+<li>access_key_2_last_used_region</li>
+<li>access_key_2_last_used_service</li>
+<li>cert_1_active</li>
+<li>cert_1_last_rotated</li>
+<li>cert_2_active</li>
+<li>cert_2_last_rotated</li>
+</ol>
+<h3 id="access-advisor">Access Advisor</h3>
+<p>Go to IAM -&gt; username -&gt; Access Advisor. Not every user might (and should) have access to this one. Access Advisor shows the services that this user can access and when those services were last accessed.</p>
 <h2 id="vpc-traffic-mirroring">VPC Traffic Mirroring</h2>
 <p>A great idea to use. Deploying an EC2 with some IDS, mirror traffic there for detection. Filter for the most relevant stuff to pass it to SIEM?</p>
 <h2 id="vpn">VPN</h2>
@@ -466,7 +510,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
