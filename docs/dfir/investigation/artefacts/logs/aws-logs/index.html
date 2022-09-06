@@ -215,6 +215,7 @@
         <li><a href="#-btfm-2">📘 BTFM</a></li>
       </ul>
     </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -356,7 +357,7 @@
 </blockquote>
 <p>CloudTrail events that are relevant from security perspective - <a href="https://www.chrisfarris.com/post/aws-ir/">https://www.chrisfarris.com/post/aws-ir/</a>.</p>
 <h3 id="-btfm">📘 BTFM</h3>
-<p>Here is my bash to retrieve CT logs for a all keys in the account, filtered by API call <code>Decrypt</code>.</p>
+<p>Here is my bash to retrieve CT logs for a all keys in the account, filtered by API call <code>Decrypt</code>. I also have a Python version and I am working on the Jupyter book for this.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">loggroupname</span><span class="o">=</span><span class="s2">&#34;aws-controltower/CloudTrailLogs&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="k">for</span> keyname in <span class="k">$(</span>aws kms list-aliases --profile ProfileName <span class="p">|</span> jq -r <span class="s1">&#39;.Aliases[].AliasName&#39;</span><span class="k">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">do</span>
@@ -405,7 +406,7 @@
 </span></span><span class="line"><span class="cl">aws logs filter-log-events --log-group-name &lt;groupname&gt;  <span class="c1"># append --profile for SSO or make sure you have the correct creds in ~/.aws/config</span>
 </span></span></code></pre></div><p>Filter the logs - <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">docs</a>.</p>
 <h2 id="resource-timeline">Resource Timeline</h2>
-<p>In AWS go to Config → Resources → <!-- raw HTML omitted --> → Resource Timeline (in the upper right corner). Shows all the changed made to the resource (created, configuration changed, resource deleted).</p>
+<p>In AWS go to Config → Resources → &lt;<code>resource name&gt;</code> → Resource Timeline (in the upper right corner). Shows all the changed made to the resource (created, configuration changed, resource deleted).</p>
 <h2 id="iam-activity">IAM Activity</h2>
 <p>Two places to look at it.</p>
 <ul>
@@ -479,6 +480,8 @@
 </span></span></code></pre></div><blockquote>
 <p>🧪 I would like to see if messages will disappear from the queue once <code>receive-message</code> was invoked.</p>
 </blockquote>
+<h2 id="references">References</h2>
+<p>[<a href="https://www.chrisfarris.com/post/aws-ir/">1</a>] IR in AWS</p>
   </div>
 </article>
 </div>
