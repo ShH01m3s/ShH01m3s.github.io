@@ -190,6 +190,16 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#guardduty">GuardDuty</a></li>
+    <li><a href="#cloud-hygene">Cloud Hygene</a>
+      <ul>
+        <li><a href="#s3-bucket">S3 Bucket</a>
+          <ul>
+            <li><a href="#-btfm">📘 BTFM</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#data-exfiltration">Data Exfiltration</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -236,6 +246,62 @@
     <p><em>This article is all about AWS Threat Hunting. There will be many Cloud-wide observations, but for now I am only focusing on AWS.</em></p>
 <h2 id="guardduty">GuardDuty</h2>
 <p>It&rsquo;s the main built-in Threat hunting tool that we have.</p>
+<h2 id="cloud-hygene">Cloud Hygene</h2>
+<ul>
+<li>What settings create publicly accessible objects?</li>
+<li>How does IAM integrate with the Storage service for creating least privilege access control list?</li>
+<li>Can private objects be shared with temp signed URL?</li>
+<li>Can versioning be enabled on objects for auditing?</li>
+<li>Do data retention and object lifecycle policies prevent data loss?</li>
+<li>What monitoring and audit logging options are available for forensics and IR?</li>
+</ul>
+<h3 id="s3-bucket">S3 Bucket</h3>
+<ul>
+<li><input disabled="" type="checkbox"> No public access for the buckets that contain anything sensitive <code>aws s3control get-public-access-block --profile Dev-SA --account-id 760140307285</code>. If it returns an error, blocking is performed on a per bucket basis.</li>
+<li><input disabled="" type="checkbox"> Monitor Object URL Signatures (monitor calls to presigned API)</li>
+<li><input disabled="" type="checkbox"> KMS enabled by default for all buckets</li>
+<li><input disabled="" type="checkbox"> Deny access if HTTPS is not being used</li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<p>Example of a blocking config:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;PublicAccessBlockConfiguration&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;BlockPublicAcls&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;IgnorePublicAcls&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;BlockPublicPolicy&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;RestrictPublicBuckets&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="-btfm">📘 BTFM</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># get current settings</span>
+</span></span><span class="line"><span class="cl">aws s3control get-public-access-block --profile ProfileName --account-id <span class="k">$(</span>aws sts get-caller-identity --profile ProfileName <span class="p">|</span> jq -r <span class="s1">&#39;.Account&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Block all public access</span>
+</span></span><span class="line"><span class="cl">aws s3control put-bublic-access-block --profile ProfileName --public-access-block-configuration <span class="s2">&#34;BlockPublicAcls=true, IgnorePublicAcls=true, BlockPublicPolicy=true, RestrictPublicBuckets=true&#34;</span> --account-id <span class="k">$(</span>aws sts get-caller-identity --profile ProfileName <span class="p">|</span> jq -r <span class="s1">&#39;.Account&#39;</span><span class="k">)</span>
+</span></span></code></pre></div><h2 id="data-exfiltration">Data Exfiltration</h2>
+<p>It bad if either of them has public access:</p>
+<ul>
+<li>EC2 (public and cross-account)
+<ul>
+<li>VM images <code>aws ec2 modify-snapshot-attribute --snapshot-id id --attribute createVolumePermission operation-type add --group-names all</code>. Sharing with ALL group.</li>
+<li>Disk snapshots. <code>aws ec2 modify-image-attribute --image-id id --launch-permission &quot;Add=[{Group=all}]&quot;</code></li>
+</ul>
+</li>
+<li>Container image repos</li>
+<li>DB Backups</li>
+<li>Big datasets</li>
+<li>Functions</li>
+<li>Secrets</li>
+<li>Signed URLs</li>
+<li>KMS keys</li>
+<li>S3</li>
+</ul>
+<p>Ways to share:</p>
+<ol>
+<li>S3 bucket public access enabled (by default)</li>
+<li>Sharing API (<code>aws ec2 modify-snapshot-attribute --snapshot-id id --attribute createVolumePermission --operation-type add --group-names all</code>). That means that this particular resource is shared with the group &ldquo;All&rdquo;</li>
+<li>Resource policy. When <code>Prinicipal</code> is set to <code>*</code>. Applies to those resources that have this in the policy - see <a href="https://github.com/SummitRoute/aws_exposable_resources">here</a>.</li>
+</ol>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand &hellip;</summary>
