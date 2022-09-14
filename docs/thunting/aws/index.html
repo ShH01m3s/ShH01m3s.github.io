@@ -197,6 +197,17 @@
             <li><a href="#-btfm">📘 BTFM</a></li>
           </ul>
         </li>
+        <li><a href="#serveless">Serveless</a>
+          <ul>
+            <li><a href="#-btfm-1">📘 BTFM</a></li>
+          </ul>
+        </li>
+        <li><a href="#beanstalk">Beanstalk</a></li>
+        <li><a href="#firebase">Firebase</a>
+          <ul>
+            <li><a href="#-rtfm">📕 RTFM</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#data-exfiltration">Data Exfiltration</a></li>
@@ -278,6 +289,47 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Block all public access</span>
 </span></span><span class="line"><span class="cl">aws s3control put-bublic-access-block --profile ProfileName --public-access-block-configuration <span class="s2">&#34;BlockPublicAcls=true, IgnorePublicAcls=true, BlockPublicPolicy=true, RestrictPublicBuckets=true&#34;</span> --account-id <span class="k">$(</span>aws sts get-caller-identity --profile ProfileName <span class="p">|</span> jq -r <span class="s1">&#39;.Account&#39;</span><span class="k">)</span>
+</span></span></code></pre></div><h3 id="serveless">Serveless</h3>
+<p><a href="https://github.com/pumasecurity/serverless-prey/blob/main/panther/docs/NOTES.md">https://github.com/pumasecurity/serverless-prey/blob/main/panther/docs/NOTES.md</a></p>
+<p>Assessing the environment:</p>
+<ul>
+<li><input disabled="" type="checkbox"> OS running the functions</li>
+<li><input disabled="" type="checkbox"> User</li>
+<li><input disabled="" type="checkbox"> Where is the source code (AWS <code>/var/task</code>)</li>
+<li><input disabled="" type="checkbox"> Where are the creds</li>
+<li><input disabled="" type="checkbox"> Can you persist data to disk?</li>
+<li><input disabled="" type="checkbox"> How long does the enivironment live for?</li>
+</ul>
+<p>Function assessment:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Hardcoded creds (passwords, tokens etc)</li>
+<li><input disabled="" type="checkbox"> Authenticate requests to publicly accessible functions</li>
+<li><input disabled="" type="checkbox"> Use unique service accounts per function</li>
+<li><input disabled="" type="checkbox"> Regularly audit function permissions for least privilege</li>
+<li><input disabled="" type="checkbox"> Enable function audit and network controls (if available)</li>
+</ul>
+<p>Temprorary access keys are saved in a containerised environment as an enivornment variable.</p>
+<blockquote>
+<p>❗️Temp creds for lambda live for 12 hours. This is not customisable. Possible vulnerabilities: LFI and command injection that could potentially expose these credentials.
+❗️Ingress traffic for Lamda functions are disabled by default.
+❗️Egress traffic is allowed by deault. That&rsquo;s why there is a risk with a reverse shell.
+❗️No logging in the function&rsquo;s network.
+❗️No private routes, only over the Internet (including requesrts to Secrets Manager).</p>
+</blockquote>
+<p>ALB or API gateway (advances authentication for functions triggered by HTTP requests). Role policies with least privileges. Lambda VPC network integration.</p>
+<p>Those functions are running in a container. This container is not spawned/distroyed on each function execution. There are several concerns here: temp files that contain confidential data and DoS attacks on disk space. Only <code>tmp</code> directory is the only folder with write permissions. No AV on the EC2. Tested with Serverless Prey, 11 mins of inactivity distroys the container.</p>
+<h4 id="-btfm-1">📘 BTFM</h4>
+<p>There is also a framework for infrastructure as code. Terraform analogue but just for the servless stuff - Serverless.</p>
+<h3 id="beanstalk">Beanstalk</h3>
+<p>Cloud Application Service.</p>
+<h3 id="firebase">Firebase</h3>
+<p>It&rsquo;s a DB service that has eliminated the need of an application server. Changes on the frontend result in the changed in the DB and vice versa. The risk here: improper auth settings. So it was meant to be when it was developed. Now it&rsquo;s a whole platform with different services.</p>
+<h4 id="-rtfm">📕 RTFM</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># dump the contents of the DB</span>
+</span></span><span class="line"><span class="cl">curl -s https://dbname.firebaseio.com/.json <span class="p">|</span> jq
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># overwrite the contents of the firebase</span>
+</span></span><span class="line"><span class="cl">curl -s https://dbname.firebaseio.com/.json --data <span class="s1">&#39;{&#34;foo&#34;: &#34;bar&#34;}&#39;</span>
 </span></span></code></pre></div><h2 id="data-exfiltration">Data Exfiltration</h2>
 <p>It bad if either of them has public access:</p>
 <ul>
