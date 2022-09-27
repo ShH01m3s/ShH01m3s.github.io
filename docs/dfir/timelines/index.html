@@ -189,6 +189,8 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#time-formats-and-standards">Time formats and Standards</a></li>
+    <li><a href="#the-importance-of-timestamps">The Importance Of Timestamps</a></li>
     <li><a href="#file-systems-timestamps">File Systems Timestamps</a>
       <ul>
         <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
@@ -259,13 +261,40 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>If something was downloaded and the accessed in several days - then the suspect knew about this file. Otherwise they might prove they didn&rsquo;t. There also might be a pattern that tells a lot about possile motives. If the files were deleted, it also might prove that the user knew about them and wanted to hide and not keeping for themselves but for distribution only (if they, say, emailed those files before deleting them).</p>
-<p>There are several levels of timestamps: timestamps the file systems keeps in its metadata, timestamps of the files controlled by the OS and FS, timestamps in the files&rsquo; metadata. More?</p>
+    <h2 id="time-formats-and-standards">Time formats and Standards</h2>
+<p>GMT and UTC are the same and usually are used interchangeably. Although, there is some difference: <a href="https://www.timeanddate.com/time/gmt-utc-time.html">https://www.timeanddate.com/time/gmt-utc-time.html</a>.</p>
+<blockquote>
+<p>❗️But GMT is a time zone and UTC is a time standard. So, UTC+0 = GMT</p>
+</blockquote>
+<p>The following format <code>2022-09-27T10:42:41.947Z</code> it&rsquo;s ISO 8601. I don&rsquo;t think it&rsquo;s possible to determine the timezone based solely on the format itself. Many times you have to know the configs for the server to be sure. However, if you see something like <code>2022-09-27T10:42:41.947+0000</code>, it&rsquo;s showing the time zone as well: <code>+0000</code> tells it&rsquo;s GMT/UTC +0.</p>
+<p>Convert from UTC to local time: <a href="https://support.microsoft.com/en-us/topic/how-to-convert-utc-time-to-local-time-0569c45d-5fb8-a516-814c-75374b44830a">https://support.microsoft.com/en-us/topic/how-to-convert-utc-time-to-local-time-0569c45d-5fb8-a516-814c-75374b44830a</a>.</p>
+<p>Looks like if there is <code>+00Z</code> at the end of a date-time string, it&rsquo;s UTC, otherwise - local time.</p>
+<p>Since then, GMT is no longer a time standard. Today, Greenwich Mean Time (GMT) is only the name of a time zone that is used by a few countries in Africa and Western Europe, including the UK during winter and all year in Iceland.</p>
+<blockquote>
+<p>Examples <code>1994-11-05T08:15:30-05:00</code> corresponds to November 5, 1994, 8:15:30 am, US Eastern Standard Time.</p>
+</blockquote>
+<blockquote>
+<p>So, let’s say in Greenwich today is January 27th, 2020 at 6:00 AM. Using ISO standard, this would be as follows:
+2020–01–27T06:00:00Z (Greenwich)
+2020–01–27T00:00:00–06:00 (México City)
+2020–01–27T14:00:00+08:00 (Beijing)</p>
+</blockquote>
+<p>Basically, even if it&rsquo;s blowing my mind, when you see <code>+</code>, you subtract to get the UTC time and when you see <code>-</code> -, you add to get the UTC.</p>
+<p><a href="https://www.w3.org/TR/NOTE-datetime">https://www.w3.org/TR/NOTE-datetime</a></p>
+<p><code>2019-11-14T00:55:31.820Z</code> is the same as <code>2019-11-14T00:55:31.820+0000Z</code>. <a href="https://stackoverflow.com/questions/58847869/utc-vs-iso-format-for-time">https://stackoverflow.com/questions/58847869/utc-vs-iso-format-for-time</a></p>
+<p>Different date-time formats: <a href="https://www.utctime.net/">https://www.utctime.net/</a>.</p>
+<p>1994-11-05T13:15:30Z corresponds to the same instant.</p>
+<blockquote>
+<p>❗️ So, if the timestamp logged is local, there is no telling the exact time from the actor&rsquo;s point of view unless you know the time zone at the of the event.</p>
+</blockquote>
+<h2 id="the-importance-of-timestamps">The Importance Of Timestamps</h2>
+<p>If something was downloaded and accessed over several days, the suspect knew about this file. Otherwise, they might prove they didn&rsquo;t. There also might be a pattern that tells a lot about possible motives. If the files were deleted, it also might prove that the user knew about them and wanted to hide them and not keeping for themselves but for distribution only (if they, say, emailed those files before deleting them).</p>
+<p>There are several timestamps: timestamps the file systems keep in their metadata, timestamps of the files controlled by the OS and FS, and timestamps in the files&rsquo; metadata. More?</p>
 <p><strong>Tools</strong> 🛠:</p>
 <ul>
-<li><strong>FileList</strong>. <code>filelist &lt;directory_to_process&gt; /s /md5 /sha256 /owners /fullpath &gt; evidence.csv</code>. <code>/s</code> - recursive search, <code>/owners</code> - identify the user, <code>fullpath</code> - full directory path. Open this .csv in Excel as a delimited file, start the processing from the third row (skip the headers) and use the tab and comma as delimiters. Filters and pivot tables in Excel can be of use.</li>
-<li>Autopsy. Has the dedicated feature for timeline creation. Better use with Hash lookup with NSRL, Recent Activity and EXIF data modules. Based on Sleuth Kit, but you can use the below commands to get the same info manually in command line.</li>
-<li>Sleuth Kit. <code>fls -r -m &quot;/&quot; -o &lt;offset&gt; &lt;image/disk&gt; &gt; bodyfile.txt</code> and adterwards: <code>mactime.pl -b bodyfile.txt -d &gt; timeline.csv</code>. For timezone - <code>-z</code>.</li>
+<li><strong>FileList</strong>. <code>file list &lt;directory_to_process&gt; /s /md5 /sha256 /owners /fullpath &gt; evidence.csv</code>. <code>/s</code> - recursive search, <code>/owners</code> - identify the user, <code>fullpath</code> - full directory path. Open this .csv in Excel as a delimited file, start the processing from the third row (skip the headers) and use the tab and comma as delimiters. Filters and pivot tables in Excel can be of use.</li>
+<li>Autopsy. Has a dedicated feature for timeline creation. Better use Hash lookup with NSRL, Recent Activity and EXIF data modules. Based on Sleuth Kit, you can use the below commands to manually get the same info in the command line.</li>
+<li>Sleuth Kit. <code>fls -r -m &quot;/&quot; -o &lt;offset&gt; &lt;image/disk&gt; &gt; bodyfile.txt</code> and afterwards: <code>mactime.pl -b bodyfile.txt -d &gt; timeline.csv</code>. For timezone - <code>-z</code>.</li>
 </ul>
 <p>Timelines are created based on the following sources:</p>
 <ul>
@@ -278,9 +307,9 @@
 </ul>
 <h2 id="file-systems-timestamps">File Systems Timestamps</h2>
 <h3 id="ntfs-vs-apfs">NTFS vs APFS</h3>
-<p>Mind that APFS <a href="/docs/dfir/host/apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/dfir/host/windows/win-artifacts">timestamps</a> are different! With NTFS when you add a file to the system (for example, copy it from USB drive), the MAC times are changed. However, on APFS <em>Added</em> attribute is added, providing you with slightly more information.</p>
+<p>Mind that APFS <a href="/docs/dfir/host/apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/dfir/host/windows/win-artifacts">timestamps</a> are different! When you add a file to the system (for example, copy it from a USB drive), the MAC times are changed with NTFS. However, the APFS Added attribute is added, providing you with more information.</p>
 <blockquote>
-<p>⚠️ Both for APFS and NTFS last accessed times might not be updated. Refer to the artifacts page mentioned above for more information.</p>
+<p>⚠️ Both for APFS and NTFS, the last accessed times might not be updated. Refer to the artefacts page mentioned above for more information.</p>
 </blockquote>
 <p>NTFS has an additional MAC attribute - EM (entry modified). That&rsquo;s the time when <code>$MFT</code> is modified.</p>
 <p>NTFS Last Accessed Update (Win10+) -</p>
@@ -289,7 +318,7 @@
 80000002 (hex) = System Managed, Last Access Updates Enabled - default for Windows 11 (in my case).
 80000003 (hex) = System Managed, Last Access Updates Disabled</p>
 <h3 id="lnk-files">LNK files</h3>
-<p>These have timestamps embedded. They are basically &ldquo;screenshots&rdquo; of the host file at the time of <code>lnk</code> file creation. In case of <code>Recent</code> folder, this is the time when the file was <strong>first accessed</strong>.</p>
+<p>These have timestamps embedded. They are &ldquo;screenshots&rdquo; of the host file at the time of link file creation. In the case of the <code>Recent</code> folder, this is the time when the file was <strong>first accessed</strong>.</p>
 <h2 id="application-specific-timestamps">Application Specific Timestamps</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe pod podname <span class="c1"># to see the pod description, MAC times and settings</span>
 </span></span></code></pre></div><h2 id="references">References</h2>
