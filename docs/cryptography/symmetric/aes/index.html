@@ -191,6 +191,7 @@
   <ul>
     <li><a href="#cbc">CBC</a></li>
     <li><a href="#ecb">ECB</a></li>
+    <li><a href="#ctr">CTR</a></li>
   </ul>
 </nav>
  </aside>
@@ -227,7 +228,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Thi is the next generation. 128-bit blocks, 128,192, 256 keys. Takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
+    <p>This is the next generation. 128-bit blocks, 128,192, 256 keys. Takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
 <p>One block of plaintext results in a 2-block cypher (random string + cypher text) for some modes. That&rsquo;s why different modes exist.</p>
 <ul>
 <li>Stream
@@ -256,7 +257,25 @@
 </ul>
 <h2 id="cbc">CBC</h2>
 <h2 id="ecb">ECB</h2>
-
+<h2 id="ctr">CTR</h2>
+<p>Encryption steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">some_function</span><span class="p">(</span><span class="n">ctr</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">ctr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">key_length</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">number_of_blocks</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">ctr</span> <span class="o">=</span> <span class="n">random</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">key_length</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">message</span> <span class="o">=</span> <span class="p">[</span><span class="n">number_of_blocks</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">cypher_text</span> <span class="o">=</span> <span class="n">ctr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">number_of_blocks</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cypher_text</span> <span class="o">+=</span> <span class="n">message</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">ctr</span>
+</span></span><span class="line"><span class="cl">	<span class="n">some_function</span><span class="p">(</span><span class="n">ctr</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></div>
   </div>
 </article>
 </div>
