@@ -187,7 +187,12 @@
    <a href="/docs/cryptography/symmetric/"> 👈🏼 Back to </br> Symmetric Algorithms </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cbc">CBC</a></li>
+    <li><a href="#ecb">ECB</a></li>
+  </ul>
+</nav>
  </aside>
 </div>
 
@@ -222,7 +227,35 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>is the next generation. 128 bit blocks, 128,192, 256 keys. Takes too much time to bruteforce.</p>
+    <p>Thi is the next generation. 128-bit blocks, 128,192, 256 keys. Takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
+<p>One block of plaintext results in a 2-block cypher (random string + cypher text) for some modes. That&rsquo;s why different modes exist.</p>
+<ul>
+<li>Stream
+<ul>
+<li>synchronised</li>
+<li>unsynchronised</li>
+</ul>
+</li>
+<li>Block
+<ul>
+<li>CTR</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>Encryption steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Choose some random string of length N (call it a 🐊)</li>
+<li><input disabled="" type="checkbox"> Do something with the string to get a key 🗝 from 🐊</li>
+<li><input disabled="" type="checkbox"> XOR your message 🍆 with a key 🗝</li>
+<li><input disabled="" type="checkbox"> Cypher text 🫐 = 🐊, 🍆 XOR 🗝</li>
+</ul>
+<p>Decryption steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> c2 XOR Fk(c1)</li>
+</ul>
+<h2 id="cbc">CBC</h2>
+<h2 id="ecb">ECB</h2>
 
   </div>
 </article>
