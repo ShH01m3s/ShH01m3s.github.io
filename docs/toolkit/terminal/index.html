@@ -191,6 +191,9 @@
   <ul>
     <li><a href="#jq">jq</a></li>
     <li><a href="#fzf">fzf</a></li>
+    <li><a href="#fx">fx</a></li>
+    <li><a href="#dasel">dasel</a></li>
+    <li><a href="#dsq">dsq</a></li>
     <li><a href="#python">python</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -240,12 +243,34 @@
 <p>⛔️ When trying to parse some responses from Bitbucket API I&rsquo;ve run into issue with <code>fzf</code> <code>preview</code>.
 ✍🏻 Using <code>echo -E {}</code> instead of just <code>echo {}</code> has helped. This option turns off the interpretation of backslash-escaped characters on systems where this mode is the default. So, the problem was there I guess.</p>
 </blockquote>
+<h2 id="fx">fx</h2>
+<p>Only works interactively with <code>json</code>, not <code>ndjson</code>. It&rsquo;s good for long json file that has no repeated elements, since it&rsquo;s interactive. Check the demo <a href="https://github.com/antonmedv/fx">gif</a>.</p>
+<h2 id="dasel">dasel</h2>
+<p>Converts data into various formats. For example, json into csv and vica versa.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jq <span class="s1">&#39;.&#39;</span> sheet1.json <span class="p">|</span> dasel -r json -w csv &gt; 10_04-05.csv <span class="c1"># open sheet1.json with jq, then pipe to dasel, read json, write csv, save output to 10_04-05.csv.</span>
+</span></span></code></pre></div><p>Link here - <a href="https://github.com/TomWright/dasel">https://github.com/TomWright/dasel</a>. Might be iseful for some log analysis or when preparing some test tasks.</p>
+<h2 id="dsq">dsq</h2>
+<p>Query json, ndjson, csv, Excel, Parquet etc with SQL queries:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dsq testdata.json <span class="s2">&#34;SELECT * FROM {} WHERE x &gt; 10&#34;</span>
+</span></span><span class="line"><span class="cl">dsq testdata/userdata.parquet <span class="s1">&#39;select count(*) from {}&#39;</span> <span class="p">|</span> jq <span class="c1"># to beautify json</span>
+</span></span></code></pre></div><p><a href="https://github.com/multiprocessio/dsq">Link</a> to docs.</p>
 <h2 id="python">python</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">python3 -m http.server <span class="c1"># quickly share files across loal network </span>
 </span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand &hellip;</summary>
     [<a href="https://stackoverflow.com/questions/34834519/how-do-i-select-multiple-fields-in-jq">1</a>] How do I select multiple fields in jq?
+gron: Make JSON greppable - <a href="https://github.com/tomnomnom/gron">https://github.com/tomnomnom/gron</a>
+jello: Filter JSON and JSON Lines data with Python syntax - <a href="https://github.com/kellyjonbrazil/jello">https://github.com/kellyjonbrazil/jello</a>
+jless: Command-line pager for JSON data - <a href="https://github.com/PaulJuliusMartinez/jless">https://github.com/PaulJuliusMartinez/jless</a>
+jid: Json incremental digger - <a href="https://github.com/simeji/jid">https://github.com/simeji/jid</a>
+jql: JSON query language CLI tool - <a href="https://github.com/yamafaktory/jql">https://github.com/yamafaktory/jql</a>
+qp: Command-line (ND)JSON querying - <a href="https://github.com/paybase/qp">https://github.com/paybase/qp</a>
+[0]: <a href="https://github.com/multiprocessio/datastation">https://github.com/multiprocessio/datastation</a>
+vd: A terminal spreadsheet multitool for discovering and arranging data -https://github.com/saulpw/visidata (edited)
+<a href="https://github.com/multiprocessio/datastation">https://github.com/multiprocessio/datastation</a>
+<a href="https://github.com/cado-security/varc">https://github.com/cado-security/varc</a>
+<a href="https://github.com/multiprocessio/datastation">https://github.com/multiprocessio/datastation</a>
 </details>
   </div>
 </article>
