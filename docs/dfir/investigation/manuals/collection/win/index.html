@@ -194,7 +194,9 @@
     <li><a href="#collection-checklist">Collection Checklist</a></li>
     <li><a href="#-btfm">📘 BTFM</a>
       <ul>
+        <li><a href="#autoruns">Autoruns</a></li>
         <li><a href="#kansa">Kansa</a></li>
+        <li><a href="#kape">KAPE</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -267,7 +269,14 @@
 </ul>
 <h2 id="-btfm">📘 BTFM</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Select-String</span> <span class="s2">&#34;something&#34;</span> <span class="p">*.</span><span class="n">csv</span> <span class="c"># search for something keyword in all csv files in the current directory</span>
-</span></span></code></pre></div><h3 id="kansa">Kansa</h3>
+</span></span></code></pre></div><h3 id="autoruns">Autoruns</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">autorunsc</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span>
+</span></span></code></pre></div><p><code>a</code> - all artefacts (boot, appinit dlls, explorer addons, sidebar gadgets, image hijacks, IE addons, known dlls, logon startups, WMI, office addons, printerr mon dll, LSA sec providers, autostart services and non-disabled drivres, winlogon entries, scheduled tasks, winlock protocol and net providers).
+<code>c</code> - codec
+<code>h</code> - hashes
+<code>s</code> - verify digital signature
+<code>'*'</code> - all user profiles</p>
+<h3 id="kansa">Kansa</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"></code></pre></div><p>If the <code>-Analysis</code> option is provided when collecting data, it will generate analysis files following the collection from remote hosts. This script can be used to pull the frequency of autoruns based on ImagePath, LaunchString and MD5 tuple (given that the publisher is not verified): <code>Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1</code> <a href="https://github.com/davehull/Kansa/blob/master/Analysis/asep/Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1">https://github.com/davehull/Kansa/blob/master/Analysis/asep/Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1</a>. Here is the most crucial part of the script, its heart ❤️:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">COUNT</span><span class="p">(</span><span class="n">ImagePath</span><span class="p">,</span><span class="w"> </span><span class="n">LaunchString</span><span class="p">,</span><span class="w"> </span><span class="n">MD5</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">ct</span><span class="p">,</span><span class="w">
@@ -282,6 +291,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="n">ct</span><span class="w"> </span><span class="k">ASC</span><span class="w">
 </span></span></span></code></pre></div><p>This script accomplishes frequency analysis using <code>Get-Command logparser.exe</code> with the above SQL statement.</p>
 <p>Select columns <code>ImagePath, LaunchString, MD5, and Publisher</code> from all CSV files with the names that end with <code>autorunsc.csv</code>. Then use <code>(ImagePath, LaunchString, MD5)</code> as a unique identifier, discard all that have been <code>Verified</code> in the <code>Publisher</code> column and <code>File not found </code>in the <code>ImagePath</code> column. Count unique values, put in the <code>ct</code> column, group by <code>ImagePath, LaunchString, MD5, Publisher</code> and sort in ascending order.</p>
+<h3 id="kape">KAPE</h3>
+<p>Provides the ability to extract artefacts from the mounted drives (be it an image, over network or a loval drive).</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
@@ -325,7 +336,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   
