@@ -195,7 +195,7 @@
         <li><a href="#file-association">File association</a></li>
         <li><a href="#recent-documents">Recent documents</a></li>
         <li><a href="#office-mru">Office MRU</a></li>
-        <li><a href="#jump-list-data">Jump List Data</a></li>
+        <li><a href="#jump-list-data-and-lnk">Jump List Data and LNK</a></li>
         <li><a href="#shellbags">ShellBags</a></li>
         <li><a href="#office">Office</a></li>
         <li><a href="#temp-file">Temp file</a></li>
@@ -303,9 +303,14 @@
 <h3 id="office-mru">Office MRU</h3>
 <p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Office\XX.X</code>.</p>
 <p>You might see if there were several versions of Microsoft Office installed. Expanding Word|Excel|PowerPoint etc and looking at the entries, they have a <code>Txxxxxxxx</code> in the middle. That&rsquo;s time (Win64 big-endian, UTC).</p>
-<h3 id="jump-list-data">Jump List Data</h3>
+<h3 id="jump-list-data-and-lnk">Jump List Data and LNK</h3>
 <p>Key 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData</code>.</p>
-<p>Shows applications accessed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">LnkFilesAndJumpLists: Path: C: <span class="o">(</span>Users<span class="se">\ </span><span class="o">(</span>*<span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\ </span>Recent
+</span></span><span class="line"><span class="cl">LnkFilesAndJumpLists: Path: C: Documents and Settings<span class="se">\|</span>*<span class="se">\R</span>ecent
+</span></span><span class="line"><span class="cl">LnkFilesAndJumpLists: Path: C: <span class="o">(</span>Documents and Settings<span class="p">|</span> <span class="p">|</span>* Desktop<span class="p">|</span> <span class="p">|</span>*. lnk
+</span></span><span class="line"><span class="cl">LnkFilesAndJumpLists: Path: C:<span class="p">|</span> Users <span class="se">\*</span> Desktop <span class="se">\*</span>.lnk
+</span></span><span class="line"><span class="cl">LnkFilesAndJumpLists: Path: C:<span class="se">\ </span>Users<span class="se">\ \*</span> AppData<span class="se">\L</span>ocal<span class="se">\C</span>onnectedDevicesPlatform<span class="o">||</span>*<span class="o">||</span>*.db
+</span></span></code></pre></div><p>Shows applications accessed.</p>
 <h3 id="shellbags">ShellBags</h3>
 <p><strong>Key</strong> 🔑 : <code>UsrClass\Local Settings\Software\Microsoft\Windows\Shell\BagMRU </code>. Values: <code>MRUListEx</code>, <code>NodeSlot</code>, <code>Subkeys</code>.</p>
 <p><strong>Key</strong> 🔑 : <code>UsrClass\Local Settings\Software\Microsoft\Windows\Shell\Bags</code>. Values: <code>Shell</code>, will have folder&rsquo;s GUID.</p>

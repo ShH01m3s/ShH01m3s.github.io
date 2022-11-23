@@ -307,7 +307,36 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Registry is a repository for settings on a Windows machine. Prior to Windows NT, <code>ini</code> files were used. These were substituted with Windows registry to keep initialization and configurations. Some changes are also logged by the registry.</p>
+    <p>Hives:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">C:<span class="se">\D</span>ocuments and Settings <span class="p">|</span>*<span class="se">\n</span>tuser.dat
+</span></span><span class="line"><span class="cl">C:<span class="se">\U</span>sers<span class="se">\ </span><span class="p">|</span>*<span class="se">\ </span>ntuser. dat
+</span></span><span class="line"><span class="cl">C: <span class="se">\U</span>sers<span class="se">\ \*\n</span>tuser.dat. LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl">C: <span class="se">\ </span>Users<span class="se">\ </span><span class="p">|</span>*<span class="se">\ </span>AppData<span class="se">\L</span>ocal<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="p">|</span> UsrClass.dat
+</span></span><span class="line"><span class="cl">C: <span class="p">|</span> Users<span class="se">\|</span>*<span class="se">\ </span>AppData<span class="se">\ </span>Local<span class="se">\M</span>icrosoft Windows<span class="p">|</span> UsrClass.dat.LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\S</span>AM. LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl">C: Windows<span class="se">\ </span>System32<span class="se">\ </span>config SECURITY. LOG<span class="se">\ </span>*
+</span></span><span class="line"><span class="cl">C: Windows<span class="se">\ </span>System32<span class="se">\ </span>config<span class="se">\ </span>SOFTWARE. LOG<span class="p">|</span> *
+</span></span><span class="line"><span class="cl">C: Windows<span class="se">\ </span>System32<span class="se">\ </span>config SYSTEM. LOG<span class="se">\*</span>
+</span></span><span class="line"><span class="cl"> C:<span class="se">\D</span>ocuments and Settings <span class="p">|</span>*<span class="se">\n</span>tuser.dat
+</span></span><span class="line"><span class="cl"> C:<span class="se">\U</span>sers<span class="se">\ </span><span class="p">|</span>*<span class="se">\ </span>ntuser. dat
+</span></span><span class="line"><span class="cl"> C: <span class="se">\U</span>sers<span class="se">\ \*\n</span>tuser.dat. LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl"> C: <span class="se">\ </span>Users<span class="se">\ </span><span class="p">|</span>*<span class="se">\ </span>AppData<span class="se">\L</span>ocal<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="p">|</span> UsrClass.dat
+</span></span><span class="line"><span class="cl"> C: <span class="p">|</span> Users<span class="se">\|</span>*<span class="se">\ </span>AppData<span class="se">\ </span>Local<span class="se">\M</span>icrosoft Windows<span class="p">|</span> UsrClass.dat.LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl"> C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\S</span>AM. LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl"> C: Windows<span class="se">\ </span>System32<span class="se">\ </span>config SECURITY. LOG<span class="se">\ </span>*
+</span></span><span class="line"><span class="cl"> C: Windows<span class="se">\ </span>System32<span class="se">\ </span>config<span class="se">\ </span>SOFTWARE. LOG<span class="p">|</span> *
+</span></span><span class="line"><span class="cl"> C: Windows<span class="se">\ </span>System32<span class="se">\ </span>config SYSTEM. LOG<span class="se">\*</span>
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\ </span>SAM
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\ </span>SECURITY
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\ </span>SOFTWARE
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\ </span>SYSTEM
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\R</span>egBack<span class="se">\\</span>*. LOG<span class="p">|</span>*
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\R</span>egBack<span class="se">\S</span>AM
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\R</span>egBack<span class="se">\S</span>ECURITY
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\R</span>egBack<span class="se">\S</span>OFTWARE
+</span></span><span class="line"><span class="cl">C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\R</span>egBack<span class="se">\S</span>YSTEM
+</span></span><span class="line"><span class="cl">Registryives: Path: C: <span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\c</span>onfig<span class="se">\R</span>egBack<span class="se">\S</span>YSTEMI
+</span></span></code></pre></div><p>Registry is a repository for settings on a Windows machine. Prior to Windows NT, <code>ini</code> files were used. These were substituted with Windows registry to keep initialization and configurations. Some changes are also logged by the registry.</p>
 <blockquote>
 <p>⚠️ If the OS was reinstalled, the registry is backed up (<code>windows.old</code>) [<a href="https://www.coursera.org/learn/windows-registry-forensics/lecture/j8uJp/software-file-subkeys-of-interest">5</a>]. However, Windows.old is almost totally deleted after 28 days [<a href="https://superuser.com/questions/1210451/what-does-windows-old-folder-contain">9</a>] .</p>
 </blockquote>
