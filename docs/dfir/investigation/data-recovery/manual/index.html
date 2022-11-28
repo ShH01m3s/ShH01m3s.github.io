@@ -213,7 +213,17 @@
     </li>
     <li><a href="#exfat-file-recovery">exFAT File Recovery</a></li>
     <li><a href="#recovering-data-from-flash-drives">Recovering Data From Flash Drives</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#references">References</a>
+      <ul>
+        <li><a href="#1">1</a></li>
+        <li><a href="#2">2</a></li>
+        <li><a href="#3">3</a>
+          <ul>
+            <li><a href="#4">4</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -267,7 +277,8 @@
     <p><em>Below are the techniques, tools and instructions regarding data recovery from various file systems and devices. Most of the below techniques apply to HDDs only. Those that are for SDDs or other flash memory devices will be specified in the last section.</em></p>
 <h2 id="intro">Intro</h2>
 <p>There are several ways to recover deleted data. Some of them will vary for different file systems.</p>
-<p>When data is deleted from a flash drive/SSD, all transistors are set to &ldquo;off&rdquo;. It doesn&rsquo;t mean though that data gets <em>deleted</em> the moment it was deleted by the user. Flash memory has a controller with a TRIM function and garbage collector. [<a href="">3</a>]</p>
+<p>When data is deleted from a flash drive/SSD, all transistors are set to &ldquo;off&rdquo;. It doesn&rsquo;t mean though that data gets <em>deleted</em> the moment it was deleted by the user. Flash memory has a controller with a TRIM function and garbage collector. [<a href="#1">3</a>]</p>
+<p>Use <code>sleuthkit</code> to gather some information. <code>mmstat &lt;disk_or_image&gt;</code> shows volume type. I&rsquo;ve run this command, but as I can conclude by the output, it&rsquo;s not volume type, but rather a partition schema. I wonder if these are the same things. <code>mmls -t &lt;partition_schema&gt; &lt;disk_or_image&gt;</code> shows the disk layout including unallocated space. No need to pass <code>&lt;partition_schema&gt;</code>; it&rsquo;s determined by the tool. Hence, no need to run <code>mmstat</code>. From the <code>mmls</code> we need to note the partition offset to use it with other tools. For example, <code>fsstat -o &lt;offset&gt; &lt;disk_or_image&gt;</code> shows detailed information about a partition. The output depends on the file system. For Linux 🐧 partitions, it&rsquo;ll show information about inodes etc. For NTFS - about NTFS metadata, for exFAT - FAT1 and Root directory. The same information but more detail can be viewed with 🛠 Active@Disk Editor. To view deleted files: <code>fls -o &lt;offset&gt; &lt;disk_or_image&gt;</code>. To export a timeline from the volume - <code>fls -r -m &quot;/&quot; -o &lt;offset&gt; &lt;disk_or_image&gt; &gt; bodyfile.txt</code> (<code>-r</code> - recursive, <code>-m</code> - use <code>mactime</code> input format to use with another tool, <code>\</code> - mount point question mark ❓). To create a timeline, run <code>mactime.pl -b &lt;bodyfile&gt; -d &gt; timeline.csv</code> [<a href="#1">1</a>]. To specify the timezone, add <code>-z</code> switch.</p>
 <h2 id="carving">Carving</h2>
 <p>Carving is something that can be used for any file system. There are two methods for carving:</p>
 <ul>
@@ -403,13 +414,18 @@
 <h2 id="recovering-data-from-flash-drives">Recovering Data From Flash Drives</h2>
 <blockquote>
 <p>🧪 I thought that data deleted from a flash drive is not recoverable. However, I was able to recover files from a FAT32 partitioned drive. Why?</p>
-<p>❓ May be it&rsquo;s only until the flash drive is connected to the PC? May be once the power is taken away, the data is wiped?</p>
+<p>❓ May be it&rsquo;s only until the flash drive is connected to the PC? Maybe once the power is taken away, the data is wiped?</p>
 <p>✍️</p>
 </blockquote>
 <h2 id="references">References</h2>
-<p>[<a href="https://www.ufsexplorer.com/articles/chances-for-data-recovery.php">1</a>] Chances for data recovery</p>
-<p>[<a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">2</a>] Windows OS Forensics, Coursera, InfoSec Institute</p>
-<p>[<a href="">3</a>] Digital Archaeology by M. Graves</p>
+<h3 id="1">1</h3>
+<p>Windows Forensics Cookbook</p>
+<h3 id="2">2</h3>
+<p><a href="https://www.ufsexplorer.com/articles/chances-for-data-recovery.php">Chances for data recovery</a></p>
+<h3 id="3">3</h3>
+<p><a href="https://www.coursera.org/learn/windows-os-forensics/lecture/VMUiU/ntfs-file-recovery">Windows OS Forensics, Coursera, InfoSec Institute</a></p>
+<h4 id="4">4</h4>
+<p>Digital Archaeology by M. Graves</p>
   </div>
 </article>
 </div>
@@ -441,7 +457,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
