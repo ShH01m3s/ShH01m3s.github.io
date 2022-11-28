@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📜 Artefacts DB - Analyst</title>
+  <title>Office Documents - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -184,9 +184,21 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/"> 👈🏼 Back to </br> 🔎 Incident Investigation </a>
+   <a href="/docs/dfir/investigation/artefacts/files/"> 👈🏼 Back to </br> File Forensics </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#file-structure">File Structure</a></li>
+    <li><a href="#macros">Macros</a></li>
+    <li><a href="#templates">Templates</a></li>
+    <li><a href="#metadata">Metadata</a></li>
+    <li><a href="#malicious-documents">Malicious Documents</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -194,123 +206,48 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Office Documents</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="file-structure">File Structure</h2>
+<h2 id="macros">Macros</h2>
+<p>A letter <code>m</code> at the end of extension means that doc has some macros inside. Not always when there is some macros inside, the doc has a different extension.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">oleid &lt;docname&gt; <span class="c1"># see info about a file </span>
+</span></span><span class="line"><span class="cl">oleobj &lt;docname&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">oledump.py -s <span class="m">3</span> --vbadecompresscorrupt report.docm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">olevba &lt;docname&gt; <span class="c1"># get the macro from the doc</span>
+</span></span></code></pre></div><h2 id="templates">Templates</h2>
+<p>Another way to get naughty for an office doc is to use remote templates. You can see many legit templates in Word GUI when you open the program (without opening any file). Open <code>_rels</code> folder, <code>settings.xml.rels</code> file, and check the <code>Relationship</code> tag and <code>Target</code> attribute. Check out the link to decide if this is malware. More <a href="https://pentestlab.blog/2019/12/11/persistence-office-application-startup/">here</a>.</p>
+<h2 id="metadata">Metadata</h2>
+<h2 id="malicious-documents">Malicious Documents</h2>
+<p>You can use <code>oletools</code> (cross-platform) to investigate malicious documents. Office docs can also be manually unzipped with some unarchive and inspected. Alternatively, use <code>oletools</code>.</p>
+<p>See more <a href="/docs/reverse/malware-analysis/docs">here</a>.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
 
- 
- <h1 class="title">📜 Artefacts DB</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/install-exec/"> Evidence Of Installation And Execution</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/files/"> File Forensics</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/recentaccess/"> Recent Files And Folders</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/search/"> Search History</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/stats/"> User Statistics</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/core/win-core/"> Windows Core Processes</a></h2> 
-    <p> <p><em>There are two broad categories of Windows core processes. Processes that initialize system environment and those that initialize the user environment. Whatever is the category, you need to know them well in order to detect abnormal things.</em></p></p>
-
-
-
-
-
-<style>
-    body {
-    color: #212121;
-}
-
-h2 {
-    font-weight: bold;
-    
-}
-
- 
- 
- 
-.pagination {
-    display: flex;
-    list-style: none;
-    border-radius: .25rem;
-    margin: 20px 0;
-    padding: 0;
-    justify-content: center;
-}
-
-.page-link {
-    position: relative;
-    display: block;
-    padding: .75rem 1rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #2bbc8a;
-    background-color: #fff;
-}
-
-.homepage .page-link,
-.listing .page-link {
-    background-color: #fff;
-}
-
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
-
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #2bbc8a;;
-    border-color:#2bbc8a;
-    border-radius: 30px;
-}
-
-</style>
-<nav aria-label="page navigation">
-    <ul class="pagination">
-        
-        
-        <li class="page-item"><a href="/docs/dfir/investigation/artefacts/" rel="first" class="page-link">« First</a></li>
-        
-
-        
-        <li class="page-item"><a href="/docs/dfir/investigation/artefacts/page/2/" rel="prev" class="page-link">‹ Prev</a></li>
-        
-
-        
-            
-             
-            <li class="page-item"><a href="/docs/dfir/investigation/artefacts/" class="page-link">1</a></li>
-            
-        
-            
-             
-            <li class="page-item"><a href="/docs/dfir/investigation/artefacts/page/2/" class="page-link">2</a></li>
-            
-        
-             
-            <li class="page-item active"><a href="/docs/dfir/investigation/artefacts/page/3/" class="page-link">3</a></li>
-            
-        
-
-        
-
-        
-        
-    </ul>
-</nav>
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

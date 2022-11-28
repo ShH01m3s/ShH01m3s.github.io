@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📜 Artefacts DB - Analyst</title>
+  <title>📘 Manual - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -184,9 +184,23 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/"> 👈🏼 Back to </br> 🔎 Incident Investigation </a>
+   <a href="/docs/dfir/investigation/artefacts/files/"> 👈🏼 Back to </br> File Forensics </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#userfolders">UserFolders</a></li>
+        <li><a href="#bin">Bin</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -194,123 +208,55 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">📘 Manual</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="approach">Approach</h2>
+<p>With the files, you&rsquo;d typically look out for several things:</p>
+<ul>
+<li>File system events/logs/registry (like <code>$MFT</code> for Windows or <code>fseventsd</code> for macOS), which could help build a timeline of when the file was created/deleted/modified.</li>
+<li>File metadata. Sometimes metadata occupies more space than the file itself. It can contain timestamps (which could be different from the file system ones and be an indicator that those were tampered with), notes, author and event modification history.</li>
+<li>File structure. Look out for steganography techniques used when something is hidden in a legit file or some indication that the file is a polygon (a valid file for different formats, like a php+png or bmp+php).</li>
+<li>File contents. Apart from the obvious (reading the file), look out for some stego techniques (if applicable) like data written in white or actual message mixed with garbage etc.</li>
+</ul>
+<p>Hashing only applies to the file contents but not to the file name since the filename is stored in the file table, and the file itself is stored on the file system. Running <code>ls -la</code> shows information about the files, including the hidden ones. You can run properties on a Windows machine to see the same data on the file. To see hidden files on the Windows machine, follow the <a href="https://support.microsoft.com/en-us/windows/view-hidden-files-and-folders-in-windows-10-97fbc472-c603-9d90-91d0-1166d1d9f4b5#:~:text=Open%20File%20Explorer%20from%20the,folders%2C%20and%20drives%20and%20OK.">instructions</a>.</p>
+<p>Looking for file permissions changes is significant (owners or write/read/execute permissions added).</p>
+<h2 id="windows">Windows</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">C:<span class="se">\$</span>MFT
+</span></span><span class="line"><span class="cl">C:<span class="se">\$</span>LogFile
+</span></span><span class="line"><span class="cl">C:<span class="se">\$</span>Extend<span class="se">\$</span>UsnJrnl:<span class="nv">$J</span>
+</span></span></code></pre></div><h3 id="userfolders">UserFolders</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">C: <span class="se">\U</span>sers<span class="se">\D</span>esktop
+</span></span><span class="line"><span class="cl">C: <span class="se">\U</span>sers<span class="se">\D</span>ocuments
+</span></span><span class="line"><span class="cl">C: <span class="se">\U</span>sers<span class="se">\D</span>ownloads
+</span></span><span class="line"><span class="cl">C: <span class="se">\U</span>sers Dropbox
+</span></span></code></pre></div><h3 id="bin">Bin</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">C:<span class="se">\$</span>Recycle.Bin<span class="se">\*</span>
+</span></span><span class="line"><span class="cl">C:<span class="se">\R</span>ECYCLER<span class="se">\*</span>
+</span></span></code></pre></div><h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
 
- 
- <h1 class="title">📜 Artefacts DB</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/install-exec/"> Evidence Of Installation And Execution</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/files/"> File Forensics</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/recentaccess/"> Recent Files And Folders</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/search/"> Search History</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/stats/"> User Statistics</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/core/win-core/"> Windows Core Processes</a></h2> 
-    <p> <p><em>There are two broad categories of Windows core processes. Processes that initialize system environment and those that initialize the user environment. Whatever is the category, you need to know them well in order to detect abnormal things.</em></p></p>
-
-
-
-
-
-<style>
-    body {
-    color: #212121;
-}
-
-h2 {
-    font-weight: bold;
-    
-}
-
- 
- 
- 
-.pagination {
-    display: flex;
-    list-style: none;
-    border-radius: .25rem;
-    margin: 20px 0;
-    padding: 0;
-    justify-content: center;
-}
-
-.page-link {
-    position: relative;
-    display: block;
-    padding: .75rem 1rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #2bbc8a;
-    background-color: #fff;
-}
-
-.homepage .page-link,
-.listing .page-link {
-    background-color: #fff;
-}
-
-.page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
-
-.page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #2bbc8a;;
-    border-color:#2bbc8a;
-    border-radius: 30px;
-}
-
-</style>
-<nav aria-label="page navigation">
-    <ul class="pagination">
-        
-        
-        <li class="page-item"><a href="/docs/dfir/investigation/artefacts/" rel="first" class="page-link">« First</a></li>
-        
-
-        
-        <li class="page-item"><a href="/docs/dfir/investigation/artefacts/page/2/" rel="prev" class="page-link">‹ Prev</a></li>
-        
-
-        
-            
-             
-            <li class="page-item"><a href="/docs/dfir/investigation/artefacts/" class="page-link">1</a></li>
-            
-        
-            
-             
-            <li class="page-item"><a href="/docs/dfir/investigation/artefacts/page/2/" class="page-link">2</a></li>
-            
-        
-             
-            <li class="page-item active"><a href="/docs/dfir/investigation/artefacts/page/3/" class="page-link">3</a></li>
-            
-        
-
-        
-
-        
-        
-    </ul>
-</nav>
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
