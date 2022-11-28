@@ -187,7 +187,11 @@
    <a href="/docs/blog/"> 👈🏼 Back to </br> Blog ✍️ </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#ps">P.S.</a></li>
+  </ul>
+</nav>
  </aside>
 </div>
 
@@ -268,7 +272,17 @@ Approximately by that time I’ve reanimated my husband’s MacBook after a long
 <p>is a good article about setting up the website which not only gives instructions, but also explains them. And <a href="https://richpauloo.github.io/2019-11-17-Linking-a-Custom-Domain-to-Github-Pages/">here</a> is an article about setting up a custom domain. Also, in my case it was necessary to delete a parking CNAME record - the problem and solution are described <a href="https://github.community/t/certificate-request-error-is-persistent-tls-certificate-cant-be-provisioned/11008">here</a>.</p>
 <p>In case someone finds that interesting or I will need it in future.</p>
 <p>Thanks the creators of Wordpress and Webnode for an easy and nice start! I would like to give my special thanks to the creators of Hugo, GitPages and this theme for making it possible to do something that difficult and convoluted so quickly and easily! 💖</p>
-
+<h2 id="ps">P.S.</h2>
+<p>Remove existing files from the repository:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+</span></span></code></pre></div><p>Add this line:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">.DS_Store
+</span></span></code></pre></div><p>to the file <code>.gitignore</code>, which can be found at the top level of your repository (or create the file if it isn&rsquo;t there already). You can do this easily with this command in the top directory:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo .DS_Store &gt;&gt; .gitignore
+</span></span></code></pre></div><p>Then commit the file to the repo:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git add .gitignore
+</span></span><span class="line"><span class="cl">git commit -m &#39;.DS_Store banished!&#39;
+</span></span></code></pre></div>
   </div>
 </article>
 </div>

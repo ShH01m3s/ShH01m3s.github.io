@@ -190,6 +190,7 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#paths">Paths</a></li>
+    <li><a href="#event-viewer-">Event Viewer 🌈</a></li>
     <li><a href="#-tools">🛠 Tools</a></li>
     <li><a href="#codes">Codes</a>
       <ul>
@@ -250,6 +251,7 @@
         </li>
       </ul>
     </li>
+    <li><a href="#excersice">Excersice</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -318,6 +320,20 @@
 <li><code>LogFiles\*etl\*</code></li>
 <li><code>{\*</code></li>
 </ul>
+<h2 id="event-viewer-">Event Viewer 🌈</h2>
+<blockquote>
+<p><em>❓How could an attacker delete entries from the Event Viewer and what level of access would they need?</em></p>
+</blockquote>
+<p>To configure what&rsquo;s being logged and what&rsquo;s ignored, set up the appropriate policies here -<code>secpol.msc</code>. Config example:</p>
+<ol>
+<li>Audit account logon events - success + failure</li>
+<li>Audit account management - success + failure</li>
+<li>Audit logon events - success + failure</li>
+<li>Audit object accesss - failure (too many successes will be generated)</li>
+<li>Audit privileged use - success + failure</li>
+<li>Audir system events - success + failure</li>
+</ol>
+<p>This might chew up lots of disk space, so be careful. I might try this configs to look for network events, I could not see before.</p>
 <h2 id="-tools">🛠 Tools</h2>
 <p><strong>Event Log Explorer</strong>. Has a free version for non-commercial use. Allow creating lots of filters and has a GUI.</p>
 <p>Eric Zimmerman&rsquo;s <strong>Evtxecmd</strong> tool. Console tool that can export the result in a csv file. This csv can then be loaded into TimeLine explorer for further analysis.</p>
@@ -404,6 +420,19 @@
 <p>System 6416</p>
 <h4 id="20001">20001</h4>
 <h4 id="20002">20002</h4>
+<h2 id="excersice">Excersice</h2>
+<p>I&rsquo;ve set up my lab as vaguely described <a href="/docs/blog/2021/03/how-i-have-built-my-lab">here</a>. Then, I&rsquo;ve logged into the user <code>sherlock</code> account. Now, I want to see this even in the Event Viewer. Most probably, it&rsquo;s the Security of System logs. I have wrong time settings on the both machines, but I don&rsquo;t think it&rsquo;s a problem for now. I&rsquo;ve noticed some Logon of type 3 in the logs, but the user is not specified. I don&rsquo;t quite remember, which id the network logon type has. I think it&rsquo;s 4&hellip; .</p>
+<p>No, logon type 3 is the network logon. Weird. It happens very often.</p>
+<p>Since there is no SID shown, I suspect that might be a system acc.</p>
+<p>Sorting took some time, and I have noticed that Logon events have these IDs: 4624, 4634, 4625, 4648. Now I am going to filter by these IDs and revert to sorting by date and time. Nothing was found. I&rsquo;ve cleared IDs, leaving just the user name. The filter returned no results as well.</p>
+<p>However, I&rsquo;ve also noticed, that even though no username was specified (<code>N/A</code>), the PC name was mentioned: SHERLOCKPC$. Using this to filter the logs, resulted in null results. Tried SHERLOCKPC as well - nothing.</p>
+<p>Some packet was blocked.</p>
+<p>Clear log. Then try logging in several times with the wrong password. Then log in with the correct one. Observe the logs. Well, seems like <code>Logon</code> and <code>Logoff</code> events are not initiated by the user. So, the login attempts are actually <code>Kerberos Authentication Service</code>. Now it makes more sense. Let&rsquo;s filter by this event (4768 - success and 4771 - failure). After successful authentication, we have Kerberos Service Ticket Operations (4769). And now I have it!</p>
+<p>I&rsquo;ve now triggered several authentication failures and one authentication success. And there it is. I have 2 events 4771 (failures) then one event 4768 (success) followed by three events 4769. Why three?</p>
+<p>Every minute 4624 and 4634 events are created, meaning new session creating. It seems so that every time I do something in my user account, the events 4624 and 4634 emerge in the logs. Or just every minute.</p>
+<p>Let&rsquo;s go to the user PC (sherlock) and see his logs. It says that access was denied (either the query is too long or the daemon is not running). Of course, the first thing to do was to check whether the service is really running, but it was. So, the problem was something else. Query too long? Don&rsquo;t think so, since I have not created any views so far. I tried to clear the logs, but failed. May be it&rsquo;s because the DC is shutdown, or because the user doesn&rsquo;t have the rights to do so. The only way to check that is to turn on the DC.</p>
+<p>Can&rsquo;t find the event id that is associated with this activity. Thought 5152 was, but then I saw it appeared on its own.</p>
+<p>However System logs had one interesting entry. But failing again has not triggered it.</p>
 <h2 id="references">References</h2>
 <p>📚 <a href="https://cybersecuritynews.com/windows-event-log-analysis/">https://cybersecuritynews.com/windows-event-log-analysis/</a></p>
 

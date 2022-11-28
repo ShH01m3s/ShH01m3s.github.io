@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>🔎 Incident Investigation - Analyst</title>
+  <title>Media Sterilisation Software - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -184,9 +184,19 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+   <a href="/docs/dfir/investigation/arsenal/purple/"> 👈🏼 Back to </br> 🔬 Purple Team Arsenal </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#methodology-for-testing">Methodology for testing</a></li>
+    <li><a href="#active-killdisk">Active@ KillDisk</a></li>
+    <li><a href="#diskutil"><code>diskutil</code></a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -194,40 +204,58 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Media Sterilisation Software</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="methodology-for-testing">Methodology for testing</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Write several files to a drive.</li>
+<li><input disabled="" type="checkbox"> Run the tool once, user zeroing option (overwrite all with zeros).</li>
+<li><input disabled="" type="checkbox"> Use HxD for Windows to calculate the Checksum64 for the entire physical drive (should be all zeroes).</li>
+<li><input disabled="" type="checkbox"> Use HxD or Active@ DistEditor to see if there is some garbage left.</li>
+</ul>
+<h2 id="active-killdisk">Active@ KillDisk</h2>
+<p>Last Tool check: 📆 <code>17/07/2022</code>:</p>
+<ul>
+<li>✅ Windows
+<ul>
+<li>Active@ KillDisk 10.2.8</li>
+<li>macOS Monterey 12.3.1 (21E258) - host.</li>
+<li>Parallels Desktop 17 for Mac, Windows 11 - guest</li>
+</ul>
+</li>
+<li>➖ Active@ KillDisk for macOS, Freeware, Version 14.0.</li>
+</ul>
+<h2 id="diskutil"><code>diskutil</code></h2>
+<p>Last Tool check: 📆 <code>17/07/2022</code>:</p>
+<ul>
+<li>✅ macOS Monterey 12.3.1 (21E258)</li>
+</ul>
+<p><code>diskutil</code>, comes with macOS, version unknown. After 1 round of <code>diskutik zeroDisk</code> has all <code>0</code> Checksum64; therefore, the cleanup works as expected for 1 round (flash drive).</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
 
- 
- <h1 class="title">🔎 Incident Investigation</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/methodology/"> 🏃‍♂️ Recent Activity Methodology</a></h2> 
-    <p> <p><em>Basically, all of the artefacts that are listed in the Investigation section fall under the category &ldquo;user activity&rdquo; one way or another. Even if some process spawned some other process, somewhere in the past the user interaction was still required. That&rsquo;s why I find it so hard to find the perfect categorization. I&rsquo;ve decided to devote this section to common strategies of how one would investigate user activity and which artefacts they would use at what point in time.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/collection/"> 🗳 Evidence Collection And Preservation</a></h2> 
-    <p> This section is under question. Probably need to sort all between different artefacts. Hard to use currently.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/"> 📜 Artefacts DB</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/antiforensics/"> 🕶️ Anti-Forensics</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/"> 🩻 Data Recovery</a></h2> 
-    <p> <p><em>In order to detect and response to incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/osint/"> 📚 OSINT Techniques</a></h2> 
-    <p> <p><em>This all about searching for the information publicly available.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/observations/"> 👀 Interesting Observations</a></h2> 
-    <p> <p><em>I will be collecting some random stuff I&rsquo;ve noticed about people&rsquo;s usage of IT systems.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/arsenal/"> 🪓🔬Tools And Techniques Analysis</a></h2> 
-    <p> This is purely a research section, where I analyse investigation tools (their forensic footprint and effectiveness) and the red team arsenal (what artefact their tools and payloads are likely to leave, default settings, common patterns etc.</p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

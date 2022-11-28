@@ -189,7 +189,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#system--application-logs">System &amp; Application Logs</a></li>
+    <li><a href="#varlog-"><code>/var/log</code> 🐧</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -233,9 +233,30 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="system--application-logs">System &amp; Application Logs</h2>
-<p><strong>Path</strong> 🛣: <code>/var/log/*</code>
-List of the logs and what they are about:</p>
+    <h2 id="varlog-"><code>/var/log</code> 🐧</h2>
+<p><code>/etc/rsyslog.conf</code> - see the log owners, what specific logs are logging and where the additional configurations are stored.</p>
+<p><code>cd rsyslog.d &amp;&amp; less 50-default.conf</code> - to see additional configurations: what specific logs are logging, how they are called and where to find them.</p>
+<p><code>sudo less syslog</code> - most of the system logs.</p>
+<p><code>auth.log</code> - authorization messages</p>
+<p><code>kern.log</code> - kernel messages</p>
+<p>To configure what is being logged, how and when, go to <code>/etc/audit</code>. <code>apt-cache search auditd</code> (if it&rsquo;s not installed). <code>nano audit.rules</code> files to open. Config example:</p>
+<ol>
+<li><code>-w /etc/shadow</code> to keep track of the users added/deleted/modified. <code>w</code> - watch file:
+<ol>
+<li><code>-p</code> - watch for permission;</li>
+<li><code>wa</code> - look for writes;</li>
+<li><code>-k &lt;name&gt;</code> - give the name of this log entries.</li>
+</ol>
+</li>
+<li><code>a always,exit</code> - look for actions:
+<ol>
+<li>generate alerts <code>always</code>;</li>
+<li>look for specific syscall <code>-S clock_settime</code>;</li>
+<li><code>-k &lt;name</code> - give the name of this log entries, for example, <code>timechange</code>.</li>
+</ol>
+</li>
+</ol>
+<p>To start auditing, run the daemon: <code>service auditd start</code>. The results are stored in <code>/etc/audit.log</code>.</p>
 <h2 id="references">References</h2>
 <p><a href="https://xakep.ru/2021/09/16/linux-audit/">https://xakep.ru/2021/09/16/linux-audit/</a></p>
 
