@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Tools And Techniques Analysis - Analyst</title>
+  <title>Cobalt Strike - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -184,9 +184,25 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/"> 👈🏼 Back to </br> 🔎 Incident Investigation </a>
+   <a href="/docs/dfir/investigation/tools/red/dns/"> 👈🏼 Back to </br> Red Team Tools </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#ioc">IoC</a></li>
+    <li><a href="#components">Components</a>
+      <ul>
+        <li><a href="#team-server">Team server</a></li>
+        <li><a href="#beacon">BEACON</a></li>
+        <li><a href="#listener">Listener</a></li>
+        <li><a href="#artefact-kit">Artefact Kit</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -194,22 +210,71 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Cobalt Strike</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="ioc">IoC</h2>
+<ul>
+<li>Open TCP connection, port <code>50050</code></li>
+<li>Get a default CS certificate</li>
+</ul>
+<h2 id="components">Components</h2>
+<p>For full information on how this works, see the <a href="#1">article</a> on Mandiant.</p>
+<h3 id="team-server">Team server</h3>
+<blockquote>
+<p>⛔️ <em>Linux server only for the team server.</em></p>
+</blockquote>
+<h3 id="beacon">BEACON</h3>
+<blockquote>
+<p>⛔️ <em>BEACON (agent) runs in memory, so, to detect it, a RAM dump is required.</em></p>
+</blockquote>
+<h3 id="listener">Listener</h3>
+<p>Used by BEACON to connect to the Team server.</p>
+<ul>
+<li>HTTP/HTTPS</li>
+<li>DNS
+<ul>
+<li>Hybrid (DNS+HTTP)</li>
+<li>Pure DNS</li>
+</ul>
+</li>
+<li>SMB</li>
+<li>Raw TCP</li>
+<li>Foreign (to talk to Meterpreter)</li>
+<li>External (reverse TCP)</li>
+</ul>
+<h3 id="artefact-kit">Artefact Kit</h3>
+<p>To build a loader for the BEACON shellcode.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    <h3 id="1httpswwwmandiantcomresourcesblogdefining-cobalt-strike-components"><a href="https://www.mandiant.com/resources/blog/defining-cobalt-strike-components">1</a></h3>
+<p>Defining Cobalt Strike Components So You Can BEA-CONfident in Your Analysis. This article already contains a heavy analysis of the tool.</p>
+<h3 id="2httpsmalpediacaadfkiefraunhoferdedetailswincobalt_strike"><a href="https://malpedia.caad.fkie.fraunhofer.de/details/win.cobalt_strike">2</a></h3>
+<p>Cobalt Strike, Malpedia</p>
+<h3 id="3httpswwwcobaltstrikecomoffensive-security-advanced-bundle-trial"><a href="https://www.cobaltstrike.com/offensive-security-advanced-bundle-trial/">3</a></h3>
+<p>Cobalt Strike Trial</p>
 
- 
- <h1 class="title">Tools And Techniques Analysis</h1> 
- 
+</details>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/tools/purple/"> Purple Team Arsenal</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/tools/red/"> Red Team Arsenal</a></h2> 
-    <p> </p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
