@@ -282,7 +282,12 @@ Approximately by that time I’ve reanimated my husband’s MacBook after a long
 </span></span></code></pre></div><p>Then commit the file to the repo:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git add .gitignore
 </span></span><span class="line"><span class="cl">git commit -m &#39;.DS_Store banished!&#39;
-</span></span></code></pre></div>
+</span></span></code></pre></div><p>Obsidian ruins image links when moving the objects. So, to find all of them:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -r <span class="s2">&#34;img\](&#34;</span> . <span class="p">|</span> grep -v images <span class="p">|</span> grep -v https &gt; allimages.txt
+</span></span></code></pre></div><p>Also, keep in mind that the links should be of the following format:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">!<span class="o">[</span>img_name_no_spaces<span class="o">](</span>relative/or/absolute/path/to/image.png<span class="o">)</span>
+</span></span></code></pre></div><p>While Obsidian does something like <code>![[image.png]]</code> when you drag and drop.</p>
+
   </div>
 </article>
 </div>
