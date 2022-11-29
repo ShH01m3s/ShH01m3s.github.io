@@ -191,6 +191,12 @@
   <ul>
     <li><a href="#default-configurations">Default Configurations</a></li>
     <li><a href="#custom-config">Custom Config</a></li>
+    <li><a href="#dangerous-policies">Dangerous Policies</a>
+      <ul>
+        <li><a href="#ssh-access">SSH Access</a></li>
+        <li><a href="#network-configuration">Network Configuration</a></li>
+      </ul>
+    </li>
     <li><a href="#-btfm">📘 BTFM</a>
       <ul>
         <li><a href="#get-credentials">Get credentials</a></li>
@@ -264,6 +270,12 @@
 <h2 id="custom-config">Custom Config</h2>
 <p>If SSM is enabled (System Manager Service), then activity is logged in CloudTrail. At least,  <code>AmazonSSMManagedInstanceCore</code> needs to be attached to the instance profile role. Look at the policies and which users are granted the access. Also, commands run can be also restricted.</p>
 <p>If the organization uses Terraform, you could look for any resources that were <strong>NOT</strong> created via Terraform.</p>
+<h2 id="dangerous-policies">Dangerous Policies</h2>
+<p>Policies, security groups and roles define what level and type of access and to which resources this entity has. That&rsquo;s why overpermissive policies or overpowerful roles might cause the most damage if compromised.</p>
+<h3 id="ssh-access">SSH Access</h3>
+<p>One of the worst since this permission would give the attacker access to the OS level of the EC2 instance. Of course, they would require a password, that&rsquo;s why they would try bruteforcing it first and this is where a good password policy would really pay off since you would have more time to detect and respond to the alert. What if you still need SSH access to the machine? Make sure to use VERY complex passwords, or much better - public key authentication, or better still use the ssh from the AWS GUI Console and block any SSH from outside AWS.The more security - the less usability and the fewer functionality. But it&rsquo;s better then biting your elbows in the court afterwards. Even if you don&rsquo;t have anything of much value on this particular instance, it doesn&rsquo;t mean the attacker won&rsquo;t be able to move laterally. Here are several techniques from MITRE: <a href="https://attack.mitre.org/techniques/T1534/">https://attack.mitre.org/techniques/T1534/</a>, <a href="https://attack.mitre.org/techniques/T1080/">https://attack.mitre.org/techniques/T1080/</a> and <a href="https://attack.mitre.org/techniques/T1550/">https://attack.mitre.org/techniques/T1550/</a> with examples.</p>
+<h3 id="network-configuration">Network Configuration</h3>
+<p>Some policies allow an entity change network settings.</p>
 <h2 id="-btfm">📘 BTFM</h2>
 <h3 id="get-credentials">Get credentials</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Get current creds and region for aws CLI</span>
