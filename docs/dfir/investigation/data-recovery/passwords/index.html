@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Passwords Cracking - Analyst</title>
+  <title> - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -189,6 +189,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#weight-100">h&mdash;
+title: &ldquo;Passwords Cracking&rdquo;
+date: 2022-07-28T15:14:39+10:00
+draft: false
+weight: 100</a></li>
     <li><a href="#zip">zip</a></li>
     <li><a href="#-tools">🛠 Tools</a>
       <ul>
@@ -208,7 +213,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Passwords Cracking</h1>
+<h1 class="title"></h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -225,27 +230,12 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="zip">zip</h2>
-<p>Install John the Ripper on macOS - <a href="https://www.google.co.uk/search?source=hp&amp;ei=xOZoXtfNJIu53AOriq2ICg&amp;q=john+the+ripper+install+macos&amp;btnK=Google+Search&amp;oq=fridump.py++dow&amp;gs_l=psy-ab.3.0.33i160.3716.6053..7545...0.0..0.83.326.5......0....2j1..gws-wiz.EKLnxRYpE78#fpstate=ive&amp;vld=cid:6d5ad76b,vid:4CnjjpWYK90">https://www.google.co.uk/search?source=hp&amp;ei=xOZoXtfNJIu53AOriq2ICg&amp;q=john+the+ripper+install+macos&amp;btnK=Google+Search&amp;oq=fridump.py++dow&amp;gs_l=psy-ab.3.0.33i160.3716.6053..7545...0.0..0.83.326.5......0....2j1..gws-wiz.EKLnxRYpE78#fpstate=ive&amp;vld=cid:6d5ad76b,vid:4CnjjpWYK90</a>. Download the <code>7z2john.pl</code> script from <a href="https://github.com/openwall/john/blob/bleeding-jumbo/run/7z2john.pl">https://github.com/openwall/john/blob/bleeding-jumbo/run/7z2john.pl</a>. Other scripts - <a href="https://github.com/openwall/john">https://github.com/openwall/john</a>.
-<code>7z2john.pl</code> script (John the Ripper tool) that can extract the hash of the password from the <code>zip</code> file.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">7z2john.pl /path/to/zip.7z &gt; zip.hash
-</span></span><span class="line"><span class="cl">sudo hashcat -h <span class="p">|</span> grep 7-zip
-</span></span><span class="line"><span class="cl">hashcat -m <span class="m">11600</span> /path/to/hash /path/to/wordlist
-</span></span></code></pre></div><blockquote>
-<p>⛔️ I installed perl with homebrew, but I kept getting <code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /opt/homebrew/opt/perl/lib/perl5/site_perl/5.36/darwin-thread-multi-2level /opt/homebrew/opt/perl/lib/perl5/site_perl/5.36 /opt/homebrew/opt/perl/lib/perl5/5.36/darwin-thread-multi-2level /opt/homebrew/opt/perl/lib/perl5/5.36 /opt/homebrew/lib/perl5/site_perl/5.36/darwin-thread-multi-2level /opt/homebrew/lib/perl5/site_perl/5.36) at ./7z2john.pl line 6. BEGIN failed--compilation aborted at ./7z2john.pl line 6.</code></p>
-<p>✍🏻 So, I have spent several hours on that thing that involved a lot of googling.  I needed to install the library that Perl complained to be missing. But that didn&rsquo;t work. I tried running <code>sudo cpan Compress::Raw::Lzma</code>, <code>cpan Compress::Raw::Lzma</code>, <code>sudo port install lzma</code>, <code>sudo port install p5.30-compress-raw-lzma</code> - same issue. As if the script doesn&rsquo;t see the files I keep installing.</p>
-<p>From the <a href="https://github.com/theos/theos/issues/273">https://github.com/theos/theos/issues/273</a> issue of another program I figured out that sha-bang line <code>#!/usr/bin/env perl</code> at the beginning of the script points to the perl version defined in environment variables. However, there was nothing in <code>env</code> about perl. Still, I have decided to change it to <code>#!/usr/bin/perl</code> to point to the system perl explicitly. The error changed a little. That means that the script will use system perl executable and not the one installed by <code>homebrew</code>.</p>
-<p><code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /Library/Perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30 /Network/Library/Perl/5.30/darwin-thread-multi-2level /Network/Library/Perl/5.30 /Library/Perl/Updates/5.30.3/darwin-thread-multi-2level /Library/Perl/Updates/5.30.3 /System/Library/Perl/5.30/darwin-thread-multi-2level /System/Library/Perl/5.30 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level /System/Library/Perl/Extras/5.30) at ./7z2john.pl line 6. BEGIN failed--compilation aborted at ./7z2john.pl line 6.</code></p>
-<p>Ok, now it looks at the system perl folder, but it still can&rsquo;t find it.</p>
-<p>Unfortunately, no single solution on the Internet was helpful. I have used this issue from another program <a href="https://github.com/theos/theos/issues/273">https://github.com/theos/theos/issues/273</a>, <a href="https://perlmaven.com/how-to-change-inc-to-find-perl-modules-in-non-standard-locations">https://perlmaven.com/how-to-change-inc-to-find-perl-modules-in-non-standard-locations</a>, as well as some other resources that are hard to remember.</p>
-<p>Then,I noticed that in the error message, there are several paths mentioned and some mysterious <code>@INC</code>. It seemed like this <code>@INC</code> was something similar to the environment variable. So, I googled it, and that was the case. It looked like perl was trying to find the missing module at several paths listed in the error message and could not. This <code>@INC</code> variable was reading from the <code>PERL5LIB</code> environment variable and would search whatever directory is mentioned there. But I didn&rsquo;t have <code>PERL5LIB</code> variable defined. And what value do I assign to it? What&rsquo;s the path of this stupid <code>Lzma.pm</code> module anyway?</p>
-<p>From the error message, it was clear that perl was looking for <code>Lzma.pm</code> file. So, I ran <code>find . -name &quot;*Lzma.pm&quot; | grep -i lzma</code> to see where those files are stored. I have got several different locations (because there is system Perl and also the one installed with <code>brew</code> earlier). I have tried them all, and the following one worked: <code>export PERL5LIB=/opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2level</code>. ❗️Make sure you do not include the <code>Compress/Raw/</code> part of the path.</p>
-<p>Now, it works. 🥳</p>
-<p>Trying to load this script with the default sha-bang and the system path export var results in <code>Lzma.c: loadable library and perl binaries are mismatched (got first handshake key 0xc700080, needed 0xfc00080)</code> error.</p>
-<p>Also, when I tried uninstalling <code>p5.30-compress-raw-lzma</code>, I got <code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30 /Network/Library/Perl/5.30/darwin-thread-multi-2level /Network/Library/Perl/5.30 /Library/Perl/Updates/5.30.3/darwin-thread-multi-2level /Library/Perl/Updates/5.30.3 /System/Library/Perl/5.30/darwin-thread-multi-2level /System/Library/Perl/5.30 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level /System/Library/Perl/Extras/5.30) at ./7z2john.pl line 6.</code> again. So, <code>sudo port install p5.30-compress-raw-lzma</code> was crucial as well. And these operations could be done safely - <code>sudo port uninstall lzma</code>, <code>brew remove perl</code>.</p>
-<p>To make this setting persistent, run <code>export PERL5LIB=/opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2leveln &gt;&gt; ~/.zshrc</code>.</p>
-<p>I hope that helps someone 🙂</p>
-</blockquote>
+    <h2 id="weight-100">h&mdash;
+title: &ldquo;Passwords Cracking&rdquo;
+date: 2022-07-28T15:14:39+10:00
+draft: false
+weight: 100</h2>
+<h2 id="zip">zip</h2>
 <h2 id="-tools">🛠 Tools</h2>
 <h3 id="john-the-ripper-password-cracker">John the Ripper password cracker</h3>
 <h3 id="hashcat">hashcat</h3>
