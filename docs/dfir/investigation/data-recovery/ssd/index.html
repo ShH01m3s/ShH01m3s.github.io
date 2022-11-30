@@ -297,11 +297,11 @@
 <p><img src="images/lnu.png" alt="lnu"></p>
 <h2 id="main-characteristics">Main Characteristics</h2>
 <h3 id="wear-leveling">Wear Leveling</h3>
-<p>The data is spread evenly accross  the chips. That gives birth to certain problems like the one described on Magnet Summit 2021 (see <a href="/docs/dfir/antiforensics/cmd42-lock">here</a>). This is needed because each chip has a finite amount of writes to it.</p>
+<p>The data is spread evenly across the chips. That gives birth to certain problems like the one described at Magnet Summit 2021 (see <a href="/docs/dfir/antiforensics/cmd42-lock">here</a>). This is needed because each chip has a finite amount of writes to it.</p>
 <h3 id="trim">Trim</h3>
-<p>SSD&rsquo;s controller identifies areas of the chips no longer in use and wipes them.</p>
+<p>SSD&rsquo;s controller identifies areas of the chips no longer in use and wipes them. The TRIM command is used to proactively inform an SSD when blocks of data are no longer in use, and therefore can be wiped, to reduce future wipe time.</p>
 <h3 id="garbage-collection">Garbage Collection</h3>
-<p>Re-organizes the data and then wipes the chips. So, the hash of the drive is going to be different from time to time. Write blocker is of no use here, since these changes are happening internally.</p>
+<p>Re-organizes the data and then wipes the chips. So, the hash of the drive is going to be different from time to time. The write blocker is of no use here since these changes are happening internally.</p>
 <h2 id="chip-off">Chip-off</h2>
 <h3 id="data-recovery">Data Recovery</h3>
 <p>Even though deleted data on a flash chip is known to be unrecoverable, it&rsquo;s not completely true. Data is usually deleted in blocks (several pages, up to 4Mb). So, before the garbage collector and trim operation perform their duty, the data is still there. But, if you are imaging the flash chip via its controller, these areas won&rsquo;t be returned since the controller already knows them to be discarded. However, if connecting directly to the NAND chip (which is loads harder), these areas that were not cleaned by the garbage collector but already unallocated, will be images as well. However this process is time consuming and sophisticated, so it surely depends on the case whether it&rsquo;s worth doing so.</p>

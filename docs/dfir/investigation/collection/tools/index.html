@@ -209,6 +209,7 @@
       </ul>
     </li>
     <li><a href="#write-blockers">Write Blockers</a></li>
+    <li><a href="#ram-acquisition">RAM Acquisition</a></li>
   </ul>
 </nav>
  </aside>
@@ -252,10 +253,10 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="validate-tools">Validate Tools</h2>
-<p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>).</p>
-<p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated prior to each analysis. For example, check that you wiping software has thoroughly WIPED the drive you will be using for the evidence collectionc (for example, by running a checksum64 against it).</p>
-<p><strong>Choose the appropriate one</strong>. Below are some questions to ask in order to decide.</p>
-<p>Example 1. Logging in remotely to collect artifacts and run preinstalled UI admin tools:</p>
+<p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>)?</p>
+<p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated before each analysis. For example, check that your wiping software has thoroughly WIPED the drive you will be using for the evidence collection (for example, by running a checksum64 against it).</p>
+<p><strong>Choose the appropriate one</strong>. Below are some questions to ask to decide.</p>
+<p>Example 1. Logging in remotely to collect artefacts and run preinstalled UI admin tools:</p>
 <table>
 <thead>
 <tr>
@@ -265,15 +266,15 @@
 </thead>
 <tbody>
 <tr>
-<td>Easy to collect artifacts?</td>
+<td>Easy to collect artefacts?</td>
 <td>Hard 🧱: Many non-DFIR tools</td>
 </tr>
 <tr>
 <td>Easy to connect remotely?</td>
-<td>Easy 💸: if remote connection is allowed</td>
+<td>Easy 💸: if the remote connection is allowed</td>
 </tr>
 <tr>
-<td>Identify relevant data?</td>
+<td>Identify relevant data.</td>
 <td>Hard 🧱: not DFIR specific</td>
 </tr>
 <tr>
@@ -286,7 +287,7 @@
 </tr>
 </tbody>
 </table>
-<p>Example 2. Logging in remotely to collect artifacts with cmd tools:</p>
+<p>Example 2. Logging in remotely to collect artefacts with cmd tools:</p>
 <table>
 <thead>
 <tr>
@@ -296,15 +297,15 @@
 </thead>
 <tbody>
 <tr>
-<td>Easy to collect artifacts?</td>
-<td>Medium 🍯. Many tools, but can be scripted. Generally free.</td>
+<td>Easy to collect artefacts?</td>
+<td>Medium 🍯. Many tools, but they can be scripted. Generally free.</td>
 </tr>
 <tr>
 <td>Easy to connect remotely?</td>
 <td>Hard 🧱: have to copy tools to the system.</td>
 </tr>
 <tr>
-<td>Identify relevant data?</td>
+<td>Identify relevant data.</td>
 <td>Hard 🧱: not DFIR specific</td>
 </tr>
 <tr>
@@ -327,15 +328,15 @@
 </thead>
 <tbody>
 <tr>
-<td>Easy to collect artifacts?</td>
-<td>Easy 💸: for artifacts being monitored. Hard 🧱: for others.</td>
+<td>Easy to collect artefacts?</td>
+<td>Easy 💸: for artefacts being monitored. Hard 🧱: for others.</td>
 </tr>
 <tr>
 <td>Easy to connect remotely?</td>
 <td>Easy 💸: if configured.</td>
 </tr>
 <tr>
-<td>Identify relevant data?</td>
+<td>Identify relevant data.</td>
 <td>Medium 🍯: depends on the tools.</td>
 </tr>
 <tr>
@@ -358,15 +359,15 @@
 </thead>
 <tbody>
 <tr>
-<td>Easy to collect artifacts?</td>
-<td>Hard 🧱to get full image and also there is a need to parse it. But reliable.</td>
+<td>Easy to collect artefacts?</td>
+<td>Hard 🧱to get the full image, and also there is a need to parse it. But reliable.</td>
 </tr>
 <tr>
 <td>Easy to connect remotely?</td>
 <td>Medium 🍯: depends</td>
 </tr>
 <tr>
-<td>Identify relevant data?</td>
+<td>Identify relevant data.</td>
 <td>Medium 🍯: depends on the parser tool.</td>
 </tr>
 <tr>
@@ -375,11 +376,18 @@
 </tr>
 <tr>
 <td>Scaling</td>
-<td>Medium 🍯: depends on aquisition tools.</td>
+<td>Medium 🍯: depends on acquisition tools.</td>
+</tr>
+<tr>
+<td>, they</td>
+<td></td>
+</tr>
+<tr>
+<td>Example 5. Cyber Triage:</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p>Example 5. Cyber Triage:</p>
 <table>
 <thead>
 <tr>
@@ -389,7 +397,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Easy to collect artifacts?</td>
+<td>Easy to collect artefacts?</td>
 <td>Easy 💸: one exe for local or remote.</td>
 </tr>
 <tr>
@@ -397,7 +405,7 @@
 <td>Easy 💸: easy to send over network.</td>
 </tr>
 <tr>
-<td>Identify relevant data?</td>
+<td>Identify relevant data.</td>
 <td>Medium 🍯: scores data.</td>
 </tr>
 <tr>
@@ -411,14 +419,14 @@
 </tbody>
 </table>
 <h2 id="collection">Collection</h2>
-<p>Powershell is the best tool to automate and scale evidence collection accross the enterprise.</p>
+<p>Powershell is the best tool to automate and scale evidence collection across the enterprise.</p>
 <h3 id="kansa">Kansa</h3>
-<p>Not only for collection, but also for analysis (stacking). Can be scaled. Good for acquisition across enterprise.</p>
+<p>Not only for collection but also for analysis (stacking). It can be scaled. Suitable for acquisition across enterprises.</p>
 <h3 id="powershell-csirt-collectps1">PowerShell (CSIRT-Collect.ps1)</h3>
-<p>Two directories: one with Winpmem and 7zip, another with Kape, copied from local install. Makes a RAM image, zips it and sends to the network share. Cleans up the host under investigation after that. A very useful thing: it&rsquo;ll capture OS build, needed for <code>vol2.py</code> for profiling.</p>
-<p>Then, it launches KAPE which performs triage.</p>
+<p>Two directories: one with Winpmem and 7zip, another with Kape, copied from local install. Makes a RAM image, zips it and sends it to the network share. Cleans up the host under investigation after that. A handy thing: it&rsquo;ll capture the OS build needed for <code>vol2.py</code> for profiling.</p>
+<p>Then, it launches KAPE, which performs triage.</p>
 <h3 id="kape-kroll-artifact-parser--extractor">KAPE (Kroll Artifact Parser &amp; Extractor)</h3>
-<p>Seems to be very close to what Kansa frawemork does. What&rsquo;s the difference? Kansa for live response and hunt; KAPE for forensics. Also, it seems that Kansa is dying. Better explained <a href="https://www.reddit.com/r/computerforensics/comments/d67vyz/kansa_vs_kape/">here</a> by <a href="https://www.reddit.com/user/sprint_ska/">sprint_ska</a>, thanks man. Also, Kansa relies on Windows built-in tools while Kape doesn&rsquo;t. Kansa scales better.</p>
+<p>It seems to be very close to what the Kansa framework does. What&rsquo;s the difference? Kansa for live response and hunt; KAPE for forensics. Also, it seems that Kansa is dying. Better explained <a href="https://www.reddit.com/r/computerforensics/comments/d67vyz/kansa_vs_kape/">here</a> by <a href="https://www.reddit.com/user/sprint_ska/">sprint_ska</a>; thanks, man. Also, Kansa relies on Windows built-in tools, while Kape doesn&rsquo;t. Kansa scales better.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kape --tsource C: --target RegistryHives --tdest <span class="s2">&#34;\results&#34;</span> 
 </span></span><span class="line"><span class="cl">kape --tsource H --target !ALL --tdest <span class="s2">&#34;dir&#34;</span> --debug  
 </span></span><span class="line"><span class="cl">kape --msource “dir” --module LECmd --mdest <span class="s2">&#34;dir&#34;</span> --trace --debug
@@ -426,27 +434,29 @@
 <h3 id="7zip">7zip</h3>
 <h3 id="arsenal-image-mounter">Arsenal Image Mounter</h3>
 <h3 id="magnet-axiom">Magnet Axiom</h3>
-<p>💴 Don&rsquo;t forget it&rsquo;s a paid tool. Nevertheless, it&rsquo;s very easy to use. Works for macOS as well.</p>
+<p>💴 Don&rsquo;t forget it&rsquo;s a paid tool. Nevertheless, it&rsquo;s straightforward to use. Works for macOS as well.</p>
 <h3 id="cyber-triage">Cyber Triage</h3>
 <p>Live, remote or image. Steps:</p>
 <ol>
-<li>Collect artifacts</li>
+<li>Collect artefacts</li>
 <li>Score</li>
 <li>Review</li>
 <li>Deep Dive (optional)</li>
 <li>Report</li>
 </ol>
-<p>We need to analysie user activity, find indicators of malware and check whether configs were changed.</p>
+<p>We need to analyse user activity, find malware indicators and check whether configs were changed.</p>
 <h3 id="awesome-incident-response">Awesome Incident Response</h3>
 <p><a href="https://github.com/meirwah/awesome-incident-response">https://github.com/meirwah/awesome-incident-response</a></p>
 <h2 id="hashing">Hashing</h2>
 <h3 id="native-hashing-tools">Native Hashing Tools</h3>
-<p><strong>Windows</strong>. certutil -file [filename] -hash [md5, sha1, sha256 etc].</p>
+<p><strong>Windows</strong>. certutil -file [filename] -hash [md5, sha1, sha256 etc.].</p>
 <p><strong>macOS</strong>. <code>md5</code>, <code>shasum</code>.</p>
 <p><strong>Linux</strong>. <code>md5sum</code>, <code>sha256sum</code> etc.</p>
 <h2 id="write-blockers">Write Blockers</h2>
-<p>NIST about software write blockesr: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
+<p>NIST about software write blocker: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
 Benchmark of different soft and hardware blockers: <a href="https://habr.com/ru/company/bizone/blog/320032/">https://habr.com/ru/company/bizone/blog/320032/</a>.</p>
+<h2 id="ram-acquisition">RAM Acquisition</h2>
+<p>There are both software and hardware-based tools.</p>
 
   </div>
 </article>

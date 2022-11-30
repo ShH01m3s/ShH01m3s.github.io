@@ -193,10 +193,20 @@
       <ul>
         <li><a href="#ram">RAM</a></li>
         <li><a href="#hibernation">hibernation</a></li>
+      </ul>
+    </li>
+    <li><a href="#swap">Swap</a>
+      <ul>
         <li><a href="#vmem">VMEM</a></li>
       </ul>
     </li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#references">References</a>
+      <ul>
+        <li><a href="#1">1</a></li>
+        <li><a href="#2">2</a></li>
+        <li><a href="#3">3</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -239,7 +249,13 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h3 id="ram">RAM</h3>
+    <blockquote>
+<p>&hellip; load a driver to virtually recreate the /dev/mem device found in other Unix-type hosts. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 161). BCS Learning &amp; Development Limited. Kindle Edition. ❗️ Requires <code>root</code>.</p>
+</blockquote>
+<blockquote>
+<p>Beginning with Mac OS X (the predecessor to macOS) version 10.9, Apple implemented compression for physical memory. The aim of this was to reduce the amount of swap space used, improving performance and battery. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 161). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<h3 id="ram">RAM</h3>
 <p>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] there is the list of tools to be used for RAM acquisition. I’ve tried several of them and realised, that the current problem of the forensic community is that the tools get old much faster than the information gets updated… Sadly.</p>
 <p><code>OSXPmem</code></p>
 <p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There a few complications though.</p>
@@ -254,12 +270,21 @@
 <li><code>7</code> – This is the same as mode <code>3</code>, but it’s for those using secure virtual memory.</li>
 </ul>
 <p>To set the hibernation to the <code>0</code> mode - <code>sudo pmset -a hibernatemode 0</code>. To see the file - <code>ls -lh /private/var/vm/sleepimage</code>. On Mac with M1 hibernation was enabled only in 11.3 (<a href="https://apple.stackexchange.com/questions/416108/how-to-enable-hibernation-on-m1-mac">see</a>). On Intel MacBook the hibernate file&rsquo;s location can be retreived with <code>pmset -g | grep hibernate</code>. Default mode - <code>3</code>.</p>
+<h2 id="swap">Swap</h2>
+<p>The same purpose as <code>pagefile.sys</code> for Windows.</p>
+<blockquote>
+<p>Rather than a single file, macOS can generate up to 10 different swap files, depending on need. These swap files can be found in the ‘/private/var/vm’ directory. This directory also contains a ‘sleepimage’ file, which is used to dump a copy of the RAM contents if the computer is put to sleep: something to be aware of, since this could provide a source of otherwise volatile evidence.</p>
+</blockquote>
 <h3 id="vmem">VMEM</h3>
 <p>???</p>
 <p><code>python3 vol.py -f 1.vmem windows.vadinfo.VadInfo</code> to view Virtual Address Descriptors (<a href="https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/">VAD</a>).</p>
 <h2 id="references">References</h2>
-<p>[<a href="">1</a>] Magnet</p>
-<p>[<a href="">2</a>] SDF Memory Forensics</p>
+<h3 id="1">1</h3>
+<p>Magnet</p>
+<h3 id="2">2</h3>
+<p>SDF Memory Forensics</p>
+<h3 id="3">3</h3>
+<p>Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 141). BCS Learning &amp; Development Limited. Kindle Edition.</p>
 
   </div>
 </article>

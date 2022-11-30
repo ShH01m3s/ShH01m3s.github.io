@@ -201,6 +201,18 @@
         <li><a href="#dns-names">DNS names</a></li>
       </ul>
     </li>
+    <li><a href="#encrypted-traffic">Encrypted Traffic</a>
+      <ul>
+        <li><a href="#tls">TLS</a>
+          <ul>
+            <li><a href="#unix">UNIX</a></li>
+            <li><a href="#windows">Windows</a></li>
+          </ul>
+        </li>
+        <li><a href="#ssh">SSH</a></li>
+        <li><a href="#-tools">🛠 Tools</a></li>
+      </ul>
+    </li>
     <li><a href="#wireshark-filters">Wireshark Filters</a>
       <ul>
         <li><a href="#todo">Todo</a></li>
@@ -334,6 +346,24 @@
 <p>in research.</p>
 <h3 id="dns-names">DNS names</h3>
 <p>Check IP reputation: <a href="https://www.reverse.it">www.reverse.it</a>, <a href="https://www.urlvoid.com">www.urlvoid.com</a>.</p>
+<h2 id="encrypted-traffic">Encrypted Traffic</h2>
+<h3 id="tls">TLS</h3>
+<ul>
+<li>The plaintext content can be retreived from RAM.</li>
+<li>MiM</li>
+</ul>
+<h4 id="unix">UNIX</h4>
+<blockquote>
+<p><code>lsof -i :443</code> will show you all connections associated with port 443, commonly used for TLS communication. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 163). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<p><img src="images/1.png" alt="img1">
+The first column will give a hint about what the application responsible for this connection is. To get the full path to the app executable, use <code>ps -fp &lt;PID&gt;</code> command:</p>
+<p><img src="images/2.png" alt="img"></p>
+<h4 id="windows">Windows</h4>
+<p>Run <code>netstat -a -n -o</code> to get the list of connections and then use <code>tasklist</code> with the PID of interest to see information about the process.</p>
+<h3 id="ssh">SSH</h3>
+<h3 id="-tools">🛠 Tools</h3>
+<p><code>ExtraHop</code> or <code>ntop</code> (see Chapter 1) provides insight into the amount of data being transferred and to where even when that data is encrypted.</p>
 <h2 id="wireshark-filters">Wireshark Filters</h2>
 <p><code>http.request</code> - show only HTTP request. Useful to get rid of all ARP and TCP handshake garbage.</p>
 <p><code>ip.src == 192.168.22.94 and udp.port == 67</code> - show the DHCP requests for this machine. Can show the computer name.</p>

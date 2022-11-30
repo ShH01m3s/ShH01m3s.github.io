@@ -199,7 +199,11 @@
         <li><a href="#report">Report</a></li>
       </ul>
     </li>
-    <li><a href="#acquisition">Acquisition</a></li>
+    <li><a href="#acquisition">Acquisition</a>
+      <ul>
+        <li><a href="#order-of-volatility">Order of Volatility</a></li>
+      </ul>
+    </li>
     <li><a href="#-btfm">📘 BTFM</a></li>
   </ul>
 </nav>
@@ -355,6 +359,44 @@
 </details>
 <h2 id="acquisition">Acquisition</h2>
 <p><a href="http://www.cyber-forensics.ch/acquiring-data-with-dd-dcfldd-dc3dd/">http://www.cyber-forensics.ch/acquiring-data-with-dd-dcfldd-dc3dd/</a></p>
+<h3 id="order-of-volatility">Order of Volatility</h3>
+<p>See full doc <a href="https://www.ietf.org/rfc/rfc3227.txt">here</a>.</p>
+<ul>
+<li>Cache, registers (CPU). 🛠 Debugger (OllyDbg, gdb, x64dbg etc)</li>
+<li>ARP cache, routing table, memory, kernel statistics, process table.
+<ul>
+<li>Routing tables. Contain the following info: destination IP addresses or networks; the gateway IP address, or interface name if a directly connected resource; the metric, or cost, associated with the route – this enables the most efficient route to be selected; the outgoing interface the machine will use when forwarding a packet.
+<ul>
+<li>Windows <code>route print</code></li>
+<li>UNIX <code>netstat -rn</code></li>
+</ul>
+</li>
+<li>ARP cache
+<ul>
+<li><code>arp -a</code></li>
+</ul>
+</li>
+<li>Process table. The list of processes currently running + metadata.
+<ul>
+<li>UNIX <code>ps</code></li>
+<li>Windows. Task Manager (GUI) or <code>tasklist</code> (-&gt; <code>csv</code>).</li>
+</ul>
+</li>
+<li>Kernel stats. 🛠 RAMMap, part of the Sysinternals suite for Windows, and memmap in the Linux world. Tracks the page usage (physical RAM chunks), mappings of those pages.</li>
+</ul>
+</li>
+<li>Temporary files. Malware likes these folders because it&rsquo;s often already full of garbage.
+<ul>
+<li>Linux <code>/tmp</code>.</li>
+<li>swap (UNIX)</li>
+<li>pagefile (Windows)</li>
+</ul>
+</li>
+<li>Disk.</li>
+<li>Monitoring data and remote logging pertaining to the computer in question. SIEMs and other log storages.</li>
+<li>Physical configurations, network topology.</li>
+<li>Archival media. CDs, backups, USBs.</li>
+</ul>
 <h2 id="-btfm">📘 BTFM</h2>
 
   </div>

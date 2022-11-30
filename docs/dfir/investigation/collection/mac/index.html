@@ -290,12 +290,12 @@
 <p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
 <h2 id="live-acquisition">Live Acquisition</h2>
 <p><a href="https://github.com/Dead-Simple-Scripts/AutoLLR">https://github.com/Dead-Simple-Scripts/AutoLLR</a>
-Automatically collection live info. Quite a heavy footprint. But if we are not collecting RAM, not the biggest issue. This script was designed for Linux, however, it can be adjusted for macOS. For example, adding <code>system_profiler</code>, <code>sw_vers</code>. Substitute <code>prinenv</code> for <code>env</code>.</p>
+Automatically collect live info. Quite a heavy footprint. But if we are not collecting RAM, not the biggest issue. This script was designed for Linux. However, it can be adjusted for macOS. For example, adding <code>system_profiler</code>, <code>sw_vers</code>. Substitute <code>prinenv</code> for <code>env</code>.</p>
 <blockquote>
-<p>💡 My plan would be to review all these commands and try running them. This will both help understanding the type of evidence present on the system as well as make neccessary macOS specific substitutions.</p>
+<p>💡 My plan is to review and try running all these commands. This will help to understand the type of evidence present in the system and make necessary macOS-specific substitutions.</p>
 </blockquote>
 <blockquote>
-<p>🗒 Write a macOS triage tool similar to Kansa but bash-based and targeting macOS specifically. Do the same for iOS, Android, Linux, AWS etc. Check Sarah&rsquo;s github to ensure there is nothing of that sort yet. Use <a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a> to collect dbs,  <a href="https://github.com/mac4n6/macMRU-Parser">https://github.com/mac4n6/macMRU-Parser</a> to collect plists, <a href="https://github.com/mac4n6/Mac-Locations-Scraper">https://github.com/mac4n6/Mac-Locations-Scraper</a> location dbs, <a href="https://github.com/mac4n6/iOS-Frequent-Locations-Dumper">https://github.com/mac4n6/iOS-Frequent-Locations-Dumper</a> frequent locations,</p>
+<p>🗒 Write a macOS triage tool similar to Kansa but bash-based, specifically targeting macOS. Do the same for iOS, Android, Linux, AWS etc. Check Sarah&rsquo;s GitHub to ensure there is nothing of that sort yet. Use <a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a> to collect DBS,  <a href="https://github.com/mac4n6/macMRU-Parser">https://github.com/mac4n6/macMRU-Parser</a> to collect plists, <a href="https://github.com/mac4n6/Mac-Locations-Scraper">https://github.com/mac4n6/Mac-Locations-Scraper</a> location DBS, <a href="https://github.com/mac4n6/iOS-Frequent-Locations-Dumper">https://github.com/mac4n6/iOS-Frequent-Locations-Dumper</a> frequent locations,</p>
 </blockquote>
 <h2 id="dead-acquisition">Dead Acquisition</h2>
 <p>For newer MacBooks, it gets tricky. I posted the question <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a>. No answer still (📆 <code>02/08/2022</code>).</p>
@@ -400,7 +400,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s a
 <p><code>OSXPmem</code></p>
 <p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There are a few complications, though.</p>
 <blockquote>
-<p>⚠️ SIP needs to be disabled. Freeboot &gt; CMD+R &gt; Terminal &gt; csrutil disable &gt; reboot). Otherwise, you might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, you might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal for changes to take place!</p>
+<p>⚠️ SIP needs to be disabled. Freeboot &gt; CMD+R &gt; Terminal &gt; csrutil disable &gt; reboot). Otherwise, you might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, you might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root: wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal for changes to take place!</p>
 </blockquote>
 <h2 id="-btfm">📘 <strong>BTFM</strong></h2>
 <h3 id="list-all-drives">List all drives</h3>
@@ -425,7 +425,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s a
 ✍🏻 go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
 </blockquote>
 <blockquote>
-<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a live system without the need for imaging drives or dumping memory. The digital footprint is claimed to be minimal. It can be used remotely.</p>
+<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allow analysing the evidence on a live system without imaging drives or dumping memory. The digital footprint is claimed to be minimal. It can be used remotely.</p>
 </blockquote>
 <blockquote>
 <p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
@@ -446,7 +446,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s a
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Option #2. Remove the plist</span>
 </span></span><span class="line"><span class="cl">sudo cp /System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist /
-</span></span><span class="line"><span class="cl"><span class="c1"># give read only FS</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># give read-only FS</span>
 </span></span></code></pre></div><h3 id="turn-on-disk-arbitration">Turn on Disk Arbitration</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
 </span></span></code></pre></div><h2 id="references">References</h2>
