@@ -187,7 +187,20 @@
    <a href="/docs/dfir/investigation/artefacts/accounts/"> 👈🏼 Back to </br> 📝 Account Information Analysis </a>
   </p>
   <aside>
-   <nav id="TableOfContents"></nav>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#user-accountdata">User Account/Data</a>
+      <ul>
+        <li><a href="#unused-accounts">Unused accounts</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a>
+      <ul>
+        <li><a href="#1">1</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
  </aside>
 </div>
 
@@ -228,12 +241,18 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>User Account/Data</p>
+    <h2 id="user-accountdata">User Account/Data</h2>
 <p>• /home/%username%/* • /etc/passwd<br>
 • /etc/shadow<br>
 • /etc/sudoers</p>
 <p>• /etc/group</p>
-<p>Effective ID vs Real ID</p>
+<h3 id="unused-accounts">Unused accounts</h3>
+<p>Look for unexpected account, especially those that don&rsquo;t have password (empty).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/shadow <span class="p">|</span> awk -F: <span class="s1">&#39;($2==&#34;&#34;){print $1}&#39;</span> <span class="c1"># </span>
+</span></span></code></pre></div><p>Effective ID vs Real ID</p>
+<h2 id="references">References</h2>
+<h3 id="1">1</h3>
+<p>eForensics Magazine, Linux Forensics and Security</p>
 
   </div>
 </article>

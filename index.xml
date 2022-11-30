@@ -45,6 +45,15 @@ File system events/logs/registry (like $MFT for Windows or fseventsd for macOS),
     </item>
     
     <item>
+      <title>Services</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/artefacts/persistence/linux/services/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/persistence/linux/services/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is about &amp;hellip; .&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Game Over</title>
       <link>https://bakerst221b.com/docs/blog/2022/02/jigsaw/</link>
       <pubDate>Tue, 08 Feb 2022 11:42:21 +0300</pubDate>
@@ -194,21 +203,21 @@ Windows CMD PowerShell Windows PowerShell Event logs Operational Monitoring.
     </item>
     
     <item>
-      <title>📘 Manual</title>
-      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/manual/</link>
-      <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
-      
-      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/manual/</guid>
-      <description>&lt;p&gt;&lt;em&gt;Below are the techniques, tools and instructions regarding data recovery from various file systems and devices. Most of the below techniques apply to HDDs only. Those that are for SDDs or other flash memory devices will be specified in the last section.&lt;/em&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>Apple Partition Map</title>
       <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/apm/</link>
       <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/partiation-schemas/apm/</guid>
       <description>APFS is not very much described from the forensic perspective. I wonder how much APM is described.</description>
+    </item>
+    
+    <item>
+      <title>Data Carving</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/carving/</link>
+      <pubDate>Tue, 06 Oct 2020 09:39:12 +0300</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/carving/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Below are the techniques, tools and instructions regarding data recovery from various file systems and devices. Most of the below techniques apply to HDDs only. Those that are for SDDs or other flash memory devices will be specified in the last section.&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -356,7 +365,7 @@ CSMA/CD =</description>
       <pubDate>Mon, 12 Oct 2020 17:50:01 +0300</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/collection/tools/</guid>
-      <description>Validate Tools Document the changes that you are making. Know your tools 🛠! What changes they are making (see)?</description>
+      <description>If this system is running, capture the memory. Should be the first task. Memory stomping issues.</description>
     </item>
     
     <item>
@@ -365,7 +374,7 @@ CSMA/CD =</description>
       <pubDate>Thu, 01 Oct 2020 13:01:35 +0300</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/ram/ram-tools/</guid>
-      <description>Aquisition of live memory If this system is running, capture memory. Should be the first task.</description>
+      <description>Volatility # install brew packet manager ruby -e &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;#34; &amp;lt; /dev/null 2&amp;gt; /dev/null # install volatility (python should be installed) brew install volatile # vol.</description>
     </item>
     
     <item>
@@ -565,11 +574,13 @@ VPN Virtual private network.</description>
     
     <item>
       <title>🌎 Network Traffic</title>
-      <link>https://bakerst221b.com/docs/dfir/investigation/artefacts/network/traffic/</link>
+      <link>https://bakerst221b.com/docs/dfir/investigation/artefacts/network/traffic/manual/</link>
       <pubDate>Mon, 12 Oct 2020 17:50:01 +0300</pubDate>
       
-      <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/network/traffic/</guid>
-      <description>Collection Most of the devices keep some sort of logs. As for the network related issues these are switches, routers, firewalls, IDS and IPS, web proxies, DC and authentication servers, DCHP server and application servers.</description>
+      <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/network/traffic/manual/</guid>
+      <description>Open connections.
+Ports idetify services (usually, but not always).
+System ports are forensically important 0-1023. User ports 1024-49151 Private 49152-last Cheatsheets for known ports here.</description>
     </item>
     
     <item>
@@ -1085,6 +1096,15 @@ DLL Sideloading Following is the search order for modern Windows systems:</descr
     </item>
     
     <item>
+      <title>FAT Data Recovery</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/recover/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/recover/</guid>
+      <description>FAT32 File Recovery First, get familiar with the FAT file system. There are some things specific to this FS in the way the files are created and deleted.</description>
+    </item>
+    
+    <item>
       <title>Firewalls</title>
       <link>https://bakerst221b.com/docs/dfir/defense/firewalls/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
@@ -1103,6 +1123,15 @@ DLL Sideloading Following is the search order for modern Windows systems:</descr
     </item>
     
     <item>
+      <title>Forensics Machine Setup</title>
+      <link>https://bakerst221b.com/docs/toolkit/forensics-env/os/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/toolkit/forensics-env/os/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is about &amp;hellip; .&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Host-based IDP/IPS</title>
       <link>https://bakerst221b.com/docs/dfir/defense/host/ids-ips/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
@@ -1112,6 +1141,15 @@ DLL Sideloading Following is the search order for modern Windows systems:</descr
 &lt;p&gt;IDS and IPS as firewall&amp;rsquo;s filters. There are Control Plane (looks after the OS and routing table) and the Forwarding Plane (makes decisions on routing and discarding). If something happens to the Control Plane, the device will still forward the traffic (really???).&lt;/p&gt;
 &lt;p&gt;By default IDS only &lt;strong&gt;listens 👂&lt;/strong&gt; the traffic. It&amp;rsquo;s usually connected to the span port on a switch. Looks for anomalies and sends alerts. Won&amp;rsquo;t take any actions by default, but can be configured in such a way. If the IDS is down, nothing is changed for the rest of the network, it&amp;rsquo;s still operating.&lt;/p&gt;
 &lt;p&gt;IPS takes actions on its own. It is not connected to the span port, but rather is a gateway. Before it inspects and allows a packet through, nothing can move forward. So, if IPS is down, everyone is down (unless there is some load balancing enabled or may be some policy for such cases). Positioned right after the router, edge device or a firewall.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Integrity Control</title>
+      <link>https://bakerst221b.com/docs/thunting/integrity/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/thunting/integrity/</guid>
+      <description>&lt;p&gt;As I mentioned, defining a baseline is crucial to filter out irrelevant security and non-security events. There are lots of tools that can help.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1151,12 +1189,22 @@ DLL Sideloading Following is the search order for modern Windows systems:</descr
     </item>
     
     <item>
+      <title>Linux Network</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/artefacts/network/traffic/linux/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/network/traffic/linux/</guid>
+      <description>&lt;p&gt;&lt;em&gt;This is about &amp;hellip; .&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Linux RAM</title>
       <link>https://bakerst221b.com/docs/dfir/investigation/artefacts/ram/linux/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/ram/linux/</guid>
-      <description>/dev/mem # raw /proc/kcore # debugging format References Expand&amp;hellip; Something here </description>
+      <description>/dev/mem # raw /proc/kcore # debugging format Rootkits On a live system:
+sudo chkrootkit References Expand&amp;hellip; Something here </description>
     </item>
     
     <item>
@@ -1261,31 +1309,12 @@ Also, /Users/sneaky/Library/Application Support/com.</description>
     </item>
     
     <item>
-      <title>Media Sterilisation Software</title>
-      <link>https://bakerst221b.com/docs/dfir/purple/zero/</link>
-      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
-      
-      <guid>https://bakerst221b.com/docs/dfir/purple/zero/</guid>
-      <description>Methodology for testing Write several files to a drive. Run the tool once, user zeroing option (overwrite all with zeros).</description>
-    </item>
-    
-    <item>
       <title>Meltdown</title>
       <link>https://bakerst221b.com/docs/reverse/exploits/meltdown/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
       
       <guid>https://bakerst221b.com/docs/reverse/exploits/meltdown/</guid>
       <description>&lt;p&gt;&lt;em&gt;This article is the product of my attempt to understand Meltdown vulnerability.&lt;/em&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Memory Acquisition Tools</title>
-      <link>https://bakerst221b.com/docs/dfir/purple/ram/</link>
-      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
-      
-      <guid>https://bakerst221b.com/docs/dfir/purple/ram/</guid>
-      <description>FTK Imager ⛔️ User mode
-⚠️ Does not guarantee that the utility will not make write attempts to the target drive.</description>
     </item>
     
     <item>
@@ -1326,12 +1355,30 @@ References Expand&amp;hellip; Something here </description>
     </item>
     
     <item>
+      <title>Network Traffic</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/collection/network/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/collection/network/</guid>
+      <description>Most of the devices keep some sort of logs. As for the network related issues these are switches, routers, firewalls, IDS and IPS, web proxies, DC and authentication servers, DCHP server and application servers.</description>
+    </item>
+    
+    <item>
       <title>Network-based</title>
       <link>https://bakerst221b.com/docs/dfir/defense/network/</link>
       <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/defense/network/</guid>
       <description>A network-based IDS usually monitors the network, logs it and alerts the admin if something catches its eye.</description>
+    </item>
+    
+    <item>
+      <title>NTFS Data Recovery</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/recover/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/recover/</guid>
+      <description>Steps To get familiar with NTFS file creation and deletion, see here. In general, there are resident and non-resident files.</description>
     </item>
     
     <item>
@@ -1359,6 +1406,15 @@ References Expand&amp;hellip; Something here </description>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/logs/other/</guid>
       <description>&lt;p&gt;&lt;em&gt;This is about &amp;hellip; .&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Passwords Cracking</title>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/passwords/</link>
+      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/passwords/</guid>
+      <description>🛠 Tools John the Ripper password cracker hashcat References Expand&amp;hellip; Something here </description>
     </item>
     
     <item>
@@ -1656,15 +1712,6 @@ How to determine if it&amp;rsquo;s malicious?</description>
       
       <guid>https://bakerst221b.com/docs/dfir/ioc/web/</guid>
       <description>Of course, there are lots of payloads out there. But I hope this section can give some idea of what to expect when dealing with web server/application attacks.</description>
-    </item>
-    
-    <item>
-      <title>Windows Forensics Machine Setup</title>
-      <link>https://bakerst221b.com/docs/toolkit/forensics-env/win/</link>
-      <pubDate>Thu, 28 Jul 2022 15:14:39 +1000</pubDate>
-      
-      <guid>https://bakerst221b.com/docs/toolkit/forensics-env/win/</guid>
-      <description>&lt;p&gt;&lt;em&gt;This is about &amp;hellip; .&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2010,10 +2057,10 @@ Intro SSL makes use of assymmetric encryption for verification and symmetric enc
     
     <item>
       <title>FAT</title>
-      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/</link>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/specs/</link>
       <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
       
-      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/</guid>
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/specs/</guid>
       <description>Any FAT partition has two main parts: system area and data area. System area contains FAT boot record (every file system has a boot record), 1st FAT and 2nd FAT.</description>
     </item>
     
@@ -2038,10 +2085,10 @@ Didn&amp;rsquo;t natively support full disk encryption (FV2 was added later).</d
     
     <item>
       <title>NTFS</title>
-      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/</link>
+      <link>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/specs/</link>
       <pubDate>Sun, 18 Oct 2020 22:35:40 +0300</pubDate>
       
-      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/</guid>
+      <guid>https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/ntfs/specs/</guid>
       <description>Developed in collaboration with IBM. POSIX compliant. Official docs for NTFS here.
 ⚠️ Everything is a file!</description>
     </item>
@@ -2951,12 +2998,11 @@ Moscow has again become Mordor-like, the Sun is starting to make its heat more o
       <pubDate>Wed, 09 Sep 2020 19:28:46 +0300</pubDate>
       
       <guid>https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/linux-auth/</guid>
-      <description>User Account/Data
-• /home/%username%/* • /etc/passwd
+      <description>User Account/Data • /home/%username%/* • /etc/passwd
 • /etc/shadow
 • /etc/sudoers
 • /etc/group
-Effective ID vs Real ID</description>
+Unused accounts Look for unexpected account, especially those that don&amp;rsquo;t have password (empty).</description>
     </item>
     
     <item>

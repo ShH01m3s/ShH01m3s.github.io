@@ -208,8 +208,46 @@
         <li><a href="#native-hashing-tools">Native Hashing Tools</a></li>
       </ul>
     </li>
+    <li><a href="#disk-imaging">Disk Imaging</a></li>
+    <li><a href="#ftkimager">ftkimager</a>
+      <ul>
+        <li><a href="#-footprint">🐾 Footprint</a></li>
+      </ul>
+    </li>
     <li><a href="#write-blockers">Write Blockers</a></li>
-    <li><a href="#ram-acquisition">RAM Acquisition</a></li>
+    <li><a href="#ram-acquisition">RAM Acquisition</a>
+      <ul>
+        <li><a href="#ftkimager-1">ftkimager</a></li>
+        <li><a href="#-footprint-1">🐾 Footprint</a></li>
+        <li><a href="#ftk-imager">FTK Imager</a></li>
+        <li><a href="#-footprint-2">🐾 Footprint</a></li>
+        <li><a href="#dumpit">Dumpit</a></li>
+        <li><a href="#-footprint-3">🐾 Footprint</a></li>
+        <li><a href="#clutch">Clutch</a></li>
+        <li><a href="#-footprint-4">🐾 Footprint</a></li>
+        <li><a href="#frida">Frida</a></li>
+        <li><a href="#-footprint-5">🐾 Footprint</a></li>
+        <li><a href="#magnet-ram-capture">Magnet RAM Capture</a></li>
+        <li><a href="#-footprint-6">🐾 Footprint</a></li>
+        <li><a href="#belkasoft-live-ram-capture">Belkasoft Live RAM Capture</a></li>
+        <li><a href="#-footprint-7">🐾 Footprint</a></li>
+        <li><a href="#windd">WinDD</a></li>
+        <li><a href="#-footprint-8">🐾 Footprint</a></li>
+        <li><a href="#dd">dd</a></li>
+        <li><a href="#-btfm">📘 BTFM</a></li>
+        <li><a href="#-footprint-9">🐾 Footprint</a></li>
+        <li><a href="#goldfish">Goldfish</a></li>
+        <li><a href="#-footprint-10">🐾 Footprint</a></li>
+        <li><a href="#osxpmem">OSXpmem</a></li>
+        <li><a href="#-footprint-11">🐾 Footprint</a></li>
+        <li><a href="#redline">Redline</a></li>
+        <li><a href="#-footprint-12">🐾 Footprint</a></li>
+        <li><a href="#fmem">Fmem</a></li>
+        <li><a href="#linux-memory-grabber">Linux Memory Grabber</a></li>
+        <li><a href="#tribble">Tribble</a></li>
+        <li><a href="#memory-grabber-forensic-tool">Memory Grabber Forensic Tool</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -252,7 +290,11 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="validate-tools">Validate Tools</h2>
+    <p>If this system is running, capture the memory. Should be the first task. Memory stomping issues. Benchmark testing to determine RAM footprint, speed, writes etc.</p>
+<p>Benchmark the tools. DumpIt - lightweight, Magnet RAM, Belkasoft, FTK (slow, highest footprint), Redline, Fast Dump (fdpro.exe).</p>
+<p>Media matters. SSD, USB vs Magnetic media evidence disk (HDD)? USB 3 is cool. Storage check at least 1/3 more then the collected. Magnetic cheap, 2-4 Gb.</p>
+<p>VM vs physical. Different concerns.</p>
+<h2 id="validate-tools">Validate Tools</h2>
 <p>Document the changes that you are making. Know your tools 🛠! What changes they are making (<a href="https://peat-chameleon-e41.notion.site/bf3cb04f2a074cfc816f853cec92d783?v=f8cbcf21bcb641b6806fb22decfccf9f">see</a>)?</p>
 <p>🧰 <strong>Validate your tools.</strong> Tools used need to be periodically validated before each analysis. For example, check that your wiping software has thoroughly WIPED the drive you will be using for the evidence collection (for example, by running a checksum64 against it).</p>
 <p><strong>Choose the appropriate one</strong>. Below are some questions to ask to decide.</p>
@@ -452,11 +494,115 @@
 <p><strong>Windows</strong>. certutil -file [filename] -hash [md5, sha1, sha256 etc.].</p>
 <p><strong>macOS</strong>. <code>md5</code>, <code>shasum</code>.</p>
 <p><strong>Linux</strong>. <code>md5sum</code>, <code>sha256sum</code> etc.</p>
+<h2 id="disk-imaging">Disk Imaging</h2>
+<h2 id="ftkimager">ftkimager</h2>
+<h3 id="-footprint">🐾 Footprint</h3>
 <h2 id="write-blockers">Write Blockers</h2>
 <p>NIST about software write blocker: <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software">https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt/cftt-technical/software</a>.
-Benchmark of different soft and hardware blockers: <a href="https://habr.com/ru/company/bizone/blog/320032/">https://habr.com/ru/company/bizone/blog/320032/</a>.</p>
+Benchmark of different soft and hardware blockers: <a href="https://habr.com/ru/company/bizone/blog/320032/">https://habr.com/ru/company/bizone/blog/320032/</a>.
+<a href="https://youtu.be/r6-tsPUUhCU">https://youtu.be/r6-tsPUUhCU</a> (video, Encase Image Extraction using Physical Write Blocker)</p>
 <h2 id="ram-acquisition">RAM Acquisition</h2>
 <p>There are both software and hardware-based tools.</p>
+<h3 id="ftkimager-1">ftkimager</h3>
+<h3 id="-footprint-1">🐾 Footprint</h3>
+<p>The GUI version leaves a heavy footprint.</p>
+<h3 id="ftk-imager">FTK Imager</h3>
+<blockquote>
+<p>⛔️ User mode</p>
+</blockquote>
+<p>⚠️ Does not guarantee that the utility will not make write attempts to the target drive. Looks like it does write to the device -&gt; use a write-protect device such as the Wiebetech Forensic Ultra Dock between the source and the target disks.</p>
+<h3 id="-footprint-2">🐾 Footprint</h3>
+<h3 id="dumpit">Dumpit</h3>
+<blockquote>
+<p>⛔️ Kernel mode
+⛔️ For Win7,8 and lower only. Tested on Win7. It causes a crash on Win10. It doesn&rsquo;t work on Parallels VM (M1 MacBook)</p>
+</blockquote>
+<h3 id="-footprint-3">🐾 Footprint</h3>
+<p>👍 Small footprint</p>
+<h3 id="clutch">Clutch</h3>
+<blockquote>
+<p>⛔️ For iOS only</p>
+</blockquote>
+<h3 id="-footprint-4">🐾 Footprint</h3>
+<h3 id="frida">Frida</h3>
+<blockquote>
+<p>⛔️ Mobile jailbroken/rooted devices</p>
+</blockquote>
+<p><code>Frida-ios-dump</code> script is used to dump RAM for a process (only one process into which Frida was injected).</p>
+<h3 id="-footprint-5">🐾 Footprint</h3>
+<h3 id="magnet-ram-capture">Magnet RAM Capture</h3>
+<p>Kernel mode</p>
+<h3 id="-footprint-6">🐾 Footprint</h3>
+<h3 id="belkasoft-live-ram-capture">Belkasoft Live RAM Capture</h3>
+<blockquote>
+<p>⛔️ Kernel mode
+⛔️ It uses a device driver to bypass user-space limitations; however, it has more impact on the operating system because of this. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 164). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<h3 id="-footprint-7">🐾 Footprint</h3>
+<h3 id="windd">WinDD</h3>
+<blockquote>
+<p>⛔️ Windows only (what a surprise, right? 😂)</p>
+</blockquote>
+<p>It can be used over the network or USB.</p>
+<h3 id="-footprint-8">🐾 Footprint</h3>
+<p>👍 Footprint is ~ 1MB (2013)</p>
+<h3 id="dd">dd</h3>
+<p>DD utility allows a raw dump of memory. noerror* - important not to stop the acquisition on errors.</p>
+<blockquote>
+<p>&hellip; user-space-sourced copy of memory, so some protected memory regions will not be included in the image. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 165). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<h3 id="-btfm">📘 BTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># HDD/SSD</span>
+</span></span><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>/case1/diskb.dd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#RAM</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Windows</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span> <span class="se">\.\\</span>PhysicalMemory <span class="nv">of</span><span class="o">=</span>F:<span class="se">\E</span>vidence<span class="se">\m</span>emory.dd <span class="nv">conv</span><span class="o">=</span>noerror
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># UNIX</span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span> /dev/mem <span class="nv">of</span><span class="o">=</span>memory.dd <span class="nv">conv</span><span class="o">=</span>noerror
+</span></span><span class="line"><span class="cl"><span class="c1"># or </span>
+</span></span><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span> /dev/kmem <span class="nv">of</span><span class="o">=</span>memory.dd <span class="nv">conv</span><span class="o">=</span>noerror
+</span></span></code></pre></div><h3 id="-footprint-9">🐾 Footprint</h3>
+<h3 id="goldfish">Goldfish</h3>
+<p>⚠️ Works up to macOS 10.5 (32bit)</p>
+<h3 id="-footprint-10">🐾 Footprint</h3>
+<h3 id="osxpmem">OSXpmem</h3>
+<p>It&rsquo;s part of <code>rekall</code>.</p>
+<blockquote>
+<p>&hellip;from both user and kernel space via a bundled driver. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 164). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<blockquote>
+<p>✍🏻 SIP needs to be disabled (reboot &gt; CMD+R &gt; Terminal &gt; csrutil disbale &gt; reboot). Otherwise, might run into this issue: dump_memory(833): Failed to load kext (No such process)</p>
+</blockquote>
+<blockquote>
+<p>✍🏻 USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, you might run into this issue: Can&rsquo;t load kext ./pmem.kext, as it is not owned by <code>root:wheel</code>. Just chowning didn&rsquo;t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error.
+❗️ Restart the Terminal for changes to take place!</p>
+</blockquote>
+<h3 id="-footprint-11">🐾 Footprint</h3>
+<p>⚠️ See comments. Due to these prerequisites, the footprint might be significant.</p>
+<h3 id="redline">Redline</h3>
+<blockquote>
+<p>✍🏻 Create a collector first (a folder with a batch or shell script). Put on the USB drive and run on a target machine from there. A great tool to visualise the main things of RAM and quickly identify suspicious activity. The only one that works on a Parallels VM (M1 MacBook Pro). However, I did not encounter errors and could not analyse anything properly.</p>
+</blockquote>
+<h3 id="-footprint-12">🐾 Footprint</h3>
+<h3 id="fmem">Fmem</h3>
+<blockquote>
+<p>A Linux kernel module, Fmem creates a new virtual device on a machine called ‘/dev/fmem’. The investigator or first responder can then use dd against this virtual device without running into the same restrictions would be present trying to directly obtain physical memory through ‘/dev/mem’. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 165). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<h3 id="linux-memory-grabber">Linux Memory Grabber</h3>
+<blockquote>
+<p>This tool is a script that attempts to automate a number of the steps that must be taken to acquire memory from a Linux system. The tool is designed to be run from a USB stick, and automates the installation of kernel modules and creates a profile for the open-source Volatility Framework, a memory forensics suite. Once the USB drive is mounted a single command can be issued to do all the work, making it suitable for folks who might not be as proficient in Linux.
+Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 165). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<h3 id="tribble">Tribble</h3>
+<blockquote>
+<p>⛔️ Only works if it was in the PC before the incident.
+⛔️ Hardware memory acquisition tool.</p>
+</blockquote>
+<p>Includes a write blocker.</p>
+<h3 id="memory-grabber-forensic-tool">Memory Grabber Forensic Tool</h3>
+<p>PCMCIA card. When plugged into the suspect&rsquo;s computer, the card provides an interface to a controlled system running forensics software that can be used to analyse the image.</p>
 
   </div>
 </article>

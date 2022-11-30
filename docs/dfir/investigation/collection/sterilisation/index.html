@@ -189,7 +189,19 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#tool-check">Tool Check</a></li>
+    <li><a href="#process">Process</a>
+      <ul>
+        <li><a href="#killdisk">KillDisk</a></li>
+        <li><a href="#diskutil">diskutil</a></li>
+      </ul>
+    </li>
+    <li><a href="#tools">Tools</a>
+      <ul>
+        <li><a href="#methodology-for-testing">Methodology for testing</a></li>
+        <li><a href="#active-killdisk">Active@ KillDisk</a></li>
+        <li><a href="#diskutil-1">diskutil</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -275,8 +287,10 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Before copying evidence or making a disk image, one needs to sterilise the target media to ensure that data on that disk before this operation would not meddle with the evidence data. Several rounds of writing <code>0</code>s are usually enough.
-Keep in mind that flash drives and SSD work in different manners, and that&rsquo;s why simple permanent deletion of a file might deem it to be unrecoverable. However, it&rsquo;s not always the case (due to some optimisations implemented in the controller), that&rsquo;s why for compliancy&rsquo;s sake, you might still want to follow the below procedures.</p>
+    <p>Before copying evidence or making a disk image, one needs to sterilise the target media to ensure that data on that disk before this operation would not meddle with the evidence data. Several rounds of writing <code>0</code>s are usually enough.</p>
+<h2 id="process">Process</h2>
+<p>Keep in mind that flash drives and SSD work in different manners, and that&rsquo;s why simple permanent deletion of a file might deem it to be unrecoverable. However, it&rsquo;s not always the case (due to some optimisations implemented in the controller), that&rsquo;s why for compliancy&rsquo;s sake, you might still want to follow the below procedures.</p>
+<h3 id="killdisk">KillDisk</h3>
 <p>On Windows/Linux/macOS, you can use a <code>KillDisk</code> utility to <em>erase</em> it (not wipe, since wipe clears the unused space only). The best practice is to use three-pass zeros, but it&rsquo;s not included in freeware. You can still run the same command three times. On Mac you can also use <code>diskutil zeroDisk</code> or <code>diskutil randomDisk</code>. The first will fill the disk with <code>0</code> and the second - with random symbols.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">diskutil list <span class="c1"># to list all the attached and internal devices. Note the drive file name; it looks like /dev/disk[X], where X is a number. If you want to zero out just a volume instead of the whole physical drive, add the second identifier, for example, /dev/disk[X]s[Y], where X is the number of the physical drive and Y is the volume number within this disk.</span>
 </span></span><span class="line"><span class="cl">diskutil zeroDisk /dev/disk4 <span class="c1"># this might take a while. The larger the disk, the more time is required.</span>
@@ -294,18 +308,40 @@ Checksum for 0s, 3119 bytes selected. The result is 0000000000000000.</p>
 MD5 hash for the selected 1920 bytes.
 <img src="images/md52.png" alt="md52">
 MD5 hash for the selected 3600 bytes. The value is different.</p>
-<p>In case if you are exceptionally paranoid or have to be and it&rsquo;s an HDD, one additional step prior to zeroing out everything would be making the whole process better: overwriting the contents with random data (<code>diskutil randomDisk</code>). The reason why you might be interested in adding this step is that there are technologies that allow extracting residual magnetic data from a disk.</p>
+<p>In case if you are exceptionally paranoid or have to be, and it&rsquo;s an HDD, one additional step before zeroing out everything would be making the whole process better: overwriting the contents with random data (<code>diskutil randomDisk</code>). You might be interested in adding this step because there are technologies that allow extracting residual magnetic data from a disk.</p>
 <blockquote>
-<p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On trying to open the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administator&rdquo;. What that hell 😡? If I partition the drive, it becomes accessible, but then it&rsquo;s not WIPED!</p>
-<p>✍️ Looks like either the drive was very old (and it was) or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk, without making any partitions.</p>
+<p>😡 Once again, whenever I am trying to follow some instructions from the courses or books, there is something that goes wrong. This time is no exception. On opening the erased disk <code>HxD</code> alerts &ldquo;Insufficient rights even for administrator&rdquo;. What the hell 😡? If I partition the drive, it becomes accessible, but it&rsquo;s not WIPED!</p>
+<p>✍️ Looks like either the drive was very old (and it was), or it doesn&rsquo;t work on partitions (logical drives). I&rsquo;ve used a newer drive, and I erased the whole disk without making any partitions.</p>
 </blockquote>
-<h2 id="tool-check">Tool Check</h2>
-<p>📆 <code>17/07/2022</code> - <strong>macOS Monterey 12.3.1 (21E258) - host.</strong></p>
-<ol>
-<li>Active@ KillDisk for macOS, Freeware, Version 14.0.</li>
-<li>Parallels Desktop 17 for Mac, Windows 11, Active@ KillDisk 10.2.8</li>
-<li><code>diskutil</code>, comes with macOS, version unknown. After 1 round of <code>diskutik zeroDisk</code> has all 0 Checksum64, therefore the cleanup works as expected for 1 round (flash drive).</li>
-</ol>
+<h3 id="diskutil">diskutil</h3>
+<p><code>diskutil</code>, comes with macOS.</p>
+<h2 id="tools">Tools</h2>
+<h3 id="methodology-for-testing">Methodology for testing</h3>
+<ul>
+<li><input disabled="" type="checkbox"> Write several files to a drive.</li>
+<li><input disabled="" type="checkbox"> Run the tool once, user zeroing option (overwrite all with zeros).</li>
+<li><input disabled="" type="checkbox"> Use HxD for Windows to calculate the Checksum64 for the entire physical drive (should be all zeroes).</li>
+<li><input disabled="" type="checkbox"> Use HxD or Active@ DistEditor to see if there is some garbage left.</li>
+</ul>
+<h3 id="active-killdisk">Active@ KillDisk</h3>
+<p>Last Tool check: 📆 <code>17/07/2022</code>:</p>
+<ul>
+<li>✅ Windows
+<ul>
+<li>Active@ KillDisk 10.2.8</li>
+<li>macOS Monterey 12.3.1 (21E258) - host.</li>
+<li>Parallels Desktop 17 for Mac, Windows 11 - guest</li>
+</ul>
+</li>
+<li>➖ Active@ KillDisk for macOS, Freeware, Version 14.0.</li>
+</ul>
+<h3 id="diskutil-1">diskutil</h3>
+<p>Last Tool check: 📆 <code>17/07/2022</code>:</p>
+<ul>
+<li>✅ macOS Monterey 12.3.1 (21E258)</li>
+<li>tool version unknown.</li>
+</ul>
+<p>After 1 round of <code>diskutik zeroDisk</code> has all <code>0</code> Checksum64; therefore, the cleanup works as expected for 1 round (flash drive).</p>
 <h2 id="references">References</h2>
 <p>[<a href="http://killdisk.com/dod.htm">1</a>] Standard DoD 5220.22-M, US DoD 5220.22-M (ECE)
 [<a href="https://www.sipicorp.com/wp-content/uploads/2019/09/NIST_vs_DoD_V3.pdf">2</a>] NIST 800-88 VS DoD 5220.22-M
