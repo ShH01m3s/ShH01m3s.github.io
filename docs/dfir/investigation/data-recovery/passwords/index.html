@@ -243,6 +243,7 @@
 <p>Now, it works. 🥳</p>
 <p>Trying to load this script with the default sha-bang and the system path export var results in <code>Lzma.c: loadable library and perl binaries are mismatched (got first handshake key 0xc700080, needed 0xfc00080)</code> error.</p>
 <p>Also, when I tried uninstalling <code>p5.30-compress-raw-lzma</code>, I got <code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30 /Network/Library/Perl/5.30/darwin-thread-multi-2level /Network/Library/Perl/5.30 /Library/Perl/Updates/5.30.3/darwin-thread-multi-2level /Library/Perl/Updates/5.30.3 /System/Library/Perl/5.30/darwin-thread-multi-2level /System/Library/Perl/5.30 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level /System/Library/Perl/Extras/5.30) at ./7z2john.pl line 6.</code> again. So, <code>sudo port install p5.30-compress-raw-lzma</code> was crucial as well. And these operations could be done safely - <code>sudo port uninstall lzma</code>, <code>brew remove perl</code>.</p>
+<p>To make this setting persistent, run <code>export PERL5LIB=/opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2leveln &gt;&gt; ~/.zshrc</code>.</p>
 <p>I hope that helps someone 🙂</p>
 </blockquote>
 <h2 id="-tools">🛠 Tools</h2>
