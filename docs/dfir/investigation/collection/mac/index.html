@@ -295,90 +295,92 @@ Automatically collection live info. Quite a heavy footprint. But if we are not c
 <p>💡 My plan would be to review all these commands and try running them. This will both help understanding the type of evidence present on the system as well as make neccessary macOS specific substitutions.</p>
 </blockquote>
 <blockquote>
-<p>🗒 Write a macOS triage tool similar to Kansa but bash-based and targeting macOS specifically. Do the same for iOS, Android, Linux, AWS etc. Check Sarah&rsquo;s github to ensure that there is nothing of that sort yet. Use <a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a> to collect dbs,  <a href="https://github.com/mac4n6/macMRU-Parser">https://github.com/mac4n6/macMRU-Parser</a> to collect plists, <a href="https://github.com/mac4n6/Mac-Locations-Scraper">https://github.com/mac4n6/Mac-Locations-Scraper</a> location dbs, <a href="https://github.com/mac4n6/iOS-Frequent-Locations-Dumper">https://github.com/mac4n6/iOS-Frequent-Locations-Dumper</a> frequent locations,</p>
+<p>🗒 Write a macOS triage tool similar to Kansa but bash-based and targeting macOS specifically. Do the same for iOS, Android, Linux, AWS etc. Check Sarah&rsquo;s github to ensure there is nothing of that sort yet. Use <a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a> to collect dbs,  <a href="https://github.com/mac4n6/macMRU-Parser">https://github.com/mac4n6/macMRU-Parser</a> to collect plists, <a href="https://github.com/mac4n6/Mac-Locations-Scraper">https://github.com/mac4n6/Mac-Locations-Scraper</a> location dbs, <a href="https://github.com/mac4n6/iOS-Frequent-Locations-Dumper">https://github.com/mac4n6/iOS-Frequent-Locations-Dumper</a> frequent locations,</p>
 </blockquote>
 <h2 id="dead-acquisition">Dead Acquisition</h2>
-<p>For newer MacBooks it gets tricky. Posted the question <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a>. No answer still (📆 <code>02/08/2022</code>).</p>
+<p>For newer MacBooks, it gets tricky. I posted the question <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a>. No answer still (📆 <code>02/08/2022</code>).</p>
 <h3 id="target-disk-intel">Target Disk (Intel)</h3>
 <h3 id="share-disk-on-m1">Share Disk on M1</h3>
-<p>I was trying different channels and forums, but there seemed to obvious answer. This took quite an amount of research. By now I can conclude the following.</p>
-<p>Share Disk is very different from Target Disk and is relatively useless for forensic purposes (from what I&rsquo;ve seen by now). Share Disk, unlike its preceder, operates over SMB protocol and is not mounted like a normal drive. In fact, <code>diskutil list</code> (or its GUI version Disk Utility), <a href="https://github.com/aburgh/Disk-Arbitrator">Disk Arbitrator</a> (custom tool) or even <code>ls /dev/ | grep disk</code> won&rsquo;t show it. It seems that its mounting is not really goverened by <code>diskarbitrationd</code> (framework for mounting and managing drives). Even though in GUI it looks like it&rsquo;s mounted, different APIs seem to be in place.</p>
-<p>I&rsquo;ve tried creating a file <code>/etc/fstab</code> and using custom settings for mounting my test USB drive: <code>LABEL=&quot;TestDrive&quot; none apfs ro,noauto</code>. This USB device was not automatically mounted, and when I mounted it manually, it was in read-only mode (<code>ro</code> option). I did the same for the Macintosh HD, which is the label for my drive on target MacBook: <code>LABEL=&quot;Macintosh HD&quot; /suspect apfs ro,noauto</code>. Just in case I acquired the volume&rsquo;s UUID via <code>diskutil info /Volumes/Macintosh\'s\ HD | grep -i uuid</code> from both the recovery mode and when booted normally (which were different).</p>
-<p>This is basically a network share and you have pretty much the same rights as the user of that PC. I don&rsquo;t know yet if there is any way to control the restrictions here, but at the moment the most forensically sound  way would be to use a physical write blocker. This <a href="https://sumuri.com/how-to-image-an-apple-silicon-mac-with-recon-itr-live/">tool</a> from SUMURI is for Live acquisition only. And the page on the forum <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a> has not been updated for a while.</p>
+<p>I tried different channels and forums, but there seemed to be no obvious answer. This took quite an amount of research. By now, I can conclude the following.</p>
+<p>Share Disk is very different from Target Disk and is relatively useless for forensic purposes (from what I&rsquo;ve seen now). Share Disk, unlike its predecessor, operates over SMB protocol and is not mounted like a standard drive. <code>Diskutillist</code> (or its GUI version Disk Utility), <a href="https://github.com/aburgh/Disk-Arbitrator">Disk Arbitrator</a> (custom tool) or even <code>ls /dev/ | grep disk</code> won&rsquo;t show it. Its mounting seems not governed by <code>diskarbitrationd</code> (framework for mounting and managing drives). Even though it looks like it&rsquo;s mounted in GUI, different APIs seem to be in place.</p>
+<p>I&rsquo;ve tried creating a file <code>/etc/fstab</code> and using custom settings for mounting my test USB drive: <code>LABEL=&quot;TestDrive&quot; none apfs ro,noauto</code>. This USB device was not automatically mounted; when I mounted it manually, it was in read-only mode (<code>ro</code> option). I did the same for the Macintosh HD, the label for my drive on target MacBook: <code>LABEL=&quot;Macintosh HD&quot; /suspect apfs ro,noauto</code>. Just in case, I acquired the volume&rsquo;s UUID via <code>diskutil info /Volumes/Macintosh\'s\ HD | grep -i uuid</code> from both the recovery mode and when booted normally (which were different).</p>
+<p>This is a network share, and you have the same rights as the PC user. I don&rsquo;t know if there is any way to control the restrictions here, but at the moment, the most forensically sound way would be to use a physical write blocker. This <a href="https://sumuri.com/how-to-image-an-apple-silicon-mac-with-recon-itr-live/">tool</a> from SUMURI is for Live acquisition only. And the page on the forum <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a> has not been updated for a while.</p>
+<p><a href="https://www.youtube.com/watch?v=rgfYuuAUU8A">Here</a> is a video from SUMURI experts on the imaging issues, where they mention the Shared Disk mode. I am not sure how they make it forensically sound, though.</p>
 <h3 id="bootable-usb">Bootable USB</h3>
 <blockquote>
 <p>🧪 What if I could make a Kali USB bootable drive and boot into macOS from it?</p>
 </blockquote>
 <p><a href="https://support.apple.com/en-gb/guide/security/sec7d92dc49f/web">https://support.apple.com/en-gb/guide/security/sec7d92dc49f/web</a>
 <a href="https://appleinsider.com/articles/21/01/03/how-to-boot-an-apple-silicon-mac-from-an-external-drive">https://appleinsider.com/articles/21/01/03/how-to-boot-an-apple-silicon-mac-from-an-external-drive</a></p>
-<p>This could be an option to make a raw image of Apple drive. There will be other complications with this option, like decrypting the drive, dealing with Fusion Drives and parsing APFS containers. But at least it would make the dead acquisition possible. Since there are arm versions of Kali and Kali has dd preinstalled as well as gpart, this is a good start.</p>
-<p>One of the concerns that were published on <a href="https://apple.stackexchange.com/questions/439027/boot-from-usb-kali-linux-m1-silicon">StackOverflow</a> was that such functionality as Bluetooth and WiFi would not work. However, this would be even better for forensically sound acquisition.</p>
+<p>This could be an option to make a raw image of Apple drive. This option will have other complications, like decrypting the drive, dealing with Fusion Drives and parsing APFS containers. But at least it would make the dead acquisition possible. Since there are arm versions of Kali and Kali has dd preinstalled and <code>gpart</code>, this is a good start.</p>
+<p>One of the concerns published on <a href="https://apple.stackexchange.com/questions/439027/boot-from-usb-kali-linux-m1-silicon">StackOverflow</a> was that such functionality as Bluetooth and WiFi would not work. However, this would be even better for forensically sound acquisition.</p>
+<p>As per the information from the Internet (in many places), macOS with M1 doesn&rsquo;t support external boot.</p>
 <h2 id="write-block">Write Block</h2>
-<p>On the forensic MacBook you can turn off disk arbitration or use write blockers.</p>
+<p>You can turn off disk arbitration or write blockers on the forensic MacBook.</p>
 <p><strong>Disk Arbitration</strong></p>
-<p>Prevents the host computer from writing data to the target macbook when using Target Disk Mode. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It’s needed so that the forensic machine won’t make changes to the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<p>It prevents the host computer from writing data to the target MacBook using Target Disk Mode. To turn off this feature, refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It’s needed so the forensic machine won’t change the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
 <blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really preventing changes to the target drive?</em></p>
 </blockquote>
 <blockquote>
-<p>🧪 When attaching my MacBook to another one via Share Disk mode, I managed to delete files from the target MacBook even with DA off. Why?
-Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsquo;s actually a SMB share. See full research above.</p>
+<p>🧪 When attaching my MacBook to another via Share Disk mode, I deleted files from the target MacBook even with DA off. Why?
+Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s an SMB share. See the comprehensive research above.</p>
 </blockquote>
-<p>There is also a tool <a href="https://github.com/aburgh/Disk-Arbitrator">https://github.com/aburgh/Disk-Arbitrator</a>. That can very much help and ease the work. Need to check this out.</p>
+<p>There is also a tool <a href="https://github.com/aburgh/Disk-Arbitrator">https://github.com/aburgh/Disk-Arbitrator</a>. That can very much help and ease the work. I need to check this out.</p>
 <h2 id="hddssd">HDD/SSD</h2>
 <h3 id="research">Research</h3>
-<p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they&rsquo;ve added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it and they had to work this out. But after T2 Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics in that there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode as well.</p>
-<p>Another interesting key point is that now the kill signal can be sent over Bluetooth as well. That means than if there is someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) can send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. Sounds made up, but Mac forensics expert said that this is what it looks like now.</p>
-<p>Also, they talked about <a href="https://sumuri.com/product/recon-itr/">ITR</a> tool that images and triages Mac devices. Supports live imaging of Apple Silicon Macs!</p>
-<p>I have an old MacBook (see <a href="/blog/2020/10/how-i-broke-my-husbands-macbook">this</a> blog post) and a new one with M1 chip. Following the instruction from the Udemy <a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2534096?start=1#content">course</a> of Michael Leclair, I&rsquo;ve bougth a Thunderbolt2-Thunderbolt3 cable to connect these two PCs. I&rsquo;ve tried this and this first, but they worked only for connecting Displays. However, whatever cable I tried using, nothing worked. I then tried the Apple ones, but these did not work either. I have run across this text on officical Apple docs for the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter:</p>
+<p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it, and they had to work this out. But after T2, Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics because there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode.</p>
+<p>Another interesting key point is that the kill signal can now be sent over Bluetooth. That means if someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) could send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. It sounds made up, but a Mac forensics expert said this is what it looks like now.</p>
+<p>Also, they talked about the <a href="https://sumuri.com/product/recon-itr/">ITR</a> tool that images and triages Mac devices. Supports live images of Apple Silicon Macs!</p>
+<p>I have an old MacBook (see <a href="/blog/2020/10/how-i-broke-my-husbands-macbook">this</a> blog post) and a new one with an M1 chip. Following the instruction from the Udemy <a href="https://www.udemy.com/course/surviving-digital-forensics-imaging-a-mac-fusion-drive/learn/lecture/2534096?start=1#content">course</a> of Michael Leclair, I&rsquo;ve bought a Thunderbolt2-Thunderbolt3 cable to connect these two PCs. I&rsquo;ve tried this and this first, but they worked only for connecting Displays. However, whatever line I tried using, nothing worked. I then tried the Apple ones, but these did not work either. I have run across this text on official Apple docs for the Apple Thunderbolt 3 (USB-C) to Thunderbolt 2 Adapter:</p>
 <blockquote>
-<p>This adapter is bidirectional, which means you can use it to connect Thunderbolt 3 devices to a Mac that has a Thunderbolt or Thunderbolt 2 port. In that case, the Mac must be using <a href="https://support.apple.com/kb/HT201260">macOS Sierra or later</a>, and the device using Thunderbolt 3 must provide its own power. [<a href="https://support.apple.com/en-us/HT207266">5</a>]</p>
+<p>This adapter is bidirectional, which means you can connect Thunderbolt 3 devices to a Mac with a Thunderbolt or Thunderbolt 2 port. In that case, the Mac must be using <a href="https://support.apple.com/kb/HT201260">macOS Sierra or later</a>, and the device using Thunderbolt 3 must provide its power. [<a href="https://support.apple.com/en-us/HT207266">5</a>]</p>
 </blockquote>
 <p>So, there are two prerequisites:</p>
 <ol>
 <li>macOS Sierra or later</li>
-<li>the device using Thunderbolt 3 must provide its own power.</li>
+<li>the device using Thunderbolt 3 must provide its power.</li>
 </ol>
 <p><a href="https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221">https://aliexpress.ru/item/1005001855199343.html?spm=a2g0s.12269583.0.0.5ae9776dYIfPHB&amp;item_id=1005001855199343&amp;sku_id=12000017867458221</a> USB TYPE-C Thunderbolt 3 2 к мини DisplayPort DP 4k 60 Гц для Macbook Air Pro Samsung dell XPS13 15 к Apple cinema display</p>
 <p><a href="https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5">https://www.aliexpress.com/item/1005001855439084.html?spm=a2g0s.12269583.0.0.6faf3d9dDfAwT5</a> Cabletime USB C 3.1 to Mini DP Adapter 4k60hz Projector Type C to Thunderbolt 2 Converter For Laptop Huawei Mate 40 Samsung N428</p>
 <p><a href="https://mrmacintosh.com/filevault-2-target-disk-mode-unlock-using-the-personal-recovery-key/">FileVault 2 Target Disk Mode Unlock Using the Personal Recovery Key</a>. As is stated <a href="https://www.reddit.com/r/mac/comments/7upvss/thunderbolt_bridge_inactive/">here</a> on Reddit:</p>
 <blockquote>
-<p>[&hellip;] usb-c charging cable provided is only usb2.0 for data transfer [&hellip;] to do thunderbolt target disk mode you need a thunderbolt 3 cable (expensive) [&hellip;]</p>
+<p>[&hellip;] USB-c charging cable provided is only usb2.0 for data transfer [&hellip;] to do thunderbolt target disk mode, you need a thunderbolt three cable (expensive) [&hellip;]</p>
 </blockquote>
-<p>So, trying to use the cable that came with the charger shouldn&rsquo;t work since it supports USB 2.0 transfer only.</p>
+<p>So, using the cable that came with the charger shouldn&rsquo;t work since it supports USB 2.0 transfer only.</p>
 <p><a href="https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/">https://benfrain.com/the-thunderbolt-usb-c-ports-on-m1-macs-dont-work/</a></p>
 <p><strong>Fusion Drives</strong></p>
-<p>Fusion drive is the combination of an ordinary drive and a small NAND flash drive as well that appear as one logical volume in the OS, but when you try imaging it, you&rsquo;ll get two different drives and the image will be somewhat corrupted for the analysis tools if you don&rsquo;t assemble it correctly. NAND flash drive stores the most often used files like system ones and also those files that are used by the user more often than others. It seems to me that the idea is pretty much the same as with prefetch in Windows 🌈.</p>
+<p>A fusion drive combines an ordinary drive and a small NAND flash drive that appear as one logical volume in the OS. Still, when you try imaging it, you&rsquo;ll get two different images, and the image will be somewhat corrupted for the analysis tools if you don&rsquo;t assemble it correctly. NAND flash drive stores the most often used files like system ones and those files that the user uses more often than others. It seems to me that the idea is the same as with prefetch in Windows 🌈.</p>
 <h3 id="dead-acquisition-checklist">Dead Acquisition Checklist</h3>
 <ul>
-<li><input disabled="" type="checkbox"> Make sure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
+<li><input disabled="" type="checkbox"> Ensure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
 <li><input disabled="" type="checkbox"> Turn the machine off (better unplugging it to prevent data from being overwritten).</li>
-<li><input disabled="" type="checkbox"> On the forensic MacBook make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc) and software-based write blocker is on (if no hardware-blocker is used) - see above for the latter.</li>
-<li><input disabled="" type="checkbox"> Connect the forensic machine to the target machine using a USB Type-C cable (for newer MacBook) or Thunderbolt cable for older ones.</li>
+<li><input disabled="" type="checkbox"> On the forensic MacBook, make sure all remote functionality is off (Bluetooth, AitDrop, WiFi, Cellular etc.), and the software-based write blocker is on (if no hardware blocker is used) - see above for the latter.</li>
+<li><input disabled="" type="checkbox"> Connect the forensic machine to the target machine using a USB Type-C cable (for newer MacBooks) or Thunderbolt cable for older ones.</li>
 <li><input disabled="" type="checkbox"> Turn the target machine in either Target Disk mode (for older MacBook) or Share Disk (for newer MacBook).
 <ul>
 <li><input disabled="" type="checkbox"> <strong>Share Disk</strong>.
 <ul>
-<li><input disabled="" type="checkbox"> Turn the suspect machine off. Press turn on button and hold until you see “Continue holding for startup options”. Stop holding when “Loading startup options” appears.</li>
-<li><input disabled="" type="checkbox"> On the top panel choose Utilities -&gt; Share Disk and choose the disk you want to share. You might be asked to unlock it (if FireVault is enabled).</li>
-<li><input disabled="" type="checkbox"> On the forensic machine go to Network () or see the device appear in the side panel in Finder. If doesn’t, open Finder -&gt; Preferences -&gt; General and make sure External disks, Connected servers and hard disks are selected. Move to the Sidebar tab and make sure it’s all selected there as well.</li>
+<li><input disabled="" type="checkbox"> Turn the suspect machine off. Press turn on the button and hold until you see “Continue holding for startup options”. Stop holding when “Loading startup options” appears.</li>
+<li><input disabled="" type="checkbox"> On the top panel, choose Utilities -&gt; Share Disk and select the disk you want to share. You might be asked to unlock it (if FileVault is enabled).</li>
+<li><input disabled="" type="checkbox"> On the forensic machine, go to Network () or see the device appear in the side panel in Finder. If it doesn’t, open Finder -&gt; Preferences -&gt; General and make sure External disks, Connected servers and hard disks are selected. Please move to the Sidebar tab and ensure it’s all selected there.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> <strong>Target Disk</strong>. There are two ways to boot into this mode. One is simply by pressing the power on button along with a T key while booting. The second one is from Preferences. This is a legacy option that’s not present on the latest Apple devices.</li>
+<li><input disabled="" type="checkbox"> <strong>Target Disk</strong>. There are two ways to boot into this mode. One is simply by pressing the power on the button along with a T key while booting. The second one is from Preferences. This legacy option is not present on the latest Apple devices.</li>
 </ul>
 </li>
 </ul>
 <blockquote>
-<p>⛔️ I could not make the whole thing work. I even thought that there might be some problem with the geuine Apple cables.
-✍🏻 However, in my case, the issue appears to be something very primitive. Looks like the problem was that my both MacBooks had the same name. AirDrop was smart enough to rename on of them by appending (2), but in this mode it seems it was not that easy. Once I named the PCs differently, it all started to work. Also, I’ve changed the HDD names as well just in case.</p>
+<p>⛔️ I could not make the whole thing work. I even thought there might be some problem with the genuine Apple cables.
+✍🏻 However, in my case, the issue appears to be very primitive. The problem was that both my MacBooks had the same name. The airDrop was smart enough to rename one by appending (2), but in this mode, it seems it was not easy. Once I named the PCs differently, it all started to work. Also, I’ve changed the HDD names, just in case.</p>
 </blockquote>
 <blockquote>
-<p>❗️This option is not write-proof one. I managed to delete a folder from the drive. Make sure write blocker is on.</p>
+<p>❗️This option is not a write-proof one. I managed to delete a folder from the drive. Make sure the write blocker is on.</p>
 </blockquote>
 <h3 id="live-acquisition-checklist">Live Acquisition Checklist</h3>
 <ul>
 <li>
-<p><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one. On the forensic Macbook you can turn off disk arbitration or use write blockers. To turn off this feature refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so that the forensic machine won&rsquo;t make changes to the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
+<p><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one. On the forensic Macbook, you can turn off disk arbitration or use write blockers. To turn off this feature, refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so the forensic machine won&rsquo;t change the data on the suspect Macbook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
 </li>
 <li>
 <p><input disabled="" type="checkbox"> List all drives to get the id of the target.</p>
@@ -387,17 +389,19 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 <p><input disabled="" type="checkbox"> Connect external HDD or SSD</p>
 </li>
 <li>
-<p><input disabled="" type="checkbox"> Lauch some forensic distribution (for example, Paladin). Make an image of local HDD (❗️ Won&rsquo;t work for M1 Apple devices).</p>
+<p><input disabled="" type="checkbox"> Launch some forensic distribution (for example, Paladin). Make an image of the local HDD (❗️ Won&rsquo;t work for M1 Apple devices).</p>
 <blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really prevents the changed being made to the target drive?</em></p>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really preventing changes to the target drive?</em></p>
 </blockquote>
 </li>
 </ul>
 <h2 id="ram">RAM</h2>
-<p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] there is the list of tools to be used for RAM acquisition. I’ve tried several of them and realised, that the current problem of the forensic community is that the tools get old much faster than the information gets updated… Sadly.</em></p>
+<p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>], there is a list of tools to be used for RAM acquisition. I’ve tried several of them and realised that the current problem in the forensic community is that the tools get old much faster than the information gets updated… Sadly.</em></p>
 <p><code>OSXPmem</code></p>
-<p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There a few complications though.</p>
-<p>⚠️ SIP needs to be disabled. Freboot &gt; CMD+R &gt; Terminal &gt; csrutil disbale &gt; reboot). Otherwise, might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal in order to changes to take place!</p>
+<p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There are a few complications, though.</p>
+<blockquote>
+<p>⚠️ SIP needs to be disabled. Freeboot &gt; CMD+R &gt; Terminal &gt; csrutil disable &gt; reboot). Otherwise, you might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, you might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root:wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal for changes to take place!</p>
+</blockquote>
 <h2 id="-btfm">📘 <strong>BTFM</strong></h2>
 <h3 id="list-all-drives">List all drives</h3>
 <p>(Linux and macOS):</p>
@@ -413,7 +417,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 </span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sda <span class="nv">of</span><span class="o">=</span>/home/diska.dd <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hashlog</span><span class="o">=</span>/home/diskaa0md5.txt
 </span></span><span class="line"><span class="cl">sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/disk4 <span class="nv">of</span><span class="o">=</span>/Users/%username%/Documents/image.img <span class="nv">hash</span><span class="o">=</span>md5,sha1 <span class="nv">md5log</span><span class="o">=</span>/Users/%username%/Documents/md5.txt <span class="nv">sha1log</span><span class="o">=</span>/Users/%username%/Documents/sha1.log <span class="nv">hashconv</span><span class="o">=</span>after <span class="nv">bs</span><span class="o">=</span><span class="m">512</span> <span class="c1"># hashconv - calc hash after or before the conversion</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically sound tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># the most forensically useful tool, calculates hashes of the input source and the image to make sure they match. Verbose output</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># to install on macOS - brew install dc3dd</span>
 </span></span><span class="line"><span class="cl">sudo dc3dd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">hof</span><span class="o">=</span>sdb.img <span class="nv">hash</span><span class="o">=</span>md5 <span class="nv">hash</span><span class="o">=</span>sha1 <span class="nv">log</span><span class="o">=</span>hash.txt
 </span></span></code></pre></div><blockquote>
@@ -421,7 +425,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 ✍🏻 go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
 </blockquote>
 <blockquote>
-<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a life system without a need of imaging drives or dumping memory. The digital footprint is claimed to be minimal. Can be used remotely.</p>
+<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allows analysing evidence on a live system without the need for imaging drives or dumping memory. The digital footprint is claimed to be minimal. It can be used remotely.</p>
 </blockquote>
 <blockquote>
 <p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
@@ -448,7 +452,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 </span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    <p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools:Memory Imaging, forensicswiki</p>
+    <p>[<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>] Tools: Memory Imaging, forensicswiki</p>
 <p>[<a href="https://www.sans.org/blog/mac-os-forensics-how-to-simple-ram-acquisition-and-analysis-with-mac-memory-reader-part-1/">2</a>] Mac OS Forensics How-To: Simple RAM Acquisition and Analysis with Mac Memory Reader (Part 1), 2011</p>
 <p>[<a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">3</a>] OSX (Mac) Memory Acquisition and Analysis Using OSXpmem and Volatility</p>
 <p>[<a href="https://support.apple.com/guide/mac-help/permission-files-a-mac-disk-mchlp1204/mac">4</a>] If you don’t have permission to use files on a Mac disk</p>
@@ -456,7 +460,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode does. It&rsqu
 <p>[<a href="https://dfir.ru/2018/09/08/memory-compression-and-forensics/#more-368">6</a>] Memory compression and forensics</p>
 <p><a href="https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/">https://ponderthebits.com/2017/02/osx-mac-memory-acquisition-and-analysis-using-osxpmem-and-volatility/</a></p>
 <p><a href="https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging">https://forensicswiki.xyz/wiki/index.php?title=Memory_Imaging</a>
-<a href="https://darkdefender.medium.com/brief-introduction-to-macos-forensics-f817c9c83609">Brief Introduction to MacOS Forensics | by darkdefender | Medium</a>
+<a href="https://darkdefender.medium.com/brief-introduction-to-macos-forensics-f817c9c83609">Brief Introduction to macOS Forensics | by darkdefender | Medium</a>
 <a href="https://forensicswiki.xyz/wiki/index.php?title=Mac_OS_X">https://forensicswiki.xyz/wiki/index.php?title=Mac_OS_X</a>
 <a href="https://medium.com/about-developer-blog/macos-forensics-diy-style-3369868505dd">https://medium.com/about-developer-blog/macos-forensics-diy-style-3369868505dd</a>
 <a href="http://www.computerpi.com/forensic-acquisition-of-mac-computers/">http://www.computerpi.com/forensic-acquisition-of-mac-computers/</a>
