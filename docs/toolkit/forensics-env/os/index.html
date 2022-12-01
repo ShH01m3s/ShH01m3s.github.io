@@ -200,7 +200,11 @@
         <li><a href="#eric-zimmermans-tools">Eric Zimmerman&rsquo;s Tools</a></li>
       </ul>
     </li>
-    <li><a href="#password-cracking">Password Cracking</a></li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#password-cracking">Password Cracking</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -256,12 +260,15 @@
 </blockquote>
 <h2 id="windows">Windows</h2>
 <h3 id="eric-zimmermans-tools">Eric Zimmerman&rsquo;s Tools</h3>
-<p>The easiest way to install is via a PS1 script - <a href="https://ericzimmerman.github.io/#!index.md">https://ericzimmerman.github.io/#!index.md</a>.</p>
-<h2 id="password-cracking">Password Cracking</h2>
+<p>The easiest way to install is via a PS1 script - <a href="https://f001.backblazeb2.com/file/EricZimmermanTools/Get-ZimmermanTools.zip">https://f001.backblazeb2.com/file/EricZimmermanTools/Get-ZimmermanTools.zip</a> from <a href="https://ericzimmerman.github.io/#!index.md">https://ericzimmerman.github.io/#!index.md</a>. One of the requirements - .NET installed (<a href="https://f001.backblazeb2.com/file/EricZimmermanTools/net6/All_6.zip)">https://f001.backblazeb2.com/file/EricZimmermanTools/net6/All_6.zip)</a>.</p>
+<h2 id="macos">macOS</h2>
+<h3 id="password-cracking">Password Cracking</h3>
 <p>Install John the Ripper on macOS - <a href="https://www.google.co.uk/search?source=hp&amp;ei=xOZoXtfNJIu53AOriq2ICg&amp;q=john+the+ripper+install+macos&amp;btnK=Google+Search&amp;oq=fridump.py++dow&amp;gs_l=psy-ab.3.0.33i160.3716.6053..7545...0.0..0.83.326.5......0....2j1..gws-wiz.EKLnxRYpE78#fpstate=ive&amp;vld=cid:6d5ad76b,vid:4CnjjpWYK90">https://www.google.co.uk/search?source=hp&amp;ei=xOZoXtfNJIu53AOriq2ICg&amp;q=john+the+ripper+install+macos&amp;btnK=Google+Search&amp;oq=fridump.py++dow&amp;gs_l=psy-ab.3.0.33i160.3716.6053..7545...0.0..0.83.326.5......0....2j1..gws-wiz.EKLnxRYpE78#fpstate=ive&amp;vld=cid:6d5ad76b,vid:4CnjjpWYK90</a>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install john
 </span></span><span class="line"><span class="cl"><span class="nb">cd</span> /opt/homebrew/Cellar <span class="c1"># not sure about the path</span>
 </span></span><span class="line"><span class="cl">ln -s /opt/homebrew/Cellar/john/1.9.0_1/libexec john
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo port install p5.30-compress-raw-lzma 
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># download all the scripts</span>
 </span></span><span class="line"><span class="cl">git clone https://github.com/openwall/john.git
@@ -277,7 +284,7 @@
 </span></span><span class="line"><span class="cl">hashcat -m <span class="m">11600</span> /path/to/hash /path/to/wordlist
 </span></span></code></pre></div><blockquote>
 <p>⛔️ I installed perl with homebrew, but I kept getting <code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /opt/homebrew/opt/perl/lib/perl5/site_perl/5.36/darwin-thread-multi-2level /opt/homebrew/opt/perl/lib/perl5/site_perl/5.36 /opt/homebrew/opt/perl/lib/perl5/5.36/darwin-thread-multi-2level /opt/homebrew/opt/perl/lib/perl5/5.36 /opt/homebrew/lib/perl5/site_perl/5.36/darwin-thread-multi-2level /opt/homebrew/lib/perl5/site_perl/5.36) at ./7z2john.pl line 6. BEGIN failed--compilation aborted at ./7z2john.pl line 6.</code></p>
-<p>✍🏻 So, I have spent several hours on that thing that involved a lot of googling.  I needed to install the library that Perl complained to be missing. But that didn&rsquo;t work. I tried running <code>sudo cpan Compress::Raw::Lzma</code>, <code>cpan Compress::Raw::Lzma</code>, <code>sudo port install lzma</code>, <code>sudo port install p5.30-compress-raw-lzma</code>, <code>python brew install xz</code> - same issue. As if the script doesn&rsquo;t see the files I keep installing.</p>
+<p>✍🏻 So, I have spent several hours on that thing that involved a lot of googling.  I needed to install the library that Perl complained to be missing. But that didn&rsquo;t work. I tried rufind . -name &ldquo;*Lzma.pm&rdquo; | grep -i lzmanning <code>sudo cpan Compress::Raw::Lzma</code>, <code>cpan Compress::Raw::Lzma</code>, <code>sudo port install lzma</code>, <code>sudo port install p5.30-compress-raw-lzma</code>, <code>brew install xz</code> - same issue. As if the script doesn&rsquo;t see the files I keep installing.</p>
 <p>From the <a href="https://github.com/theos/theos/issues/273">https://github.com/theos/theos/issues/273</a> issue of another program I figured out that sha-bang line <code>#!/usr/bin/env perl</code> at the beginning of the script points to the perl version defined in environment variables. However, there was nothing in <code>env</code> about perl. Still, I have decided to change it to <code>#!/usr/bin/perl</code> to point to the system perl explicitly. The error changed a little. That means that the script will use system perl executable and not the one installed by <code>homebrew</code>.</p>
 <p><code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /Library/Perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30 /Network/Library/Perl/5.30/darwin-thread-multi-2level /Network/Library/Perl/5.30 /Library/Perl/Updates/5.30.3/darwin-thread-multi-2level /Library/Perl/Updates/5.30.3 /System/Library/Perl/5.30/darwin-thread-multi-2level /System/Library/Perl/5.30 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level /System/Library/Perl/Extras/5.30) at ./7z2john.pl line 6. BEGIN failed--compilation aborted at ./7z2john.pl line 6.</code></p>
 <p>Ok, now it looks at the system perl folder, but it still can&rsquo;t find it.</p>
@@ -287,7 +294,7 @@
 <p>Now, it works. 🥳</p>
 <p>Trying to load this script with the default sha-bang and the system path export var results in <code>Lzma.c: loadable library and perl binaries are mismatched (got first handshake key 0xc700080, needed 0xfc00080)</code> error.</p>
 <p>Also, when I tried uninstalling <code>p5.30-compress-raw-lzma</code>, I got <code>Can't locate Compress/Raw/Lzma.pm in @INC (you may need to install the Compress::Raw::Lzma module) (@INC contains: /opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30/darwin-thread-multi-2level /Library/Perl/5.30 /Network/Library/Perl/5.30/darwin-thread-multi-2level /Network/Library/Perl/5.30 /Library/Perl/Updates/5.30.3/darwin-thread-multi-2level /Library/Perl/Updates/5.30.3 /System/Library/Perl/5.30/darwin-thread-multi-2level /System/Library/Perl/5.30 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level /System/Library/Perl/Extras/5.30) at ./7z2john.pl line 6.</code> again. So, <code>sudo port install p5.30-compress-raw-lzma</code> was crucial as well. And these operations could be done safely - <code>sudo port uninstall lzma</code>, <code>brew remove perl</code>.</p>
-<p>To make this setting persistent, run <code>export PERL5LIB=/opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2leveln &gt;&gt; ~/.zshrc</code>.</p>
+<p>To make this setting persistent, run <code>echo &quot;export PERL5LIB=/opt/local/lib/perl5/vendor_perl/5.30/darwin-thread-multi-2leveln&quot; &gt;&gt; ~/.zshrc</code>.</p>
 <p>I hope that helps someone 🙂</p>
 </blockquote>
 <h2 id="references">References</h2>
@@ -326,7 +333,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

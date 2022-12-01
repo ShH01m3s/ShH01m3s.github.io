@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title> - Analyst</title>
+  <title>Passwords Cracking - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -189,14 +189,10 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#weight-100">h&mdash;
-title: &ldquo;Passwords Cracking&rdquo;
-date: 2022-07-28T15:14:39+10:00
-draft: false
-weight: 100</a></li>
     <li><a href="#zip">zip</a></li>
     <li><a href="#-tools">🛠 Tools</a>
       <ul>
+        <li><a href="#wordlists">Wordlists</a></li>
         <li><a href="#john-the-ripper-password-cracker">John the Ripper password cracker</a></li>
         <li><a href="#hashcat">hashcat</a></li>
       </ul>
@@ -213,7 +209,7 @@ weight: 100</a></li>
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title"></h1>
+<h1 class="title">Passwords Cracking</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -230,13 +226,35 @@ weight: 100</a></li>
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="weight-100">h&mdash;
-title: &ldquo;Passwords Cracking&rdquo;
-date: 2022-07-28T15:14:39+10:00
-draft: false
-weight: 100</h2>
-<h2 id="zip">zip</h2>
+    <h2 id="zip">zip</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install john
+</span></span><span class="line"><span class="cl">brew install hashcat
+</span></span><span class="line"><span class="cl">brew install maczip <span class="c1"># to create test 7z on macOS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">./7z2john /path/to/zip/file.7z &gt; /path/to/output/file.hash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hashcat -h <span class="p">|</span> grep -i zip                                                                                             
+</span></span><span class="line"><span class="cl">  <span class="m">11600</span> <span class="p">|</span> 7-Zip                                                      <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">17220</span> <span class="p">|</span> PKZIP <span class="o">(</span>Compressed Multi-File<span class="o">)</span>                              <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">17200</span> <span class="p">|</span> PKZIP <span class="o">(</span>Compressed<span class="o">)</span>                                         <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">17225</span> <span class="p">|</span> PKZIP <span class="o">(</span>Mixed Multi-File<span class="o">)</span>                                   <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">17230</span> <span class="p">|</span> PKZIP <span class="o">(</span>Mixed Multi-File Checksum-Only<span class="o">)</span>                     <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">17210</span> <span class="p">|</span> PKZIP <span class="o">(</span>Uncompressed<span class="o">)</span>                                       <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">20500</span> <span class="p">|</span> PKZIP Master Key                                           <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">20510</span> <span class="p">|</span> PKZIP Master Key <span class="o">(</span><span class="m">6</span> byte optimization<span class="o">)</span>                     <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">23001</span> <span class="p">|</span> SecureZIP AES-128                                          <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">23002</span> <span class="p">|</span> SecureZIP AES-192                                          <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">23003</span> <span class="p">|</span> SecureZIP AES-256                                          <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">  <span class="m">13600</span> <span class="p">|</span> WinZip                                                     <span class="p">|</span> Archive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">hashcat -m <span class="m">11600</span> hash.hash toolkit/wordlists/rockyou.txt
+</span></span></code></pre></div><p>And the result is the following. For rockyou.txt file the estimated time was about 16-18 hours. So, for the testing purposes I created a simple wordlist with just 3 words.</p>
+<p><img src="images/hashcat.png" alt="mg"></p>
 <h2 id="-tools">🛠 Tools</h2>
+<p>Installation steps and troubleshooting are listed in the Toolkit section (Forensic lab setup) of this website.</p>
+<h3 id="wordlists">Wordlists</h3>
+<p><a href="https://github.com/openethereum/wordlist/blob/master/res/wordlist.txt">https://github.com/openethereum/wordlist/blob/master/res/wordlist.txt</a>
+<a href="https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt">https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt</a></p>
 <h3 id="john-the-ripper-password-cracker">John the Ripper password cracker</h3>
 <h3 id="hashcat">hashcat</h3>
 <h2 id="references">References</h2>
@@ -276,7 +294,7 @@ weight: 100</h2>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
