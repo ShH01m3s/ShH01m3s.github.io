@@ -189,6 +189,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#general-considerations">General Considerations</a></li>
     <li><a href="#file-system">File System</a>
       <ul>
         <li><a href="#logical">Logical</a></li>
@@ -237,7 +238,9 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="file-system">File System</h2>
+    <h2 id="general-considerations">General Considerations</h2>
+<p>First of all, all the Apple devices support remote wiping which has evolved significantly over the year and now support Bluetooth. When I say wiping over Bluetooth, it doesn&rsquo;t mean that the person wiping and the device need to be in the Bluetooth range (which is quite short). It could be an examiner with a Bluetooth enabled standing near the iPhone with Bluetooth on and the person of interest somewher within the range of the first responder. I didn&rsquo;t try this myself, but I should. This is based on the interview given on the Surviving Digital Forensics podcast on T1 and T2 Apple devices and the challenges the forensic examiners now face.</p>
+<h2 id="file-system">File System</h2>
 <p>Older iOS systems had HFS and HFS+; now, it&rsquo;s APFS (the same as for the macOS). While some challenges are associated with imaging disks formatted as APFS, it&rsquo;s not the main issue with mobile devices.</p>
 <h3 id="logical">Logical</h3>
 <p>Logical acquisition is the same when you copy files from the phone, like with AirDrop or over the wire. That means that you miss the slack and are unallocated. There are file managers for iOS out there, but they won&rsquo;t be able to provide a bit-by-bit copy of the contents unless the device is jailbroken.</p>
