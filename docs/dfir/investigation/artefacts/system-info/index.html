@@ -204,28 +204,31 @@
     </li>
     <li><a href="#macos">macOS</a>
       <ul>
-        <li><a href="#-btfm">📘 BTFM</a></li>
+        <li><a href="#system_profiler-sw_vers-uname"><code>system_profiler</code>, <code>sw_vers</code>, <code>uname</code></a></li>
+        <li><a href="#osquery">osquery</a></li>
+        <li><a href="#dailyout">daily.out</a></li>
       </ul>
     </li>
+    <li><a href="#linux">Linux</a></li>
     <li><a href="#aws">AWS</a>
       <ul>
-        <li><a href="#-btfm-1">📘 BTFM</a></li>
+        <li><a href="#-btfm">📘 BTFM</a></li>
       </ul>
     </li>
     <li><a href="#android">Android</a>
       <ul>
-        <li><a href="#-btfm-2">📘 BTFM</a></li>
+        <li><a href="#-btfm-1">📘 BTFM</a></li>
       </ul>
     </li>
     <li><a href="#ios">iOS</a>
       <ul>
         <li><a href="#power-log">Power Log</a></li>
-        <li><a href="#-btfm-3">📘 BTFM</a></li>
+        <li><a href="#-btfm-2">📘 BTFM</a></li>
       </ul>
     </li>
     <li><a href="#kubernetes">Kubernetes</a>
       <ul>
-        <li><a href="#-btfm-4">📘 BTFM</a></li>
+        <li><a href="#-btfm-3">📘 BTFM</a></li>
       </ul>
     </li>
   </ul>
@@ -304,24 +307,69 @@
 </span></span></code></pre></div><h3 id="system-time">System time</h3>
 <p>Key 🔑: <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation\TimeZoneKeyName</code></p>
 <h2 id="macos">macOS</h2>
-<p><code>system_profiler</code>, <code>sw_vers</code>, <code>uname</code></p>
+<p><strong>TODO</strong>: same structure as for Windows</p>
+<h3 id="system_profiler-sw_vers-uname"><code>system_profiler</code>, <code>sw_vers</code>, <code>uname</code></h3>
+<h3 id="osquery">osquery</h3>
 <p>In case osquery was perinstalled on the machine in question, we are in a better position. It&rsquo;s a very powerful tool. It queries the system for various information and presents it as a table.</p>
-<h3 id="-btfm">📘 BTFM</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">osqueryi
 </span></span><span class="line"><span class="cl"><span class="c1"># config on macOS (installed via brew) is /var/osquery/osquery.example.config</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## mac addresses</span>
+</span></span><span class="line"><span class="cl">grep -iro <span class="s1">&#39;[0-9a-f]\{2\}:[0-9a-f]\{2\}:[0-9a-f]\{2\}:[0-9a-f]\{2\}:[0-9a-f]\{2\}:[0-9a-f]\{2\}&#39;</span>
+</span></span></code></pre></div><h3 id="dailyout">daily.out</h3>
+<p>Stored at <code>/root/private/var/log/daily.out</code> along with interfaces. Example of the file contents:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Sun Apr <span class="m">12</span> 13:27:17 EDT <span class="m">2020</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Removing old temporary files:
+</span></span><span class="line"><span class="cl">Cleaning out old system announcements:
+</span></span><span class="line"><span class="cl">Removing stale files from /var/rwho:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Disk status:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Filesystem     Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/dev/disk1s5  100Gi  9.9Gi   83Gi    11%  <span class="m">481695</span> 1044735185    0%   /
+</span></span><span class="line"><span class="cl">/dev/disk1s1  100Gi  6.3Gi   83Gi     8%   <span class="m">34701</span> 1045182179    0%   /System/Volumes/Data
+</span></span><span class="line"><span class="cl">/dev/disk1s4  100Gi  1.0Mi   83Gi     1%       <span class="m">1</span> 1045216879    0%   /private/var/vm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Network interface status:
+</span></span><span class="line"><span class="cl">Name       Mtu   Network       Address            Ipkts Ierrs    Opkts Oerrs  Coll
+</span></span><span class="line"><span class="cl">lo0   <span class="m">16384</span> &lt;Link#1&gt;                          <span class="m">1072</span>     <span class="m">0</span>     <span class="m">1072</span>     <span class="m">0</span>     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">lo0   <span class="m">16384</span> <span class="m">127</span>           localhost           <span class="m">1072</span>     -     <span class="m">1072</span>     -     -
+</span></span><span class="line"><span class="cl">lo0   <span class="m">16384</span> localhost   ::1                   <span class="m">1072</span>     -     <span class="m">1072</span>     -     -
+</span></span><span class="line"><span class="cl">lo0   <span class="m">16384</span> fe80::1%lo0 fe80:1::1             <span class="m">1072</span>     -     <span class="m">1072</span>     -     -
+</span></span><span class="line"><span class="cl">gif0* 1280  &lt;Link#2&gt;                             <span class="m">0</span>     0        <span class="m">0</span>     <span class="m">0</span>     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">stf0* 1280  &lt;Link#3&gt;                             <span class="m">0</span>     0        <span class="m">0</span>     <span class="m">0</span>     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">en0   1500  &lt;Link#4&gt;    00:0c:29:c4:65:77   <span class="m">372733</span>     0    <span class="m">73025</span>     <span class="m">0</span>     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">en0   1500  fe80::8c8:8 fe80:4::8c8:87c2:   <span class="m">372733</span>     -    <span class="m">73025</span>     -     -
+</span></span><span class="line"><span class="cl">en0   1500  184.171.151/2 stu-181-151-171   <span class="m">372733</span>     -    <span class="m">73025</span>     -     -
+</span></span><span class="line"><span class="cl">utun0 1380  &lt;Link#5&gt;                             <span class="m">0</span>     0        <span class="m">2</span>     <span class="m">0</span>     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">utun0 1380  fe80::8375: fe80:5::8375:3ebe        <span class="m">0</span>     -        <span class="m">2</span>     -     -
+</span></span><span class="line"><span class="cl">utun1 2000  &lt;Link#6&gt;                             <span class="m">0</span>     0        <span class="m">2</span>     <span class="m">0</span>     <span class="m">0</span>
+</span></span><span class="line"><span class="cl">utun1 2000  fe80::feea: fe80:6::feea:9530        <span class="m">0</span>     -        <span class="m">2</span>     -     -
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Local system status:
+</span></span><span class="line"><span class="cl">13:27  up <span class="m">7</span> mins, <span class="m">1</span> user, load averages: 7.76 3.82 1.64
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-- End of daily output --
+</span></span></code></pre></div><h2 id="linux">Linux</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/*-release
+</span></span><span class="line"><span class="cl">/etc/hostname
+</span></span><span class="line"><span class="cl">/etc/hosts
+</span></span><span class="line"><span class="cl">/var/lib/networkmanager, dhclient, and dhcp
 </span></span></code></pre></div><h2 id="aws">AWS</h2>
 <p>On AWS there is a service that can be quieried for EC2 information. Official <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">docs</a>.This data <strong>should be</strong> quieried from within the instance.</p>
 <blockquote>
 <p>⚠️ Turn off IMDS if you don&rsquo;t need it for work.</p>
 </blockquote>
-<h3 id="-btfm-1">📘 BTFM</h3>
+<h3 id="-btfm">📘 BTFM</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># list all buckets using sso</span>
 </span></span><span class="line"><span class="cl">aws s3 ls --profile dev
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Querying the EC2 IMDS for different instance information</span>
 </span></span><span class="line"><span class="cl">curl -s <span class="s2">&#34;http://169.254.169.254/latest/meta-data/ami-id
 </span></span></span></code></pre></div><h2 id="android">Android</h2>
-<h3 id="-btfm-2">📘 BTFM</h3>
+<h3 id="-btfm-1">📘 BTFM</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Battery stats</span>
 </span></span><span class="line"><span class="cl">cat /data/data/com.google.android.gms/shared_prefs/Batterystats.xml
 </span></span><span class="line"><span class="cl">
@@ -330,7 +378,7 @@
 </span></span></code></pre></div><h2 id="ios">iOS</h2>
 <p>If <a href="https://command-not-found.com/ideviceinfo">this</a> package is installed, run <code>ideviceinfo</code>. Will also show data for connected devices. With this utility you can also target specific device by its UUID. One of the use cases: connect an iOS device and query. Read full focs <a href="https://libimobiledevice.org/#examples">here</a>. How to use <code>ideviceinfo</code> command <a href="https://docs.libimobiledevice.org/libimobiledevice/latest/">here</a>.</p>
 <h3 id="power-log">Power Log</h3>
-<h3 id="-btfm-3">📘 BTFM</h3>
+<h3 id="-btfm-2">📘 BTFM</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/private/var/containers/Shared/SystemGroup/<span class="o">[</span>APPGUID<span class="o">]</span>/Library/BatteryLife/CurrentPowerlog.PLSQL
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">/private/var/containers/Shared/SystemGroup/<span class="o">[</span>APPGUID<span class="o">]</span>/Library/BatteryLife/Archives/powerlog_ DATE_ID.PLSQL.gz
@@ -338,7 +386,7 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># KnowledgeC</span>
 </span></span><span class="line"><span class="cl">/private/var/mobile/Library/CoreDuet/Knowledge/knowledgeC.db
 </span></span></code></pre></div><h2 id="kubernetes">Kubernetes</h2>
-<h3 id="-btfm-4">📘 BTFM</h3>
+<h3 id="-btfm-3">📘 BTFM</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe node <span class="p">|</span> grep -i image <span class="c1"># get OS info</span>
 </span></span><span class="line"><span class="cl">kubectl describe pod &lt;podname&gt; <span class="p">|</span> grep -i node <span class="c1"># get image info and master node info as well as lots of other information</span>
 </span></span><span class="line"><span class="cl">kubectl describe pod &lt;podname&gt; <span class="c1"># get the amount of containers within the pod</span>
