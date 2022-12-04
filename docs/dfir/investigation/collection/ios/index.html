@@ -189,7 +189,12 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#file-system">File System</a></li>
+    <li><a href="#file-system">File System</a>
+      <ul>
+        <li><a href="#logical">Logical</a></li>
+        <li><a href="#imaging">Imaging</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -233,7 +238,32 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="file-system">File System</h2>
-<p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. Should not be used on a live system!</p>
+<p>Older iOS systems had HFS and HFS+; now, it&rsquo;s APFS (the same as for the macOS). While some challenges are associated with imaging disks formatted as APFS, it&rsquo;s not the main issue with mobile devices.</p>
+<h3 id="logical">Logical</h3>
+<p>Logical acquisition is the same when you copy files from the phone, like with AirDrop or over the wire. That means that you miss the slack and are unallocated. There are file managers for iOS out there, but they won&rsquo;t be able to provide a bit-by-bit copy of the contents unless the device is jailbroken.</p>
+<blockquote>
+<p>🗒 I have read the article Deleted Chat Case Study, Nikhil Mahadeshwar (eForensics magazine, Linux Forensics), which mentions recovering deleted data from iOS. Not sure if they jailbroke it or not.</p>
+</blockquote>
+<h3 id="imaging">Imaging</h3>
+<p>As mentioned above, without a jailbreak it&rsquo;s impossible to image iOS device. But that doesn&rsquo;t mean you need to jailbreak it FULLY. If you read this article, <a href="https://www.cyberdefensemagazine.com/iphone-extraction/">https://www.cyberdefensemagazine.com/iphone-extraction/</a>, you will notice that these guys have come up with some chain of exploits on iOS to jailbreak the sandbox while affecting the RAM only.</p>
+<blockquote>
+<p>A little recap on the jailbreak types:</p>
+<ul>
+<li><strong>Tethered</strong> jailbreaks don&rsquo;t persist through reboots, so re-applying jailbreaks requires the device to be connected (tethered) to a computer during every reboot. The device may not reboot at all if the computer is not connected.</li>
+<li><strong>Semi-tethered</strong> jailbreaks can&rsquo;t be re-applied unless the device is connected to a computer during reboot. The device can also boot into non-jailbroken mode on its own.</li>
+<li><strong>Semi-untethered</strong> jailbreaks allow the device to boot on its own, but the kernel patches (or user-land modifications) for disabling code signing aren&rsquo;t applied automatically. The user must re-jailbreak the device by starting an app or visiting a website (not requiring a connection to a computer, hence the term untethered).</li>
+<li><strong>Untethered</strong> jailbreaks are the most popular choice for end users because they need to be applied only once, after which the device will be permanently jailbroken.</li>
+</ul>
+</blockquote>
+<p>The method mentioned in the article sounds a lot like a tethered jailbreak, meaning they still require some faults in the OS system (which means, they won&rsquo;t probably work in future) as well as writing exploits and running them on the device. That means quite a lot of change on the device to call this method fully forensically sound. Nevertheless, since it&rsquo;s impossible to collect RAM without a jailbreak and even the best methods and exploits require reboot or respring, which effectively erases all the RAM contents, we really only care about the data on disk. In this case, some slack and unallocated space might get overwritten (since the agent needs to be installed), but the author insists that nothing else get written on the disk. So, sounds like the best option so far.</p>
+<blockquote>
+<p>🧪 I was really curious if it&rsquo;s at all possible to make a bit-by-bit copy of SOME data on the iDevice without a jailbreak. I have collected some informaiton on the matter, but I have not got any good practicle results yet. iFun and other similar tools won&rsquo;t give the ability to mount the device and that&rsquo;s exactly what is required in order to do the proper imaging.
+<a href="https://reincubate.com/support/how-to/mount-iphone-files/#fuse">https://reincubate.com/support/how-to/mount-iphone-files/#fuse</a>
+<a href="https://stackoverflow.com/questions/67155330/installing-ifuse-with-homebrew-results-in-error-message">https://stackoverflow.com/questions/67155330/installing-ifuse-with-homebrew-results-in-error-message</a>
+<a href="https://github.com/telepresenceio/telepresence/issues/1654">https://github.com/telepresenceio/telepresence/issues/1654</a>
+<a href="https://sudonull.com/post/25455-Mount-iOS-under-OSX-using-ifuse">https://sudonull.com/post/25455-Mount-iOS-under-OSX-using-ifuse</a>
+I would like to try those options and make the really work (which at the moment of this wrtiting they seem not) and get the maximum value out of the non-jailbroken option.</p>
+</blockquote>
 
   </div>
 </article>
@@ -266,7 +296,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   
