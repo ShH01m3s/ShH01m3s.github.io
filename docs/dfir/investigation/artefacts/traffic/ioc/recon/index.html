@@ -192,6 +192,12 @@
     <li><a href="#traceroute-tracert"><code>traceroute</code>, <code>tracert</code></a></li>
     <li><a href="#ping"><code>ping</code></a></li>
     <li><a href="#telnet"><code>telnet</code></a></li>
+    <li><a href="#nmap"><code>nmap</code></a>
+      <ul>
+        <li><a href="#-rtfm">📕 RTFM</a></li>
+      </ul>
+    </li>
+    <li><a href="#hping"><code>hping</code></a></li>
     <li><a href="#-references">📚 References</a></li>
   </ul>
 </nav>
@@ -274,6 +280,18 @@
 <p>On the new one, however, ping operated over ICMP and used IPv4. Default TTL - 245. See below.</p>
 <p><img src="images/mac-ping-ttl.png" alt="img"></p>
 <h2 id="telnet"><code>telnet</code></h2>
+<h2 id="nmap"><code>nmap</code></h2>
+<blockquote>
+<p>On the same network, <code>nmap</code> sends ARP requests, by default -&gt; device discovered <code>nmap --send-ip</code></p>
+</blockquote>
+<p>Target ports are in random order.</p>
+<h3 id="-rtfm">📕 RTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -oG -sn 10.0.0.0/24 output1 <span class="o">&amp;&amp;</span> cat output1 <span class="p">|</span> grep Up <span class="p">|</span> cut -f2 -d<span class="s2">&#34;/&#34;</span> &gt; output2 <span class="c1"># oG - produce grepable results</span>
+</span></span><span class="line"><span class="cl">nmap -sT -iL output3 -p <span class="m">80</span> <span class="c1"># -iL resolve domain names</span>
+</span></span></code></pre></div><h2 id="hping"><code>hping</code></h2>
+<blockquote>
+<p>Many firewalls drop packets with no timespans, so <code>hping -S &lt;IP&gt; -p 80 --tcp-timestamp</code></p>
+</blockquote>
 <h2 id="-references">📚 References</h2>
 <details>
     <summary>Expand&hellip;</summary>
