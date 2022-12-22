@@ -326,7 +326,7 @@
 <li><code>0x52</code> - 8 - <strong>FS type</strong></li>
 </ul>
 <p>Here is the full information available:</p>
-<p><img src="fat-boot-struct.png" alt="img"></p>
+<p><img src="images/fat-boot-struct.png" alt="img"></p>
 <h4 id="root-directory">Root Directory</h4>
 <p>The name speaks for itself. It&rsquo;s the highest node in the dir structure of this volume, consists of 32 byte dir entries. Lists files and dirs in the root directory. FS stops reading these entries when it sees anything starting with <code>0x0</code>. So, data written here won&rsquo;t be seen by the OS and this is one of the ways to hide data. Types of root dir entries:</p>
 <ul>
@@ -344,7 +344,7 @@
 </li>
 <li>
 <p>1 byte for attributes (hidden (<code>0x02</code>), read-only (<code>0x01</code>), system (<code>0x04</code>), volume label (<code>0x08</code>), directory (<code>0x10</code>) and archive (<code>0x20</code>)). These attributes can be combined. Flags occupy just one byte and when there are more than one flag, their values are combined (like the access flags on Unix systems). See the attributes on the picture below. Only the bit for <code>volume</code> is set, which, given its position, has the value <code>0x08</code>.</p>
-<p><img src="fat-short-attr.png" alt="fat-short-attr"></p>
+<p><img src="images/fat-short-attr.png" alt="fat-short-attr"></p>
 </li>
 <li>
 <p>1 reserved byte - <code>0x00</code> for the long file name (not-8.3 compliant) and <code>0x10</code> for short file name (8.3 compliant) [<a href="https://www.coursera.org/learn/windows-os-forensics/home/welcome">5</a>]. In my case, however, it was always <code>0x00</code>.</p>
@@ -387,7 +387,7 @@
 </li>
 </ul>
 <p>See below the example of a long entry <em>set</em> for a file with the name <code>asdjasdlkjasldkjsalkdaskljdjaljdajd.txt</code>. The lowest part - the short file name. Then there are three long file name entries. The first byte in the yellow area is <code>0x01</code>, meaning, it&rsquo;s the first entry in the set. The next (green one), has the first byte (sequence byte) set to <code>0x02</code>, indicating it&rsquo;s the second entry in the set.The last one (on the top, colored in red) has the status byte <code>0x43</code>. The first nibble (<code>4</code>) indicates that this is the last long entry in the set. The second nibble (<code>3</code>) is the sequence number.</p>
-<p><img src="fat-long-fragmented.png" alt="fat-long-fragmented"></p>
+<p><img src="images/fat-long-fragmented.png" alt="fat-long-fragmented"></p>
 <p>If the entry is a folder, its size will be <code>00 00 00 00</code> (the last 4 bytes). In its short file name entry find the first cluster, go this cluster and you&rsquo;ll see another list of files but that are in this folder. Find the entry for the file you are looking for.</p>
 <p><strong>FAT high word</strong>. Start at 65536 and continue as power of two.</p>
 <p><em>❓ Hot to get there?</em></p>
@@ -402,11 +402,11 @@
 <p>All this information is needed to get the offset to the start of data area (in sectors!!!!). Since root directory is the first in the data area (FAT32 only), this will give us what we are looking for. Root directory is usually at the 2nd cluster <strong>relative to the start of the VBR</strong>, but better check at the offset <code>0x2C</code> (keep in mind the endianness). Then, we need to calculate the number of bytes to the data area/root directory.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">root</span> <span class="o">=</span> <span class="p">(</span><span class="n">number_of_FATs</span> <span class="o">*</span> <span class="n">sectors_per_fat</span><span class="p">)</span> <span class="o">+</span> <span class="n">reserved_sectors</span>
 </span></span></code></pre></div><p>Here is an example:</p>
-<p><img src="fat32-root-dir-find.png" alt="fat32-root-dir-find"></p>
+<p><img src="images/fat32-root-dir-find.png" alt="fat32-root-dir-find"></p>
 <p>The values on the right pane represent raw data in hex, and on the left - its human-readable interpretation by Active@Disk Editor using a FAT32 Boot Record template. We get the value at <code>0x0B</code> which is <code>0x200</code> (when coverted to little-endian) and which equals 512 in decimal (marked in red). These are <strong>bytes per sector</strong> 🍊.</p>
 <p>We then go to offset <code>0x0D</code> which is <code>0x8</code> and 8 in decimal (marked in green). That&rsquo;s <strong>sectors per cluster</strong> 🍏. Reading at offset <code>0x0E</code> 🫐 I get the <strong>number of reserved sectors</strong> (4110 in decimal). The <strong>number of FATs</strong> 🦞 is 2 (standard for FAT32) at offset <code>0x10</code> and the <strong>number of sectors per FAT</strong> 🌊 is 2041 in decimal.</p>
 <p>Let&rsquo;s use the data in the formula: <code>(2 * 2041) + 4110 = 8192</code>. This is the starting sector of data area and usually it&rsquo;s the same with the root directory. Now, to get the numbrer of bytes to this root directory, we need to multiply <code>8192</code> by bytes per sector (512) = 4194304 in decimal (<code>0x400000</code> in hex). Our VBR starts at <code>0x00010000</code> in hex or <code>65536</code> in decimal. Adding 4194304 to 65536 (or <code>0x400000</code> to <code>0x10000</code>) will give us the offset to root directory from the start of VBR ( ⚠️ not GUID/MBR header). This value is 4259840 (<code>0x410000</code>). Let&rsquo;s go there in hex editor or if you are using Active@Disk Editor, using <strong>Go to offset</strong> button on the top pane. Voila!</p>
-<p><img src="fat32-root-found.png" alt="fat32-root-found"></p>
+<p><img src="images/fat32-root-found.png" alt="fat32-root-found"></p>
 <p>You may ask, what&rsquo;s the use of this information (knowing exactly how to find the offset of the root directory). There might be cases when we need to perform manual file recovery using a hex editor (remember, Active@Disk Editor is for Windows and Linux only) or with limited tools. Also, I find it useful to understand what the tool does, since tools fail too sometimes, as well as humans. We need to verify each other from time to time.</p>
 <blockquote>
 <p>❓ One question that remains for me here: why the hell is the root cluster <code>0x2</code>? The second cluster is <code>2 * (8 * 512) = 8192</code> bytes away from the VBR start and there is no root dir there. However, when clicking on the field in Active@Disk Editor, you&rsquo;ll get to the root dir.</p>
@@ -445,16 +445,16 @@
 <p>Keeps track of clusters in use and free ones. There are FAT1 and FAT2 (the same). FAT2 for backup. Both are located in the system area. Also, singly-linked list, each entry points to the next cluster of a file (in case a file is fragmented, i.e. occupies more than one cluster). <code>0x00000000</code> - the cluster is free, <code>0xffffff0f</code> - end of file, then pointer to the next cluster (if any).</p>
 <p>The first four bytes in the FAT32 (two bytes in FAT12 and FAT16) is the media descriptor (<code>0xF8FFFFFF</code>, usually indicates a fixed disk). The next four bytes are for the FAT type (<code>0xFFFFFFFF</code> in case of FAT32). Then each four bytes tell us about each cluster ordered sequencially, i.e. CL-2 (contains the root directory in FAT32), then CL-3, then CL-4 etc. It can have three possible values: <code>0x00000000</code> - if the cluster is free, <code>0xffffff0f</code> - if the cluster is the last in the chain (end of file, EOF marker) or a pointer to the next cluster (if any, convert to little-endian and then to decimal to find it).</p>
 <p>🛠 Using Active@Disk Editor, press <code>Navigate &gt; Primary FAT32 &gt; FAT1</code> button on the top pane. Here is the example from my flash drive:</p>
-<p><img src="fat-fat-file.png" alt="fat-fat-file"></p>
+<p><img src="images/fat-fat-file.png" alt="fat-fat-file"></p>
 <p>Discarding the media descriptor and FAT version (the first 8 bytes) in the picture above we can see several clusters, most of them containing EOF marker (<code>0xFFFFFF0F</code>). That means, most of the files occupy one cluster only. Clusters 2-12 are marked with green and orange rectangles for better accessibly. Cluster 13 is marked in red and its value is <code>0x014A</code> (<code>330</code>) after converting to little-endian. That means that cluster 13 is not the last one in the chain and the next cluster is cluster number 330.</p>
 <p>Now, this is what a contiguous file would look like in FAT table (a file that occupies more than 1 cluster and the clusters following one another on disk):</p>
-<p><img src="fat-fat-contig-file.png" alt="fat-fat-contig-file"></p>
+<p><img src="images/fat-fat-contig-file.png" alt="fat-fat-contig-file"></p>
 <p>Let&rsquo;s read each 4 bytes starting from the cluster with the value <code>0x70 00 00 00</code>. This is the first cluster in the chain that points to the next cluster (<code>0x70</code> cluster, i.e. cluster 112 in decimal). Cluster 112 (<code>0x70</code>), the next one, points to the next cluster in the chain (<code>0x71</code>, i.e. 113) and so on and so forth. But as you may notice it&rsquo;s easy to note such chains.</p>
 <p>To make it easier to read FAT32 table (which has 4 bytes for each entry), you may change view preferences in Active@Disk Editor (<code>File &gt; Preferences &gt; Disk Editor &gt; Bytes per line &gt; 4</code>).</p>
 <h3 id="timestamps">Timestamps</h3>
 <p>Local times, not UTC! For Last Accessed we only have date, no time!</p>
 <p>Four bytes for date and time created (first two bytes for time 🕰 and the second two bytes for date 📆). The time bytes are first converted from the little-endian notation (two bytes flipped). In the example below, for the yellow short entry the created date and time <code>0x55 0x6E 0x31 0x53</code>. Bytes <code>0x55 0x6E</code> are for the time and <code>0x31 0x53</code> are for the date. Let&rsquo;s take the time bytes <code>0x55 0x6E</code>. Flip them to convert from the little-endian notation: <code>06E 0x55</code>. Convert each nibble to a binary value: <code>b0110</code>, <code>b1110</code>, <code>b0101</code>, <code>b0101</code>. Now, write them in a row and separate with the following template in mind: 5 bits - 6 bits - 5 bits: <code>b01101 b110010 b10101</code>. The first five bits are for hours, the next 6 bits are for minutes and the last ones are for seconds. Then, each value is converted into a decimal separately to get us 13 hrs, 50 mins and 21 seconds in the end (see the above picture only shows hours and minutes). For the date 📆 value the template is 7-4-5 but the process is the same.</p>
-<p><img src="fat-entry-struct.png" alt="fat-entry-struct"></p>
+<p><img src="images/fat-entry-struct.png" alt="fat-entry-struct"></p>
 <h3 id="fat-file-creation-and-deletion">FAT File Creation And Deletion</h3>
 <h4 id="creating">Creating</h4>
 <p>Steps that are taken when a file is created:</p>
@@ -496,7 +496,7 @@
 </ul>
 <p>Entries mared with 🍇 are those, that make up a <strong>directory set</strong>. Below is the breakdown of a directory set. The first byte (<code>0x85</code> in this case) indicates that the file is currently in use. It could be <code>0x05</code> if it were deleted.</p>
 <p>The next byte is the secondary count, which indicated how many other directory entries we have in this file directory entry set (❓). The next two bytes are for error checking and then the next two <code>0x3A 00</code> are attributes. The we have MAC times. We have last accesssed time, which we didn&rsquo;t in FAT32.</p>
-<p><img src="exfat-dir-entry-set.jpg" alt="exfat-dir-entry-set"></p>
+<p><img src="images/exfat-dir-entry-set.jpg" alt="exfat-dir-entry-set"></p>
 <h4 id="additional-files">Additional Files</h4>
 <p>exFAT has two additional files that FAT32 does not. They probably come from the NTFS&hellip;: <code>Bitmap</code> and <code>Upcase</code> (table of Unicode chars, used to convert characters for searching).</p>
 <blockquote>
@@ -508,7 +508,7 @@
 <p>⚠️ We have last accesssed <strong>time</strong>, which we didn&rsquo;t in FAT32.</p>
 </blockquote>
 <p>Below is the breakdown of how to convert a UTC byte into a human-readable value.</p>
-<p><img src="exfat-utc.jpg" alt="exfat-utc"></p>
+<p><img src="images/exfat-utc.jpg" alt="exfat-utc"></p>
 <h3 id="exfat-file-creation-and-deletion">exFAT File Creation and Deletion</h3>
 <h4 id="creation">Creation</h4>
 <ul>
@@ -562,7 +562,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

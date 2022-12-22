@@ -290,7 +290,7 @@
 </span></span></code></pre></div><h3 id="structure">Structure</h3>
 <h4 id="volume-boot-record">Volume Boot Record</h4>
 <p>In the <code>$MFT</code> is represented as <code>$Boot</code>. It&rsquo;s located at the sector <code>0</code> of the volume (not physical disk!). Below is the VBR structure for NTFS. The most important entries for forensic purposes are highlighted.</p>
-<p><img src="ntfs-boot-record-struct.png" alt="img"></p>
+<p><img src="images/ntfs-boot-record-struct.png" alt="img"></p>
 <h4 id="mft">MFT</h4>
 <p>The heart ♥️ of NTFS. Created once the disk/volume is formatted with NTFS. It&rsquo;s an index of every single file on disk (at least 1 entry of a file), including  NTFS metadata files (those that start with <code>$</code>). The first 26 records are for the system meta data files. Records 12-23 are reserved. Records 24-26 transaction log and error recovery. The first user-created file is usually at index 35.</p>
 <p>Below is the full table of the files [<a href="https://flatcap.org/linux-ntfs/ntfs/files/index.html">6</a>].</p>
@@ -431,26 +431,26 @@
 <p>A file record begins with a header (ASCII <code>FILE</code> or <code>BAAD</code> if it was corrupted). It contains info about the file. It&rsquo;s made up of attributes. Each of them contains specific information about the file record entry. Each record ends with a <code>0xFF FF FF FF</code>. It has a sequence numbere at offset <code>0x10</code> 2 bytes long, that&rsquo;s incremented each time the file is deleted (not allocated ❗️). At offset <code>0x16</code> there is an allocation status flags: <code>0x00</code> for deleted file, <code>0x01</code> for allocated one, <code>0x02</code> for deleted dir, <code>0x03</code> for allocated dir.</p>
 <p>Following the header, there are four attributes (each consists of a header and contents):</p>
 <p><strong>Standard attribute</strong>. Starts with <code>0x10</code>. Standard attribute (file permissions, timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps: file created/modified, record changed and last access time. ⚠️ All UTC.</p>
-<p><img src="ntfs-attr-10.png" alt="img"></p>
+<p><img src="images/ntfs-attr-10.png" alt="img"></p>
 <p><strong>File name</strong>. Starts with <code>0x30</code>. Also has timestamps, but for the filename. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file relevant timestamps see the atrribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT itself (see below marked with a yellow rectangle). If the file is too big, there will be a <code>data run</code> instead (❓).</p>
-<p><img src="ntfs-attr-30.png" alt="img"></p>
+<p><img src="images/ntfs-attr-30.png" alt="img"></p>
 <p><strong>Data attribute</strong>. ⚠️ Yes, data is considered an attribute in NTFS. Starts with <code>0x80</code>.  Contains data itself or the pointer to its location (depending on the file size). If the file is small enough, its contents will be here (below, green area). In this case the file is called <em>resident</em> file. Whether it&rsquo;s a resident file or not, you can determine by the <em>non-resident</em> byte (marked with a red rectangle in the picture below). In the picture below it&rsquo;s <code>0x00</code>, which means the file <em>is</em> resident and its contents is in the MFT record (right below). Marked with a green rectangle it&rsquo;s the offset to the data, for resident files it&rsquo;s always <code>0x0018</code> (little-endian), since the start of the data section is in the attribute itself at the fixed place.</p>
-<p><img src="ntfs-attr-80.png" alt="img"></p>
+<p><img src="images/ntfs-attr-80.png" alt="img"></p>
 <p>In the picture below there is an example of a record for a bigger file. Its non-resident flag is set to <code>0x01</code> (marked with a purple rectangle), meaning the contents is somewhere else on disk. In order to find the file contents location we need to perform the following steps:</p>
 <ul>
 <li><input disabled="" type="checkbox"> get the offset to data runs, which contain directions to the contents location (pointer). In the picture below it&rsquo;s <code>0x0040</code> (little-endian). This offset is relative to the attribute start. So, we count <code>0x40</code> from the attribute start and get to the location marked with a dark-red rectangle: <code>21 10 89 09 00 00 00 00</code> (run list).</li>
 <li><input disabled="" type="checkbox"> read the run list.</li>
 </ul>
-<p><img src="ntfs-nonresident-set.png" alt="img"></p>
+<p><img src="images/ntfs-nonresident-set.png" alt="img"></p>
 <p>Now, what&rsquo;s a run list?</p>
-<p><img src="ntfs-big-nonresident-run-list.png" alt="img"></p>
+<p><img src="images/ntfs-big-nonresident-run-list.png" alt="img"></p>
 <p>In the picture below this structure is highlighted on the left and expalined on the right. The first byte is the run header, it tells the number of bytes, occupied by the run list. The second byte tells the length in clusters. The next two bytes are for the starting cluster number (<strong>signed</strong> 16-bit value). End the remaining 4 bytes of zeroes - end of run.</p>
 <blockquote>
 <p>⚠️ To interpret the run header, split the byte into two nibbles and add them together: <code>2</code> + <code>1</code> = <code>3</code>, meaning, in the example above the run list length is 3 bytes. The first nibble (<code>2</code>  in this example) tells that the size of the first cluster field is 2 bytes. The second nibble tells that the size of the cluster count field of 1 byte (<code>1</code>). Together combined it&rsquo;s 3. meaning that both cluster count and first cluster fields are 3 bytes long.</p>
 </blockquote>
 <p>If the file is fragmented, there will be more than 1 data run. If there are more than 1 data run, then each next first cluster field is relative to the previous one. For example, if the first cluster for the first fragment in the first data run was <code>0x42A9</code> (17065 in decimal), and the next first cluster for the next fragment in the next data run is <code>0xBFBF</code> (-16449 decimal) then in order to get the first cluster for the second fragment, we would substitute 16449 from 17065 which would give us 616 decimal value, which would be the first cluster of the second fragment [<a href="https://www.coursera.org/learn/windows-os-forensics/home/welcome">5</a>]. So, each value is relevant to the last piece. To get the first cluster of the next fragment you&rsquo;d add it&rsquo;s value to 616 and so on and so forth. Active@Disk Editor does that automatically.</p>
 <p><strong>Object ID attribute</strong>. Starts with <code>0x40</code>. This attribute contains a GUID of a file.</p>
-<p><img src="ntfs-attr-40.png" alt="img"></p>
+<p><img src="images/ntfs-attr-40.png" alt="img"></p>
 <p><strong>Bitmap attribute</strong>. Starts with <code>0xE0</code>?<code>0xB0</code>?. ⁉️</p>
 <h3 id="file-creation-and-deletion">File Creation and Deletion</h3>
 <h4 id="creating-files">Creating Files</h4>
@@ -463,7 +463,7 @@
 <li><input disabled="" type="checkbox"> If the data is non-resident, the $BitMap file is updated to represent the clusters allocated to store the data</li>
 </ul>
 <p>Go to &ldquo;Browse File Records&rdquo; on the top pane, choose the newly created file and see its attributes. The most important are sequence number and flags. I&rsquo;ve noticed that when I create and delete files several times, the MFT file record remains the same, the sequence number just gets incremented. That&rsquo;s because NTFS uses the first free record when the file is created. If you know at which sector a resident file was located before deletion, you can view its contents before it gets overwritten. The sector number is shown on the very rightmost bottom pane in Active@Disk Editor:</p>
-<p><img src="ntfs-activediskedit-sector-createdfile.png" alt="img"></p>
+<p><img src="images/ntfs-activediskedit-sector-createdfile.png" alt="img"></p>
 <h4 id="deleting-files">Deleting Files</h4>
 <p>Steps taken:</p>
 <ul>
@@ -557,7 +557,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

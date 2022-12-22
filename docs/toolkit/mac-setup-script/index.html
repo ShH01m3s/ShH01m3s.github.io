@@ -201,13 +201,15 @@
             <li><a href="#introspy-1">Introspy</a></li>
           </ul>
         </li>
-        <li><a href="#scapy">Scapy</a></li>
-        <li><a href="#dshell-intel-macbook">Dshell, Intel MacBook</a></li>
-        <li><a href="#dshell-m1">Dshell, M1</a></li>
       </ul>
     </li>
     <li><a href="#binutils">Binutils</a></li>
     <li><a href="#password-cracking">Password Cracking</a></li>
+    <li><a href="#network">Network</a>
+      <ul>
+        <li><a href="#scapy">Scapy</a></li>
+      </ul>
+    </li>
     <li><a href="#autopsy">Autopsy</a></li>
   </ul>
 </nav>
@@ -362,8 +364,73 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># frida server</span>
 </span></span><span class="line"><span class="cl">wget https://github.com/frida/frida/releases/download/12.11.17/frida-server-12.11.17-android-arm64.xz
 </span></span><span class="line"><span class="cl">adb push frida-server-12.11.17-android-arm64.xz /usr/sbin
-</span></span></code></pre></div><p>Networking</p>
-<h3 id="scapy">Scapy</h3>
+</span></span></code></pre></div><h2 id="binutils">Binutils</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install binutils
+</span></span></code></pre></div><h2 id="password-cracking">Password Cracking</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># john the ripper</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">brew install john
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /opt/homebrew/Cellar <span class="c1"># not sure about the path</span>
+</span></span><span class="line"><span class="cl">ln -s /opt/homebrew/Cellar/john/1.9.0_1/libexec john
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># download all the scripts</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/openwall/john.git
+</span></span><span class="line"><span class="cl"><span class="c1"># copy all from https://github.com/openwall/john/tree/bleeding-jumbo/run to /opt/homebrew/Cellar/john/1.9.0_1/share/john</span>
+</span></span><span class="line"><span class="cl">cp john/run/* /opt/homebrew/Cellar/john/1.9.0_1/share/john
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># install hashcat</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">brew install hashcat
+</span></span></code></pre></div><h2 id="network">Network</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># netdiscover, https://github.com/alexxy/netdiscover/blob/master/INSTALL.mac.txt</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/alexxy/netdiscover.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> netdiscover
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># dependencies</span>
+</span></span><span class="line"><span class="cl">brew install cmake
+</span></span><span class="line"><span class="cl">brew install libpcap
+</span></span><span class="line"><span class="cl">brew install libnet
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># installation</span>
+</span></span><span class="line"><span class="cl">cmake .
+</span></span><span class="line"><span class="cl">make
+</span></span><span class="line"><span class="cl">make install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">brew install netdiscover
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Dshell, M1 Apple Silicon</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/USArmyResearchLab/Dshell.git
+</span></span><span class="line"><span class="cl">python3 -m pip install Dshell/
+</span></span><span class="line"><span class="cl">pip install geoip2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">wget https://git.io/GeoLite2-ASN.mmdb
+</span></span><span class="line"><span class="cl">wget https://git.io/GeoLite2-City.mmdb
+</span></span><span class="line"><span class="cl">wget https://git.io/GeoLite2-Country.mmdb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cp GeoLite2* /Users/sherlock/.pyenv/versions/3.9.11/lib/python3.9/site-packages/dshell/data/GeoIP/  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Dshell, Intel</span>
+</span></span><span class="line"><span class="cl">sudo python3 -m pip install <span class="o">[</span>tar_file<span class="o">]</span> <span class="c1"># option 1 </span>
+</span></span><span class="line"><span class="cl">pip install dshell <span class="c1"># option 2. didn&#39;t work for me</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># add dbs</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># signup here https://dev.maxmind.com/geoip/geoip2/geolite2/#Databases</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># login and download 3 dbs: GeoLite2-ASN.mmdb, GeoLite2-City.mmdb, GeoLite2-Country.mmdb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># add oui.txt to /data directory</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /Users/<span class="o">[</span>user_name<span class="o">]</span>/.pyenv/versions/3.8.5/envs/python3/lib/python3.8/site-packages/dshell/data
+</span></span><span class="line"><span class="cl">sudo wget http://standards-oui.ieee.org/oui.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">brew install hping
+</span></span></code></pre></div><h3 id="scapy">Scapy</h3>
 <p>Download MacTex <a href="http://www.tug.org/mactex/">here</a> and install. Install <a href="https://sourceforge.net/projects/sox/">SoX</a>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pyenv activate python3 <span class="c1"># [optional] using virtual envs and python3.8.5</span>
 </span></span><span class="line"><span class="cl">pip install pyx
@@ -385,65 +452,6 @@
 </span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span>:0.0
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">pip install --pre <span class="s1">&#39;scapy[complete]&#39;</span> <span class="c1"># the &#39; is needed when run on MacOSX</span>
-</span></span></code></pre></div><h3 id="dshell-intel-macbook">Dshell, Intel MacBook</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo python3 -m pip install <span class="o">[</span>tar_file<span class="o">]</span> <span class="c1"># option 1 </span>
-</span></span><span class="line"><span class="cl">pip install dshell <span class="c1"># option 2. didn&#39;t work for me</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># add dbs</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># signup here https://dev.maxmind.com/geoip/geoip2/geolite2/#Databases</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># login and download 3 dbs: GeoLite2-ASN.mmdb, GeoLite2-City.mmdb, GeoLite2-Country.mmdb</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># add oui.txt to /data directory</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /Users/<span class="o">[</span>user_name<span class="o">]</span>/.pyenv/versions/3.8.5/envs/python3/lib/python3.8/site-packages/dshell/data
-</span></span><span class="line"><span class="cl">sudo wget http://standards-oui.ieee.org/oui.txt
-</span></span></code></pre></div><h3 id="dshell-m1">Dshell, M1</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Dshell</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">git clone https://github.com/USArmyResearchLab/Dshell.git
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">python3 -m pip install Dshell/
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">pip install geoip2
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">wget https://git.io/GeoLite2-ASN.mmdb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">wget https://git.io/GeoLite2-City.mmdb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">wget https://git.io/GeoLite2-Country.mmdb
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">cp GeoLite2* /Users/sherlock/.pyenv/versions/3.9.11/lib/python3.9/site-packages/dshell/data/GeoIP/  
-</span></span></code></pre></div><h2 id="binutils">Binutils</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install binutils
-</span></span></code></pre></div><h2 id="password-cracking">Password Cracking</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># john the ripper</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">brew install john
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /opt/homebrew/Cellar <span class="c1"># not sure about the path</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">ln -s /opt/homebrew/Cellar/john/1.9.0_1/libexec john
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># download all the scripts</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">git clone https://github.com/openwall/john.git
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># copy all from https://github.com/openwall/john/tree/bleeding-jumbo/run to /opt/homebrew/Cellar/john/1.9.0_1/share/john</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">cp john/run/* /opt/homebrew/Cellar/john/1.9.0_1/share/john
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># install hashcat</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">brew install hashcat
 </span></span></code></pre></div><h2 id="autopsy">Autopsy</h2>
 <p><a href="https://slo-sleuth.github.io/tools/InstallingAutopsyOnMacOS.html">https://slo-sleuth.github.io/tools/InstallingAutopsyOnMacOS.html</a></p>
 
@@ -478,7 +486,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

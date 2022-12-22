@@ -189,9 +189,10 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#traceroute-tracert">traceroute, tracert</a></li>
-    <li><a href="#ping">ping</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#traceroute-tracert"><code>traceroute</code>, <code>tracert</code></a></li>
+    <li><a href="#ping"><code>ping</code></a></li>
+    <li><a href="#telnet"><code>telnet</code></a></li>
+    <li><a href="#-references">📚 References</a></li>
   </ul>
 </nav>
  </aside>
@@ -220,7 +221,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="traceroute-tracert">traceroute, tracert</h2>
+    <h2 id="traceroute-tracert"><code>traceroute</code>, <code>tracert</code></h2>
 <p>On Windows, it&rsquo;s <code>tracert</code> (due to some legacy max-name-size limitations). On Linux and macOS - <code>traceroute</code>. Windows uses ICMP protocol by default, while macOS and Linux - <code>UDP</code>. You can, however, make <code>tracerout</code> on UNIX operate over ICMP by specifying <code>-I</code> switch.</p>
 <blockquote>
 <p>🧪 There is an extraordinary thing that I have noticed. I was trying to capture the traceroute and tracert traffic to show the screenshots.</p>
@@ -267,14 +268,17 @@
 <p>Now, let&rsquo;s see what happens when we use ICMP instead. Pretty much the same, except that the protocols are different. For this to work, you will need to add a <code>-I</code> switch.</p>
 <p><img src="images/mac-icmp-traceroute-1.png" alt="img"></p>
 <p><img src="images/mac-icmp-treaceroute-3.png" alt="img"></p>
-<h2 id="ping">ping</h2>
-<blockquote>
-<p>🗒 macOS ping using ICMPv6 protocol (so, the filter in Wireshark should be set to <code>icmpv6</code>). And it&rsquo;s done over <code>IPv6</code>, so instead of <code>TTL</code> there is <code>Hop Limit</code> which is set to <code>255</code>.</p>
-</blockquote>
-<h2 id="references">References</h2>
+<h2 id="ping"><code>ping</code></h2>
+<p>I have run ping <code>bakerst221b.com</code> on my Mac and looked at the traffic and the command output. Here are my observations.</p>
+<p>My older Mac is using ICMPv6 protocol with <code>ping</code> command. So, the filter in Wireshark should be set to <code>icmpv6</code>. And it was done over <code>IPv6</code>, so instead of <code>TTL</code> there was <code>Hop Limit</code> which was set to <code>255</code>.</p>
+<p>On the new one, however, ping operated over ICMP and used IPv4. Default TTL - 245. See below.</p>
+<p><img src="images/mac-ping-ttl.png" alt="img"></p>
+<h2 id="telnet"><code>telnet</code></h2>
+<h2 id="-references">📚 References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <h3 id="1">1</h3>
+<p>More information about the different OS and their TTL  - <a href="https://subinsb.com/default-device-ttl-values/">https://subinsb.com/default-device-ttl-values/</a>, <a href="https://jonathansblog.co.uk/os-detection-techniques">https://jonathansblog.co.uk/os-detection-techniques</a>, <a href="https://ostechnix.com/identify-operating-system-ttl-ping/">https://ostechnix.com/identify-operating-system-ttl-ping/</a>
 </details>
 
   </div>
@@ -308,7 +312,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
