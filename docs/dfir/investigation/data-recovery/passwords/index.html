@@ -178,7 +178,6 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#zip">zip</a></li>
-    <li><a href="#windows-hashes">Windows hashes</a></li>
     <li><a href="#-tools">🛠 Tools</a>
       <ul>
         <li><a href="#wordlists">Wordlists</a></li>
@@ -237,17 +236,8 @@
 </span></span><span class="line"><span class="cl">  <span class="m">13600</span> <span class="p">|</span> WinZip                                                     <span class="p">|</span> Archive
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">hashcat -m <span class="m">11600</span> hash.hash toolkit/wordlists/rockyou.txt
-</span></span></code></pre></div><p>And the result is the following. For <code>rockyou.txt</code> file, the estimated time was about 16-18 hours. So, for testing purposes, I created a three-word list.</p>
+</span></span></code></pre></div><p>And the result is the following. For rockyou.txt file the estimated time was about 16-18 hours. So, for the testing purposes I created a simple wordlist with just 3 words.</p>
 <p><img src="images/hashcat.png" alt="mg"></p>
-<h2 id="windows-hashes">Windows hashes</h2>
-<p>The passwords have the following format:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-</span></span><span class="line"><span class="cl">Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-</span></span><span class="line"><span class="cl">Jon:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hashcat --help <span class="p">|</span> grep -i ntlm
-</span></span><span class="line"><span class="cl">hashcat -m <span class="m">1000</span> passwords.txt /Users/username/Documents/toolkit/wordlists/rockyou.txt
-</span></span></code></pre></div><p>Here is what the output looks like:</p>
-<p><img src="images/hashcat-ntlm.png" alt="img"></p>
 <h2 id="-tools">🛠 Tools</h2>
 <p>Installation steps and troubleshooting are listed in the Toolkit section (Forensic lab setup) of this website.</p>
 <h3 id="wordlists">Wordlists</h3>
