@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>macOS Persistence Mechanisms - Analyst</title>
+  <title>macOS Infection Vectors - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -172,9 +172,22 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/artefacts/persistence/"> 👈🏼 Back to </br> 👣 Persistance Mechanisms </a>
+   <a href="/docs/dfir/investigation/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#protections">Protections</a>
+      <ul>
+        <li><a href="#-btfm">📘 BTFM</a></li>
+      </ul>
+    </li>
+    <li><a href="#xcode-projects">Xcode projects</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -182,32 +195,43 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">macOS Infection Vectors</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
 
 
-
- 
- <h1 class="title">macOS Persistence Mechanisms</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/persistence/mac/libs/"> </a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/persistence/mac/agents-daemons/"> Launch Agents and Daemons</a></h2> 
-    <p> ⚙️ The most relevant keys in a plist would be the following:
- Label Arguments RunAtLoad - persistence.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/persistence/mac/tasks/"> Scheduled Tasks</a></h2> 
-    <p> crontab -l
-https://osxdaily.com/2020/06/05/list-all-cron-jobs/
-Cron /usr/bin/crontab Post-exploitation RT tool EmPyre has a module to exploit this technique.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/persistence/mac/startup/"> Startup Options</a></h2> 
-    <p> Login Items System Preferences -&gt; Users &amp; Groups -&gt; Login Items. Additional: SDF podcast.
-How to determine if it&rsquo;s malicious?</p>
-
-
-
-
+  <div class="content" itemprop="articleBody">
+    <p><em>This is about &hellip; .</em></p>
+<h2 id="protections">Protections</h2>
+<ol>
+<li><strong>Gatekeeper</strong>. Gatekeeper in OS X Mountain Lion (10.8). Built atop File Quarantine, Gatekeeper checks the code-signing information of downloaded items and blocks those that do not adhere to system policies. Patrick Wardle, &ldquo;Gatekeeper Exposed,&rdquo; January 17, 2016, <a href="https://speakerdeck.com/patrickwardle/shmoocon-2016-gatekeeper-exposed-come-see-conquer/">https://speakerdeck.com/patrickwardle/shmoocon-2016-gatekeeper-exposed-come-see-conquer/</a>.</li>
+<li><strong>File Quarantine</strong> provides a warning to the user that asks for explicit confirmation before allowing the file to execute.</li>
+<li><strong>Application notarization requirements</strong>. These requirements ensure that Apple has scanned and approved all software before it is allowed to run.</li>
+</ol>
+<h3 id="-btfm">📘 BTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">spctl -a -vvv -t install /Volumes/Install/Installer.app <span class="c1"># check if the application notarisation requirements were satisfied.</span>
+</span></span></code></pre></div><h2 id="xcode-projects">Xcode projects</h2>
+<p>A script in the project’s <code>project.pbxproj</code> file that executes another script, <code>Assets.xcassets</code>, from a hidden directory called <code>/.xcassets/</code>.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>⚙️ macOS Configurations - Analyst</title>
+  <title>Common Initial Attack Vectors - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -172,13 +172,28 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/artefacts/configs/"> 👈🏼 Back to </br> ⚙️ Windows Config </a>
+   <a href="/docs/dfir/investigation/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#kerberos">Kerberos</a></li>
-    <li><a href="#plists">Plists</a></li>
+    <li><a href="#malicious-emails">Malicious Emails</a></li>
+    <li><a href="#fake-support">Fake Support</a></li>
+    <li><a href="#fake-updates">Fake updates</a></li>
+    <li><a href="#fake-apps">Fake Apps</a></li>
+    <li><a href="#trojans">Trojans</a></li>
+    <li><a href="#pirated-or-cracked-apps">Pirated or Cracked Apps</a></li>
+    <li><a href="#custom-url-schemes">Custom URL Schemes</a>
+      <ul>
+        <li><a href="#-btfm">📘 BTFM</a></li>
+      </ul>
+    </li>
+    <li><a href="#macros">Macros</a></li>
+    <li><a href="#supply-chain-attacks">Supply Chain Attacks</a></li>
+    <li><a href="#account-compromises-of-remote-services">Account Compromises of Remote Services</a></li>
+    <li><a href="#exploits">Exploits</a></li>
+    <li><a href="#physical-access">Physical Access</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -190,36 +205,14 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">⚙️ macOS Configurations</h1>
+<h1 class="title">Common Initial Attack Vectors</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     <div class="meta">
       
       
-      <div class="article-category">
-          
-            
-            
-            
-              <i class="fab fa-apple"></i>
-            
-            
-            
-            
-          
-          
-      </div> <br />
-      
 
-      
-      <div class="article-category">
-        <i class="fas fa-tools"></i>
-          
-          
-          <a class="platform-link" href="/tools/plutil">plutil</a> 
-          
-      </div> <br />
       
       
 
@@ -229,16 +222,41 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Most of the configirations on macOS are stored in <code>plist</code> files. Unlike Windows with its one repo called the Registry 😱 there is no single place with all the <code>plist</code>s.</p>
-<h2 id="kerberos">Kerberos</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">plutil -p <span class="s2">&#34;./0/root/private/var/db/dslocal/nodes/Default/config/KerberosKDC.plist&#34;</span>
-</span></span></code></pre></div><h2 id="plists">Plists</h2>
+    <p><em>This is about &hellip; .</em></p>
+<h2 id="malicious-emails">Malicious Emails</h2>
 <ol>
-<li>Label</li>
-<li>Arguments</li>
-<li>RunAtLoad - persistence.</li>
+<li>📦 Attachements</li>
+<li>🔗 Links</li>
 </ol>
-
+<h2 id="fake-support">Fake Support</h2>
+<p>One example, cybercriminals could typosquat the domain. Victims will be notified about being infected if they visit the website. A number is provided to get in touch with &ldquo;tech support&rdquo;.</p>
+<h2 id="fake-updates">Fake updates</h2>
+<h2 id="fake-apps">Fake Apps</h2>
+<p>Unlike trojanized applications (described later) that still provide the original application&rsquo;s functionality so that nothing appears amiss, fake applications generally execute a malicious payload and then exit.</p>
+<h2 id="trojans">Trojans</h2>
+<p><a href="https://objective-see.org/blog/blog_0x49.html">https://objective-see.org/blog/blog_0x49.html</a></p>
+<h2 id="pirated-or-cracked-apps">Pirated or Cracked Apps</h2>
+<p>iWorm</p>
+<h2 id="custom-url-schemes">Custom URL Schemes</h2>
+<p>WindTail infected Mac users by abusing various features of macOS, including Safari’s automatic opening of files deemed safe and the operating system’s registration of custom URL schemes. The victim would download a ZIP archive containing the malware. If the target was using Safari, the browser would extract the archive automatically thanks to its Open “safe” files option, which is enabled by default. macOS will automatically process any application as soon as it is saved to disk, which happens when it is extracted from an archive. This processing includes registering the application as a URL handler if the application supports any custom URL schemes.</p>
+<p>Look for <code>CFBundleURLSchemes</code> in the app&rsquo;s <code>Info.plist</code>.</p>
+<p>A daemon <code>lsd</code> will parse this info and register them in the launch services database <code>com.apple.LaunchServices-231-v2.csstore</code>. Chech the DB with <code>lsregister</code>.</p>
+<h3 id="-btfm">📘 BTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">fs_usage -w -f filesystem
+</span></span><span class="line"><span class="cl">/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -dump
+</span></span></code></pre></div><h2 id="macros">Macros</h2>
+<p>Usually written in Visual Basic for Applications (VBA), macro code generally invokes Microsoft APIs such as AutoOpen and Document_Open to ensure its malicious code will automatically execute once the document is opened and the user has enabled macros. Use 🧰 oletools to extract and examine macros: <code>olevba -c filename</code></p>
+<h2 id="supply-chain-attacks">Supply Chain Attacks</h2>
+<h2 id="account-compromises-of-remote-services">Account Compromises of Remote Services</h2>
+<p>RDP
+SSH</p>
+<h2 id="exploits">Exploits</h2>
+<h2 id="physical-access">Physical Access</h2>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
   </div>
 </article>
 </div>

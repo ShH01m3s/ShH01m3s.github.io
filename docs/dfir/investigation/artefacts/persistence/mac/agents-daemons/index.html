@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Startup Options - Analyst</title>
+  <title>Launch Agents and Daemons - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -177,11 +177,8 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#login-items">Login Items</a>
-      <ul>
-        <li><a href="#programming-persistence">Programming persistence</a></li>
-      </ul>
-    </li>
+    <li><a href="#agents">Agents</a></li>
+    <li><a href="#daemons">Daemons</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -194,26 +191,12 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Startup Options</h1>
+<h1 class="title">Launch Agents and Daemons</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
     <div class="meta">
       
-      
-      <div class="article-category">
-          
-            
-            
-            
-              <i class="fab fa-apple"></i>
-            
-            
-            
-            
-          
-          
-      </div> <br />
       
 
       
@@ -225,25 +208,54 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="login-items">Login Items</h2>
-<p><code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
-<p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
-<blockquote>
-<p>Login items run within the user’s desktop session, inheriting the user’s permissions, and start automatically at user login. Due to this afforded persistence, Mac malware will commonly install itself as a login item. You can find examples of this technique in malware like Kitm, NetWire, and WindTail. Wardle, Patrick. The Art of Mac Malware (p. 24). No Starch Press. Kindle Edition.</p>
-</blockquote>
-<blockquote>
-<p>❗️ macOS doesn’t readily show the full path to a persisted login item in its interface (unless you hover over the item for a few seconds)</p>
-</blockquote>
-<p>👻 <code>backgroundtaskmanagementagent</code> is a daemon that is running in the background and thus also manages login items. The list of the items is stored in a file ⚙️  named <code>backgrounditems.btm</code>.</p>
-<h3 id="programming-persistence">Programming persistence</h3>
-<p>⚙️  <code>LSSharedFileListCreate</code> (returns the reference to the list) -&gt; <code>LSSharedFileListInsertItemURL</code> (adds a new item, requires a full path to the item).</p>
-<p>To view the APIs used run <code>nm WindTail/Final_Presentation.app/Contents/MacOS/usrnode</code>. Seeing the above two APIs in the list suggest this persistence mechanism was used by the binary.</p>
-<p>🥷🏼 (stealthy) <code>SMLoginItemSetEnabled</code> - the “Modern Login Items” blog post or Apple’s documentation on the topic. This allows application-specific helper login items. They don&rsquo;t show up in the Preferences. Those items are stored in <code>LoginItems</code> subdirectory of an application’s bundle.</p>
-<h2 id="references">References</h2>
+    <p>⚙️ The most relevant keys in a plist would be the following:</p>
+<ol>
+<li>Label</li>
+<li>Arguments</li>
+<li>RunAtLoad - persistence.</li>
+<li>PathState (<a href="https://macadmins.psu.edu/files/2012/11/psumacconf2012-launchd.pdf">https://macadmins.psu.edu/files/2012/11/psumacconf2012-launchd.pdf</a>)</li>
+<li>StartCalendarInterval (<a href="https://macadmins.psu.edu/files/2012/11/psumacconf2012-launchd.pdf">https://macadmins.psu.edu/files/2012/11/psumacconf2012-launchd.pdf</a>)</li>
+</ol>
+<p>👻  <code>launchd</code> process is responsible for running these items. 📚 Reference: A Launch tutorial, <a href="https://www.launchd.info/;">https://www.launchd.info/;</a> &ldquo;Getting Started with Launchd for Sys Admins,&rdquo; Penn State MacAdmins Conference 2012, <a href="https://macadmins.psu.edu/files/2012/11/psumacconf2012-launchd.pdf">https://macadmins.psu.edu/files/2012/11/psumacconf2012-launchd.pdf</a>.</p>
+<p>An example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE plist PUBLIC ...&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&#34;1.0&#34;</span><span class="nt">&gt;&lt;dict&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="nt">&lt;key&gt;</span>Label<span class="nt">&lt;/key&gt;</span>    
+</span></span><span class="line"><span class="cl"> <span class="nt">&lt;string&gt;</span>com.foo.bar<span class="nt">&lt;/string&gt;</span>   
+</span></span><span class="line"><span class="cl"> <span class="nt">&lt;key&gt;</span>ProgramArguments<span class="nt">&lt;/key&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;array&gt;</span>        
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;string&gt;</span>/Users/user/launchItem<span class="nt">&lt;/string&gt;</span>       
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;string&gt;</span>argument 1<span class="nt">&lt;/string&gt;</span>    
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;string&gt;</span>argument 2<span class="nt">&lt;/string&gt;</span>    
+</span></span><span class="line"><span class="cl"> <span class="nt">&lt;/array&gt;</span>    
+</span></span><span class="line"><span class="cl"> <span class="nt">&lt;key&gt;</span>RunAtLoad<span class="nt">&lt;/key&gt;</span>    
+</span></span><span class="line"><span class="cl">1 <span class="nt">&lt;true/&gt;</span> 
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dict&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plist&gt;</span>
+</span></span></code></pre></div><p>Wardle, Patrick. The Art of Mac Malware (p. 27). No Starch Press. Kindle Edition.</p>
+<h2 id="agents">Agents</h2>
+<p>Run once the user is logged in. Do not have root permissions. They may interract with the user session.</p>
+<p>The plists can be found here:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Library/LaunchAgents 
+</span></span><span class="line"><span class="cl">~/Library/LaunchAgents
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># to read the file run</span>
+</span></span><span class="line"><span class="cl">plutil -p &lt;path to plist&gt;
+</span></span><span class="line"><span class="cl">defaults <span class="nb">read</span> &lt;path to plist&gt;
+</span></span></code></pre></div><h2 id="daemons">Daemons</h2>
+<p>They usually run before the user logs in. Do not require user interaction. They run with 👑 root permissions.</p>
+<p>The plists can be found here:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Library/LaunchDaemons
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># to read the file run</span>
+</span></span><span class="line"><span class="cl">plutil -p &lt;path to plist&gt;
+</span></span><span class="line"><span class="cl">defaults <span class="nb">read</span> &lt;path to plist&gt;
+</span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    <h3 id="block-blocking-login-items-objective-see-july-23-2018">&ldquo;Block Blocking Login Items,&rdquo; Objective-See, July 23, 2018</h3>
-<p>https:/ /objective-see.com/blog/blog_0x31.html. About the <code>backgrounditems.btm</code> file and its format.
+    <h3 id="wardle-patrick-the-art-of-mac-malware">Wardle, Patrick. The Art of Mac Malware</h3>
+
 </details>
 
   </div>

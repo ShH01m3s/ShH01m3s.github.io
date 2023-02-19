@@ -177,7 +177,24 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#intro">Intro</a></li>
+    <li><a href="#binary-info">Binary info</a>
+      <ul>
+        <li><a href="#otool">otool</a></li>
+        <li><a href="#robin2">robin2</a></li>
+        <li><a href="#nm">nm</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-functions">Common functions</a>
+      <ul>
+        <li><a href="#snprintf_chk"><code>snprintf_chk</code></a></li>
+        <li><a href="#getenv"><code>getenv</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a>
+      <ul>
+        <li><a href="#openai">OpenAI</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -238,8 +255,9 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="intro">Intro</h2>
-<p>Using otool we can get general info about the Mach-O file:</p>
+    <h2 id="binary-info">Binary info</h2>
+<h3 id="otool">otool</h3>
+<p>Using <code>otool</code> we can get general info about the Mach-O file:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">otool -h <span class="o">[</span>app_name<span class="o">]</span>
 </span></span><span class="line"><span class="cl">
@@ -250,6 +268,31 @@
 <p>32-bit (ARMv6, ARMv7) – <code>0xFEEDFACE</code>
 64-bit – <code>0xFEEDFACF</code>
 Universal binaries – <code>0xCAFEBABE</code></p>
+<h3 id="robin2">robin2</h3>
+<h3 id="nm">nm</h3>
+<p><code>nm WindTail/Final_Presentation.app/Contents/MacOS/usrnode</code> - view the APIs used.
+SMLoginItemSetEnabled - Wardle, Patrick. The Art of Mac Malware (p. 25). No Starch Press. Kindle Edition.</p>
+<h2 id="common-functions">Common functions</h2>
+<h3 id="snprintf_chk"><code>snprintf_chk</code></h3>
+<p><code>snprintf_chk</code> is a function in the C standard library that is used for formatted string output. It is similar to the snprintf function, but includes additional security checks to prevent buffer overflow vulnerabilities. Source code example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define BUFFER_SIZE 20
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buffer</span><span class="p">[</span><span class="n">BUFFER_SIZE</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">snprintf_chk</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">BUFFER_SIZE</span><span class="p">,</span> <span class="n">BUFFER_SIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;The answer is %d&#34;</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The third argument <code>BUFFER_SIZE-1</code> limits the maximum number of characters that can be written to the buffer to <code>BUFFER_SIZE-1</code> (to leave room for the null terminator). This helps prevent buffer overflow vulnerabilities.</p>
+<h3 id="getenv"><code>getenv</code></h3>
+<h2 id="references">References</h2>
+<h3 id="openai">OpenAI</h3>
+<p><a href="https://chat.openai.com/chat">https://chat.openai.com/chat</a></p>
+<p>“macOS/iOS (*OS) Internals” trilogy, by Jonathan Levin (Technologeeks Press, 2017) The Art of Computer Virus Research and Defense by Peter Szor (Addison-Wesley Professional, 2005) Reversing: Secrets of Reverse Engineering by Eldad Eilam (Wiley, 2005) OS X Incident Response: Scripting and Analysis by Jaron Bradley (Syngress, 2016)</p>
+<p><a href="https://papers.put.as/">https://papers.put.as/</a>: A fairly exhaustive archive of papers and presentations on macOS security topics and malware analysis. <a href="https://themittenmac.com/">https://themittenmac.com/</a>: The website of the noted macOS security researcher and author, Jaron Bradley, that includes incident response tools and threat hunting knowledge for macOS. <a href="https://objective-see.com/blog.html">https://objective-see.com/blog.html</a>: My blog, which for the last half decade has published my research and that of fellow security researchers on the topics of macOS malware, exploits, and more.</p>
+<p><a href="https://malpedia.caad.fkie.fraunhofer.de/">https://malpedia.caad.fkie.fraunhofer.de/</a></p>
 
   </div>
 </article>

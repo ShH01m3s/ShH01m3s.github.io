@@ -177,6 +177,10 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#cron">Cron</a></li>
+    <li><a href="#at">At</a></li>
+    <li><a href="#periodic">Periodic</a></li>
+    <li><a href="#login-and-logout-hooks">Login and Logout Hooks</a></li>
     <li><a href="#-rtfm">📕 RTFM</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -223,7 +227,26 @@
   <div class="content" itemprop="articleBody">
     <p><code>crontab -l</code></p>
 <p><a href="https://osxdaily.com/2020/06/05/list-all-cron-jobs/">https://osxdaily.com/2020/06/05/list-all-cron-jobs/</a></p>
-<h2 id="-rtfm">📕 RTFM</h2>
+<h2 id="cron">Cron</h2>
+<p><code>/usr/bin/crontab</code>
+Post-exploitation RT tool EmPyre has a module to exploit this technique.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">cmd</span> <span class="o">=</span> <span class="s1">&#39;crontab -l | { cat; echo &#34;0 * * * * %s&#34;; } | crontab -&#39;</span>subprocess.Popen<span class="o">(</span>cmd, <span class="nv">shell</span><span class="o">=</span>True, <span class="nv">stdout</span><span class="o">=</span>subprocess.PIPE<span class="o">)</span>.stdout.read<span class="o">()</span>
+</span></span></code></pre></div><p>The <code>cat</code> and <code>echo</code> commands append the new command. The <code>%s</code> in the cmd variable will be updated at runtime with the path of the item to persist, and the<code> 0 * * * *</code> component instructs macOS to execute the job every hour.
+The <code>crontab -</code> will reinstall any existing jobs, along with the new one.</p>
+<h2 id="at">At</h2>
+<p><code>/private/var/at/jobs/</code> directory and enumerate them via the <code>/usr/bin/atq</code> utility.</p>
+<blockquote>
+<p>❗️ On a default install of macOS, the <code>at</code> scheduler, <code>/usr/libexec/atrun</code>, is disabled. However, malware can enable it with 👑 root privileges with the following command: <code>launchctl load -w /System/Library/LaunchDaemons/com.apple.atrun.plist</code>.</p>
+</blockquote>
+<p>After enabling this scheduler, malware can create an at job by simply piping persistent commands into /usr/bin/at, specifying the time and date of execution.</p>
+<p>Not a popular technique.</p>
+<h2 id="periodic">Periodic</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/periodic
+</span></span></code></pre></div><p>Though this directory is owned by root, malware with adequate privileges may be able to create (or subvert) a periodic script in order to achieve persistence at regular intervals. &ldquo;What is the difference between &lsquo;periodic&rsquo; and &lsquo;cron&rsquo; on OS X?&rdquo; <a href="https://superuser.com/questions/391204/what-is-the-difference-between-periodic-and-cron-on-os-x/">https://superuser.com/questions/391204/what-is-the-difference-between-periodic-and-cron-on-os-x/</a></p>
+<h2 id="login-and-logout-hooks">Login and Logout Hooks</h2>
+<p>Look for either LoginHook or LogoutHook in the following plist:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">~/Library/Preferences/com.apple.loginwindow.plist
+</span></span></code></pre></div><h2 id="-rtfm">📕 RTFM</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">export</span> <span class="nv">FILENAME</span><span class="o">=</span><span class="k">$(</span>date +<span class="s2">&#34;%s&#34;</span><span class="k">)</span>
 </span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">METADATA_TOKEN</span><span class="o">=</span><span class="k">$(</span>curl -s -X PUT -H <span class="s1">&#39;X-aws-ec2-metadata-token-ttl-seconds: 120&#39;</span> http://169.254.169.254/latest/api/token<span class="k">)</span> <span class="nb">export</span> <span class="nv">AWS_REGION</span><span class="o">=</span><span class="k">$(</span>curl -s -H <span class="s2">&#34;X-aws-ec2-metadata-token: </span><span class="nv">$METADATA_TOKEN</span><span class="s2">&#34;</span> http://169.254.169.254/latest/dynamic/instance-identity/ document <span class="p">|</span> jq -r <span class="s1">&#39;.region&#39;</span><span class="k">)</span>
