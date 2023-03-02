@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>🦠AV Files - Analyst</title>
+  <title>📚 Analysis of Autoruns - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -172,22 +172,11 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/investigation/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
+   <a href="/docs/dfir/investigation/artefacts/persistence/mac/"> 👈🏼 Back to </br> macOS Persistence Mechanisms </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#macos">macOS</a>
-      <ul>
-        <li><a href="#quarantine-files">Quarantine files</a></li>
-      </ul>
-    </li>
-    <li><a href="#windows">Windows</a>
-      <ul>
-        <li><a href="#av-logs">AV Logs</a></li>
-        <li><a href="#mcafee">McAfee</a></li>
-      </ul>
-    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -200,7 +189,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">🦠AV Files</h1>
+<h1 class="title">📚 Analysis of Autoruns</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -217,26 +206,22 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is about &hellip; .</em></p>
-<h2 id="macos">macOS</h2>
-<p>The list of malware samples + info + analysis - <a href="https://objective-see.org/malware.html">https://objective-see.org/malware.html</a>.
-Mami, Dacls, FinSpy, IPStorm, and GravityRAT.</p>
-<h3 id="quarantine-files">Quarantine files</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
-</span></span></code></pre></div><p>The warning ⚠️ that appears once you want to launch a file that was downloaded from the internet. Quarantine-aware applications: Safari, Messages, iChat, Mail. Known malware is also detected.Windows</p>
-<h2 id="windows">Windows</h2>
-<h3 id="av-logs">AV Logs</h3>
-<p><code>C:\ProgramData\Microsoft\Windows Defender</code></p>
-<p>McAfee: <code>C:\ProgramData\McAfee\Endpoint Security\Logs</code></p>
-<h3 id="mcafee">McAfee</h3>
+    <p>💡 Create an analogue for Kansa on macOS if it doesn&rsquo;t exist already. It needs to have the following features:</p>
+<ol>
+<li>artefact collection</li>
+<li>csv format for all output</li>
+<li>stacking</li>
+<li>querying like with <code>logparser</code>.</li>
+</ol>
 <blockquote>
-<p>ChatGTP: The file <code>mfeavfk01.sys</code> is a system file that is associated with the McAfee antivirus software. It is a driver file that is located in the <code>C:\WINDOWS\System32\Drivers</code> folder and is used by McAfee to help protect your computer from malware and other security threats. The <code>mfeavfk01.sys</code> file is specifically used as a filter driver, which means that it monitors file system activity and scans files for viruses and other malicious code as they are accessed or modified. This file is an important component of McAfee&rsquo;s antivirus protection and should not be modified or removed unless you are specifically instructed to do so by McAfee&rsquo;s technical support team.</p>
+<p>Is there an equivalent to Kanso for macOS? ChatGPT: Kansa is a PowerShell-based incident response framework for Windows systems. While there is no direct equivalent of Kansa for macOS, there are several similar tools and frameworks that can be used for incident response on macOS systems. Some of these tools include: MacQuisition - A forensic imaging and analysis tool for macOS systems. It can acquire images of disks and analyze them using various forensic tools and techniques. The Sleuth Kit - A collection of command-line tools for forensic analysis of file systems. It supports a wide range of file systems and provides various analysis and search capabilities. Volatility - A memory forensics framework that can be used to analyze memory dumps from macOS systems. It provides various memory analysis plugins and can be used to extract information such as running processes, network connections, and registry keys from memory. X-Ways Forensics - A forensic analysis tool for Windows and macOS systems. It can analyze disk images and provide various search and analysis capabilities. Autopsy - A digital forensic analysis tool that supports macOS systems. It provides a web-based interface and various analysis and reporting capabilities.</p>
 </blockquote>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     Something here
 </details>
+
   </div>
 </article>
 </div>
