@@ -178,6 +178,11 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#windows-rdp">Windows RDP</a></li>
+    <li><a href="#pipes">Pipes</a>
+      <ul>
+        <li><a href="#-rtfm">📕 RTFM</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -218,7 +223,18 @@
 <blockquote>
 <p>In case you investigate a successful RDP login to a specific machine, note that only in the case of the RDP login the “Workstation Name” field in the “Network Information” section does not refer to the source machine name instead it refers to the name of the machine that recorded the event log (Target machine). be careful because such wrong information may miss leading your incident investigations. For the example in the screenshot, the “pbeesly” account logged on the “SCARNTON” hostname from the <code>172.18.39.2</code> source machine IP. If you want to find the source machine name you can use the Event IDs 4778 or 4779 recorded in the security events instead. <a href="https://www.linkedin.com/posts/mostafa-yahia-701b4b15a_in-case-you-investigate-a-successful-rdp-activity-7004505487912112130-W6Oo?utm_source=share&amp;utm_medium=member_desktop">https://www.linkedin.com/posts/mostafa-yahia-701b4b15a_in-case-you-investigate-a-successful-rdp-activity-7004505487912112130-W6Oo?utm_source=share&amp;utm_medium=member_desktop</a></p>
 </blockquote>
-<h2 id="references">References</h2>
+<h2 id="pipes">Pipes</h2>
+<blockquote>
+<p>A named pipe is not exactly the same as a reverse shell, but it can be used in a similar way to establish a remote connection between two systems. A named pipe is a type of inter-process communication (IPC) mechanism that allows two or more processes to communicate with each other on a local computer or over a network. A named pipe has a name and is implemented as a file object. Processes can read from and write to the named pipe as if it were a regular file. Named pipes are commonly used in client-server applications, where a server process creates a named pipe and waits for client processes to connect to it. Once a client connects to the named pipe, the server can send and receive data to and from the client. ChatGPT</p>
+</blockquote>
+<h3 id="-rtfm">📕 RTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cmd.exe /c <span class="nb">echo</span> something &gt; <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\s</span>omething2
+</span></span></code></pre></div><p><code>/c</code> tells <code>cmd.exe</code> execute the command and then quit. Putting it all together, the command is echoing the text &ldquo;something&rdquo; and redirecting it to a named pipe called &ldquo;something2&rdquo;.</p>
+<p>To create a named pipe, do the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkfifo <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\M</span>yNamedPipe
+</span></span><span class="line"><span class="cl">dir <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\M</span>yNamedPipe
+</span></span><span class="line"><span class="cl">del <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\M</span>yNamedPipe
+</span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     Something here
