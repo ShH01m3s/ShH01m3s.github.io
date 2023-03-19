@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>DFIR Methodology - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#checklists">Checklists</a>
+      <ul>
+        <li><a href="#incident-response-sans">Incident Response (SANS)</a></li>
+        <li><a href="#digital-forensics">Digital Forensics</a></li>
+      </ul>
+    </li>
+    <li><a href="#-ir-methodology">🥷🏼 IR Methodology</a>
+      <ul>
+        <li><a href="#detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</a>
+          <ul>
+            <li><a href="#common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</a></li>
+            <li><a href="#spillage">Spillage</a></li>
+            <li><a href="#documentation">Documentation</a></li>
+            <li><a href="#protected-data">Protected Data</a></li>
+          </ul>
+        </li>
+        <li><a href="#containment-eradication-recovery">Containment. Eradication. Recovery.</a></li>
+        <li><a href="#post-incident-activity-sans-lessons-learned">Post-Incident Activity (SANS Lessons Learned)</a></li>
+        <li><a href="#cloud-ir-specifics">Cloud IR Specifics</a></li>
+      </ul>
+    </li>
+    <li><a href="#--df-methodology">🔬 🧪 DF Methodology</a>
+      <ul>
+        <li><a href="#collection">Collection</a>
+          <ul>
+            <li><a href="#documentation-1">Documentation</a></li>
+          </ul>
+        </li>
+        <li><a href="#examination-and-analysis">Examination and Analysis</a>
+          <ul>
+            <li><a href="#prioritization-and-process">Prioritization and Process</a></li>
+            <li><a href="#critical-thinking">Critical Thinking</a></li>
+            <li><a href="#known-good">Known Good</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">DFIR Methodology</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This is about &hellip; .</em></p>
+<h2 id="checklists">Checklists</h2>
+<h3 id="incident-response-sans">Incident Response (SANS)</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 🥒 Preparation
+<ul>
+<li><input disabled="" type="checkbox"> 📝 <strong>Compile</strong> a list of all your assets (servers, networks, applications etc.)</li>
+<li><input disabled="" type="checkbox"> 📈 <strong>Rank</strong> them by the level of importance.</li>
+<li><input disabled="" type="checkbox"> 👁 <strong>Monitor</strong> their traffic patterns and create baselines.</li>
+<li><input disabled="" type="checkbox"> 🫂 Create a <strong>communication plan</strong> (who to contact, how, and when based on each incident type). <strong>Incident Handler Communications and Facilities</strong> (contacts, on-call info, reporting mechanism, issue tracking, smartphones, encryption soft, war room, secure storage).</li>
+<li><input disabled="" type="checkbox"> 🚧 Determine which security events and at what <strong>thresholds</strong>, these events should be investigated.</li>
+<li><input disabled="" type="checkbox"> 📖 Create one <strong>incident response plan</strong> and playbooks for each type of incident that are most likely to happen or can inflict the most damage.</li>
+<li><input disabled="" type="checkbox"> 📖 Create an <strong>Incident Response Policy</strong>.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Identification (🔬🧪  DF *)
+<ul>
+<li><input disabled="" type="checkbox"> 🚨 <strong>Discover</strong>. Discovery and classification (Where is the sensitive data?), Entitlements reporting (Who can access), Vulnerability Assessment (How to secure it?).</li>
+<li><input disabled="" type="checkbox"> 🔎 <strong>Investigate</strong>.</li>
+<li><input disabled="" type="checkbox"> ⛓ <strong>Harden</strong>. Reconfigure, mask, encrypt (How to protect sensitive data?)</li>
+<li><input disabled="" type="checkbox"> 👀 🗡 <strong>Monitor and Protect.</strong> Activity monitoring, Blocking quarantine, dynamic data masking</li>
+<li><input disabled="" type="checkbox"> <strong>Repeat</strong>.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Containment (🔬🧪  DF *)</li>
+<li><input disabled="" type="checkbox"> Eradication (🔬🧪  DF *)</li>
+<li><input disabled="" type="checkbox"> Recovery (🔬🧪  DF *)</li>
+<li><input disabled="" type="checkbox"> Lessons Learnt (🔬🧪  DF *)</li>
+</ul>
+<blockquote>
+<p>🔬🧪 Digital Forensics process can take place at any stage of the incident response process.</p>
+</blockquote>
+<h3 id="digital-forensics">Digital Forensics</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 🤔 Identification/Assessment (aka <strong>Preparation</strong>)
+<ul>
+<li><input disabled="" type="checkbox"> Define <strong>scope</strong></li>
+<li><input disabled="" type="checkbox"> <strong>Sterilise</strong> the target media (more <a href="https://bakerst221b.com/docs/dfir/investigation/collection/#sterilising-target-media">here</a>)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🧹 <strong>Collection</strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🏃🏼 <strong>First response</strong>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Sanitise</strong> the target disk that will be used to copy evidence to</li>
+<li><input disabled="" type="checkbox"> Prepare all the <strong>toolkits</strong> that will be needed.</li>
+<li><input disabled="" type="checkbox"> Start filling out the <strong>Chain of Custody</strong> form; each piece of evidence is assigned a unique ID (see below for examples).</li>
+<li><input disabled="" type="checkbox"> All <strong>photos</strong> were taken before touching the scene.</li>
+<li><input disabled="" type="checkbox"> Ensure that the Internet, Bluetooth, and AirDrop are <strong>all turned off</strong> on the machine used to acquire the image (* in case of physical acquisition).</li>
+<li><input disabled="" type="checkbox"> Connect the <strong>write blocker</strong> to the PC, and the evidence drive to the write blocker (power + data cables) or launch a software write blocker on the acquirer machine (see below for how-to) (* in case of physical acquisition).</li>
+<li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
+<li><input disabled="" type="checkbox"> Image the evidence.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
+<li><input disabled="" type="checkbox"> Calculate the **hash of the image taken (post-hash) and ensure it matches the above ones taken previously.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🤏🏼 <strong>Acquisition</strong> (live or dead)
+<ul>
+<li><input disabled="" type="checkbox"> Physical storage
+<ul>
+<li><input disabled="" type="checkbox"> Volume analysis. <strong>Volume</strong> - a collection of storage locations.
+<ul>
+<li><input disabled="" type="checkbox"> File System</li>
+<li><input disabled="" type="checkbox"> DB</li>
+<li><input disabled="" type="checkbox"> Swap space</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Memory analysis</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Logical backup</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🗳 Evidence <strong>Preservation</strong>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>copy</strong> original, operate on the copy</li>
+<li><input disabled="" type="checkbox"> calculate <strong>hashes</strong> at each stage (unless it&rsquo;s cloud evidence)</li>
+<li><input disabled="" type="checkbox"> use hardware <strong>write-blockers</strong> or software write-blockers</li>
+<li><input disabled="" type="checkbox"> make sure <strong>min number of files</strong> is created</li>
+<li><input disabled="" type="checkbox"> register <strong>timestamps</strong> before opening files</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 📇 <strong>Documentation</strong>.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🔬🧪  <strong>Examination &amp; Analysis</strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🦠 Malicious Process
+<ul>
+<li><input disabled="" type="checkbox"> Network</li>
+<li><input disabled="" type="checkbox"> Files</li>
+<li><input disabled="" type="checkbox"> Processes</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 👥 User
+<ul>
+<li><input disabled="" type="checkbox"> Is there mal user activity (account takeover, insider threat)?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> ⚙️ OS Configs
+<ul>
+<li><input disabled="" type="checkbox"> Are there mal configs (services enabled, disabled logging)?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🗜 Hardware
+<ul>
+<li><input disabled="" type="checkbox"> Are there mal hardware changes (firmware, BIOS)?</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="-ir-methodology">🥷🏼 IR Methodology</h2>
+<h3 id="detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</h3>
+<p>Lots of systems can be used to monitor the network and host for malicious activity. These are IDS, IPS, firewalls, AV, SIEM (Security Information and Event Management solutions, SIM + SEM), IR frameworks, threat intelligence etc. However, the incident might be reported by the employee (for example, receiving a suspicious email) or by a third party (data exfiltrated seen in the dark net). Before it is confirmed to be true or be the result of malicious intent, it&rsquo;s called an <em>event</em>.</p>
+<p><strong>Precursors</strong>❓ - signs that the incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software that&rsquo;s used by the company.</p>
+<p><strong>Indicators</strong> 🚨 - signs that an incident has occurred already or is occurring now. Malware detected by an anti-virus program, configurations changed, multiple failed logins etc.</p>
+<p>There are several techniques that help confirm the incident. See the <code>Investigation -&gt; Methodology</code> section for more details.</p>
+<ul>
+<li><strong>Frequency analysis</strong>. Something that is outstandingly rare across systems might be malicious</li>
+<li><strong>Normal vs Evil</strong>. You know what&rsquo;s considered normal for the given system/user and something that&rsquo;s not usual is a primary suspect for further analysis.</li>
+<li><strong>IoC</strong>. Indicators of compromise, like some virus hashes or file extensions used by a known crypto malware.</li>
+</ul>
+<p>For AWS - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html</a></p>
+<p>After the incident is confirmed, you initiate an investigation.</p>
+<blockquote>
+<p>📝 I found it quite hard to separate incident response and digital forensics articles from one another. For now, I am seeing incident response as a more general process that could require a more thorough examination (digital forensics) but not necessarily. As I see it, we have an event and start the IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artefacts to the ATCK MITRE framework. Then, to be able to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space etc in order to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching and DF is about details.</p>
+</blockquote>
+<h4 id="common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</h4>
+<p><strong>Mapping</strong>. Attackers need to <strong>collect information</strong> about the target system first:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong></p>
+<ul>
+<li>record traffic</li>
+<li>look for suspicious activity</li>
+<li>use a host scanner and keep track of all the PCs within your network. A new PC should trigger an alert.</li>
+</ul>
+<p><strong>Packet Sniffing</strong>. Now, an attacker may perform (or try to perform) <strong>traffic sniffing</strong>. It is possible in the following cases: Broadcasting, promiscuous NIC, and if the traffic is unencrypted.  <strong>Countermeasures:</strong></p>
+<ul>
+<li>periodically check wether the NICs of the hosts are in promiscuous mode</li>
+<li>switched Ethernet (1 host per segment of broadcast media).</li>
+</ul>
+<p><strong>IP-spoofing.</strong> Can generate &ldquo;raw&rdquo; IP packets, putting any value as a source IP. The receiver won&rsquo;t be able to know that the other party is spoofed. <strong>Countermeasures:</strong></p>
+<p><strong>DoS</strong>. <strong>Countermeasures:</strong></p>
+<ul>
+<li>filter out flooded packets (eg SYN) before they reach the host</li>
+<li>traceback to the source of floods</li>
+</ul>
+<p>🎣 <strong>Phishing.</strong> <strong>Spear phishing</strong> - targeted attack to specific users or groups of users. <strong>Whaling</strong> - spear phishing for high executive managers. <strong>Strategies</strong>:</p>
+<ul>
+<li>They claim that they&rsquo;ve seen numerous failed login attempts or other suspicious activity.</li>
+<li>They claim that there is some problem with your account or payment method.</li>
+<li>Confirm some personal information.</li>
+<li>Include a fake invoice.</li>
+<li>Click on a link to make a payment.</li>
+<li>You are eligible for a government refund.</li>
+<li>Coupon for free stuff.</li>
+</ul>
+<p>How to detect?</p>
+<ul>
+<li>Suspicious sender&rsquo;s address.</li>
+<li>Generic signature and greetings.</li>
+<li>Spoofed hyperlinks and websites.</li>
+<li>Spelling and layout.</li>
+<li>Suspicious attachment.</li>
+</ul>
+<p><strong>PoS</strong>. Most of the malware is equipped with a backdoor and C&amp;C features. The data of the card holder is decrypted in RAM, that&rsquo;s why this type of malware sniffs the RAM (RAM scraping). <strong>Countermeasures</strong>:</p>
+<ul>
+<li>Monitor network for changes</li>
+<li>Good encryption</li>
+<li>limit the host that communicates with PoS</li>
+<li>chip-card-enabled PoS terminals</li>
+<li>Employee screening and training</li>
+</ul>
+<p><strong>Injections</strong>. MongoDB. <code>$where</code> is interpreted as JS. DoS: <code>$where=&quot;d=new Date; do {c=new Date;} while {c-d&lt;10000};&quot;</code>, XPath. <code>'or 1=1 or '1'='1</code>, LDAP.<code>*)(cn=))(|cn=*</code>, SQL <code>or 1=1--</code> etc. The best practice is whitelisting allowed and needed characters.</p>
+<ul>
+<li>Preventing <strong>OS injection</strong>
+<ul>
+<li>Don&rsquo;t use OS commands</li>
+<li>Sanitise input</li>
+<li>Accept, say, ids and lookup</li>
+<li>Leat priv</li>
+<li>do not run through shell interpreters</li>
+<li>explicit paths</li>
+</ul>
+</li>
+<li>Preventing <strong>SQLi</strong>
+<ul>
+<li>prepared statements</li>
+<li>sanitise</li>
+<li>do not expose errors with sql statements etc</li>
+<li>limit permissions</li>
+<li>stored procedures</li>
+<li>ORM libs (Hibernate)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Common AWS issues</strong>
+The following list is the top ten identified misconfigurations in Amazon EC2 instances and workloads from our data set:</p>
+<ol>
+<li>Unconfigured EC2 instance single-point-of-failure and/or auto scaling issue</li>
+<li>S3 logging not enabled</li>
+<li>S3 object versioning is not enabled</li>
+<li>User not configured to use MFA</li>
+<li>User access key not configured with rotation</li>
+<li>IAM policies are attached directly to user</li>
+<li>Dangerous user privileged access to S3</li>
+<li>ELB security group allows insecure access to ports or protocols</li>
+<li>IAM access keys unused for 90 days</li>
+<li>Dangerous user privileged access to RDS</li>
+</ol>
+<h4 id="spillage">Spillage</h4>
+<p>If it&rsquo;s AWS - open up a case with AWS Business Support. Report spillage findings and response actions, DoD 5220.</p>
+<h4 id="documentation">Documentation</h4>
+<p>This is when you start taking notes for the incident (or event). Current status of the incident, summary, indicators, other related incidents, actions taken by all, a chain of custody*, impact assessment, contacts, list of evidence, comments from incident handlers (IH), next steps to be taken (rebuild the host/upgrade).</p>
+<p>How to categorise the incident? Simply put, how bad is that?</p>
+<ul>
+<li>Functional Impact Categories
+<ul>
+<li><strong>None</strong> - nothing&rsquo;s changed.</li>
+<li><strong>Low</strong> - the business can still provide its critical services, but the efficiency needs to be recovered.</li>
+<li><strong>Medium</strong> - O. has lost the ability to provide its critical services to some users.</li>
+<li><strong>High</strong> - O. is no longer able to provide its critical services.</li>
+</ul>
+</li>
+<li>Information Impact Categories
+<ul>
+<li><strong>None</strong> - no info was exfiltrated or compromised.</li>
+<li><strong>Privacy breach</strong> - sensitive PII was accessed or exfiltrated.</li>
+<li><strong>Proprietary breach</strong> - unclassified proprietary info exfiltrated (PCII).</li>
+<li><strong>Integrity loss</strong> - sensitive or proprietary info was changed or deleted.</li>
+</ul>
+</li>
+<li>Recoverability Effort Categories, TTR - time to recovery
+<ul>
+<li><strong>Regular</strong> - TTR is predictable with existing resources.</li>
+<li><strong>Supplemented</strong> - TTR is predictable with additional resources.</li>
+<li><strong>Extended</strong> - TTR is unpredictable.</li>
+<li><strong>If not recoverable</strong>, launch the investigation.</li>
+</ul>
+</li>
+</ul>
+<h4 id="protected-data">Protected Data</h4>
+<p>If the GDPR data was leaked - 72 hours to disclose the breach. HIPAA has other time limits.</p>
+<h3 id="containment-eradication-recovery">Containment. Eradication. Recovery.</h3>
+<p><strong>Containment</strong> 📦 aims to stop the bleeding🩸. It&rsquo;s a very important stage. While during Identification (aka detection and analysis) we are <em>confirming</em> that something&rsquo;s going wrong, this stage is used in order to see the full picture, how the breach happened, what damage was already done, which systems are compromised etc. Quoting SANS:</p>
+<blockquote>
+<p>The goal of containment is to limit damage from the current security incident and prevent any further damage. Several steps are necessary to completely mitigate the incident while also preventing the destruction of evidence that may be needed for prosecution.</p>
+</blockquote>
+<p>So, digital forensics can occur anywhere from Analysis (aka Identification) to the Lessons Learned stage. It may not occur, however. For example, a DoS attack may not need this facility.</p>
+<p>Choosing a containment strategy:</p>
+<ul>
+<li><input disabled="" type="checkbox"> ❓ Is there potential damage or theft of resources?</li>
+<li><input disabled="" type="checkbox"> ❓ Do we need to preserve the evidence for the court/ourselves, make an image of the compromised system?</li>
+<li><input disabled="" type="checkbox"> ❓ Do we need the service to be available during the investigation?</li>
+<li><input disabled="" type="checkbox"> ❓ How much time do we have and need?</li>
+<li><input disabled="" type="checkbox"> ❓What resources are available to implement this strategy?</li>
+<li><input disabled="" type="checkbox"> ❓ What&rsquo;s the strategy&rsquo;s effectiveness (partial or full containment)?</li>
+</ul>
+<p>Below is the checklist to ensure the responder has done their job. These questions can be used in a ticket or IR timesheet, mentioned above in the <em>Documentation</em> section.</p>
+<ul>
+<li><input disabled="" type="checkbox"> ❓ Who attacked you and why?</li>
+<li><input disabled="" type="checkbox"> ❓ When and How did it happen?</li>
+<li><input disabled="" type="checkbox"> ❓ Did this happen because of the poor sec policy and processes?</li>
+<li><input disabled="" type="checkbox"> ❓ How widespread is the incident?</li>
+<li><input disabled="" type="checkbox"> ❓ What steps are being taken to determine what happened and prevent it in future?</li>
+<li><input disabled="" type="checkbox"> ❓ What&rsquo;s the impact?</li>
+<li><input disabled="" type="checkbox"> ❓ Was any personally identifiable information leaked?</li>
+<li><input disabled="" type="checkbox"> ❓ What is the estimated cost of this incident?</li>
+</ul>
+<blockquote>
+<p>The SANS containment process involves:</p>
+<p><strong>Short-term containment</strong>—limiting damage before the incident gets worse, usually by isolating network segments, taking down hacked production server and routing to failover.</p>
+<p><strong>System backup</strong>—taking a forensic image of the affected system(s) with tools such as Forensic Tool Kit (FTK) or EnCase, and only then wipe and reimage the systems. This will preserve evidence from the attack that can be used in court and also for further investigation of the incident and lessons learned.</p>
+<p><strong>Long-term containment</strong>—applying temporarily fixes to make it possible to bring production systems back up. The primary focus is removing accounts or backdoors left by attackers on the systems, and addressing the root cause—for example, fixing a broken authentication mechanism or patching a vulnerability that led to the attack.</p>
+</blockquote>
+<p><strong>Eradication</strong> aims to remove the threat. For example, get rid of the malware, retrun configs to its normal state. It&rsquo;s a common mistake of many companies to jump right to this stage without proper prior investigation and containment. In this case, the attacker might still be inside, or the vulnerability they used is still unmatched, or the user they social engineered is still not informed about this event properly etc. It can turn into a &ldquo;whack-a-mole&rdquo; game which is no fun when a company&rsquo;s reputation and finance 💵 are concerned.</p>
+<ul>
+<li><input disabled="" type="checkbox"> ❓ Can the problem be isolated? Are all affected isolated?</li>
+<li><input disabled="" type="checkbox"> ❓ Have the forensic copy been created? For each piece of evidence, keep the info (or chain of custody, even better):
+<ul>
+<li><input disabled="" type="checkbox"> Identifying information (location, serial, model, hostname, MAC and IP)</li>
+<li><input disabled="" type="checkbox"> Name, title, and phone of each individual who collected or handled the evidence</li>
+<li><input disabled="" type="checkbox"> Time and date (+ time zone) of each occurrence of evidence handling</li>
+<li><input disabled="" type="checkbox"> The location where the evidence was stored</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> ❓ Can this system be reimaged and patched?</li>
+<li><input disabled="" type="checkbox"> ❓ Was all malware removed and the system hardened?</li>
+<li><input disabled="" type="checkbox"> ❓ What tools will you use to test, monitor and verify that the exact cause no longer compromises the restored systems?</li>
+</ul>
+<p><strong>Recovery</strong> aims to get the system operational if it goes down or simply back to business as usual if it doesn’t.</p>
+<h3 id="post-incident-activity-sans-lessons-learned">Post-Incident Activity (SANS Lessons Learned)</h3>
+<p>Learn from your experience so you can better respond to future security events. Adjust your playbooks accordingly.</p>
+<h3 id="cloud-ir-specifics">Cloud IR Specifics</h3>
+<p>If there are any shared resources with other companies that do not care about security as much, you might be in trouble. For example, several companies host their web application on one website.</p>
+<p>Cloud IR is easier. Some tools and methods are available ONLY for the Cloud. IR Simulation on AWS.</p>
+<p><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/security-incident-response-simulations.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/security-incident-response-simulations.html</a></p>
+<p>Automation - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/automation-1.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/automation-1.html</a></p>
+<h2 id="--df-methodology">🔬 🧪 DF Methodology</h2>
+<h3 id="collection">Collection</h3>
+<p>Evidence collection begins with the first response and arriving at the scene (how weird&hellip;.). The person collecting the evidence is assuming the role of a first responder. Not always they are digital forensic experts. Opponents will try to discredit their work. That’s why it’s so important to use industry-accepted tools and know the digital footprint of these tools (checked on a monthly basis). For each media type, there is a separate section under Incident Investigation -&gt; Collection section on this website - <a href="https://bakerst221b.com/docs/dfir/investigation/collection/">https://bakerst221b.com/docs/dfir/investigation/collection/</a>.</p>
+<p>There are several important notes to keep in mind:</p>
+<p>❗️Document everything. Before anything can be acquired, it needs to be properly documented first. The first responder needs to record all the findings in the Chain of Custody form.</p>
+<p>❗️Take photos and videos before touching anything. These photos/videos need to have proper time-stamping.</p>
+<p>❗️Do never make any analysis on the original media! Any analysis and investigation are only performed against a copy.</p>
+<p>❗️Make hashes before the acquisition, after and when making copies.</p>
+<h4 id="documentation-1">Documentation</h4>
+<p>Start documenting even before you get to the scene. First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible). Identify and assign unique ids to the evidence collected</p>
+<p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
+<h3 id="examination-and-analysis">Examination and Analysis</h3>
+<p>Art supersedes science. Know what garbage is. Unexpected places. Don&rsquo;t ignore exculpatory (proving innocence) data.</p>
+<p>❗️ Correlate data with other independent sources. Some data might have been tampered with, and you should try to find other evidence that describes the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>
+<p>Bypassing controls (if it&rsquo;s PIN protected, data encrypted, ACL, compression). There will be lots of data and only some is relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. This list is used by Autopsy.</p>
+<p>Testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
+<p>About SIM forensics as well <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf">here</a>.</p>
+<p>The main idea is to concentrate on some areas, and answer some specific questions, like:</p>
+<ol>
+<li>Is there child exploitation material? Search videos and pictures.</li>
+<li>Is this PC compromised? Not obvious.</li>
+<li>Who did this computer communicate with?</li>
+</ol>
+<p><strong>First option:</strong></p>
+<p>Big problem &ndash;&gt; n*(small problem). Recursively break a problem into smaller problems until one of them becomes solvable.</p>
+<p><strong>Second option:</strong></p>
+<p>Or we can be guided by artifact ⛏️  categories.</p>
+<p>First, break the bigger problem into a smaller one. Then answer questions with artifact ⛏️ categories.</p>
+<p>Here is the pseudocode for this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">getArtifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">currentProblem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="n">poseQuestion</span><span class="p">(</span><span class="kt">string</span> <span class="n">problem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>How computer works?</strong> Hardware, OS, Processes. <strong>How attacker works?</strong> Remote access changes, detection avoidance etc.</p>
+<p><strong>RoadMap</strong></p>
+<ol>
+<li>Is the system compromised?
+<ol>
+<li>Are there mal related changes?</li>
+<li>Is there mal user activity?
+<ol>
+<li>Suspicious logins?
+<ol>
+<li>Login artifact category ⛏️: Event log 4624, 4778, active users etc</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Are there malware progs?</li>
+<li>Are there mal OS changes?</li>
+</ol>
+</li>
+</ol>
+<p>Prioritization is based on: likely relevant, result acuracy, time to answer.</p>
+<p>Beginner: start with a process and fill in categories</p>
+<p>Advanced: when you already know about categories, think from that procpective.</p>
+<p>Manager: categories</p>
+<p>Cyber Truage User: same</p>
+<p>File name &ndash;&gt; meta &ndash;&gt; content</p>
+<h4 id="prioritization-and-process">Prioritization and Process</h4>
+<p>There are different paths to follow to answer the same questions. Some are more efficient.</p>
+<p>Pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
+<ul>
+<li>Looking for malware and find program run entry for malware</li>
+<li>Stop looking for other malware and focus on that one
+<ul>
+<li>What happened before and after?</li>
+<li>What else is in the same folder?</li>
+<li>What does it do?</li>
+</ul>
+</li>
+<li>Repeat for each you find</li>
+</ul>
+<p>How to find the first evidence? Prioritize or brute force.</p>
+<ul>
+<li><strong>Prioritize</strong> (Manual). You never know where the evidence are going to be.
+<ul>
+<li>impact on the investigation result</li>
+<li>likelihood to find anything</li>
+<li>false positive?</li>
+<li>time required</li>
+</ul>
+</li>
+<li><strong>Brute force</strong> (Automated). Let tools and software to find evidence.</li>
+</ul>
+<blockquote>
+<p>Cyber Triage: can I mark something as bad and run analysis for this piece of evidence again. - yes</p>
+</blockquote>
+<p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
+<h4 id="critical-thinking">Critical Thinking</h4>
+<p><strong>Challenge assumptions</strong> (sometimes its something you have not seen or dealt with before), consider alternatives, evaluate data, identify key drivers, understand context.</p>
+<p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorize these assumptions based on the certainty. Refine and remove those assumptions that are proven to be wrong. Identify addition data needs for those assumptions that are still uncertain. Research?</p>
+<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the alternatives. Null hypothesis - the opposite to the main hypothesis (for anomalous data).</p>
+<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for normal to be able to detect the abnormal (like, a clean installation of a system is examined and everything is then compared to it). Look for incosistent data. <strong>Assess the data against different hypothesis</strong> to see how well it fits.</p>
+<p>Identify key drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
+<p>Understand the context from the perspective of different stakeholders. Framing techniques help keep everyone on the same page (what do they need from me, how can I frame the issue, do I need to place their questions in a broader context). Same vocabulary. Steps:</p>
+<ul>
+<li>Key components. Break the problem down and identify the partss, actors and categories.</li>
+<li>Factors at Play.</li>
+<li>Relationships. Static? Dynamic? Graphing.</li>
+<li>Similarities/Differences. Leverage the past work!</li>
+<li>Redefine. Rephrase and paraphrase the issue. What is the root cause?</li>
+</ul>
+<blockquote>
+<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
+</blockquote>
+<h4 id="known-good">Known Good</h4>
+<p>Not all the files are worth considering. However, it&rsquo;s hard to keep all of them in mind. So, I&rsquo;ve made (about to) several database files that contain information on files on a clean installed system. There will be some divisions, I presume, but I hope it will help eliminate a huge pack of files as well.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    <p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">1</a>] IBM course</p>
+<p>[<a href="https://www.sentinelone.com/labs/macos-incident-response-part-1-collecting-device-file-system-data/">2</a>] Mac IR</p>
+<p>[<a href="https://cybersecurity.att.com/blogs/security-essentials/incident-response-steps-comparison-guide">3</a>] NIST vs SANS IR frameworks</p>
+<p>[<a href="https://www.sans.org/reading-room/whitepapers/incident/documentation-incident-response-air-tank-scuba-diving-2021">4</a>] Documentation is to Incident Response as an Air Tank is to Scuba Diving</p>
+<p>[<a href="https://www.cynet.com/incident-response/incident-response-sans-the-6-steps-in-depth/">5</a>] Incident Response SANS: The 6 Steps in Depth</p>
+<p>[<a href="https://aws.amazon.com/blogs/publicsector/building-a-cloud-specific-incident-response-plan/">6</a>] IR in the Cloud, SANS</p>
+<p>[<a href="https://learning.oreilly.com/videos/digital-archaeology-livelessons/9780132853835/9780132853835-09_01/">1</a>] Digital Archaeology LiveLessons (Video Training), Safari by [Michael W Graves](<a href="https://learning.oreilly.com/search?query=author%3A%22Michael">https://learning.oreilly.com/search?query=author%3A&quot;Michael</a> W Graves&quot;&amp;sort=relevance&amp;highlight=true)</p>
+<p>[<a href="https://www.coursera.org/lecture/digital-forensics-concepts/forensics-methodology-and-investigations-33wNN">2</a>] InfoSec Digital Forensics Course, module Forensics Methodology and Investigations</p>
+<p>[<a href="https://www.eccu.edu/methodology-for-testing-forensic-hypothesis-and-finding-truth/#attend">3</a>] Webinar, METHODOLOGY FOR TESTING FORENSIC HYPOTHESIS AND FINDING TRUTH by Jessica Hyde</p>
+<p>[<a href="https://ijcsit.com/docs/Volume%208/vol8issue3/ijcsit2017080331.pdf">4</a>] Live vs Dead System Acquisition</p>
+<p>[<a href="https://www.coursera.org/learn/introduction-cybersecurity-cyber-attacks/home/welcome">5</a>] IBM course</p>
+
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
