@@ -296,7 +296,9 @@
 </span></span></code></pre></div><h2 id="smb">SMB</h2>
 <p><strong>Ports</strong>: <code>135</code>, <code>139</code>, <code>445</code></p>
 <h3 id="-rtfm-3">📕 RTFM</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install samba
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -p 139,445 --script smb-enum-shares &lt;target&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">brew install samba
 </span></span><span class="line"><span class="cl">smbclient -U username -W workgroup -c <span class="s1">&#39;ls&#39;</span> //server/share
 </span></span></code></pre></div><h2 id="references">References</h2>
 <details>
