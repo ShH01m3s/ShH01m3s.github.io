@@ -205,6 +205,21 @@
         <li><a href="#-rtfm">📕 RTFM</a></li>
       </ul>
     </li>
+    <li><a href="#telnet">Telnet</a>
+      <ul>
+        <li><a href="#-rtfm-1">📕 RTFM</a></li>
+      </ul>
+    </li>
+    <li><a href="#ftp">FTP</a>
+      <ul>
+        <li><a href="#-rtfm-2">📕 RTFM</a></li>
+      </ul>
+    </li>
+    <li><a href="#smb">SMB</a>
+      <ul>
+        <li><a href="#-rtfm-3">📕 RTFM</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -256,6 +271,33 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkfifo <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\M</span>yNamedPipe
 </span></span><span class="line"><span class="cl">dir <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\M</span>yNamedPipe
 </span></span><span class="line"><span class="cl">del <span class="se">\\</span>.<span class="se">\p</span>ipe<span class="se">\M</span>yNamedPipe
+</span></span></code></pre></div><h2 id="telnet">Telnet</h2>
+<p><strong>Ports</strong>: <code>23</code></p>
+<h3 id="-rtfm-1">📕 RTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># If the Telnet port is open, you might try to log in with a user. If the user doesn&#39;t have a password set up, you might even be able to log in without a password.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">telnet &lt;IP&gt; &lt;port&gt;
+</span></span><span class="line"><span class="cl">root <span class="c1"># or any other username that you think is there</span>
+</span></span><span class="line"><span class="cl">Password: <span class="c1"># leave blank</span>
+</span></span></code></pre></div><h2 id="ftp">FTP</h2>
+<p><strong>Ports</strong>: <code>21</code>, <code>22</code></p>
+<h3 id="-rtfm-2">📕 RTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew unlink telnet <span class="c1"># for macOS if the telnet was already installed</span>
+</span></span><span class="line"><span class="cl">brew install inetutils
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ftp &lt;IP&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># When prompted for the username, type</span>
+</span></span><span class="line"><span class="cl">anonymous
+</span></span><span class="line"><span class="cl"><span class="c1"># for password just hit Enter</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># on macOS let gftp to accept incoming connection or else you won&#39;t be able to browse the FTP server. The server will respond with 200 PORT command successful. Consider using PASV, then hanging for a while and then puking the 425 Failed to establish connection. message. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ls <span class="c1"># browse</span>
+</span></span><span class="line"><span class="cl">get <span class="c1"># get file</span>
+</span></span></code></pre></div><h2 id="smb">SMB</h2>
+<p><strong>Ports</strong>: <code>135</code>, <code>139</code>, <code>445</code></p>
+<h3 id="-rtfm-3">📕 RTFM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install samba
+</span></span><span class="line"><span class="cl">smbclient -U username -W workgroup -c <span class="s1">&#39;ls&#39;</span> //server/share
 </span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
