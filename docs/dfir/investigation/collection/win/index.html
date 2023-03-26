@@ -271,7 +271,18 @@
 <p><strong>Logical Backup</strong> -  doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files. <strong>Imaging</strong> - bit-by-bit copy. It should not be used on a live system!</p>
 <h2 id="write-block">Write Block</h2>
 <p><strong>Windows Software Write Blocker</strong> Basically, one can do this manually. This includes changing the value in the registry.</p>
+<p><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies</code> changing the value of the WriteProtect DWORD to 1 under this key, the device will be set to read-only mode, preventing any data from being written to it.</p>
 <h2 id="collection-checklist">Collection Checklist</h2>
+<p>The order in which the evidence is to be collected on a Windows system:</p>
+<ol>
+<li>Volatile data</li>
+<li>file slack. File slack refers to the unused space in a file cluster that can contain remnants of previously deleted or overwritten files. This space may contain valuable evidence of past activities.</li>
+<li>registry</li>
+<li>memory dumps</li>
+<li>file system</li>
+<li>system state backup</li>
+<li>internet traces</li>
+</ol>
 <ul>
 <li><input disabled="" type="checkbox"> Ensure the target media (evidence drive) is sterilised (ref. Identification/Assessment stage above).</li>
 <li><input disabled="" type="checkbox"> Turn the machine off (better unplug it to prevent data from being overwritten).</li>

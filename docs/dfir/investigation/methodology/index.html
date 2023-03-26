@@ -200,6 +200,13 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#techniques">Techniques</a></li>
+    <li><a href="#types-of-evidence">Types of Evidence</a>
+      <ul>
+        <li><a href="#circumstantial">Circumstantial</a></li>
+        <li><a href="#incontrovertible">Incontrovertible</a></li>
+        <li><a href="#corroborating">Corroborating</a></li>
+      </ul>
+    </li>
     <li><a href="#common-activity-indicators">Common Activity Indicators</a>
       <ul>
         <li><a href="#secondary-artefacts">Secondary artefacts</a></li>
@@ -310,6 +317,19 @@
 <p>One more technique that I have been using I call <strong>pattern analysis</strong>. For this one needs to be VERY knowledgable about red teaming activities and current vulnerabilties. Not to overwhelm yourself with the vulnerabilties and exploits out there, filter the news and feeds to only show those that are relevant for your environment. For example, see only Apache Tomcat stuff, PHP and, for example, nginx + common web applicaiton vulnerabilties. Patterns for each vulnerabilty exploited would be different, of course. For example, for a SQLi it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could be an indicator of command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. For common vulnerabilities you can find the list of payloads (patterns) online to get a general idea.</p>
 <p>🛠 For post-incident analysys, I personally find it useful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on the data that&rsquo;s not too overwhelming. SIEM tools can also be very handy for visualisation and filtering if you are familiar with the quering language.</p>
 <p>So, it is useeful to know the red team operations and possible attacks for your infrastructure, as well as a normal user behaviour.</p>
+<h2 id="types-of-evidence">Types of Evidence</h2>
+<h3 id="circumstantial">Circumstantial</h3>
+<blockquote>
+<p>Circumstantial evidence refers to the collection of facts that, when considered together, can be used to infer a conclusion about malicious activity or a person involved. This type of evidence does not directly prove the fact in question but allows for the possibility of drawing inferences to establish the fact indirectly. Circumstantial evidence is often used in digital forensics and incident investigations when direct evidence is not available. Let&rsquo;s consider a scenario in which an organization suspects a data breach has occurred. They are trying to determine if an employee, John, is responsible for the breach. Direct evidence would be something like a security video showing John copying sensitive files onto a USB drive or an email sent by John admitting to the breach. Circumstantial evidence, on the other hand, would involve facts that indirectly suggest John&rsquo;s involvement. For example: Log files showing that John&rsquo;s user account accessed the sensitive files just before the data breach occurred. Records indicating that John&rsquo;s computer was connected to a USB drive around the same time the files were accessed. The breached files were found on a dark web marketplace, and the seller&rsquo;s account was linked to an email address similar to one John used for personal purposes. John had recently expressed dissatisfaction with the company and was looking for a new job. None of these individual facts directly prove that John is responsible for the data breach. However, when considered together, they create a strong circumstantial case suggesting John&rsquo;s involvement in the malicious activity. ChatGPT</p>
+</blockquote>
+<h3 id="incontrovertible">Incontrovertible</h3>
+<blockquote>
+<p>Incontrovertible evidence refers to evidence that is indisputable, irrefutable, or impossible to deny. It is so strong and compelling that it leaves no room for doubt or argument. In digital forensics, incontrovertible evidence may include things like unaltered log files, digital signatures, or cryptographic hashes that prove the integrity and authenticity of data. However, it is essential to note that it can be challenging to obtain incontrovertible evidence in digital forensics due to the potential for data manipulation or tampering.</p>
+</blockquote>
+<h3 id="corroborating">Corroborating</h3>
+<blockquote>
+<p>Corroborating evidence is additional evidence that supports or confirms the initial evidence or a fact in question. Corroborating evidence helps to strengthen the overall case by providing independent confirmation of the facts or findings. In digital forensics, corroborating evidence may include things like additional log files from different systems, witness statements, or even physical evidence that supports the digital evidence. The use of corroborating evidence is particularly important in digital forensics because it can help to establish the reliability and credibility of the findings and minimize the chances of false positives or inaccurate conclusions.</p>
+</blockquote>
 <h2 id="common-activity-indicators">Common Activity Indicators</h2>
 <p>Below is the list of the most common artefacts that could be used to determine user activity. Some of them are mobile specific.</p>
 <p>I&rsquo;ve devided them into two main groups: primary and secondary. Primary artefacts are those that are specifically designed to provide this information. For example, you can view contacts via address book or read SMS messages.</p>
