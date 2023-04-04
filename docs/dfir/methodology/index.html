@@ -200,26 +200,26 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#techniques">Techniques</a></li>
-    <li><a href="#checklists">Checklists</a>
+    <li><a href="#-checklists">✅ Checklists</a>
       <ul>
         <li><a href="#incident-response-sans">Incident Response (SANS)</a></li>
         <li><a href="#digital-forensics">Digital Forensics</a></li>
       </ul>
     </li>
-    <li><a href="#types-of-evidence">Types of Evidence</a>
+    <li><a href="#-types-of-evidence-">🐾 Types of Evidence 👣</a>
       <ul>
         <li><a href="#circumstantial">Circumstantial</a></li>
         <li><a href="#incontrovertible">Incontrovertible</a></li>
         <li><a href="#corroborating">Corroborating</a></li>
       </ul>
     </li>
-    <li><a href="#common-activity-indicators">Common Activity Indicators</a>
+    <li><a href="#common-activity-artefacts">🏺Common Activity Artefacts</a>
       <ul>
         <li><a href="#secondary-artefacts">Secondary artefacts</a></li>
         <li><a href="#primary-artefacts">Primary Artefacts</a></li>
       </ul>
     </li>
-    <li><a href="#prioritising">Prioritising</a></li>
+    <li><a href="#-prioritising">📝 Prioritising</a></li>
     <li><a href="#-ir-methodology">🥷🏼 IR Methodology</a>
       <ul>
         <li><a href="#detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</a>
@@ -315,7 +315,7 @@
 <p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
 <p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
 <p><strong>Stacking</strong>. It&rsquo;s not a separate technique per se, rather it referes to the analysis of a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear few times, or seen on one system only usually stand out.</p>
-<h2 id="checklists">Checklists</h2>
+<h2 id="-checklists">✅ Checklists</h2>
 <h3 id="incident-response-sans">Incident Response (SANS)</h3>
 <ul>
 <li><input disabled="" type="checkbox"> 🥒 Preparation
@@ -426,7 +426,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="types-of-evidence">Types of Evidence</h2>
+<h2 id="-types-of-evidence-">🐾 Types of Evidence 👣</h2>
 <h3 id="circumstantial">Circumstantial</h3>
 <blockquote>
 <p>Circumstantial evidence refers to the collection of facts that, when considered together, can be used to infer a conclusion about malicious activity or a person involved. This type of evidence does not directly prove the fact in question but allows for the possibility of drawing inferences to establish the fact indirectly. Circumstantial evidence is often used in digital forensics and incident investigations when direct evidence is not available. Let&rsquo;s consider a scenario in which an organization suspects a data breach has occurred. They are trying to determine if an employee, John, is responsible for the breach. Direct evidence would be something like a security video showing John copying sensitive files onto a USB drive or an email sent by John admitting to the breach. Circumstantial evidence, on the other hand, would involve facts that indirectly suggest John&rsquo;s involvement. For example: Log files showing that John&rsquo;s user account accessed the sensitive files just before the data breach occurred. Records indicating that John&rsquo;s computer was connected to a USB drive around the same time the files were accessed. The breached files were found on a dark web marketplace, and the seller&rsquo;s account was linked to an email address similar to one John used for personal purposes. John had recently expressed dissatisfaction with the company and was looking for a new job. None of these individual facts directly prove that John is responsible for the data breach. However, when considered together, they create a strong circumstantial case suggesting John&rsquo;s involvement in the malicious activity. ChatGPT</p>
@@ -439,7 +439,7 @@
 <blockquote>
 <p>Corroborating evidence is additional evidence that supports or confirms the initial evidence or a fact in question. Corroborating evidence helps to strengthen the overall case by providing independent confirmation of the facts or findings. In digital forensics, corroborating evidence may include things like additional log files from different systems, witness statements, or even physical evidence that supports the digital evidence. The use of corroborating evidence is particularly important in digital forensics because it can help to establish the reliability and credibility of the findings and minimize the chances of false positives or inaccurate conclusions.</p>
 </blockquote>
-<h2 id="common-activity-indicators">Common Activity Indicators</h2>
+<h2 id="common-activity-artefacts">🏺Common Activity Artefacts</h2>
 <p>Below is the list of the most common artefacts that could be used to determine user activity. Some of them are mobile specific.</p>
 <p>I&rsquo;ve devided them into two main groups: primary and secondary. Primary artefacts are those that are specifically designed to provide this information. For example, you can view contacts via address book or read SMS messages.</p>
 <p>Secondary artefacts are like data lakes: they aggreagate lots sort of information that might or might not contain something relevant. In requires wits and analysis in order to retrieve something useful from there if anything is there. For example, to determine if a person knows another person, you could see their contact list (which is the easiest way). However, not all connections are added there. So, you&rsquo;d probably refer to mailing activity as well. The last resort would be to see photos and videos in order to find a familiar face. There is small chance to also find this information in some notes. For example, &ldquo;I met Julia Roberts yesterday on the tube! Imagine that!&rdquo; Some artefacts are listed both under secondary and primary sections since for some purposes they might be secondary. For example, social media is basically a very sophisticated address book + messages system. However, there are feeds there as well and as with all messages in general you sometime find something relevant there. For instance, if you are not sure if the person did work this day and check their social media page where there was a photo from a bar posted at 2pm on Thursday (too early, ey!), you might be relatively sure that no, the person was no at work that time.</p>
@@ -495,7 +495,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="prioritising">Prioritising</h2>
+<h2 id="-prioritising">📝 Prioritising</h2>
 <p>When reviewing processes and artefacts for potential maliciousness, I use the following list, where items are ordered by their likelihood of being malicious.</p>
 <ol>
 <li>Outstanding <code>exe</code> or bat <code>files</code> named with one digit or one letter like <code>a.ps1</code>, <code>1.bat</code>. <code>a.exe</code> etc.</li>
