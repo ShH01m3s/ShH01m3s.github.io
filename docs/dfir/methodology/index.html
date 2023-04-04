@@ -199,12 +199,27 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#techniques">Techniques</a></li>
     <li><a href="#checklists">Checklists</a>
       <ul>
         <li><a href="#incident-response-sans">Incident Response (SANS)</a></li>
         <li><a href="#digital-forensics">Digital Forensics</a></li>
       </ul>
     </li>
+    <li><a href="#types-of-evidence">Types of Evidence</a>
+      <ul>
+        <li><a href="#circumstantial">Circumstantial</a></li>
+        <li><a href="#incontrovertible">Incontrovertible</a></li>
+        <li><a href="#corroborating">Corroborating</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-activity-indicators">Common Activity Indicators</a>
+      <ul>
+        <li><a href="#secondary-artefacts">Secondary artefacts</a></li>
+        <li><a href="#primary-artefacts">Primary Artefacts</a></li>
+      </ul>
+    </li>
+    <li><a href="#prioritising">Prioritising</a></li>
     <li><a href="#-ir-methodology">🥷🏼 IR Methodology</a>
       <ul>
         <li><a href="#detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</a>
@@ -265,7 +280,42 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="checklists">Checklists</h2>
+    <h2 id="techniques">Techniques</h2>
+<p>There are a couple of techniques to use. This can be applied to everything: logs, dynamic malware analysis, user activity, folder activity, system events etc.</p>
+<p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example is something like a suddenly increased number of server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
+<p>🛠 Typically, this kind of stuff (spikes) is picked up by the IDS/IPS/WAF systems quite neatly.
+🗒 TODO: <a href="https://www.open-scap.org/security-policies/scap-security-guide/">https://www.open-scap.org/security-policies/scap-security-guide/</a>.</p>
+<p>A little more sophisticated &ldquo;Find Evil&rdquo; technique is what I call <strong>behavioural analysis</strong>. For this method, you must think like an attacker and a regular user. For example, for everyday use, the failed login process would look something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Reset password</li>
+<li>Login</li>
+</ul>
+<p>For a malicious user, it would be something like (brute-forcing):</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>N-login attempt - account blocked</li>
+<li>Sleep for N minutes</li>
+<li>M-login attempt - error</li>
+<li>etc</li>
+</ul>
+<p>For a malicious user attempting password spraying attack (when one password is used for different accounts), you are likely to do something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Stop (no successful login or password reset)</li>
+</ul>
+<p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look either for something more or less frequent. Covering all the cases is hard, but maybe some examples will do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
+<p>🛠 SIEM/IDS + ML (machine learning engine) could help identify those &ldquo;unusual things&rdquo;. Some SIEM would allow making rules based on different log fields. So, for example, in the above scenario, one could create a rule to alert the CSIRT if a 100 threshold for 404 HTTP status code returned is hit in 1 minute.</p>
+<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could be an indicator of command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
+<p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
+<p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
+<p><strong>Stacking</strong>. It&rsquo;s not a separate technique per se, rather it referes to the analysis of a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear few times, or seen on one system only usually stand out.</p>
+<h2 id="checklists">Checklists</h2>
 <h3 id="incident-response-sans">Incident Response (SANS)</h3>
 <ul>
 <li><input disabled="" type="checkbox"> 🥒 Preparation
@@ -376,6 +426,84 @@
 </ul>
 </li>
 </ul>
+<h2 id="types-of-evidence">Types of Evidence</h2>
+<h3 id="circumstantial">Circumstantial</h3>
+<blockquote>
+<p>Circumstantial evidence refers to the collection of facts that, when considered together, can be used to infer a conclusion about malicious activity or a person involved. This type of evidence does not directly prove the fact in question but allows for the possibility of drawing inferences to establish the fact indirectly. Circumstantial evidence is often used in digital forensics and incident investigations when direct evidence is not available. Let&rsquo;s consider a scenario in which an organization suspects a data breach has occurred. They are trying to determine if an employee, John, is responsible for the breach. Direct evidence would be something like a security video showing John copying sensitive files onto a USB drive or an email sent by John admitting to the breach. Circumstantial evidence, on the other hand, would involve facts that indirectly suggest John&rsquo;s involvement. For example: Log files showing that John&rsquo;s user account accessed the sensitive files just before the data breach occurred. Records indicating that John&rsquo;s computer was connected to a USB drive around the same time the files were accessed. The breached files were found on a dark web marketplace, and the seller&rsquo;s account was linked to an email address similar to one John used for personal purposes. John had recently expressed dissatisfaction with the company and was looking for a new job. None of these individual facts directly prove that John is responsible for the data breach. However, when considered together, they create a strong circumstantial case suggesting John&rsquo;s involvement in the malicious activity. ChatGPT</p>
+</blockquote>
+<h3 id="incontrovertible">Incontrovertible</h3>
+<blockquote>
+<p>Incontrovertible evidence refers to evidence that is indisputable, irrefutable, or impossible to deny. It is so strong and compelling that it leaves no room for doubt or argument. In digital forensics, incontrovertible evidence may include things like unaltered log files, digital signatures, or cryptographic hashes that prove the integrity and authenticity of data. However, it is essential to note that it can be challenging to obtain incontrovertible evidence in digital forensics due to the potential for data manipulation or tampering.</p>
+</blockquote>
+<h3 id="corroborating">Corroborating</h3>
+<blockquote>
+<p>Corroborating evidence is additional evidence that supports or confirms the initial evidence or a fact in question. Corroborating evidence helps to strengthen the overall case by providing independent confirmation of the facts or findings. In digital forensics, corroborating evidence may include things like additional log files from different systems, witness statements, or even physical evidence that supports the digital evidence. The use of corroborating evidence is particularly important in digital forensics because it can help to establish the reliability and credibility of the findings and minimize the chances of false positives or inaccurate conclusions.</p>
+</blockquote>
+<h2 id="common-activity-indicators">Common Activity Indicators</h2>
+<p>Below is the list of the most common artefacts that could be used to determine user activity. Some of them are mobile specific.</p>
+<p>I&rsquo;ve devided them into two main groups: primary and secondary. Primary artefacts are those that are specifically designed to provide this information. For example, you can view contacts via address book or read SMS messages.</p>
+<p>Secondary artefacts are like data lakes: they aggreagate lots sort of information that might or might not contain something relevant. In requires wits and analysis in order to retrieve something useful from there if anything is there. For example, to determine if a person knows another person, you could see their contact list (which is the easiest way). However, not all connections are added there. So, you&rsquo;d probably refer to mailing activity as well. The last resort would be to see photos and videos in order to find a familiar face. There is small chance to also find this information in some notes. For example, &ldquo;I met Julia Roberts yesterday on the tube! Imagine that!&rdquo; Some artefacts are listed both under secondary and primary sections since for some purposes they might be secondary. For example, social media is basically a very sophisticated address book + messages system. However, there are feeds there as well and as with all messages in general you sometime find something relevant there. For instance, if you are not sure if the person did work this day and check their social media page where there was a photo from a bar posted at 2pm on Thursday (too early, ey!), you might be relatively sure that no, the person was no at work that time.</p>
+<h3 id="secondary-artefacts">Secondary artefacts</h3>
+<ul>
+<li>Notes</li>
+<li>Voice assistant&rsquo;s logs</li>
+<li>Browser activity</li>
+<li>Photos, videos (local, online)</li>
+<li>Screen or voice recordings</li>
+<li>Calendar events</li>
+<li>Music</li>
+<li>Gaming</li>
+<li>Social media</li>
+</ul>
+<h3 id="primary-artefacts">Primary Artefacts</h3>
+<ul>
+<li>👥 Contacts and Connections
+<ul>
+<li>📖 Address book</li>
+<li>💬 Messangers</li>
+<li>💬 Social media</li>
+<li>✉️ Mail</li>
+<li>SMS/MMS</li>
+<li>☎️ Call history (video, phone)</li>
+</ul>
+</li>
+<li>🗺 Geo posisition
+<ul>
+<li>Device IP</li>
+<li>Traffic (if logged)</li>
+<li>Social communications metadata</li>
+<li>Maps applications</li>
+<li>VPNs used (logs if any)</li>
+<li>Photos and videos</li>
+<li>Documents saved/downloaded/deleted/modified</li>
+<li>Calendar events</li>
+<li>Web browsing</li>
+<li>Screen or voice recordings</li>
+</ul>
+</li>
+<li>Computer Activity
+<ul>
+<li>System logs (logs, prefetch, events etc)</li>
+<li>Documents saved/downloaded/deleted/modified/renamed/copied</li>
+<li>Folders traversed</li>
+<li>USB and other external media attached</li>
+<li>Processes running/terminated/spawned</li>
+<li>Encryption/wiping software usage</li>
+<li>Shortcuts, symbolic links and links</li>
+<li>Configuration files (etc, plist, registry)</li>
+<li>Network connections opened/closed</li>
+</ul>
+</li>
+</ul>
+<h2 id="prioritising">Prioritising</h2>
+<p>When reviewing processes and artefacts for potential maliciousness, I use the following list, where items are ordered by their likelihood of being malicious.</p>
+<ol>
+<li>Outstanding <code>exe</code> or bat <code>files</code> named with one digit or one letter like <code>a.ps1</code>, <code>1.bat</code>. <code>a.exe</code> etc.</li>
+<li>Drivers that were installed recently or that I don&rsquo;t recognise.</li>
+<li>Unfamiliar program names (google or ask ChatGPT to know more about the such program)</li>
+<li>Familiar programs in unusual places</li>
+<li>Programs that seem legit are in the expected folders (last resort).</li>
+</ol>
 <h2 id="-ir-methodology">🥷🏼 IR Methodology</h2>
 <p>For the most relevant scenarios, keeping playbooks and runbooks at your disposal is crucial. This will help you stay less stressed and be prepared for various outcomes. I have created a <a href="https://www.canva.com/design/DAFfIbPpEuo/Frhvq9uiLJssDby2MJtXJA/view?utm_content=DAFfIbPpEuo&amp;utm_campaign=designshare&amp;utm_medium=link2&amp;utm_source=sharebutton">high-level overview of potential playbooks</a> based on the MITRE ATTACK matrix, which includes guidelines for detection, investigation, and cleanup techniques. Runbooks, on the other hand, are highly detailed and technical instructions, such as &ldquo;How to reset an account password&rdquo; or &ldquo;How to change an AWS EC2 inline policy.&rdquo; One runbook can be referred to by several playbooks, which is perfectly fine. Consider playbooks as constructors with a relatively unique plan and runbooks as the specific steps linked to some or all of the described plan&rsquo;s stages. Below is a part of the table I have mentioned above.</p>
 <p><img src="images/mitre-playbooks.png" alt="img"></p>
@@ -678,8 +806,8 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 <h4 id="critical-thinking">Critical Thinking</h4>
 <p><strong>Challenge assumptions</strong> (sometimes it&rsquo;s something you have not seen or dealt with before), consider alternatives, evaluate data, identify critical drivers, and understand the context.</p>
 <p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorise these assumptions based on certainty. Refine and remove those assumptions that are proven to be incorrect. Identify additional data needs for those assumptions that are still uncertain. Research?</p>
-<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the other options. The null hypothesis is the opposite of the main hypothesis (for anomalous data).</p>
-<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for average to detect the bizarre (like, a clean system installation is examined, and everything is then compared to it). Look for inconsistent data. **Assess the data against different hypotheses to see how well it fits.</p>
+<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the other options. The null hypothesis is the opposite of the central hypothesis (for anomalous data).</p>
+<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for average to detect the bizarre (like, a clean system installation is examined, and everything is compared to it). Look for inconsistent data. **Assess the data against different hypotheses to see how well it fits.</p>
 <p>Identify critical drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
 <p>Understand the context from the perspective of different stakeholders. Framing techniques help keep everyone on the same page (what do they need from me, how can I frame the issue, do I need to place their questions in a broader context). Same vocabulary. Steps:</p>
 <ul>
