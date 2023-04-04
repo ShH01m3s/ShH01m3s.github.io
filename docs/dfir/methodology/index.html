@@ -378,6 +378,23 @@
 </li>
 </ul>
 <h2 id="-ir-methodology">🥷🏼 IR Methodology</h2>
+<p>For the most relevant scenarios, it is important to keep playbooks and runbooks at your disposal. This will help you stay less stressed and be prepared for various outcomes. I have created a <a href="https://www.canva.com/design/DAFfIbPpEuo/Frhvq9uiLJssDby2MJtXJA/view?utm_content=DAFfIbPpEuo&amp;utm_campaign=designshare&amp;utm_medium=link2&amp;utm_source=sharebutton">high-level overview of potential playbooks</a> based on the MITRE ATTACK matrix, which includes guidelines for detection, investigation, and cleanup techniques. Runbooks, on the other hand, are highly detailed and technical instructions, such as &ldquo;How to reset an account password&rdquo; or &ldquo;How to change an AWS EC2 inline policy.&rdquo; One runbook can be referred to by several playbooks, which is perfectly fine. Consider playbooks as constructors with a relatively unique plan, and runbooks as the specific steps linked to some or all of the described plan&rsquo;s stages. Below is a part of the table I have mentioned above.</p>
+<p><img src="images/mitre-playbooks.png" alt="img"></p>
+<p>Following the MITRE matrix, I have roughly divided the content into two different realms: infrastructure and applications. Each sticker represents two things simultaneously:</p>
+<ol>
+<li>📘 It&rsquo;s a playbook that needs to be followed if an incident occurs.</li>
+<li>❓ It provides an answer to a question, such as &ldquo;How can the adversary get initial foothold in the system?&rdquo; The answer would differ for each realm.</li>
+</ol>
+<p>Some playbooks have arrows pointing to other playbooks within one cell. This indicates that during an investigation of a particular event, it might lead to another playbook. For example, while investigating an event that suggests a vulnerability in a system within the infrastructure was exploited, we might discover that the vulnerability was not in our system but in a vendor&rsquo;s system. This could lead to the investigation shifting to a different playbook that is more applicable to the vendor&rsquo;s system.</p>
+<p>I am currently working on a framework (MITRE + the above table + Jupyter) that companies can use as a starting point for establishing which playbooks should be prioritized and developed. The way to go would be as follows:</p>
+<ol>
+<li>Define the infrastructure.</li>
+<li>Go through the relevant MITRE matrix and to undestand potential risks.</li>
+<li>Profile the potential adversary and align this profile with the MITRE matrix.</li>
+<li>Using the table above define playbooks of the highest priority.</li>
+<li>In each playbook describe detection, investigation and cleanup flow for the most relevant TTPs.</li>
+<li>For each playbook, ensure that there is a runbook that provides technical details (links, scripts etc).</li>
+</ol>
 <h3 id="detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</h3>
 <p>Lots of systems can be used to monitor the network and host for malicious activity. These are IDS, IPS, firewalls, AV, SIEM (Security Information and Event Management solutions, SIM + SEM), IR frameworks, threat intelligence etc. However, the incident might be reported by the employee (for example, receiving a suspicious email) or by a third party (data exfiltrated seen in the dark net). Before it is confirmed to be true or be the result of malicious intent, it&rsquo;s called an <em>event</em>.</p>
 <p><strong>Precursors</strong>❓ - signs that the incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software that&rsquo;s used by the company.</p>
