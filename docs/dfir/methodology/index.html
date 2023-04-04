@@ -229,7 +229,7 @@
         </li>
         <li><a href="#examination-and-analysis">Examination and Analysis</a>
           <ul>
-            <li><a href="#prioritization-and-process">Prioritization and Process</a></li>
+            <li><a href="#prioritisation-and-process">Prioritisation and Process</a></li>
             <li><a href="#critical-thinking">Critical Thinking</a></li>
             <li><a href="#known-good">Known Good</a></li>
           </ul>
@@ -274,7 +274,7 @@
 <li><input disabled="" type="checkbox"> 📈 <strong>Rank</strong> them by the level of importance.</li>
 <li><input disabled="" type="checkbox"> 👁 <strong>Monitor</strong> their traffic patterns and create baselines.</li>
 <li><input disabled="" type="checkbox"> 🫂 Create a <strong>communication plan</strong> (who to contact, how, and when based on each incident type). <strong>Incident Handler Communications and Facilities</strong> (contacts, on-call info, reporting mechanism, issue tracking, smartphones, encryption soft, war room, secure storage).</li>
-<li><input disabled="" type="checkbox"> 🚧 Determine which security events and at what <strong>thresholds</strong> these events should be investigated.</li>
+<li><input disabled="" type="checkbox"> 🚧 Determine which security events and at what <strong>thresholds</strong> should be investigated.</li>
 <li><input disabled="" type="checkbox"> 📖 Create one <strong>incident response plan</strong> and playbooks for each type of incident that are most likely to happen or can inflict the most damage.</li>
 <li><input disabled="" type="checkbox"> 📖 Create an <strong>Incident Response Policy</strong>.</li>
 </ul>
@@ -339,11 +339,11 @@
 </li>
 <li><input disabled="" type="checkbox"> 🗳 Evidence <strong>Preservation</strong>
 <ul>
-<li><input disabled="" type="checkbox"> <strong>copy</strong> original, operate on the copy</li>
-<li><input disabled="" type="checkbox"> calculate <strong>hashes</strong> at each stage (unless it&rsquo;s cloud evidence)</li>
-<li><input disabled="" type="checkbox"> use hardware <strong>write-blockers</strong> or software write-blockers</li>
-<li><input disabled="" type="checkbox"> make sure <strong>min number of files</strong> is created</li>
-<li><input disabled="" type="checkbox"> register <strong>timestamps</strong> before opening files</li>
+<li><input disabled="" type="checkbox"> Copy original, operate on the copy.</li>
+<li><input disabled="" type="checkbox"> Calculate <strong>hashes</strong> at each stage (unless it&rsquo;s cloud evidence)</li>
+<li><input disabled="" type="checkbox"> Use hardware <strong>write-blockers</strong> or software write-blockers</li>
+<li><input disabled="" type="checkbox"> Make sure <strong>min number of files</strong> is created.</li>
+<li><input disabled="" type="checkbox"> Register <strong>timestamps</strong> before opening files.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> 📇 <strong>Documentation</strong>.</li>
@@ -360,7 +360,7 @@
 </li>
 <li><input disabled="" type="checkbox"> 👥 User
 <ul>
-<li><input disabled="" type="checkbox"> Is there mal user activity (account takeover, insider threat)?</li>
+<li><input disabled="" type="checkbox"> Is there malicious user activity (account takeover, insider threat)?</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> ⚙️ OS Configs
@@ -377,60 +377,60 @@
 </li>
 </ul>
 <h2 id="-ir-methodology">🥷🏼 IR Methodology</h2>
-<p>For the most relevant scenarios, it is important to keep playbooks and runbooks at your disposal. This will help you stay less stressed and be prepared for various outcomes. I have created a <a href="https://www.canva.com/design/DAFfIbPpEuo/Frhvq9uiLJssDby2MJtXJA/view?utm_content=DAFfIbPpEuo&amp;utm_campaign=designshare&amp;utm_medium=link2&amp;utm_source=sharebutton">high-level overview of potential playbooks</a> based on the MITRE ATTACK matrix, which includes guidelines for detection, investigation, and cleanup techniques. Runbooks, on the other hand, are highly detailed and technical instructions, such as &ldquo;How to reset an account password&rdquo; or &ldquo;How to change an AWS EC2 inline policy.&rdquo; One runbook can be referred to by several playbooks, which is perfectly fine. Consider playbooks as constructors with a relatively unique plan, and runbooks as the specific steps linked to some or all of the described plan&rsquo;s stages. Below is a part of the table I have mentioned above.</p>
+<p>For the most relevant scenarios, keeping playbooks and runbooks at your disposal is crucial. This will help you stay less stressed and be prepared for various outcomes. I have created a <a href="https://www.canva.com/design/DAFfIbPpEuo/Frhvq9uiLJssDby2MJtXJA/view?utm_content=DAFfIbPpEuo&amp;utm_campaign=designshare&amp;utm_medium=link2&amp;utm_source=sharebutton">high-level overview of potential playbooks</a> based on the MITRE ATTACK matrix, which includes guidelines for detection, investigation, and cleanup techniques. Runbooks, on the other hand, are highly detailed and technical instructions, such as &ldquo;How to reset an account password&rdquo; or &ldquo;How to change an AWS EC2 inline policy.&rdquo; One runbook can be referred to by several playbooks, which is perfectly fine. Consider playbooks as constructors with a relatively unique plan and runbooks as the specific steps linked to some or all of the described plan&rsquo;s stages. Below is a part of the table I have mentioned above.</p>
 <p><img src="images/mitre-playbooks.png" alt="img"></p>
 <p>Following the MITRE matrix, I have roughly divided the content into two different realms: infrastructure and applications. Each sticker represents two things simultaneously:</p>
 <ol>
 <li>📘 It&rsquo;s a playbook that needs to be followed if an incident occurs.</li>
-<li>❓ It provides an answer to a question, such as &ldquo;How can the adversary get initial foothold in the system?&rdquo; The answer would differ for each realm.</li>
+<li>❓ It answers a question like &ldquo;How can the adversary get an initial foothold in the system?&rdquo; The answer would differ for each realm.</li>
 </ol>
-<p>Some playbooks have arrows pointing to other playbooks within one cell. This indicates that during an investigation of a particular event, it might lead to another playbook. For example, while investigating an event that suggests a vulnerability in a system within the infrastructure was exploited, we might discover that the vulnerability was not in our system but in a vendor&rsquo;s system. This could lead to the investigation shifting to a different playbook that is more applicable to the vendor&rsquo;s system.</p>
-<p>I am currently working on a framework (MITRE + the above table + Jupyter) that companies can use as a starting point for establishing which playbooks should be prioritized and developed. The way to go would be as follows:</p>
+<p>Some playbooks have arrows pointing to other playbooks within one cell. This indicates that an investigation of a particular event might lead to another playbook. For example, while investigating a possibility that suggests a vulnerability in a system within the infrastructure was exploited, we might discover that the exposure was not in our system but in a vendor&rsquo;s system. This could lead to the investigation shifting to a different playbook more applicable to the vendor&rsquo;s system.</p>
+<p>I am working on a framework (MITRE + the above table + Jupyter) for companies to establish which playbooks should be prioritised and developed. The way to go would be as follows:</p>
 <ol>
 <li>Define the infrastructure.</li>
-<li>Go through the relevant MITRE matrix and to undestand potential risks.</li>
+<li>Go through the relevant MITRE matrix to understand potential risks.</li>
 <li>Profile the potential adversary and align this profile with the MITRE matrix.</li>
-<li>Using the table above define playbooks of the highest priority.</li>
-<li>In each playbook describe detection, investigation and cleanup flow for the most relevant TTPs.</li>
-<li>For each playbook, ensure that there is a runbook that provides technical details (links, scripts etc).</li>
+<li>Using the table above, define playbooks of the highest priority.</li>
+<li>In each playbook, describe the detection, investigation and cleanup flow for the most relevant TTPs.</li>
+<li>Ensure a runbook provides technical details (links, scripts, etc.) for each playbook.</li>
 </ol>
 <h3 id="detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</h3>
-<p>Lots of systems can be used to monitor the network and host for malicious activity. These are IDS, IPS, firewalls, AV, SIEM (Security Information and Event Management solutions, SIM + SEM), IR frameworks, threat intelligence etc. However, the incident might be reported by the employee (for example, receiving a suspicious email) or by a third party (data exfiltrated seen in the dark net). Before it is confirmed to be true or be the result of malicious intent, it&rsquo;s called an <em>event</em>.</p>
+<p>Lots of systems can be used to monitor the network and host for malicious activity. These are IDS, IPS, firewalls, AV, SIEM (Security Information and Event Management solutions, SIM + SEM), IR frameworks, threat intelligence etc. However, the employee might report the incident (for example, receiving a suspicious email) or by a third party (data exfiltrated seen in the dark net). Before it is confirmed to be accurate or the result of malicious intent, it&rsquo;s called an <em>event</em>.</p>
 <p><strong>Precursors</strong>❓ - signs that the incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software used by the company.</p>
 <p><strong>Indicators</strong> 🚨 - signs that an incident has occurred or is occurring. Malware detected by an anti-virus program, configurations changed, multiple failed logins etc.</p>
 <p>Several techniques help confirm the incident. See the <code>Investigation -&gt; Methodology</code> section for more details.</p>
 <ul>
 <li><strong>Frequency analysis</strong>. Something that is outstandingly rare across systems might be malicious.</li>
-<li>**Normal vs Evil behaviour. You know what&rsquo;s considered normal for the given system/user, and something that&rsquo;s not usual is a primary suspect for further analysis.</li>
+<li>Average vs Evil behaviour. You know what&rsquo;s considered normal for the given system/user, and something unusual is a primary suspect for further analysis.</li>
 <li><strong>IoC</strong>. Indicators of compromise, like some virus hashes or file extensions used by a known crypto malware.</li>
-<li><strong>IoA or pattern analysis</strong>. Indicators of attack. These would be of some particular pattern depending on the vulnerability/attack in place. For example, you see some string like <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> - it&rsquo;s probably an XSS attempt.</li>
+<li><strong>IoA or pattern analysis</strong>. Indicators of attack. Depending on the vulnerability/attack in place, these would be of some particular pattern. For example, you see some string like <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> - it&rsquo;s probably an XSS attempt.</li>
 </ul>
 <p>For AWS - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html</a></p>
 <p>After the incident is confirmed, you initiate an investigation.</p>
 <blockquote>
-<p>📝 I found it quite hard to separate incident response and digital forensics articles from one another. For now, I am seeing incident response as a more general process that could require a more thorough examination (digital forensics) but not necessarily. As I see it, we have an event and start the IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artefacts to the ATCK MITRE framework. Then, to be able to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space etc in order to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching and DF is about details.</p>
+<p>📝 I found it quite hard to separate incident response and digital forensics articles from one another. For now, I see the incident response as a more general process that could require a more thorough examination (digital forensics) but not necessarily. As I see it, we have an event and start the IR process to determine whether it&rsquo;s malicious. Identify compromised hosts and map the artefacts to the ATCK MITRE framework. Then, to fully contain and remediate the incident, we call for DF, trying to analyse malware, analyse the registry on Windows, recover data from unallocated space, etc., to reconstruct the whole picture in detail. So, roughly speaking, IR is about sketching, and DF is about more information.</p>
 </blockquote>
 <h4 id="common-malicious-activity-detection-and-countermeasures">Common Malicious Activity, Detection and Countermeasures</h4>
-<p><strong>Mapping</strong>. Attackers need to <strong>collect information</strong> about the target system first:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong></p>
+<p><strong>Mapping</strong>. Attackers must first collect information about the target system:  <code>ping</code>, <code>nmap</code>.     <strong>Countermeasures:</strong></p>
 <ul>
 <li>record traffic</li>
-<li>look for suspicious activity</li>
-<li>use a host scanner and keep track of all the PCs within your network. A new PC should trigger an alert.</li>
+<li>Look for suspicious activity.</li>
+<li>Use a host scanner and keep track of all the PCs within your network. A new PC should trigger an alert.</li>
 </ul>
-<p><strong>Packet Sniffing</strong>. Now, an attacker may perform (or try to perform) <strong>traffic sniffing</strong>. It is possible in the following cases: Broadcasting, promiscuous NIC, and if the traffic is unencrypted.  <strong>Countermeasures:</strong></p>
+<p><strong>Packet Sniffing</strong>. An attacker may perform (or try to achieve) <strong>traffic sniffing</strong>. It is possible in the following cases: Broadcasting, promiscuous NIC, and if the traffic is unencrypted.  <strong>Countermeasures:</strong></p>
 <ul>
-<li>periodically check wether the NICs of the hosts are in promiscuous mode</li>
-<li>switched Ethernet (1 host per segment of broadcast media).</li>
+<li>Periodically check whether the NICs of the hosts are in promiscuous mode.</li>
+<li>We switched Ethernet (1 host per segment of broadcast media).</li>
 </ul>
-<p><strong>IP-spoofing.</strong> Can generate &ldquo;raw&rdquo; IP packets, putting any value as a source IP. The receiver won&rsquo;t be able to know that the other party is spoofed. <strong>Countermeasures:</strong></p>
+<p><strong>IP-spoofing.</strong> Can generate &ldquo;raw&rdquo; IP packets, putting any value as a source IP. The receiver won&rsquo;t know that the other party is spoofed. <strong>Countermeasures:</strong></p>
 <p><strong>DoS</strong>. <strong>Countermeasures:</strong></p>
 <ul>
-<li>filter out flooded packets (eg SYN) before they reach the host</li>
+<li>Filter out flooded packets (e.g. SYN) before they reach the host.</li>
 <li>traceback to the source of floods</li>
 </ul>
-<p>🎣 <strong>Phishing.</strong> <strong>Spear phishing</strong> - targeted attack to specific users or groups of users. <strong>Whaling</strong> - spear phishing for high executive managers. <strong>Strategies</strong>:</p>
+<p>🎣 <strong>Phishing.</strong> <strong>Spear phishing</strong> - targeted attack on specific users or groups of users. <strong>Whaling</strong> - spear phishing for high executive managers. <strong>Strategies</strong>:</p>
 <ul>
-<li>They claim that they&rsquo;ve seen numerous failed login attempts or other suspicious activity.</li>
+<li>They claim they&rsquo;ve seen numerous failed login attempts or other suspicious activity.</li>
 <li>They claim that there is some problem with your account or payment method.</li>
 <li>Confirm some personal information.</li>
 <li>Include a fake invoice.</li>
@@ -438,30 +438,30 @@
 <li>You are eligible for a government refund.</li>
 <li>Coupon for free stuff.</li>
 </ul>
-<p>How to detect?</p>
+<p>How to detect it?</p>
 <ul>
 <li>Suspicious sender&rsquo;s address.</li>
 <li>Generic signature and greetings.</li>
-<li>Spoofed hyperlinks and websites.</li>
+<li>They spoofed hyperlinks and websites.</li>
 <li>Spelling and layout.</li>
 <li>Suspicious attachment.</li>
 </ul>
-<p><strong>PoS</strong>. Most of the malware is equipped with a backdoor and C&amp;C features. The data of the card holder is decrypted in RAM, that&rsquo;s why this type of malware sniffs the RAM (RAM scraping). <strong>Countermeasures</strong>:</p>
+<p><strong>PoS</strong>. Most of the malware is equipped with a backdoor and C&amp;C features. The cardholder&rsquo;s data is decrypted in RAM; that&rsquo;s why this type of malware sniffs the RAM (RAM scraping). <strong>Countermeasures</strong>:</p>
 <ul>
-<li>Monitor network for changes</li>
+<li>Monitor the network for changes.</li>
 <li>Good encryption</li>
-<li>limit the host that communicates with PoS</li>
+<li>Limit the host that communicates with PoS.</li>
 <li>chip-card-enabled PoS terminals</li>
 <li>Employee screening and training</li>
 </ul>
-<p><strong>Injections</strong>. MongoDB. <code>$where</code> is interpreted as JS. DoS: <code>$where=&quot;d=new Date; do {c=new Date;} while {c-d&lt;10000};&quot;</code>, XPath. <code>'or 1=1 or '1'='1</code>, LDAP.<code>*)(cn=))(|cn=*</code>, SQL <code>or 1=1--</code> etc. The best practice is whitelisting allowed and needed characters.</p>
+<p><strong>Injections</strong>. MongoDB. <code>$where</code> is interpreted as JS. DoS: <code>$where=&quot;d=new Date; do {c=new Date;} while {c-d&lt;10000};&quot;</code>, XPath. <code>'or 1=1 or '1'='1</code>, LDAP.<code>*)(cn=))(|cn=*</code>, SQL <code>or 1=1--</code> etc. The best practice is to allow listing allowed and needed characters.</p>
 <ul>
 <li>Preventing <strong>OS injection</strong>
 <ul>
-<li>Don&rsquo;t use OS commands</li>
+<li>Don&rsquo;t use OS commands.</li>
 <li>Sanitise input</li>
-<li>Accept, say, ids and lookup</li>
-<li>Leat priv</li>
+<li>Accept, say, ids and lookup.</li>
+<li>Leat prev</li>
 <li>do not run through shell interpreters</li>
 <li>explicit paths</li>
 </ul>
@@ -470,7 +470,7 @@
 <ul>
 <li>prepared statements</li>
 <li>sanitise</li>
-<li>do not expose errors with sql statements etc</li>
+<li>do not expose errors with SQL statements etc</li>
 <li>limit permissions</li>
 <li>stored procedures</li>
 <li>ORM libs (Hibernate)</li>
@@ -480,19 +480,19 @@
 <p><strong>Common AWS issues</strong>
 The following list is the top ten identified misconfigurations in Amazon EC2 instances and workloads from our data set:</p>
 <ol>
-<li>Unconfigured EC2 instance single-point-of-failure and/or auto scaling issue</li>
+<li>Unconfigured EC2 instance single-point-of-failure and auto-scaling issue</li>
 <li>S3 logging not enabled</li>
 <li>S3 object versioning is not enabled</li>
 <li>User not configured to use MFA</li>
 <li>User access key not configured with rotation</li>
-<li>IAM policies are attached directly to user</li>
-<li>Dangerous user privileged access to S3</li>
+<li>IAM policies are attached directly to the user</li>
+<li>Dangerous user-privileged access to S3</li>
 <li>ELB security group allows insecure access to ports or protocols</li>
 <li>IAM access keys unused for 90 days</li>
-<li>Dangerous user privileged access to RDS</li>
+<li>Dangerous user-privileged access to RDS</li>
 </ol>
 <h4 id="spillage">Spillage</h4>
-<p>If it&rsquo;s AWS - open up a case with AWS Business Support. Report spillage findings and response actions, DoD 5220.</p>
+<p>If it&rsquo;s AWS - open up a case with AWS Business Support: report spillage findings and response actions, DoD 5220.</p>
 <h4 id="documentation">Documentation</h4>
 <p>This is when you start taking notes for the incident (or event). Current status of the incident, summary, indicators, other related incidents, actions taken by all, a chain of custody*, impact assessment, contacts, list of evidence, comments from incident handlers (IH), next steps to be taken (rebuild the host/upgrade).</p>
 <p>How to categorise the incident? Simply put, how bad is that?</p>
@@ -500,8 +500,8 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 <li>Functional Impact Categories
 <ul>
 <li><strong>None</strong> - nothing&rsquo;s changed.</li>
-<li><strong>Low</strong> - the business can still provide its critical services, but the efficiency needs to be recovered.</li>
-<li><strong>Medium</strong> - O. has lost the ability to provide its critical services to some users.</li>
+<li><strong>Low</strong> - the business can still provide critical services, but the efficiency needs to be recovered.</li>
+<li><strong>Medium</strong> - O. needs to be able to provide critical services to some users.</li>
 <li><strong>High</strong> - O. is no longer able to provide its critical services.</li>
 </ul>
 </li>
@@ -523,21 +523,21 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 </li>
 </ul>
 <h4 id="protected-data">Protected Data</h4>
-<p>If the GDPR data was leaked - 72 hours to disclose the breach. HIPAA has other time limits.</p>
+<p>Suppose the GDPR data was leaked - 72 hours to disclose the breach. HIPAA has other time limits.</p>
 <h3 id="containment-eradication-recovery">Containment. Eradication. Recovery.</h3>
-<p><strong>Containment</strong> 📦 aims to stop the bleeding🩸. It&rsquo;s a very important stage. While during Identification (aka detection and analysis) we are <em>confirming</em> that something&rsquo;s going wrong, this stage is used in order to see the full picture, how the breach happened, what damage was already done, which systems are compromised etc. Quoting SANS:</p>
+<p><strong>Containment</strong> 📦 aims to stop the bleeding🩸. It&rsquo;s a critical stage. While during Identification (aka detection and analysis), we confirm that something&rsquo;s going wrong, this stage is used to see the whole picture, how the breach happened, what damage was already done, which systems are compromised, etc. Quoting SANS:</p>
 <blockquote>
-<p>The goal of containment is to limit damage from the current security incident and prevent any further damage. Several steps are necessary to completely mitigate the incident while also preventing the destruction of evidence that may be needed for prosecution.</p>
+<p>The goal of containment is to limit damage from the current security incident and prevent further damage. Several steps are necessary to completely mitigate the incident while avoiding the destruction of evidence that may be needed for prosecution.</p>
 </blockquote>
-<p>So, digital forensics can occur anywhere from Analysis (aka Identification) to the Lessons Learned stage. It may not occur, however. For example, a DoS attack may not need this facility.</p>
+<p>So, digital forensics can occur anywhere from Analysis (aka Identification) to the Lessons Learned stage. It may not happen, however. For example, a DoS attack may not need this facility.</p>
 <p>Choosing a containment strategy:</p>
 <ul>
 <li><input disabled="" type="checkbox"> ❓ Is there potential damage or theft of resources?</li>
-<li><input disabled="" type="checkbox"> ❓ Do we need to preserve the evidence for the court/ourselves, make an image of the compromised system?</li>
+<li><input disabled="" type="checkbox"> ❓ Do we need to preserve the evidence for the court/ourselves and make an image of the compromised system?</li>
 <li><input disabled="" type="checkbox"> ❓ Do we need the service to be available during the investigation?</li>
 <li><input disabled="" type="checkbox"> ❓ How much time do we have and need?</li>
 <li><input disabled="" type="checkbox"> ❓What resources are available to implement this strategy?</li>
-<li><input disabled="" type="checkbox"> ❓ What&rsquo;s the strategy&rsquo;s effectiveness (partial or full containment)?</li>
+<li><input disabled="" type="checkbox"> ❓ What&rsquo;s the strategy&rsquo;s effectiveness (partial or complete containment)?</li>
 </ul>
 <p>Below is the checklist to ensure the responder has done their job. These questions can be used in a ticket or IR timesheet, mentioned above in the <em>Documentation</em> section.</p>
 <ul>
@@ -552,11 +552,11 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 </ul>
 <blockquote>
 <p>The SANS containment process involves:</p>
-<p><strong>Short-term containment</strong>—limiting damage before the incident gets worse, usually by isolating network segments, taking down hacked production server and routing to failover.</p>
-<p><strong>System backup</strong>—taking a forensic image of the affected system(s) with tools such as Forensic Tool Kit (FTK) or EnCase, and only then wipe and reimage the systems. This will preserve evidence from the attack that can be used in court and also for further investigation of the incident and lessons learned.</p>
-<p><strong>Long-term containment</strong>—applying temporarily fixes to make it possible to bring production systems back up. The primary focus is removing accounts or backdoors left by attackers on the systems, and addressing the root cause—for example, fixing a broken authentication mechanism or patching a vulnerability that led to the attack.</p>
+<p><strong>Short-term containment</strong>—limiting damage before the incident worsens, usually by isolating network segments, taking down hacked production servers and routing to failover.</p>
+<p><strong>System backup</strong>—taking a forensic image of the affected system(s) with tools such as Forensic Tool Kit (FTK) or EnCase, and only then wiping and reimaging the systems. This will preserve evidence from the attack that can be used in court and for further investigation of the incident and lessons learned.</p>
+<p><strong>Long-term containment</strong>—applying temporary fixes to make it possible to bring production systems back up. The primary focus is removing accounts or backdoors left by attackers on the methods and addressing the root cause—for example, fixing a broken authentication mechanism or patching a vulnerability that led to the attack.</p>
 </blockquote>
-<p><strong>Eradication</strong> aims to remove the threat. For example, get rid of the malware, retrun configs to its normal state. It&rsquo;s a common mistake of many companies to jump right to this stage without proper prior investigation and containment. In this case, the attacker might still be inside, or the vulnerability they used is still unmatched, or the user they social engineered is still not informed about this event properly etc. It can turn into a &ldquo;whack-a-mole&rdquo; game which is no fun when a company&rsquo;s reputation and finance 💵 are concerned.</p>
+<p><strong>Eradication</strong> aims to remove the threat. For example, please remove the malware, and return configs to their normal state. It&rsquo;s a common mistake of many companies to jump right to this stage without proper prior investigation and containment. In this case, the attacker might still be inside, the vulnerability they used is still unmatched, or the user they social engineered still needs to be informed about this event properly etc. It can turn into a &ldquo;whack-a-mole&rdquo; game which is no fun when a company&rsquo;s reputation and finance 💵 are concerned.</p>
 <ul>
 <li><input disabled="" type="checkbox"> ❓ Can the problem be isolated? Are all affected isolated?</li>
 <li><input disabled="" type="checkbox"> ❓ Have the forensic copy been created? For each piece of evidence, keep the info (or chain of custody, even better):
@@ -575,43 +575,43 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 <h3 id="post-incident-activity-sans-lessons-learned">Post-Incident Activity (SANS Lessons Learned)</h3>
 <p>Learn from your experience so you can better respond to future security events. Adjust your playbooks accordingly.</p>
 <h3 id="cloud-ir-specifics">Cloud IR Specifics</h3>
-<p>If there are any shared resources with other companies that do not care about security as much, you might be in trouble. For example, several companies host their web application on one website.</p>
-<p>Cloud IR is easier. Some tools and methods are available ONLY for the Cloud. IR Simulation on AWS.</p>
+<p>If there are any shared resources with other companies that care about security less, you might be in trouble. For example, several companies host their web application on one website.</p>
+<p>Cloud IR is easier. Some tools and methods are available ONLY for the Cloud—IR Simulation on AWS.</p>
 <p><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/security-incident-response-simulations.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/security-incident-response-simulations.html</a></p>
 <p>Automation - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/automation-1.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/automation-1.html</a></p>
 <h2 id="--df-methodology">🔬 🧪 DF Methodology</h2>
 <h3 id="collection">Collection</h3>
-<p>Evidence collection begins with the first response and arriving at the scene (how weird&hellip;.). The person collecting the evidence is assuming the role of a first responder. Not always they are digital forensic experts. Opponents will try to discredit their work. That’s why it’s so important to use industry-accepted tools and know the digital footprint of these tools (checked on a monthly basis). For each media type, there is a separate section under Incident Investigation -&gt; Collection section on this website - <a href="https://bakerst221b.com/docs/dfir/investigation/collection/">https://bakerst221b.com/docs/dfir/investigation/collection/</a>.</p>
+<p>Evidence collection begins with the first response and arriving at the scene (how weird&hellip;.). The person collecting the evidence assumes the role of a first responder. Only sometimes are they digital forensic experts. Opponents will try to discredit their work. That’s why it’s essential to use industry-accepted tools and know the digital footprint of these tools (checked every month). Each media type has a separate section under Incident Investigation -&gt; Collection section on this website - <a href="https://bakerst221b.com/docs/dfir/investigation/collection/">https://bakerst221b.com/docs/dfir/investigation/collection/</a>.</p>
 <p>There are several important notes to keep in mind:</p>
-<p>❗️Document everything. Before anything can be acquired, it needs to be properly documented first. The first responder needs to record all the findings in the Chain of Custody form.</p>
+<p>❗️Document everything. Before anything can be acquired, it needs to be properly documented first. The first responder must record all the findings in the Chain of Custody form.</p>
 <p>❗️Take photos and videos before touching anything. These photos/videos need to have proper time-stamping.</p>
 <p>❗️Do never make any analysis on the original media! Any analysis and investigation are only performed against a copy.</p>
 <p>❗️Make hashes before the acquisition, after and when making copies.</p>
 <h4 id="documentation-1">Documentation</h4>
-<p>Start documenting even before you get to the scene. First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up photos. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible). Identify and assign unique ids to the evidence collected</p>
+<p>Start documenting even before you get to the scene. First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up images. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible). Identify and assign unique ids to the evidence collected.</p>
 <p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
 <h3 id="examination-and-analysis">Examination and Analysis</h3>
-<p>Art supersedes science. Know what garbage is. Unexpected places. Don&rsquo;t ignore exculpatory (proving innocence) data.</p>
+<p>Art supersedes science. Know what garbage is. Unexpected places. Pay attention to exculpatory (proving innocence) data.</p>
 <p>❗️ Correlate data with other independent sources. Some data might have been tampered with, and you should try to find other evidence that describes the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>
-<p>Bypassing controls (if it&rsquo;s PIN protected, data encrypted, ACL, compression). There will be lots of data and only some is relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. This list is used by Autopsy.</p>
-<p>Testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
+<p>Bypassing controls (if PIN protected, data encrypted, ACL, compression). There will be lots of data, and only some are relevant. In most cases, NSRL file data is used to eliminate known files, such as operating system and application files, during criminal forensic investigations. This reduces the number of files which must be manually examined and thus increases the efficiency of the investigation. See <a href="https://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl/about-nsrl/nsrl-introduction">here</a>. Autopsy uses this list.</p>
+<p>I am testing computer <a href="https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt">tools</a>. Video analytics <a href="https://www.nist.gov/programs-projects/video-analytics">here</a> and photo <a href="https://www.nist.gov/itl/iad/image-group">here</a>. And about NIST research in cloud forensics <a href="https://www.nist.gov/programs-projects/nist-cloud-computing-forensic-science">here</a>.</p>
 <p>About SIM forensics as well <a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-101r1.pdf">here</a>.</p>
-<p>The main idea is to concentrate on some areas, and answer some specific questions, like:</p>
+<p>The main idea is to concentrate on some areas and answer some specific questions, like:</p>
 <ol>
 <li>Is there child exploitation material? Search videos and pictures.</li>
-<li>Is this PC compromised? Not obvious.</li>
+<li>Is this PC compromised? It needs to be more prominent.</li>
 <li>Who did this computer communicate with?</li>
 </ol>
 <p><strong>First option:</strong></p>
-<p>Big problem &ndash;&gt; n*(small problem). Recursively break a problem into smaller problems until one of them becomes solvable.</p>
+<p>Big problem &ndash;&gt; n*(minor problem). Recursively break a problem into minor issues until one becomes solvable.</p>
 <p><strong>Second option:</strong></p>
-<p>Or we can be guided by artifact ⛏️  categories.</p>
-<p>First, break the bigger problem into a smaller one. Then answer questions with artifact ⛏️ categories.</p>
+<p>Or we can be guided by artefact ⛏️  categories.</p>
+<p>First, break the more significant problem into a smaller ones. Then answer questions with artefact ⛏️ categories.</p>
 <p>Here is the pseudocode for this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stacked</span><span class="p">){</span>
 </span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
-</span></span><span class="line"><span class="cl">  <span class="n">getArtifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">currentProblem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="k">get</span> <span class="n">artifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">current</span> <span class="n">problem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
@@ -619,17 +619,17 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 </span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><strong>How computer works?</strong> Hardware, OS, Processes. <strong>How attacker works?</strong> Remote access changes, detection avoidance etc.</p>
+</span></span></code></pre></div><p><strong>How does a computer works?</strong> Hardware, OS, Processes. <strong>How does the attacker works?</strong> Remote access changes, detection avoidance etc.</p>
 <p><strong>RoadMap</strong></p>
 <ol>
 <li>Is the system compromised?
 <ol>
-<li>Are there mal related changes?</li>
+<li>Are there mal-related changes?</li>
 <li>Is there mal user activity?
 <ol>
 <li>Suspicious logins?
 <ol>
-<li>Login artifact category ⛏️: Event log 4624, 4778, active users etc</li>
+<li>Login artefact category ⛏️: Event log 4624, 4778, active users etc</li>
 </ol>
 </li>
 </ol>
@@ -639,18 +639,18 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 </ol>
 </li>
 </ol>
-<p>Prioritization is based on: likely relevant, result acuracy, time to answer.</p>
+<p>Prioritisation is based on: likely relevance, result accuracy, and time to answer.</p>
 <p>Beginner: start with a process and fill in categories</p>
-<p>Advanced: when you already know about categories, think from that procpective.</p>
+<p>Advanced: when you already know about classes, think from that perspective.</p>
 <p>Manager: categories</p>
-<p>Cyber Truage User: same</p>
+<p>Cyber Triage User: same</p>
 <p>File name &ndash;&gt; meta &ndash;&gt; content</p>
-<h4 id="prioritization-and-process">Prioritization and Process</h4>
+<h4 id="prioritisation-and-process">Prioritisation and Process</h4>
 <p>There are different paths to follow to answer the same questions. Some are more efficient.</p>
-<p>Pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
+<p>I am pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
 <ul>
-<li>Looking for malware and find program run entry for malware</li>
-<li>Stop looking for other malware and focus on that one
+<li>Looking for malware and finding program run entries for malware</li>
+<li>Stop looking for other malware and focus on that one.
 <ul>
 <li>What happened before and after?</li>
 <li>What else is in the same folder?</li>
@@ -659,41 +659,41 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 </li>
 <li>Repeat for each you find</li>
 </ul>
-<p>How to find the first evidence? Prioritize or brute force.</p>
+<p>How to find the first evidence? Prioritise or brute force.</p>
 <ul>
-<li><strong>Prioritize</strong> (Manual). You never know where the evidence are going to be.
+<li>Prioritise (Manual). You always need to find out where the evidence is going to be.
 <ul>
 <li>impact on the investigation result</li>
-<li>likelihood to find anything</li>
-<li>false positive?</li>
+<li>likelihood of finding anything</li>
+<li>False positive?</li>
 <li>time required</li>
 </ul>
 </li>
-<li><strong>Brute force</strong> (Automated). Let tools and software to find evidence.</li>
+<li><strong>Brute force</strong> (Automated). Let tools and software find evidence.</li>
 </ul>
 <blockquote>
-<p>Cyber Triage: can I mark something as bad and run analysis for this piece of evidence again. - yes</p>
+<p>Cyber Triage: can I mark something as wrong and run the analysis for this piece of evidence again? - yes</p>
 </blockquote>
 <p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
 <h4 id="critical-thinking">Critical Thinking</h4>
-<p><strong>Challenge assumptions</strong> (sometimes its something you have not seen or dealt with before), consider alternatives, evaluate data, identify key drivers, understand context.</p>
-<p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorize these assumptions based on the certainty. Refine and remove those assumptions that are proven to be wrong. Identify addition data needs for those assumptions that are still uncertain. Research?</p>
-<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the alternatives. Null hypothesis - the opposite to the main hypothesis (for anomalous data).</p>
-<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for normal to be able to detect the abnormal (like, a clean installation of a system is examined and everything is then compared to it). Look for incosistent data. <strong>Assess the data against different hypothesis</strong> to see how well it fits.</p>
-<p>Identify key drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
+<p><strong>Challenge assumptions</strong> (sometimes it&rsquo;s something you have not seen or dealt with before), consider alternatives, evaluate data, identify critical drivers, and understand the context.</p>
+<p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorise these assumptions based on certainty. Refine and remove those assumptions that are proven to be incorrect. Identify additional data needs for those assumptions that are still uncertain. Research?</p>
+<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the other options. The null hypothesis is the opposite of the main hypothesis (for anomalous data).</p>
+<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for average to detect the bizarre (like, a clean system installation is examined, and everything is then compared to it). Look for inconsistent data. **Assess the data against different hypotheses to see how well it fits.</p>
+<p>Identify critical drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
 <p>Understand the context from the perspective of different stakeholders. Framing techniques help keep everyone on the same page (what do they need from me, how can I frame the issue, do I need to place their questions in a broader context). Same vocabulary. Steps:</p>
 <ul>
-<li>Key components. Break the problem down and identify the partss, actors and categories.</li>
+<li>Key components. Break the problem down and identify the parts, actors and categories.</li>
 <li>Factors at Play.</li>
 <li>Relationships. Static? Dynamic? Graphing.</li>
-<li>Similarities/Differences. Leverage the past work!</li>
+<li>Similarities/Differences. Leverage past work!</li>
 <li>Redefine. Rephrase and paraphrase the issue. What is the root cause?</li>
 </ul>
 <blockquote>
-<p>💡 May be it&rsquo;s better to arrange it as a table. Merge with the information from Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
+<p>💡 Maybe it&rsquo;s better to arrange it as a table. Merge with the information from the Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
 </blockquote>
 <h4 id="known-good">Known Good</h4>
-<p>Not all the files are worth considering. However, it&rsquo;s hard to keep all of them in mind. So, I&rsquo;ve made (about to) several database files that contain information on files on a clean installed system. There will be some divisions, I presume, but I hope it will help eliminate a huge pack of files as well.</p>
+<p>Only some of the files are worth considering. However, it takes a lot of work to keep all of them in mind. I&rsquo;ve made several database files that contain information on files on a clean installed system. There will be some divisions, but I hope it will also help eliminate a massive pack of files.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
