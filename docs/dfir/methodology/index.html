@@ -396,13 +396,14 @@
 </ol>
 <h3 id="detection-and-analysis-sans-identification">Detection and Analysis (SANS Identification)</h3>
 <p>Lots of systems can be used to monitor the network and host for malicious activity. These are IDS, IPS, firewalls, AV, SIEM (Security Information and Event Management solutions, SIM + SEM), IR frameworks, threat intelligence etc. However, the incident might be reported by the employee (for example, receiving a suspicious email) or by a third party (data exfiltrated seen in the dark net). Before it is confirmed to be true or be the result of malicious intent, it&rsquo;s called an <em>event</em>.</p>
-<p><strong>Precursors</strong>❓ - signs that the incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software that&rsquo;s used by the company.</p>
-<p><strong>Indicators</strong> 🚨 - signs that an incident has occurred already or is occurring now. Malware detected by an anti-virus program, configurations changed, multiple failed logins etc.</p>
-<p>There are several techniques that help confirm the incident. See the <code>Investigation -&gt; Methodology</code> section for more details.</p>
+<p><strong>Precursors</strong>❓ - signs that the incident <em>may</em> occur in the future. For example, logs show that a vulnerability scanner was used. Or a vulnerability was found in some software used by the company.</p>
+<p><strong>Indicators</strong> 🚨 - signs that an incident has occurred or is occurring. Malware detected by an anti-virus program, configurations changed, multiple failed logins etc.</p>
+<p>Several techniques help confirm the incident. See the <code>Investigation -&gt; Methodology</code> section for more details.</p>
 <ul>
-<li><strong>Frequency analysis</strong>. Something that is outstandingly rare across systems might be malicious</li>
-<li><strong>Normal vs Evil</strong>. You know what&rsquo;s considered normal for the given system/user and something that&rsquo;s not usual is a primary suspect for further analysis.</li>
+<li><strong>Frequency analysis</strong>. Something that is outstandingly rare across systems might be malicious.</li>
+<li>**Normal vs Evil behaviour. You know what&rsquo;s considered normal for the given system/user, and something that&rsquo;s not usual is a primary suspect for further analysis.</li>
 <li><strong>IoC</strong>. Indicators of compromise, like some virus hashes or file extensions used by a known crypto malware.</li>
+<li><strong>IoA or pattern analysis</strong>. Indicators of attack. These would be of some particular pattern depending on the vulnerability/attack in place. For example, you see some string like <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> - it&rsquo;s probably an XSS attempt.</li>
 </ul>
 <p>For AWS - <a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/visibility-and-alerting.html</a></p>
 <p>After the incident is confirmed, you initiate an investigation.</p>
