@@ -1047,6 +1047,84 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 </ul>
 <p>Read more about the above techniques: <a href="https://isc.sans.edu/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Mechanism+-+Part+1/15394">Wipe the drive! Stealthy Malware Persistence - Part 1</a> and <a href="https://isc.sans.edu/forums/diary/Wipe+the+drive+Stealthy+Malware+Persistence+Part+2/15406/">Wipe the drive! Stealthy Malware Persistence - Part 2</a>.</p>
 <h3 id="malware-analysis">Malware Analysis</h3>
+<table>
+<thead>
+<tr>
+<th>How to detect</th>
+<th>Active Malware</th>
+<th>Dormant Malware</th>
+<th>Living-Off the Land</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IoC</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅ (if you know more details, of course)</td>
+</tr>
+<tr>
+<td>Triage or EDR artefacts and logs</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Timeline Analysis</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Targeted Single Host forensic</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Signature-based (AV, rules, parsers)</td>
+<td>✅</td>
+<td>✅</td>
+<td>⛔️</td>
+</tr>
+<tr>
+<td>Process Anomalies (malware processes)</td>
+<td>✅</td>
+<td>✅</td>
+<td>⛔️</td>
+</tr>
+<tr>
+<td>Malware Persistence</td>
+<td>✅</td>
+<td>✅</td>
+<td>⛔️</td>
+</tr>
+<tr>
+<td>MFT and FS anomalies</td>
+<td>✅</td>
+<td>✅</td>
+<td>⛔️</td>
+</tr>
+<tr>
+<td>Anti-forensics residue</td>
+<td>✅</td>
+<td>✅</td>
+<td>⛔️</td>
+</tr>
+<tr>
+<td>Memory Analysis</td>
+<td>✅</td>
+<td>⛔️ (not in memory yet, so, not possible)</td>
+<td>⛔️❓(if you know your Normal vs Evil for the system, might be possible)</td>
+</tr>
+<tr>
+<td>Process Anomalies (automated processes)</td>
+<td>✅</td>
+<td>⛔️ (not in memory yet, so, not possible)</td>
+<td>⛔️ ❓(if you know your Normal vs Evil for the system, might be possible)</td>
+</tr>
+</tbody>
+</table>
 <p>Here is a separate section devoted to malware analysis methodology, tips, etc..</p>
 <p><em>🔍 What are we looking for?</em> Persistence/start-up mechanisms, running processes and remnants left.</p>
 <p><strong>SANS Six-Part Methodology</strong>, used to identify malicious processes:</p>
