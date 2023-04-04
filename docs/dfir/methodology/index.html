@@ -399,18 +399,40 @@
 <li><input disabled="" type="checkbox"> Calculate the **hash of the image taken (post-hash) and ensure it matches the above ones taken previously.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> 🤏🏼 <strong>Acquisition</strong> (live or dead)
+<li><input disabled="" type="checkbox"> 🤏🏼 <strong>Acquisition</strong> (live or dead).
 <ul>
-<li><input disabled="" type="checkbox"> Physical storage
+<li><input disabled="" type="checkbox"> Physical storage. Mind the order of volatility, see RFC <a href="https://www.ietf.org/rfc/rfc3227.txt">here</a>.
 <ul>
-<li><input disabled="" type="checkbox"> Volume analysis. <strong>Volume</strong> - a collection of storage locations.
+<li><input disabled="" type="checkbox"> <strong>Cache</strong>, <strong>registers</strong> (<strong>CPU</strong>). 🛠 Debuggers (OllyDbg, gdb, x64dbg etc)</li>
+<li><input disabled="" type="checkbox"> <strong>ARoTa MeKSaPTa</strong>. ARP cache, routing table, memory, kernel statistics, process table. <strong>Mnemonics</strong>: ARoTa MeKSaPTa
 <ul>
-<li><input disabled="" type="checkbox"> File System</li>
-<li><input disabled="" type="checkbox"> DB</li>
-<li><input disabled="" type="checkbox"> Swap space</li>
+<li><input disabled="" type="checkbox"> <strong>Routing tables</strong>. Contain the following info: destination IP addresses or networks; the gateway IP address, or interface name if a directly connected resource; the metric, or cost, associated with the route – this enables the most efficient route to be selected; the outgoing interface the machine will use when forwarding a packet.
+<ul>
+<li><input disabled="" type="checkbox"> Windows <code>route print</code></li>
+<li><input disabled="" type="checkbox"> UNIX <code>netstat -rn</code></li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Memory analysis</li>
+<li><input disabled="" type="checkbox"> <strong>ARP cache</strong>: <code>arp -a</code></li>
+<li><input disabled="" type="checkbox"> <strong>Process table</strong>. The list of processes currently running + metadata.
+<ul>
+<li><input disabled="" type="checkbox"> UNIX <code>ps</code></li>
+<li><input disabled="" type="checkbox"> Windows. Task Manager (GUI) or <code>tasklist</code> (-&gt; <code>csv</code>).</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Kernel stats</strong>. 🛠 RAMMap, part of the Sysinternals suite for Windows, and memmap in the Linux world. Tracks the page usage (physical RAM chunks), mappings of those pages.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Temporary files</strong>. Malware likes these folders because it&rsquo;s often already full of garbage.
+<ul>
+<li><input disabled="" type="checkbox"> Linux <code>/tmp</code>.</li>
+<li><input disabled="" type="checkbox"> swap (UNIX)</li>
+<li><input disabled="" type="checkbox"> pagefile (Windows)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Disk</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Logs</strong>. Monitoring data and remote logging pertaining to the computer in question. SIEMs and other log storages.</li>
+<li><input disabled="" type="checkbox"> Physical <strong>configurations</strong>, network topology.</li>
+<li><input disabled="" type="checkbox"> Archival media. CDs, backups, USBs.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Logical backup</li>
