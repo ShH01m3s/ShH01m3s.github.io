@@ -202,6 +202,7 @@
     <li><a href="#resources">Resources</a></li>
     <li><a href="#coding">Coding</a>
       <ul>
+        <li><a href="#strings">Strings</a></li>
         <li><a href="#security-themed-coding-challenges">Security Themed Coding Challenges</a></li>
       </ul>
     </li>
@@ -260,6 +261,14 @@
 <li><a href="https://github.com/gracenolan/Notes/blob/master/interview-study-notes-for-security-engineering.md">https://github.com/gracenolan/Notes/blob/master/interview-study-notes-for-security-engineering.md</a></li>
 </ol>
 <h2 id="coding">Coding</h2>
+<h3 id="strings">Strings</h3>
+<p>I am mostly using Python, so, I need to understand how Python implements string and what&rsquo;s the time and space complexity for string operations. I know that strings are immutable.</p>
+<blockquote>
+<p>Keep in mind that string.replace() creates a new string, as strings are immutable in Python. So, if you need to make several replacements in a string, consider using a mutable data structure like a list or a StringBuilder (from the io module) to avoid creating multiple new strings and improve performance.</p>
+</blockquote>
+<blockquote>
+<p>💡 A very interesting approach to use bitwise operations to store a set of boolean values with just two bool operations: <code>bit_vector &amp; (1 &lt;&lt; char_code)</code> to check and <code>bit_vector |= (1 &lt;&lt; char_code)</code> to set the bit. I have moved the detailed explanation to the reverse section (reverse -&gt; basics -&gt; assembly)</p>
+</blockquote>
 <h3 id="security-themed-coding-challenges">Security Themed Coding Challenges</h3>
 <p>These security engineering challenges focus on text parsing and manipulation, basic data structures, and simple logic flows. Give the challenges a go, no need to finish them to completion because all practice helps.</p>
 <ul>
@@ -271,7 +280,13 @@
 </li>
 <li><input disabled="" type="checkbox"> Parse arbitrary logs
 <ul>
-<li><input disabled="" type="checkbox"> Collect logs (of any kind) and write a parser which pulls out specific details (domains, executable names, timestamps etc.)</li>
+<li><input disabled="" type="checkbox"> Collect logs (of any kind) and write a parser which pulls out specific details:
+<ul>
+<li><input disabled="" type="checkbox"> domains - <code>pattern = r'\b((?:(?:[a-zA-Z0-9]+[.])+[a-zA-Z]{2,}))+\b'</code></li>
+<li><input disabled="" type="checkbox"> executable names</li>
+<li><input disabled="" type="checkbox"> timestamps</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Web scrapers

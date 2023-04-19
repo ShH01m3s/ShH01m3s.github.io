@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Bitwise Magic - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/reverse/basics/"> 👈🏼 Back to </br> 📚 Basics </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#and">AND</a>
+          <ul>
+            <li><a href="#zero-n-bits-out">Zero <code>N</code> bits out</a></li>
+            <li><a href="#check-if-an-integer-is-even">Check if an integer is even</a></li>
+            <li><a href="#bit-map">Bit map</a></li>
+          </ul>
+        </li>
+        <li><a href="#or">OR</a></li>
+        <li><a href="#not">NOT</a></li>
+        <li><a href="#xor">XOR</a></li>
+        <li><a href="#rcr-and-rcl">RCR and RCL</a></li>
+        <li><a href="#shl-and-shr">SHL and SHR</a>
+          <ul>
+            <li><a href="#useful-tip">Useful tip</a></li>
+          </ul>
+        </li>
+        <li><a href="#rolror-vs-shlshr">ROL/ROR vs SHL/SHR</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Bitwise Magic</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p>*## Logical</p>
+<h3 id="and">AND</h3>
+<h4 id="zero-n-bits-out">Zero <code>N</code> bits out</h4>
+<p>All you need to do, is to <code>and</code> it with a <code>0000 0000</code> mask (for a one byte value in this example).</p>
+<h4 id="check-if-an-integer-is-even">Check if an integer is even</h4>
+<p>Mask it with <code>0000 0001</code>. Even numbers have <code>0</code> at the end, and uneven - <code>1</code>. <code>and</code>ing an even number with <code>0000 0001</code> will result in <code>0</code> and <code>and</code>ing an uneven - with <code>1</code>.</p>
+<h4 id="bit-map">Bit map</h4>
+<p>AND operation will be used to check if the given bit in the bit map was set already: <code>if bit_vector &amp; (1 &lt;&lt; char_code)</code>. 1 &laquo; char_code basically does the following (using 8 bit value for simplicity). Say, we checking if either of the numbers appeared more than once in some data (numbers from <code>0</code> to <code>7</code>).</p>
+<table>
+<thead>
+<tr>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+<th>Possible numbers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Bitmap, initial state, all bits are set to <code>False</code>.</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>True or False bool value (basically, <code>1</code> or <code>0</code> bit). If we see 7, we need to shift that 1 bit to the left 7 times, so, 1 &laquo; 7 gives us this:</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Now, we have a mask that sets the 7th bit to True (1).</td>
+</tr>
+</tbody>
+</table>
+<p>Then, we need to apply this mask. Masks are usually applied with AND.</p>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>Bit map (initial state, all bits set to 0)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>We take our mask with the 7th bit set and perform a bitwise OR operation with the bit map to set this bit. And get:</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>this. All bits 0 except for the 7th.</td>
+</tr>
+</tbody>
+</table>
+<p>Let&rsquo;s assume that we have also encountered number 4 and we want to add it to the bitmap.</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>BitMap (7th bit has already been set)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>We see <code>4</code>, we create a mask for a <code>4</code> by shifting <code>1</code> 4 positions to the left with the shift operation:  <code>1 &lt;&lt; 4</code> to get the value to the left.</td>
+</tr>
+</tbody>
+</table>
+<p>Let&rsquo;s now apply the mask:</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>BitMap (7th bit has already been set)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Using the OR operation, let&rsquo;s set the 4 bit.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Now, two bits are set.</td>
+</tr>
+</tbody>
+</table>
+<p>How do we check now, that the bit is set? With the AND, of course.</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>0</th>
+<th>0</th>
+<th>1</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>Our bitmap now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Let&rsquo;s say we are checkin if 4 is already in the bitmap (and we know it is). AND it with the bitmap to get&hellip;</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>&hellip;get the same result as your mask! Since at least 1 bit is set, it&rsquo;s not 0 -&gt; it&rsquo;s a True.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="or">OR</h3>
+<p>Set to <code>1</code> if either of the bits is <code>1</code>. Repeat for each bit of the first operand and the second operand. Writes to the destination operand.</p>
+<p><strong>Interesting</strong>! 😮 Can be used to set all bits to <code>1</code> with <code>1111</code>. ​ For example, we have <code>1110 or 1111</code> = <code>1111</code>. Basically, any value <code>or</code>ed by <code>1111</code> is <code>1111</code>.</p>
+<h3 id="not">NOT</h3>
+<h3 id="xor">XOR</h3>
+<p><strong>Ex</strong>clusive <strong>OR</strong>. 1 if the first operand&rsquo;s bit is <strong>not</strong> equal to the second&rsquo;s.</p>
+<p><strong>Interesting</strong>! 😮 A quick way to set <code>eax</code> to <code>0</code>. Operation&rsquo;s <code>xor eax, eax</code> opcode is <code>33 C0</code> (2 bytes) while <code>mov eax, 0</code> - opcode <code>b8 00 00 00 00  </code> which is 5 bytes (costy 💴 ).</p>
+<p>Also, an interesting observation to investigate further: If I mask any value with <code>1111</code> , I get an operation equal to substraction (unsigned):</p>
+<p><code>1010 xor 1111</code> is <code>0101</code> (5 in decimal)</p>
+<p><code>1011 xor 1111</code> is <code>0100</code> (4d)</p>
+<p><code>1100 xor 1111</code> is <code>0011</code> (3d)</p>
+<p>ROR and ROL</p>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code> , <code>OF</code></p>
+<p>Rotate the integer n-time to the left or right. When you see such an instruction, very often it is an indication of encryption. To better understand both I need an example. Let&rsquo;s take an 8-bit binary value. The <strong>initial</strong> state is:</p>
+<p><code>0 1 0 0   1 1 1 0 </code></p>
+<p>See the <code>1</code> at the beginning of this number, <!-- raw HTML omitted -->second<!-- raw HTML omitted --> bit from the left (let&rsquo;s call him Matt). We will then locate him after <code>ROR</code> and <code>ROL</code>.</p>
+<p>Let&rsquo;s now <code>ROR</code> (rotate bits right) by 1. Every bit is moved to the right by one position. Our <strong>first</strong> state (for future reference):</p>
+<p><code>0 0 1 0   0 1 1 1</code></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? Now, this bit is the <!-- raw HTML omitted -->third<!-- raw HTML omitted --> bit from the left.</p>
+<p>Let&rsquo;s now <code>ROL</code> (rotate bits left) by 1. Every bit is moved to the left  by one position. Our <strong>second</strong> state:</p>
+<p><code>1 0 0 1   1 1 0 0</code></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? This bit is the <!-- raw HTML omitted -->first<!-- raw HTML omitted --> bit from the left, so, he&rsquo;s become the most significant bit in this number 👑 .</p>
+<p>Let&rsquo;s now <code>ROL</code> the last number by 1 again. Every bit is again moved to the left. But Matt has nowhere to move! He&rsquo;s falling nowhere&hellip;</p>
+<p><img src="https://media.giphy.com/media/1i6zbhYXV1kRO/giphy.gif" alt="img"></p>
+<p>Where the hell is <a href="https://youtu.be/zlfKdbWwruY">Matt</a> now? He seemed to have got drowned, but he managed it through the swamp and emerged&hellip; But now&hellip;Matt used to be the most significant bit 👑when in the <strong>second</strong> state , but now he&rsquo;s just a 💩, the least significant bit. As you can see, he&rsquo;s the first from the end.This is the <strong>third</strong> state:</p>
+<p><code>0 0 1 1  1 0 0 1</code></p>
+<p>Let&rsquo;s make him worthy again and give him his newly acquired and recently lost regalia. Let&rsquo;s <code>ROR</code> him by 1 again and get back to the <strong>second</strong> state (unforunately he&rsquo;ll have to dive into the swamp again):</p>
+<p><code>1 0 0 1   1 1 0 0</code></p>
+<p>When moving from the <strong>second</strong> to the <strong>third</strong> state Matt has been in a swamp, or in a wormhole 🐛 if you prefer a space metaphor. Let me introduce our wormhole -  <code>CF</code> flag. The spirit of Matt was printed on this flag. In other, less eloquent words, when falling from the edge into the swamp, his value (<code>1</code>) was copied into <code>CF</code>. So as any other bit that would &ldquo;fall&rdquo;. For example, if we get back to the <strong>third</strong> (and the most unfortunate for Matt) state (<code>0 0 1 1  1 0 0 1</code>). Matt&rsquo;s spirit is still there, therefore <code>CF</code> is still <code>1</code>.  Let&rsquo;s <code>ROL</code> this number by 1 once again, Martha (who&rsquo;s now the most significant, i.e. the first bit of the number) falls into the swamp, gets copied into <code>CF</code> and emerges at the end as the least significant bit 💩, making Matt now the second least significant bit, i.e. the second bit from the end (which is not that bad now)​. Now we have the forth state:</p>
+<p><code>0 1 1 1  0 0 1 0</code></p>
+<p>and the <code>CF</code> = 0 now bearing Martha&rsquo;s spirit.</p>
+<blockquote>
+<p>The processor restricts the count to a number between 0 and 31 by masking all the bits in the count operand except the 5 least-significant bits.</p>
+</blockquote>
+<h3 id="rcr-and-rcl">RCR and RCL</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code> , <code>OF</code></p>
+<p>It&rsquo;s pretty much the same, with just one small difference. <code>CF</code> flag is now taken into account, it&rsquo;s not just a wormhole 🐛 anymore. Let&rsquo;s consider the <strong>third</strong> state from the previous examples:</p>
+<p><code>0 0 1 1  1 0 0 1</code></p>
+<p>Let <code>CF</code> be 1 now (may be it was set by some preceding operation like <code>ROL</code>).</p>
+<p>If we now <code>RCL</code>, the <strong>fourth</strong> state will be as follows:</p>
+<p><code>CF</code> = Martha = 0.</p>
+<p><code>0 1 1 1  0 0 1 1</code></p>
+<p>The value that was in <code>CF</code> is now at the end of our number (<code>1</code>), and it&rsquo;s the most significant bit is now in <code>CF</code>. Everyone else has just shifted to the left by 1 bit. It&rsquo;s as if we were operating not on a 8-bit value, but on a 9 bit value:</p>
+<table>
+<thead>
+<tr>
+<th>MAIN value</th>
+<th>CF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0 1 1 1  0 0 1 1</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>which results in something like that: <code>0 1 1 1  0 0 1 1</code>    <code>0</code>.</p>
+<p>Let&rsquo;s now <code>RCR</code> back to the <strong>third</strong> state. <code>CF</code> = <code>0</code>, now it is moved to it&rsquo;s place (most significant bit) <code>0 0 1 1 1 0 0 1</code> and since it was Matt (<code>1</code>) who&rsquo;s falling from the cliff, <code>CF</code> = <code>1</code>. Everyone else has just shifted to the right.</p>
+<p>Another flag, which behaviour is quite peculiar, is <code>OF</code>. It only changes when we shift by 1. When we whift by 2 or more - nothing&rsquo;s happening to it. After CPU&rsquo;s performed the rotates, it calculated <code>OF</code> like this. For left rotates (<code>RCL</code> and <code>ROL</code>), the <code>OF</code> = <code>CF XOR the most-significant bit</code>. For right rotates, the <code>OF</code> = <code>most-significant-bit-1 XOR most-significant-bit-2</code>. For the example above with <code> RCL</code>, when we enetered the <strong>fourth</strong> state:</p>
+<p><code>CF</code> = <code>0</code> and the number itself is <code>0 1 1 1  0 0 1 1</code>.</p>
+<p><code>OF</code> = <code>0 XOR 0</code> = <code>0</code></p>
+<p>For RCR operation leading us back to the <strong>third</strong> state: <code>0 0 1 1 1 0 0 1</code>. Never mind <code>CF</code> since it&rsquo;s not included in the calculations. The two most significant bits after rotation are <code>0</code> and <code>0</code> (the first two digits). <code>OF</code> = <code>0 XOR 0</code> = again <code>0</code>.</p>
+<h3 id="shl-and-shr">SHL and SHR</h3>
+<p><code>x86</code></p>
+<p><strong>Affected flags</strong>: <code>CF</code></p>
+<p>Shifts bits by the value specified in second operand to the  left or to the right.  The last bit dropped off is written to <code>CF</code> &ldquo;before death ☠️ &ldquo;. Example:</p>
+<p><code>1 0 1 0  1 1 0 1</code></p>
+<p>Let&rsquo;s <code>SHR</code> the above number: <code>0 1 0 1  0 1 1 0 </code>.</p>
+<p>Let&rsquo;s now <code>SHR</code> once again: <code>0 0 1 0  1 0 1 1 </code>.</p>
+<p>The main rule here: for each <code>SHR</code> add a <code>0</code> at the beginning and remove one digit from the end. The same is for <code>SHL</code>: for each  <code>SHL</code> add <code>0</code> to the end and remove one digit from the beginning.</p>
+<p>Above number is 8 bit long. So we can pop 8 bits by shifting in one direction (<code>SHR</code> for example only). When the last digit is poped off its value is written to <code>CF</code>, in the example above it was <code>1</code>, hence now <code>CF</code> = <code>1</code>.</p>
+<h4 id="useful-tip">Useful tip</h4>
+<p><code>SHL</code> can be used as an optimized multiplication and division by <code>2^n</code>&rdquo;. Here is an example:</p>
+<table>
+<thead>
+<tr>
+<th>SHL</th>
+<th>equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shl eax, 1</code></td>
+<td>eax * 2</td>
+</tr>
+<tr>
+<td><code>shl eax, 2</code></td>
+<td>eax * 4</td>
+</tr>
+<tr>
+<td><code>shl eax, 3</code></td>
+<td>eax * 8</td>
+</tr>
+</tbody>
+</table>
+<p>To read more about this and how this really works, read <a href="/docs/blog/2020/10/a-few-good-bits">here</a>.</p>
+<h3 id="rolror-vs-shlshr">ROL/ROR vs SHL/SHR</h3>
+<p>What&rsquo;s the difference between the two (well, even four)? When I inspected my old notes, I&rsquo;ve got a little confused because I&rsquo;d totally forgotten that. Tha&rsquo;ts why I&rsquo;ve included this section for future, should my memory fail me once again.</p>
+<p>The difference between the two is pretty much the same as the difference between &ldquo;rolling&rdquo; and &ldquo;shifting&rdquo;. Say, we have a password padlock for a suitcase and set our passcode to <code>1234</code>.</p>
+<p><img src="images/ror-rol.jpg" alt="ror-rol"></p>
+<p>Then we shuffle it and have <code>5432</code>. How to open it then? We rotate each dial until we get to our passcode digits: the dial with <code>5</code> is rotated 4 times to get <code>1</code>, the dial with <code>4</code> is rotated 6 times and etc. No one would expect that when we rotate a dial on the lock, it disapears after reaching the end. But that would be the case if the operation in the padlock&rsquo;s intestines was shifting. And that what&rsquo;s happening to the shifted bits when shifting:</p>
+<p><img src="https://media.giphy.com/media/4bDXKRN2arfPy/giphy.gif" alt="img"></p>
+<p>So, in <code>ROR/ROL</code> instruction no bits are lost, all of the bits of the original number are preserved. They are just rolling like those numbers in the lock 🔒. But with <code>SHL/SHR</code> instruction the numbers are dimped into a 🐛 wormhole and never seen again. If we shift long enogh, we turn any number to a bunch of zeroes until the only footprint left would be a <code>CF</code> flag which will hold the last shifted and dropped off bit. But even this would be overwritten with <code>0</code> shoud you shift one last time&hellip;</p>
+<p><img src="https://media.giphy.com/media/dXQAbcem3HLCgYkkA7/giphy.gif" alt="img"></p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
