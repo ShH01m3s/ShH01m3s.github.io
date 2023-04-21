@@ -206,10 +206,17 @@
           <ul>
             <li><a href="#unique-strings">Unique strings</a></li>
             <li><a href="#permutations">Permutations</a></li>
-            <li><a href="#replace">Replace</a></li>
+            <li><a href="#replace-urlify">Replace (URLify)</a></li>
+            <li><a href="#compressor">Compressor</a></li>
+            <li><a href="#permutations-palindrome">Permutations Palindrome</a></li>
+            <li><a href="#similar-strings">Similar Strings</a></li>
           </ul>
         </li>
-        <li><a href="#web-scraper">Web Scraper</a></li>
+        <li><a href="#web-scraper">Web Scraper</a>
+          <ul>
+            <li><a href="#port-scanner">Port Scanner</a></li>
+          </ul>
+        </li>
         <li><a href="#security-themed-coding-challenges">Security Themed Coding Challenges</a></li>
       </ul>
     </li>
@@ -358,7 +365,7 @@
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s_1</span><span class="p">)):</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">s_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s_2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="k">return</span> <span class="kc">False</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">True</span>
-</span></span></code></pre></div><h4 id="replace">Replace</h4>
+</span></span></code></pre></div><h4 id="replace-urlify">Replace (URLify)</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># TC: O(n)</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># SC: O(n)</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">urlfy</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -393,6 +400,90 @@
 </span></span><span class="line"><span class="cl">            <span class="n">index</span> <span class="o">-=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> 
+</span></span></code></pre></div><h4 id="compressor">Compressor</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="n">s</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p_1</span><span class="p">,</span> <span class="n">p_2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">p_2</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="n">s</span><span class="p">[</span><span class="n">p_1</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">p_2</span><span class="p">]:</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">p_2</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">p_2</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">break</span> <span class="c1"># this line is important. Without it I will get overflow error or the wrong number of the characters at the end.</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">p_1</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p_2</span> <span class="o">-</span> <span class="n">p_1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">p_1</span> <span class="o">=</span> <span class="n">p_2</span>
+</span></span><span class="line"><span class="cl">        <span class="n">p_2</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">s</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">compress</span><span class="p">(</span><span class="s2">&#34;asdasdasd&#34;</span><span class="p">))</span>
+</span></span></code></pre></div><p>I need to use list instead of a string, because the string concatenation might increase the time complexity of the function which is going to be noticable for larger strings.</p>
+<h4 id="permutations-palindrome">Permutations Palindrome</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">check_if_perm_hash_table</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">characters</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">s2</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">characters</span><span class="p">:</span> <span class="n">characters</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="n">characters</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Time Complexity: O(2n + m)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Space Complexity: O(n)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">check_if_perm_sort</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">s_1</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s_2</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s_1</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">s_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s_2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># O(2(n * log n) + n) + whatever it takes to get the length of a string O(1) because it&#39;s basically an array. Why is it immutable then? </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># O(2n)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">check_if_perm_sort</span><span class="p">(</span><span class="s2">&#34;asdff&#34;</span><span class="p">,</span> <span class="s2">&#34;fdsaa&#34;</span><span class="p">))</span>
+</span></span></code></pre></div><h4 id="similar-strings">Similar Strings</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">is_similar</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">insert_one</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">       <span class="k">return</span> <span class="n">insert_one</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">       <span class="k">return</span> <span class="n">replace_one</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">replace_one</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">strike</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">strike</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">            <span class="n">strike</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">insert_one</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">s1_p</span><span class="p">,</span> <span class="n">s2_p</span><span class="p">,</span> <span class="n">strike</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="n">s1_p</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="ow">and</span> <span class="n">s2_p</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">s1_p</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">s2_p</span><span class="p">]:</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">s1_p</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="n">s2_p</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">strike</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">            <span class="n">strike</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">            <span class="n">s2_p</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">is_similar</span><span class="p">(</span><span class="s2">&#34;abbba&#34;</span><span class="p">,</span> <span class="s2">&#34;abbbb&#34;</span><span class="p">))</span>
 </span></span></code></pre></div><h3 id="web-scraper">Web Scraper</h3>
 <p>Write a script to scrape information from a website.</p>
 <p>The <code>networker.py</code> helper function:</p>
@@ -471,6 +562,23 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">scrape_all_urls</span><span class="p">())</span>
 </span></span><span class="line"><span class="cl"><span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span></code></pre></div><h4 id="port-scanner">Port Scanner</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">sizeof</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">errno</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">socket</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">closing</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">open_ports</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">scan_ports_sync</span><span class="p">(</span><span class="n">ports</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">ports</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="n">closing</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">))</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">s</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">connect_ex</span><span class="p">((</span><span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">open_ports</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">open_ports</span><span class="p">)</span>
 </span></span></code></pre></div><h3 id="security-themed-coding-challenges">Security Themed Coding Challenges</h3>
 <p>These security engineering challenges focus on text parsing and manipulation, basic data structures, and simple logic flows. Give the challenges a go, no need to finish them to completion because all practice helps.</p>
 <ul>
@@ -480,8 +588,6 @@
 <li><input disabled="" type="checkbox"> Be able to implement basic cyphers.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Parse arbitrary logs
-<ul>
 <li><input disabled="" type="checkbox"> Collect logs (of any kind) and write a parser which pulls out specific details:
 <ul>
 <li><input disabled="" type="checkbox"> domains - <code>pattern = r'\b((?:(?:[a-zA-Z0-9]+[.])+[a-zA-Z]{2,}))+\b'</code></li>
@@ -489,16 +595,11 @@
 <li><input disabled="" type="checkbox"> timestamps</li>
 </ul>
 </li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Web scrapers
+<li><input checked="" disabled="" type="checkbox"> Web scrapers. Write a script to scrape information from a website.</li>
+<li><input disabled="" type="checkbox"> Port scanners.
 <ul>
-<li><input disabled="" type="checkbox"> Write a script to scrape information from a website.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Port scanners
-<ul>
-<li><input disabled="" type="checkbox"> Write a port scanner or detect port scanning.</li>
+<li><input checked="" disabled="" type="checkbox"> Write a port scanner</li>
+<li><input disabled="" type="checkbox"> Detect port scanning</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Botnets
