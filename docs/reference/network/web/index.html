@@ -204,6 +204,7 @@
         <li><a href="#sop">SOP</a></li>
         <li><a href="#relax-sop">Relax, SOP&hellip;</a></li>
         <li><a href="#cors">CORS</a></li>
+        <li><a href="#hsts">HSTS</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -260,6 +261,33 @@
 </ol>
 <h3 id="cors">CORS</h3>
 <p>What fun would it be if the rules didn&rsquo;t have some exceptions? CORS is basically as way to circumvent overly strict SOP and allow something to be accessed cross-origin.</p>
+<p>When seeing some cross-origin request, user&rsquo;s browser first sends a preflight request to check if it&rsquo;s allowed to do so. And here is the biggest trick. There are simple and &ldquo;complex&rdquo; requests. When something happens WITHOUT javascript (html only), the requests generated are ALWAYS simple. That means that without javascript code one CAN&rsquo;T make a non-simple request. What do I call non-simple? Let&rsquo;s start with what&rsquo;s simple first.</p>
+<ol>
+<li><strong>Methods</strong>: <code>GET</code>, <code>HEAD</code> and <code>POST</code></li>
+<li><strong>Headers</strong>: no custom headers (including those starting with <code>X-</code>)</li>
+<li><strong>Content type</strong>: <code>application/x-www-form-urlencoded</code>, <code>multipart/form-data</code>, or <code>text/plain</code>.</li>
+</ol>
+<p>Note that ALL of the requierements above need to be satisfied. Non-simple are basically everything <strong>else</strong>. The reason why simple requests do not require a preflights is because they relatively safe. Since you can&rsquo;t set headers, change content-type or use other methods from plain html, and the request is constructed automatically by the browser, it&rsquo;s relatively safe. You might ask if cookies are sent this way.</p>
+<p>The most important header is <code>Access-Control-Allow-Origin</code>, it says which origins can make the cross-origin requests. Another header to be mindful is <code>Access-Control-Allow-Credentials</code>, when set to <code>true</code>.</p>
+<p>Here is an example of the request:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">OPTIONS /api/resource HTTP/1.1
+</span></span><span class="line"><span class="cl">Host: example-server.com
+</span></span><span class="line"><span class="cl">Origin: https://example-client.com
+</span></span><span class="line"><span class="cl">Access-Control-Request-Method: PUT
+</span></span><span class="line"><span class="cl">Access-Control-Request-Headers: X-Auth-Token
+</span></span></code></pre></div><p>In the response, the server will tell the broser what&rsquo;s allowed and what&rsquo;s not:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Access-Control-Allow-Origin: https://example-client.com
+</span></span><span class="line"><span class="cl">Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS
+</span></span><span class="line"><span class="cl">Access-Control-Allow-Headers: X-Auth-Token
+</span></span><span class="line"><span class="cl">Access-Control-Max-Age: <span class="m">86400</span>
+</span></span></code></pre></div><p>Say, I have a website <code>bakerst22b_evil.com</code>. On my website there is a link to richmond64.com. When the user clicks the link, it doesn&rsquo;t initiate CORS. However, this is a cross origin request. If <code>richmond64.com</code> has a CSRF there, it might be exploited. CORS won&rsquo;t protect from that.</p>
+<p>Another scenario. On my website <code>bakerst22b_evil.com</code> there is a javascript code that want&rsquo;s to access a <code>richmond64.com</code> cookie 🍪. It won&rsquo;t be able to because the user&rsquo;s browser won&rsquo;t allow it. The only way that <code>bakerst22b_evil.com</code> could access it, is if <code>richmond64.com</code> set its CORS header to the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Access-Control-Allow-Origin: * <span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">Access-Control-Allow-Origin: bakerst22b_evil.com <span class="c1"># or</span>
+</span></span><span class="line"><span class="cl">Access-Control-Allow-Credentials: <span class="nb">true</span>
+</span></span></code></pre></div><h3 id="hsts">HSTS</h3>
+<p><code>Strict-Transport-Security</code> header is sent forcing the browser only use HTTPS and preventing any requests coming via HTTP.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
