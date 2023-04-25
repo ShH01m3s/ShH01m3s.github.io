@@ -241,6 +241,7 @@
         <li><a href="#-tools-iocs-5">🛠 Tools IoCs</a></li>
       </ul>
     </li>
+    <li><a href="#botnets">Botnets</a></li>
     <li><a href="#dirbusting">Dirbusting</a>
       <ul>
         <li><a href="#-payloads-iocs-6">⚙️ Payloads IoCs</a></li>
@@ -258,9 +259,9 @@
         <li><a href="#burp">Burp</a></li>
         <li><a href="#metasploit">Metasploit</a></li>
         <li><a href="#postman">Postman</a></li>
-        <li><a href="#heading"></a></li>
       </ul>
     </li>
+    <li><a href="#ssrf">SSRF</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -360,6 +361,15 @@
 <ul>
 <li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
 </ul>
+<h2 id="botnets">Botnets</h2>
+<p>Below are some things to use when trying to spot a botnet operating.</p>
+<ol>
+<li>Outdates or unusual User Agents.</li>
+<li>A lot of requests coming from one IP or a small range of IP addresses.</li>
+<li>Patterns indicative of automated activity.</li>
+<li>Frequent requests, more frequent than with a legit user.</li>
+</ol>
+<p>Check the IP addresses associated with the user agent strings. If a large number of requests with the same user agent are coming from the same IP address or a small range of IP addresses, it could be an indication of a botnet.</p>
 <h2 id="dirbusting">Dirbusting</h2>
 <h3 id="-payloads-iocs-6">⚙️ Payloads IoCs</h3>
 <h3 id="-tools-iocs-6">🛠 Tools IoCs</h3>
@@ -389,7 +399,15 @@
 <ul>
 <li><input disabled="" type="checkbox"> The <code>User-Agent</code> HTTP header contains <code>Postman</code> keyword and its version.</li>
 </ul>
-<h3 id="heading"></h3>
+<h2 id="ssrf">SSRF</h2>
+<p><strong>S</strong>erver-<strong>s</strong>ide <strong>r</strong>equest <strong>f</strong>orgery. What&rsquo;s the easiest way to detect that the vulnerability is present? It requires a URL-like parameter to be present (see example below). In case there is some fiiltering by IP in place, this vulnerability can be used to get this restricted information via this vulnerable server.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">POST /product/stock HTTP/1.0
+</span></span><span class="line"><span class="cl">Content-Type: application/x-www-form-urlencoded
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">118</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">stockApi</span><span class="o">=</span>http://192.168.0.68/admin
+</span></span></code></pre></div><p>More info <a href="https://portswigger.net/web-security/ssrf">here</a>.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

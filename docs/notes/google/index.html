@@ -710,7 +710,7 @@
 <li><input disabled="" type="checkbox"> Understand PKI (public key infrastructure in relation to this).</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> VPN
+<li><input disabled="" type="checkbox"> ❗️ VPN
 <ul>
 <li><input disabled="" type="checkbox"> Hide traffic from ISP but expose traffic to VPN provider.</li>
 </ul>
@@ -866,94 +866,56 @@
 <h3 id="web-application">Web Application</h3>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> Same origin policy</li>
-<li><input checked="" disabled="" type="checkbox"> CORS</li>
+<li><input checked="" disabled="" type="checkbox"> ❗️ CORS</li>
 <li><input checked="" disabled="" type="checkbox"> HSTS</li>
-<li><input disabled="" type="checkbox"> Cert transparency, Can verify certificates against public logs</li>
-<li><input disabled="" type="checkbox"> HTTP Public Key Pinning
+<li><input checked="" disabled="" type="checkbox"> Cert transparency, Can verify certificates against public logs</li>
+<li><input checked="" disabled="" type="checkbox"> HTTP Public Key Pinning- (HPKP) Deprecated by Google Chrome (like SSL pinning in iOS and Android, I suupose)</li>
+<li><input checked="" disabled="" type="checkbox"> Cookies, httponly - cannot be accessed by javascript.</li>
+<li><input checked="" disabled="" type="checkbox"> CSRF, Cross-Site Request Forgery</li>
+<li><input checked="" disabled="" type="checkbox"> XSS
 <ul>
-<li><input disabled="" type="checkbox"> (HPKP)</li>
-<li><input disabled="" type="checkbox"> Deprecated by Google Chrome</li>
+<li><input checked="" disabled="" type="checkbox"> Reflected XSS.</li>
+<li><input checked="" disabled="" type="checkbox"> Persistent XSS.</li>
+<li><input checked="" disabled="" type="checkbox"> DOM based /client-side XSS.</li>
+<li><input checked="" disabled="" type="checkbox"> <code>&lt;img scr=””&gt;</code> will often load content from other websites, making a cross-origin HTTP request.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Cookies
+<li><input checked="" disabled="" type="checkbox"> SQLi</li>
+<li><input checked="" disabled="" type="checkbox"> Person-in-the-browser (flash / java applets) (malware).</li>
+<li><input checked="" disabled="" type="checkbox"> Validation / sanitisation of webforms.</li>
+<li><input checked="" disabled="" type="checkbox"> POST</li>
+<li><input checked="" disabled="" type="checkbox"> GET. Queries, Visible from URL.</li>
+<li><input checked="" disabled="" type="checkbox"> Directory traversal
 <ul>
-<li><input disabled="" type="checkbox"> httponly - cannot be accessed by javascript.</li>
+<li><input checked="" disabled="" type="checkbox"> Find directories on the server you’re not meant to be able to see.</li>
+<li><input checked="" disabled="" type="checkbox"> There are tools that do this.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> CSRF
+<li><input checked="" disabled="" type="checkbox"> APIs
 <ul>
-<li><input disabled="" type="checkbox"> Cross-Site Request Forgery.</li>
-<li><input disabled="" type="checkbox"> Cookies.</li>
+<li><input checked="" disabled="" type="checkbox"> Think about what information they return.</li>
+<li><input checked="" disabled="" type="checkbox"> And what can be sent.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> XSS
+<li><input checked="" disabled="" type="checkbox"> Beefhook, Get info about Chrome extensions.</li>
+<li><input checked="" disabled="" type="checkbox"> User agents. Is this a legitimate browser? Or a botnet?</li>
+<li><input checked="" disabled="" type="checkbox"> Browser extension take-overs
 <ul>
-<li><input disabled="" type="checkbox"> Reflected XSS.</li>
-<li><input disabled="" type="checkbox"> Persistent XSS.</li>
-<li><input disabled="" type="checkbox"> DOM based /client-side XSS.</li>
-<li><input disabled="" type="checkbox"> <code>&lt;img scr=””&gt;</code> will often load content from other websites, making a cross-origin HTTP request.</li>
+<li><input checked="" disabled="" type="checkbox"> Miners, cred stealers, adware.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> SQLi
-<ul>
-<li><input disabled="" type="checkbox"> Person-in-the-browser (flash / java applets) (malware).</li>
-<li><input disabled="" type="checkbox"> Validation / sanitisation of webforms.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> POST
-<ul>
-<li><input disabled="" type="checkbox"> Form data.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> GET
-<ul>
-<li><input disabled="" type="checkbox"> Queries.</li>
-<li><input disabled="" type="checkbox"> Visible from URL.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Directory traversal
-<ul>
-<li><input disabled="" type="checkbox"> Find directories on the server you’re not meant to be able to see.</li>
-<li><input disabled="" type="checkbox"> There are tools that do this.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> APIs
-<ul>
-<li><input disabled="" type="checkbox"> Think about what information they return.</li>
-<li><input disabled="" type="checkbox"> And what can be sent.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Beefhook
-<ul>
-<li><input disabled="" type="checkbox"> Get info about Chrome extensions.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> User agents
-<ul>
-<li><input disabled="" type="checkbox"> Is this a legitimate browser? Or a botnet?</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Browser extension take-overs
-<ul>
-<li><input disabled="" type="checkbox"> Miners, cred stealers, adware.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Local file inclusion</li>
-<li><input disabled="" type="checkbox"> Remote file inclusion (not as common these days)</li>
-<li><input disabled="" type="checkbox"> SSRF
-<ul>
-<li><input disabled="" type="checkbox"> Server Side Request Forgery.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> Web vuln scanners.</li>
-<li><input disabled="" type="checkbox"> SQLmap.</li>
-<li><input disabled="" type="checkbox"> Malicious redirects.</li>
+<li><input checked="" disabled="" type="checkbox"> Local file inclusion</li>
+<li><input checked="" disabled="" type="checkbox"> Remote file inclusion (not as common these days)</li>
+<li><input checked="" disabled="" type="checkbox"> SSRF</li>
+<li><input checked="" disabled="" type="checkbox"> Web vuln scanners.</li>
+<li><input checked="" disabled="" type="checkbox"> SQLmap.</li>
+<li><input checked="" disabled="" type="checkbox"> Malicious redirects.</li>
 </ul>
 <h3 id="infrastructure-prod--cloud-virtualisation">Infrastructure (Prod / Cloud) Virtualisation</h3>
 <ul>
 <li><input disabled="" type="checkbox"> Hypervisors.</li>
 <li><input disabled="" type="checkbox"> Hyperjacking.</li>
-<li><input disabled="" type="checkbox"> Containers, VMs, clusters.</li>
+<li><input disabled="" type="checkbox"> ❗️Containers, VMs, clusters.</li>
 <li><input disabled="" type="checkbox"> Escaping techniques.
 <ul>
 <li><input disabled="" type="checkbox"> Network connections from VMs / containers.</li>
@@ -962,7 +924,7 @@
 <li><input disabled="" type="checkbox"> Lateral movement and privilege escalation techniques.
 <ul>
 <li><input disabled="" type="checkbox"> Cloud Service Accounts can be used for lateral movement and privilege escalation in Cloud environments.</li>
-<li><input disabled="" type="checkbox"> GCPloit tool for Google Cloud Projects.</li>
+<li><input disabled="" type="checkbox"> ❗️GCPloit tool for Google Cloud Projects.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Site isolation.</li>
@@ -971,42 +933,28 @@
 <li><input disabled="" type="checkbox"> Spectre, Meltdown.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Beyondcorp
-<ul>
-<li><input disabled="" type="checkbox"> Trusting the host but not the network.</li>
-</ul>
-</li>
+<li><input disabled="" type="checkbox"> ❗️ Beyondcorp. Trusting the host but not the network. ZTN</li>
 <li><input disabled="" type="checkbox"> Log4j vuln.</li>
 </ul>
 <h3 id="os-implementation-and-systems">OS Implementation and Systems</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Privilege escalation techniques, and prevention.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Buffer Overflows.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Directory traversal (prevention).</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Remote Code Execution / getting shells.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Local databases</p>
+<li><input disabled="" type="checkbox"> Privilege escalation techniques, and prevention.</li>
+<li><input disabled="" type="checkbox"> Buffer Overflows.</li>
+<li><input disabled="" type="checkbox"> Directory traversal (prevention).</li>
+<li><input disabled="" type="checkbox"> Remote Code Execution / getting shells.</li>
+<li><input disabled="" type="checkbox"> Local databases
 <ul>
 <li><input disabled="" type="checkbox"> Some messaging apps use sqlite for storing messages.</li>
 <li><input disabled="" type="checkbox"> Useful for digital forensics, especially on phones.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Windows</p>
+<li><input disabled="" type="checkbox"> Windows
 <ul>
-<li><input disabled="" type="checkbox"> Windows registry and group policy.</li>
+<li><input disabled="" type="checkbox"> ❗️Windows registry and group policy.</li>
 <li><input disabled="" type="checkbox"> Active Directory (AD).
 <ul>
 <li><input disabled="" type="checkbox"> Bloodhound tool.</li>
-<li><input disabled="" type="checkbox"> Kerberos authentication with AD.</li>
+<li><input disabled="" type="checkbox"> ❗️Kerberos authentication with AD.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Windows SMB.</li>
@@ -1015,8 +963,7 @@
 <li><input disabled="" type="checkbox"> ROP.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> *nix</p>
+<li><input disabled="" type="checkbox"> *nix
 <ul>
 <li><input disabled="" type="checkbox"> SELinux.</li>
 <li><input disabled="" type="checkbox"> Kernel, userspace, permissions.</li>
@@ -1027,8 +974,7 @@
 <li><input disabled="" type="checkbox"> LDAP - Lightweight Directory Browsing Protocol. Lets users have one password for many services. This is similar to Active Directory in windows.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> MacOS</p>
+<li><input disabled="" type="checkbox"> MacOS
 <ul>
 <li><input disabled="" type="checkbox"> Gotofail error (SSL).</li>
 <li><input disabled="" type="checkbox"> MacSweeper.</li>
@@ -1085,15 +1031,13 @@
 </ul>
 <h3 id="cryptography-authentication-identity">Cryptography, Authentication, Identity</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Encryption vs Encoding vs Hashing vs Obfuscation vs Signing</p>
+<li><input checked="" disabled="" type="checkbox"> Encryption vs Encoding vs Hashing vs Obfuscation vs Signing
 <ul>
-<li><input disabled="" type="checkbox"> Be able to explain the differences between these things.</li>
+<li><input checked="" disabled="" type="checkbox"> Be able to explain the differences between these things.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Attack_model">Various attack models</a> (e.g. chosen-plaintext attack).</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Encryption standards + implementations</p>
+<li><input disabled="" type="checkbox"> Encryption standards + implementations
 <ul>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> (asymmetrical).</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> (symmetrical).</li>
@@ -1101,40 +1045,35 @@
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant">Chacha/Salsa</a> (symmetric).</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Asymmetric vs symmetric</p>
+<li><input checked="" disabled="" type="checkbox"> Asymmetric vs symmetric
 <ul>
-<li><input disabled="" type="checkbox"> Asymmetric is slow, but good for establishing a trusted connection.</li>
-<li><input disabled="" type="checkbox"> Symmetric has a shared key and is faster. Protocols often use asymmetric to transfer symmetric key.</li>
+<li><input checked="" disabled="" type="checkbox"> Asymmetric is slow, but good for establishing a trusted connection.</li>
+<li><input checked="" disabled="" type="checkbox"> Symmetric has a shared key and is faster. Protocols often use asymmetric to transfer symmetric key.</li>
 <li><input disabled="" type="checkbox"> Perfect forward secrecy - eg Signal uses this.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Cyphers</p>
+<li><input disabled="" type="checkbox"> Cyphers
 <ul>
 <li><input disabled="" type="checkbox"> Block vs stream <a href="https://en.wikipedia.org/wiki/Cipher">ciphers</a>.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation">Block cipher modes of operation</a>.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Galois/Counter_Mode">AES-GCM</a>.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Integrity and authenticity primitives</p>
+<li><input disabled="" type="checkbox"> Integrity and authenticity primitives
 <ul>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">Hashing functions</a> e.g. MD5, Sha-1, BLAKE. Used for identifiers, very useful for fingerprinting malware samples.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Message_authentication_code">Message Authentication Codes (MACs)</a>.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/HMAC">Keyed-hash MAC (HMAC)</a>. <a href="https://youtu.be/cBuHXDWp5Ek">https://youtu.be/cBuHXDWp5Ek</a></li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Entropy</p>
+<li><input disabled="" type="checkbox"> Entropy
 <ul>
 <li><input disabled="" type="checkbox"> PRNG (pseudo random number generators).</li>
 <li><input disabled="" type="checkbox"> Entropy buffer draining.</li>
 <li><input disabled="" type="checkbox"> Methods of filling entropy buffer.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Authentication</p>
+<li><input disabled="" type="checkbox"> Authentication
 <ul>
 <li><input disabled="" type="checkbox"> Certificates
 <ul>
@@ -1153,7 +1092,7 @@
 <li><input disabled="" type="checkbox"> Bearer tokens, this can be stolen and used, just like cookies.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Auth Cookies
+<li><input checked="" disabled="" type="checkbox"> Auth Cookies
 <ul>
 <li><input disabled="" type="checkbox"> Client side.</li>
 </ul>
@@ -1196,18 +1135,17 @@
 <li><input disabled="" type="checkbox"> Compare and contrast multi-factor auth methods.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Identity</p>
+<li><input disabled="" type="checkbox"> Identity
 <ul>
-<li><input disabled="" type="checkbox"> Access Control Lists (ACLs)
+<li><input checked="" disabled="" type="checkbox"> Access Control Lists (ACLs)
 <ul>
-<li><input disabled="" type="checkbox"> Control which authenicated users can access which resources.</li>
+<li><input checked="" disabled="" type="checkbox"> Control which authenicated users can access which resources.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Service accounts vs User accounts
 <ul>
 <li><input disabled="" type="checkbox"> Robot accounts or Service accounts are used for automation.</li>
-<li><input disabled="" type="checkbox"> Service accounts should have heavily restricted priviledges.</li>
+<li><input checked="" disabled="" type="checkbox"> Service accounts should have heavily restricted priviledges.</li>
 <li><input disabled="" type="checkbox"> Understanding how Service accounts are used by attackers is important for understanding Cloud security.</li>
 </ul>
 </li>
@@ -1223,8 +1161,7 @@
 </ul>
 <h3 id="malware--reversing">Malware &amp; Reversing</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Interesting malware</p>
+<li><input disabled="" type="checkbox"> Interesting malware
 <ul>
 <li><input disabled="" type="checkbox"> Conficker.</li>
 <li><input disabled="" type="checkbox"> Morris worm.</li>
@@ -1235,8 +1172,7 @@
 <li><input disabled="" type="checkbox"> Sunburst.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Malware features</p>
+<li><input disabled="" type="checkbox"> Malware features
 <ul>
 <li><input disabled="" type="checkbox"> Various methods of getting remote code execution.</li>
 <li><input disabled="" type="checkbox"> Domain-flux.</li>
@@ -1249,27 +1185,24 @@
 <li><input disabled="" type="checkbox"> RAT (remote access trojan) features.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Decompiling/ reversing</p>
+<li><input checked="" disabled="" type="checkbox"> Decompiling/ reversing
 <ul>
-<li><input disabled="" type="checkbox"> Obfuscation of code, unique strings (you can use for identifying code).</li>
-<li><input disabled="" type="checkbox"> IdaPro, Ghidra.</li>
+<li><input checked="" disabled="" type="checkbox"> Obfuscation of code, unique strings (you can use for identifying code).</li>
+<li><input checked="" disabled="" type="checkbox"> IdaPro, Ghidra.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Static / dynamic analysis</p>
+<li><input checked="" disabled="" type="checkbox"> Static / dynamic analysis
 <ul>
-<li><input disabled="" type="checkbox"> Describe the differences.</li>
-<li><input disabled="" type="checkbox"> Virus total.</li>
-<li><input disabled="" type="checkbox"> Reverse.it.</li>
-<li><input disabled="" type="checkbox"> Hybrid Analysis.</li>
+<li><input checked="" disabled="" type="checkbox"> Describe the differences.</li>
+<li><input checked="" disabled="" type="checkbox"> Virus total.</li>
+<li><input checked="" disabled="" type="checkbox"> Reverse.it.</li>
+<li><input checked="" disabled="" type="checkbox"> Hybrid Analysis.</li>
 </ul>
 </li>
 </ul>
 <h3 id="exploits">Exploits</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Three ways to attack - Social, Physical, Network</p>
+<li><input disabled="" type="checkbox"> Three ways to attack - Social, Physical, Network
 <ul>
 <li><input disabled="" type="checkbox"> <strong>Social</strong>
 <ul>
@@ -1305,19 +1238,15 @@
 </li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Exploit Kits and drive-by download attacks</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Remote Control</p>
+<li><input disabled="" type="checkbox"> Exploit Kits and drive-by download attacks</li>
+<li><input disabled="" type="checkbox"> Remote Control
 <ul>
 <li><input disabled="" type="checkbox"> Remote code execution (RCE) and privilege.</li>
 <li><input disabled="" type="checkbox"> Bind shell (opens port and waits for attacker).</li>
 <li><input disabled="" type="checkbox"> Reverse shell (connects to port on attackers C2 server).</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Spoofing</p>
+<li><input disabled="" type="checkbox"> Spoofing
 <ul>
 <li><input disabled="" type="checkbox"> Email spoofing.</li>
 <li><input disabled="" type="checkbox"> IP address spoofing.</li>
@@ -1326,8 +1255,7 @@
 <li><input disabled="" type="checkbox"> ARP spoofing.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Tools</p>
+<li><input disabled="" type="checkbox"> Tools
 <ul>
 <li><input disabled="" type="checkbox"> Metasploit.</li>
 <li><input disabled="" type="checkbox"> ExploitDB.</li>
@@ -1340,9 +1268,9 @@
 <h3 id="attack-structure">Attack Structure</h3>
 <p>Practice describing security concepts in the context of an attack. These categories are a rough guide on attack structure for a targeted attack. Non-targeted attacks tend to be a bit more &ldquo;all-in-one&rdquo;.</p>
 <ul>
-<li><input disabled="" type="checkbox"> Reconnaissance
+<li><input checked="" disabled="" type="checkbox"> Reconnaissance
 <ul>
-<li><input disabled="" type="checkbox"> OSINT, Google dorking, Shodan.</li>
+<li><input checked="" disabled="" type="checkbox"> OSINT, Google dorking, Shodan.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Resource development
@@ -1457,49 +1385,42 @@
 </ul>
 <h3 id="detection">Detection</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> IDS</p>
+<li><input disabled="" type="checkbox"> IDS
 <ul>
 <li><input disabled="" type="checkbox"> Intrusion Detection System (signature based (eg. snort) or behaviour based).</li>
 <li><input disabled="" type="checkbox"> Snort/Suricata/YARA rule writing</li>
 <li><input disabled="" type="checkbox"> Host-based Intrusion Detection System (eg. OSSEC)</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> SIEM</p>
+<li><input disabled="" type="checkbox"> SIEM
 <ul>
 <li><input disabled="" type="checkbox"> Security Information and Event Management.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> IOC</p>
+<li><input disabled="" type="checkbox"> IOC
 <ul>
 <li><input disabled="" type="checkbox"> Indicator of compromise (often shared amongst orgs/groups).</li>
 <li><input disabled="" type="checkbox"> Specific details (e.g. IP addresses, hashes, domains)</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Things that create signals</p>
+<li><input disabled="" type="checkbox"> Things that create signals
 <ul>
 <li><input disabled="" type="checkbox"> Honeypots, snort.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Things that triage signals</p>
+<li><input disabled="" type="checkbox"> Things that triage signals
 <ul>
 <li><input disabled="" type="checkbox"> SIEM, eg splunk.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Things that will alert a human</p>
+<li><input disabled="" type="checkbox"> Things that will alert a human
 <ul>
 <li><input disabled="" type="checkbox"> Automatic triage of collated logs, machine learning.</li>
 <li><input disabled="" type="checkbox"> Notifications and analyst fatigue.</li>
 <li><input disabled="" type="checkbox"> Systems that make it easy to decide if alert is actual hacks or not.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Signatures</p>
+<li><input disabled="" type="checkbox"> Signatures
 <ul>
 <li><input disabled="" type="checkbox"> Host-based signatures
 <ul>
@@ -1514,16 +1435,14 @@
 </li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Anomaly / Behaviour based detection</p>
+<li><input disabled="" type="checkbox"> Anomaly / Behaviour based detection
 <ul>
 <li><input disabled="" type="checkbox"> IDS learns model of “normal” behaviour, then can detect things that deviate too far from normal - eg unusual urls being accessed, user specific- login times / usual work hours, normal files accessed.</li>
 <li><input disabled="" type="checkbox"> Can also look for things that a hacker might specifically do (eg, HISTFILE commands, accessing /proc).</li>
 <li><input disabled="" type="checkbox"> If someone is inside the network- If action could be suspicious, increase log verbosity for that user.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Firewall rules</p>
+<li><input disabled="" type="checkbox"> Firewall rules
 <ul>
 <li><input disabled="" type="checkbox"> Brute force (trying to log in with a lot of failures).</li>
 <li><input disabled="" type="checkbox"> Detecting port scanning (could look for TCP SYN packets with no following SYN ACK/ half connections).</li>
@@ -1531,15 +1450,13 @@
 <li><input disabled="" type="checkbox"> Large amounts of upload traffic.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Honey pots</p>
+<li><input disabled="" type="checkbox"> Honey pots
 <ul>
 <li><input disabled="" type="checkbox"> Canary tokens.</li>
 <li><input disabled="" type="checkbox"> Dummy internal service / web server, can check traffic, see what attacker tries.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Things to know about attackers</p>
+<li><input disabled="" type="checkbox"> Things to know about attackers
 <ul>
 <li><input disabled="" type="checkbox"> Slow attacks are harder to detect.</li>
 <li><input disabled="" type="checkbox"> Attacker can spoof packets that look like other types of attacks, deliberately create a lot of noise.</li>
@@ -1547,8 +1464,7 @@
 <li><input disabled="" type="checkbox"> Correlating IPs with physical location (is difficult and inaccurate often).</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Logs to look at</p>
+<li><input disabled="" type="checkbox"> Logs to look at
 <ul>
 <li><input disabled="" type="checkbox"> DNS queries to suspicious domains.</li>
 <li><input disabled="" type="checkbox"> HTTP headers could contain wonky information.</li>
@@ -1558,8 +1474,7 @@
 <li><input disabled="" type="checkbox"> Execution logs.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Detection related tools</p>
+<li><input disabled="" type="checkbox"> Detection related tools
 <ul>
 <li><input disabled="" type="checkbox"> Splunk.</li>
 <li><input disabled="" type="checkbox"> Arcsight.</li>
@@ -1570,85 +1485,68 @@
 <li><input disabled="" type="checkbox"> Zeek.</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> A curated list of <a href="https://github.com/0x4D31/awesome-threat-detection">awesome threat detection</a> resources</p>
-</li>
+<li><input disabled="" type="checkbox"> A curated list of <a href="https://github.com/0x4D31/awesome-threat-detection">awesome threat detection</a> resources</li>
 </ul>
 <h3 id="digital-forensics">Digital Forensics</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Evidence volatility (network vs memory vs disk)</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Network forensics</p>
+<li><input checked="" disabled="" type="checkbox"> Evidence volatility (network vs memory vs disk)</li>
+<li><input disabled="" type="checkbox"> Network forensics
 <ul>
 <li><input disabled="" type="checkbox"> DNS logs / passive DNS</li>
 <li><input disabled="" type="checkbox"> Netflow</li>
 <li><input disabled="" type="checkbox"> Sampling rate</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Disk forensics</p>
+<li><input disabled="" type="checkbox"> Disk forensics
 <ul>
-<li><input disabled="" type="checkbox"> Disk imaging</li>
+<li><input checked="" disabled="" type="checkbox"> Disk imaging</li>
 <li><input disabled="" type="checkbox"> Filesystems (NTFS / ext2/3/4 / AFPS)</li>
 <li><input disabled="" type="checkbox"> Logs (Windows event logs, Unix system logs, application logs)</li>
-<li><input disabled="" type="checkbox"> Data recovery (carving)</li>
+<li><input checked="" disabled="" type="checkbox"> Data recovery (carving)</li>
 <li><input disabled="" type="checkbox"> Tools</li>
 <li><input disabled="" type="checkbox"> plaso / log2timeline</li>
 <li><input disabled="" type="checkbox"> FTK imager</li>
 <li><input disabled="" type="checkbox"> encase</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Memory forensics</p>
+<li><input disabled="" type="checkbox"> Memory forensics
 <ul>
 <li><input disabled="" type="checkbox"> Memory acquisition (footprint, smear, hiberfiles)</li>
 <li><input disabled="" type="checkbox"> Virtual vs physical memory</li>
 <li><input disabled="" type="checkbox"> Life of an executable</li>
 <li><input disabled="" type="checkbox"> Memory structures</li>
-<li><input disabled="" type="checkbox"> Kernel space vs user space</li>
-<li><input disabled="" type="checkbox"> Tools</li>
-<li><input disabled="" type="checkbox"> Volatility</li>
-<li><input disabled="" type="checkbox"> Google Rapid Response (GRR) / Rekall</li>
-<li><input disabled="" type="checkbox"> WinDbg</li>
+<li><input checked="" disabled="" type="checkbox"> Kernel space vs user space</li>
+<li><input checked="" disabled="" type="checkbox"> Tools</li>
+<li><input checked="" disabled="" type="checkbox"> Volatility</li>
+<li><input checked="" disabled="" type="checkbox"> Google Rapid Response (GRR) / Rekall</li>
+<li><input checked="" disabled="" type="checkbox"> WinDbg</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Mobile forensics</p>
+<li><input disabled="" type="checkbox"> Mobile forensics
 <ul>
 <li><input disabled="" type="checkbox"> Jailbreaking devices, implications</li>
 <li><input disabled="" type="checkbox"> Differences between mobile and computer forensics</li>
 <li><input disabled="" type="checkbox"> Android vs. iPhone</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Anti forensics</p>
+<li><input disabled="" type="checkbox"> Anti forensics
 <ul>
 <li><input disabled="" type="checkbox"> How does malware try to hide?</li>
 <li><input disabled="" type="checkbox"> Timestomping</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Chain of custody</p>
+<li><input checked="" disabled="" type="checkbox"> Chain of custody
 <ul>
-<li><input disabled="" type="checkbox"> Handover notes</li>
+<li><input checked="" disabled="" type="checkbox"> Handover notes</li>
 </ul>
 </li>
 </ul>
 <h3 id="incident-management">Incident Management</h3>
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Privacy incidents vs information security incidents</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Know when to talk to legal, users, managers, directors.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Run a scenario from A to Z, how would you &hellip;</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Good practices for running incidents</p>
+<li><input disabled="" type="checkbox"> Privacy incidents vs information security incidents</li>
+<li><input disabled="" type="checkbox"> Know when to talk to legal, users, managers, directors.</li>
+<li><input disabled="" type="checkbox"> Run a scenario from A to Z, how would you &hellip;</li>
+<li><input disabled="" type="checkbox"> Good practices for running incidents
 <ul>
 <li><input disabled="" type="checkbox"> How to delegate.</li>
 <li><input disabled="" type="checkbox"> Who does what role.</li>
@@ -1661,38 +1559,20 @@
 <li><input disabled="" type="checkbox"> Use playbooks if available</li>
 </ul>
 </li>
-<li>
-<p><input disabled="" type="checkbox"> Important things to know and understand</p>
+<li><input disabled="" type="checkbox"> Important things to know and understand
 <ul>
-<li>
-<p><input disabled="" type="checkbox"> Type of alerts, how these are triggered.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Finding the root cause.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Understand stages of an attack (e.g. cyber-killchain)</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Symptom vs Cause.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> First principles vs in depth systems knowledge (why both are good).</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Building timeline of events.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Understand why you should assume good intent, and how to work with people rather than against them.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Prevent future incidents with the same root cause</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Response models</p>
+<li><input disabled="" type="checkbox"> Type of alerts, how these are triggered.</li>
+<li><input disabled="" type="checkbox"> Finding the root cause.</li>
+<li><input disabled="" type="checkbox"> Understand stages of an attack (e.g. cyber-killchain)</li>
+<li><input disabled="" type="checkbox"> Symptom vs Cause.</li>
+<li><input disabled="" type="checkbox"> First principles vs in depth systems knowledge (why both are good).</li>
+<li><input disabled="" type="checkbox"> Building timeline of events.</li>
+<li><input disabled="" type="checkbox"> Understand why you should assume good intent, and how to work with people rather than against them.</li>
+<li><input disabled="" type="checkbox"> Prevent future incidents with the same root cause</li>
+<li><input disabled="" type="checkbox"> Response models
 <ul>
-<li><input disabled="" type="checkbox"> SANS&rsquo; PICERL (Preparation, Identification, Containement, Eradication, Recovery, Lessons learned)</li>
-<li><input disabled="" type="checkbox"> Google&rsquo;s IMAG (Incident Management At Google)</li>
+<li><input checked="" disabled="" type="checkbox"> SANS&rsquo; PICERL (Preparation, Identification, Containement, Eradication, Recovery, Lessons learned)</li>
+<li><input disabled="" type="checkbox"> ❗️Google&rsquo;s IMAG (Incident Management At Google) - <a href="https://sre.google/workbook/incident-response/#:~:text=Incident%20Management%20at%20Google,and%20scale%20up%20their%20response">https://sre.google/workbook/incident-response/#:~:text=Incident%20Management%20at%20Google,and%20scale%20up%20their%20response</a>, <a href="https://sre.google/sre-book/managing-incidents/">https://sre.google/sre-book/managing-incidents/</a>, <a href="https://cloud.google.com/blog/products/gcp/incident-management-at-google-adventures-in-sre-land/">https://cloud.google.com/blog/products/gcp/incident-management-at-google-adventures-in-sre-land/</a>, <a href="https://cloud.google.com/docs/security/incident-response">https://cloud.google.com/docs/security/incident-response</a></li>
 </ul>
 </li>
 </ul>
