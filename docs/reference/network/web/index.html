@@ -204,9 +204,10 @@
         <li><a href="#sop">SOP</a></li>
         <li><a href="#relax-sop">Relax, SOP&hellip;</a></li>
         <li><a href="#cors">CORS</a></li>
-        <li><a href="#hsts">HSTS</a></li>
       </ul>
     </li>
+    <li><a href="#hsts">HSTS</a></li>
+    <li><a href="#certificate-transparency-ct">Certificate Transparency (CT)</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -286,8 +287,41 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Access-Control-Allow-Origin: * <span class="c1"># or</span>
 </span></span><span class="line"><span class="cl">Access-Control-Allow-Origin: bakerst22b_evil.com <span class="c1"># or</span>
 </span></span><span class="line"><span class="cl">Access-Control-Allow-Credentials: <span class="nb">true</span>
-</span></span></code></pre></div><h3 id="hsts">HSTS</h3>
+</span></span></code></pre></div><p>Suppose we have a page on <a href="https://bakerst221b_evil.com">https://bakerst221b_evil.com</a>, and there is a link like <a href="https://richmond.com/admin/add?name=evil&amp;password=master">https://richmond.com/admin/add?name=evil&amp;password=master</a> (richmond.com is vulnerable to CSRF). What happens is that the browser will open this page with the credentials belonging to Richmond, and if there is a valid session, the action above will be executed.</p>
+<p>How does a CSRF token protect against CSRF? Remember that a request is considered simple only when all conditions are met (GET/POST/HEAD and no custom headers and content type is a form or text). But what is a CSRF token? It&rsquo;s a random value passed in a custom header (something like X-CSRF-token). Now, if the server requires this custom header to be present, one cannot use just HTML to craft a request. Clicking on a link like <a href="https://richmond.com/admin/add?name=evil&amp;password=master">https://richmond.com/admin/add?name=evil&amp;password=master</a> will not result in a request with a custom header since it&rsquo;s CUSTOM, and the browser only sends what is NOT custom, but rather what&rsquo;s usual. Now, the attacking script on <a href="https://bakerst221b_evil.com">https://bakerst221b_evil.com</a> would have to embed JavaScript to add a custom header, something like the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;https://richmond64.com/api/data&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Add a custom header
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">xhr</span><span class="p">.</span><span class="nx">setRequestHeader</span><span class="p">(</span><span class="s1">&#39;X-Custom-Header&#39;</span><span class="p">,</span> <span class="s1">&#39;my-custom-value&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">xhr</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="mi">4</span> <span class="o">&amp;&amp;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">responseData</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">responseData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">();</span>
+</span></span></code></pre></div><p>But that poses two problems:</p>
+<ol>
+<li>How does it &ldquo;guess&rdquo; the value of the token? The attacker can hope that there is some vulnerability in the token generation or validation.</li>
+<li>Once the custom header is sent, the request ceases to be a simple one and preflight is sent first. And if there are no misconfigurations associated with the CORS policy, or no CORS policy is set up at all, the request will NOT be sent.</li>
+</ol>
+<blockquote>
+<p>❗️ Of course, there are other mechanisms that need to be leveraged to protect from CSRF, since CORS is not a CSRF mitigation!</p>
+</blockquote>
+<h2 id="hsts">HSTS</h2>
 <p><code>Strict-Transport-Security</code> header is sent forcing the browser only use HTTPS and preventing any requests coming via HTTP.</p>
+<h2 id="certificate-transparency-ct">Certificate Transparency (CT)</h2>
+<p>CA issues certificates and maintains a log with all the certificates issued. This log is available online and helps:</p>
+<ol>
+<li>Detect misissued certificates, which may be a result of CA compromise or misconfiguration.</li>
+<li>Identify rogue CAs that are issuing certificates without proper authorization.</li>
+<li>Increase the overall trust in the SSL/TLS ecosystem by providing transparency and accountability.</li>
+</ol>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
