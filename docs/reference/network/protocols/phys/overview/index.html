@@ -282,9 +282,9 @@
 <li><strong>Signal reflection</strong>. Unterminated cable, imdence mismatch, too high band radius of the cable. Electrons are &ldquo;bouncing back&rdquo; when there is no resistor to absorb the voltage potential OR when there are several wires with different impedence.</li>
 </ol>
 <p>Below is the depiction of a cable that does not contain a resistor at the end:</p>
-<p><img src="reference/network/protocols/phys/overview/images/8.png" alt="Screenshot 2021-02-20 at 15.01.11"></p>
+<p><img src="images/8.png" alt="Screenshot 2021-02-20 at 15.01.11"></p>
 <p>Below is the depiction of two cables with different impedence being connected:</p>
-<p><img src="reference/network/protocols/phys/overview/images/9.png" alt="Screenshot 2021-02-20 at 14.43.42"></p>
+<p><img src="images/9.png" alt="Screenshot 2021-02-20 at 14.43.42"></p>
 <p>Expert Sniffer is the tool to detect runt and corrupted frames. Can of course also be examined with a hex editor.</p>
 <ul>
 <li>very short frames (typically less than 16-32 bytes),</li>
@@ -306,26 +306,26 @@
 <h2 id="early-collisions">Early Collisions</h2>
 <p>Let&rsquo;s imagine that two NICs (netword card of different PCs) want to talk to each other. The wire is idle at the moment. Both Bob 👨‍🎨 and Alice 🤸‍♀️ want to send something on the wire and ask the wire approximately the same moment:</p>
 <p><em>Hey, wire, are you busy?</em></p>
-<p><img src="reference/network/protocols/phys/overview/images/1.png" alt="Screenshot 2021-02-20 at 11.18.42"></p>
+<p><img src="images/1.png" alt="Screenshot 2021-02-20 at 11.18.42"></p>
 <p>The wire is not busy and that&rsquo;s why it replies <em>I&rsquo;m free as a bird</em> to each one of them.</p>
-<p><img src="reference/network/protocols/phys/overview/images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
+<p><img src="images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
 <blockquote>
 <p>Why, by the way, the wire replies with such a precise time? 9.6 ms? The sole reason for the 9.6 microsecond interframe gap is to allow the station that last transmitted to cycle its circuitry from transmit mode to receive mode. Without the interframe gap, it is possible that a station would miss a frame that was destined for it because it had not yet cycled back into receive mode. From <a href="http://www.firewall.cx/networking-topics/ethernet/198-ethernet-interframe-spacing.html">firewall.cx</a>.</p>
 </blockquote>
 <p>Since both think that the wire is free (and so it actually is at the moment), both send some stream of bits (green ball).</p>
-<p><img src="reference/network/protocols/phys/overview/images/3.png" alt="Screenshot 2021-02-20 at 11.19.25"></p>
+<p><img src="images/3.png" alt="Screenshot 2021-02-20 at 11.19.25"></p>
 <p>The balls are approaching each other&hellip;</p>
-<p><img src="reference/network/protocols/phys/overview/images/4.png" alt="Screenshot 2021-02-20 at 11.19.30"></p>
+<p><img src="images/4.png" alt="Screenshot 2021-02-20 at 11.19.30"></p>
 <p>&hellip; and babam! 💥 When they meet, there appears an abnormal voltage  (collision). This interrupted frame is called <strong>Runt</strong>.</p>
-<p><img src="reference/network/protocols/phys/overview/images/5.png" alt="Screenshot 2021-02-20 at 11.19.37"></p>
+<p><img src="images/5.png" alt="Screenshot 2021-02-20 at 11.19.37"></p>
 <p>This abnormal voltage then propagates back to both Bob 👨‍🎨 and Alice 🤸‍♀️.</p>
-<p><img src="reference/network/protocols/phys/overview/images/6.png" alt="Screenshot 2021-02-20 at 11.19.48"></p>
+<p><img src="images/6.png" alt="Screenshot 2021-02-20 at 11.19.48"></p>
 <p>Their NICs both understand that there was a collision and therefore their data was not sent. Both of them send 32 bit jam and let. TBEBA (<strong>T</strong>runcated <strong>B</strong>inary <strong>E</strong>xponential <strong>B</strong>ackoff <strong>A</strong>lgo) takes it from there to determine the best time when to retry. All this takes at max 2-3 ms usually.</p>
 <p>This is a normal flow. But sometimes when the wire is longer that it should be or a malfunctioning adapter, for example, or there was some other reason (can&rsquo;t think for any), late collision can happen (this is very bad). A collision can be detected only if NIC&rsquo;s in transmit mode.</p>
 <h2 id="late-collisions">Late Collisions</h2>
 <p>For 10BASE5 thick Ethernet the recommended wire length is 500 meters. For 10BASE2 think Ethernet - 185 meters. A problem can happen if the wire is longer than that.</p>
 <p>Say, the collision took place very close to Alice 🤸‍♀️ and very far from Bob 👨‍🎨.</p>
-<p><img src="reference/network/protocols/phys/overview/images/7.png" alt="Screenshot 2021-02-20 at 12.12.57"></p>
+<p><img src="images/7.png" alt="Screenshot 2021-02-20 at 12.12.57"></p>
 <p>As usual, as soon as the collision takes place, an abnormal voltage propagetes in both directions: to Alice 🤸‍♀️ and Bob 👨‍🎨. Alice sends jam bits upon detecting this collision as it should have, but Bob 👨‍🎨 is no longer listening. When Bob&rsquo;s NIC gets this signal, it doesn&rsquo;t understand what is that and does not resend the frame. Such collisions are only fixed on the upper layers, which can take 10-100 times as much.</p>
 <blockquote>
 <p>❗️ Full-duplex communication allows for the conversations in both directions simultaneously. Semi-duplex - only one direction at a time.  The NIC switches between the two modes. The protocol used is now not seen on the network, since most of the connections are full-duplex.</p>
@@ -373,25 +373,25 @@
 <p>In addition, the bandwidth is large i.e. from 0Hz to half the data rate because for every full signal wave, two bits of data can be transmitted (remember that with MPE the data rate equals the bit rate which is even more inefficient!) i.e. two bits of information are transmitted for every cycle (or hertz). ❓ After 50m of cable attenuation the signal amplitude may have been reduced to 100mV giving an induced noise tolerance of 100mV.</p>
 </blockquote>
 <p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
-<p><img src="reference/network/protocols/phys/overview/images/10.png" alt="10"></p>
+<p><img src="images/10.png" alt="10"></p>
 <h3 id="nrz-i">NRZ-I</h3>
 <p>NRZ-I stands for <em>&ldquo;non return to zero invert&rdquo;</em>. Each <code>1</code> is represented as a change in voltage level (from 0 to +V or from +V to 0 volts, depending on the previous level), while <code>0</code>s are representing with no voltage change. Therefore, <code>1</code>s <em>invert</em> the voltage while <code>0</code>s do not.</p>
 <p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
-<p><img src="reference/network/protocols/phys/overview/images/11.png" alt="11"></p>
+<p><img src="images/11.png" alt="11"></p>
 <h3 id="bipolar-ami">Bipolar-AMI</h3>
 <p>Zero is already encoded with no-line signal (moddle level <code>0</code> voltage). <code>1</code> - either <code>+</code> or <code>-</code>.</p>
 <p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
-<p><img src="reference/network/protocols/phys/overview/images/12.png" alt="12"></p>
+<p><img src="images/12.png" alt="12"></p>
 <h3 id="psedoternary">Psedoternary</h3>
 <p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
-<p><img src="reference/network/protocols/phys/overview/images/13.png" alt="13"></p>
+<p><img src="images/13.png" alt="13"></p>
 <h3 id="manchester">Manchester</h3>
 <p>Additional trnasition in the middle, which is cost but provides sync. Manchester encoding is used in all 10 Megabit per second Ethernets; for example, 10BASE2 Thin Ethernet, 10BASE5 Thick Ethernet and 10BASE-T Twisted-Pair Ethernet. <code>1</code>s are represented with a voltage change from low to high, while <code>0</code>s are represented with a voltage change from high 0.85v to low -0.85v.</p>
 <blockquote>
 <p>The master clock speed for Manchester encoding always matches the data speed and this determines the carrier signal frequency, so for 10Mbps Ethernet the carrier is 10MHz.</p>
 </blockquote>
 <p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
-<p><img src="reference/network/protocols/phys/overview/images/14.png" alt="14"></p>
+<p><img src="images/14.png" alt="14"></p>
 <h3 id="differenctial-manchester">Differenctial Manchester</h3>
 <p>There&rsquo;s always a transition in the 1/2 of the interval. <code>0</code> - transition at the beginning if each interval, <code>1</code> - no transition at the beginning of each interval.</p>
 <p>If we divide all the chain of <code>0</code>s and <code>1</code>s into equal intervals and put each separate bit within the boundaries of each interval (see the green dashed vertical line on the picture), we would distinguish <code>0</code>s from <code>1</code>s when we detected transition at the very start of the interval. Whenever there is no transition at the very start of the interval and only in the middle - it&rsquo;s a <code>1</code>.</p>
@@ -399,7 +399,7 @@
 <p>A &lsquo;1&rsquo; bit is indicated by making the first half of the signal, equal to the last half of the previous bit&rsquo;s signal i.e. no transition at the start of the bit-time. A &lsquo;0&rsquo; bit is indicated by making the first half of the signal opposite to the last half of the previous bit&rsquo;s signal i.e. a zero bit is indicated by a transition at the beginning of the bit-time. In the middle of the bit-time there is always a transition, whether from high to low, or low to high. Each bit transmitted means a voltage change <em>always</em> occurs in the middle of the bit-time to ensure clock synchronisation. Token Ring uses DME and this is why a preamble is not required in Token Ring, compared to Ethernet which uses Manchester encoding.</p>
 </blockquote>
 <p>Below is how a <code>00110101</code> binary value (or <code>0x35</code> in hex or <code>53</code> in decimal or digit <code>5</code> in ASCII) would be represented when transmitted over the wire using this encoding scheme:</p>
-<p><img src="reference/network/protocols/phys/overview/images/15.png" alt="15"></p>
+<p><img src="images/15.png" alt="15"></p>
 <blockquote>
 <p>❓ What&rsquo;s clock synchronisation?</p>
 </blockquote>
@@ -413,11 +413,11 @@
 <p>Since the max length of a cable (10BASE5 thick Ethernet) that connects two machines cannot exceed 500 m (according to the specs), there is a need to amplify and control the signal. Since machines over the wire are much farther then 500 meters, hubs and repreaters serve this particular purpose.</p>
 <p>They both run in promiscuous mode, i.e. they don&rsquo;t care who&rsquo;s the sender, who&rsquo;s the receiver. They simply forward the signal.  They don&rsquo;t even read the data they are transmitting. UTP (unshielded twisted pair cable).</p>
 <p>Number of ports = number of PCs connected. Hubs can have an uplink port to connect to another hub. For example, the hub below has 6 ports. Therefore, it can connect 6 PCs max. Whatever PC1 sends to PC6, other PCs hear as well. It&rsquo;s the job of other OSI layers to discard this frame or not. Such packets are usually discarded on the data link layer by PC&rsquo;s NIC. But if you put your NIC in a promiscuous mode, it will not discard them. Hubs and repeaters are a holyday for a sniffer. Using Wireshark or other packet capture software and being on the same network, one can intercept <strong>all</strong> traffic.</p>
-<p><img src="reference/network/protocols/phys/overview/images/1.png" alt="1"></p>
+<p><img src="images/1.png" alt="1"></p>
 <h3 id="coax-cable">COAX cable</h3>
 <p>A Cable is pretty much the same as a hub, it also makes to difference between the frames. Its only concern is to forward. Green squares are resistors (50 Ohm) that absorb the signal so that it won&rsquo;t reflect back (a signal reflection problem discribed <a href="/docs/articles/fundamentals/network/osi/physical/general">here</a>).</p>
 <p>One segment of such cable is max 185 meters (10BASE2 thin Ethernet) and at most 30 nodes.</p>
-<p><img src="reference/network/protocols/phys/overview/images/2.png" alt="2"></p>
+<p><img src="images/2.png" alt="2"></p>
 <h2 id="refernces">Refernces</h2>
 <p>[1] firewall.cx</p>
 <p>[2] <a href="https://www.youtube.com/watch?v=du_boiwX1yU">https://www.youtube.com/watch?v=du_boiwX1yU</a></p>

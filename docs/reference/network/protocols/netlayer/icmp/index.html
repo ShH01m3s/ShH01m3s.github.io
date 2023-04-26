@@ -244,22 +244,22 @@
   <div class="content" itemprop="articleBody">
     <p>ICMP protocol is needed for troubleshooting.</p>
 <p>For an TCP/IP stack here is what ICMP request looks like in a frame:</p>
-<p><img src="icmp_request_packet.png" alt="icmp_request_packet"></p>
+<p><img src="images/icmp_request_packet.png" alt="icmp_request_packet"></p>
 <p>Even though ICMP belongs itself to the network layer.</p>
 <p>If there is some problem during any requst (HTTP, FTP or any other request on any other layer), ICMP error response might be sent. Its type can help in troubleshooting.</p>
 <h2 id="message-types">Message Types</h2>
 <p>Each message type will have a different header.</p>
 <h3 id="08-echo-reply-and-echo">0/8 Echo Reply and Echo</h3>
 <p>This message can be triggered with a <code>ping</code> command. It this case of type 0 (Echo reply) identifier will match that of the corresponding Echo&rsquo;s message (request). It&rsquo;s the only message type that is not seen in the normal traffic flow unless it&rsquo;s a <code>ping</code> command. Here is the header:</p>
-<p><img src="type08.png" alt="type08"></p>
+<p><img src="images/type08.png" alt="type08"></p>
 <p>I&rsquo;ve <code>ping</code>ed <code>firewall.cx</code> and here is the result, that can help mathcing this theoretical information to the real life example:</p>
-<p><img src="ping_terminal.png" alt="ping_terminal"></p>
+<p><img src="images/ping_terminal.png" alt="ping_terminal"></p>
 <p>First, DNS name must be resolved from <code>firewall.cx</code> to <code>162.254.144.167</code>. Then,  the requests sent. On Windows 4 packets are sent by default, on UNIX systems they just keep being sent until you stop it maually (<code>^C</code>).</p>
 <p>Variable data in my case (macOS <code>ping</code>) is the following sequence of bytes:
 <code>0030        08 09 0a 0b 0c 0d 0e 0f 10 11 12 13 14 15 0040   16 17 18 19 1a 1b 1c 1d 1e 1f 20 21 22 23 24 25 0050   26 27 28 29 2a 2b 2c 2d 2e 2f 30 31 32 33 34 35 0060   36 37</code> which is mostly garbage and ASCII chars from <code>!</code> to number <code>7</code>. I don&rsquo;t know what would that be for another machine.</p>
 <h3 id="3-destination-unreachable">3 Destination unreachable</h3>
 <p>Here is the header structure specific for this message type:</p>
-<p><img src="type3.png" alt="type3"></p>
+<p><img src="images/type3.png" alt="type3"></p>
 <table>
 <thead>
 <tr>
@@ -337,16 +337,16 @@
 <li>Datagrams arrive to fast.</li>
 <li>The PC approaches its capacity limit.</li>
 </ol>
-<p><img src="type4.png" alt="type4"></p>
+<p><img src="images/type4.png" alt="type4"></p>
 <p>Internet header 32 bits + 62 bit of data. It means that the header that in the request (for troubleshooting).</p>
 <h3 id="5-redirect">5 Redirect</h3>
 <p>Imagine you have a problem. For example, you&rsquo;ve broken your PC and there is none who could help. However, your spouse or a friend knows someone and calls him or her. The person on the phone ☎️ wants to speak directly to you since you are close and it&rsquo;s your PC anyway. That&rsquo;s roughly how it looks like in this situation.</p>
-<p><img src="redirect.png" alt="redirect"></p>
+<p><img src="images/redirect.png" alt="redirect"></p>
 <p>The header is slightly different from Type 4 and 3, but not drastically. Gateways to talk to is specified instead of unused 32 bits in the cases above.</p>
-<p><img src="type5.png" alt="type5"></p>
+<p><img src="images/type5.png" alt="type5"></p>
 <h3 id="11-time-exceeded-message">11 Time Exceeded Message</h3>
 <p>For gateways and routers (code 0) and hosts (code 1).</p>
-<p><img src="type11.png" alt="type11"></p>
+<p><img src="images/type11.png" alt="type11"></p>
 <p>As you might remember, <strong>TTL field</strong> (see the screeshot from <code>ping</code> command) means <em>time to live</em>. But does <em>that</em> mean? To avoid any loops when two are just saying something over and over again in an endless loop, this field was intriduced. Originally it&rsquo;s set to some value (64 in the above case). Each hop (when the message is redirected by a host or gateway) this field is decremented by 1. So, there can be at most 64 hosts between the sender and the receiver. If there are more and TTL is out, message is discarded and ICMP Type 11 Code 0 is sent. This is usually a case for routers and gateways.</p>
 <p><img src="https://media2.giphy.com/media/l4JyJjtCP9KkCF5T2/giphy.gif?cid=ecf05e472jzusziy7ao3qoskus8tjxe4zx48t579z4av1044&amp;rid=giphy.gif&amp;ct=g" alt="img"></p>
 <p><strong>Fragmented flag of IP header</strong>.  If a host is reassembling datagrams and misses parts, it sends this message in return and discard what&rsquo;s already assembled and an ICMP message Type 11 Code 1 is sent in return.</p>
