@@ -199,7 +199,6 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#heading"></a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -236,12 +235,156 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>This is about &hellip; .</em></p>
-<h2 id="heading"></h2>
+<p>Say, we have a number 10 and another number 2. Say, we raise 2 to different powers and perform mod operation on the result. What would the result be?</p>
+<table>
+<thead>
+<tr>
+<th>Power</th>
+<th>Result (2^power mod 10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>8</td>
+<td>6</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>So, we see the pattern: <code>2</code>, <code>4</code>, <code>8</code>, <code>6</code> repeating over and over.</p>
+<p>Now imagine we need to generate the number randomly. But we won&rsquo;t get that with these numbers, obviously. Which numbers do we use? This is where prime magic comes into play. Let&rsquo;s take 3 and 17 instead and see for ourselves:</p>
+<table>
+<thead>
+<tr>
+<th>POWER</th>
+<th>RESULT (3^Power MOD 17)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+</tr>
+<tr>
+<td>3</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>13</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>15</td>
+</tr>
+<tr>
+<td>7</td>
+<td>11</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+</tr>
+<tr>
+<td>9</td>
+<td>14</td>
+</tr>
+<tr>
+<td>10</td>
+<td>8</td>
+</tr>
+<tr>
+<td>11</td>
+<td>7</td>
+</tr>
+<tr>
+<td>12</td>
+<td>4</td>
+</tr>
+<tr>
+<td>13</td>
+<td>12</td>
+</tr>
+<tr>
+<td>14</td>
+<td>2</td>
+</tr>
+<tr>
+<td>15</td>
+<td>6</td>
+</tr>
+<tr>
+<td>16</td>
+<td>1</td>
+</tr>
+<tr>
+<td>17</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>No pattern here though. That the beauty of prime numbers. That&rsquo;s not the only magical thing about them, but that an improtant one to understand when dealing with cryptography. Although, an important note. The base number does not neccessarily needs to be a prime, but it needs to be the primitive root of the prime number used for the modulus operation. What&rsquo;s a primitive root?</p>
+<blockquote>
+<p>❗️Not all numbers have primitive roots. Only numbers that are powers of a prime number or twice the power of a prime number have primitive roots. For example, prime numbers and numbers that are twice a prime number (like 2, 4, 6, 10, 14) have primitive roots. For a given prime number p, there may be multiple primitive roots, but finding one is computationally intensive. However, once a primitive root is found for a specific prime number, it can be reused in cryptographic operations. ChatGPT</p>
+</blockquote>
+<p>Now, not ANY prim number would dance this beautifully.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    <h3 id="khan-academy">Khan Academy</h3>
-<p><a href="https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem">https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem</a>
+    <h3 id="khan-academy-descrete-log-problem">Khan Academy, Descrete Log Problem</h3>
+<p><a href="https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem">https://www.khanacademy.org/computing/computer-science/cryptography/modern-crypt/v/discrete-logarithm-problem</a></p>
+<h3 id="gcd">GCD</h3>
+<p><a href="https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm">https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm</a></p>
+<h3 id="brilliant-primitive-roots">Brilliant, Primitive roots</h3>
+<p><a href="https://brilliant.org/wiki/primitive-roots/#_=">https://brilliant.org/wiki/primitive-roots/#_=</a>_</p>
+
 </details>
   </div>
 </article>

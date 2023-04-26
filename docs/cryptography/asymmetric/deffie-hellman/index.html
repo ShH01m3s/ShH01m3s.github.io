@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Diffie Hellman - Analyst</title>
+  <title>Diffie-Hellman Key Exchange - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -211,7 +211,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Diffie Hellman</h1>
+<h1 class="title">Diffie-Hellman Key Exchange</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -265,6 +265,113 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>I&rsquo;ve written this article while I was untanging RSA and Deffie Hellman inside my head. What I need to stree right here, in the article description, the main difference between them is the Deffie Hellman is NOT a encryption algorithm! It&rsquo;s an algorithm of generating a symmetric key using principles of asymmetric cryptography.</em></p>
+<p>For the mathmatics topics needed to understand this algorothm, please, refer to the math sections.</p>
+<p>There is a peculiar characteristic of prime numbers 👑 and their respective primitive roots 🦷:</p>
+<p>🦷 to the power of integers from 2 to 👑 mod 👑 will result in the list of all numbers between 🦷 and 👑 without repetiotions. Refer to the descrete logarithm problem for more information. What we want from this is that we know that we can produce unique outputs for our two numbers. Another useful thing about this operation is that it&rsquo;s doesn&rsquo;t take much computational power to get the result, but the reverse operation is not feasable when dealing with big integers.</p>
+<p>So, say, we have 3 and 17. We can then raise 3 to the powers in range from 2 to 17 and get unique values in the range from 3 to 17. You can check this with the following one line of python: <code>for num in range(1, 18): print(pow(3, num, 17))</code> or observe the magic in the table below:</p>
+<table>
+<thead>
+<tr>
+<th>POWER</th>
+<th>RESULT (3^Power MOD 17)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+</tr>
+<tr>
+<td>3</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>13</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>15</td>
+</tr>
+<tr>
+<td>7</td>
+<td>11</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+</tr>
+<tr>
+<td>9</td>
+<td>14</td>
+</tr>
+<tr>
+<td>10</td>
+<td>8</td>
+</tr>
+<tr>
+<td>11</td>
+<td>7</td>
+</tr>
+<tr>
+<td>12</td>
+<td>4</td>
+</tr>
+<tr>
+<td>13</td>
+<td>12</td>
+</tr>
+<tr>
+<td>14</td>
+<td>2</td>
+</tr>
+<tr>
+<td>15</td>
+<td>6</td>
+</tr>
+<tr>
+<td>16</td>
+<td>1</td>
+</tr>
+<tr>
+<td>17</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Now, let&rsquo;s assume that two thieves 🥷🏼 💭 🥷🏼 (Rob and Tod) want to generate and share a key 🔑 to be used later to encrypt their messages. They don&rsquo;t want a detective 🕵🏻‍♂️ to evesdrop on their secret communication. But they also know that somewhere in their apartments there is a bug 🐞 and the line is being tapped, and everything they say is recorded and can be used by the police. They can&rsquo;t meet, they can only talk over the phone. How do they communicate on a tapped line and share a key? This is where DH algo could be of use. For simplicity&rsquo;s sake I will be using very small integers, but in reality these integers need to be really huge to make reversing nearly impossible.</p>
+<blockquote>
+<p>📝 If you prefer videos, refer to the Khan Academy, I think there is nothing better yet invented on Earth when it comes to explaining complex topics.</p>
+</blockquote>
+<p>On the first step, Rob and Tod agree on the two numbers: <code>3</code> ☘️ and <code>17</code> 🌺. 🌺 is always a prime number and ☘️ is its primitive root. One can find primitive root using the following functions:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">gcd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">is_primitive_root</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">pow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">find_primitive_root</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">is_primitive_root</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">g</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Example: find the primitive root for prime number 23</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="mi">23</span>
+</span></span><span class="line"><span class="cl"><span class="n">primitive_root</span> <span class="o">=</span> <span class="n">find_primitive_root</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">primitive_root</span><span class="p">)</span>  <span class="c1"># Output: 5</span>
+</span></span></code></pre></div><p>These two numbers ☘️ and 🌺 are shared and thus are visible to the detective 🕵🏻‍♂️. Both Rob and Tod also generate a number each (🐝 and 🪰), and they keep these numbers to themselves, Tod doesn&rsquo;t know Rob&rsquo;s number (🐝), and Rob doesn&rsquo;t know Tod&rsquo;s number (🪰). Now, both use the formula to generate their public numbers 🍇 and 🍏.</p>
+<p><img src="images/df-1.png" alt="img"></p>
 <p>Here is the code I have written, to demostrate the internals of this algo:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">check_if_primitive_root</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">mod</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">hash_table</span> <span class="o">=</span> <span class="p">{}</span>
