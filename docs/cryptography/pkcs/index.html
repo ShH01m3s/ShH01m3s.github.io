@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>AES - Analyst</title>
+  <title>PKCS#5 padding - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -194,18 +194,14 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/cryptography/symmetric/"> 👈🏼 Back to </br> Symmetric Algorithms </a>
+   <a href="/docs/cryptography/"> 👈🏼 Back to </br> Cryptography 🔐 </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#cbc">CBC</a></li>
-    <li><a href="#ecb">ECB</a></li>
-    <li><a href="#ctr">CTR</a>
-      <ul>
-        <li><a href="#cracking">Cracking</a></li>
-      </ul>
-    </li>
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#how-is-it-exploited">How is it exploited</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -217,7 +213,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">AES</h1>
+<h1 class="title">PKCS#5 padding</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -229,17 +225,9 @@
       
 
       
-      <div class="article-tag">
-          <i class="fas fa-tag"></i>
-          
-          
-          <a class="tag-link" href="/tags/crypto" rel="tag">crypto</a>
-          
-      </div> 
-      
     </div>
     
-    <b>Created:</b> 06.10.2020
+    <b>Created:</b> 27.04.2023
     <br />
 
     
@@ -248,101 +236,71 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>This is the next generation. 128-bit blocks, 128,192, 256 keys. Takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
-<p>One block of plaintext results in a 2-block cypher (random string + cypher text) for some modes. That&rsquo;s why different modes exist.</p>
-<ul>
-<li>Stream
-<ul>
-<li>synchronised</li>
-<li>unsynchronised</li>
-</ul>
-</li>
-<li>Block
-<ul>
-<li>CTR</li>
-<li></li>
-</ul>
-</li>
-</ul>
-<p>Encryption steps:</p>
-<ul>
-<li><input disabled="" type="checkbox"> Choose some random string of length N (call it a 🐊)</li>
-<li><input disabled="" type="checkbox"> Do something with the string to get a key 🗝 from 🐊</li>
-<li><input disabled="" type="checkbox"> XOR your message 🍆 with a key 🗝</li>
-<li><input disabled="" type="checkbox"> Cypher text 🫐 = 🐊, 🍆 XOR 🗝</li>
-</ul>
-<p>Decryption steps:</p>
-<ul>
-<li><input disabled="" type="checkbox"> c2 XOR Fk(c1)</li>
-</ul>
-<h2 id="cbc">CBC</h2>
-<p>Let&rsquo;s start with an example. Let&rsquo;s say we want to encrypt the message: <code>explore</code>. If it&rsquo;s ASCII, it&rsquo;s 7 bytes long. Let&rsquo;s translate this into char: <code>65 78 70 6C 6F 72 65</code>. Since the message needs to be padded to become 8 bytes long and we only have 1 character to add, we add <code>01</code> (see PKCS#5 padding).</p>
+    <p><em>This article describes how PKCS#5 padding works and how it can be exploited. This method is often used with block ciphers such as AES of DES.</em></p>
+<h2 id="how-it-works">How it works</h2>
+<p>With block ciphers the text needs to be of specific size that is is a multiple of a block length. Obviously, often it is not. How to make it work? Add something to the end of the message. But what? How would the recepient know when the message ends and the padding starts? Imagine we have the following end of the message padded with just <code>0</code>s:</p>
 <table>
 <thead>
 <tr>
-<th>65</th>
-<th>78</th>
-<th>70</th>
-<th>6C</th>
-<th>6F</th>
-<th>72</th>
-<th>65</th>
-<th>01</th>
+<th>45</th>
+<th>43</th>
+<th>56</th>
+<th>44</th>
+<th>20</th>
+<th>34</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
+<th>0</th>
 </tr>
 </thead>
 </table>
-<p>Now, we pick a array of random numbers of the same length to make an <code>IV</code> (initialisation vector):</p>
+<p>How does one know that these zeroes are not part of the message itself? Or maybe just some of these zeroes are? Consider now the following example.</p>
 <table>
 <thead>
 <tr>
-<th>89</th>
-<th>03</th>
-<th>42</th>
-<th>12</th>
-<th>01</th>
-<th>00</th>
-<th>98</th>
-<th>54</th>
+<th>45</th>
+<th>43</th>
+<th>56</th>
+<th>44</th>
+<th>20</th>
+<th>34</th>
+<th>4</th>
+<th>4</th>
+<th>4</th>
+<th>4</th>
 </tr>
 </thead>
 </table>
-<p>We first XOR IV with the message to get the following result:</p>
+<p>So, the recepient sees repeated <code>4</code>s. How do they know that this padding and not the actual contents? Easy. How many <code>4</code>s? Four. Coincidence? No 😉 See another example below.</p>
 <table>
 <thead>
 <tr>
-<th>EC</th>
-<th>7B</th>
-<th>32</th>
-<th>7E</th>
-<th>6E</th>
-<th>72</th>
-<th>FD</th>
-<th>55</th>
+<th>45</th>
+<th>43</th>
+<th>56</th>
+<th>44</th>
+<th>20</th>
+<th>5</th>
+<th>5</th>
+<th>5</th>
+<th>5</th>
+<th>5</th>
 </tr>
 </thead>
 </table>
-<h2 id="ecb">ECB</h2>
-<h2 id="ctr">CTR</h2>
-<p>Encryption steps:</p>
-<ul>
-<li><input disabled="" type="checkbox"> </li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">some_function</span><span class="p">(</span><span class="n">ctr</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">	<span class="o">...</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">ctr</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">key_length</span> <span class="o">=</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl"><span class="n">number_of_blocks</span> <span class="o">=</span> <span class="mi">4</span>
-</span></span><span class="line"><span class="cl"><span class="n">ctr</span> <span class="o">=</span> <span class="n">random</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">key_length</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">message</span> <span class="o">=</span> <span class="p">[</span><span class="n">number_of_blocks</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">cypher_text</span> <span class="o">=</span> <span class="n">ctr</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">number_of_blocks</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">	<span class="n">cypher_text</span> <span class="o">+=</span> <span class="n">message</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">ctr</span>
-</span></span><span class="line"><span class="cl">	<span class="n">some_function</span><span class="p">(</span><span class="n">ctr</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span>
-</span></span></code></pre></div><p>Decryption steps:</p>
-<h3 id="cracking">Cracking</h3>
-
+<p>Now, the value of the padding is <code>5</code> and the number of <code>5</code>s is &hellip; surprise-surprise&hellip; <code>5</code>!</p>
+<blockquote>
+<p>❓What if the message length is already a multiple of the block length? We have to add a full padding to it 🤷🏻‍♀️.</p>
+</blockquote>
+<h2 id="how-is-it-exploited">How is it exploited</h2>
+<p>With the case of AES (CBC) on needs a key and an IV to encrypt the message.</p>
+<p>Say the attacker controls the IV, cipher text and can send the modified value to the receipent for validation for as long as they need.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
   </div>
 </article>
 </div>
