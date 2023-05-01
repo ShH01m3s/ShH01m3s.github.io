@@ -248,7 +248,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>This is the next generation. 128-bit blocks, 128,192, 256 keys. Takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
+    <p>This is the next generation. 128-bit blocks, 128,192, 256 keys. It takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
 <p>One block of plaintext results in a 2-block cypher (random string + cypher text) for some modes. That&rsquo;s why different modes exist.</p>
 <ul>
 <li>Stream
@@ -276,7 +276,7 @@
 <li><input disabled="" type="checkbox"> c2 XOR Fk(c1)</li>
 </ul>
 <h2 id="cbc">CBC</h2>
-<p>Let&rsquo;s start with an example. Let&rsquo;s say we want to encrypt the message: <code>explore</code>. If it&rsquo;s ASCII, it&rsquo;s 7 bytes long. Let&rsquo;s translate this into char: <code>65 78 70 6C 6F 72 65</code>. Since the message needs to be padded to become 8 bytes long and we only have 1 character to add, we add <code>01</code> (see PKCS#5 padding).</p>
+<p>Let&rsquo;s start with an example. Let&rsquo;s say we want to encrypt the message: <code>explore</code>. If it&rsquo;s ASCII, it&rsquo;s 7 bytes long. Let&rsquo;s translate this into char: <code>65 78 70 6C 6F 72 65</code>. Since the message needs to be padded to become 8 bytes long and we only have one character to add, we add <code>01</code> (see PKCS#5 padding).</p>
 <table>
 <thead>
 <tr>
@@ -291,7 +291,7 @@
 </tr>
 </thead>
 </table>
-<p>Now, we pick a array of random numbers of the same length to make an <code>IV</code> (initialisation vector):</p>
+<p>Now, we pick an array of random numbers of the same length to make an <code>IV</code> (initialisation vector):</p>
 <table>
 <thead>
 <tr>
@@ -321,6 +321,31 @@
 </tr>
 </thead>
 </table>
+<p>Then we encrypt this newly acquired array with AES (a series of shifting, meddling and xoring).</p>
+<p>In the end, we have the following output:</p>
+<table>
+<thead>
+<tr>
+<th>89</th>
+<th>03</th>
+<th>42</th>
+<th>12</th>
+<th>01</th>
+<th>00</th>
+<th>98</th>
+<th>54</th>
+<th>EC</th>
+<th>7B</th>
+<th>32</th>
+<th>7E</th>
+<th>6E</th>
+<th>72</th>
+<th>FD</th>
+<th>55</th>
+</tr>
+</thead>
+</table>
+<p>The first 8 bytes are the IV, and the last 8 are the encrypted message. How do we find out what the plaintext has access to the IV and be able to modify it and observe the server response?</p>
 <h2 id="ecb">ECB</h2>
 <h2 id="ctr">CTR</h2>
 <p>Encryption steps:</p>
