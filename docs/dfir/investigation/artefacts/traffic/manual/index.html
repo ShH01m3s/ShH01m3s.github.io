@@ -319,7 +319,7 @@
 </span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
 </span></span><span class="line"><span class="cl"> 
 </span></span><span class="line"><span class="cl"> <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
-</span></span></code></pre></div><p><img src="dfir/investigation/collection/images/5156-event.png" alt="5156-event"></p>
+</span></span></code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
 <p><strong>External IPs reputations</strong>. 🛠 <code>hostintel</code>. For running the tool, you&rsquo;ll also need to create a file with a list of IPs. I&rsquo;ve created a file <code>i.txt</code> in the <code>hostintel</code> directory and so my command was:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python hostintel.py config.conf i.txt
 </span></span></code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
@@ -345,9 +345,9 @@
 <blockquote>
 <p><code>lsof -i :443</code> will show you all connections associated with port 443, commonly used for TLS communication. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 163). BCS Learning &amp; Development Limited. Kindle Edition.</p>
 </blockquote>
-<p><img src="dfir/investigation/artefacts/traffic/manual/images/1.png" alt="img1">
+<p><img src="images/1.png" alt="img1">
 The first column will give a hint about what the application responsible for this connection is. To get the full path to the app executable, use <code>ps -fp &lt;PID&gt;</code> command:</p>
-<p><img src="dfir/investigation/artefacts/traffic/manual/images/2.png" alt="img"></p>
+<p><img src="images/2.png" alt="img"></p>
 <h4 id="windows-1">Windows</h4>
 <p>Run <code>netstat -a -n -o</code> to get the list of connections and then use <code>tasklist</code> with the PID of interest to see information about the process.</p>
 <h3 id="ssh">SSH</h3>

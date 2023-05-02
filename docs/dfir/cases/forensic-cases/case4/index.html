@@ -288,15 +288,15 @@
 <li><code>sudo mount -o remount,ro $rootvol</code></li>
 </ul>
 <p>User activity: <code>/etc/passwd</code>. <code>sudo debugfs -R 'stat &lt;1835260&gt;' /dev/...</code>.</p>
-<p><img src="dfir/cases/forensic-cases/case4/images/2.png" alt="2"></p>
+<p><img src="images/2.png" alt="img2"></p>
 <p>checking groups. <code>tail -n 4 /etc/group</code>, <code>grep -E 'mail' | php' /etc/group</code></p>
 <p>checking files. Searching for files that had the metadata changed withing the last 5 days: <code>find / -type f -newermt 2019-10-04</code> or <code>find / -type f -newerct 2019-10-04</code>. Failed logins: <code>/var/log/faillog</code>, <code>/var/www/html/jabc/scripts</code>, <code>/var/www/html/jabc/scripts/update.php</code>, <code>/etc/gshadow</code>, <code>/etc/group</code> etc. Home dirs of suspicious users.</p>
 <p>Checking user bash history (<code>.bashrc_history</code> ) <code>.bashrc</code> for certain commands and the order of exe.</p>
-<p><img src="images/13.png" alt="13"></p>
+<p><img src="images/13.png" alt="img13"></p>
 <ol start="6">
 <li>Suspicious directories. <code>sudo debugfs -R 'stat &lt;1835263&gt;' /dev..</code>, <code>ls -lhat /usr/php</code>.</li>
 </ol>
-<p><img src="images/14.png" alt="14"></p>
+<p><img src="images/14.png" alt="img14"></p>
 <ol start="7">
 <li>
 <p>Last logged in users:</p>
@@ -316,29 +316,29 @@
 </ol>
 </li>
 </ol>
-<p><img src="images/15.png" alt="15"></p>
+<p><img src="images/15.png" alt="img15"></p>
 <blockquote>
 <p>The /<strong>etc</strong>/<strong>skel</strong> directory contains <strong>files</strong> and directories that are automatically copied over to a new user&rsquo;s when it is created from useradd command. This will ensure that all the users gets same intial settings and environment.</p>
 </blockquote>
-<p>​		<img src="images/16.png" alt="16"></p>
+<p>​		<img src="images/16.png" alt="img16"></p>
 <ol start="8">
 <li>Examine <code>error.log</code> of Apache server for IPs that was spotted before:</li>
 </ol>
-<p><img src="images/17.png" alt="17"></p>
+<p><img src="images/17.png" alt="img17"></p>
 <ol start="9">
 <li>Checking Apache <code>access.log</code></li>
 </ol>
-<p><img src="images/18.png" alt="18"></p>
+<p><img src="images/18.png" alt="img18"></p>
 <p>decoded payload</p>
-<p><img src="images/19.png" alt="19"></p>
+<p><img src="images/19.png" alt="img19"></p>
 <p>And there was revealed that <code>/jabs/scripts/update.php</code> was actually a webshell:</p>
-<p><img src="images/20.png" alt="20"></p>
+<p><img src="images/20.png" alt="img20"></p>
 <p>Lots of files were deleted from <code>/tmp</code> folder. Except for only <code>apache-xTRhUVX</code>.</p>
 <p>Getting deleted files back:</p>
 <p><code>sudo debugfs -R 'dump &lt;8&gt; ./journal' /dev/</code> and then <code>sudo ext4magic -a DATE -b DATE -j ./journal -m -d output/ </code></p>
-<p><img src="images/21.png" alt="21"></p>
-<p><img src="images/22.png" alt="22"></p>
-<p><img src="images/23.png" alt="23"></p>
+<p><img src="images/21.png" alt="img21"></p>
+<p><img src="images/22.png" alt="img22"></p>
+<p><img src="images/23.png" alt="img23"></p>
 <p>Use Timeline explorer.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.magnetforensics.com/resources/performing-linux-forensic-analysis-why-you-should-care-dec-2/?submission=https://go.magnetforensics.com/l/52162/2020-12-04/kwzwtz">1</a>] Magnet webinar on Linux Forensics</p>

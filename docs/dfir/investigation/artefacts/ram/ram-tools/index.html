@@ -416,10 +416,10 @@
 <li>Acquisition smearing (buggy acquisition, incomplete or changes in memory).</li>
 </ol>
 <p>When everything is broken you&rsquo;ll be likely see this:</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory1.png" alt="osdf-troubleshooting-memory"></p>
+<p><img src="images/osdf-troubleshooting-memory1.png" alt="osdf-troubleshooting-memory"></p>
 <p>Try <code>strings.exe</code>. Try scanning plugins. Try hex editor. Try <code>bulk_extractor</code> <a href="https://github.com/simsong/bulk_extractor">https://github.com/simsong/bulk_extractor</a>. Try <code>mftparser</code> for vol2.</p>
 <p>When something is broken, but not everything you get this:</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory2.png" alt="osdf-troubleshooting-memory2"></p>
+<p><img src="images/osdf-troubleshooting-memory2.png" alt="osdf-troubleshooting-memory2"></p>
 <p>Try <code>psscan</code>. If it renders any output, try using a DTB (PDB) from a different process.</p>
 <blockquote>
 <p>❓ What is DTB (PDB)? DTB - Directory Table Base and Process Table Base. Volatility uses some default process to get the base of this table. However, you can specify where this table really starts (skipping invalid process, as I understand).</p>
@@ -435,7 +435,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">mem</span><span class="o">.</span><span class="n">raw</span> <span class="n">kdbgscan</span>
 </span></span></code></pre></div><p>To determine whether the profile is the correct, note <code>Build string</code>, <code>KDBGHeader, Profile Suggestion</code>, <code>Kernel base</code>.</p>
 <p><code>PsActiveProcessHead</code>, <code>PsLoadedModuleList</code> must have some processes and modules:</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory3.png" alt="osdf-troubleshooting-memory3"></p>
+<p><img src="images/osdf-troubleshooting-memory3.png" alt="osdf-troubleshooting-memory3"></p>
 <p><code>KdCopyDataBlock (V)</code> - address of KDBG block in memory. Put that on the cmd to speed up since <code>vol.py</code> looks for KDBG block internally each time it&rsquo;s run. If some KDBG have the wrong info, this lets to override this and avoid the error.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">python</span> <span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">f</span> <span class="n">mem</span><span class="o">.</span><span class="n">raw</span> <span class="o">--</span><span class="n">kdbg</span><span class="o">=</span><span class="mh">0xf805784bb744</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">Win10x64_18362</span> <span class="n">pslist</span>
 </span></span></code></pre></div><ol start="5">
@@ -448,21 +448,21 @@
 <li>rename it to <code>ntoskrnl.exe</code></li>
 <li>use <code>pdbparse</code> to generate vtype (<a href="https://github.com/moyix/pdbparse">https://github.com/moyix/pdbparse</a>)</li>
 </ol>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory4.png" alt="osdf-troubleshooting-memory4"></p>
+<p><img src="images/osdf-troubleshooting-memory4.png" alt="osdf-troubleshooting-memory4"></p>
 <p>With Volatility 3.0 you don&rsquo;t have to specify profiles and generate vtypes. There are some cases when the override is needed. In order to do so, follow the steps below. The error might be something like this:</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory5.png" alt="osdf-troubleshooting-memory5"></p>
+<p><img src="images/osdf-troubleshooting-memory5.png" alt="osdf-troubleshooting-memory5"></p>
 <p>It can&rsquo;t find the symbols is because couldn&rsquo;t find win kernel offset (buggy acquisition tool). use volatility to see whether it works and what needs to be overwritten. Solution:</p>
 <ol>
 <li>pull ntos file (like before when generating vtypes)</li>
 <li>get the pdb file <code>symchk.py -e ntoskrnl.exe</code></li>
 <li>pdb -&gt; json with <code>pdbconv.py -f ntkrnlmp.pdb -o new_symbols.json</code></li>
 </ol>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory6.png" alt="osdf-troubleshooting-memory6"></p>
+<p><img src="images/osdf-troubleshooting-memory6.png" alt="osdf-troubleshooting-memory6"></p>
 <ol start="4">
 <li>cat new_symbols.json | less -I`</li>
 </ol>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory7.png" alt="osdf-troubleshooting-memory7"></p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory8.png" alt="osdf-troubleshooting-memory8"></p>
+<p><img src="images/osdf-troubleshooting-memory7.png" alt="osdf-troubleshooting-memory7"></p>
+<p><img src="images/osdf-troubleshooting-memory8.png" alt="osdf-troubleshooting-memory8"></p>
 <ol start="5">
 <li>
 <p>get a config file to override the different thing that we need to override. Use the memory sample, that works with <code>vol3</code> and create a config with <code>configwriter.ConfigWriter</code> plugin.</p>
@@ -473,10 +473,10 @@
 </ol>
 <p>The second green square - DTB.</p>
 <p>And get the <code>KernelBase</code> with <code>vol2.py kdbgscan</code>. And <code>dtb</code> is needed as well.</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory9.png" alt="osdf-troubleshooting-memory9"></p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory10.png" alt="osdf-troubleshooting-memory10"></p>
+<p><img src="images/osdf-troubleshooting-memory9.png" alt="osdf-troubleshooting-memory9"></p>
+<p><img src="images/osdf-troubleshooting-memory10.png" alt="osdf-troubleshooting-memory10"></p>
 <p>New config file:</p>
-<p><img src="/Users/veronicazvereva/Documents/website/analyst/content/docs/dfir/investigation/ram/win-ram/images/osdf-troubleshooting-memory11.png" alt="osdf-troubleshooting-memory11"></p>
+<p><img src="images/osdf-troubleshooting-memory11.png" alt="osdf-troubleshooting-memory11"></p>
 <p>added line (the last one), created symbols file.</p>
 <p>Now run:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">vol</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">config</span><span class="o">.</span><span class="n">json</span> <span class="n">windows</span><span class="o">.</span><span class="n">pslist</span><span class="o">.</span><span class="n">PsList</span>
