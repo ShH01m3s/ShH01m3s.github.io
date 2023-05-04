@@ -384,28 +384,28 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">plutil -p <span class="s2">&#34;./Volume 0/root/Users/sneaky/Library/Preferences/com.apple.iChat.plist&#34;</span>
 </span></span></code></pre></div><p>resulted in</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>  
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;DidCheckForDuplicateChats&#34;</span> <span class="err">=&gt;</span> <span class="mi">3</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;DidMigratePersonCentricIDs&#34;</span> <span class="err">=&gt;</span> <span class="mi">1</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;NotifyAboutMessagesFromUnknownContacts&#34;</span> <span class="err">=&gt;</span> <span class="mi">1</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;PlaySoundsKey&#34;</span> <span class="err">=&gt;</span> <span class="mi">1</span>  
+</span></span><span class="line"><span class="cl"> <span class="err"> </span><span class="nt">&#34;DidCheckForDuplicateChats&#34;</span> <span class="err">=&gt;</span> <span class="mi">3</span>  
+</span></span><span class="line"><span class="cl"> <span class="err"> </span><span class="s2">&#34;DidMigratePersonCentricIDs&#34;</span> <span class="err">=&gt;</span> <span class="mi">1</span>  
+</span></span><span class="line"><span class="cl"> <span class="err"> </span><span class="s2">&#34;NotifyAboutMessagesFromUnknownContacts&#34;</span> <span class="err">=&gt;</span> <span class="mi">1</span>  
+</span></span><span class="line"><span class="cl"> <span class="err"> </span><span class="s2">&#34;PlaySoundsKey&#34;</span> <span class="err">=&gt;</span> <span class="mi">1</span>  
 </span></span><span class="line"><span class="cl"><span class="p">}</span>  
 </span></span></code></pre></div><p>The file looked so juicy and yet there was nothing useful for me there.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">find . -name <span class="s2">&#34;*fseve*&#34;</span><span class="sb">`</span>
 </span></span><span class="line"><span class="cl">python mac_apt_artifact_only.py -i samples/FruitBook/fsevents -o . FSEVENTS
 </span></span></code></pre></div><h2 id="find-the-flag-in-the-goodexamplejpg-image-its-hidden-with-better-tools">Find the flag in the GoodExample.jpg image. It&rsquo;s hidden with better tools.</h2>
 <p>On a Windows VM I used PowerShell and steghide:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">steghide</span> <span class="n">info</span> <span class="n">GoodExample</span><span class="p">.</span><span class="n">jpg</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">steghide</span> <span class="n">info</span> <span class="n">GoodExample</span><span class="p">.</span><span class="py">jpg</span>
 </span></span><span class="line"><span class="cl"><span class="n">Enter</span> <span class="n">passphrase</span><span class="err">:</span> <span class="c"># no password</span>
 </span></span><span class="line"><span class="cl">  <span class="n">embedded</span> <span class="n">file</span> <span class="s2">&#34;steganopayload27635.txt&#34;</span><span class="err">:</span>
 </span></span><span class="line"><span class="cl">    <span class="p">[...]</span>
-</span></span><span class="line"><span class="cl"><span class="n">steghide</span> <span class="n">extract</span> <span class="n">-sf</span> <span class="n">GoodExample</span><span class="p">.</span><span class="n">jpg</span> <span class="p">-</span><span class="n">-passphrase</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">steghide</span> <span class="n">extract</span> <span class="n">-sf</span> <span class="n">GoodExample</span><span class="p">.</span><span class="py">jpg</span> <span class="p">-</span><span class="n">-passphrase</span> <span class="s2">&#34;&#34;</span>
 </span></span></code></pre></div><h2 id="whats-the-uid-of-the-user-who-is-responsible-for-connecting-mobile-devices">What&rsquo;s the UID of the user who is responsible for connecting mobile devices?</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">find . -name <span class="s2">&#34;*zsh*&#34;</span>                                                 
 </span></span><span class="line"><span class="cl">./Volume 4/root/bin/zsh  
 </span></span><span class="line"><span class="cl">./Volume 0/root/Users/sneaky/zsh_history  
 </span></span><span class="line"><span class="cl">plutil -p <span class="s2">&#34;/Users/sneaky/Library/Preferences/com.apple.finder.plist&#34;</span> &gt; appleplist 
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;RecentMoveAndCopyDestinations&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;file:///Users/Shared/&#34;</span>  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"> <span class="err"> </span> <span class="err"> </span><span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;file:///Users/Shared/&#34;</span>  <span class="p">]</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">open -t <span class="s2">&#34;./macOS Catalina - Data [volume_0]/root/private/var/log/daily.out&#34;</span>         
 </span></span><span class="line"><span class="cl"><span class="c1"># fsck_hfs.log?</span>
 </span></span><span class="line"><span class="cl">grep -ri iphone . <span class="c1"># Hooray!</span>
@@ -481,7 +481,7 @@ Results:</p>
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   

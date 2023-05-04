@@ -236,7 +236,7 @@
   <div class="content" itemprop="articleBody">
     <p>Kansa PowerShell script <code>Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="cm">&lt;#
-</span></span></span><span class="line"><span class="cl"><span class="cm"></span><span class="sd">.SYNOPSIS</span><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">.</span><span class="sd">SYNOPSIS</span><span class="cm">
 </span></span></span><span class="line"><span class="cl"><span class="cm">Get-ASEPImagePathLaunchStringStack.ps1
 </span></span></span><span class="line"><span class="cl"><span class="cm">Requires logparser.exe in path
 </span></span></span><span class="line"><span class="cl"><span class="cm">
@@ -246,7 +246,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="cm">
 </span></span></span><span class="line"><span class="cl"><span class="cm">This script expects files matching the *autorunsc.txt pattern to be in the
 </span></span></span><span class="line"><span class="cl"><span class="cm">current working directory.
-</span></span></span><span class="line"><span class="cl"><span class="cm"></span><span class="sd">.NOTES</span><span class="cm">
+</span></span></span><span class="line"><span class="cl"><span class="cm">.</span><span class="sd">NOTES</span><span class="cm">
 </span></span></span><span class="line"><span class="cl"><span class="cm">DATADIR Autorunsc
 </span></span></span><span class="line"><span class="cl"><span class="cm">#&gt;</span>
 </span></span><span class="line"><span class="cl">
@@ -273,16 +273,16 @@
 </span></span></span><span class="line"><span class="cl"><span class="sh">        ct ASC
 </span></span></span><span class="line"><span class="cl"><span class="sh">&#34;@</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span> <span class="n">logparser</span> <span class="n">-stats</span><span class="err">:</span><span class="n">off</span> <span class="n">-i</span><span class="err">:</span><span class="n">csv</span> <span class="n">-dtlines</span><span class="err">:</span><span class="n">0</span> <span class="n">-o</span><span class="err">:</span><span class="n">csv</span> <span class="s2">&#34;$lpquery&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span> <span class="n">logparser</span> <span class="n">-stats:off</span> <span class="n">-i:csv</span> <span class="n">-dtlines:</span><span class="mf">0</span> <span class="n">-o:csv</span> <span class="s2">&#34;</span><span class="nv">$lpquery</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nv">$ScriptName</span> <span class="p">=</span> <span class="no">[System.IO.Path]</span><span class="p">::</span><span class="n">GetFileName</span><span class="p">(</span><span class="nv">$MyInvocation</span><span class="p">.</span><span class="n">ScriptName</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;${ScriptName} requires logparser.exe in the path.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$ScriptName</span> <span class="p">=</span> <span class="p">[</span><span class="no">System.IO.Path</span><span class="p">]::</span><span class="n">GetFileName</span><span class="p">(</span><span class="nv">$MyInvocation</span><span class="p">.</span><span class="n">ScriptName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;</span><span class="nv">${ScriptName}</span><span class="s2"> requires logparser.exe in the path.&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p><a href="https://www.microsoft.com/en-gb/download/details.aspx?id=24659">Logparser</a> needs to be installed for it to run. Run this script in the directory with the <code>*-Autorunsc.csv</code> files. It will merge all the info into one file. Perform frequency analysis against this consolidated data and note anything run on one system only (sort or filter by the <code>cnt</code> column). Once the processes of interest have been identified, run the Powershell script to see which machine this process was run on:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Select-String</span> <span class="s2">&#34;processname&#34;</span> <span class="p">*</span><span class="n">-Autorunsc</span><span class="p">.</span><span class="n">csv</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Select-String</span> <span class="s2">&#34;processname&#34;</span> <span class="p">*</span><span class="n">-Autorunsc</span><span class="p">.</span><span class="py">csv</span>
 </span></span></code></pre></div><p>There is also a <code>Get-LogparserStack.ps1</code> script which is more general and allows you to parse and merge different logs so long as they have the same structure.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">SvcAll</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimiter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="nb">SvcAll-workstation</span><span class="n">-stack</span><span class="p">.</span><span class="n">csv</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="py">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">SvcAll</span><span class="p">.</span><span class="py">csv</span> <span class="n">-Delimiter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="nb">SvcAll-workstation</span><span class="n">-stack</span><span class="p">.</span><span class="py">csv</span>
 </span></span></code></pre></div><p>You will be asked to <code>Enter the field to pass to COUNT()</code>. This needs to be some column that identifies the processes uniquely, not the row! For example, it&rsquo;s the process <strong>name</strong>. Then you will be prompted to <code>Enter the fields you want to GROUP BY, one per line. Enter &quot;quit&quot; when finished</code>.  You can group by any column and also combine several of them. For example, group by Name, DisplayName and Path (for some process logs) or by IP and user id for some application logs.</p>
 <blockquote>
 <p><em>When you specify columns to group by using the &ldquo;GROUP BY&rdquo; option in the script, Log Parser will group all log entries that have the same value for the specified columns into a single group. The script then calculates the number of hits and bytes transferred for each group. ChatGPT</em></p>
@@ -327,7 +327,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   
