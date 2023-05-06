@@ -199,27 +199,36 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#and">AND</a>
       <ul>
-        <li><a href="#and">AND</a>
-          <ul>
-            <li><a href="#zero-n-bits-out">Zero <code>N</code> bits out</a></li>
-            <li><a href="#check-if-an-integer-is-even">Check if an integer is even</a></li>
-            <li><a href="#bit-map">Bit map</a></li>
-          </ul>
-        </li>
-        <li><a href="#or">OR</a></li>
-        <li><a href="#not">NOT</a></li>
-        <li><a href="#xor">XOR</a></li>
-        <li><a href="#rcr-and-rcl">RCR and RCL</a></li>
-        <li><a href="#shl-and-shr">SHL and SHR</a>
+        <li><a href="#zero-n-bits-out">Zero <code>N</code> bits out</a></li>
+        <li><a href="#check-if-an-integer-is-even">Check if an integer is even</a></li>
+        <li><a href="#bit-map">Bit map</a></li>
+        <li><a href="#check-if-exactly-one-bit-in-the-integer-is-set">Check if EXACTLY one bit in the integer is set</a></li>
+      </ul>
+    </li>
+    <li><a href="#or">OR</a></li>
+    <li><a href="#not">NOT</a></li>
+    <li><a href="#xor">XOR</a>
+      <ul>
+        <li><a href="#set-a-value-to-0-efficient">Set a value to 0 (efficient)</a></li>
+        <li><a href="#invert-all-the-bits--substract">Invert all the bits / substract</a></li>
+        <li><a href="#swap-values">Swap values</a></li>
+        <li><a href="#find-difference">Find difference</a></li>
+      </ul>
+    </li>
+    <li><a href="#ror-and-rol">ROR and ROL</a></li>
+    <li><a href="#rcr-and-rcl">RCR and RCL</a></li>
+    <li><a href="#shl-and-shr">SHL and SHR</a>
+      <ul>
+        <li>
           <ul>
             <li><a href="#useful-tip">Useful tip</a></li>
           </ul>
         </li>
-        <li><a href="#rolror-vs-shlshr">ROL/ROR vs SHL/SHR</a></li>
       </ul>
     </li>
+    <li><a href="#rolror-vs-shlshr">ROL/ROR vs SHL/SHR</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -256,12 +265,12 @@
 
   <div class="content" itemprop="articleBody">
     <p>*## Logical</p>
-<h3 id="and">AND</h3>
-<h4 id="zero-n-bits-out">Zero <code>N</code> bits out</h4>
+<h2 id="and">AND</h2>
+<h3 id="zero-n-bits-out">Zero <code>N</code> bits out</h3>
 <p>All you need to do, is to <code>and</code> it with a <code>0000 0000</code> mask (for a one byte value in this example).</p>
-<h4 id="check-if-an-integer-is-even">Check if an integer is even</h4>
+<h3 id="check-if-an-integer-is-even">Check if an integer is even</h3>
 <p>Mask it with <code>0000 0001</code>. Even numbers have <code>0</code> at the end, and uneven - <code>1</code>. <code>and</code>ing an even number with <code>0000 0001</code> will result in <code>0</code> and <code>and</code>ing an uneven - with <code>1</code>.</p>
-<h4 id="bit-map">Bit map</h4>
+<h3 id="bit-map">Bit map</h3>
 <p>AND operation will be used to check if the given bit in the bit map was set already: <code>if bit_vector &amp; (1 &lt;&lt; char_code)</code>. 1 &laquo; char_code basically does the following (using 8 bit value for simplicity). Say, we checking if either of the numbers appeared more than once in some data (numbers from <code>0</code> to <code>7</code>).</p>
 <table>
 <thead>
@@ -462,18 +471,64 @@
 </tr>
 </tbody>
 </table>
-<h3 id="or">OR</h3>
+<h3 id="check-if-exactly-one-bit-in-the-integer-is-set">Check if EXACTLY one bit in the integer is set</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">new_int</span> <span class="o">=</span> <span class="n">integer</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">new_int</span> <span class="o">&amp;</span> <span class="n">integer</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># if 0 - only 1 bit set</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># if 1 - more than 1</span>
+</span></span></code></pre></div><h2 id="or">OR</h2>
 <p>Set to <code>1</code> if either of the bits is <code>1</code>. Repeat for each bit of the first operand and the second operand. Writes to the destination operand.</p>
 <p><strong>Interesting</strong>! 😮 Can be used to set all bits to <code>1</code> with <code>1111</code>. ​ For example, we have <code>1110 or 1111</code> = <code>1111</code>. Basically, any value <code>or</code>ed by <code>1111</code> is <code>1111</code>.</p>
-<h3 id="not">NOT</h3>
-<h3 id="xor">XOR</h3>
+<h2 id="not">NOT</h2>
+<h2 id="xor">XOR</h2>
 <p><strong>Ex</strong>clusive <strong>OR</strong>. 1 if the first operand&rsquo;s bit is <strong>not</strong> equal to the second&rsquo;s.</p>
-<p><strong>Interesting</strong>! 😮 A quick way to set <code>eax</code> to <code>0</code>. Operation&rsquo;s <code>xor eax, eax</code> opcode is <code>33 C0</code> (2 bytes) while <code>mov eax, 0</code> - opcode <code>b8 00 00 00 00  </code> which is 5 bytes (costy 💴 ).</p>
+<h3 id="set-a-value-to-0-efficient">Set a value to 0 (efficient)</h3>
+<p><strong>Interesting</strong>! 🤔 A quick way to set <code>eax</code> to <code>0</code>. Operation&rsquo;s <code>xor eax, eax</code> opcode is <code>33 C0</code> (2 bytes) while <code>mov eax, 0</code> - opcode <code>b8 00 00 00 00  </code> which is 5 bytes (costy 💴 ).</p>
+<h3 id="invert-all-the-bits--substract">Invert all the bits / substract</h3>
 <p>Also, an interesting observation to investigate further: If I mask any value with <code>1111</code> , I get an operation equal to substraction (unsigned):</p>
 <p><code>1010 xor 1111</code> is <code>0101</code> (5 in decimal)</p>
 <p><code>1011 xor 1111</code> is <code>0100</code> (4d)</p>
 <p><code>1100 xor 1111</code> is <code>0011</code> (3d)</p>
-<p>ROR and ROL</p>
+<p>If I look closer, I see that all the bits are inverted 🤔.</p>
+<h3 id="swap-values">Swap values</h3>
+<p>When you have two variable and you need to swap their values, you usually use a temp variable to store the first variable&rsquo;s value. Something like the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span>
+</span></span></code></pre></div><p>Although the overhead is really small, there is a way to perform the same operation without the <code>tmp</code> variable. It&rsquo;s because of the following two main characteristics of a XOR operation:</p>
+<ol>
+<li>🐝 XOR 🐝 = 🤷🏼‍♀️ (nothing, 0)</li>
+<li>🐝 XOR 🤷🏼‍♀️ = 🐝</li>
+</ol>
+<p>Now look at the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># 🍇</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="mi">7</span> <span class="c1"># 🐝</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">^=</span> <span class="n">b</span> <span class="c1">#python XOR and assignment</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">^=</span> <span class="n">a</span> <span class="c1"># 🍇</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">^=</span> <span class="n">b</span> <span class="c1"># 🐝</span>
+</span></span></code></pre></div><p>Let&rsquo;s say <code>5</code> is 🍇, <code>7</code> is 🐝 and <code>0</code> is 🤷🏼‍♀️. Now, minding the two characteristics of a XOR operation above, let&rsquo;s see what&rsquo;s happening to the contents of each of the variables.</p>
+<p>Variable <code>a</code>. 🍇XOR 🐝
+Variable <code>b</code>. (🍇XOR 🐝) XOR 🐝. We can get rid of the brackets since they don&rsquo;t play any part in all this. We get 🍇XOR 🐝 XOR 🐝. Since any value XORed with itself results in 0 and any value XORed with 0 is itself, with the 🐝 XOR 🐝 all 🐝 cancel themselves and we are left with 🍇.</p>
+<p>Lastly, variable <code>a</code> again. (🍇XOR 🐝)XOR (🍇XOR 🐝) XOR 🐝. Let&rsquo;s remove the brackets as well here: 🍇XOR 🐝 XOR 🍇XOR 🐝 XOR 🐝. 2 x 🐝 cancel themselves, 2 x 🍇 cancel themselves, we are only left with 1 🐝.</p>
+<p>So, now <code>a</code> is 🐝 and <code>b</code> is 🍇.</p>
+<h3 id="find-difference">Find difference</h3>
+<p>Remeber, the two main characteristics of the XOR operation.</p>
+<ol>
+<li>🐝 XOR 🐝 = 🤷🏼‍♀️ (nothing, 0)</li>
+<li>🐝 XOR 🤷🏼‍♀️ = 🐝</li>
+</ol>
+<p>Imagine a string: 🐝🍇🍏🫐🐞</p>
+<p>And another string: 🐝🍇🍏🫐🐞🌺</p>
+<p>How do we find this extra 🌺? We could, of course, use a hashmap, but that means the space complexity of our algorithm becomes <code>O(n)</code>.</p>
+<p>If we <code>XOR</code> all elements against each other from both of the strings, we will get something like this: 🐝 XOR 🍇 XOR 🍏 XOR 🫐 XOR 🐞 XOR 🐝 XOR 🍇 XOR 🍏 XOR 🫐 XOR 🐞 XOR 🌺. Since the order of a XOR operation does not matter, and almost all the emoji are in pairs, they cancel each other: 🐝 XOR 🐝 XOR 🍇 XOR 🍇 XOR 🍏 XOR 🍏 XOR 🫐 XOR 🫐 XOR 🐞 XOR 🐞 XOR 🌺. The only emoji without a pair is 🌺. Since all XORed pairs like 🐝 XOR 🐝 and 🍏 XOR 🍏 result in 🤷🏼‍♀️ (nothing, 0), in the end we will be left with 🤷🏼‍♀️ XOR 🌺. And as we know, 🤷🏼‍♀️ XOR 🌺 = 🌺.</p>
+<p>If in the end of our XORes we get 0, we know that the strings are identical.</p>
+<p>Of course, if the strings differ in more than one character - we won&rsquo;t be able to use this trick.</p>
+<h2 id="ror-and-rol">ROR and ROL</h2>
 <p><code>x86</code></p>
 <p><strong>Affected flags</strong>: <code>CF</code> , <code>OF</code></p>
 <p>Rotate the integer n-time to the left or right. When you see such an instruction, very often it is an indication of encryption. To better understand both I need an example. Let&rsquo;s take an 8-bit binary value. The <strong>initial</strong> state is:</p>
@@ -497,7 +552,7 @@
 <blockquote>
 <p>The processor restricts the count to a number between 0 and 31 by masking all the bits in the count operand except the 5 least-significant bits.</p>
 </blockquote>
-<h3 id="rcr-and-rcl">RCR and RCL</h3>
+<h2 id="rcr-and-rcl">RCR and RCL</h2>
 <p><code>x86</code></p>
 <p><strong>Affected flags</strong>: <code>CF</code> , <code>OF</code></p>
 <p>It&rsquo;s pretty much the same, with just one small difference. <code>CF</code> flag is now taken into account, it&rsquo;s not just a wormhole 🐛 anymore. Let&rsquo;s consider the <strong>third</strong> state from the previous examples:</p>
@@ -527,7 +582,7 @@
 <p><code>CF</code> = <code>0</code> and the number itself is <code>0 1 1 1  0 0 1 1</code>.</p>
 <p><code>OF</code> = <code>0 XOR 0</code> = <code>0</code></p>
 <p>For RCR operation leading us back to the <strong>third</strong> state: <code>0 0 1 1 1 0 0 1</code>. Never mind <code>CF</code> since it&rsquo;s not included in the calculations. The two most significant bits after rotation are <code>0</code> and <code>0</code> (the first two digits). <code>OF</code> = <code>0 XOR 0</code> = again <code>0</code>.</p>
-<h3 id="shl-and-shr">SHL and SHR</h3>
+<h2 id="shl-and-shr">SHL and SHR</h2>
 <p><code>x86</code></p>
 <p><strong>Affected flags</strong>: <code>CF</code></p>
 <p>Shifts bits by the value specified in second operand to the  left or to the right.  The last bit dropped off is written to <code>CF</code> &ldquo;before death ☠️ &ldquo;. Example:</p>
@@ -561,7 +616,7 @@
 </tbody>
 </table>
 <p>To read more about this and how this really works, read <a href="/docs/blog/2020/10/a-few-good-bits">here</a>.</p>
-<h3 id="rolror-vs-shlshr">ROL/ROR vs SHL/SHR</h3>
+<h2 id="rolror-vs-shlshr">ROL/ROR vs SHL/SHR</h2>
 <p>What&rsquo;s the difference between the two (well, even four)? When I inspected my old notes, I&rsquo;ve got a little confused because I&rsquo;d totally forgotten that. Tha&rsquo;ts why I&rsquo;ve included this section for future, should my memory fail me once again.</p>
 <p>The difference between the two is pretty much the same as the difference between &ldquo;rolling&rdquo; and &ldquo;shifting&rdquo;. Say, we have a password padlock for a suitcase and set our passcode to <code>1234</code>.</p>
 <p><img src="images/ror-rol.jpg" alt="ror-rol"></p>
@@ -572,7 +627,8 @@
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <h3 id="about-xor-tricks">About XOR tricks</h3>
+<p><a href="https://florian.github.io/xor-trick/">https://florian.github.io/xor-trick/</a>
 </details>
 
   </div>
