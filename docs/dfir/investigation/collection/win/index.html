@@ -301,13 +301,13 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-NetConnectionProfile</span>
 </span></span><span class="line"><span class="cl"><span class="nb">Set-NetConnectionProfile</span> <span class="n">-InterfaceIndex</span> <span class="n">X</span> <span class="n">-NetworkCategory</span> <span class="n">private</span> <span class="c"># requires admin</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">.\</span><span class="n">kansa</span><span class="p">.</span><span class="py">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="n">localhost</span> <span class="n">-Credential</span> <span class="n">username</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span>
+</span></span><span class="line"><span class="cl"><span class="p">.\</span><span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="n">localhost</span> <span class="n">-Credential</span> <span class="n">username</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span>
 </span></span></code></pre></div><blockquote>
 <p>❗️ On macOS Parallels 18 with Windows 11 running as a VM, you&rsquo;d need to change the password for the user first to provide them in the prompt.</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Select-String</span> <span class="s2">&#34;something&#34;</span> <span class="p">*.</span><span class="n">csv</span> <span class="c"># search for something keyword in all csv files in the current directory</span>
 </span></span></code></pre></div><h3 id="autoruns">Autoruns</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">autorunsc</span><span class="p">.</span><span class="py">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">autorunsc</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span>
 </span></span></code></pre></div><p><code>a</code> - all artefacts (boot, appinit dlls, explorer addons, sidebar gadgets, image hijacks, IE addons, known dlls, logon startups, WMI, office addons, printerr mon dll, LSA sec providers, autostart services and non-disabled drivres, winlogon entries, scheduled tasks, winlock protocol and net providers).
 <code>c</code> - codec
 <code>h</code> - hashes
@@ -334,7 +334,7 @@
 <blockquote>
 <p>&hellip;force a crash and subsequently produce a memory dump as a mechanism for collecting volatile data. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 165). BCS Learning &amp; Development Limited. Kindle Edition.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">dd</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">PhysicalMemory</span> <span class="n">of</span><span class="p">=</span><span class="n">memory</span><span class="p">.</span><span class="py">img</span> <span class="n">conv</span><span class="p">=</span><span class="n">noerror</span> <span class="c"># requires elevated privileges.</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">dd</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">PhysicalMemory</span> <span class="n">of</span><span class="p">=</span><span class="n">memory</span><span class="p">.</span><span class="n">img</span> <span class="n">conv</span><span class="p">=</span><span class="n">noerror</span> <span class="c"># requires elevated privileges.</span>
 </span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

@@ -325,19 +325,19 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Both <code>main</code> and <code>function</code> have a <code>stack_var</code>. They are not the same. They only share the name, but in fact these only exist while the function&rsquo;s context exists. These are local variables.</p>
 <p>Say, our custom ping program has a function <code>dns_request</code>. Let&rsquo;s have a closer look:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">int</span> <span class="n">dns_request</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  
 </span></span><span class="line"><span class="cl">  <span class="c1">//make request
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nf">dns_request</span><span class="p">(</span><span class="s">&#34;ya.ru&#34;</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">dns_request</span><span class="p">(</span><span class="s">&#34;ya.ru&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">bool</span> <span class="nf">dns_request</span> <span class="p">(</span><span class="kt">char</span> <span class="n">domain_name</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">bool</span> <span class="n">dns_request</span> <span class="p">(</span><span class="kt">char</span> <span class="n">domain_name</span><span class="p">[])</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">     <span class="kt">bool</span> <span class="n">result</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">     <span class="k">struct</span> <span class="n">dns_request</span><span class="p">;</span>     
 </span></span><span class="line"><span class="cl">     <span class="n">dns_request</span><span class="p">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain_name</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">     <span class="p">...</span>
 </span></span><span class="line"><span class="cl">     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">somefunc</span><span class="p">(</span><span class="n">dns_request</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">somefunc</span><span class="p">(</span><span class="n">dns_request</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">     <span class="p">}</span>
 </span></span><span class="line"><span class="cl">     <span class="p">...</span> 
 </span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
@@ -356,7 +356,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//push 3
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//push 2
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//call _func2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nf">_func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">_func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">

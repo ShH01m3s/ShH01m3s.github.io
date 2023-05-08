@@ -414,7 +414,7 @@
 <p><strong>Account</strong>: Local System</p>
 <p><strong>Start time</strong>: Boot</p>
 <p><strong>Windows Credential Guard</strong>. Only for Windows 10 Enterprise or Windows Server 2016 and above. Also, this exe is present on a Windows 11 system, but is not running. It&rsquo;s a singleton and is located on disk in System32 directory. It runs under local system account and it&rsquo;s parent is <code>winint.exe</code>. Works in the isolated user mode, so that even the kernel doesn&rsquo;t have access to it. Secure Kernel protected by Hyper-V is talking to lsaiso instead. Kernel Mode and Secure Kernel are talking using a small buffer. VSL calls. Between SK and lsaiso - sys call. VSM container: lsaiso, credentials, secure kernel, kernel mode code integrity. HVCI - Hyper-V code integrity.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">mimikatz</span><span class="p">.</span><span class="py">exe</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span>
 </span></span><span class="line"><span class="cl"><span class="p">&gt;</span> <span class="n">version</span>
 </span></span><span class="line"><span class="cl"><span class="n">privilege</span><span class="p">::</span><span class="n">debug</span>
 </span></span><span class="line"><span class="cl"><span class="n">securlsa</span><span class="p">::</span><span class="n">logonpasswords</span>
