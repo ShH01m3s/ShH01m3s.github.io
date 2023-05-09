@@ -200,6 +200,7 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#resources">Resources</a></li>
+    <li><a href="#temp-priority">Temp Priority</a></li>
     <li><a href="#coding">Coding</a>
       <ul>
         <li><a href="#strings">Strings</a>
@@ -288,6 +289,29 @@
 <li><a href="https://www.educative.io/courses/grokking-coding-interview-patterns-python/qZnwmQO8ADp">https://www.educative.io/courses/grokking-coding-interview-patterns-python/qZnwmQO8ADp</a></li>
 <li><a href="https://github.com/gracenolan/Notes/blob/master/interview-study-notes-for-security-engineering.md">https://github.com/gracenolan/Notes/blob/master/interview-study-notes-for-security-engineering.md</a></li>
 </ol>
+<h2 id="temp-priority">Temp Priority</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Wake up Neo <a href="https://2018.offzone.moscow/report/wake-up-neo/">https://2018.offzone.moscow/report/wake-up-neo/</a></li>
+<li><input disabled="" type="checkbox"> DNS rebinding <a href="https://2018.offzone.moscow/report/dns-rebinding-in-2k18/">https://2018.offzone.moscow/report/dns-rebinding-in-2k18/</a></li>
+<li><input disabled="" type="checkbox"> Apple DHCP - <a href="https://habr.com/en/articles/339666/">https://habr.com/en/articles/339666/</a></li>
+<li><input disabled="" type="checkbox"> Meltdown and Spectre</li>
+<li><input disabled="" type="checkbox"> Multi-layered apps <a href="https://2018.offzone.moscow/report/attacking-the-multi-layered-web-applications/">https://2018.offzone.moscow/report/attacking-the-multi-layered-web-applications/</a></li>
+<li><input disabled="" type="checkbox"> APT
+<ul>
+<li><input disabled="" type="checkbox"> Lazarus -https://2018.offzone.moscow/report/lazarus-group-a-mahjong-game-played-with-different-sets-of-tiles/</li>
+<li><input disabled="" type="checkbox"> <a href="https://www.mandiant.com/resources/blog/apt42-charms-cons-compromises">https://www.mandiant.com/resources/blog/apt42-charms-cons-compromises</a></li>
+<li><input disabled="" type="checkbox"> APT28 <a href="https://www.mandiant.com/sites/default/files/2021-09/APT28-Center-of-Storm-2017.pdf">https://www.mandiant.com/sites/default/files/2021-09/APT28-Center-of-Storm-2017.pdf</a></li>
+<li><input disabled="" type="checkbox"> All Mandiant - <a href="https://www.mandiant.com/resources/insights/apt-groups">https://www.mandiant.com/resources/insights/apt-groups</a></li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> IR
+<ul>
+<li><input disabled="" type="checkbox"> <a href="https://youtu.be/OQTgwU4Z4kY">https://youtu.be/OQTgwU4Z4kY</a></li>
+<li><input disabled="" type="checkbox"> youtube.com/watch?v=MOgDQ_YQ2qA</li>
+</ul>
+</li>
+</ul>
 <h2 id="coding">Coding</h2>
 <h3 id="strings">Strings</h3>
 <p>I am mostly using Python, so, I need to understand how Python implements string and what&rsquo;s the time and space complexity for string operations. I know that strings are immutable.</p>
@@ -298,8 +322,8 @@
 <p>💡 A very interesting approach to use bitwise operations to store a set of boolean values with just two bool operations: <code>bit_vector &amp; (1 &lt;&lt; char_code)</code> to check and <code>bit_vector |= (1 &lt;&lt; char_code)</code> to set the bit. I have moved the detailed explanation to the reverse section (reverse -&gt; basics -&gt; assembly)</p>
 </blockquote>
 <h4 id="unique-strings">Unique strings</h4>
-<p>I have come up with several solutions and additionally, I&rsquo;ve worked through one more which is a significant improvement time ans space wise:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># The solution using a hashtable is the most straightforward and simple. Hashtables are the best option when it comes to efficiently searching for duplicates in terms of time complexity. However, hashtables require additional space, which might be an issue in some cases. In this particular situation, it&#39;s not a concern because we only have at most 256 characters to consider, which essentially amounts to O(1) space complexity.</span>
+<p>I have come up with several solutions, and additionally, I&rsquo;ve worked through one more which is a significant improvement time and space-wise:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># The solution using a hashtable is the most straightforward and simple. Hashtables are the best option when it comes to efficiently searching for duplicates in terms of time complexity. However, hashtables require additional space, which might be an issue in some cases. In this particular situation, it&#39;s not a concern because we only have 256 characters to consider, which essentially amounts to O(1) space complexity.</span>
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">check_if_all_char_unique_1</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 </span></span><span class="line"><span class="cl">    <span class="n">register</span> <span class="o">=</span> <span class="p">{}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="kc">False</span>
@@ -795,7 +819,7 @@
 <li><input disabled="" type="checkbox"> Useful to understand IPv4 vs IPv6.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> DNS
+<li><input disabled="" type="checkbox"> DNS <a href="https://2018.offzone.moscow/report/dns-rebinding-in-2k18/">https://2018.offzone.moscow/report/dns-rebinding-in-2k18/</a>
 <ul>
 <li><input disabled="" type="checkbox"> (53)</li>
 <li><input disabled="" type="checkbox"> Requests to DNS are usually UDP, unless the server gives a redirect notice asking for a TCP connection. Look up in cache happens first. DNS exfiltration. Using raw IP addresses means no DNS logs, but there are HTTP logs. DNS sinkholes.</li>
@@ -1055,7 +1079,7 @@
 </ul>
 <h3 id="infrastructure-prod--cloud-virtualisation">Infrastructure (Prod / Cloud) Virtualisation</h3>
 <ul>
-<li><input disabled="" type="checkbox"> Hypervisors.</li>
+<li><input disabled="" type="checkbox"> Hypervisors. <a href="https://2018.offzone.moscow/report/wake-up-neo/">https://2018.offzone.moscow/report/wake-up-neo/</a></li>
 <li><input disabled="" type="checkbox"> Hyperjacking.</li>
 <li><input disabled="" type="checkbox"> ❗️Containers, VMs, clusters.</li>
 <li><input disabled="" type="checkbox"> Escaping techniques.
