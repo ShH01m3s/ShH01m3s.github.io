@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Specter - Analyst</title>
+  <title>Translation Lookaside Buffer - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -194,12 +194,11 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/reverse/exploits/"> 👈🏼 Back to </br> ⚙️ Exploits </a>
+   <a href="/docs/reverse/basics/"> 👈🏼 Back to </br> 📚 Basics </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#heading"></a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -212,7 +211,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Specter</h1>
+<h1 class="title">Translation Lookaside Buffer</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -235,9 +234,13 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is about &hellip; .</em></p>
-<p><a href="https://bakerst221b.com/docs/reverse/basics/memory-addressing/">This</a>, <a href="https://bakerst221b.com/docs/reverse/basics/c-prog-memory-layout/">this</a> and this article can help gain some initial understanding of memory addressing and layout.</p>
-<h2 id="heading"></h2>
+    <p><em>In this article I will dissect what TLB is. It can help understand how Meltdown and Specter work.</em></p>
+<p>Usually, OS performs translations between PA and VA. Those addresses already translated are cached in TLB (Translation Lookaside Buffer). The 1st priority is TLB, the second - page table lookup (since it takes more time).</p>
+<p>If TLB&rsquo;s full, least used entry will be replaced with the one just requested.</p>
+<p><img src="images/diagram.png" alt="img"></p>
+<p>So, on the picture above virtual page #3 = physical page #6.</p>
+<p>If the requested memory address is on Disk, there will be TLB miss (nothing found). Then TLB eviction (popping off the least used entry) and reading from DISK then which is very costy.</p>
+<p><img src="images/kernel-user-space.png" alt="img"></p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
