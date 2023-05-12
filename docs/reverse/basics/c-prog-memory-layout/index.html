@@ -285,37 +285,8 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping ya.ru
 </span></span></code></pre></div><p>This goes on the very bottom of the pile. There is pretty much of space left!</p>
 <h3 id="stack">Stack</h3>
-<p>Grows towards lower memory addresses.</p>
-<table>
-<thead>
-<tr>
-<th>buffer[]</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>flag (canary?)</td>
-</tr>
-<tr>
-<td>SFP (EBP value of the caller)</td>
-</tr>
-<tr>
-<td>ret</td>
-</tr>
-<tr>
-<td>arg1</td>
-</tr>
-<tr>
-<td>arg2</td>
-</tr>
-<tr>
-<td>arg3</td>
-</tr>
-<tr>
-<td>arg4</td>
-</tr>
-</tbody>
-</table>
+<p>Grows towards lower memory addresses. Here is a picture:</p>
+<p><img src="images/stack.png" alt="img"></p>
 <p>To see the stack frame in <code>gdb</code> - <code>x/16xw $esp</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
