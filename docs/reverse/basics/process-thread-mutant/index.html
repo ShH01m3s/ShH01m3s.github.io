@@ -295,11 +295,24 @@
 <p><img src="images/4.png" alt="img4"></p>
 <p>As you can see, too much depends on which statement was executed first. The program is unpredictible which is usually not desired for programs. They are not women after all 💃. It would be like a black box, you&rsquo;ll never know, whether there are 4, 6, 3, or 1 roses out there&hellip; This would be scary world of course&hellip;</p>
 <p>That&rsquo;s why locks 🔒 on resources were introduced and that&rsquo;s also how deadlocks ☠️ 🔒 were &ldquo;introduced&rdquo; as well.</p>
+<p>Here is the picture from my old notebook about it:</p>
+<p><img src="images/mutex.jpeg" alt="img"></p>
 <h3 id="deadlock">Deadlock</h3>
 <p>Let&rsquo;s say we have two functions <code>pour_beer()</code> and <code>drink_beer()</code>. Each of the functions needs an access to a 🍺. But there is only one 🍺 available. Say, <code>drink_beer()</code> puts a lock on the 🔒 🍺 (using a mutex) and calls <code>pour_beer()</code>. <code>pour_beer()</code> needs an access to 🔒 🍺 as well and cannot return until the 🔒 🍺  is released, but it&rsquo;s locked by <code>drink_beer()</code>! On the other hand, <code>drink_beer()</code> cannot return until it&rsquo;s call to <code>pour_beer()</code> returns some result and doesn&rsquo;t release the 🔒 🍺. This is what a deadlock ☠️ 🔒 is. It looks something like below (I could not find the exact picture and I couldn&rsquo;t then decide between the two, therefore I paste both):</p>
 <p><img src="images/l82ttki6urvz.jpg" alt="l82ttki6urvz"></p>
-<p><img src="images/cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545.jpg" alt="cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545"></p>
-<p>I hope that cleared things a bit 😄 .</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">func1</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="mi">2</span>
+</span></span><span class="line"><span class="cl">	<span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">func2</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="n">put</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="mi">3</span>
+</span></span><span class="line"><span class="cl">	<span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><img src="images/cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545.jpg" alt="cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545"></p>
+<p>I hope that clears things up a bit 😊.</p>
 <h2 id="references">References</h2>
 <p><a href="https://hal.archives-ouvertes.fr/tel-02977242/document">https://hal.archives-ouvertes.fr/tel-02977242/document</a></p>
 <p><a href="https://en.wikipedia.org/wiki/System_Idle_Process#:~:text=In%20a%20multiprocessor%20system%2C%20there,associated%20with%20each%20CPU%20core.&amp;text=Thus%20whenever%20the%20scheduler%20is,only%20the%20CPU's%20idle%20thread">https://en.wikipedia.org/wiki/System_Idle_Process#:~:text=In%20a%20multiprocessor%20system%2C%20there,associated%20with%20each%20CPU%20core.&amp;text=Thus%20whenever%20the%20scheduler%20is,only%20the%20CPU's%20idle%20thread</a>.</p>

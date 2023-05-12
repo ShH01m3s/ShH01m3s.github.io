@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>C Program Memory Layout - Analyst</title>
+  <title>Proccess Memory Layout - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -212,6 +212,7 @@
         <li><a href="#text">.Text</a></li>
       </ul>
     </li>
+    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
  </aside>
@@ -223,7 +224,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">C Program Memory Layout</h1>
+<h1 class="title">Proccess Memory Layout</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -293,7 +294,7 @@
 </thead>
 <tbody>
 <tr>
-<td>flag</td>
+<td>flag (canary?)</td>
 </tr>
 <tr>
 <td>SFP (EBP value of the caller)</td>
@@ -343,14 +344,14 @@
 </span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><blockquote>
-<p>There is an interesting article <a href="https://opensource.com/article/19/5/how-write-good-c-main-function#:~:text=The%20main()%20function%20has,(negative%20one)%20on%20failure.&amp;text=The%20argument%20vector%2C%20argv%2C%20is,line%20that%20invoked%20your%20program.">about</a> main function.</p>
+<p>There is an interesting article <a href="https://opensource.com/article/19/5/how-write-good-c-main-function#:~:text=The%20main()%20function%20has,(negative%20one)%20on%20failure.&amp;text=The%20argument%20vector%2C%20argv%2C%20is,line%20that%20invoked%20your%20program.">about</a> primary function.</p>
 </blockquote>
 <p>What goes right on the stack? In general, everything that dies after function&rsquo;s finished executing and before it returns. Specifically (from the snippet above):</p>
 <ol>
 <li>function arguments (<code>char domain_name[]</code>)</li>
 <li>Local variables (<code>bool result</code>, <code>int i</code>)</li>
 </ol>
-<p>Depending on archetecture and calling conventions, the code may differ a little, but I would like to show a snippet of C and corresponding assembly below:</p>
+<p>Depending on archetecture and calling conventions, the code may differ a little, but I would like to show a snippet of C and the corresponding assembly below:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">function</span> <span class="kt">void</span> <span class="nf">_func1</span><span class="p">(){</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">//assembly equivalent
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//push 3
@@ -374,18 +375,18 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">//ret
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>What goes on the stack (in assembly)? Everything that was <code>push</code>ed (<code>_func1</code>: <code>3</code> and <code>2</code>; <code>_func2</code>: <code>ebp</code>). So, in assemblu it&rsquo;s obvious what goes on the stack.</p>
-<p><a href="http://eleceng.dit.ie/frank/IntroToC/Memory.html">Here</a> is an interesting article about different layers of memory of a C-program. The author, inter alia, states that we cannot use local variables to return values, due to the fact that the stack is freed after program execution. But the the thing (is far as I know) that the return values are put into eax register before returning, so they are not technically on the stack any more. Of course, if you use not the value from the returned function, but an address of the local variable (which would be utterly weird), then yes, there is no garantee it wasn&rsquo;t overwritten.</p>
-<p>What I&rsquo;d also like to mention in the context of stack, is that even though they say it&rsquo;s freed, it not actually freed per se. There is a esp register, which is very interesting.</p>
+</span></span></code></pre></div><p>What goes on the stack (in assembly)? Everything that was <code>push</code>ed (<code>_func1</code>: <code>3</code> and <code>2</code>; <code>_func2</code>: <code>ebp</code>). So, in assembly, it&rsquo;s obvious what goes on the stack.</p>
+<p><a href="http://eleceng.dit.ie/frank/IntroToC/Memory.html">Here</a> is an interesting article about the different layers of memory of a C-program. The author, among other things, states that we cannot use local variables to return values because the stack is freed after program execution. But the thing (is far as I know) is that the return values are put into the eax register before returning, so they are not technically on the stack any more. Of course, if you use not the value from the returned function but an address of the local variable (which would be utterly weird), then yes, there is no guarantee it wasn&rsquo;t overwritten.</p>
+<p>What I&rsquo;d also like to mention in the context of stack is that even though they say it&rsquo;s freed, it&rsquo;s not actually released per se. There is an esp register, which is very interesting.</p>
 <p>Is underflow specific to stack?</p>
 <h3 id="heap">Heap</h3>
 <p>Stack vs Heap <a href="https://gribblelab.org/CBootCamp/7_Memory_Stack_vs_Heap.html">article</a>.</p>
-<p>Doesn&rsquo;t have a fixed size. The growth of the heap moves downward toward higer memory addresses. So, heap grows toward stack and stack - toward heap. One day when they meet (if they meet), you&rsquo;ll deal with stack or heap overflow.</p>
+<p>Doesn&rsquo;t have a fixed size. The growth of the heap moves downward toward higher memory addresses. So, heap grows toward stack and stack - toward heap. One day when they meet (if they meet), you&rsquo;ll deal with stack or heap overflow.</p>
 <p>Variable need to be allocated first with a <code>malloc()</code> function. Pointers are usually used to reference heap variables.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="n">heap_var</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>In case it can&rsquo;t allocate memory, it will return <code>NULL</code> pointer (<code>0x0</code>). There once was a vulnerability in BootROM on iOS devices regarding this (Alloc8 exploit).</p>
+</span></span></code></pre></div><p>If it can&rsquo;t allocate memory, it will return a <code>NULL</code> pointer (<code>0x0</code>). There once was a vulnerability in BootROM on iOS devices regarding this (Alloc8 exploit).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp"># Good code
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
@@ -406,7 +407,7 @@
 </span></span><span class="line"><span class="cl">	<span class="c1">// pointer is valid, continue
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><p>For some reason, the return value was compared to <code>0x8</code>, not <code>NULL</code> or even <code>0x0</code>. Typo?</p>
-<p>After the memory is no longer needed, you need to call <code>free()</code> on this memory location. However, even after freeing the memory space doesn&rsquo;t mean it will be reused once the new <code>malloc</code> is called. It depends on the system, how the allocaiton functions are implemented and the size of the block to allocate.</p>
+<p>After the memory is no longer needed, you must call <code>free()</code> on this memory location. However, it will still be reused once the new malloc is called, even after freeing the memory space. It depends on the system, how the allocation functions are implemented, and the block size to allocate.</p>
 <h3 id="bss">.BSS</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">global_var</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -414,10 +415,10 @@
 </span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">int</span> <span class="n">uninit_var</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="c1">// some code
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
-</span></span></code></pre></div><p>This memory segment holds <strong>uninitialized</strong> global and static variables. Have fixed size. Writable.</p>
+</span></span></code></pre></div><p>This memory segment holds <strong>uninitialised</strong> global and static variables. Have a fixed size. Writable.</p>
 <h3 id="data">.Data</h3>
-<p><a href="https://www.studytonight.com/cpp/static-keyword.php">Here</a> you can read about static variables, functions, classes and class members.</p>
-<p>This memory segment holds <strong>initialized</strong> global and static variables. Have fixed size. Writable.</p>
+<p>You can read about static variables, functions, classes and class members here.</p>
+<p>This memory segment holds initialised global and static variables. Have a fixed size. Writable.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">global_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
@@ -425,7 +426,90 @@
 </span></span><span class="line"><span class="cl">  <span class="c1">// some code
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><h3 id="text">.Text</h3>
-<p>Contains the actual code of the program. It&rsquo;s usually (and better be) read-only to prevent changes to the code. Also, this portion of memory can be shared by different istances of the same process.</p>
+<p>It contains the actual code of the program. It&rsquo;s usually (and better be) read-only to prevent changes to the code. Also, different instances of the same process can share this memory portion.</p>
+<h2 id="summary">Summary</h2>
+<p>Consider the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🚜</span> <span class="n">plough</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># Plough the soil to plant the seed
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🌱</span> <span class="n">seed</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># Plant the seed
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">plough</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🥀</span> <span class="n">grow_rose</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># grow and get a rose
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">grow_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span></code></pre></div><p>To grow a rose 🥀, one must first plant and nurture a seedling 🌱. But before planting the seed, one must first plough 🚜 the soil. So, here are the steps: 🥀 <code>get_rose</code> &lt;- 🌱 <code>seed</code> &lt;- 🚜 <code>plough</code>.</p>
+<p>In other words:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 🚜 <code>plough</code></li>
+<li><input disabled="" type="checkbox"> 🌱 <code>seed</code></li>
+<li><input disabled="" type="checkbox"> 🥀 <code>grow_rose</code></li>
+</ul>
+<p>But what does it look like on the stack? Depending on the system, the stack grows up (towards the highest address) or down (towards the lowest address). Let&rsquo;s assume we are dealing with a system where stack grows down. There are three important registers that hold the value that&rsquo;s different for each function: <code>ESP</code> pointing to the top of the stack (aka stack pointer), <code>EBP</code> pointing to the start of a frame of a function (aka base pointer) and <code>EIP</code> pointing to the code currently being executed (aka function pointer).</p>
+<p>Each function&rsquo;s belongings on the stack are called a stack frame. Each function gets one. I don&rsquo;t know about you, but I&rsquo;ve watched my fair share of detective movies and series, and when they show someone getting arrested, they come to jail, register and leave all their belongings. They get them back when they are released. You might relate this to a stack: <em>please save this and that until I return</em>.</p>
+<p>The <code>EBP</code> value is needed in order to &ldquo;delete&rdquo; the bunch of stuff stored on the stack for this particular function. They are not actually deleted, they will eventually get overwritten, but since <code>EBP</code> is no logner pointing there, and <code>ESP</code> is restored to the value of the EBP, <code>they</code> are not available for the code.</p>
+<p>Here is a little picture of a stack, that shows how <code>EBP</code> can be moved up and down. Here is how the stack is built:</p>
+<p><img src="images/growing-stack.png" alt="img"></p>
+<p>On the other hand, <code>ESP</code> is moving up and down WITHIN the given frame, with each addition or removal from the stack. <code>EBP</code> stays the same WITHIN the frame and changes only when the frame is changed. Since all local variables are added at the beginning of the function in assembly (regardless of where those were added in the source code), and CPU knows the number of those local variables, it can use EBP as a base and calcilate the address of each variable by adding multiples of 32-bits (8 bytes) to the EBP. It&rsquo;s pretty much the same thing as with relative virtual addresses and image base described <a href="https://bakerst221b.com/docs/reverse/basics/memory-addressing/">here</a>.</p>
+<p>Below is a picture of one frame to visualise the difference between <code>EBP</code> and <code>ESP</code>:</p>
+<p><img src="images/esp-ebp.png" alt="img"></p>
+<p>In the pictures above, fingers pointing to the right 👉🏾 are <code>EBP</code> pointers, palm-front ☝🏾 is <code>ESP</code> and 👈🏾 is a saved <code>EIP</code> (return address). Each function has a finger of different colour, making tracking the changes in the pictures easier. The 🥀 <code>grow_rose</code>&rsquo;s base pointer is of the darker colour 👉🏾, and its <code>EIP</code> (function pointer) is of the same colour but pointing to the left 👈🏾. The 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 and EIP 👈 are yellow. And last but not least, the 🚜 <code>plough</code> function&rsquo;s <code>EBP</code> 👉🏼 and <code>EIP</code> 👈🏼 are both beige.</p>
+<p>Now, when the 🚜 <code>plough</code> function returns, the CPU retrieves the 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 from the 🚜 <code>plough</code> function&rsquo;s stack frame so that now <code>EBP</code> points to the base of this stack frame, which is now 🌱<code>seed</code> function&rsquo;s frame. It also returns the <code>EIP</code> value from the stack, knowing which line of code to execute next.</p>
+<p><img src="images/removing-from-stack.png" alt="img"></p>
+<blockquote>
+<p>Just in case you are wondering, return values is stored in the <code>EAX</code> register, not on the stack.</p>
+</blockquote>
+<p>Something similar happens to the <code>EIP</code> register.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🚜</span> <span class="n">plough</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="err">👉🏼</span> <span class="err">#</span> <span class="n">Plough</span> <span class="n">the</span> <span class="n">soil</span> <span class="n">to</span> <span class="n">plant</span> <span class="n">the</span> <span class="n">seed</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🌱</span> <span class="n">seed</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># Plant the seed
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="err">👉</span> <span class="n">plough</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🥀</span> <span class="n">grow_rose</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># grow and get a rose
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="err">👉🏾</span> <span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">grow_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span></code></pre></div><p>When the callee function returns, thanks to the saved <code>EIP</code> value on the stack, the CPU knows where to resume the code. Think of the <code>EBP</code> as a bookmark for stack and <code>EIP</code> - as a bookmark for code.</p>
+<p>When a function is called, it prepares a nest 🪺 for itself, a cosy one (like a pregnant woman during the nesting period). It&rsquo;s called a <strong>function prologue</strong>. After all the fun is over, the function &ldquo;cleans the mess&rdquo;, which we call the <strong>function epilogue</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">push ebp &lt;- function prologue for the main function
+</span></span><span class="line"><span class="cl">mov ebp,esp
+</span></span><span class="line"><span class="cl">sub esp,0x8
+</span></span><span class="line"><span class="cl">and esp, 0xfffffff0
+</span></span><span class="line"><span class="cl">mov eax,0x0
+</span></span><span class="line"><span class="cl">sub esp,eax
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">push 20
+</span></span><span class="line"><span class="cl">push 10
+</span></span><span class="line"><span class="cl">call Addme
+</span></span><span class="line"><span class="cl">	...
+</span></span><span class="line"><span class="cl">	push ebp # &lt;- function prologue for the AddMe function
+</span></span><span class="line"><span class="cl">	mov ebp,esp
+</span></span><span class="line"><span class="cl">	sub esp,4
+</span></span><span class="line"><span class="cl">	...
+</span></span><span class="line"><span class="cl">	mov esp,ebp # &lt;- function epilogue for the AddMe function, stack is cleaned, i.e. stackpointer is moved up 
+</span></span><span class="line"><span class="cl">	pop ebp # EBP restored
+</span></span><span class="line"><span class="cl">	ret # EIP restored
+</span></span></code></pre></div><p>A little note before we part, I remember being very confused about what were the following lines:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sub esp,0x8
+</span></span><span class="line"><span class="cl">and esp, 0xfffffff0
+</span></span></code></pre></div><p>Let&rsquo;s start with the first line, <code>sub esp,0x8</code>. Remember that the stack is growing towards the LOWEST address? So, the <code>ESP</code> pointer gets smaller each time the stack grows. When we ADD something to the stack, we need to SUBTRACT from the stack pointer. When we want to DELETE something, we ADD. A little confusing, I know. Remember, though, on some systems stack grows downwards!</p>
+<p>If you see the source code for the assembly above, or if you prefer the hardcore way, you may notice that there are two local variables, integers <code>20</code> and <code>10</code>. Integers on a 32-bit system are 4 bytes in size. So, two integers is 8 bytes. By substracting 8 from the ESP we are moving the stack pointer down towards the lowest address and thus preparing the nest🪺 for the two local variables.</p>
+<p>The second line, <code>and esp, 0xfffffff0</code> is for the alignment purposes as all addresses need to be aligned to 16-byte (in case of 32-bit systems at least) for some operations. The <code>0xfffffff0</code> mask used with AND operand clears the last bytes of the ESP. Here is what this mask looks like in binary:</p>
+<p><img src="images/and-mask.png" alt="img"></p>
+<p>As you can see, the last 4 bits are equal to <code>0</code>. When <code>1</code> is <code>AND</code>ed with <code>0</code>, you get <code>0</code>. When something get&rsquo;s <code>AND</code>ed with <code>1</code>, it remains as it was. So, for the first 28 bits all <code>1</code>s will remain <code>1</code>s and all <code>0</code>s will remain <code>0</code>s. For the last 4 bits, regardless of the original value, all the 4 bits will be set to <code>0</code>. Pretty much as if we were multiplying by <code>1</code> or <code>0</code>, same effect here.</p>
+<p>The following line <code>mov eax,0x0</code>, I assume, is for making sure that the <code>EAX</code> register is cleaned before used (it&rsquo;s always used for the return value on Windows and some other systems). However, I don&rsquo;t yet understand what that&rsquo;s for: <code>sub esp,eax</code>.</p>
 
   </div>
 </article>
