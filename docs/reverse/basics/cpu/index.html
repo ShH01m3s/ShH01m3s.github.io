@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Tags - Analyst</title>
+  <title>🤓 About the CPU - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page '>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -90,7 +90,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/tags/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -184,85 +183,95 @@
     
     
     
-
     
     
-<style>
- #tag-cloud .tag-cloud-title {
-    color: #666;
-  }
-  #tag-cloud .tag-cloud-tags {
-    clear: both;
-    text-align: center;
-    padding-left: 20rem;
-    padding-right: 20rem;
-    padding-top: 12rem;
-  }
-  #tag-cloud .tag-cloud-tags a {
-    display: inline-block;
-    color: black;
-    margin: 10px;
-    color: #383838;
-    text-decoration: none;
-    background-image: linear-gradient(transparent, transparent 5px, #383838 5px, #383838);
-    background-position: bottom;
-    background-size: 100% 6px;
-    background-repeat: repeat-x;
-  }
 
-  #tag-cloud .tag-cloud-tags a:hover {
-    background-image: linear-gradient(transparent, transparent 3px, rgb(134, 83, 173) 5px,rgb(134, 83, 173));
-    background-position: bottom;
-    background-size: 100% 6px;
-    background-repeat: repeat-x;
-  }
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/reverse/basics/"> 👈🏼 Back to </br> 📚 Basics </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tlb">TLB</a></li>
+    <li><a href="#kernel-vs-user-space">Kernel vs User Space</a></li>
+    <li><a href="#cpu-cache">CPU Cache</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
-</style>
 
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">🤓 About the CPU</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="content" itemprop="articleBody">
-    
-    <div id="tag-cloud">
+  <header>
+    <div class="meta">
       
-      <div class="tag-cloud-tags">
-        
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/android/">android</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/case/">case</a>
-        
-        <a style="font-size: 2.3641711229946525rem;" href="https://bakerst221b.com/tags/case-example/">case-example</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/checklist/">checklist</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/config/">config</a>
-        
-        <a style="font-size: 2.4844919786096256rem;" href="https://bakerst221b.com/tags/crypto/">crypto</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/hardware/">hardware</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/malware/">malware</a>
-        
-        <a style="font-size: 1.6422459893048127rem;" href="https://bakerst221b.com/tags/manual/">manual</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/pentest/">pentest</a>
-        
-        <a style="font-size: 4.409625668449198rem;" href="https://bakerst221b.com/tags/reverse/">reverse</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/rtf/">rtf</a>
-        
-        <a style="font-size: 1.5219251336898396rem;" href="https://bakerst221b.com/tags/spoiler/">spoiler</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/stealer/">stealer</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/tips/">tips</a>
-        
-      </div>
+      
+
+      
+      
+
+      
     </div>
     
+    <b>Created:</b> 28.07.2022
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>In this article I will dissect what CPU Cache and TLB are. It can help understand how Meltdown and Specter work.</em></p>
+<h2 id="tlb">TLB</h2>
+<p>Usually, OS performs translations between PA and VA. Those addresses already translated are cached in TLB (Translation Lookaside Buffer). The 1st priority is <strong>TLB</strong>, the second - <strong>page table lookup</strong> (since it takes more time).</p>
+<p>If TLB&rsquo;s full, least used entry will be replaced with the one just requested.</p>
+<p><img src="reverse/basics/cpu/images/diagram.png" alt="img"></p>
+<p>So, on the picture above virtual page #3 = physical page #6.</p>
+<p>If the requested memory address is on Disk, there will be TLB miss (nothing found). Then TLB eviction (popping off the least used entry) and reading from DISK then which is very costy.</p>
+<p>Let&rsquo;s imagine a little talk between a CPU 🤓 and a program 🤪.
+&lsquo;- 🤪 A program asks CPU for an address: <em>&ldquo;CPU, I need something that&rsquo;s at <code>0x40154a</code>&rdquo;&quot;.</em>
+&lsquo;- 🤓 Says <em>&ldquo;Ok&rdquo;</em>, but thinks: <em>&ldquo;This is a virtual address, I need to get a real one&rdquo;</em>. CPU is like a bank: gives out a lot more than he actually has. If all the processes running would request all their address space AT ONCE, the CPU would be broke.</p>
+<p>Then, CPU 🤓 checks the TLP 📘, but say it doesn&rsquo;t find <code>0x40154a</code> there. So, CPU now needs to open yet another book 📗 - the page table. Here it is. CPU 🤓 gives the data at this address back and saves this mapping for future should the program need this once more.</p>
+<p>&lsquo;- 🤪 A program asks CPU for the same address again: <em>&ldquo;CPU, I need something that&rsquo;s at <code>0x40154a</code>&rdquo;&quot;.</em>
+&lsquo;- 🤓 Says <em>&ldquo;Ok&rdquo;</em>, but thinks: <em>&ldquo;This is a virtual address, I need to get a real one&rdquo;</em>.</p>
+<p>Then, CPU 🤓 checks the TLP 📘, and luckily finds it there since it saved this mapping not long ago.</p>
+<h2 id="kernel-vs-user-space">Kernel vs User Space</h2>
+<p><img src="images/kernel-user-space.png" alt="img">
+If a process from user space tries acessing kernel space, page fault will be raised. So, kernel&rsquo;s mapped in each process - dual mapping, it&rsquo;s called. And as we can see on the picture, it is backed by the same physical memory.</p>
+<h2 id="cpu-cache">CPU Cache</h2>
+<p><img src="cpu-cache.png" alt="img">
+Each CPU thread has a complicated pipelining engine capable of executing instructions out of order. Usually, one CPU core has up to four threads (for Hyper-Threading (HT) processors).</p>
+<p>CPU thread is the basic unit of execution. Each has a separate set of registers and can execute a stream of machine code. Most modern CPUs have 2 threads per core.</p>
+<p>Additionally, each CPU core has two dedicated caches that are used based on the requirement for speed and memory. The cache closest to the main memory and farthest from the CPU is larger, slower, and less expensive to operate. On the other hand, the cache closer to the CPU is significantly faster but inherently a little smaller. Also, two cores within one package share one L3 cache.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
   </div>
 </article>
+</div>
+</div>
 
+        </div>
+      </div>
+    </div>
     
   </div>
 
@@ -273,7 +282,6 @@
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/tags/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>
