@@ -206,13 +206,14 @@
       <ul>
         <li><a href="#cmd-args-and-env-vars">Cmd args and env vars</a></li>
         <li><a href="#stack">Stack</a></li>
+        <li><a href="#a-little-about-local-variables">A little about local variables</a></li>
+        <li><a href="#yet-another-example">Yet another example</a></li>
         <li><a href="#heap">Heap</a></li>
         <li><a href="#bss">.BSS</a></li>
         <li><a href="#data">.Data</a></li>
         <li><a href="#text">.Text</a></li>
       </ul>
     </li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
  </aside>
@@ -285,9 +286,95 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ping ya.ru
 </span></span></code></pre></div><p>This goes on the very bottom of the pile. There is pretty much of space left!</p>
 <h3 id="stack">Stack</h3>
-<p>Grows towards lower memory addresses. Here is a picture:</p>
-<p><img src="images/stack.png" alt="img"></p>
-<p>To see the stack frame in <code>gdb</code> - <code>x/16xw $esp</code>.</p>
+<p>Consider the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🚜</span> <span class="n">plough</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># Plough the soil to plant the seed
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🌱</span> <span class="n">seed</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># Plant the seed
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">plough</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🥀</span> <span class="n">grow_rose</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># grow and get a rose
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">grow_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span></code></pre></div><p>To grow a rose 🥀, one must first plant and nurture a seedling 🌱. But before planting the seed, one must first plough 🚜 the soil. So, here are the steps: 🥀 <code>get_rose</code> &lt;- 🌱 <code>seed</code> &lt;- 🚜 <code>plough</code>.</p>
+<p>In other words:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 🚜 <code>plough</code></li>
+<li><input disabled="" type="checkbox"> 🌱 <code>seed</code></li>
+<li><input disabled="" type="checkbox"> 🥀 <code>grow_rose</code></li>
+</ul>
+<p>Depending on the system, the stack grows up (towards the highest address) or down (towards the lowest address). Let&rsquo;s assume we are dealing with a system where stack grows down. There are three important registers that hold the value that&rsquo;s different for each function: <code>ESP</code> pointing to the top of the stack (aka stack pointer), <code>EBP</code> pointing to the start of a frame of a function (aka base pointer) and <code>EIP</code> pointing to the code currently being executed (aka function pointer).</p>
+<p>Each function&rsquo;s belongings on the stack are called a stack frame. Each function gets one. I don&rsquo;t know about you, but I&rsquo;ve watched my fair share of detective movies and series, and when they show someone getting arrested, they come to jail, register and leave all their belongings. They get them back when they are released. You might relate this to a stack: <em>please save this and that until I return</em>.</p>
+<p>The <code>EBP</code> value is needed in order to &ldquo;delete&rdquo; the bunch of stuff stored on the stack for this particular function. They are not actually deleted, they will eventually get overwritten, but since <code>EBP</code> is no logner pointing there, and <code>ESP</code> is restored to the value of the EBP, <code>they</code> are not available for the code.</p>
+<p>Here is a little picture of a stack, that shows how <code>EBP</code> can be moved up and down. Here is how the stack is built:</p>
+<p><img src="images/growing-stack.png" alt="img"></p>
+<p>So, here is how our stack will look like when when the 🚜 function is executed:</p>
+<p><img src="images/stack-full.png" alt="img"></p>
+<p>On the other hand, <code>ESP</code> is moving up and down WITHIN the given frame, with each addition or removal from the stack. <code>EBP</code> stays the same WITHIN the frame and changes only when the frame is changed. Since all local variables are added at the beginning of the function in assembly (regardless of where those were added in the source code), and CPU knows the number of those local variables, it can use EBP as a base and calcilate the address of each variable by adding multiples of 32-bits (8 bytes) to the EBP. It&rsquo;s pretty much the same thing as with relative virtual addresses and image base described <a href="https://bakerst221b.com/docs/reverse/basics/memory-addressing/">here</a>.</p>
+<p>Below is a picture of one frame to visualise the difference between <code>EBP</code> and <code>ESP</code>:</p>
+<p><img src="images/esp-ebp.png" alt="img"></p>
+<p>In the pictures above, fingers pointing to the right 👉🏾 are <code>EBP</code> pointers, palm-front ☝🏾 is <code>ESP</code> and 👈🏾 is a saved <code>EIP</code> (return address). Each function has a finger of different colour, making tracking the changes in the pictures easier. The 🥀 <code>grow_rose</code>&rsquo;s base pointer is of the darker colour 👉🏾, and its <code>EIP</code> (function pointer) is of the same colour but pointing to the left 👈🏾. The 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 and EIP 👈 are yellow. And last but not least, the 🚜 <code>plough</code> function&rsquo;s <code>EBP</code> 👉🏼 and <code>EIP</code> 👈🏼 are both beige.</p>
+<p>Now, when the 🚜 <code>plough</code> function returns, the CPU retrieves the 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 from the 🚜 <code>plough</code> function&rsquo;s stack frame so that now <code>EBP</code> points to the base of this stack frame, which is now 🌱<code>seed</code> function&rsquo;s frame. It also returns the <code>EIP</code> value from the stack, knowing which line of code to execute next.</p>
+<p><img src="images/removing-from-stack.png" alt="img"></p>
+<blockquote>
+<p>Just in case you are wondering, return values is stored in the <code>EAX</code> register, not on the stack.</p>
+</blockquote>
+<p>Something similar happens to the <code>EIP</code> register.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🚜</span> <span class="n">plough</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">	<span class="err">👉🏼</span> <span class="err">#</span> <span class="n">Plough</span> <span class="n">the</span> <span class="n">soil</span> <span class="n">to</span> <span class="n">plant</span> <span class="n">the</span> <span class="n">seed</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🌱</span> <span class="n">seed</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># Plant the seed
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="err">👉</span> <span class="n">plough</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🥀</span> <span class="n">grow_rose</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="cp"># grow and get a rose
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="err">👉🏾</span> <span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">grow_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span></code></pre></div><p>When the callee function returns, thanks to the saved <code>EIP</code> value on the stack, the CPU knows where to resume the code. Think of the <code>EBP</code> as a bookmark for stack and <code>EIP</code> - as a bookmark for code.</p>
+<p>When a function is called, it prepares a nest 🪺 for itself, a cosy one (like a pregnant woman during the nesting period). It&rsquo;s called a <strong>function prologue</strong>. After all the fun is over, the function &ldquo;cleans the mess&rdquo;, which we call the <strong>function epilogue</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">push ebp &lt;- function prologue for the main function
+</span></span><span class="line"><span class="cl">mov ebp,esp
+</span></span><span class="line"><span class="cl">sub esp,0x8
+</span></span><span class="line"><span class="cl">and esp, 0xfffffff0
+</span></span><span class="line"><span class="cl">mov eax,0x0
+</span></span><span class="line"><span class="cl">sub esp,eax
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">push 20
+</span></span><span class="line"><span class="cl">push 10
+</span></span><span class="line"><span class="cl">call Addme
+</span></span><span class="line"><span class="cl">	...
+</span></span><span class="line"><span class="cl">	push ebp # &lt;- function prologue for the AddMe function
+</span></span><span class="line"><span class="cl">	mov ebp,esp
+</span></span><span class="line"><span class="cl">	sub esp,4
+</span></span><span class="line"><span class="cl">	...
+</span></span><span class="line"><span class="cl">	mov esp,ebp # &lt;- function epilogue for the AddMe function, stack is cleaned, i.e. stackpointer is moved up 
+</span></span><span class="line"><span class="cl">	pop ebp # EBP restored
+</span></span><span class="line"><span class="cl">	ret # EIP restored
+</span></span></code></pre></div><p>A little note before we part, I remember being very confused about what were the following lines:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sub esp,0x8
+</span></span><span class="line"><span class="cl">and esp, 0xfffffff0
+</span></span></code></pre></div><p>Let&rsquo;s start with the first line, <code>sub esp,0x8</code>. Remember that the stack is growing towards the LOWEST address? So, the <code>ESP</code> pointer gets smaller each time the stack grows. When we ADD something to the stack, we need to SUBTRACT from the stack pointer. When we want to DELETE something, we ADD. A little confusing, I know. Remember, though, on some systems stack grows downwards!</p>
+<p>If you see the source code for the assembly above, or if you prefer the hardcore way, you may notice that there are two local variables, integers <code>20</code> and <code>10</code>. Integers on a 32-bit system are 4 bytes in size. So, two integers is 8 bytes. By substracting 8 from the ESP we are moving the stack pointer down towards the lowest address and thus preparing the nest🪺 for the two local variables.</p>
+<p>The second line, <code>and esp, 0xfffffff0</code> is for the alignment purposes as all addresses need to be aligned to 16-byte (in case of 32-bit systems at least) for some operations. The <code>0xfffffff0</code> mask used with AND operand clears the last bytes of the ESP. Here is what this mask looks like in binary:</p>
+<p><img src="images/and-mask.png" alt="img"></p>
+<p>As you can see, the last 4 bits are equal to <code>0</code>. When <code>1</code> is <code>AND</code>ed with <code>0</code>, you get <code>0</code>. When something get&rsquo;s <code>AND</code>ed with <code>1</code>, it remains as it was. So, for the first 28 bits all <code>1</code>s will remain <code>1</code>s and all <code>0</code>s will remain <code>0</code>s. For the last 4 bits, regardless of the original value, all the 4 bits will be set to <code>0</code>. Pretty much as if we were multiplying by <code>1</code> or <code>0</code>, same effect here.</p>
+<p>The following line <code>mov eax,0x0</code>, I assume, is for making sure that the <code>EAX</code> register is cleaned before used (it&rsquo;s always used for the return value on Windows and some other systems). However, I don&rsquo;t yet understand what that&rsquo;s for: <code>sub esp,eax</code>.</p>
+<blockquote>
+<p>📘 <strong>BTFM</strong>: To see the stack frame in <code>gdb</code> :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">x/16xw <span class="nv">$esp</span>
+</span></span></code></pre></div></blockquote>
+<h3 id="a-little-about-local-variables">A little about local variables</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -296,6 +383,7 @@
 </span></span><span class="line"><span class="cl">  <span class="kt">int</span> <span class="n">stack_var</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>Both <code>main</code> and <code>function</code> have a <code>stack_var</code>. They are not the same. They only share the name, but in fact these only exist while the function&rsquo;s context exists. These are local variables.</p>
+<h3 id="yet-another-example">Yet another example</h3>
 <p>Say, our custom ping program has a function <code>dns_request</code>. Let&rsquo;s have a closer look:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="k">static</span> <span class="kt">int</span> <span class="n">dns_request</span><span class="p">;</span>
@@ -357,7 +445,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="n">heap_var</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>If it can&rsquo;t allocate memory, it will return a <code>NULL</code> pointer (<code>0x0</code>). There once was a vulnerability in BootROM on iOS devices regarding this (Alloc8 exploit).</p>
+</span></span></code></pre></div><p>If it can&rsquo;t allocate memory, it will return a <code>NULL</code> pointer (<code>0x0</code>). There once was a vulnerability in BootROM on iOS devices regarding this (<code>Alloc8</code> exploit).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp"># Good code
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="o">*</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
@@ -398,89 +486,6 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><h3 id="text">.Text</h3>
 <p>It contains the actual code of the program. It&rsquo;s usually (and better be) read-only to prevent changes to the code. Also, different instances of the same process can share this memory portion.</p>
-<h2 id="summary">Summary</h2>
-<p>Consider the following code:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🚜</span> <span class="n">plough</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">	<span class="cp"># Plough the soil to plant the seed
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🌱</span> <span class="n">seed</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">	<span class="cp"># Plant the seed
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">plough</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🥀</span> <span class="n">grow_rose</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">	<span class="cp"># grow and get a rose
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">grow_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span></span></code></pre></div><p>To grow a rose 🥀, one must first plant and nurture a seedling 🌱. But before planting the seed, one must first plough 🚜 the soil. So, here are the steps: 🥀 <code>get_rose</code> &lt;- 🌱 <code>seed</code> &lt;- 🚜 <code>plough</code>.</p>
-<p>In other words:</p>
-<ul>
-<li><input disabled="" type="checkbox"> 🚜 <code>plough</code></li>
-<li><input disabled="" type="checkbox"> 🌱 <code>seed</code></li>
-<li><input disabled="" type="checkbox"> 🥀 <code>grow_rose</code></li>
-</ul>
-<p>But what does it look like on the stack? Depending on the system, the stack grows up (towards the highest address) or down (towards the lowest address). Let&rsquo;s assume we are dealing with a system where stack grows down. There are three important registers that hold the value that&rsquo;s different for each function: <code>ESP</code> pointing to the top of the stack (aka stack pointer), <code>EBP</code> pointing to the start of a frame of a function (aka base pointer) and <code>EIP</code> pointing to the code currently being executed (aka function pointer).</p>
-<p>Each function&rsquo;s belongings on the stack are called a stack frame. Each function gets one. I don&rsquo;t know about you, but I&rsquo;ve watched my fair share of detective movies and series, and when they show someone getting arrested, they come to jail, register and leave all their belongings. They get them back when they are released. You might relate this to a stack: <em>please save this and that until I return</em>.</p>
-<p>The <code>EBP</code> value is needed in order to &ldquo;delete&rdquo; the bunch of stuff stored on the stack for this particular function. They are not actually deleted, they will eventually get overwritten, but since <code>EBP</code> is no logner pointing there, and <code>ESP</code> is restored to the value of the EBP, <code>they</code> are not available for the code.</p>
-<p>Here is a little picture of a stack, that shows how <code>EBP</code> can be moved up and down. Here is how the stack is built:</p>
-<p><img src="images/growing-stack.png" alt="img"></p>
-<p>On the other hand, <code>ESP</code> is moving up and down WITHIN the given frame, with each addition or removal from the stack. <code>EBP</code> stays the same WITHIN the frame and changes only when the frame is changed. Since all local variables are added at the beginning of the function in assembly (regardless of where those were added in the source code), and CPU knows the number of those local variables, it can use EBP as a base and calcilate the address of each variable by adding multiples of 32-bits (8 bytes) to the EBP. It&rsquo;s pretty much the same thing as with relative virtual addresses and image base described <a href="https://bakerst221b.com/docs/reverse/basics/memory-addressing/">here</a>.</p>
-<p>Below is a picture of one frame to visualise the difference between <code>EBP</code> and <code>ESP</code>:</p>
-<p><img src="images/esp-ebp.png" alt="img"></p>
-<p>In the pictures above, fingers pointing to the right 👉🏾 are <code>EBP</code> pointers, palm-front ☝🏾 is <code>ESP</code> and 👈🏾 is a saved <code>EIP</code> (return address). Each function has a finger of different colour, making tracking the changes in the pictures easier. The 🥀 <code>grow_rose</code>&rsquo;s base pointer is of the darker colour 👉🏾, and its <code>EIP</code> (function pointer) is of the same colour but pointing to the left 👈🏾. The 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 and EIP 👈 are yellow. And last but not least, the 🚜 <code>plough</code> function&rsquo;s <code>EBP</code> 👉🏼 and <code>EIP</code> 👈🏼 are both beige.</p>
-<p>Now, when the 🚜 <code>plough</code> function returns, the CPU retrieves the 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 from the 🚜 <code>plough</code> function&rsquo;s stack frame so that now <code>EBP</code> points to the base of this stack frame, which is now 🌱<code>seed</code> function&rsquo;s frame. It also returns the <code>EIP</code> value from the stack, knowing which line of code to execute next.</p>
-<p><img src="images/removing-from-stack.png" alt="img"></p>
-<blockquote>
-<p>Just in case you are wondering, return values is stored in the <code>EAX</code> register, not on the stack.</p>
-</blockquote>
-<p>Something similar happens to the <code>EIP</code> register.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🚜</span> <span class="n">plough</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">	<span class="err">👉🏼</span> <span class="err">#</span> <span class="n">Plough</span> <span class="n">the</span> <span class="n">soil</span> <span class="n">to</span> <span class="n">plant</span> <span class="n">the</span> <span class="n">seed</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🌱</span> <span class="n">seed</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">	<span class="cp"># Plant the seed
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="err">👉</span> <span class="n">plough</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">func</span> <span class="err">🥀</span> <span class="n">grow_rose</span><span class="p">(</span><span class="kt">int</span> <span class="n">seed</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">	<span class="cp"># grow and get a rose
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="err">👉🏾</span> <span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">grow_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</span></span></code></pre></div><p>When the callee function returns, thanks to the saved <code>EIP</code> value on the stack, the CPU knows where to resume the code. Think of the <code>EBP</code> as a bookmark for stack and <code>EIP</code> - as a bookmark for code.</p>
-<p>When a function is called, it prepares a nest 🪺 for itself, a cosy one (like a pregnant woman during the nesting period). It&rsquo;s called a <strong>function prologue</strong>. After all the fun is over, the function &ldquo;cleans the mess&rdquo;, which we call the <strong>function epilogue</strong>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">push ebp &lt;- function prologue for the main function
-</span></span><span class="line"><span class="cl">mov ebp,esp
-</span></span><span class="line"><span class="cl">sub esp,0x8
-</span></span><span class="line"><span class="cl">and esp, 0xfffffff0
-</span></span><span class="line"><span class="cl">mov eax,0x0
-</span></span><span class="line"><span class="cl">sub esp,eax
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">push 20
-</span></span><span class="line"><span class="cl">push 10
-</span></span><span class="line"><span class="cl">call Addme
-</span></span><span class="line"><span class="cl">	...
-</span></span><span class="line"><span class="cl">	push ebp # &lt;- function prologue for the AddMe function
-</span></span><span class="line"><span class="cl">	mov ebp,esp
-</span></span><span class="line"><span class="cl">	sub esp,4
-</span></span><span class="line"><span class="cl">	...
-</span></span><span class="line"><span class="cl">	mov esp,ebp # &lt;- function epilogue for the AddMe function, stack is cleaned, i.e. stackpointer is moved up 
-</span></span><span class="line"><span class="cl">	pop ebp # EBP restored
-</span></span><span class="line"><span class="cl">	ret # EIP restored
-</span></span></code></pre></div><p>A little note before we part, I remember being very confused about what were the following lines:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sub esp,0x8
-</span></span><span class="line"><span class="cl">and esp, 0xfffffff0
-</span></span></code></pre></div><p>Let&rsquo;s start with the first line, <code>sub esp,0x8</code>. Remember that the stack is growing towards the LOWEST address? So, the <code>ESP</code> pointer gets smaller each time the stack grows. When we ADD something to the stack, we need to SUBTRACT from the stack pointer. When we want to DELETE something, we ADD. A little confusing, I know. Remember, though, on some systems stack grows downwards!</p>
-<p>If you see the source code for the assembly above, or if you prefer the hardcore way, you may notice that there are two local variables, integers <code>20</code> and <code>10</code>. Integers on a 32-bit system are 4 bytes in size. So, two integers is 8 bytes. By substracting 8 from the ESP we are moving the stack pointer down towards the lowest address and thus preparing the nest🪺 for the two local variables.</p>
-<p>The second line, <code>and esp, 0xfffffff0</code> is for the alignment purposes as all addresses need to be aligned to 16-byte (in case of 32-bit systems at least) for some operations. The <code>0xfffffff0</code> mask used with AND operand clears the last bytes of the ESP. Here is what this mask looks like in binary:</p>
-<p><img src="images/and-mask.png" alt="img"></p>
-<p>As you can see, the last 4 bits are equal to <code>0</code>. When <code>1</code> is <code>AND</code>ed with <code>0</code>, you get <code>0</code>. When something get&rsquo;s <code>AND</code>ed with <code>1</code>, it remains as it was. So, for the first 28 bits all <code>1</code>s will remain <code>1</code>s and all <code>0</code>s will remain <code>0</code>s. For the last 4 bits, regardless of the original value, all the 4 bits will be set to <code>0</code>. Pretty much as if we were multiplying by <code>1</code> or <code>0</code>, same effect here.</p>
-<p>The following line <code>mov eax,0x0</code>, I assume, is for making sure that the <code>EAX</code> register is cleaned before used (it&rsquo;s always used for the return value on Windows and some other systems). However, I don&rsquo;t yet understand what that&rsquo;s for: <code>sub esp,eax</code>.</p>
 
   </div>
 </article>
