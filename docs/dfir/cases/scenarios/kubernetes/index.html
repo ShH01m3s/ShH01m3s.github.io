@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Tags - Analyst</title>
+  <title>Scenarios for Kubernetes Incidents - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page '>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -90,7 +90,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/tags/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -184,85 +183,93 @@
     
     
     
-
     
     
-<style>
- #tag-cloud .tag-cloud-title {
-    color: #666;
-  }
-  #tag-cloud .tag-cloud-tags {
-    clear: both;
-    text-align: center;
-    padding-left: 20rem;
-    padding-right: 20rem;
-    padding-top: 12rem;
-  }
-  #tag-cloud .tag-cloud-tags a {
-    display: inline-block;
-    color: black;
-    margin: 10px;
-    color: #383838;
-    text-decoration: none;
-    background-image: linear-gradient(transparent, transparent 5px, #383838 5px, #383838);
-    background-position: bottom;
-    background-size: 100% 6px;
-    background-repeat: repeat-x;
-  }
 
-  #tag-cloud .tag-cloud-tags a:hover {
-    background-image: linear-gradient(transparent, transparent 3px, rgb(134, 83, 173) 5px,rgb(134, 83, 173));
-    background-position: bottom;
-    background-size: 100% 6px;
-    background-repeat: repeat-x;
-  }
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/cases/scenarios/"> 👈🏼 Back to </br> 🤔 Investigation Scenarios </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#chatgpt">ChatGPT</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
-</style>
 
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Scenarios for Kubernetes Incidents</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="content" itemprop="articleBody">
-    
-    <div id="tag-cloud">
+  <header>
+    <div class="meta">
       
-      <div class="tag-cloud-tags">
-        
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/android/">android</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/case/">case</a>
-        
-        <a style="font-size: 2.3641711229946525rem;" href="https://bakerst221b.com/tags/case-example/">case-example</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/checklist/">checklist</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/config/">config</a>
-        
-        <a style="font-size: 2.4844919786096256rem;" href="https://bakerst221b.com/tags/crypto/">crypto</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/hardware/">hardware</a>
-        
-        <a style="font-size: 1.0406417112299466rem;" href="https://bakerst221b.com/tags/malware/">malware</a>
-        
-        <a style="font-size: 1.6422459893048127rem;" href="https://bakerst221b.com/tags/manual/">manual</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/pentest/">pentest</a>
-        
-        <a style="font-size: 4.409625668449198rem;" href="https://bakerst221b.com/tags/reverse/">reverse</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/rtf/">rtf</a>
-        
-        <a style="font-size: 1.5219251336898396rem;" href="https://bakerst221b.com/tags/spoiler/">spoiler</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/stealer/">stealer</a>
-        
-        <a style="font-size: 0.9203208556149733rem;" href="https://bakerst221b.com/tags/tips/">tips</a>
-        
-      </div>
+      
+
+      
+      
+
+      
     </div>
     
+    <b>Created:</b> 15.05.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This is about &hellip; .</em></p>
+<h2 id="chatgpt">ChatGPT</h2>
+<ol>
+<li>
+<p><strong>Scenario</strong>: A critical Kubernetes service in your organization is experiencing frequent downtime. The logs indicate an unusual network traffic pattern, suggesting a potential security issue. How would you investigate this situation?</p>
+<ul>
+<li><strong>Answer</strong>: I&rsquo;d start by isolating the affected service to prevent potential spread of the issue. I would then examine the logs for any signs of unauthorized access, such as unfamiliar IP addresses or suspicious user agents. I&rsquo;d also inspect the network traffic patterns in detail, correlating it with the logs to identify any possible intrusion or DDoS attacks. If a security issue is confirmed, I would involve the security team to mitigate the issue, and work on strengthening the service’s security, possibly by implementing network policies, enhancing RBAC controls, or setting up intrusion detection/prevention systems.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scenario</strong>: You notice that a certain pod in a Kubernetes deployment is constantly running at high CPU usage, even during off-peak hours. What steps would you take to investigate this?</p>
+<ul>
+<li><strong>Answer</strong>: High CPU usage can be a sign of either a legitimate workload or a compromised pod. I would first check the processes running on the pod to identify the cause of the high CPU usage. If the processes are legitimate, I would then consider whether the pod is properly sized for the workload. If not, I might need to adjust its resource requests and limits. If the processes appear suspicious, however, I would investigate it as a potential security incident. This might involve checking the pod&rsquo;s logs, network connections, and file modifications. If a breach is confirmed, the pod should be isolated and the vulnerability that allowed the compromise should be addressed.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scenario</strong>: There&rsquo;s a suspicion that a malicious insider is creating unauthorized Kubernetes deployments in your environment. How would you confirm this suspicion and prevent future occurrences?</p>
+<ul>
+<li><strong>Answer</strong>: I would start by auditing the Kubernetes API server logs, which record all actions taken in the Kubernetes environment. By filtering these logs for deployment creation events, I could identify who created any unauthorised deployments. To prevent future occurrences, I&rsquo;d ensure that we have Role-Based Access Control (RBAC) properly configured to limit what each user can do. I would also recommend setting up alerts for any unauthorized attempts to create deployments, and providing training for staff about the importance of following approved procedures.</li>
+</ul>
+</li>
+</ol>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
   </div>
 </article>
+</div>
+</div>
 
+        </div>
+      </div>
+    </div>
     
   </div>
 
@@ -273,7 +280,6 @@
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/tags/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>

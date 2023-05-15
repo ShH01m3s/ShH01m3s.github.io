@@ -241,7 +241,7 @@
 <h2 id="tlb">TLB</h2>
 <p>Usually, OS performs translations between PA and VA. Those addresses already translated are cached in TLB (Translation Lookaside Buffer). The 1st priority is <strong>TLB</strong>, the second - <strong>page table lookup</strong> (since it takes more time).</p>
 <p>If TLB&rsquo;s full, least used entry will be replaced with the one just requested.</p>
-<p><img src="reverse/basics/cpu/images/diagram.png" alt="img"></p>
+<p><img src="images/diagram.png" alt="img"></p>
 <p>So, on the picture above virtual page #3 = physical page #6.</p>
 <p>If the requested memory address is on Disk, there will be TLB miss (nothing found). Then TLB eviction (popping off the least used entry) and reading from DISK then which is very costy.</p>
 <p>Let&rsquo;s imagine a little talk between a CPU 🤓 and a program 🤪.
@@ -252,7 +252,7 @@
 &lsquo;- 🤓 Says <em>&ldquo;Ok&rdquo;</em>, but thinks: <em>&ldquo;This is a virtual address, I need to get a real one&rdquo;</em>.</p>
 <p>Then, CPU 🤓 checks the TLP 📘, and luckily finds it there since it saved this mapping not long ago.</p>
 <h2 id="kernel-vs-user-space">Kernel vs User Space</h2>
-<p><img src="reverse/basics/cpu/images/kernel-user-space.png" alt="img">
+<p><img src="images/kernel-user-space.png" alt="img">
 If a process from user space tries acessing kernel space, page fault will be raised. So, kernel&rsquo;s mapped in each process - dual mapping, it&rsquo;s called. And as we can see on the picture, it is backed by the same physical memory.</p>
 <h2 id="cpu-cache">CPU Cache</h2>
 <p><img src="cpu-cache.png" alt="img">
