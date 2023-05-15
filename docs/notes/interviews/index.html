@@ -294,7 +294,7 @@
 <li><input disabled="" type="checkbox"> Wake up Neo <a href="https://2018.offzone.moscow/report/wake-up-neo/">https://2018.offzone.moscow/report/wake-up-neo/</a></li>
 <li><input disabled="" type="checkbox"> DNS rebinding <a href="https://2018.offzone.moscow/report/dns-rebinding-in-2k18/">https://2018.offzone.moscow/report/dns-rebinding-in-2k18/</a></li>
 <li><input disabled="" type="checkbox"> Apple DHCP - <a href="https://habr.com/en/articles/339666/">https://habr.com/en/articles/339666/</a></li>
-<li><input disabled="" type="checkbox"> Meltdown and Spectre</li>
+<li><input checked="" disabled="" type="checkbox"> Meltdown and Spectre</li>
 <li><input disabled="" type="checkbox"> Multi-layered apps <a href="https://2018.offzone.moscow/report/attacking-the-multi-layered-web-applications/">https://2018.offzone.moscow/report/attacking-the-multi-layered-web-applications/</a></li>
 <li><input disabled="" type="checkbox"> APT
 <ul>
@@ -860,66 +860,82 @@
 <li><input disabled="" type="checkbox"> <code>DHCPDISCOVER</code> -&gt; <code>DHCPOFFER</code> -&gt; <code>DHCPREQUEST</code> -&gt; <code>DHCPACK</code></li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Multiplex
+<li><input checked="" disabled="" type="checkbox"> Multiplex
 <ul>
 <li><input disabled="" type="checkbox"> Timeshare, statistical share, just useful to know it exists.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Traceroute
+<li><input checked="" disabled="" type="checkbox"> Traceroute
 <ul>
 <li><input disabled="" type="checkbox"> Usually uses UDP, but might also use ICMP Echo Request or TCP SYN. TTL, or hop-limit.</li>
 <li><input disabled="" type="checkbox"> Initial hop-limit is 128 for windows and 64 for *nix. Destination returns ICMP Echo Reply.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Nmap
+<li><input checked="" disabled="" type="checkbox"> Nmap
 <ul>
-<li><input disabled="" type="checkbox"> Network scanning tool.</li>
+<li><input checked="" disabled="" type="checkbox"> Network scanning tool.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Intercepts (PitM - Person in the middle)
+<li><input checked="" disabled="" type="checkbox"> Intercepts (PitM - Person in the middle)
 <ul>
-<li><input disabled="" type="checkbox"> Understand PKI (public key infrastructure in relation to this).</li>
+<li><input checked="" disabled="" type="checkbox"> Understand PKI (public key infrastructure in relation to this).</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> ❗️ VPN
+<li><input checked="" disabled="" type="checkbox"> ❗️ VPN
 <ul>
-<li><input disabled="" type="checkbox"> Hide traffic from ISP but expose traffic to VPN provider.</li>
+<li><input checked="" disabled="" type="checkbox"> Hide traffic from ISP but expose traffic to VPN provider.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Tor
+<li><input checked="" disabled="" type="checkbox"> Tor
 <ul>
-<li><input disabled="" type="checkbox"> Traffic is obvious on a network.</li>
-<li><input disabled="" type="checkbox"> How do organised crime investigators find people on tor networks.</li>
+<li><input disabled="" type="checkbox"> Traffic is obvious on a network.
+<ul>
+<li><input disabled="" type="checkbox"> TOR-related IP</li>
+<li><input disabled="" type="checkbox"> TOR-related DNS</li>
+<li><input disabled="" type="checkbox"> Short sessions, nnumerous connections</li>
+<li><input disabled="" type="checkbox"> Tor directory protocol (often on port 9030), Tor hidden service protocols (often on ports 80 or 443), or Tor control protocol (often on port 9050). Detection of these specific protocols can indicate potential Tor usage.</li>
+<li><input disabled="" type="checkbox"> TOR-certs</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Proxy
-<ul>
-<li><input disabled="" type="checkbox"> Why 7 proxies won’t help you.</li>
+<li><input checked="" disabled="" type="checkbox"> How do organised crime investigators find people on tor networks.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> BGP
+<li><input checked="" disabled="" type="checkbox"> Proxy
 <ul>
-<li><input disabled="" type="checkbox"> Border Gateway Protocol.</li>
-<li><input disabled="" type="checkbox"> Holds the internet together.</li>
+<li><input checked="" disabled="" type="checkbox"> Why 7 proxies won’t help you.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Network traffic tools
+<li><input checked="" disabled="" type="checkbox"> BGP
 <ul>
-<li><input disabled="" type="checkbox"> Wireshark</li>
-<li><input disabled="" type="checkbox"> Tcpdump</li>
-<li><input disabled="" type="checkbox"> Burp suite</li>
+<li><input checked="" disabled="" type="checkbox"> Border Gateway Protocol.</li>
+<li><input checked="" disabled="" type="checkbox"> Holds the internet together.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> HTTP/S
+<li><input checked="" disabled="" type="checkbox"> Network traffic tools
 <ul>
-<li><input disabled="" type="checkbox"> (80, 443)</li>
+<li><input checked="" disabled="" type="checkbox"> Wireshark</li>
+<li><input checked="" disabled="" type="checkbox"> Tcpdump</li>
+<li><input checked="" disabled="" type="checkbox"> Burp suite</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> HTTP/S
+<ul>
+<li><input checked="" disabled="" type="checkbox"> (80, 443)</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> SSL/TLS
 <ul>
 <li><input disabled="" type="checkbox"> (443)</li>
 <li><input disabled="" type="checkbox"> Super important to learn this, includes learning about handshakes, encryption, signing, certificate authorities, trust systems. A good <a href="https://english.ncsc.nl/publications/publications/2021/january/19/it-security-guidelines-for-transport-layer-security-2.1">primer</a> on all these concepts and algorithms is made available by the Dutch cybersecurity center.</li>
-<li><input disabled="" type="checkbox"> POODLE, BEAST, CRIME, BREACH, HEARTBLEED.</li>
+<li><input disabled="" type="checkbox"> POODLE, BEAST, CRIME, BREACH, HEARTBLEED.
+<ul>
+<li><input disabled="" type="checkbox"> POODLE (Padding Oracle On Downgraded Legacy Encryption): POODLE is a vulnerability that affects the SSL 3.0 protocol, which is used for secure communication between a client (such as a web browser) and a server. It allows an attacker to exploit the protocol&rsquo;s weakness in handling padding bytes to decrypt secure communications. By exploiting this vulnerability, an attacker can potentially gain access to sensitive information, such as login credentials or session cookies.</li>
+<li><input disabled="" type="checkbox"> BEAST (Browser Exploit Against SSL/TLS): BEAST is a vulnerability that targets the encryption protocols SSL/TLS. It takes advantage of a weakness in the way block ciphers are implemented in older versions of SSL/TLS. By intercepting and analyzing encrypted data packets, an attacker can decrypt the secure traffic and gain unauthorized access to sensitive information.</li>
+<li><input disabled="" type="checkbox"> CRIME (Compression Ratio Info-leak Made Easy): CRIME is a vulnerability that affects the compression algorithm used in SSL/TLS protocols. It allows an attacker to exploit the information leaked by the compression ratio of compressed data to recover sensitive information, such as session cookies. By manipulating the size of the compressed data, an attacker can infer the contents of the encrypted communication</li>
+<li><input disabled="" type="checkbox"> BREACH (Browser Reconnaissance and Exfiltration via Adaptive Compression of Hypertext): BREACH is a vulnerability that targets HTTP compression, specifically the use of the gzip compression algorithm. It allows an attacker to exploit the HTTP response size and the presence of user-input in the response to recover sensitive information, such as authentication tokens or CSRF tokens. By injecting specially crafted requests and analyzing the compressed responses, an attacker can gradually deduce the secrets used in the communication.</li>
+<li><input disabled="" type="checkbox"> HEARTBLEED: HEARTBLEED is a critical vulnerability that affected the OpenSSL library, which is widely used to secure internet communications. It allowed an attacker to exploit a flaw in the OpenSSL heartbeat extension to retrieve sensitive information from the memory of a vulnerable server. This could include private keys, usernames, passwords, and other data transmitted over the encrypted connection.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> TCP/UDP
@@ -941,19 +957,19 @@
 <li><input disabled="" type="checkbox"> POP3 (110, 995)</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> SSH
+<li><input checked="" disabled="" type="checkbox"> SSH
 <ul>
 <li><input disabled="" type="checkbox"> (22)</li>
 <li><input disabled="" type="checkbox"> Handshake uses asymmetric encryption to exchange symmetric key.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Telnet
+<li><input checked="" disabled="" type="checkbox"> Telnet
 <ul>
 <li><input disabled="" type="checkbox"> (23, 992)</li>
 <li><input disabled="" type="checkbox"> Allows remote communication with hosts.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> ARP
+<li><input checked="" disabled="" type="checkbox"> ARP
 <ul>
 <li><input disabled="" type="checkbox"> Who is 0.0.0.0? Tell 0.0.0.1.</li>
 <li><input disabled="" type="checkbox"> Linking IP address to MAC, Looks at cache first.</li>
@@ -969,7 +985,15 @@
 </li>
 <li><input disabled="" type="checkbox"> IRC
 <ul>
-<li><input disabled="" type="checkbox"> Understand use by hackers (botnets).</li>
+<li><input disabled="" type="checkbox"> Understand use by hackers (botnets).
+<ul>
+<li><input disabled="" type="checkbox"> Command-and-Control (C&amp;C) Channel: IRC provides a communication channel for botmasters (hackers) to remotely control their network of compromised computers, known as bots. The IRC server acts as a central point where botmasters can send commands to the bots and receive data or execute malicious operations.</li>
+<li><input disabled="" type="checkbox"> Botnet Recruitment: Hackers use various techniques to infect computers and turn them into bots. Once a computer is compromised, it can be programmed to connect to a specific IRC server and join a specific channel, effectively becoming part of the botnet. The botnet can grow in size as more computers get infected and join the IRC network.</li>
+<li><input disabled="" type="checkbox"> Command Distribution: The botmaster uses the IRC channel to distribute commands to the bots. These commands can include launching DDoS attacks, spreading malware, stealing data, or performing other malicious activities. The botnet receives commands from the botmaster and carries out the instructions, allowing the hacker to control a large number of compromised computers remotely.</li>
+<li><input disabled="" type="checkbox"> Data Exfiltration: The botnet can be used to collect and exfiltrate sensitive data from the compromised computers. The IRC channel serves as a conduit for transmitting the stolen information back to the botmaster. This can include login credentials, financial data, personal information, or any other data that the hacker is interested in.</li>
+<li><input disabled="" type="checkbox"> Updates and Maintenance: IRC can also be used for updating and maintaining the botnet. The botmaster can push software updates or patches to the bots, change the botnet&rsquo;s behavior, or reconfigure its settings via the IRC channel.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> FTP/SFTP
@@ -1030,9 +1054,14 @@
 <li><input disabled="" type="checkbox"> Checksum</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Broadcast domains and collision domains.</li>
-<li><input disabled="" type="checkbox"> Root stores</li>
-<li><input disabled="" type="checkbox"> CAM table overflow</li>
+<li><input disabled="" type="checkbox"> Broadcast domains and collision domains.
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Collision domain</strong> - area in which all devices hear or see collisions occuring. Hubs and repeaters are in the same collision domain while switches are <strong>not</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Broadcasr domain</strong> - area in which all devices hear or see broadcast traffic (hubs, switches break up broadcast domains; routers do) ❓</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> Root stores (root certs)</li>
+<li><input checked="" disabled="" type="checkbox"> CAM table overflow</li>
 </ul>
 <h3 id="web-application">Web Application</h3>
 <ul>
@@ -1086,12 +1115,20 @@
 <ul>
 <li><input disabled="" type="checkbox"> Hypervisors. <a href="https://2018.offzone.moscow/report/wake-up-neo/">https://2018.offzone.moscow/report/wake-up-neo/</a></li>
 <li><input disabled="" type="checkbox"> Hyperjacking.</li>
-<li><input disabled="" type="checkbox"> ❗️Containers, VMs, clusters.</li>
-<li><input disabled="" type="checkbox"> Escaping techniques.
+<li><input disabled="" type="checkbox"> ❗️Containers, VMs, clusters.
 <ul>
-<li><input disabled="" type="checkbox"> Network connections from VMs / containers.</li>
+<li><input checked="" disabled="" type="checkbox"> Escaping techniques.
+<ul>
+<li><input disabled="" type="checkbox"> Kernel bugs</li>
+<li><input disabled="" type="checkbox"> Container misconfigurations</li>
+<li><input disabled="" type="checkbox"> FS attacks</li>
+<li><input disabled="" type="checkbox"> via processes</li>
+<li><input disabled="" type="checkbox"> over the network</li>
 </ul>
 </li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Network connections from VMs / containers.</li>
 <li><input disabled="" type="checkbox"> Lateral movement and privilege escalation techniques.
 <ul>
 <li><input disabled="" type="checkbox"> Cloud Service Accounts can be used for lateral movement and privilege escalation in Cloud environments.</li>
@@ -1099,13 +1136,20 @@
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Site isolation.</li>
-<li><input disabled="" type="checkbox"> Side-channel attacks.
+<li><input checked="" disabled="" type="checkbox"> Side-channel attacks.
 <ul>
-<li><input disabled="" type="checkbox"> Spectre, Meltdown.</li>
+<li><input checked="" disabled="" type="checkbox"> Spectre, Meltdown.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> ❗️ Beyondcorp. Trusting the host but not the network. ZTN</li>
-<li><input disabled="" type="checkbox"> Log4j vuln.</li>
+<li><input disabled="" type="checkbox"> ❗️ Beyondcorp. BeyondCorp is a security model and approach developed by Google. ZTN.
+<ul>
+<li><input disabled="" type="checkbox"> Device trust</li>
+<li><input disabled="" type="checkbox"> IAM, string auth, RBAC</li>
+<li><input disabled="" type="checkbox"> Context</li>
+<li><input disabled="" type="checkbox"> Monitor for abnormalities</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> Log4j vuln - <a href="https://www.linkedin.com/pulse/poc-log4j-exploits-shell-access-mitigation-lasantha-nanayakkara/">https://www.linkedin.com/pulse/poc-log4j-exploits-shell-access-mitigation-lasantha-nanayakkara/</a></li>
 </ul>
 <h3 id="os-implementation-and-systems">OS Implementation and Systems</h3>
 <ul>
@@ -1146,8 +1190,8 @@
 </li>
 <li><input disabled="" type="checkbox"> Windows SMB.</li>
 <li><input disabled="" type="checkbox"> Samba (with SMB).</li>
-<li><input disabled="" type="checkbox"> Buffer Overflows.</li>
-<li><input disabled="" type="checkbox"> ROP.</li>
+<li><input checked="" disabled="" type="checkbox"> Buffer Overflows.</li>
+<li><input checked="" disabled="" type="checkbox"> ROP.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> *nix
@@ -1171,34 +1215,34 @@
 </ul>
 <h3 id="mitigations">Mitigations</h3>
 <ul>
-<li><input disabled="" type="checkbox"> Patching</li>
-<li><input disabled="" type="checkbox"> Data Execution Prevention</li>
-<li><input disabled="" type="checkbox"> Address space layout randomisation
+<li><input checked="" disabled="" type="checkbox"> Patching</li>
+<li><input checked="" disabled="" type="checkbox"> Data Execution Prevention</li>
+<li><input checked="" disabled="" type="checkbox"> Address space layout randomisation
 <ul>
 <li><input disabled="" type="checkbox"> To make it harder for buffer overruns to execute privileged instructions at known addresses in memory.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Principle of least privilege
+<li><input checked="" disabled="" type="checkbox"> Principle of least privilege
 <ul>
 <li><input disabled="" type="checkbox"> Eg running Internet Explorer with the Administrator SID disabled in the process token. Reduces the ability of buffer overrun exploits to run as elevated user.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Code signing
+<li><input checked="" disabled="" type="checkbox"> Code signing
 <ul>
 <li><input disabled="" type="checkbox"> Requiring kernel mode code to be digitally signed.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Compiler security features
+<li><input checked="" disabled="" type="checkbox"> Compiler security features
 <ul>
 <li><input disabled="" type="checkbox"> Use of compilers that trap buffer overruns.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Encryption
+<li><input checked="" disabled="" type="checkbox"> Encryption
 <ul>
 <li><input disabled="" type="checkbox"> Of software and/or firmware components.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Mandatory Access Controls
+<li><input checked="" disabled="" type="checkbox"> Mandatory Access Controls
 <ul>
 <li><input disabled="" type="checkbox"> (MACs)</li>
 <li><input disabled="" type="checkbox"> Access Control Lists (ACLs)</li>
@@ -1226,8 +1270,8 @@
 </li>
 <li><input disabled="" type="checkbox"> Encryption standards + implementations
 <ul>
-<li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> (asymmetrical).</li>
-<li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> (symmetrical).</li>
+<li><input checked="" disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> (asymmetrical).</li>
+<li><input checked="" disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a> (symmetrical).</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/EdDSA">ECC</a> (namely ed25519) (asymmetric).</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant">Chacha/Salsa</a> (symmetric).</li>
 </ul>
@@ -1248,7 +1292,7 @@
 </li>
 <li><input disabled="" type="checkbox"> Integrity and authenticity primitives
 <ul>
-<li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">Hashing functions</a> e.g. MD5, Sha-1, BLAKE. Used for identifiers, very useful for fingerprinting malware samples.</li>
+<li><input checked="" disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">Hashing functions</a> e.g. MD5, Sha-1, BLAKE. Used for identifiers, very useful for fingerprinting malware samples.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/Message_authentication_code">Message Authentication Codes (MACs)</a>.</li>
 <li><input disabled="" type="checkbox"> <a href="https://en.wikipedia.org/wiki/HMAC">Keyed-hash MAC (HMAC)</a>. <a href="https://youtu.be/cBuHXDWp5Ek">https://youtu.be/cBuHXDWp5Ek</a></li>
 </ul>
@@ -1262,9 +1306,9 @@
 </li>
 <li><input disabled="" type="checkbox"> Authentication
 <ul>
-<li><input disabled="" type="checkbox"> Certificates
+<li><input checked="" disabled="" type="checkbox"> Certificates
 <ul>
-<li><input disabled="" type="checkbox"> What info do certs contain, how are they signed?</li>
+<li><input checked="" disabled="" type="checkbox"> What info do certs contain, how are they signed?</li>
 <li><input disabled="" type="checkbox"> Look at DigiNotar.</li>
 </ul>
 </li>
@@ -1284,7 +1328,7 @@
 <li><input disabled="" type="checkbox"> Client side.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Sessions
+<li><input checked="" disabled="" type="checkbox"> Sessions
 <ul>
 <li><input disabled="" type="checkbox"> Server side.</li>
 </ul>
@@ -1333,7 +1377,15 @@
 <ul>
 <li><input disabled="" type="checkbox"> Robot accounts or Service accounts are used for automation.</li>
 <li><input checked="" disabled="" type="checkbox"> Service accounts should have heavily restricted priviledges.</li>
-<li><input disabled="" type="checkbox"> Understanding how Service accounts are used by attackers is important for understanding Cloud security.</li>
+<li><input disabled="" type="checkbox"> Understanding how Service accounts are used by attackers is important for understanding Cloud security.
+<ul>
+<li><input disabled="" type="checkbox"> 1.  Stolen Credentials: Attackers may attempt to steal or compromise the credentials associated with service accounts. This can be done through techniques like phishing, social engineering, or exploiting vulnerabilities in the cloud infrastructure. Once they have the credentials, attackers can impersonate the service account and perform unauthorized actions.</li>
+<li><input disabled="" type="checkbox"> Misconfigured Permissions: If the permissions and access controls assigned to service accounts are misconfigured, attackers can take advantage of excessive privileges. They can abuse these accounts to access sensitive data, manipulate resources, or perform unauthorized actions within the cloud environment.</li>
+<li><input disabled="" type="checkbox"> API Abuse: Cloud service providers offer APIs that allow programmatic access to cloud resources. Attackers can abuse service accounts to interact with these APIs, bypassing security controls and performing malicious actions such as data exfiltration, resource deletion, or unauthorized configuration changes.</li>
+<li><input disabled="" type="checkbox"> Lateral Movement: Once an attacker gains access to a service account, they can use it as a launching point for lateral movement within the cloud environment. They may pivot to other systems or services, escalate privileges, and further compromise additional resources.</li>
+<li><input disabled="" type="checkbox"> Service Account Impersonation: Attackers may attempt to impersonate legitimate service accounts to evade detection and gain unauthorized access to sensitive resources. By imitating a trusted service account, they can bypass security measures and perform malicious activities undetected.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> impersonation
@@ -1389,10 +1441,10 @@
 </ul>
 <h3 id="exploits">Exploits</h3>
 <ul>
-<li><input disabled="" type="checkbox"> Low-level
+<li><input checked="" disabled="" type="checkbox"> Low-level
 <ul>
-<li><input disabled="" type="checkbox"> use-after-free</li>
-<li><input disabled="" type="checkbox"> bufferoverflow</li>
+<li><input checked="" disabled="" type="checkbox"> use-after-free</li>
+<li><input checked="" disabled="" type="checkbox"> bufferoverflow</li>
 <li><input disabled="" type="checkbox"> </li>
 </ul>
 </li>
