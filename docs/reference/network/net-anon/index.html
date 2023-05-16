@@ -265,9 +265,9 @@ One of the VPN methods.</p>
 <p><strong>STTP</strong>
 One of the VPN methods.</p>
 <h3 id="dns-leaks">DNS Leaks</h3>
-<p>Most of the time, we use domain names (<code>www.saucyeggplants.com</code>) instead of IPs (<code>11.22.33.44</code>) to search for and connect to the resources in the Internet. When we do, before actually connecting to the server in question, we need to look up its IP. DNS servers are responsible for this: they answer a simple question: what&rsquo;s the IP of XXXXX?</p>
-<p>It&rsquo;s a good idea, since we tend to memorize words better than numbers. However, in case of a VPN connection that could be a problem and here is why.</p>
-<p>Suppose, a client 🥕 has instablished connection with the VPN. Now, 🥕 wants to connect to a pornographic resource banned and illegal in its country (since only naked 🥕 are allowed). 🥕 types <code>www.saucyeggplants.com</code>  in the address bar and the PC the 🥕 uses, looks up this address in 🍋 IPS&rsquo;s (Internet Provider Service) DNS (domain name service) &ldquo;<em>book&rdquo;</em> 📖..</p>
+<p>Most of the time, we use domain names (<code>www.saucyeggplants.com</code>) instead of IPs (<code>11.22.33.44</code>) to search for and connect to the resources in the Internet. When we do, before connecting to the server in question, we need to look up its IP. DNS servers are responsible for this: they answer a simple question: what&rsquo;s the IP of XXXXX?</p>
+<p>It&rsquo;s a good idea since we tend to memorize words better than numbers. However, in case of a VPN connection that could be a problem and here is why.</p>
+<p>Suppose a client 🥕 has established a connection with the VPN. Now, 🥕 wants to connect to a pornographic resource banned and illegal in its country (since only naked 🥕 are allowed). 🥕 types <code>www.saucyeggplants.com</code>  in the address bar, and the PC the 🥕 uses, looks up this address in 🍋 IPS&rsquo;s (Internet Provider Service) DNS (domain name service) &ldquo;<em>book&rdquo;</em> 📖.</p>
 <p><img src="images/dns-lookup-novpn.png" alt="img"></p>
 <p>IPS&rsquo;s DNS server puts this request into logs and looks up for the IP to reply with. Once the IP is found, it&rsquo;s returned to the 🥕. 🥕 is happy and now uses a secure VPN channel to connect to and communicate with the  <code>www.saucyeggplants.com</code>. Do you see a problem here?</p>
 <p><img src="images/vpn-with-dns-leak.png" alt="img"></p>
@@ -284,6 +284,9 @@ One of the VPN methods.</p>
 <h2 id="source-routing">Source routing</h2>
 <h2 id="proxies--anonymizers">Proxies / Anonymizers</h2>
 <h2 id="tor">TOR</h2>
+<p>It&rsquo;s also called The Onion Router. But why? Remember Shrek talking about ogres and how they have layers comparing them to onions?</p>
+<p><img src="https://media.giphy.com/media/kwafZfFxw8WnC/giphy.gif" alt="img"></p>
+<p>I will expand on that later once I have more time. For now, let&rsquo;s say that a packet is encapsulated multiple times and each server on the route can take one layer only. It&rsquo;s like a very sophisticated VPN with multiple servers and multiple layers of encapsulation.</p>
 <h2 id="tcp-fragmentation">TCP fragmentation</h2>
 <p>Will look like garbage for IDS:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -sS -A -f &lt;target_IP&gt;
