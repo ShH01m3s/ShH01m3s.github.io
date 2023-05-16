@@ -1481,7 +1481,7 @@
 <li><input disabled="" type="checkbox"> Covert listening devices.</li>
 <li><input disabled="" type="checkbox"> Hidden cameras.</li>
 <li><input disabled="" type="checkbox"> Disk encryption.</li>
-<li><input disabled="" type="checkbox"> Trusted Platform Module.</li>
+<li><input disabled="" type="checkbox"> Trusted Platform Module About Apple&rsquo;s Secure Enclave and Keychain: <a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/apple-auth/">https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/apple-auth/</a>. KMS in the Cloud.</li>
 <li><input disabled="" type="checkbox"> Spying via unintentional radio or electrical signals, sounds, and vibrations (TEMPEST - NSA).</li>
 </ul>
 </li>
@@ -1754,29 +1754,39 @@
 <li><input checked="" disabled="" type="checkbox"> Evidence volatility (network vs memory vs disk)</li>
 <li><input disabled="" type="checkbox"> Network forensics
 <ul>
-<li><input disabled="" type="checkbox"> DNS logs / passive DNS</li>
-<li><input disabled="" type="checkbox"> Netflow</li>
-<li><input disabled="" type="checkbox"> Sampling rate</li>
+<li><input disabled="" type="checkbox"> DNS logs / passive DNS. Passive DNS, in the context of network forensics, refers to the collection and analysis of historical DNS (Domain Name System) data without actively querying the DNS infrastructure in real-time. It involves capturing and storing DNS resolution information from network traffic or DNS server logs for later analysis.</li>
+<li><input disabled="" type="checkbox"> Netflow. NetFlow, in the context of network forensics, is a network protocol developed by Cisco Systems that provides visibility into network traffic and facilitates the analysis of network behavior. It collects and records network traffic flow information, such as source and destination IP addresses, ports, protocols, timestamps, and byte counts, among other data. NetFlow works by sampling and exporting network flow data from routers, switches, or other network devices. When enabled, these devices generate NetFlow records that capture information about individual network flows. A network flow represents a unidirectional stream of packets with common characteristics, such as the same source and destination IP addresses and ports. NetFlow records are then collected and stored by a NetFlow collector for subsequent analysis.</li>
+<li><input disabled="" type="checkbox"> Sampling rate. In the context of network forensics, the sampling rate refers to the frequency at which network traffic is captured and analyzed. It determines the number of packets or flows that are examined and recorded for further analysis.</li>
 </ul>
 </li>
 <li><input disabled="" type="checkbox"> Disk forensics
 <ul>
 <li><input checked="" disabled="" type="checkbox"> Disk imaging</li>
 <li><input disabled="" type="checkbox"> Filesystems (NTFS / ext2/3/4 / AFPS)</li>
-<li><input disabled="" type="checkbox"> Logs (Windows event logs, Unix system logs, application logs)</li>
+<li><input checked="" disabled="" type="checkbox"> Logs (Windows event logs, Unix system logs, application logs)</li>
 <li><input checked="" disabled="" type="checkbox"> Data recovery (carving)</li>
-<li><input disabled="" type="checkbox"> Tools</li>
-<li><input disabled="" type="checkbox"> plaso / log2timeline</li>
-<li><input disabled="" type="checkbox"> FTK imager</li>
-<li><input disabled="" type="checkbox"> encase</li>
+<li><input disabled="" type="checkbox"> Tools
+<ul>
+<li><input disabled="" type="checkbox"> plaso / log2timeline
+<ul>
+<li><input disabled="" type="checkbox"> <strong>log2timeline</strong>: This is the primary tool that performs the timeline generation process. It takes input data sources, such as log files, Windows Event Logs, web browser artifacts, and more, and processes them to extract relevant events and their associated timestamps. The tool supports a wide range of data sources and can process them in a parallel and efficient manner.</li>
+<li><input disabled="" type="checkbox"> <strong>plaso</strong>-parser: Plaso includes a collection of parsers responsible for extracting events from specific artifacts or log file formats. These parsers are used by log2timeline to process the input data sources. Plaso provides a large number of built-in parsers for various operating systems, applications, and file formats, including Windows, macOS, Linux, web browsers, system logs, and more.</li>
+<li><input disabled="" type="checkbox"> psort: Once the timeline is generated, psort (Plaso&rsquo;s sorting and filtering tool) can be used to sort, filter, and analyze the events based on specific criteria. It allows investigators to narrow down their focus and extract relevant information from the timeline. psort supports advanced filtering options, time range selection, and output formatting.</li>
+<li><input disabled="" type="checkbox"> pinfo: pinfo is a tool provided by Plaso for interactively exploring and inspecting event data. It allows users to navigate through the generated timeline, view event details, and perform ad-hoc searches within the dataset. It provides a command-line interface for interactive analysis of the timeline.</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Memory forensics
+<li><input checked="" disabled="" type="checkbox"> FTK imager</li>
+<li><input checked="" disabled="" type="checkbox"> encase</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> Memory forensics
 <ul>
-<li><input disabled="" type="checkbox"> Memory acquisition (footprint, smear, hiberfiles)</li>
-<li><input disabled="" type="checkbox"> Virtual vs physical memory</li>
-<li><input disabled="" type="checkbox"> Life of an executable</li>
-<li><input disabled="" type="checkbox"> Memory structures</li>
+<li><input checked="" disabled="" type="checkbox"> Memory acquisition (footprint - part, smear - all, hiberfiles)</li>
+<li><input checked="" disabled="" type="checkbox"> Virtual vs physical memory</li>
+<li><input checked="" disabled="" type="checkbox"> Life of an executable</li>
+<li><input checked="" disabled="" type="checkbox"> Memory structures</li>
 <li><input checked="" disabled="" type="checkbox"> Kernel space vs user space</li>
 <li><input checked="" disabled="" type="checkbox"> Tools</li>
 <li><input checked="" disabled="" type="checkbox"> Volatility</li>
@@ -1784,17 +1794,23 @@
 <li><input checked="" disabled="" type="checkbox"> WinDbg</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Mobile forensics
+<li><input checked="" disabled="" type="checkbox"> Mobile forensics
 <ul>
-<li><input disabled="" type="checkbox"> Jailbreaking devices, implications</li>
-<li><input disabled="" type="checkbox"> Differences between mobile and computer forensics</li>
-<li><input disabled="" type="checkbox"> Android vs. iPhone</li>
+<li><input checked="" disabled="" type="checkbox"> Jailbreaking devices, implications</li>
+<li><input checked="" disabled="" type="checkbox"> Differences between mobile and computer forensics</li>
+<li><input checked="" disabled="" type="checkbox"> Android vs. iPhone</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Anti forensics
+<li><input checked="" disabled="" type="checkbox"> Anti forensics
 <ul>
-<li><input disabled="" type="checkbox"> How does malware try to hide?</li>
-<li><input disabled="" type="checkbox"> Timestomping</li>
+<li><input checked="" disabled="" type="checkbox"> How does malware try to hide?</li>
+<li><input checked="" disabled="" type="checkbox"> Timestomping
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Modifying the file system&rsquo;s metadata: Attackers can directly modify the timestamps stored in the file system&rsquo;s metadata, such as the Master File Table (MFT) in NTFS file systems on Windows.</li>
+<li><input checked="" disabled="" type="checkbox"> Manipulating system calls: By intercepting or hooking into system calls responsible for retrieving or updating file timestamps, attackers can modify the data returned to the requesting process.</li>
+<li><input checked="" disabled="" type="checkbox"> Using specialized tools: There are specialized tools available that automate timestomping techniques and make it easier for attackers to manipulate timestamps.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><input checked="" disabled="" type="checkbox"> Chain of custody
@@ -1805,36 +1821,36 @@
 </ul>
 <h3 id="incident-management">Incident Management</h3>
 <ul>
-<li><input disabled="" type="checkbox"> Privacy incidents vs information security incidents</li>
-<li><input disabled="" type="checkbox"> Know when to talk to legal, users, managers, directors.</li>
-<li><input disabled="" type="checkbox"> Run a scenario from A to Z, how would you &hellip;</li>
-<li><input disabled="" type="checkbox"> Good practices for running incidents
+<li><input checked="" disabled="" type="checkbox"> Privacy incidents vs information security incidents</li>
+<li><input checked="" disabled="" type="checkbox"> Know when to talk to legal, users, managers, directors.</li>
+<li><input checked="" disabled="" type="checkbox"> Run a scenario from A to Z, how would you &hellip;</li>
+<li><input checked="" disabled="" type="checkbox"> Good practices for running incidents
 <ul>
-<li><input disabled="" type="checkbox"> How to delegate.</li>
-<li><input disabled="" type="checkbox"> Who does what role.</li>
-<li><input disabled="" type="checkbox"> How is communication managed + methods of communication.</li>
-<li><input disabled="" type="checkbox"> When to stop an attack.</li>
-<li><input disabled="" type="checkbox"> Understand risk of alerting attacker.</li>
-<li><input disabled="" type="checkbox"> Ways an attacker may clean up / hide their attack.</li>
-<li><input disabled="" type="checkbox"> When / how to inform upper management (manage expectations).</li>
-<li><input disabled="" type="checkbox"> Metrics to assign Priorities (e.g. what needs to happen until you increase the prio for a case)</li>
-<li><input disabled="" type="checkbox"> Use playbooks if available</li>
+<li><input checked="" disabled="" type="checkbox"> How to delegate.</li>
+<li><input checked="" disabled="" type="checkbox"> Who does what role.</li>
+<li><input checked="" disabled="" type="checkbox"> How is communication managed + methods of communication.</li>
+<li><input checked="" disabled="" type="checkbox"> When to stop an attack.</li>
+<li><input checked="" disabled="" type="checkbox"> Understand risk of alerting attacker.</li>
+<li><input checked="" disabled="" type="checkbox"> Ways an attacker may clean up / hide their attack.</li>
+<li><input checked="" disabled="" type="checkbox"> When / how to inform upper management (manage expectations).</li>
+<li><input checked="" disabled="" type="checkbox"> Metrics to assign Priorities (e.g. what needs to happen until you increase the prio for a case)</li>
+<li><input checked="" disabled="" type="checkbox"> Use playbooks if available</li>
 </ul>
 </li>
-<li><input disabled="" type="checkbox"> Important things to know and understand
+<li><input checked="" disabled="" type="checkbox"> Important things to know and understand
 <ul>
-<li><input disabled="" type="checkbox"> Type of alerts, how these are triggered.</li>
-<li><input disabled="" type="checkbox"> Finding the root cause.</li>
-<li><input disabled="" type="checkbox"> Understand stages of an attack (e.g. cyber-killchain)</li>
+<li><input checked="" disabled="" type="checkbox"> Type of alerts, how these are triggered.</li>
+<li><input checked="" disabled="" type="checkbox"> Finding the root cause.</li>
+<li><input checked="" disabled="" type="checkbox"> Understand stages of an attack (e.g. cyber-killchain)</li>
 <li><input disabled="" type="checkbox"> Symptom vs Cause.</li>
-<li><input disabled="" type="checkbox"> First principles vs in depth systems knowledge (why both are good).</li>
-<li><input disabled="" type="checkbox"> Building timeline of events.</li>
-<li><input disabled="" type="checkbox"> Understand why you should assume good intent, and how to work with people rather than against them.</li>
-<li><input disabled="" type="checkbox"> Prevent future incidents with the same root cause</li>
-<li><input disabled="" type="checkbox"> Response models
+<li><input checked="" disabled="" type="checkbox"> First principles vs in depth systems knowledge (why both are good).</li>
+<li><input checked="" disabled="" type="checkbox"> Building timeline of events.</li>
+<li><input checked="" disabled="" type="checkbox"> Understand why you should assume good intent, and how to work with people rather than against them.</li>
+<li><input checked="" disabled="" type="checkbox"> Prevent future incidents with the same root cause</li>
+<li><input checked="" disabled="" type="checkbox"> Response models
 <ul>
 <li><input checked="" disabled="" type="checkbox"> SANS&rsquo; PICERL (Preparation, Identification, Containement, Eradication, Recovery, Lessons learned)</li>
-<li><input disabled="" type="checkbox"> ❗️Google&rsquo;s IMAG (Incident Management At Google) - <a href="https://sre.google/workbook/incident-response/#:~:text=Incident%20Management%20at%20Google,and%20scale%20up%20their%20response">https://sre.google/workbook/incident-response/#:~:text=Incident%20Management%20at%20Google,and%20scale%20up%20their%20response</a>, <a href="https://sre.google/sre-book/managing-incidents/">https://sre.google/sre-book/managing-incidents/</a>, <a href="https://cloud.google.com/blog/products/gcp/incident-management-at-google-adventures-in-sre-land/">https://cloud.google.com/blog/products/gcp/incident-management-at-google-adventures-in-sre-land/</a>, <a href="https://cloud.google.com/docs/security/incident-response">https://cloud.google.com/docs/security/incident-response</a></li>
+<li><input checked="" disabled="" type="checkbox"> ❗️Google&rsquo;s IMAG (Incident Management At Google) - <a href="https://sre.google/workbook/incident-response/#:~:text=Incident%20Management%20at%20Google,and%20scale%20up%20their%20response">https://sre.google/workbook/incident-response/#:~:text=Incident%20Management%20at%20Google,and%20scale%20up%20their%20response</a>, <a href="https://sre.google/sre-book/managing-incidents/">https://sre.google/sre-book/managing-incidents/</a>, <a href="https://cloud.google.com/blog/products/gcp/incident-management-at-google-adventures-in-sre-land/">https://cloud.google.com/blog/products/gcp/incident-management-at-google-adventures-in-sre-land/</a>, <a href="https://cloud.google.com/docs/security/incident-response">https://cloud.google.com/docs/security/incident-response</a></li>
 </ul>
 </li>
 </ul>
