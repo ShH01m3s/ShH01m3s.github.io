@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📝 Account Information Analysis - Analyst</title>
+  <title>Account Info - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -90,7 +90,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -195,9 +194,28 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/investigation/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
+   <a href="/docs/dfir/investigation/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#password-hashes">Password hashes</a></li>
+      </ul>
+    </li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#password-hashes-1">Password hashes</a></li>
+        <li><a href="#account-info">Account Info</a></li>
+        <li><a href="#login-history">Login History</a></li>
+      </ul>
+    </li>
+    <li><a href="#linux">Linux</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -205,39 +223,90 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Account Info</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+            
+              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
+            
+            
+          
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/manual" rel="tag">manual</a>
+          
+      </div> 
+      
+    </div>
+    
+    <b>Created:</b> 12.10.2020
+    <br />
+
+    
+
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="windows">Windows</h2>
+<p>There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and <code>Software\Microsoft\Windows NT\CurrentVersion\ProfileList</code> for Domain Accounts.</p>
+<blockquote>
+<p>❗️❗️❗️❗️ More details see here.</p>
+</blockquote>
+<p>To crack Windows NTLM hashes (for local accounts only), you&rsquo;ll need both SYSTEM and SAM hives. SYSTEM contains an AES key 🔑 for NTLM decryption and SAM contains the encrypted hash. After the hash is decrypted, either brute-force 💪 or dictionary 📖 attack needs.</p>
+<p>Xbox on later versions is a built-in game center. It also contains some information about the user (if he uses it for fames): <code>C:\Users\%Username%\AppData\Local\LocalState\ModelManager\Xboxlivegamer.xml</code> (user profile).</p>
+<p>Also, collect DPAPI master user and system keys: <a href="https://www.youtube.com/watch?v=vA4qa0uWRHU">https://www.youtube.com/watch?v=vA4qa0uWRHU</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>esktop
+</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>ocuments
+</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\D</span>ownloads
+</span></span></code></pre></div><h3 id="password-hashes">Password hashes</h3>
+<p>SAM hive + SYSTEM.</p>
+<h2 id="macos">macOS</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/
+</span></span></code></pre></div><h3 id="password-hashes-1">Password hashes</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo plutil -p /var/db/dslocal/nodes/Default/users/&lt;usename&gt;.plist
+</span></span></code></pre></div><h3 id="account-info">Account Info</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo plutil -p /private/var/db/dslocal/nodes/Default/Users/&lt;User&gt;.plist
+</span></span></code></pre></div><p>Contains name, profile name, password hint, account image, UID</p>
+<p>Get uids of users (incuding services&rsquo; uids): <code>/private/var/db/dslocal/nodes/Default/sqlindex</code> (SQLite DB).</p>
+<h3 id="login-history">Login History</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo su
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /private/var/log/asl 
+</span></span><span class="line"><span class="cl">cat BB.&lt;date&gt;.asl
+</span></span></code></pre></div><p>BB.date.asl - Best before.</p>
+<blockquote>
+<p>⚠️ When grabbing volumes from APFS system, better acquire Recovery volume as well, since it may contain account information as well (password hints, for example).</p>
+</blockquote>
+<p><strong>Tools</strong> 🛠: <code>plutil</code> (built-in on Macs).</p>
+<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
+<h2 id="linux">Linux</h2>
+<p><code>/etc/passwd</code> and <code>/etc/shadow</code>.</p>
 
- 
- <h1 class="title">📝 Account Information Analysis</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/access-controls/"> ⛔️ Access Controls</a></h2> 
-    <p> DAC I am the leader! I&rsquo;m the one that says when we go.
-A user, who&rsquo;s the owner of the file or another object defines who can and who cannot view it.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/manual/"> 📘 Manual</a></h2> 
-    <p> Windows There are two main places within the registry that contains that information: SAM hive for local and Microsoft accounts and Software\Microsoft\Windows NT\CurrentVersion\ProfileList for Domain Accounts.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/apple-auth/"> 🔐 Apple Authentication</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/win-auth/"> 🔐 Windows Authentication</a></h2> 
-    <p> Each process in the system has an access token. This token determies what privileges this fellow has.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/aws-auth/"> AWS Authentication</a></h2> 
-    <p> <p><em>This article is about AWS authentication process and how this activity is logged within the system.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/linux-auth/"> Linux Authentication</a></h2> 
-    <p> User Account/Data • /home/%username%/* • /etc/passwd
-• /etc/shadow
-• /etc/sudoers
-• /etc/group
-Unused accounts Look for unexpected account, especially those that don&rsquo;t have password (empty).</p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
@@ -252,7 +321,6 @@ Unused accounts Look for unexpected account, especially those that don&rsquo;t h
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/investigation/artefacts/accounts/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>

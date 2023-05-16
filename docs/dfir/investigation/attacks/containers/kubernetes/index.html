@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>📚 k8s - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/investigation/attacks/containers/"> 👈🏼 Back to </br> 📚 Containers </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#architecture">Architecture</a>
+      <ul>
+        <li><a href="#master-vs-worker">Master vs Worker</a></li>
+        <li><a href="#replication-controller">Replication Controller</a></li>
+        <li><a href="#deployment">Deployment</a></li>
+      </ul>
+    </li>
+    <li><a href="#security">Security</a>
+      <ul>
+        <li><a href="#scenarios">Scenarios</a></li>
+        <li><a href="#gcp-specifics">GCP specifics</a></li>
+        <li><a href="#logs">Logs</a></li>
+      </ul>
+    </li>
+    <li><a href="#mechanichs">Mechanichs</a></li>
+    <li><a href="#-btfm">📘 BTFM</a>
+      <ul>
+        <li><a href="#manually-create-a-pod">Manually Create a POD</a></li>
+        <li><a href="#create-replication-controller">Create Replication Controller</a></li>
+        <li><a href="#replica-set">Replica Set</a></li>
+        <li><a href="#scale-rs">Scale RS</a></li>
+        <li><a href="#delete-resources">Delete Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">📚 k8s</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+            
+            
+          
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 28.07.2022
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>If you want to know more about Kubernetes, its security and attack vectors, this article will help.</em></p>
+<h2 id="architecture">Architecture</h2>
+<p>Containers make up a node. Nodes make up a cluster. Nodes are VMs or physical machines with running containers. Master - another node. Responsible for the orchestration. Kubernetes containers are encapsulated in PODs, the smallest object one can create in kuberbetes. The only scenario when one POD has several containers is when these are containers of different types, one of them, for example, providing some essential functionality to the main container.</p>
+<ol>
+<li>API server</li>
+<li>etcd - key/value store. Keeps logs to ensure there are no conflicts between different masters and clusters. Holds information about all the nodes and clusters and masters.</li>
+<li>kubelet - an agent that runs on each node in a cluster. Ensures that containers are running as expected.</li>
+<li>Scheduler - responsible for distributing containers among multiple nodes. It looks for newly created containers and assigns them to nodes.</li>
+<li>Controller - the brain 🧠 of the orchestration. Responsible for noticing when a container goes down. He&rsquo;s like an on-call doctor or ambulance. It brings up new containers in case it&rsquo;s needed.</li>
+<li>Container runtime - underlying software. Examples: docker, rkt, CRI-O. Even when using Kubernetes, you can use docker runtime 🤷🏻‍♀️.</li>
+</ol>
+<blockquote>
+<p>💡 I&rsquo;ve now thought, and I wonder if that&rsquo;s correct, that POD is very close to the word <em>application</em> in the Kubernetes world.</p>
+</blockquote>
+<p><img src="images/kubernetes-main.png" alt="img"></p>
+<h3 id="master-vs-worker">Master vs Worker</h3>
+<p>Master has a kube API server (<code>&lt;/&gt; kube-apiserver</code>). It&rsquo;s a process. It has a <code>etcd</code>, which logs everything. The controller and the scheduler are also there.</p>
+<p>Slave (worker or minion) has a container runtime and containers running (<code>&lt;/&gt; kubelet</code>). <code>Kubelet</code> agent interacts with the <code>kube-apiserver</code>.</p>
+<h3 id="replication-controller">Replication Controller</h3>
+<p>Allows running several instances of the same application in a cluster for higher availability. It makes sure the predefined amount of pods are running at a time, even if it&rsquo;s one. If it is one, in case it fails, replication controller will bring up another one. Spans across multiple nodes. Replication controller != Replica set (new technology).</p>
+<h3 id="deployment">Deployment</h3>
+<p>Some other wrapper around RC and pods&hellip; . For seamless updates.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">appname-replicaset</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nameoftheapp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">tier</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span></code></pre></div><h2 id="security">Security</h2>
+<blockquote>
+<p>❗️ Containers share the same kernel as their host</p>
+</blockquote>
+<ol>
+<li>Escaping a container - host network mode (<a href="https://unit42.paloaltonetworks.com/breaking-docker-via-runc-explaining-cve-2019-5736/">https://unit42.paloaltonetworks.com/breaking-docker-via-runc-explaining-cve-2019-5736/</a>)
+<ol>
+<li>
+<ol>
+<li><strong>Insecure container configurations</strong>: Certain container configurations can increase the risk of a breakout. For example, running containers as root, enabling the Docker <code>--privileged</code> flag, or using insecure defaults can all potentially allow for container escapes.</li>
+</ol>
+</li>
+<li><strong>Vulnerabilities in container runtime</strong>: If there are vulnerabilities in the container runtime itself (like Docker, containerd, cri-o etc.), they can be exploited to escape the container.</li>
+<li>kernel vulnerabilities</li>
+<li><strong>Misconfigured container capabilities</strong>: Linux kernel capabilities are powerful privileges that can be assigned to a container. If a container has been mistakenly given a capability like <code>CAP_SYS_ADMIN</code> or <code>CAP_DAC_READ_SEARCH</code>, it could perform many powerful operations that can lead to a breakout.</li>
+</ol>
+</li>
+<li>Vulnerability in the application running atop the pod.</li>
+<li>Misconfiguration.</li>
+</ol>
+<h3 id="scenarios">Scenarios</h3>
+<p>Powerded by ChatGPT</p>
+<p><strong>Scenario</strong>: A critical Kubernetes service in your organization is experiencing frequent downtime. The logs indicate an unusual network traffic pattern, suggesting a potential security issue. How would you investigate this situation?
+<strong>Answer</strong>: I&rsquo;d start by isolating the affected service to prevent potential spread of the issue. I would then examine the logs for any signs of unauthorized access, such as unfamiliar IP addresses or suspicious user agents. I&rsquo;d also inspect the network traffic patterns in detail, correlating it with the logs to identify any possible intrusion or DDoS attacks. If a security issue is confirmed, I would involve the security team to mitigate the issue, and work on strengthening the service’s security, possibly by implementing network policies, enhancing RBAC controls, or setting up intrusion detection/prevention systems.</p>
+<p><strong>Scenario</strong>: You notice that a certain pod in a Kubernetes deployment is constantly running at high CPU usage, even during off-peak hours. What steps would you take to investigate this?
+<strong>Answer</strong>: High CPU usage can be a sign of either a legitimate workload or a compromised pod. I would first check the processes running on the pod to identify the cause of the high CPU usage. If the processes are legitimate, I would then consider whether the pod is properly sized for the workload. If not, I might need to adjust its resource requests and limits. If the processes appear suspicious, however, I would investigate it as a potential security incident. This might involve checking the pod&rsquo;s logs, network connections, and file modifications. If a breach is confirmed, the pod should be isolated and the vulnerability that allowed the compromise should be addressed.</p>
+<p><strong>Scenario</strong>: There&rsquo;s a suspicion that a malicious insider is creating unauthorized Kubernetes deployments in your environment. How would you confirm this suspicion and prevent future occurrences?
+<strong>Answer</strong>: I would start by auditing the Kubernetes API server logs, which record all actions taken in the Kubernetes environment. By filtering these logs for deployment creation events, I could identify who created any unauthorised deployments. To prevent future occurrences, I&rsquo;d ensure that we have Role-Based Access Control (RBAC) properly configured to limit what each user can do. I would also recommend setting up alerts for any unauthorized attempts to create deployments, and providing training for staff about the importance of following approved procedures.</p>
+<h3 id="gcp-specifics">GCP specifics</h3>
+<p>Google Kubernetes Engine (GKE) in Google Cloud Platform (GCP) comes with several security features and considerations:</p>
+<ol>
+<li>
+<p><strong>Workload Identity</strong>: This feature allows you to bind Kubernetes service accounts to Google Cloud service accounts. This way, your applications can authenticate to other Google Cloud services, without needing to manage secrets or IAM roles directly.</p>
+</li>
+<li>
+<p><strong>Private Clusters</strong>: You can create private clusters in GKE, where the nodes don&rsquo;t have public IP addresses. This is useful for running sensitive workloads or for additional security.</p>
+</li>
+<li>
+<p><strong>Binary Authorization</strong>: This feature ensures only trusted and verified images are deployed in the cluster. It integrates with your CI/CD pipeline to enforce signature validation of images.</p>
+</li>
+<li>
+<p><strong>Shielded GKE Nodes</strong>: These are virtual machines hardened by a set of security controls that help defend against rootkits and bootkits. It uses a secure, verifiable boot process that ensures the VM booted with correct software and hasn&rsquo;t been tampered with.</p>
+</li>
+<li>
+<p><strong>Network Policies</strong>: GKE supports Kubernetes network policies that allow you to control the communication between Pod-to-Pod at the same cluster.</p>
+</li>
+<li>
+<p><strong>GCP IAM integration</strong>: GKE integrates with Google Cloud IAM to manage access control to the Kubernetes API server. You can define who can do what operation (like creating, updating, viewing pods) in the cluster.</p>
+</li>
+<li>
+<p><strong>Pod Security Policies</strong>: These are cluster-level resources that control sensitive aspects of the pod specification like root privileges, use of host namespaces, and more.</p>
+</li>
+<li>
+<p><strong>Logging and Monitoring</strong>: Integration with Google Cloud&rsquo;s operations suite for logging and monitoring. This allows visibility into the behavior of your clusters and workloads.</p>
+</li>
+<li>
+<p><strong>Encryption</strong>: GCP encrypts data at rest and in transit between nodes and the master, as well as data in transit between pods in the cluster. You can also use Customer Managed Encryption Keys (CMEK) for data at rest.</p>
+</li>
+</ol>
+<h3 id="logs">Logs</h3>
+<ol>
+<li>
+<p><strong>Pod Logs</strong>: You can access the logs for a specific pod using the <code>kubectl logs</code> command. For example, to access the logs for a pod named <code>mypod</code>, you&rsquo;d use the command <code>kubectl logs mypod</code>. If your pod has multiple containers, you can specify which one you want to view logs for with the <code>-c</code> or <code>--container</code> flag.</p>
+</li>
+<li>
+<p><strong>Audit Logs</strong>: Audit logs are not accessible directly via <code>kubectl</code>. They are usually written to a file on the master node, or sent to a remote API, depending on your audit log configuration. For example, they might be located at <code>/var/log/kube-apiserver/audit.log</code> on the master node.</p>
+</li>
+<li>
+<p><strong>Event Logs</strong>: You can view events in your cluster with the <code>kubectl get events</code> command. To view events for a specific namespace, you can use <code>kubectl get events --namespace=my-namespace</code>.</p>
+</li>
+<li>
+<p><strong>API Server Logs</strong>: The location of API server logs depends on how your Kubernetes cluster is set up. For example, if you&rsquo;re using kubeadm, you might find them at <code>/var/log/kube-apiserver.log</code> on the master node. If you&rsquo;re using a managed service like GKE, you can view them in the Google Cloud Console&rsquo;s Stackdriver Logging interface.</p>
+</li>
+<li>
+<p><strong>Kubelet Logs</strong>: The location of these logs also depends on your setup. If you&rsquo;re using a system with systemd (like most modern Linux distributions), you can use <code>journalctl -u kubelet</code> to view the kubelet logs. On other systems, they might be at <code>/var/log/kubelet.log</code>.</p>
+</li>
+<li>
+<p><strong>System Component Logs</strong>: The locations of these logs depend on your setup as well. For example, if you&rsquo;re using kubeadm, you might find scheduler logs at <code>/var/log/kube-scheduler.log</code> and controller manager logs at <code>/var/log/kube-controller-manager.log</code>. If you&rsquo;re using a managed service, these logs will likely be accessible through the service&rsquo;s logging interface.</p>
+</li>
+</ol>
+<h2 id="mechanichs">Mechanichs</h2>
+<p>When you run <code>kubectl run nginx</code>, kubernetes deploys a <strong>docker</strong> container by creating a POD. Creates a POD and then deploys an instance of the engine docker image.</p>
+<h2 id="-btfm">📘 BTFM</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl run hello-minikube
+</span></span><span class="line"><span class="cl">kubectl run nginx --image nginx <span class="c1"># downloaded from docker hub repo</span>
+</span></span><span class="line"><span class="cl">kubectl cluster-info
+</span></span><span class="line"><span class="cl">kubectl get nodes
+</span></span><span class="line"><span class="cl">kubectl get pods <span class="c1"># in case it returns &#34;No resources found in default namespace&#34;, try</span>
+</span></span><span class="line"><span class="cl">kubectl get pods --all-namespaces
+</span></span><span class="line"><span class="cl">kubectl get pods -o wide <span class="c1"># more information than without this option</span>
+</span></span><span class="line"><span class="cl">kubectl describe pod nginx <span class="c1"># a lot of useful information about the pod. Might be useful for the investigation.</span>
+</span></span><span class="line"><span class="cl">kubectl get rs <span class="c1"># get replicas</span>
+</span></span><span class="line"><span class="cl">kubectl get rc <span class="c1"># get replication controllers</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kubectl get all
+</span></span></code></pre></div><h3 id="manually-create-a-pod">Manually Create a POD</h3>
+<p><strong>Step 1</strong>. Create a <code>pod.yml</code> file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">tier</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span></code></pre></div><p><strong>Step 2</strong>. Apply the pod config.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl apply -f pod.yml
+</span></span></code></pre></div><h3 id="create-replication-controller">Create Replication Controller</h3>
+<p><strong>Step 1</strong>. Create a <code>yml</code> file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ReplicationController</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">appname</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nameoftheapp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">tier</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">  
+</span></span></span></code></pre></div><p><strong>Step 2</strong>. Create it</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl create -f rc-def.yml
+</span></span><span class="line"><span class="cl">kubectl get replicationcontroller <span class="c1"># get the amount of replicas</span>
+</span></span></code></pre></div><h3 id="replica-set">Replica Set</h3>
+<p><strong>Step 1</strong>. Create a <code>yml</code> file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ReplicaSet</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">appname-replicaset</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nameoftheapp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="nt">tier</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		</span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">		  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">	  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">frontend</span><span class="w">
+</span></span></span></code></pre></div><p><strong>Step 2</strong>. Create it</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl create -f rs-def.yml
+</span></span><span class="line"><span class="cl">kubectl get replicaset <span class="c1"># get the amount of replicas</span>
+</span></span></code></pre></div><h3 id="scale-rs">Scale RS</h3>
+<p>There are several ways to scale:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl replace -f rs-def.yml <span class="c1"># update the file and then run this command</span>
+</span></span><span class="line"><span class="cl">kubectl scale --replicas<span class="o">=</span><span class="m">6</span> -f rs-def.yml <span class="c1"># will not result in file updates</span>
+</span></span><span class="line"><span class="cl">kubectl scale --replicas<span class="o">=</span><span class="m">6</span> replicaset appname-replicaset <span class="c1"># will not result in file updates</span>
+</span></span></code></pre></div><h3 id="delete-resources">Delete Resources</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl delete pod podname
+</span></span><span class="line"><span class="cl">kubectl delete replicaset replicasetname
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">KUBE_EDITOR</span><span class="o">=</span><span class="s2">&#34;nano&#34;</span> kubectl edit replicaset.apps/new-replica-set
+</span></span><span class="line"><span class="cl"><span class="nv">KUBE_EDITOR</span><span class="o">=</span><span class="s2">&#34;nano&#34;</span> kubectl edit replicaset new-replica-set
+</span></span><span class="line"><span class="cl">kubectl patch rs name -p <span class="s1">&#39;{&#34;spec&#34;:{&#34;template&#34;:{&#34;spec&#34;:{&#34;containers&#34;:[{&#34;name&#34;:&#34;busybox-pod&#34;,&#34;image&#34;:&#34;busybox&#34;}]}}}}&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kubectl delete pods -l <span class="nv">name</span><span class="o">=</span>busybox-pod
+</span></span></code></pre></div><h2 id="references">References</h2>
+<details>
+    <summary>Expand &hellip;</summary>
+    [<a href="https://medium.com/baseds/redundancy-and-replication-duplicating-in-a-distributed-system-7ab4322d7378">1</a>] About redundancy and replication
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
