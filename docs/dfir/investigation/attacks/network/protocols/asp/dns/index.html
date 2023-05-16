@@ -199,10 +199,21 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#dns-poisoning">DNS poisoning</a></li>
-    <li><a href="#dns-redirection">DNS redirection</a></li>
-    <li><a href="#dns-cache">DNS Cache</a></li>
-    <li><a href="#dns-leak">DNS Leak</a></li>
+    <li><a href="#attacks-and-misuse">Attacks and Misuse</a>
+      <ul>
+        <li><a href="#dns-fast-flux">DNS Fast Flux</a></li>
+        <li><a href="#dns-command-injection">DNS Command Injection</a>
+          <ul>
+            <li><a href="#type-1">Type 1</a></li>
+            <li><a href="#type-2">Type 2</a></li>
+          </ul>
+        </li>
+        <li><a href="#dns-poisoning">DNS poisoning</a></li>
+        <li><a href="#dns-redirection">DNS redirection</a></li>
+        <li><a href="#dns-cache">DNS Cache</a></li>
+        <li><a href="#dns-leak">DNS Leak</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -242,16 +253,22 @@
 <p>DNS querying can be either recursive or non-recursive.</p>
 <p><strong>Recursive</strong>. ISP DNS server queries other DNS servers until it finds the answer. Once it&rsquo;s found, it&rsquo;s returned by the ISP DNS to the client.</p>
 <p><strong>Non-recursive</strong>. ISP DNS is not involved? Response comes directly from the DNS server queried the last. So, who has asked initially, would be shown in the last DNS server&rsquo;s logs 📝.</p>
-<h2 id="dns-poisoning">DNS poisoning</h2>
-<h2 id="dns-redirection">DNS redirection</h2>
+<h2 id="attacks-and-misuse">Attacks and Misuse</h2>
+<h3 id="dns-fast-flux">DNS Fast Flux</h3>
+<p>Used by botnets to hide phishing and malware delivery sites behind dynamic network of compromised hosts acting as proxies.</p>
+<h3 id="dns-command-injection">DNS Command Injection</h3>
+<h4 id="type-1">Type 1</h4>
+<h4 id="type-2">Type 2</h4>
+<h3 id="dns-poisoning">DNS poisoning</h3>
+<h3 id="dns-redirection">DNS redirection</h3>
 <p>In case a malware beacons to its server via DNS, you have two options to trick it:</p>
 <ul>
 <li>tamper the hosts file</li>
 <li>run a local DNS service that&rsquo;s going to resolve the requested domain names to the IP addresses of your choice.</li>
 </ul>
-<h2 id="dns-cache">DNS Cache</h2>
+<h3 id="dns-cache">DNS Cache</h3>
 <p>Windows</p>
-<h2 id="dns-leak">DNS Leak</h2>
+<h3 id="dns-leak">DNS Leak</h3>
 <p>See <a href="/docs/reference/network/net-anon#dns-leaks">here</a>.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://2019.phdays.com/en/program/reports/once-upon-a-time-in-the-west-a-story-about-dns-attacks/">1</a>] Once upon a time in the West: a story about DNS attacks</p>
