@@ -247,7 +247,7 @@
 <p>On Windows, it&rsquo;s <code>tracert</code> (due to some legacy max-name-size limitations). On Linux and macOS - <code>traceroute</code>. Windows uses ICMP protocol by default, while macOS and Linux - <code>UDP</code>. You can, however, make <code>tracerout</code> on UNIX operate over ICMP by specifying <code>-I</code> switch.</p>
 <blockquote>
 <p>🧪 There is an extraordinary thing that I have noticed. I was trying to capture the traceroute and tracert traffic to show the screenshots.</p>
-<p>I launched traceroute on macOS, and I got a bizarre response: 64 lines of 3 wildcards that could be indicative of a firewall blocking ICMP/UDP requests. I googled and googled and decided to check the Windows tracert on a VM on the same machine. And strangely, I got a normal response. That led me to believe that macOS traceroute is buggy since the machine is the same and all traffic is routed through the same nodes.</p>
+<p>I launched traceroute on macOS, and I got a bizarre response: 64 lines of 3 wildcards that could indicate a firewall blocking ICMP/UDP requests. I googled and googled and decided to check the Windows tracert on a VM on the same machine. And strangely, I got a normal response. That led me to believe that the macOS traceroute is buggy since the machine is the same and all traffic is routed through the same nodes.</p>
 <p>Another idea was that my firewall on macOS was blocking it, but the firewall was on, and how come the traffic on Windows was not? Isn&rsquo;t the macOS firewall supposed to block all the machine traffic? After some quick Internet searches, the VPN might be the reason. I turned it off, and the utility started doing what it was destined to.</p>
 <p>So, there was a VPN on, on a macOS host. It&rsquo;s supposed to work for ALL the traffic coming from the machine. VM sits atop. Why isn&rsquo;t its traffic going through the VPN?</p>
 </blockquote>
@@ -263,10 +263,10 @@
 <p>⛔️ Wireshark would not run on an ARM macOS Parallels Windows 11.
 ✍🏻 I don&rsquo;t have a link to the source, but I tried installing a 32-bit version, and it worked.\</p>
 </blockquote>
-<p>Let&rsquo;s compare the two systems and find something that could help identify the OS based on the default behaviour.</p>
+<p>Let&rsquo;s compare the two systems and find something to help identify the OS based on the default behaviour.</p>
 <p>Below you can see three screenshots of <code>traceroute</code> utility at work. For each TTL value/network node (starting from <code>1</code>), macOS sends three consecutive requests. For each UDP request with a given TTL sent, an ICMP reply is received when the node is not filtered. It starts with <code>TTL=1</code>, sends three UDP requests regardless of whether there is a reply, and then increments the TTL value by one.</p>
 <p><img src="images/mac-udp-traceroute.png" alt="img"></p>
-<p>If the node is not filtered, you&rsquo;d observe something like in the above screenshot:</p>
+<p>If the node is not filtered, you&rsquo;d observe something like this in the above screenshot:</p>
 <ol>
 <li>TTL=X, UDP request</li>
 <li>ICMP reply</li>
@@ -282,7 +282,7 @@
 <li>ICMP reply</li>
 <li>&hellip; (you get the idea)</li>
 </ol>
-<p>What happens when the node is not responding to these UDP probes? UDP is sent, just like in the screenshot above, but there is no ICMP reply. See the below picture. Again, three UDP requests with the same TTL then it&rsquo;s incremented.</p>
+<p>What happens when the node is not responding to these UDP probes? UDP is sent, just like in the screenshot above, but there is no ICMP reply. See the below picture. Again, three UDP requests with the same TTL, then it&rsquo;s incremented.</p>
 <p><img src="images/mac-udp-traceroute-requests.png" alt="img"></p>
 <p>To make things a little clearer, I&rsquo;ve captured the traffic along with the terminal window to show the filtered nodes&rsquo; responses both in Wireshark and in traceroute output.</p>
 <p><img src="images/mac-udp-traceroute-3.png" alt="img"></p>
@@ -290,6 +290,10 @@
 <p>Now, let&rsquo;s see what happens when we use ICMP instead. Pretty much the same, except that the protocols are different. For this to work, you will need to add a <code>-I</code> switch.</p>
 <p><img src="images/mac-icmp-traceroute-1.png" alt="img"></p>
 <p><img src="images/mac-icmp-treaceroute-3.png" alt="img"></p>
+<p>Windows <code>tracert</code>:
+<img src="images/gdh-win-tracert.png" alt="img"></p>
+<p>UNIX <code>traceroute</code>:</p>
+<p><img src="images/gdh-traceroute.png" alt="img"></p>
 <h2 id="ping"><code>ping</code></h2>
 <p>I have run ping <code>bakerst221b.com</code> on my Mac and looked at the traffic and the command output. Here are my observations.</p>
 <p>My older Mac is using ICMPv6 protocol with <code>ping</code> command. So, the filter in Wireshark should be set to <code>icmpv6</code>. And it was done over <code>IPv6</code>, so instead of <code>TTL</code> there was <code>Hop Limit</code> which was set to <code>255</code>.</p>

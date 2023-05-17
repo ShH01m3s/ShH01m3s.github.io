@@ -203,29 +203,34 @@
       <ul>
         <li><a href="#mechanics">Mechanics</a></li>
         <li><a href="#responses">Responses</a></li>
+        <li><a href="#examples">Examples</a></li>
       </ul>
     </li>
     <li><a href="#stealth-half-open">Stealth (Half-open)</a>
       <ul>
         <li><a href="#responses-1">Responses</a></li>
+        <li><a href="#examples-1">Examples</a></li>
       </ul>
     </li>
     <li><a href="#inverse-tcp-scan">Inverse TCP Scan</a>
       <ul>
         <li><a href="#mechanics-1">Mechanics</a></li>
         <li><a href="#responses-2">Responses</a></li>
+        <li><a href="#examples-2">Examples</a></li>
       </ul>
     </li>
     <li><a href="#xmas-scan">Xmas Scan</a>
       <ul>
         <li><a href="#mechanics-2">Mechanics</a></li>
         <li><a href="#responses-3">Responses</a></li>
+        <li><a href="#examples-3">Examples</a></li>
       </ul>
     </li>
     <li><a href="#ack-flag-scan">ACK Flag Scan</a>
       <ul>
         <li><a href="#mechanics-3">Mechanics</a></li>
         <li><a href="#responses-4">Responses</a></li>
+        <li><a href="#examples-4">Examples</a></li>
       </ul>
     </li>
     <li><a href="#idle-scan">IDLE Scan</a>
@@ -234,7 +239,19 @@
         <li><a href="#responses-5">Responses</a></li>
       </ul>
     </li>
-    <li><a href="#udp-scan">UDP Scan</a></li>
+    <li><a href="#udp-scan">UDP Scan</a>
+      <ul>
+        <li><a href="#responses-6">Responses</a></li>
+        <li><a href="#examples-5">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#null-scan">NULL Scan</a>
+      <ul>
+        <li><a href="#responses-7">Responses</a></li>
+        <li><a href="#examples-6">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#weird-scan">Weird Scan</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -277,10 +294,13 @@
 <strong>Cons</strong>: Noisy
 <strong>CMD</strong>: <code>nmap -sT</code></p>
 <h3 id="mechanics">Mechanics</h3>
-<p>It&rsquo;s the simpliest scanning technique. It established a full TCP connection (see the TCP overview article). <code>SYN</code> flag is sent by the client, <code>SYN/ACK</code> received, client then ends the handshake with an <code>ACK</code> flag and the connection is established.</p>
+<p>It&rsquo;s the simplest scanning technique. It established a full TCP connection (see the TCP overview article). The client sends a <code>SYN</code> flag, <code>SYN/ACK</code> is received, the client then ends the handshake with an <code>ACK</code> flag and the connection is established.</p>
 <h3 id="responses">Responses</h3>
 <p>📫 <strong>Closed</strong>: <code>RST</code>
 📭 <strong>Open</strong>: <code>SYN</code> + <code>ACK</code></p>
+<h3 id="examples">Examples</h3>
+<p><img src="images/nmap-full-scan.png" alt="img"></p>
+<p>Note how the port numbers change in a random way, that&rsquo;s a strong indicator of a scanning activity.</p>
 <h2 id="stealth-half-open">Stealth (Half-open)</h2>
 <p><strong>OS</strong>: Windows, Linux
 <strong>Pros</strong>: Stealthy. Firewalls won&rsquo;t see that since there is no connection established.
@@ -289,6 +309,9 @@
 <h3 id="responses-1">Responses</h3>
 <p>📫 <strong>Closed</strong>: <code>RST</code>
 📭 <strong>Open</strong>: <code>SYN</code> + <code>ACK</code></p>
+<p>An example of a tcpdump for this activity:</p>
+<h3 id="examples-1">Examples</h3>
+<p><img src="images/nmap-syn-scan.png" alt="img"></p>
 <h2 id="inverse-tcp-scan">Inverse TCP Scan</h2>
 <p><strong>OS</strong>: Linux
 <strong>Pros</strong>: Very stealthy.
@@ -300,6 +323,9 @@
 <h3 id="responses-2">Responses</h3>
 <p>📫 <strong>Closed</strong>: <code>RST</code> + <code>ACK</code>
 📭 <strong>Open</strong>: no response</p>
+<h3 id="examples-2">Examples</h3>
+<p>Here is what FIN looks like in a <code>tcpdump</code>:</p>
+<p><img src="images/nmap-fin-scan.png" alt="img"></p>
 <h2 id="xmas-scan">Xmas Scan</h2>
 <p><strong>OS</strong>: Linux
 <strong>Pros</strong>:
@@ -310,6 +336,12 @@
 <h3 id="responses-3">Responses</h3>
 <p>📫 <strong>Closed</strong>: RST + ACK
 📭 <strong>Open</strong>: No response</p>
+<h3 id="examples-3">Examples</h3>
+<p><img src="images/nmap-xmas-scan.png" alt="img"></p>
+<ol>
+<li><code>FIN</code>, <code>PUSH</code> and <code>URG</code> flags are set.</li>
+<li>Since there is no response if the port is open, the scanning utility repeats the request.</li>
+</ol>
 <h2 id="ack-flag-scan">ACK Flag Scan</h2>
 <p><strong>OS</strong>: Old BSD
 <strong>Pros</strong>: To avoid IDS
@@ -321,6 +353,8 @@
 <p>📫 <strong>Closed</strong>: RST, TTL &gt; 64 or <code>window size == 0</code>
 📭 <strong>Open</strong>: RST, TTL &lt; 64 or <code>window size != 0</code>
 📬 <strong>Filtered</strong>: No response</p>
+<h3 id="examples-4">Examples</h3>
+<p><img src="images/nmap-ack-scan.png" alt="ig"></p>
 <h2 id="idle-scan">IDLE Scan</h2>
 <p><strong>OS</strong>: Windows, Linux
 <strong>Pros</strong>: Stealthy. Firewalls won&rsquo;t see that since there is no connection established.
@@ -337,11 +371,34 @@
 📭 <strong>Open</strong>: IPID is incremented by 2</p>
 <h2 id="udp-scan">UDP Scan</h2>
 <p><strong>OS</strong>: Windows, Linux
-<strong>Pros</strong>: Zero byte message and UDP protocol, IDS?
+<strong>Pros</strong>: <strong>Zero byte message</strong> and UDP protocol, IDS?
 <strong>Cons</strong>:
 <strong>CMD</strong>: <code>nmap -sU</code></p>
+<h3 id="responses-6">Responses</h3>
 <p>📫 <strong>Closed</strong>: ICMP, port unreliable (3.3)
 📭 <strong>Open</strong>: No response</p>
+<h3 id="examples-5">Examples</h3>
+<p><img src="images/nmap-udp-scan.png" alt="img"></p>
+<h2 id="null-scan">NULL Scan</h2>
+<p><strong>OS</strong>:
+<strong>Pros</strong>:
+<strong>Cons</strong>:
+<strong>CMD</strong>: <code>nmap -sN</code></p>
+<h3 id="responses-7">Responses</h3>
+<p>📫 <strong>Closed</strong>: <code>RST</code>
+📭 <strong>Open</strong>: No response</p>
+<h3 id="examples-6">Examples</h3>
+<ol>
+<li>No flags are set (tcpdump shows it as a <code>.</code> where the flag would have normally been placed otherwise).</li>
+<li>Since there is no response sent back in the case of an open port, the scanner will have to resend the packet to the same port to make sure it&rsquo;s not a mistake. This request will not be resent immediately, so observe the ACK and SYN numbers.</li>
+</ol>
+<p><img src="images/nmap-null-scan.png" alt="img"></p>
+<h2 id="weird-scan">Weird Scan</h2>
+<ol>
+<li><code>SYN</code> and <code>FIN</code> flag together (not normal). A lot of additional flags, weird order of requests, like <code>SYN</code> followed by <code>SYN+FIN</code> etc.</li>
+<li>Could be used to determine the OS type + circumvent the port scanning rules.</li>
+</ol>
+<p><img src="images/nmap-weird-scan.png" alt="img"></p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

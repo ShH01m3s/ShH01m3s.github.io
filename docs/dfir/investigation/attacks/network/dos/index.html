@@ -199,22 +199,26 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#syn-flood-attack">SYN Flood Attack</a></li>
-    <li><a href="#mitigation">Mitigation</a>
+    <li><a href="#icmp-flooding-flood-ping">ICMP Flooding (flood ping)</a></li>
+    <li><a href="#land">LAND</a></li>
+    <li><a href="#smurf">Smurf</a></li>
+    <li><a href="#fraggle">Fraggle</a></li>
+    <li><a href="#udp-storm-or-echo-chargen">UDP-Storm or Echo-Chargen</a></li>
+    <li><a href="#ping-of-death">Ping of Death</a></li>
+    <li><a href="#syn-flood-attack">SYN Flood Attack</a>
       <ul>
-        <li><a href="#syn-cookies">SYN cookies</a>
+        <li><a href="#mitigation">Mitigation</a>
           <ul>
-            <li><a href="#steps">Steps</a></li>
-          </ul>
-        </li>
-        <li><a href="#micro-blocks">Micro blocks</a></li>
-        <li><a href="#rst-cookies">RST cookies</a>
-          <ul>
+            <li><a href="#syn-cookies">SYN cookies</a></li>
+            <li><a href="#micro-blocks">Micro blocks</a></li>
+            <li><a href="#rst-cookies">RST cookies</a></li>
             <li><a href="#stack-tweaking">Stack Tweaking</a></li>
           </ul>
         </li>
       </ul>
     </li>
+    <li><a href="#weird-scan">Weird Scan</a></li>
+    <li><a href="#general-mitigation-techniques">General Mitigation Techniques</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -251,11 +255,55 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>In this article, I will cover the main DoS techniques and how they look in the logs. I will also cover some main mitigation techniques.</em></p>
+<h2 id="icmp-flooding-flood-ping">ICMP Flooding (flood ping)</h2>
+<p>An example of tcpdump for DDoS flood ping:</p>
+<p><img src="images/dos-icmp-flood.png" alt="img"></p>
+<p>Note different source IP addresses (indicative of an army of botnets performing a DDoS attack).</p>
+<h2 id="land">LAND</h2>
+<p><strong>⛔️ Outdated.</strong></p>
+<p>The system sends packets are sent to itself in a loop.</p>
+<p><img src="images/dos-land.png" alt="img"></p>
+<h2 id="smurf">Smurf</h2>
+<ol>
+<li>Multiple ICMP requests from several machines (one is seen in the dump).</li>
+<li>Frequent requests</li>
+<li><code>B</code> in the requests stands for Broadcast, which makes it different from the <code>ping</code> dump.</li>
+</ol>
+<p><img src="images/dos-smurf.png" alt="ing"></p>
+<h2 id="fraggle">Fraggle</h2>
+<p>Similar to the Smurf attack but uses UDP instead.</p>
+<ol>
+<li><code>B</code> in the requests stands for Broadcast, which makes it different from the <code>ping</code> dump.</li>
+<li>Multiple UDP requests from several machines.</li>
+<li>Frequent.</li>
+<li>Usually, the destination port is <code>7</code> (<code>echo</code>).</li>
+</ol>
+<p><img src="images/dos-fraggle.png" alt="ing"></p>
+<h2 id="udp-storm-or-echo-chargen">UDP-Storm or Echo-Chargen</h2>
+<ol>
+<li>Port <code>19</code> (<code>chargen</code>) &gt; port <code>7</code> (<code>echo</code>) OR <code>13</code> (<code>daytime</code>) OR <code>37</code> (<code>time</code>). Instead of <code>echo</code> one could use any other port that automatically replies to a request.</li>
+<li>This creates a loop because both are configured to reply automatically.</li>
+</ol>
+<blockquote>
+<p>❗️ This problem was eliminated on newer systems. Such ports as <code>echo</code> or <code>time</code> do not respond to requests sent from ports &lt; 1024 or of a broadcast type.</p>
+</blockquote>
+<p><img src="dos-udp-storm.png" alt="img"></p>
+<h2 id="ping-of-death">Ping of Death</h2>
+<ol>
+<li>Start with ICMP of a larger size.</li>
+<li>Following fragments of unusual size, some systems fail to reassemble and crash/hang.</li>
+</ol>
+<p><img src="images/dos-ping-of-death.png" alt="img"></p>
 <h2 id="syn-flood-attack">SYN Flood Attack</h2>
-<h2 id="mitigation">Mitigation</h2>
-<h3 id="syn-cookies">SYN cookies</h3>
+<ol>
+<li>A lot of <code>SYN</code> packets are sent in a short period.</li>
+<li>Same destination port.</li>
+</ol>
+<p><img src="images/dos-syn.png" alt="img"></p>
+<h3 id="mitigation">Mitigation</h3>
+<h4 id="syn-cookies">SYN cookies</h4>
 <p>They are used to protect against SYN flood attacks. Shifts the responsibility of keeping the connection state info to the client.</p>
-<h4 id="steps">Steps</h4>
+<h5 id="steps">Steps</h5>
 <p>Construct a unique sequence number.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">time<span class="o">()</span>&gt;&gt;6 max segm size Enc<span class="o">(</span>k,t, serverIP, serverPort, clientIP, clientPort<span class="o">)</span>
 </span></span></code></pre></div><ol>
@@ -263,12 +311,27 @@
 <li><code>max_segm_size</code> - 3 bits.</li>
 <li><code>Enc(k,t, serverIP, serverPort, clientIP, clientPort)</code> - 24 bits.</li>
 </ol>
-<h3 id="micro-blocks">Micro blocks</h3>
+<h4 id="micro-blocks">Micro blocks</h4>
 <p>16 bytes of data instead of full connection objects allocated on the server.</p>
-<h3 id="rst-cookies">RST cookies</h3>
-<p>Return an error for each client upon connection initiation. It generates and sends RST cookie along. If the client returns with the same cookie - proceed with the connection.</p>
+<h4 id="rst-cookies">RST cookies</h4>
+<p>Return an error for each client upon connection initiation. It generates and sends RST cookies along. If the client returns with the same cookie - proceed with the connection.</p>
 <h4 id="stack-tweaking">Stack Tweaking</h4>
 <p>Selectively drop the connection and timeout for individual connections.</p>
+<h2 id="weird-scan">Weird Scan</h2>
+<ol>
+<li><code>SYN</code> and <code>FIN</code> flag together (not normal). Many additional flags have weird orders of requests, like <code>SYN</code> followed by <code>SYN+FIN</code> etc.</li>
+<li>It Could be used to determine the OS type + circumvent the port scanning rules.</li>
+</ol>
+<p><img src="images/nmap-weird-scan.png" alt="img"></p>
+<h2 id="general-mitigation-techniques">General Mitigation Techniques</h2>
+<ol>
+<li>Traffic filtering (block ICMP/UDP flood, ACLs etc).</li>
+<li>Rate limiting for a given IP.</li>
+<li>IDP/IPS.</li>
+<li>Load Balancing.</li>
+<li>Traffic analysis and anomaly detection.</li>
+<li>Cloud-based protection services.</li>
+</ol>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
