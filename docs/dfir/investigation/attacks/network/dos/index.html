@@ -217,7 +217,13 @@
         </li>
       </ul>
     </li>
+    <li><a href="#dns-aplification">DNS Aplification</a></li>
     <li><a href="#weird-scan">Weird Scan</a></li>
+    <li><a href="#slowris">SLOWRIS</a>
+      <ul>
+        <li><a href="#mitigations">Mitigations</a></li>
+      </ul>
+    </li>
     <li><a href="#general-mitigation-techniques">General Mitigation Techniques</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -317,12 +323,30 @@
 <p>Return an error for each client upon connection initiation. It generates and sends RST cookies along. If the client returns with the same cookie - proceed with the connection.</p>
 <h4 id="stack-tweaking">Stack Tweaking</h4>
 <p>Selectively drop the connection and timeout for individual connections.</p>
-<h2 id="weird-scan">Weird Scan</h2>
+<h2 id="dns-aplification">DNS Aplification</h2>
+<p>Use a public DNS server to flood the victim with DNS replies. Requires a botnet, each bot sending a DNS request with a spoofed IP (the victim&rsquo;s IP).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -sU -p53 -sV --script<span class="o">=</span>dns-recursion.nse IP
+</span></span></code></pre></div><h2 id="weird-scan">Weird Scan</h2>
 <ol>
 <li><code>SYN</code> and <code>FIN</code> flag together (not normal). Many additional flags have weird orders of requests, like <code>SYN</code> followed by <code>SYN+FIN</code> etc.</li>
 <li>It Could be used to determine the OS type + circumvent the port scanning rules.</li>
 </ol>
 <p><img src="images/nmap-weird-scan.png" alt="img"></p>
+<h2 id="slowris">SLOWRIS</h2>
+<ol>
+<li>The attacker initiates multiple connections to the targeted web server, often using low bandwidth or low computational power.</li>
+<li>The attacker sends partial HTTP requests to the server, but deliberately keeps the connections open without completing the requests.</li>
+<li>The attacker periodically sends small, incomplete requests, and ensures that each connection is kept alive by periodically sending additional headers or data.</li>
+<li>The server&rsquo;s resources become tied up as it keeps waiting for the open connections to complete the requests.</li>
+<li>Eventually, the server reaches its maximum connection limit, and legitimate users are unable to establish new connections or access the server&rsquo;s resources.</li>
+</ol>
+<h3 id="mitigations">Mitigations</h3>
+<ol>
+<li>Setting up load balancers or reverse proxies: These can help distribute and manage connections, reducing the impact of slow or malicious clients.</li>
+<li>Configuring web server settings: For example, reducing the maximum connection timeout or limiting the number of concurrent connections from a single IP address.</li>
+<li>Implementing application-level protections: This can involve monitoring and detecting slow or incomplete requests, and terminating connections that show suspicious behavior.</li>
+<li>Employing rate-limiting techniques: Applying restrictions on the number of connections allowed per client or implementing connection rate limits.</li>
+</ol>
 <h2 id="general-mitigation-techniques">General Mitigation Techniques</h2>
 <ol>
 <li>Traffic filtering (block ICMP/UDP flood, ACLs etc).</li>

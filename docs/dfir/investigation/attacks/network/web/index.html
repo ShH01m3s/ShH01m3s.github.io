@@ -286,6 +286,7 @@
 <li><code>document.domain</code> is set to the same domain to show the browser it&rsquo;s ok, but only if both are parts of the same FQDN.</li>
 <li>CORS.</li>
 </ol>
+<p>DNS rebinding attack effectively circumvents the SOP. Read more in the <code>protocols -&gt; ASP -&gt; DNS</code> article.</p>
 <h3 id="cors">CORS</h3>
 <p>What fun would it be if the rules didn&rsquo;t have some exceptions? CORS is basically as way to circumvent overly strict SOP and allow something to be accessed cross-origin.</p>
 <p>When seeing some cross-origin request, user&rsquo;s browser first sends a preflight request to check if it&rsquo;s allowed to do so. And here is the biggest trick. There are simple and &ldquo;complex&rdquo; requests. When something happens WITHOUT javascript (html only), the requests generated are ALWAYS simple. That means that without javascript code one CAN&rsquo;T make a non-simple request. What do I call non-simple? Let&rsquo;s start with what&rsquo;s simple first.</p>

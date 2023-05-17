@@ -201,6 +201,7 @@
   <ul>
     <li><a href="#attacks-and-misuse">Attacks and Misuse</a>
       <ul>
+        <li><a href="#dns-aplification">DNS Aplification</a></li>
         <li><a href="#dns-fast-flux">DNS Fast Flux</a></li>
         <li><a href="#dns-command-injection">DNS Command Injection</a>
           <ul>
@@ -208,14 +209,18 @@
             <li><a href="#type-2">Type 2</a></li>
           </ul>
         </li>
-        <li><a href="#dns-poisoning">DNS poisoning</a></li>
+        <li><a href="#dns-snipping">DNS Snipping</a></li>
+        <li><a href="#cybersquatting">Cybersquatting</a></li>
+        <li><a href="#domain-hijacking">Domain hijacking</a></li>
+        <li><a href="#dns-sinkhole">DNS sinkhole</a></li>
+        <li><a href="#dns-poisoning-spoofing">DNS poisoning (spoofing)</a></li>
         <li><a href="#dns-redirection">DNS redirection</a></li>
         <li><a href="#dns-cache">DNS Cache</a></li>
         <li><a href="#dns-leak">DNS Leak</a></li>
+        <li><a href="#dns-zone-transfer">DNS Zone transfer</a></li>
+        <li><a href="#dns-rebinding">DNS rebinding</a></li>
       </ul>
     </li>
-    <li><a href="#dns-zone-transfer">DNS Zone transfer</a></li>
-    <li><a href="#dns-rebinding">DNS rebinding</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -257,12 +262,28 @@
 <p><strong>Non-recursive</strong>. ISP DNS is not involved? Response comes directly from the DNS server queried the last. So, who has asked initially, would be shown in the last DNS server&rsquo;s logs 📝.</p>
 <p>Works on port 53 (usually, UDP, but TCP could also be used in some cases).</p>
 <h2 id="attacks-and-misuse">Attacks and Misuse</h2>
-<h3 id="dns-fast-flux">DNS Fast Flux</h3>
+<h3 id="dns-aplification">DNS Aplification</h3>
+<p>Use a public DNS server to flood the victim with DNS replies. Requires a botnet, each bot sending a DNS request with a spoofed IP (the victim&rsquo;s IP).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nmap -sU -p53 -sV --script<span class="o">=</span>dns-recursion.nse IP
+</span></span></code></pre></div><h3 id="dns-fast-flux">DNS Fast Flux</h3>
 <p>Used by botnets to hide phishing and malware delivery sites behind dynamic network of compromised hosts acting as proxies.</p>
 <h3 id="dns-command-injection">DNS Command Injection</h3>
 <h4 id="type-1">Type 1</h4>
 <h4 id="type-2">Type 2</h4>
-<h3 id="dns-poisoning">DNS poisoning</h3>
+<h3 id="dns-snipping">DNS Snipping</h3>
+<p>If, for example, example.com has expired and was not prolonged in time, the attacker could buy this domain and use for malicious activity.</p>
+<h3 id="cybersquatting">Cybersquatting</h3>
+<p>Some hacker Eve buys a domain that looks a lot like a legit <code>example.com</code>, for example, <code>examp1e.com</code>. Eve than posts some crap and the owner of <code>example.com</code> will have to deal with the reputation damage.</p>
+<h3 id="domain-hijacking">Domain hijacking</h3>
+<p>Domain theft usually due to the registrant abuse.</p>
+<h3 id="dns-sinkhole">DNS sinkhole</h3>
+<p>This technique is actually often used by the blue teamers to handle malware&rsquo;s DNS requests and redurect them to some fake server in order to win some time and perform a throurough investigation while the malware thinks everything is ok.</p>
+<h3 id="dns-poisoning-spoofing">DNS poisoning (spoofing)</h3>
+<ol>
+<li>Local host can be tampered with.</li>
+<li>Local DNS daemon/service could be tampered with (like DNS <code>GetCacheDataTable</code> from <code>dnsapi.dll</code>, RPC to <code>dnscache.dll</code> <code>svchost.dll</code>).</li>
+<li>Change the file on the DNS server itself.</li>
+</ol>
 <h3 id="dns-redirection">DNS redirection</h3>
 <p>In case a malware beacons to its server via DNS, you have two options to trick it:</p>
 <ul>
@@ -273,8 +294,34 @@
 <p>Windows</p>
 <h3 id="dns-leak">DNS Leak</h3>
 <p>See <a href="/docs/reference/network/net-anon#dns-leaks">here</a>.</p>
-<h2 id="dns-zone-transfer">DNS Zone transfer</h2>
-<h2 id="dns-rebinding">DNS rebinding</h2>
+<h3 id="dns-zone-transfer">DNS Zone transfer</h3>
+<p>What&rsquo;s a zone? Picture and explanation.</p>
+<p>There are usually two or more DNS servers. One is the master, the others are slaves. What it actually means is that master is updated, replying to requests. Slaves act as backup in case something happens to the data on the master DNS server. Master syncs with the slave from time to time. What the master sends to a slave is called a zone file. It contains the mapping of domain names and IP addresses that is used when people are trying to resolve domain names.</p>
+<p>If the DNS settings are wrong and allow a trird-party to upload a zone file, the DNS server could be compromised and redirect people to the wrong servers.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">perl fierce.pl -dns example.com -wordlist rocky_you.txt <span class="c1"># The script is used for DNS reconnaissance and network mapping. In this case, it is instructed to perform a DNS enumeration on the domain `example.com` using a wordlist file called `rocky_you.txt`.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dig @ns1.google.com axfr <span class="c1"># This line uses the `dig` command-line tool to perform a DNS zone transfer (AXFR) against the DNS server at `ns1.google.com`. A zone transfer allows retrieving the complete DNS records for a specific domain from the authoritative DNS server.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">host -l google.com ns1.google.com <span class="c1"># This line uses the `host` command-line tool to perform a DNS zone transfer (AXFR) against the DNS server at `ns1.google.com`. It requests a zone transfer for the domain `google.com` using the `-l` option.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nslookup server authoritative_IP <span class="p">&amp;</span> <span class="nb">set</span> <span class="nv">type</span><span class="o">=</span>any <span class="p">&amp;</span> ls -v example.com <span class="c1"># This line utilizes the `nslookup` command-line tool to interact with a DNS server. It first sets the DNS server to `server authoritative_IP` (replacing `authoritative_IP` with the actual IP address of an authoritative DNS server). Then, it sets the query type to `any` using the `set type=any` command. Finally, it lists all the resource records (including hidden ones) for the domain `example.com` using the `ls -v` command.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dig @127.0.0.1 example.com ns <span class="c1"># This line uses the `dig` command-line tool to query the DNS server running on `127.0.0.1` (localhost) for the nameserver (NS) records of the domain `example.com`. It fetches the authoritative nameservers responsible for the domain.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dig server_name_or_IP ptr <span class="c1"># This line uses the `dig` command-line tool to perform a reverse DNS lookup (PTR) for a given `server_name_or_IP`. It retrieves the reverse DNS record associated with the provided server name or IP address.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dnschef --interface<span class="o">=</span>127.0.0.2 --fakeip<span class="o">=</span>98.98.98.98 --fakedomains<span class="o">=</span>googel.com <span class="c1"># This line executes the `dnschef` tool, which is a DNS proxy server used for DNS spoofing and manipulation. It starts `dnschef` with the specified configuration, where DNS requests are intercepted on interface `127.0.0.2`, and any requests for the domain `googel.com` will be spoofed to resolve to the fake IP address `98.98.98.98`.</span>
+</span></span></code></pre></div><h3 id="dns-rebinding">DNS rebinding</h3>
+<p>It allows bypassing the SOP policy. It involves exploitation of a routing devices.</p>
+<ol>
+<li>Force the user to visit <code>hacker.com</code>. He resolves hacker.com to <code>123.456.789.12</code> where this entry has a <code>TTL</code> set to a small value like <code>1</code> (will expire soon).</li>
+<li>Run JS on the client that constantly sends requests to <code>hacker.com/config</code>.</li>
+<li>TTL expires, client sends request again but now hacker&rsquo;s DNS resolves to the victim&rsquo;s local address <code>192.168.1.1</code> (usually assigned to routers).</li>
+<li>Victim sends a request for <code>hacker.com/config</code> which is resolves now to a local addres and is basically the following: <code>192.168.1.1/config</code>.</li>
+</ol>
 <h2 id="references">References</h2>
 <p>[<a href="https://2019.phdays.com/en/program/reports/once-upon-a-time-in-the-west-a-story-about-dns-attacks/">1</a>] Once upon a time in the West: a story about DNS attacks</p>
 
