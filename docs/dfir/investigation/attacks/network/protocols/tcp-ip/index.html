@@ -323,6 +323,12 @@
 <p><img src="images/http-request2.png" alt="http-request2"></p>
 <p>But there are also transport and datalink layers&hellip;. His parcel now looks like this :</p>
 <h2 id="step-2-get-the-mac-address">Step 2. Get the MAC address</h2>
+<blockquote>
+<p>At each hop, the router examines the destination IP address of the packet and looks up the appropriate MAC address for the next-hop router using its ARP (Address Resolution Protocol) cache or by sending an ARP request. The MAC address of the destination device (e.g., router or server) is used to deliver the packet to the intended recipient within the local network segment. At each hop, the router modifies the MAC address in the Ethernet header to that of the next-hop device. Therefore, as the packet traverses the network, the MAC addresses change at each hop, but the IP addresses within the packet remain the same, ensuring the packet reaches the intended destination based on the IP routing.</p>
+</blockquote>
+<blockquote>
+<p>❗️ Might require reconsidering. I seem to get the idea all wrong.</p>
+</blockquote>
 <p>Data Link layer, is tricky one. The 🖥️ itself doesn&rsquo;t do that dirty job. It just puts its router&rsquo;s MAC address, knowing that the router will know what to do. How does it know the Router&rsquo;s MAC? well, it asks. It knows that the router sits at <code>192.168.1.1</code>. So, it sends an ARP request (just like the ones we will see below in a minute), asking for <code>192.168.1.1</code>&rsquo;s MAC. But this won&rsquo;t be as complex as the example below. Since these devices are on the same network, there only going to be one ARP request and a single response from the J&amp;M Router.</p>
 <p>Let see, what that little chap (J&amp;M Router) is doing. How does it get the MAC address of <code>bakerst221b.com</code>? To determine MAC address (to help Mary&rsquo;s laptop 💻 sign the second envelope with MAC addresses) the router sends an ARP request to the network of his buddies (other representatives, Router A).</p>
 <ol>
