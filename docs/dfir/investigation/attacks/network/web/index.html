@@ -228,6 +228,69 @@
     <li><a href="#sqli">SQLi</a></li>
     <li><a href="#directory-traversal">Directory Traversal</a></li>
     <li><a href="#get-vs-post">GET vs POST</a></li>
+    <li><a href="#ioc--investigation-tips">IoC &amp; Investigation Tips</a>
+      <ul>
+        <li><a href="#sqli-1">SQLi</a>
+          <ul>
+            <li><a href="#-detections">🚨 Detections</a></li>
+            <li><a href="#-payloads-iocs">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#xxs">XXS</a>
+          <ul>
+            <li><a href="#-payloads-iocs-1">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs-1">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#xxe">XXE</a></li>
+        <li><a href="#-payloads-iocs-2">⚙️ Payloads IoCs</a>
+          <ul>
+            <li><a href="#-tools-iocs-2">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#cmdi">CMDi</a>
+          <ul>
+            <li><a href="#-payloads-iocs-3">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs-3">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#idor">IDOR</a>
+          <ul>
+            <li><a href="#-payloads-iocs-4">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs-4">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#html-injection">HTML Injection</a></li>
+        <li><a href="#ognl">OGNL</a>
+          <ul>
+            <li><a href="#-payloads-iocs-5">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs-5">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#botnets">Botnets</a></li>
+        <li><a href="#dirbusting">Dirbusting</a>
+          <ul>
+            <li><a href="#-payloads-iocs-6">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs-6">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#fuzzing">Fuzzing</a>
+          <ul>
+            <li><a href="#-payloads-iocs-7">⚙️ Payloads IoCs</a></li>
+            <li><a href="#-tools-iocs-7">🛠 Tools IoCs</a></li>
+          </ul>
+        </li>
+        <li><a href="#swiss-knives-frameworks-and-other-tools-ioc">Swiss Knives, Frameworks and Other Tools&rsquo; IoC</a>
+          <ul>
+            <li><a href="#burp">Burp</a></li>
+            <li><a href="#metasploit">Metasploit</a></li>
+            <li><a href="#postman">Postman</a></li>
+          </ul>
+        </li>
+        <li><a href="#ssrf">SSRF</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -479,6 +542,123 @@
 <li>Web Server Logs: Web servers typically log the full URL of each request, including GET parameters. If an attacker gains access to the web server logs, they could potentially view sensitive information contained in GET parameters.</li>
 <li>Network Monitoring and Logging Tools: In corporate or public networks, monitoring tools may be in place to log network traffic, including URLs. While the content of the communication is encrypted, the URL, including GET parameters, might be logged and visible to network administrators or anyone with access to the logs.</li>
 </ol>
+<h2 id="ioc--investigation-tips">IoC &amp; Investigation Tips</h2>
+<h3 id="sqli-1">SQLi</h3>
+<h4 id="-detections">🚨 Detections</h4>
+<ul>
+<li><input disabled="" type="checkbox"> If the majority of SQL requests are <code>SELECT</code> and you see <code>DROP TABLE</code>.</li>
+<li><input disabled="" type="checkbox"> Many 500 status codes could indicate</li>
+</ul>
+<h4 id="-payloads-iocs">⚙️ Payloads IoCs</h4>
+<p><a href="https://github.com/payloadbox/sql-injection-payload-list">https://github.com/payloadbox/sql-injection-payload-list</a>
+<a href="https://github.com/payloadbox/sql-injection-payload-list/blob/master/Intruder/exploit/Auth_Bypass.txt">https://github.com/payloadbox/sql-injection-payload-list/blob/master/Intruder/exploit/Auth_Bypass.txt</a>
+<a href="https://github.com/omurugur/SQL_Injection_Payload">https://github.com/omurugur/SQL_Injection_Payload</a></p>
+<h4 id="-tools-iocs">🛠 Tools IoCs</h4>
+<h5 id="sqlmap"><code>sqlmap</code></h5>
+<p>It can be run as a standalone CLI tool or as a part of Burp.</p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>User-Agent</code> HTTP header contains sqlmap and its version by default.</li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<h3 id="xxs">XXS</h3>
+<p>There are three types of XSS: DOM, Stored and reflected.</p>
+<h4 id="-payloads-iocs-1">⚙️ Payloads IoCs</h4>
+<p><a href="https://github.com/payloadbox/xss-payload-list">https://github.com/payloadbox/xss-payload-list</a></p>
+<h4 id="-tools-iocs-1">🛠 Tools IoCs</h4>
+<h3 id="xxe">XXE</h3>
+<h3 id="-payloads-iocs-2">⚙️ Payloads IoCs</h3>
+<p><a href="https://github.com/payloadbox/xxe-injection-payload-list">https://github.com/payloadbox/xxe-injection-payload-list</a></p>
+<h4 id="-tools-iocs-2">🛠 Tools IoCs</h4>
+<h3 id="cmdi">CMDi</h3>
+<h4 id="-payloads-iocs-3">⚙️ Payloads IoCs</h4>
+<p><a href="https://github.com/payloadbox/command-injection-payload-list">https://github.com/payloadbox/command-injection-payload-list</a></p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>ping</code> and <code>nslookup</code> keywords where these are not expected</li>
+</ul>
+<h4 id="-tools-iocs-3">🛠 Tools IoCs</h4>
+<h3 id="idor">IDOR</h3>
+<h4 id="-payloads-iocs-4">⚙️ Payloads IoCs</h4>
+<p>It&rsquo;s a very special vulnerability, and it&rsquo;s hard to define a pattern. If you log IP addresses and user IDs (id, username, email or any other identification) - look for the requests with the same IP and different ID.</p>
+<p>Multiple <code>404</code> HTTP status code would be probably seen in this case if the attacker, who has found this issue, tried to enumerate IDs. Of course, to completely prevent IDOR one needs to implement proper authorisation process, however, it&rsquo;s also clear from this vulnerability why having short and predictable IDs is not good. But even if the IDs are randomly generated GUIDs, still this won&rsquo;t protect from IDOR, just make the attacker&rsquo;s life a little harder.</p>
+<h4 id="-tools-iocs-4">🛠 Tools IoCs</h4>
+<ul>
+<li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
+</ul>
+<h3 id="html-injection">HTML Injection</h3>
+<p>About this vulnerability read <a href="https://www.invicti.com/learn/html-injection/">here</a>.</p>
+<h3 id="ognl">OGNL</h3>
+<p>About OGNL, read <a href="https://pentest-tools.com/blog/exploiting-ognl-injection-in-apache-struts">here</a>.</p>
+<h4 id="-payloads-iocs-5">⚙️ Payloads IoCs</h4>
+<p><a href="https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/http/struts2_namespace_ognl.rb">https://github.com/rapid7/metasploit-framework/blob/master/modules/exploits/multi/http/struts2_namespace_ognl.rb</a></p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>gk6q${“zkz”.toString().replace(“k”, “x”)}doap2</code></li>
+<li><input disabled="" type="checkbox"> <code>https://www.example.url/?vulnerableParameter=PRE-${%23_memberAccess%3d%40ognl.OgnlContext%40DEFAULT_MEMBER_ACCESS,%23kzxs%3d%40org.apache.struts2.ServletActionContext%40getResponse().getWriter()%2c%23kzxs.print(%23parameters.INJPARAM[0])%2c%23kzxs.print(new%20java.lang.Integer(829%2b9))%2c%23kzxs.close(),1%3f%23xx%3a%23request.toString}-POST&amp;INJPARAM=HOOK_VAL</code></li>
+<li><input disabled="" type="checkbox"> <code>${(#a=@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(&quot;id&quot;).getInputStream(),&quot;utf-8&quot;)).(@com.opensymphony.webwork.ServletActionContext@getResponse().setHeader(&quot;X-Qualys-Response&quot;,#a))}</code></li>
+<li><input disabled="" type="checkbox"> <code>(#_='multipart/form-data')</code></li>
+<li><input disabled="" type="checkbox"> <code>(#dm=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)</code></li>
+<li><input disabled="" type="checkbox"> <code>(#_memberAccess?(#_memberAccess=#dm):((#container=#context['com.opensymphony.xwork2.ActionContext.container'])</code></li>
+<li><input disabled="" type="checkbox"> <code>(#context['xwork.MethodAccessor.denyMethodExecution']=false)</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).&gt;</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ognlUtil.getExcludedPackageNames().clear())</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ognlUtil.getExcludedClasses().clear())</code></li>
+<li><input disabled="" type="checkbox"> <code>(#context.setMemberAccess(#dm))))</code></li>
+<li><input disabled="" type="checkbox"> <code>(#cmd='/usr/bin/touch /tmp/pwned').(#iswin=@java.lang.System@getProperty('os.name').toLowerCase().contains('win')))</code></li>
+<li><input disabled="" type="checkbox"> <code>(#cmds=(#iswin?{'cmd.exe','/c',#cmd}:{'/bin/bash','-c',#cmd}))</code></li>
+<li><input disabled="" type="checkbox"> <code>(#p=new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process=#p.start())</code></li>
+<li><input disabled="" type="checkbox"> <code>(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream()))</code></li>
+<li><input disabled="" type="checkbox"> <code>(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())</code></li>
+</ul>
+<h4 id="-tools-iocs-5">🛠 Tools IoCs</h4>
+<ul>
+<li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
+</ul>
+<h3 id="botnets">Botnets</h3>
+<p>Below are some things to use when trying to spot a botnet operating.</p>
+<ol>
+<li>Outdates or unusual User Agents.</li>
+<li>A lot of requests coming from one IP or a small range of IP addresses.</li>
+<li>Patterns indicative of automated activity.</li>
+<li>Frequent requests, more frequent than with a legit user.</li>
+</ol>
+<p>Check the IP addresses associated with the user agent strings. If a large number of requests with the same user agent are coming from the same IP address or a small range of IP addresses, it could be an indication of a botnet.</p>
+<h3 id="dirbusting">Dirbusting</h3>
+<h4 id="-payloads-iocs-6">⚙️ Payloads IoCs</h4>
+<h4 id="-tools-iocs-6">🛠 Tools IoCs</h4>
+<ul>
+<li><input disabled="" type="checkbox"> Burp (see at the end of this article)</li>
+<li><input disabled="" type="checkbox"> <code>dirb</code>
+<ul>
+<li><input disabled="" type="checkbox"> Linux</li>
+<li><input disabled="" type="checkbox"> macOS</li>
+</ul>
+</li>
+</ul>
+<h3 id="fuzzing">Fuzzing</h3>
+<h4 id="-payloads-iocs-7">⚙️ Payloads IoCs</h4>
+<ul>
+<li><input disabled="" type="checkbox"> <a href="https://github.com/Bo0oM/fuzz.txt">fuzz.txt</a></li>
+</ul>
+<h4 id="-tools-iocs-7">🛠 Tools IoCs</h4>
+<h3 id="swiss-knives-frameworks-and-other-tools-ioc">Swiss Knives, Frameworks and Other Tools&rsquo; IoC</h3>
+<h4 id="burp">Burp</h4>
+<ul>
+<li><input disabled="" type="checkbox"> <code>*.oastify.com</code> domain</li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<h4 id="metasploit">Metasploit</h4>
+<h4 id="postman">Postman</h4>
+<ul>
+<li><input disabled="" type="checkbox"> The <code>User-Agent</code> HTTP header contains <code>Postman</code> keyword and its version.</li>
+</ul>
+<h3 id="ssrf">SSRF</h3>
+<p><strong>S</strong>erver-<strong>s</strong>ide <strong>r</strong>equest <strong>f</strong>orgery. What&rsquo;s the easiest way to detect that the vulnerability is present? It requires a URL-like parameter to be present (see example below). In case there is some fiiltering by IP in place, this vulnerability can be used to get this restricted information via this vulnerable server.</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">POST /product/stock HTTP/1.0
+</span></span><span class="line"><span class="cl">Content-Type: application/x-www-form-urlencoded
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">118</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">stockApi</span><span class="o">=</span>http://192.168.0.68/admin
+</span></span></code></pre></div><p>More info <a href="https://portswigger.net/web-security/ssrf">here</a>.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
