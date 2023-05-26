@@ -199,7 +199,15 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#techniques">Techniques</a></li>
+    <li><a href="#techniques">Techniques</a>
+      <ul>
+        <li><a href="#find-evil">Find Evil</a></li>
+        <li><a href="#behavioural-analysis">Behavioural Analysis</a></li>
+        <li><a href="#frequency-analysis">Frequency Analysis</a></li>
+        <li><a href="#pattern-based-analysis">Pattern-based Analysis</a></li>
+        <li><a href="#stacking">Stacking</a></li>
+      </ul>
+    </li>
     <li><a href="#-checklists">✅ Checklists</a>
       <ul>
         <li><a href="#incident-response-sans">Incident Response (SANS)</a></li>
@@ -303,6 +311,10 @@
     <br />
 
     
+            <div class="post-info-last-mod">
+                (Updated: 26.05.2023)
+            </div>
+            <br />
 
   </header>
 
@@ -311,9 +323,11 @@
     <p><em>Basically, all of the artefacts listed in the Investigation section fall under the category &ldquo;user activity&rdquo; one way or another. Even if some process spawned some other process, somewhere in the past, user interaction was still required. That&rsquo;s why I find it so hard to find the perfect categorisation. I&rsquo;ve decided to devote this section to common strategies of how one would investigate user activity and which artefacts they would use at what point in time.</em></p>
 <h2 id="techniques">Techniques</h2>
 <p>There are a couple of techniques to use. This can be applied to everything: logs, dynamic malware analysis, user activity, folder activity, system events etc.</p>
-<p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example is something like a suddenly increased number of server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
+<h3 id="find-evil">Find Evil</h3>
+<p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example: suddenly increased server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
 <p>🛠 Typically, this kind of stuff (spikes) is picked up by the IDS/IPS/WAF systems quite neatly.
 🗒 TODO: <a href="https://www.open-scap.org/security-policies/scap-security-guide/">https://www.open-scap.org/security-policies/scap-security-guide/</a>.</p>
+<h3 id="behavioural-analysis">Behavioural Analysis</h3>
 <p>A little more sophisticated &ldquo;Find Evil&rdquo; technique is what I call <strong>behavioural analysis</strong>. For this method, you must think like an attacker and a regular user. For example, for everyday use, the failed login process would look something like the following:</p>
 <ul>
 <li>First login attempt - error</li>
@@ -338,12 +352,15 @@
 <li>Third login attempt - error</li>
 <li>Stop (no successful login or password reset)</li>
 </ul>
+<h3 id="frequency-analysis">Frequency Analysis</h3>
 <p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look either for something more or less frequent. Covering all the cases is hard, but maybe some examples will do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
 <p>🛠 SIEM/IDS + ML (machine learning engine) could help identify those &ldquo;unusual things&rdquo;. Some SIEM would allow making rules based on different log fields. So, for example, in the above scenario, one could create a rule to alert the CSIRT if a 100 threshold for 404 HTTP status code returned is hit in 1 minute.</p>
-<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could be an indicator of command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
+<h3 id="pattern-based-analysis">Pattern-based Analysis</h3>
+<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could indicate command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
 <p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
 <p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
-<p><strong>Stacking</strong>. It&rsquo;s not a separate technique per se, rather it referes to the analysis of a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear few times, or seen on one system only usually stand out.</p>
+<h3 id="stacking">Stacking</h3>
+<p>It&rsquo;s not a separate technique per se. Instead, it refers to analysing a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear a few times or are seen on one system only usually stand out.</p>
 <h2 id="-checklists">✅ Checklists</h2>
 <h3 id="incident-response-sans">Incident Response (SANS)</h3>
 <details>
