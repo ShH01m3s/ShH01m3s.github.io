@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-single'>
+<body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -90,6 +90,7 @@
     </div>
     
 
+    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/attacks/persistence/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -194,21 +195,9 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/attacks/"> 👈🏼 Back to </br> ⚔️ Attacks DB </a>
+    <a href="/docs/dfir/attacks/"> 👈🏼 Back to </br> ⚔️ Attacks DB </a>
   </p>
-  <aside>
-   <nav id="TableOfContents">
-  <ul>
-    <li><a href="#system-boot">System Boot</a>
-      <ul>
-        <li><a href="#run-levels">Run Levels</a></li>
-      </ul>
-    </li>
-    <li><a href="#references">References</a></li>
-  </ul>
-</nav>
- </aside>
-</div>
+</div> 
 
 
 
@@ -216,89 +205,24 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Persistence Mechanisms</h1>
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    <div class="meta">
-      
-      
-
-      
-      
-
-      
-    </div>
-    
-    <b>Created:</b> 26.05.2023
-    <br />
-
-    
-
-  </header>
 
 
-  <div class="content" itemprop="articleBody">
-    <h2 id="system-boot">System Boot</h2>
-<p><code>Init</code> is the process that spawns other processes and usually has pid <code>1</code>. <code>/etc/inittab</code> can be used to set run level for the systems. <code>/etc/rc.d</code> has a collection of files that define what services are running at what level. This information can also be viewed with a <strong>chkconfig</strong> command.</p>
-<h3 id="run-levels">Run Levels</h3>
-<table>
-<thead>
-<tr>
-<th>Run Level</th>
-<th>Mode</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>Halt</td>
-<td>Shuts down system</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Single-User Mode ❗️</td>
-<td>Does not configure network interfaces, start daemons, or allow non-root logins. Can be used to boot to the super user account and change its password without knowing the old one.</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Multi-User Mode</td>
-<td>Does not configure network interfaces or start daemons.</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Multi-User Mode with Networking ❗️</td>
-<td>Starts the system normally. Servers usually run at this level.</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Undefined</td>
-<td>Not used/User-definable</td>
-</tr>
-<tr>
-<td>5</td>
-<td>X11</td>
-<td>As runlevel 3 + display manager(X), main for desktop machines.</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Reboot</td>
-<td>Reboots the system,  shuts down all services when the system is being rebooted</td>
-</tr>
-</tbody>
-</table>
-<p>[<a href="https://www.liquidweb.com/kb/linux-runlevels-explained/">1</a>]</p>
-<h2 id="references">References</h2>
-<details>
-    <summary>Expand&hellip;</summary>
-    Something here
-</details>
 
-  </div>
-</article>
-</div>
-</div>
+ 
+ <h1 class="title">Persistence Mechanisms</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/persistence/techniques/"> Techniques</a></h2> 
+    <p> 🔖 Bookmark
+Active Setup (Not yet processed)
+Startup Windows The list of reg keys that could be abused for persistence and escalation: the current user is C:\Users\[Username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup (default)</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/persistence/wmi/"> WMI Event Consumers</a></h2> 
+    <p> A little theory&hellip; . Event filter is a condition that should be met for something to happen.</p>
+
+
+
+
 
         </div>
       </div>
@@ -313,6 +237,7 @@
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/attacks/persistence/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>

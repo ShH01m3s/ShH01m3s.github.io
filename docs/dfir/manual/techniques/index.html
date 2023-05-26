@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Investigation Techniques - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/manual/"> 👈🏼 Back to </br> 🔎 Investigation Manual and Tips </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#find-evil">Find Evil</a>
+          <ul>
+            <li><a href="#known-good">Known Good</a></li>
+          </ul>
+        </li>
+        <li><a href="#behavioural-analysis">Behavioural Analysis</a></li>
+        <li><a href="#frequency-analysis">Frequency Analysis</a></li>
+        <li><a href="#pattern-based-analysis">Pattern-based Analysis</a></li>
+        <li><a href="#stacking">Stacking</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Investigation Techniques</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 26.05.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>There are a couple of techniques to use. This can be applied to everything: logs, dynamic malware analysis, user activity, folder activity, system events etc.</em></p>
+<h3 id="find-evil">Find Evil</h3>
+<p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example: suddenly increased server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
+<p>🛠 Typically, this kind of stuff (spikes) is picked up by the IDS/IPS/WAF systems quite neatly.
+🗒 TODO: <a href="https://www.open-scap.org/security-policies/scap-security-guide/">https://www.open-scap.org/security-policies/scap-security-guide/</a>.</p>
+<h4 id="known-good">Known Good</h4>
+<p>Of course, in order to find evil, one needs to know what&rsquo;s NOT. Only some of the files are worth considering. However, it takes a lot of work to keep all of them in mind. I&rsquo;ve made several database files that contain information on files on a clean installed system. There will be some divisions, but I hope it will also help eliminate a massive pack of files.</p>
+<p>When reviewing processes and artefacts for potential maliciousness, I use the following list, where items are ordered by their likelihood of being malicious.</p>
+<ol>
+<li>Outstanding <code>exe</code> or bat <code>files</code> named with one digit or letter like <code>a.ps1</code>, <code>1.bat</code>. <code>a.exe</code> etc.</li>
+<li>Drivers that were installed recently or that I don&rsquo;t recognise.</li>
+<li>Unfamiliar program names (google or ask ChatGPT to know more about such program)</li>
+<li>Familiar programs in unusual places</li>
+<li>Programs that seem legit are in the expected folders (last resort).</li>
+</ol>
+<h3 id="behavioural-analysis">Behavioural Analysis</h3>
+<p>A little more sophisticated &ldquo;Find Evil&rdquo; technique is what I call <strong>behavioural analysis</strong>. For this method, you must think like an attacker and a regular user. For example, for everyday use, the failed login process would look something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Reset password</li>
+<li>Login</li>
+</ul>
+<p>For a malicious user, it would be something like (brute-forcing):</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>N-login attempt - account blocked</li>
+<li>Sleep for N minutes</li>
+<li>M-login attempt - error</li>
+<li>etc</li>
+</ul>
+<p>For a malicious user attempting password spraying attack (when one password is used for different accounts), you are likely to do something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Stop (no successful login or password reset)</li>
+</ul>
+<h3 id="frequency-analysis">Frequency Analysis</h3>
+<p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look either for something more or less frequent. Covering all the cases is hard, but maybe some examples will do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
+<p>🛠 SIEM/IDS + ML (machine learning engine) could help identify those &ldquo;unusual things&rdquo;. Some SIEM would allow making rules based on different log fields. So, for example, in the above scenario, one could create a rule to alert the CSIRT if a 100 threshold for 404 HTTP status code returned is hit in 1 minute.</p>
+<h3 id="pattern-based-analysis">Pattern-based Analysis</h3>
+<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could indicate command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
+<p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
+<p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
+<h3 id="stacking">Stacking</h3>
+<p>It&rsquo;s not a separate technique per se. Instead, it refers to analysing a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear a few times or are seen on one system only usually stand out.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
