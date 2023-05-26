@@ -199,14 +199,8 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#system-boot">System Boot</a>
-      <ul>
-        <li><a href="#run-levels">Run Levels</a></li>
-      </ul>
-    </li>
     <li><a href="#main-directories">Main Directories</a></li>
-    <li><a href="#disks-and-devices">Disks and Devices</a></li>
-    <li><a href="#shells">Shells</a>
+    <li><a href="#disks-and-devices">Disks and Devices</a>
       <ul>
         <li><a href="#shortcuts">Shortcuts</a></li>
       </ul>
@@ -261,57 +255,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="system-boot">System Boot</h2>
-<p><code>Init</code> is the process that spawns other processes and usually has pid <code>1</code>. <code>/etc/inittab</code> can be used to set run level for the systems. <code>/etc/rc.d</code> has a collection of files that define what services are running at what level. This information can also be viewed with a <strong>chkconfig</strong> command.</p>
-<h3 id="run-levels">Run Levels</h3>
-<table>
-<thead>
-<tr>
-<th>Run Level</th>
-<th>Mode</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>Halt</td>
-<td>Shuts down system</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Single-User Mode ❗️</td>
-<td>Does not configure network interfaces, start daemons, or allow non-root logins. Can be used to boot to the super user account and change its password without knowing the old one.</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Multi-User Mode</td>
-<td>Does not configure network interfaces or start daemons.</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Multi-User Mode with Networking ❗️</td>
-<td>Starts the system normally. Servers usually run at this level.</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Undefined</td>
-<td>Not used/User-definable</td>
-</tr>
-<tr>
-<td>5</td>
-<td>X11</td>
-<td>As runlevel 3 + display manager(X), main for desktop machines.</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Reboot</td>
-<td>Reboots the system,  shuts down all services when the system is being rebooted</td>
-</tr>
-</tbody>
-</table>
-<p>[<a href="https://www.liquidweb.com/kb/linux-runlevels-explained/">1</a>]</p>
-<h2 id="main-directories">Main Directories</h2>
+    <h2 id="main-directories">Main Directories</h2>
 <p><code>bin</code> - for binary executables. Common commands are found here - <code>ps</code>, <code>ls</code>, <code>ping</code>, <code>grep</code>, <code>cp</code> etc. These are basic programs for proper OS operation.</p>
 <p><code>sbin</code> - same but more about <strong>system maintainance</strong> like <code>lptables</code>, <code>reboot</code>, <code>fdisk</code>, <code>ifconfig</code> etc.</p>
 <p><code>etc</code> - configurations for user accounts and programs.</p>
@@ -329,42 +273,6 @@
 <blockquote>
 <p>⚠️ If PATA and SATA are both used, PATA are listed first</p>
 </blockquote>
-<h2 id="shells">Shells</h2>
-<table>
-<thead>
-<tr>
-<th>Shell</th>
-<th>Characteristics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>sh</code></td>
-<td>first linux shell. Nowadays, rarely used and usually points to bash.</td>
-</tr>
-<tr>
-<td><code>bash</code></td>
-<td>Born Again Shell. Most common. Also used on MacOS. Based on <code>sh</code>.</td>
-</tr>
-<tr>
-<td><code>csh</code></td>
-<td>C shell. Not used much.</td>
-</tr>
-<tr>
-<td><code>tcsh</code></td>
-<td>Based on <code>csh</code>. Used sometimes but not set as default for main Linux distributions.</td>
-</tr>
-<tr>
-<td><code>ksh</code></td>
-<td>Korn shell. Combines best features of <code>bash</code> and <code>csh</code> and extends them. Not many people use it.</td>
-</tr>
-<tr>
-<td><code>zsh</code></td>
-<td>Also used on MacOS. Adds more features. Built on <code>ksh</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>history typically displays the last 500 commands. <code>history -c</code> - clear the history.</p>
 <h3 id="shortcuts">Shortcuts</h3>
 <p><code>Ctrl+A</code>, <code>Ctrl+E</code> - move the cursor to the start or end of the line.</p>
 <p><code>Ctrl+R</code>, <code>Ctrl+S</code> - search bash history (backwards and forwards). Terminate with <code>Ctrl+G</code>.</p>

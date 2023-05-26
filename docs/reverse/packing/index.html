@@ -201,7 +201,7 @@
   <ul>
     <li><a href="#unpacking-techniques">Unpacking techniques</a>
       <ul>
-        <li><a href="#ollydbgs-built-in-option">OllyDbg&rsquo;s built in option</a></li>
+        <li><a href="#ollydbgs-built-in-option">OllyDbg&rsquo;s built-in option</a></li>
         <li><a href="#hr-esp-4"><code>hr esp-4</code></a></li>
         <li><a href="#jmp-edi"><code>JMP EDI</code></a></li>
         <li><a href="#popad">POPAD</a></li>
@@ -260,15 +260,15 @@
     <p>There are several indicators that the executable is packed. Here they are (this list will be growing as I encounter new indicators):</p>
 <ul>
 <li>Few imports and among these imports are functions like <code>GetProcessAddress</code> or <code>LoadLibrary</code></li>
-<li>Weired names for PE sections</li>
-<li>Empty Physical addresses for sections (while VA are not empty). More about</li>
+<li>Weird names for PE sections</li>
+<li>Empty Physical addresses for sections (while VA is not empty). More about</li>
 </ul>
 <h2 id="unpacking-techniques">Unpacking techniques</h2>
-<p>A piece of software cannot just run packed (what a challenging world that would be! 😳 ). The thing is that whatever the packing algorythm is, however complex 🧶 it might be, the real code needs to be <em>unpacked into memory</em> first. So, even with the most sophisticated protection techniques, it all really comes down to waiting for the executable to get unpacked into memory, from where it can be gently and dearly dumped like a 🐝 hive from a tree 🌳 full of hungry and pretty agressive wild bees with a big and heavy bat 🏃‍♀️. We might want to do some minor other stuff afterwards but let&rsquo;s keep it for now.</p>
-<p>What do I mean by &ldquo;<em>waiting</em>&rdquo;? Start a debugger, attach to this packed 📦 piece of treasure 💎, inspect the code and try to find a point in execution, when it&rsquo;s done unpacking and hands control over to the original code. The original code&rsquo;s entry point is called OEP (original entry point - 😳) and that&rsquo;s the point when we make a memory dump.</p>
-<p>The problem is - how to actually <em>find</em> this OEP? Well, there are lot&rsquo;s of ways to do so. They vary from packer to packer, or from the analyst to analyst. Here is the list of techniques that I&rsquo;ve compiled.</p>
-<h3 id="ollydbgs-built-in-option">OllyDbg&rsquo;s built in option</h3>
-<p>There is a functionality that OllyDbg debugger has, which can be reached out with <code>Plugins -&gt; OllyDump -&gt; Find OEP</code> that can get you something unpacked. Didn&rsquo;t work for me, but might be a low hanging fruit 🍌 for you. Give it a try before getting dragged into the swamp of hardcore reversing.</p>
+<p>A piece of software cannot just run packed (what a challenging world that would be! 😳 ). The thing is that whatever the packing algorithm is, however complex 🧶 it might be, the real code needs to be <em>unpacked into memory</em> first. So, even with the most sophisticated protection techniques, it all really comes down to waiting for the executable to get unpacked into memory, from where it can be gently and dearly dumped like a 🐝 hive from a tree 🌳 full of hungry and pretty aggressive wild bees with a big and heavy bat 🏃‍♀️. We might want to do some minor other stuff afterwards but let&rsquo;s keep it for now.</p>
+<p>What do I mean by &ldquo;<em>waiting</em>&rdquo;? Start a debugger, attach it to this packed 📦 piece of treasure 💎, inspect the code and try to find a point in execution, when it&rsquo;s done unpacking and hands control over to the original code. The original code&rsquo;s entry point is called OEP (original entry point - 😳) and that&rsquo;s the point when we make a memory dump.</p>
+<p>The problem is - how to actually <em>find</em> this OEP? Well, there are lots of ways to do so. They vary from packer to packer, or from analyst to analyst. Here is the list of techniques that I&rsquo;ve compiled.</p>
+<h3 id="ollydbgs-built-in-option">OllyDbg&rsquo;s built-in option</h3>
+<p>There is a functionality that OllyDbg debugger has, which can be reached out with <code>Plugins -&gt; OllyDump -&gt; Find OEP</code> that can get you something unpacked. Didn&rsquo;t work for me, but might be a low-hanging fruit 🍌 for you. Give it a try before getting dragged into the swamp of hardcore reversing.</p>
 <p>Below is what I got when trying to run it against a slightly complicated packed malware that was a part of my job interview once:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0048DF34 CALL unpackme.0048DF39
 </span></span><span class="line"><span class="cl">0048DF39 POP EAX

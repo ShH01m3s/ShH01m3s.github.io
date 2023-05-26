@@ -194,34 +194,31 @@
  <h1 class="title">linux</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/collection/sterilisation/"> 🧼 Media Sterilisation</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/collection/sterilisation/"> 🧼 Media Sterilisation</a></h2> 
     <p> Before copying evidence or making a disk image, one needs to sterilise the target media to ensure that data on that disk before this operation would not meddle with the evidence data.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/collection/linux/"> 🐧 Linux Evidence Collection</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/collection/linux/"> 🐧 Linux Evidence Collection</a></h2> 
     <p> File Systems EXT 2,3,4, ReiserFS, XFS, JFS, Btrfs.
 Logical Backup - doesn&rsquo;t copy all, doesn&rsquo;t copy slack, free space and deleted files.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/defense/host/ids-ips/"> Host-based IDP/IPS</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/ids-ips/"> Host-based IDP/IPS</a></h2> 
     <p> <p>Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
 <p>IDS and IPS as firewall&rsquo;s filters. There are Control Plane (looks after the OS and routing table) and the Forwarding Plane (makes decisions on routing and discarding). If something happens to the Control Plane, the device will still forward the traffic (really???).</p>
 <p>By default IDS only <strong>listens 👂</strong> the traffic. It&rsquo;s usually connected to the span port on a switch. Looks for anomalies and sends alerts. Won&rsquo;t take any actions by default, but can be configured in such a way. If the IDS is down, nothing is changed for the rest of the network, it&rsquo;s still operating.</p>
 <p>IPS takes actions on its own. It is not connected to the span port, but rather is a gateway. Before it inspects and allows a packet through, nothing can move forward. So, if IPS is down, everyone is down (unless there is some load balancing enabled or may be some policy for such cases). Positioned right after the router, edge device or a firewall.</p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/defense/network/"> Network-based</a></h2> 
-    <p> A network-based IDS usually monitors the network, logs it and alerts the admin if something catches its eye.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/extx/"> ExtX</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/data-recovery/file-systems/extx/"> ExtX</a></h2> 
     <p> 2 No journaling
 3 Same but + journaling
 4 New FS</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/fat/specs/"> FAT</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/data-recovery/file-systems/fat/specs/"> FAT</a></h2> 
     <p> Any FAT partition has two main parts: system area and data area. System area contains FAT boot record (every file system has a boot record), 1st FAT and 2nd FAT.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/data-recovery/file-systems/reiser/"> ReiserFS</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/data-recovery/file-systems/reiser/"> ReiserFS</a></h2> 
     <p> Allows storing multiple files in a single sector. exclamation mark ❗️Unique to this FS!</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/investigation/artefacts/logs/linux/"> Linux Logs</a></h2> 
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/logs/linux/"> Linux Logs</a></h2> 
     <p> /var/log 🐧 /etc/rsyslog.conf - see the log owners, what specific logs are logging and where the additional configurations are stored.</p>
 
     <h2><a href="https://bakerst221b.com/docs/reverse/basics/assebly/assembly-calling-conventions/"> Calling 🤙 Conventions in x86</a></h2> 
@@ -230,6 +227,9 @@ Intro Consider the following code snippet:</p>
 
     <h2><a href="https://bakerst221b.com/docs/reverse/basics/assebly/assembly-flags/"> Flags</a></h2> 
     <p> CF Its full name is carry flag. Its main purpose is to tell that the resulting number after some operations is too much to bear for the registry size.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/reverse/basics/assebly/assembly-operations/"> Operations</a></h2> 
+    <p> In this article I&rsquo;m describing all assembly operations that I&rsquo;ve encountered myseld and also wasn&rsquo;t lazy anough to put down an explanation about here.</p>
 
 
 

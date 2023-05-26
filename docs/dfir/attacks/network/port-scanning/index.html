@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Port Scanning - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/attacks/network/"> 👈🏼 Back to </br> 🕸 Network Attacks </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#full-connect">Full Connect</a>
+      <ul>
+        <li><a href="#mechanics">Mechanics</a></li>
+        <li><a href="#responses">Responses</a></li>
+        <li><a href="#examples">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#stealth-half-open">Stealth (Half-open)</a>
+      <ul>
+        <li><a href="#responses-1">Responses</a></li>
+        <li><a href="#examples-1">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#inverse-tcp-scan">Inverse TCP Scan</a>
+      <ul>
+        <li><a href="#mechanics-1">Mechanics</a></li>
+        <li><a href="#responses-2">Responses</a></li>
+        <li><a href="#examples-2">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#xmas-scan">Xmas Scan</a>
+      <ul>
+        <li><a href="#mechanics-2">Mechanics</a></li>
+        <li><a href="#responses-3">Responses</a></li>
+        <li><a href="#examples-3">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#ack-flag-scan">ACK Flag Scan</a>
+      <ul>
+        <li><a href="#mechanics-3">Mechanics</a></li>
+        <li><a href="#responses-4">Responses</a></li>
+        <li><a href="#examples-4">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#idle-scan">IDLE Scan</a>
+      <ul>
+        <li><a href="#mechanics-4">Mechanics</a></li>
+        <li><a href="#responses-5">Responses</a></li>
+      </ul>
+    </li>
+    <li><a href="#udp-scan">UDP Scan</a>
+      <ul>
+        <li><a href="#responses-6">Responses</a></li>
+        <li><a href="#examples-5">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#null-scan">NULL Scan</a>
+      <ul>
+        <li><a href="#responses-7">Responses</a></li>
+        <li><a href="#examples-6">Examples</a></li>
+      </ul>
+    </li>
+    <li><a href="#weird-scan">Weird Scan</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Port Scanning</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 28.07.2022
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>There are several techniques for port scanning. Some of them work for one OS only.</em></p>
+<h2 id="full-connect">Full Connect</h2>
+<p><strong>OS</strong>: Windows, Linux
+<strong>Pros</strong>: The most reliable
+<strong>Cons</strong>: Noisy
+<strong>CMD</strong>: <code>nmap -sT</code></p>
+<h3 id="mechanics">Mechanics</h3>
+<p>It&rsquo;s the simplest scanning technique. It established a full TCP connection (see the TCP overview article). The client sends a <code>SYN</code> flag, <code>SYN/ACK</code> is received, the client then ends the handshake with an <code>ACK</code> flag and the connection is established.</p>
+<h3 id="responses">Responses</h3>
+<p>📫 <strong>Closed</strong>: <code>RST</code>
+📭 <strong>Open</strong>: <code>SYN</code> + <code>ACK</code></p>
+<h3 id="examples">Examples</h3>
+<p><img src="nmap-full-scan.png" alt="img"></p>
+<p>Note how the port numbers change in a random way, that&rsquo;s a strong indicator of a scanning activity.</p>
+<h2 id="stealth-half-open">Stealth (Half-open)</h2>
+<p><strong>OS</strong>: Windows, Linux
+<strong>Pros</strong>: Stealthy. Firewalls won&rsquo;t see that since there is no connection established.
+<strong>Cons</strong>: IDS might spot it.
+<strong>CMD</strong>: <code>nmap -sS</code></p>
+<h3 id="responses-1">Responses</h3>
+<p>📫 <strong>Closed</strong>: <code>RST</code>
+📭 <strong>Open</strong>: <code>SYN</code> + <code>ACK</code></p>
+<p>An example of a tcpdump for this activity:</p>
+<h3 id="examples-1">Examples</h3>
+<p><img src="nmap-syn-scan.png" alt="img"></p>
+<h2 id="inverse-tcp-scan">Inverse TCP Scan</h2>
+<p><strong>OS</strong>: Linux
+<strong>Pros</strong>: Very stealthy.
+<strong>Cons</strong>: Windows will respond with &ldquo;open&rdquo; to all probes
+<strong>CMD</strong>: <code>nmap -sF</code> (FIN flag), <code>nmap -sN</code> (no flag), <code>hping -F</code> (FIN), <code>hping -P</code>, <code>hping -U</code> (URG flag)
+<strong>RFC</strong>: 793</p>
+<h3 id="mechanics-1">Mechanics</h3>
+<p>Either of the following flags are sent: <code>FIN</code>, <code>URG</code>, <code>PUSH</code>, <code>NULL</code></p>
+<h3 id="responses-2">Responses</h3>
+<p>📫 <strong>Closed</strong>: <code>RST</code> + <code>ACK</code>
+📭 <strong>Open</strong>: no response</p>
+<h3 id="examples-2">Examples</h3>
+<p>Here is what FIN looks like in a <code>tcpdump</code>:</p>
+<p><img src="nmap-fin-scan.png" alt="img"></p>
+<h2 id="xmas-scan">Xmas Scan</h2>
+<p><strong>OS</strong>: Linux
+<strong>Pros</strong>:
+<strong>Cons</strong>: Windows will respond with &ldquo;open&rdquo; to all probes. Since the pattern is unusual for normal connections, might be detected by IDS.
+<strong>CMD</strong>: <code>nmap -sX</code>, <code>hping -X</code></p>
+<h3 id="mechanics-2">Mechanics</h3>
+<p>Three flags set in the request: <code>URG</code>, <code>PUSH</code> and <code>FIN</code>. Xmas because several unual flag are &ldquo;lit&rdquo; as if the lights on a Christmas tree.</p>
+<h3 id="responses-3">Responses</h3>
+<p>📫 <strong>Closed</strong>: RST + ACK
+📭 <strong>Open</strong>: No response</p>
+<h3 id="examples-3">Examples</h3>
+<p><img src="nmap-xmas-scan.png" alt="img"></p>
+<ol>
+<li><code>FIN</code>, <code>PUSH</code> and <code>URG</code> flags are set.</li>
+<li>Since there is no response if the port is open, the scanning utility repeats the request.</li>
+</ol>
+<h2 id="ack-flag-scan">ACK Flag Scan</h2>
+<p><strong>OS</strong>: Old BSD
+<strong>Pros</strong>: To avoid IDS
+<strong>Cons</strong>: Slow.
+<strong>CMD</strong>: <code>nmap -sA -P0 &lt;IP&gt;</code>, <code>hping -A</code> , <code>nmap -sW</code></p>
+<h3 id="mechanics-3">Mechanics</h3>
+<p>Usually, TCP connections starts with a SYN flag sent. In this case ACK flag is sent first instead. If the port is filtered, no response will be received. If not - RST flag will be returned. Based on the TTL or window size set in the resopnse, you can deduce if the port is open or closed.</p>
+<h3 id="responses-4">Responses</h3>
+<p>📫 <strong>Closed</strong>: RST, TTL &gt; 64 or <code>window size == 0</code>
+📭 <strong>Open</strong>: RST, TTL &lt; 64 or <code>window size != 0</code>
+📬 <strong>Filtered</strong>: No response</p>
+<h3 id="examples-4">Examples</h3>
+<p><img src="nmap-ack-scan.png" alt="ig"></p>
+<h2 id="idle-scan">IDLE Scan</h2>
+<p><strong>OS</strong>: Windows, Linux
+<strong>Pros</strong>: Stealthy. Firewalls won&rsquo;t see that since there is no connection established.
+<strong>Cons</strong>:
+<strong>CMD</strong>: <code>nmap -sI</code></p>
+<h3 id="mechanics-4">Mechanics</h3>
+<p>It&rsquo;s the scanning technique when you use another legit machine within the network to scan for you while observing certain artefacts afterwards to determine if the port was open or closed. It&rsquo;s possible only when it&rsquo;s possible to predict the next IPID value.</p>
+<p>📭 <strong>Open</strong>:</p>
+<p><img src="open.png" alt="img"></p>
+<p>📫 <strong>Closed</strong>:</p>
+<p><img src="closed.png" alt="img"></p>
+<h3 id="responses-5">Responses</h3>
+<p>📫 <strong>Closed</strong>: IPID is incremented by 1
+📭 <strong>Open</strong>: IPID is incremented by 2</p>
+<h2 id="udp-scan">UDP Scan</h2>
+<p><strong>OS</strong>: Windows, Linux
+<strong>Pros</strong>: <strong>Zero byte message</strong> and UDP protocol, IDS?
+<strong>Cons</strong>:
+<strong>CMD</strong>: <code>nmap -sU</code></p>
+<h3 id="responses-6">Responses</h3>
+<p>📫 <strong>Closed</strong>: ICMP, port unreliable (3.3)
+📭 <strong>Open</strong>: No response</p>
+<h3 id="examples-5">Examples</h3>
+<p><img src="nmap-udp-scan.png" alt="img"></p>
+<h2 id="null-scan">NULL Scan</h2>
+<p><strong>OS</strong>:
+<strong>Pros</strong>:
+<strong>Cons</strong>:
+<strong>CMD</strong>: <code>nmap -sN</code></p>
+<h3 id="responses-7">Responses</h3>
+<p>📫 <strong>Closed</strong>: <code>RST</code>
+📭 <strong>Open</strong>: No response</p>
+<h3 id="examples-6">Examples</h3>
+<ol>
+<li>No flags are set (tcpdump shows it as a <code>.</code> where the flag would have normally been placed otherwise).</li>
+<li>Since there is no response sent back in the case of an open port, the scanner will have to resend the packet to the same port to make sure it&rsquo;s not a mistake. This request will not be resent immediately, so observe the ACK and SYN numbers.</li>
+</ol>
+<p><img src="nmap-null-scan.png" alt="img"></p>
+<h2 id="weird-scan">Weird Scan</h2>
+<ol>
+<li><code>SYN</code> and <code>FIN</code> flag together (not normal). A lot of additional flags, weird order of requests, like <code>SYN</code> followed by <code>SYN+FIN</code> etc.</li>
+<li>Could be used to determine the OS type + circumvent the port scanning rules.</li>
+</ol>
+<p><img src="images/nmap-weird-scan.png" alt="img"></p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

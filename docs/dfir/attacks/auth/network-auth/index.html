@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Authentication Mechanisms - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/attacks/auth/"> 👈🏼 Back to </br> 🤪 Authentication Attacks </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#username-and-password">Username and Password</a>
+      <ul>
+        <li><a href="#basic-authentication">Basic Authentication</a></li>
+      </ul>
+    </li>
+    <li><a href="#tokens">Tokens</a>
+      <ul>
+        <li><a href="#simple-web-tokens">Simple Web Tokens</a></li>
+        <li><a href="#jwt-json-web-tokens">JWT (JSON Web Tokens)</a></li>
+        <li><a href="#sessions-cookies">Sessions, Cookies</a></li>
+        <li><a href="#oauth-open-authorisation">OAuth (Open Authorisation)</a></li>
+        <li><a href="#sso-security-assertions-markup-language">SSO (Security Assertions Markup Language)</a>
+          <ul>
+            <li><a href="#saml">SAML</a></li>
+            <li><a href="#openid">OpenID</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Authentication Mechanisms</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 28.07.2022
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This article is all about different authentication/authorisation mechanisms such as Basic Auth, SSO, tokens etc.</em></p>
+<p>First, what&rsquo;s the difference between authentication and authorisation? Let&rsquo;s start with a simple example. But how can I use examples without a little analogy, right? Let&rsquo;s introduce our <em>&ldquo;actors&rdquo;</em>.</p>
+<p>Imagine, there is a castle that we need to protect, because there are a lot of rooms there and some of them have safety boxes with gold coins in them.</p>
+<p><img src="castle-sketch.jpg" alt="img"></p>
+<p>We can&rsquo;t let everyone in, so, we need to place some sort of a guard to make sure only certain people can come in. So, we find a dragon egg, nurture a dragon for ourselves and place it nearby to guard our treasures.</p>
+<p><img src="dragon.png" alt="img"></p>
+<p>Scary&hellip; Good enough. Great! I resent the idea of addressing these magnificent creatures with neutral pronouns as if they were not people&hellip; So, my dragon is a <em>he</em>. After all, we are all entitled to choose our pronouns now, so why not grant this right to the beloved characters of most, if not all, fantasy and medieval stories? His name is Drogon, by the way (I am usually good at giving nicknames to pets, but this time I&rsquo;d rather steal the name).</p>
+<p>Now, lets see the process closer.</p>
+<p>So, our dragon knows the faces of three people: its master, master&rsquo;s child and a dragon carer. The dragon will let either of them pass, and will grill and chew on anyone else. It must be very lonely in this castle&hellip; .</p>
+<ol>
+<li><strong>Authentication</strong>. This usually comes first, before authorisation takes place (if any). In our little scenario, when the dragon 🐉 recognises his master, the authentication is performed.</li>
+<li><strong>Authorisation</strong>. Once the master&rsquo;s is established, the dragon lets the master through. He <em>authorises</em> the master to use the castle and whatever is stored in it.</li>
+</ol>
+<p>So, to summarise, authentication is the process of <strong>establising the identity</strong> of someone, while authorisation is the process of establishing <strong>WHAT this identity can and can&rsquo;t touch</strong>.</p>
+<h2 id="username-and-password">Username and Password</h2>
+<p>Let&rsquo;s imagine that our dragon is not from <em>the House of Dragons</em> but rather from the <em>Hobbit</em>, meaning, he can talk. Now let&rsquo;s imagine that when someone approaches him, he asks for the <strong>name</strong> and <strong>smells</strong> the trespasser. Of course, someone could just look very much like his master and dress alike, but if the smell is not right - the dragon will have a nice dinner 🍗🔥.</p>
+<p>In the IT world, we would use a user<strong>name</strong> and a password (smell) to get to the service we want. If we are in the system and the credentials a correct, we enjoy all sorts of contents this service provides. Otherwise&hellip; we don&rsquo;t get <em>grilled extra crunchy</em>, but we are not let in either.</p>
+<h3 id="basic-authentication">Basic Authentication</h3>
+<p>There are different ways to send username and password, one of them is to use the <code>Authorization</code> header and set its value to something. No one likes to pass credentials in plain text anymore (what a shame 😂), so, the username and password are base64 encoded. That doesn&rsquo;t improve security in any way, of course, but it is rather used to avoid any possible bugs if either the username or password contain special characters.</p>
+<p>But how will the server know that these are username and password an not a token? Or something else? We just add <code>Basic</code> before the encoded string to give the server a hint:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Authorization: Basic c2hlcmxvY2s6Z29vZGpvYmNyYWNraW5ndGhlcGFzc3dvcmQsbWFu
+</span></span></code></pre></div><p>Now, the server will know how to treat the value encoded.</p>
+<p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
+<p><img src="basic-auth.jpeg" alt="img">
+You don&rsquo;t need Basic Auth described above to use local authentication, for example and there are other means to send username and password (for example, in a POST body). That&rsquo;s just one way of doing it.</p>
+<h2 id="tokens">Tokens</h2>
+<p>Why send username and password if we can send just password if we are sure it&rsquo;s unique, of course. In our little analogy let&rsquo;s assume that the dragon has several favourite toys. Trusted people are given a toy 🧸 each, and they can show it to the dragon 🐉 to avoid being sniffed and interrogated. The toy remains with them, and the dragon can play with it while the visitors are in the castle. But how do you get a toy? Well, you need to get sniffed at least once in order to get one.</p>
+<p>In IT world, that basically means that we user our username and password to authenticate, and then we generate a token to use ongoing forward instead. While with the user and password I can do everything this user is allowed to do, the token might have reduced permissions. Also, if my token gets compromised, I revoke it and generate another one. When using services&rsquo; APIs it&rsquo;s very common to use tokens. There are different types of tokens, they might have differnt expiration periods, and they can be passed in various ways, but they are still tokens.</p>
+<p>Tokens are usually either random strings or pieces of information encoded and signed (JWT). Token can be stored on the server or be stateless (depends on the token). If the token is signed, we can avoid storing it on the server.</p>
+<p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
+<p><img src="tokens.jpeg" alt="img"></p>
+<h3 id="simple-web-tokens">Simple Web Tokens</h3>
+<h3 id="jwt-json-web-tokens">JWT (JSON Web Tokens)</h3>
+<p>RFC 7519, you can decode JWT tokens here - <a href="https://jwt.io/">https://jwt.io/</a>.</p>
+<p>It&rsquo;s relatively easy to spot a JWT token because they follow the same structure (base64 encoded):</p>
+<ol>
+<li><strong>header</strong>. Usually starts with <code>eyJ...</code> because it starts with <code>{</code>, usually, the same string (<code>{&quot;alg&quot;: &quot;HS256&quot;,&quot;typ&quot;: &quot;JWT&quot;}</code>). Contains info about the token and signature types.</li>
+<li><strong>payload</strong> (aka JWT claims). This is the custom part, contains information about the identity, maybe some information about the request iteslf. Not all of them need to be present, but here is the list of possible variables there:
+<ol>
+<li><strong>Registered</strong>.
+<ol>
+<li>iat - C timestamp</li>
+<li>iss - who issued it</li>
+<li>sub - token subject</li>
+<li>exp - expiry time</li>
+<li>aud - (app URL or something indicating what this token is for)</li>
+<li>nbf - not before (<strong>before</strong> that time the token is not valid)</li>
+<li>jti - unique token id</li>
+</ol>
+</li>
+<li><strong>Public</strong>. Custom ones like <code>email</code>, <code>username</code> etc.</li>
+<li><strong>Private</strong>. Look like garbage to everyone else, but mean a lot to the server. Like my self-made cards I gave to my parents when I was little 😂.</li>
+</ol>
+</li>
+<li><strong>signature</strong>. <code>HMAC(header + '.' + payload, secret)</code>. Secret is stored on the server and is used to verify the token.</li>
+</ol>
+<p>Each part is separated with a dot <code>.</code>.</p>
+<p>I&rsquo;m not quite sure how to stretch my analogy to encompass JWT tokens, to be honest. My dragon would have to learn how to read and verify signatures, which would effectively turn it into a notary, and where&rsquo;s the fun in that?</p>
+<p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
+<p><img src="jwt-token.jpeg" alt="img"></p>
+<h3 id="sessions-cookies">Sessions, Cookies</h3>
+<p>Imagine, our dragon likes special cookies 🍪 with a little meaty touch. Suppose, when we have visitors who were sniffed already, we give them a cookie to give the dragon the next time they would like to pay us a visit. This way they can save themselves a emberassment of wetting themselved the next time the dragon is taking a closer look.</p>
+<p>Let&rsquo;s now see how that really works in a less frightnening situation. We use username and password to login and verify our identity. The server generated a cookie/session id. There are lots of different algoritms to generate those, we don&rsquo;t really care about it here. All we care about is that this cookies is stored in the browser&rsquo;s local storage and in the server&rsquo;s RAM or the server&rsquo;s local storage (this happens too). Hit F12 and go to the <code>Application</code> tab. You will see browser&rsquo;s stash. There are three places where sessions ids can be stored, but usually it&rsquo;s the Cookies storage.</p>
+<p><img src="images/browser-stash.png" alt="img"></p>
+<p>When the user logs out or the session ID expires, it is deleted both on the client side and the server side.</p>
+<p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
+<p><img src="cookies.jpeg" alt="img"></p>
+<h3 id="oauth-open-authorisation">OAuth (Open Authorisation)</h3>
+<p>Drogon 🐉 will be playing the role of an resource server <a href="https://drogon.com">https://drogon.com</a> and the master 😵‍💫 is the authorisation server <a href="https://master.com">https://master.com</a>. Now, the master&rsquo;s son 🤪 wants to come through. Here is the play.</p>
+<blockquote>
+<p>❗️ That&rsquo;s not the most accurate representation of the process from the technical perspective. For this refer to the inforgram at the end of this section. All the communication between Drogon and the Master is well heard by the master&rsquo;s son. In the IT world that means that Drogon is the Client App and all requets made by the app are visible to the user himself. Also, step 2 is a redirect link for the client, so, I could as well stretch the arrow from Drogon to the Master, but that seemed more confusing. Drogon here is both the client and the server side of the applicaiton.</p>
+</blockquote>
+<p>The user 🤪 tries to access the resource 🏰, gets kicked in the balls by the app 🐉 and is sent to authorisation server 😵‍💫 to confirm his or her identity.</p>
+<p><img src="oauth-1.png" alt="img"></p>
+<p>After the checks are done by this authorisation center, the user get&rsquo;s a link with a code 🕊 generated by this authorisation server 😵‍💫.
+<img src="oauth-2.png" alt="img"></p>
+<p>The app 🐉 then sends this code along with some info about itself along back to the authorisation server 😵‍💫. The authorisation server 😵‍💫 generates a token 🍰 and sends it to the app 🐉 via the user&rsquo;s 🤪 browser, where it gets saved to the cookie or other storage, and is sent most likely in the <code>Authorization</code> header with a token keyword preceeding the token itself.
+<img src="oauth-3.png" alt="img">
+Happy END! (Although rather depends on the perpective&hellip;.)
+<img src="oauth-4.png" alt="img"></p>
+<p>Basically, it translates to &ldquo;Hey, this guy knows me, ask him and he will confirm I am a good fella&rdquo;. While that doesn&rsquo;t sound that reliable in our dragon scenario, its current implementation in IT world does. Essentially, it&rsquo;s just another way to get some token. It&rsquo;s just that in this case the token is not generated by the service that the client is trying to access but rather by some third-party authorised by both the client and the server.</p>
+<p>There are 4 types of flow that can be used (from ChatGPT).</p>
+<ol>
+<li><strong>Authorization Code Grant Flow</strong>: This is the most common and secure grant type. It involves the user being redirected to the service provider&rsquo;s authorization server to grant permission. The user is then redirected back to the application with an authorization code, which the application exchanges for an access token. This grant type is suitable for web and mobile applications that have a server-side component to handle the exchange of the authorization code for the access token securely. This is what was roughly shown on the pictures above.</li>
+<li><strong>Implicit Grant Flow</strong>: This grant type is a simplified version of the Authorization Code Grant Flow, designed for browser-based applications without a server-side component (e.g., Single Page Applications). Instead of receiving an authorization code, the application directly receives an access token after the user grants permission. However, this grant type is less secure than the Authorization Code Grant Flow because the access token is exposed in the browser URL and may be susceptible to token interception. If we try to apply this procedure to the scenario with Drogon, it means that there is no dove 🕊 and the cake 🍰 is sent right away INSTEAD of the dove 🕊.</li>
+<li><strong>Client Credentials Grant Flow</strong>: This grant type is used when an application needs to access resources it owns or manages on the service provider, rather than on behalf of a user. The application authenticates itself using its client credentials (client ID and client secret) and receives an access token directly. This grant type is suitable for machine-to-machine authentication and is often used in server-to-server scenarios where user involvement is not required. It if Drogon 🐉 and the Master 😵‍💫 are talking to each other without the little fella 🤪.</li>
+<li><strong>Password Grant Flow (Resource Owner Password Credentials)</strong>: This grant type involves the user sharing their service provider credentials (username and password) directly with the application, which then uses these credentials to obtain an access token. This grant type is less secure and recommended only for trusted applications or legacy systems where other grant types are not feasible. It is not recommended for modern applications due to the security risks of sharing user credentials with third-party applications. In the example above, the master&rsquo;s son 🤪 would have to show the passport and reveal the secret about the lady on the side 💃🏻 to Drogon 🐉 directly. One can see how that&rsquo;s not something you&rsquo;d want. Although in the scenario I have described it looks like more the Master&rsquo;s problem rather than the son&rsquo;s (that&rsquo;s why the scenario is not 💯% accurate, sorry 🤷🏻‍♀️). But imagine that lady on the side is something son&rsquo;s not interested in revealing to anyone else either. Maybe he&rsquo;s going into politics and the last thing he needs is a personal profile of ill repute.</li>
+</ol>
+<p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.
+<img src="oauth.jpeg" alt="img"></p>
+<h3 id="sso-security-assertions-markup-language">SSO (Security Assertions Markup Language)</h3>
+<p>The idea is very close to OAuth, if you ask me: using a singe resource to login to multiple resources and that single resource NOT being the same password, god forbid 🤞🏼!</p>
+<p>Now, the highlevel overview is quite simple. Remember the last time that you bought an Oyster card or whatever analogous thing you have in your country (Troyka in Moscow or InstanbulKart in Instanbul)? It&rsquo;s a card that can be used in subway, buses and even the river transport. When you buy a ticket from Identity Provider and pay for it. Then you provide this ticket to whatever service provider you are trying to use (river transport, a bus or subway). SSO is very similar to that. You don&rsquo;t need separate tickets for each transport, you have one.</p>
+<p>There are three parties involved here: IDP (identity provider), user and SP (service provider). Again, identity provider would be the master 😵‍💫 since he&rsquo;s the one who has LITERALLY provided his son with identity, service provider is obviously Drogon 🐉 and the castle 🏰 he&rsquo;s protecting. Lastly, the user is the son 🤪.</p>
+<p>Let&rsquo;s imagine that the master has three castles and his son is able to get inside each of them. The second castle is protected by a bear 🧸 and the third - by COVID-19 🦠. While Drogon needs to sniff his visitors, the bear relies on the sound of the footsteps 👣, and COVID-19 🦠 checks the number and type of <em>&ldquo;weak points&rdquo;</em>. If only there was a way to get inside each one of them with just one set of credentials&hellip; 🤔</p>
+<p>What would happen is the son 🤪 comes to daddy 😵‍💫 again and says, that he wants to have a card that would let him pass in any of these three castles. Daddy agrees, looks at his son very carefully, and gives him a note saying something like &ldquo;My son who looks like this 🤪 can have acces to the following castles:  🏰🏯🛖&rdquo;. Now, the son 🤪 comes to Drogon and gives him the card. Drogon is no fool, so he looks at the note and checks if there are any indications of tampering (letters fixed, part of the text erased etc). If there are non - Drogon will have to chew on something else.</p>
+<p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
+<p><img src="sso.jpeg" alt="img"></p>
+<h4 id="saml">SAML</h4>
+<p>It&rsquo;s a protocol for SSO, XML-based.</p>
+<h4 id="openid">OpenID</h4>
+<p>It&rsquo;s just of the Identity providers.
+OpenID was developed by the OpenID Foundation, and its successor, OpenID Connect, is built on top of the OAuth 2.0 protocol, allowing for both authentication and authorization capabilities.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
