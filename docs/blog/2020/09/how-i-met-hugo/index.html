@@ -306,6 +306,8 @@ Approximately by that time I’ve reanimated my husband’s MacBook after a long
 </span></span><span class="line"><span class="cl"><span class="c1"># To replace image tags broken by Obsidian when moving folders, macOS (ChatGPT): </span>
 </span></span><span class="line"><span class="cl">find . -type f -name <span class="s2">&#34;*.md&#34;</span> -exec perl -i -pe <span class="s1">&#39;s/!\[(.*?)\]\((.*\/)*images\/(.*\.(png|jpg|jpeg|gif|pn))\)/![\1](images\/\3)/g&#39;</span> <span class="o">{}</span> +  
 </span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">find . -type f -name <span class="s2">&#34;*.md&#34;</span> -exec perl -i -pe <span class="s1">&#39;s/!\[(.*?)\]\(((?:[^\/]+\/)*)(.+?\.(png|jpe?g))\)/![\1](images\/\3)/g&#39;</span> <span class="o">{}</span> +
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">#find lost images in the folder</span>
 </span></span><span class="line"><span class="cl">find . -type f <span class="se">\(</span> -iname <span class="s2">&#34;usb-1.png&#34;</span> -o -iname <span class="s2">&#34;usb-2.png&#34;</span> <span class="se">\)</span>
 </span></span></code></pre></div><p>While Obsidian does something like <code>![[image.png]]</code> when you drag and drop.</p>
