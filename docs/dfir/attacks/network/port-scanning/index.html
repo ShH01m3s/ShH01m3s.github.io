@@ -299,7 +299,7 @@
 <p>📫 <strong>Closed</strong>: <code>RST</code>
 📭 <strong>Open</strong>: <code>SYN</code> + <code>ACK</code></p>
 <h3 id="examples">Examples</h3>
-<p><img src="nmap-full-scan.png" alt="img"></p>
+<p><img src="images/nmap-full-scan.png" alt="img"></p>
 <p>Note how the port numbers change in a random way, that&rsquo;s a strong indicator of a scanning activity.</p>
 <h2 id="stealth-half-open">Stealth (Half-open)</h2>
 <p><strong>OS</strong>: Windows, Linux
@@ -311,7 +311,7 @@
 📭 <strong>Open</strong>: <code>SYN</code> + <code>ACK</code></p>
 <p>An example of a tcpdump for this activity:</p>
 <h3 id="examples-1">Examples</h3>
-<p><img src="nmap-syn-scan.png" alt="img"></p>
+<p><img src="images/nmap-syn-scan.png" alt="img"></p>
 <h2 id="inverse-tcp-scan">Inverse TCP Scan</h2>
 <p><strong>OS</strong>: Linux
 <strong>Pros</strong>: Very stealthy.
@@ -325,7 +325,7 @@
 📭 <strong>Open</strong>: no response</p>
 <h3 id="examples-2">Examples</h3>
 <p>Here is what FIN looks like in a <code>tcpdump</code>:</p>
-<p><img src="nmap-fin-scan.png" alt="img"></p>
+<p><img src="images/nmap-fin-scan.png" alt="img"></p>
 <h2 id="xmas-scan">Xmas Scan</h2>
 <p><strong>OS</strong>: Linux
 <strong>Pros</strong>:
@@ -337,7 +337,7 @@
 <p>📫 <strong>Closed</strong>: RST + ACK
 📭 <strong>Open</strong>: No response</p>
 <h3 id="examples-3">Examples</h3>
-<p><img src="nmap-xmas-scan.png" alt="img"></p>
+<p><img src="images/nmap-xmas-scan.png" alt="img"></p>
 <ol>
 <li><code>FIN</code>, <code>PUSH</code> and <code>URG</code> flags are set.</li>
 <li>Since there is no response if the port is open, the scanning utility repeats the request.</li>
@@ -354,7 +354,7 @@
 📭 <strong>Open</strong>: RST, TTL &lt; 64 or <code>window size != 0</code>
 📬 <strong>Filtered</strong>: No response</p>
 <h3 id="examples-4">Examples</h3>
-<p><img src="nmap-ack-scan.png" alt="ig"></p>
+<p><img src="images/nmap-ack-scan.png" alt="ig"></p>
 <h2 id="idle-scan">IDLE Scan</h2>
 <p><strong>OS</strong>: Windows, Linux
 <strong>Pros</strong>: Stealthy. Firewalls won&rsquo;t see that since there is no connection established.
@@ -363,9 +363,9 @@
 <h3 id="mechanics-4">Mechanics</h3>
 <p>It&rsquo;s the scanning technique when you use another legit machine within the network to scan for you while observing certain artefacts afterwards to determine if the port was open or closed. It&rsquo;s possible only when it&rsquo;s possible to predict the next IPID value.</p>
 <p>📭 <strong>Open</strong>:</p>
-<p><img src="open.png" alt="img"></p>
+<p><img src="images/open.png" alt="img"></p>
 <p>📫 <strong>Closed</strong>:</p>
-<p><img src="closed.png" alt="img"></p>
+<p><img src="images/closed.png" alt="img"></p>
 <h3 id="responses-5">Responses</h3>
 <p>📫 <strong>Closed</strong>: IPID is incremented by 1
 📭 <strong>Open</strong>: IPID is incremented by 2</p>
@@ -378,7 +378,7 @@
 <p>📫 <strong>Closed</strong>: ICMP, port unreliable (3.3)
 📭 <strong>Open</strong>: No response</p>
 <h3 id="examples-5">Examples</h3>
-<p><img src="nmap-udp-scan.png" alt="img"></p>
+<p><img src="images/nmap-udp-scan.png" alt="img"></p>
 <h2 id="null-scan">NULL Scan</h2>
 <p><strong>OS</strong>:
 <strong>Pros</strong>:
@@ -392,7 +392,7 @@
 <li>No flags are set (tcpdump shows it as a <code>.</code> where the flag would have normally been placed otherwise).</li>
 <li>Since there is no response sent back in the case of an open port, the scanner will have to resend the packet to the same port to make sure it&rsquo;s not a mistake. This request will not be resent immediately, so observe the ACK and SYN numbers.</li>
 </ol>
-<p><img src="nmap-null-scan.png" alt="img"></p>
+<p><img src="images/nmap-null-scan.png" alt="img"></p>
 <h2 id="weird-scan">Weird Scan</h2>
 <ol>
 <li><code>SYN</code> and <code>FIN</code> flag together (not normal). A lot of additional flags, weird order of requests, like <code>SYN</code> followed by <code>SYN+FIN</code> etc.</li>

@@ -280,12 +280,12 @@
 <p>Data is written in pages and deleted in blocks (multiple pages).</p>
 <h2 id="raw-nand-vs-emmc">Raw NAND vs eMMC</h2>
 <p>eMMC = controller + NAND. Raw NAND chips use NAND protocol. We need some device to emulate the controller in order to retreive the data from the NAND chip. Controller has a buffer, which stores some amount of pages. Reads/writes pages to NAND or erases blocks from NAND.</p>
-<p><img src="nand-raw.png" alt="nand-raw"></p>
+<p><img src="images/nand-raw.png" alt="nand-raw"></p>
 <p>With eMMC you are forced to work through the built in controller, using eMMC protocol. However, under the hood the NAND inside still uses NAND protocol to talk to the controller. These chips are popular for many devices (except for Apple ones). QNX environment - real-time operating system.</p>
-<p><img src="emmc.png" alt="emmc"></p>
-<p><img src="xry-emmc.png" alt="xry-emmc"></p>
+<p><img src="images/emmc.png" alt="emmc"></p>
+<p><img src="images/xry-emmc.png" alt="xry-emmc"></p>
 <p>What are these gold pads? They are techno pads used by the manufacturer to do testing, debugging. Is this a way to talk to this chip directly? The lock sits in the controller chip.</p>
-<p><img src="techno-pads.png" alt="techno-pads"></p>
+<p><img src="images/techno-pads.png" alt="techno-pads"></p>
 <h2 id="structure">Structure</h2>
 <p>There lots of flavours of flash chips but as far as I understand they are primarily of the same structure [<a href="https://www.youtube.com/watch?v=GMQF9P_oGi0">1</a>].</p>
 <h3 id="page">Page</h3>
@@ -295,7 +295,7 @@
 <li>chunks of data and spare area where spare area might have varying size.</li>
 <li>chunks of data and spare area where spare area has a fixed size.</li>
 </ul>
-<p><img src="page-structure.png" alt="t"></p>
+<p><img src="images/page-structure.png" alt="t"></p>
 <p><strong>Data area</strong> 🗄️ is of constant size within one page and can be 512, 1024 or 2048 bytes.</p>
 <p><strong>Spare area</strong> 🤪. Depending on the page layout (shown above), it can have the following structure:</p>
 <ul>
@@ -310,7 +310,7 @@
 <p>Physically adjacent blocks (1024 of them, to be precise) form a <strong>plane</strong> ✈️. Following the calculation it can get as big as 4320Mb.</p>
 <h3 id="lun">LUN</h3>
 <p><strong>Logical unit (LUN)</strong> 📁 is comprised of two planes ✈️✈️ and therefore is up to 4320Mb in size (at the moment of the writing and to my knowledge at least).</p>
-<p><img src="lnu.png" alt="lnu"></p>
+<p><img src="images/lnu.png" alt="lnu"></p>
 <h2 id="main-characteristics">Main Characteristics</h2>
 <h3 id="wear-leveling">Wear Leveling</h3>
 <p>The data is spread evenly across the chips. That gives birth to certain problems like the one described at Magnet Summit 2021 (see <a href="/docs/dfir/antiforensics/cmd42-lock">here</a>). This is needed because each chip has a finite amount of writes to it.</p>
@@ -336,8 +336,8 @@
 <li><input disabled="" type="checkbox"> Get the physical image (☝️)</li>
 <li><input disabled="" type="checkbox"> Determine the page layout. When you load this image into a Visual NAND reconstructor, you&rsquo;ll get a bitmap representation of the data from the NAND chip. In order to read the contents you&rsquo;ll have to determine the page layout. An example of before and after [<a href="https://www.youtube.com/watch?v=GMQF9P_oGi0">1</a>]:</li>
 </ul>
-<p><img src="before-layout.png" alt="before-layout"></p>
-<p><img src="after-layout.png" alt="after-layout"></p>
+<p><img src="images/before-layout.png" alt="before-layout"></p>
+<p><img src="images/after-layout.png" alt="after-layout"></p>
 <ul>
 <li><input disabled="" type="checkbox"> Determine the size and checksums for ECC ❓</li>
 <li><input disabled="" type="checkbox"> Determine the scrambling method (XOR or INV)</li>

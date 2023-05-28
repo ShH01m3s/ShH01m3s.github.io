@@ -257,20 +257,20 @@
 <p>No firewall in between. The server initiates a connection for data transfer. That means more risk for the client.</p>
 <h4 id="steps">Steps</h4>
 <p>Client 🐝 opens a port, say, <code>1069</code>.</p>
-<p><img src="open-ftp-port.png" alt="img"></p>
+<p><img src="images/open-ftp-port.png" alt="img"></p>
 <p>The client 🐝 then informs the server 🌸 via the <code>PORT 1069</code> command over the server&rsquo;s <code>21</code>st port.</p>
-<p><img src="port-send.png" alt="img"></p>
+<p><img src="images/port-send.png" alt="img"></p>
 <p>The server connects to this port and sends the data from its <code>20</code>th port.</p>
-<p><img src="data-send.png" alt="img"></p>
+<p><img src="images/data-send.png" alt="img"></p>
 <p>Why is it more risky for the client? Because the client 🐝 is open for connections for some time. Most often, the firewall blocks most of the connections not initiated by the client. To allow this mode to work, one must allow the inbound connection, which might be risky. Also, the client 🐝 is sharing its IP address and port number. What if the server is not untrusted? What if these requests are logged somewhere?</p>
 <h3 id="passive-mode">Passive mode</h3>
 <p>This mode is usually used when the client 🐝 has a firewall that blocks incoming connections. It means less risk for the client and more risk for the server 🌸.</p>
 <h4 id="steps-1">Steps</h4>
 <p>The client 🐝 sends a <code>PASV</code> to the <code>21</code>st port of the server 🌸 basically saying <em>&ldquo;I want to use the passive mode&rdquo;</em>.</p>
-<p><img src="rev-1.png" alt="img">
-<img src="rev-2.png" alt="img"></p>
-<p><img src="rev-3.png" alt="img"></p>
-<p><img src="rev-4.png" alt="img"></p>
+<p><img src="images/rev-1.png" alt="img">
+<img src="images/rev-2.png" alt="img"></p>
+<p><img src="images/rev-3.png" alt="img"></p>
+<p><img src="images/rev-4.png" alt="img"></p>
 <h2 id="-btfm">📘 BTFM</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ABOR
 </span></span><span class="line"><span class="cl">LIST

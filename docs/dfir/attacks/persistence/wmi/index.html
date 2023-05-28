@@ -313,7 +313,7 @@
 </span></span><span class="line"><span class="cl"><span class="n">wmic_lr</span><span class="p">.</span><span class="n">local</span><span class="p">.</span><span class="n">cmd</span> <span class="p">&amp;</span> <span class="n">wmic_lr</span><span class="p">.</span><span class="n">remote</span><span class="p">.</span><span class="n">cmd</span> 
 </span></span></code></pre></div><h2 id="analysis-of-cim">Analysis of CIM</h2>
 <p>Looks like the structure is as follows: all the commands start with <code>GetCimInstance</code>. Get the stack version to determine wether to use WSMan protocol or DCOM:</p>
-<p><img src="stack-version.png" alt="stack-version"></p>
+<p><img src="images/stack-version.png" alt="stack-version"></p>
 <p>For a remote machine you may use <code>Test-WSMan -ComputerName dc01</code>. Running <code>hostname</code> to get the local PC name and using this value in the previous command resulted in error. <code>$PSVersionTable</code> worked fine for me. On newer versions DCOM is usually blocked by firewall 🔥.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$DCOM</span> <span class="p">=</span> <span class="nb">New-CimSessionOption</span> <span class="n">-Protocol</span> <span class="n">Dcom</span>
 </span></span><span class="line"><span class="cl"><span class="nv">$Cred</span> <span class="p">=</span> <span class="nb">Get-Credential</span>
@@ -324,7 +324,7 @@
 <li>restart Powershell with <em>domain</em> admin privileges (less secure since you&rsquo;d end up using this privileged window to do other non-privileged stuff);</li>
 <li>use per-command privilege escalation using <code>Credentials</code> parameter: <code>$CimSession = New-CimSession -ComputerName dc01 -Credential (Get-Credential)</code>. Then query the remote machine using this session: <code>Get-CimInstance -CimSession $CimSession -ClassName Win32_BIOS</code>.</li>
 </ol>
-<p><img src="cim-session-create.png" alt="cim-session-create"></p>
+<p><img src="images/cim-session-create.png" alt="cim-session-create"></p>
 <h2 id="examples">Examples</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># get the serial</span>
 </span></span><span class="line"><span class="cl"><span class="nb">Get-CimInstance</span> <span class="n">-ClassName</span> <span class="n">Win32_BIOS</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">-Property</span> <span class="n">SerialNumber</span>

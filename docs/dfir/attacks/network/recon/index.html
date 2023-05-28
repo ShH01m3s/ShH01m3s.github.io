@@ -265,7 +265,7 @@
 </blockquote>
 <p>Let&rsquo;s compare the two systems and find something to help identify the OS based on the default behaviour.</p>
 <p>Below you can see three screenshots of <code>traceroute</code> utility at work. For each TTL value/network node (starting from <code>1</code>), macOS sends three consecutive requests. For each UDP request with a given TTL sent, an ICMP reply is received when the node is not filtered. It starts with <code>TTL=1</code>, sends three UDP requests regardless of whether there is a reply, and then increments the TTL value by one.</p>
-<p><img src="mac-udp-traceroute.png" alt="img"></p>
+<p><img src="images/mac-udp-traceroute.png" alt="img"></p>
 <p>If the node is not filtered, you&rsquo;d observe something like this in the above screenshot:</p>
 <ol>
 <li>TTL=X, UDP request</li>
@@ -283,22 +283,22 @@
 <li>&hellip; (you get the idea)</li>
 </ol>
 <p>What happens when the node is not responding to these UDP probes? UDP is sent, just like in the screenshot above, but there is no ICMP reply. See the below picture. Again, three UDP requests with the same TTL, then it&rsquo;s incremented.</p>
-<p><img src="mac-udp-traceroute-requests.png" alt="img"></p>
+<p><img src="images/mac-udp-traceroute-requests.png" alt="img"></p>
 <p>To make things a little clearer, I&rsquo;ve captured the traffic along with the terminal window to show the filtered nodes&rsquo; responses both in Wireshark and in traceroute output.</p>
-<p><img src="mac-udp-traceroute-3.png" alt="img"></p>
+<p><img src="images/mac-udp-traceroute-3.png" alt="img"></p>
 <p>Note the asterisks <code>*</code>; these indicate some filtering that rejects UDP probes. Note that there is a correlation between the number of asterisks, the number of UDP requests in Wireshark and the absence of ICMP replies. Whenever some filtering is in place, OS tries three times and then gives up hope of getting an answer and moves on to the next node by incrementing the TTL. Note that the last number in the Terminal is 14, whereas the previous TTL is 15 (only one request yet). The asterisks are added only when the traceroute sends another request.</p>
 <p>Now, let&rsquo;s see what happens when we use ICMP instead. Pretty much the same, except that the protocols are different. For this to work, you will need to add a <code>-I</code> switch.</p>
-<p><img src="mac-icmp-traceroute-1.png" alt="img"></p>
-<p><img src="mac-icmp-treaceroute-3.png" alt="img"></p>
+<p><img src="images/mac-icmp-traceroute-1.png" alt="img"></p>
+<p><img src="images/mac-icmp-treaceroute-3.png" alt="img"></p>
 <p>Windows <code>tracert</code>:
-<img src="gdh-win-tracert.png" alt="img"></p>
+<img src="images/gdh-win-tracert.png" alt="img"></p>
 <p>UNIX <code>traceroute</code>:</p>
-<p><img src="gdh-traceroute.png" alt="img"></p>
+<p><img src="images/gdh-traceroute.png" alt="img"></p>
 <h2 id="ping"><code>ping</code></h2>
 <p>I have run ping <code>bakerst221b.com</code> on my Mac and looked at the traffic and the command output. Here are my observations.</p>
 <p>My older Mac is using ICMPv6 protocol with <code>ping</code> command. So, the filter in Wireshark should be set to <code>icmpv6</code>. And it was done over <code>IPv6</code>, so instead of <code>TTL</code> there was <code>Hop Limit</code> which was set to <code>255</code>.</p>
 <p>On the new one, however, ping operated over ICMP and used IPv4. Default TTL - 245. See below.</p>
-<p><img src="mac-ping-ttl.png" alt="img"></p>
+<p><img src="images/mac-ping-ttl.png" alt="img"></p>
 <h2 id="telnet"><code>telnet</code></h2>
 <h2 id="nmap"><code>nmap</code></h2>
 <blockquote>

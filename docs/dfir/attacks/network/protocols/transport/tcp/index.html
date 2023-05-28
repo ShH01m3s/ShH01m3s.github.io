@@ -280,21 +280,21 @@
 <p>Some applications have their <em>&ldquo;favourite&rdquo;</em> ports, which are usually assigned to them (like, ssh is usually at <code>22</code>, and ftp <code>21</code>, and web <code>80</code> or <code>8080</code>). Even some malware 🕷️ applications have prerferences. But whatever the preferences are, a user can usually change them.</p>
 <p>We are arriving 🚋 and I hope you&rsquo;ve read about <strong>data structures</strong>, but in case you have not or in case this knowledge has not yet settled&hellip; In a word, computers only see an almost endless sequence of <code>1</code>s and <code>0</code>s. A data structure difines how a PC interprets this or that sequence of <code>1</code>s or <code>0</code>s. If you tell a computer 💻 PC that <code>01000001</code> is an integer, it will show you <code>0x41</code> in hex editor.  If you tell a computer that <code>01000001</code> is an ASCII letter, it will output <code>A</code>. If you, for example, tell a computer that these are <a href="#flags">TCP flags</a>, it will interpret them as <code>ECN-Echo</code> and <code>FIN</code> flags 🎏 set and etc (I hope you get the point). So, TCP header is just another data structure that tells a PC how it should interpret and use these particular sequence of bits (<code>1</code>s or <code>0</code>s).</p>
 <p>Now, about TCP header. TCP is just one of the headers that you message ✉ sent over the network 🕸️ has to provide in order to be delievered. You can read about this in my article <a href="/docs/articles/fundamentals/network/osi/overview">here</a>. Its main purpose (as pointed out above) is to specify the port (i.e. application or process) that this message should be delievered to. All other things it provides are secondary. For example, it can so, to say, ensure data integrity. I&rsquo;ve marked TCP header on the screenshot below with purple curly brackets. The upper curly bracket shows the TCP header after being enterpreted by Wireshark and the below one (highlighted in blue as well) - raw bytes (before being interpreted by Wireshark): <code>ea a3 01 bb 69 10 a9 e2 a0 71 33 51 50 10 0f ed 1e b9 00 00</code>. Yes, that&rsquo;s it, 20 bytes is the length of a TCP header (if an optional field <em>Options</em> is not filled out). And these 20 bytes tell so much!</p>
-<p><img src="11.jpg" alt="img"></p>
+<p><img src="images/11.jpg" alt="img"></p>
 <h3 id="source-port">Source Port</h3>
 <p>The first two bytes are <code>eaa3</code>. These bytes are to be interpreted as a decimal value (<code>60067</code>) and stand for the source port. You can use a converter online (for example, <a href="https://www.rapidtables.com/convert/number/hex-to-decimal.html">here</a>).  Now check the <em>Source port:</em> field value (bytes as they were interpreted by Wireshark) on the screenshot below - <code>60067</code> as well! Amazing 🤩!</p>
-<p><img src="2.jpg" alt="img"></p>
+<p><img src="images/2.jpg" alt="img"></p>
 <p>Note, that on the lower part of the window there are some weird-looking letters <code>t</code>, <code>q3QP</code> etc. They don&rsquo;t make sense, do they? Well, they should not, at least. If they do, having a good rest is strongly suggested 🏥. Wireshark attempts to interpret these bytes as ASCII characters aka text (remember abut data structures above? This is a good example when the wrong one is used). Since this is a TCP header and <strong>not</strong> text, the result is total garbage. <em>You might ask why Wireshark is doing that?</em> Well, the reason is probably because on other layers this functionality is handy and it was tedious to turn it off for this field. Besides, who knows, may there is some covert channel here&hellip; . But I&rsquo;m getting off the topic.</p>
 <h3 id="destination-port">Destination Port</h3>
 <p>Now, let&rsquo;s take the next 2 bytes: <code>01bb</code>. Let&rsquo;s use the same hex-to-decimal converter <a href="https://www.rapidtables.com/convert/number/hex-to-decimal.html">here</a> to figure out the decimal value - <code>443</code>. Check against the Wireshark&rsquo;s interpretation below (value highlighted in yellow):</p>
-<p><img src="3.jpg" alt="img"></p>
+<p><img src="images/3.jpg" alt="img"></p>
 <p>Bingo 🎉 ! Remeber me writing about favourite port numbers? Well, <code>443</code> is an indisputable darling of <code>SSL/TLS</code> (secure version of HTTP used to browse websites). You can read more about it <a href="/docs/articles/fundamentals/network/osi/application/protocols/ssl-tls">here</a>.</p>
 <h3 id="sequence-number">Sequence number</h3>
 <p>The next four bytes are a bit harder to explain, but I will try 😊. As the paragraph&rsquo;s title states, we are going to talk about <em>sequence numbers</em>.  Since TCP was developed in order to ensure that no data is lost in transit, there must be a way to track parcels 📦. What can be easier than put a number on each package 📦?</p>
 <p>For example, Marge needs to send 10 packages to Homer. She numbers all packages from 1 to 10.</p>
-<p><img src="marge.png" alt="img"></p>
+<p><img src="images/marge.png" alt="img"></p>
 <p>Now, let&rsquo;s assume the following option. Marge sends them in turn: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>5</code>  📦-&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦-<code>10</code>📦. <em>What happens if Homer receives them like this: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦-<code>10</code>📦</em> Well, Homer detects (hopefully 🙏 ) that the fifth packages 📦 is missing and asks to resend it.</p>
-<p><img src="homer.png" alt="img"></p>
+<p><img src="images/homer.png" alt="img"></p>
 <p>Everything is fine, until for some reason, packets come in the wrong order. Homer will have to wait until Marge stops talking and then check that there are no &ldquo;gaps&rdquo;. That&rsquo;s time-costy, it would be much better to be able to detect missing packages before the connection is closed. But that not the only problem.</p>
 <p>Imagine, Homer receives these packages in the right order: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>5</code>  📦-&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦 . He didn&rsquo;t know that there were supposed to be 10 packages in total. He might notice the mistake if he then opens them all and finds something in the wrong state.</p>
 <p>The best solution to track packages 📦 and to detect errors 🛑 right away is for Marge to send a package along with the number of the next package. For example,  <code>1</code> 📦 (the next is <code>2</code>)-&gt; <code>2</code> 📦 (the next is <code>3</code>)-&gt; <code>3</code> 📦 (the next is <code>4</code>)-&gt; <code>4</code>📦 (the next is <code>5</code>) -&gt; <code>5</code>  📦 (the next is <code>6</code>)-&gt; <code>6</code> 📦 (the next is <code>7</code>)-&gt; <code>7</code> 📦(the next is <code>8</code>)-&gt; <code>8</code> 📦 (the next is <code>9</code>)-&gt; <code>9</code> 📦 (the next is <code>10</code>)-<code>10</code>📦 (it&rsquo;s the last).</p>
@@ -309,16 +309,16 @@
 <p>When the servere is finally free and ready, it, of course, might send the pictire <code>2</code> (the one originally requested by the puppy), but since the puppy has already received picture #2, he&rsquo;ll ignore it.</p>
 <p>That&rsquo;s why these sequence numbers are supposed to be unpredictable or at least very hard to predict. On Windows machines they were just incremented by one after the first sequence number was generated for the connection. That&rsquo;s why the attacker only had to intercept one request to calculate the next sequence number.</p>
 <p>See the screenshot below for an example from the wild 🐅 :</p>
-<p><img src="4.jpg" alt="img"></p>
+<p><img src="images/4.jpg" alt="img"></p>
 <p>So, to summarize, sequence numbers are like tracking number used by postal services. It tells what is the next package&rsquo;s number is supposed to be. That helps both parties to synchronize with each other.</p>
 <h3 id="acknowledgement-number">Acknowledgement number</h3>
 <p>An acknowledgment number simply shows, what is the sequence number of the next segment that is expected by the receiver. It&rsquo;s like saying: <em>I have received your segment #1 and I know that since the numbers increment by one, the next is supposed to be #2. I&rsquo;m incredibly smart&hellip;. 🤓.</em></p>
-<p><img src="5.jpg" alt="img"></p>
+<p><img src="images/5.jpg" alt="img"></p>
 <h3 id="data-offset-aka-header-length">Data Offset aka Header Length</h3>
 <p>If no Options at the end of the header are specified, its length is always <strong>20 bytes</strong>. The value specified in this case (5) needs to be multiplied by 32 and divided by 8 to have bytes. The formula is: <code>x * 32 / 8</code>.</p>
 <h3 id="reserved--flags">Reserved + Flags</h3>
 <p>There were 9 flags there. Each flag can be either <code>1</code> or <code>0</code> thus occupying precisely 1 bit. For 9 flags we need exactly 9 bits. Probably, just in case, this field is extented to 12, that&rsquo;s why the first 3 bits are marked as reserved. May be, it looked weired to allocate 9 (uneven number) of bits to this. Who knows, as they say, who knows.</p>
-<p><img src="6.jpg" alt="img"></p>
+<p><img src="images/6.jpg" alt="img"></p>
 <p>Below is the list of possible flags and what they are for (if I understood it correctly myself 😝).</p>
 <p><code>SYN</code></p>
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.syn==1</code>. To see packets that both have <code>SYN</code> and <code>ACK</code> (TCP handshake, last step): <code>tcp.flags.syn==1 &amp;&amp; tcp.flags.ack==1 &amp;&amp; tcp.len==0</code>.</p>
@@ -326,7 +326,7 @@
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.ack==1</code>.</p>
 <p><code>PUSH</code></p>
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.push==1</code>.</p>
-<p><img src="push-f.png" alt="img"></p>
+<p><img src="images/push-f.png" alt="img"></p>
 <p><code>URG</code></p>
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.urg==1</code>. This flag is not too frequent to encounter. I only managed to capture it when I crafted it myself with python <code>scapy</code> module from terminal:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">ip</span> <span class="o">=</span> <span class="n">IP</span><span class="p">(</span><span class="n">ttl</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="s1">&#39;192.168.1.1&#39;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s1">&#39;192.168.1.2&#39;</span><span class="p">)</span>
@@ -337,7 +337,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">send</span><span class="p">(</span><span class="n">IP</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="s2">&#34;192.168.1.1&#34;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s2">&#34;192.168.1.1&#34;</span><span class="p">)</span><span class="o">/</span><span class="n">TCP</span><span class="p">(</span><span class="n">dport</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sport</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">ack</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seq</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">))</span>
 </span></span></code></pre></div><p>In the artile [<a href="#references">17</a>] the author states that he mamanged to observe these segments when using telnet. Also, it&rsquo;s stated that this mechanism is deprecated in RFC 6093 (but I have not confirmed this statement).</p>
-<p><img src="ur-f.png" alt="img"></p>
+<p><img src="images/ur-f.png" alt="img"></p>
 <p><code>RST</code></p>
 <p>Wireshark filter to see all segments that have this flag set: <code>tcp.flags.rst==1</code>.</p>
 <p><code>FIN</code></p>
@@ -352,9 +352,9 @@
 <p>But we have to take two things into account.</p>
 <p><strong>Firstly</strong>, we have to acknowledge every portion 🍕. What if there were 19 segments sent? The client would have to send 19 <code>ACK</code>s in return. So much waste of bandwidth&hellip; .</p>
 <p><strong>Secondly</strong>, when a segment is received, it&rsquo;s not processed right away, it&rsquo;s waiting its turn in the TCP outgoing buffer 📨 (of the sender) and then in the TCP incoming buffer 📨 (of the receiver). This buffer also cannot be stuffed infinitely with data.</p>
-<p><img src="homer-eating.png" alt="img"></p>
+<p><img src="images/homer-eating.png" alt="img"></p>
 <p>That&rsquo;s where windows size comes into play. Look at the screenshot below:</p>
-<p><img src="9.jpg" alt="img"></p>
+<p><img src="images/9.jpg" alt="img"></p>
 <p>I&rsquo;ve marked window size with blue - <code>65535</code> bytes it&rsquo;s the maximum value. Why? This field is only two bytes long and that&rsquo;s why the biggest possible number is <code>0xFFFF</code>  which is <code>65535</code> in decimal. Homer specifies the window size, Marge sends this amount of data and only after data within this window size was received, Homer will <code>ACK</code>.</p>
 <p>If there were no window size value, this is how it would look like:</p>
 <ol>
@@ -371,9 +371,9 @@
 </ol>
 <p>But the technologies don&rsquo;t stay still, we have larger files and we have quicker PCs, so <code>64Kb</code> was not enough over time. That&rsquo;s why TCP Options field was introduced with its <code>Maximum segment size</code>. If the client wishes, they can specify this option with every <code>SYN</code> segment sent (a segment, where <code>SYN</code> flag is set). On the screenshot above I&rsquo;ve marked the <code>TCP Option - Maximum segment size: 1460 bytes</code>. That means, that Homer can digest <code>1460</code> bytes at a time (instead of the default <code>536</code>).</p>
 <h3 id="checksum">Checksum</h3>
-<p><img src="8.jpg" alt="img"></p>
+<p><img src="images/8.jpg" alt="img"></p>
 <h3 id="urgent-pointer">Urgent Pointer</h3>
-<p><img src="10.jpg" alt="img"></p>
+<p><img src="images/10.jpg" alt="img"></p>
 <p>This one is tricky&hellip; . Seems that none really understands what it&rsquo;s for and how to use. That&rsquo;s probably the reason, why it so hard to capture.</p>
 <blockquote>
 <p>The urgent pointer points to the <strong>sequence number</strong> of the octet following the urgent data.</p>
@@ -401,16 +401,16 @@
 <li>client -&gt; server: <code>ACK</code>, <code>SEQ</code> = x+1, <code>ACKN</code> = y+1, data 📃</li>
 </ol>
 <p>Observe the below two pictures: the first one shows the <code>ACK</code> segment from the client (note the sequence <code>2271707856</code>  and acknowledgment <code>2307963123</code> numbers).</p>
-<p><img src="last-ack.png" alt="img"></p>
+<p><img src="images/last-ack.png" alt="img"></p>
 <p>The second picture shows the first segment with data (the sequence <code>2271707856</code> and acknowledgement <code>2307963123</code> numbers are the same and the <code>ACK</code> flag is still set):</p>
-<p><img src="first-http.png" alt="img"></p>
+<p><img src="images/first-http.png" alt="img"></p>
 <p>In the picture above I&rsquo;ve also marked HTTP protocol part (putrple). It&rsquo;s not expanded because for this discussion its contents is irrelevant. I&rsquo;ve marked it to show, that though the TCP headers are almost the same, there appears a new layer - application layer, i.e. the data it all was meant for. So, the client requests something using HTTP protocol.</p>
 <p>Diagram from RFC 793 [<a href="#references">2</a>]:</p>
-<p><img src="rfc-tcp-connection-diagram.png" alt="img"></p>
+<p><img src="images/rfc-tcp-connection-diagram.png" alt="img"></p>
 <p>Here is WinAPI that handles TCP connections:</p>
 <h2 id="four-way-handshake">Four-way Handshake</h2>
 <p>That&rsquo;s how the connection is terminated.</p>
-<p><img src="fin.png" alt="fin"></p>
+<p><img src="images/fin.png" alt="fin"></p>
 <h2 id="attacks">Attacks</h2>
 <h3 id="tcp-session-hijacking">TCP session hijacking</h3>
 <h2 id="references">References</h2>

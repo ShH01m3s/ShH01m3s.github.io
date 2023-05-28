@@ -257,7 +257,7 @@
 
   <div class="content" itemprop="articleBody">
     <p>GUID is an identifier of the following format: 8-4-4-4-12. There is still a protective MBR at 0 so that Windows will not try to format the disk. Up to 128 partitions, each entry is 128 bytes long -&gt; . The header is located in sector 1. Backup copy at the end of the disk. Uses GUID as partition identifiers.</p>
-<p><img src="gpt-struct.png" alt="gpt-struct"></p>
+<p><img src="images/gpt-struct.png" alt="gpt-struct"></p>
 <p>Up to a 128 partitions, all of them can be set as bootable. Will still have a dummy MBR at sector 0 and it&rsquo;s there for backwards compatibility.</p>
 <p>Contains:</p>
 <ul>
@@ -269,7 +269,7 @@
 <li><code>0x38</code>. Disk GUID.</li>
 <li><code>0x48</code>. LBA start of partition tables.</li>
 </ul>
-<p><img src="gpt-header.png" alt="gpt-header"></p>
+<p><img src="images/gpt-header.png" alt="gpt-header"></p>
 <p>A GPT entry contains:</p>
 <ul>
 <li><code>0x00</code>. Partition type GUID. Partition type GUIDs are listed on the Wikipedia page [<a href="https://en.wikipedia.org/wiki/GUID_Partition_Table">2</a>].</li>
@@ -280,7 +280,7 @@
 <li><code>0x38</code>. Partition name in Unicode.</li>
 </ul>
 <p>Below is the live example of an entry:</p>
-<p><img src="gpt-pt-entry.jpg" alt="gpt-pt-entry"></p>
+<p><img src="images/gpt-pt-entry.jpg" alt="gpt-pt-entry"></p>
 <blockquote>
 <p>⚠️ Remember that all the values are little-endian!</p>
 </blockquote>

@@ -263,19 +263,19 @@
     <p><em>In this article, I will cover the main DoS techniques and how they look in the logs. I will also cover some main mitigation techniques.</em></p>
 <h2 id="icmp-flooding-flood-ping">ICMP Flooding (flood ping)</h2>
 <p>An example of tcpdump for DDoS flood ping:</p>
-<p><img src="dos-icmp-flood.png" alt="img"></p>
+<p><img src="images/dos-icmp-flood.png" alt="img"></p>
 <p>Note different source IP addresses (indicative of an army of botnets performing a DDoS attack).</p>
 <h2 id="land">LAND</h2>
 <p><strong>⛔️ Outdated.</strong></p>
 <p>The system sends packets are sent to itself in a loop.</p>
-<p><img src="dos-land.png" alt="img"></p>
+<p><img src="images/dos-land.png" alt="img"></p>
 <h2 id="smurf">Smurf</h2>
 <ol>
 <li>Multiple ICMP requests from several machines (one is seen in the dump).</li>
 <li>Frequent requests</li>
 <li><code>B</code> in the requests stands for Broadcast, which makes it different from the <code>ping</code> dump.</li>
 </ol>
-<p><img src="dos-smurf.png" alt="ing"></p>
+<p><img src="images/dos-smurf.png" alt="ing"></p>
 <h2 id="fraggle">Fraggle</h2>
 <p>Similar to the Smurf attack but uses UDP instead.</p>
 <ol>
@@ -284,7 +284,7 @@
 <li>Frequent.</li>
 <li>Usually, the destination port is <code>7</code> (<code>echo</code>).</li>
 </ol>
-<p><img src="dos-fraggle.png" alt="ing"></p>
+<p><img src="images/dos-fraggle.png" alt="ing"></p>
 <h2 id="udp-storm-or-echo-chargen">UDP-Storm or Echo-Chargen</h2>
 <ol>
 <li>Port <code>19</code> (<code>chargen</code>) &gt; port <code>7</code> (<code>echo</code>) OR <code>13</code> (<code>daytime</code>) OR <code>37</code> (<code>time</code>). Instead of <code>echo</code> one could use any other port that automatically replies to a request.</li>
@@ -293,19 +293,19 @@
 <blockquote>
 <p>❗️ This problem was eliminated on newer systems. Such ports as <code>echo</code> or <code>time</code> do not respond to requests sent from ports &lt; 1024 or of a broadcast type.</p>
 </blockquote>
-<p><img src="dos-udp-storm.png" alt="img"></p>
+<p><img src="images/dos-udp-storm.png" alt="img"></p>
 <h2 id="ping-of-death">Ping of Death</h2>
 <ol>
 <li>Start with ICMP of a larger size.</li>
 <li>Following fragments of unusual size, some systems fail to reassemble and crash/hang.</li>
 </ol>
-<p><img src="dos-ping-of-death.png" alt="img"></p>
+<p><img src="images/dos-ping-of-death.png" alt="img"></p>
 <h2 id="syn-flood-attack">SYN Flood Attack</h2>
 <ol>
 <li>A lot of <code>SYN</code> packets are sent in a short period.</li>
 <li>Same destination port.</li>
 </ol>
-<p><img src="dos-syn.png" alt="img"></p>
+<p><img src="images/dos-syn.png" alt="img"></p>
 <h3 id="mitigation">Mitigation</h3>
 <h4 id="syn-cookies">SYN cookies</h4>
 <p>They are used to protect against SYN flood attacks. Shifts the responsibility of keeping the connection state info to the client.</p>

@@ -293,9 +293,9 @@
 </li>
 </ul>
 <p>Objects are addressable by their primary key or any other field that’s specified as index.</p>
-<p><img src="google-drive-artifacts.png" alt="google-drive-artifacts"></p>
+<p><img src="images/google-drive-artifacts.png" alt="google-drive-artifacts"></p>
 <p>On the pictire above I’ve selected this IndexedDB (purple square). It’s more like Elastic of MongoDB (noSQL databases). It looks much more like a dictionary or hashtable to me. For example, <code>Users</code> table contains one single entry: <code>ucf8XXXXXX45446</code>, which has a set of properties like <code>emailAddress</code>, <code>fasttrack</code>, <code>id</code>, <code>internal</code>, <code>locale</code> (language of the GUI, I presume), <code>optInReasons</code> and <code>optInTime</code>. <code>optInReasons</code>, in turn, has it’s own property of type array with only one item with the value <code>0</code>.</p>
-<p><img src="google-drive-indexeddb.png" alt="google-drive-indexeddb"></p>
+<p><img src="images/google-drive-indexeddb.png" alt="google-drive-indexeddb"></p>
 <p>An example of working with such a database [<a href="https://www.magnetforensics.com/resources/mvs-recording-hang-on-thats-not-sqlite-chrome-electron-and-leveldb/?submission=https://go.magnetforensics.com/l/52162/2021-05-07/kynrnl">4</a>]:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">dbOpenReq</span><span class="p">.</span><span class="nx">onupgradeneeded</span> <span class="o">=</span> <span class="nx">ev</span> <span class="p">=&gt;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;db creating/upgrading&#34;</span><span class="p">);</span>
@@ -322,10 +322,10 @@
 </span></span><span class="line"><span class="cl">  <span class="nx">objectStore1</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="s2">&#34;indexC&#34;</span><span class="o">:</span> <span class="s2">&#34;c.2&#34;</span><span class="p">,</span> <span class="s2">&#34;indexD&#34;</span><span class="o">:</span> <span class="s2">&#34;Some more data for indexD&#34;</span><span class="p">});</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>When you download a file from GoogleDocs, it’s stored in this <code>IndexedDB -&gt; Documents</code>.</p>
-<p><img src="google-drive-indexeddb-documents.png" alt="google-drive-indexeddb-documents"></p>
+<p><img src="images/google-drive-indexeddb-documents.png" alt="google-drive-indexeddb-documents"></p>
 <p>On Windows machine it’s stored here: <code>$USER\AppData\Local\Google\Chrome\User Data\Default\IndexedDB</code>. Contains multiple folders, one for each domain. Usually have the extension <code>leveldb</code>. The LevelDB store for a particular domain will be found in the IndexedDB folder with a name in the form: <code>[host with concurrent separators replaced an underscore]_[dbid].indexeddb.leveldb</code>.</p>
 <p>LevelDB is the actual storage mechanism of IndexedDB, IndexedDB is built on top of a LevelDB store. IndexedDB is just an API to use, while LevelDB is the artefact that’s creted when this API is used. It’s based on the ideas of BigTable. It’s a key-value store, both are arbitrary blobs, i.e. can store any data in key or value. Looks something like the below picture.</p>
-<p><img src="leveldb.png" alt="leveldb"></p>
+<p><img src="images/leveldb.png" alt="leveldb"></p>
 <p>There are always <code>CURRENT</code>, <code>LOCK</code>, <code>LOG</code> and at least one <code>MANIFEST</code>. Only <code>*.log</code> and <code>*.ldb</code> files contain data. Other files above contain metadata. <code>*.ldb</code> doesn’t have to do anything with MS Access, although the OS might consider differently. As you can also notice, these files are assigned numbers which are sequential for all files in the folder, not for each file type.</p>
 <p>The data in levelDB is stored in key-value pairs. Each time a pair is created (key being updated), it’s logged in one of those <code>*.log</code> files. When these logs are filled up, all these files (16 by default) are consolidated into a Level Zero LDB. When data is updates or deleted, these events are put into the logs. So, we are able to get those previous data values. When Level Zero LDB (4 files) are filled out, they are merged (sorted and de-duplicated) into one Level One file. All deleted data and updated will be removed.</p>
 <h3 id="ldb-file-format">LDB file format</h3>

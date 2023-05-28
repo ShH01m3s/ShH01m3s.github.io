@@ -328,17 +328,17 @@
 <ol start="9">
 <li>Checking Apache <code>access.log</code></li>
 </ol>
-<p><img src="18.png" alt="img18"></p>
+<p><img src="images/18.png" alt="img18"></p>
 <p>decoded payload</p>
-<p><img src="19.png" alt="img19"></p>
+<p><img src="images/19.png" alt="img19"></p>
 <p>And there was revealed that <code>/jabs/scripts/update.php</code> was actually a webshell:</p>
-<p><img src="20.png" alt="img20"></p>
+<p><img src="images/20.png" alt="img20"></p>
 <p>Lots of files were deleted from <code>/tmp</code> folder. Except for only <code>apache-xTRhUVX</code>.</p>
 <p>Getting deleted files back:</p>
 <p><code>sudo debugfs -R 'dump &lt;8&gt; ./journal' /dev/</code> and then <code>sudo ext4magic -a DATE -b DATE -j ./journal -m -d output/ </code></p>
-<p><img src="21.png" alt="img21"></p>
-<p><img src="22.png" alt="img22"></p>
-<p><img src="23.png" alt="img23"></p>
+<p><img src="images/21.png" alt="img21"></p>
+<p><img src="images/22.png" alt="img22"></p>
+<p><img src="images/23.png" alt="img23"></p>
 <p>Use Timeline explorer.</p>
 <h2 id="references">References</h2>
 <p>[<a href="https://www.magnetforensics.com/resources/performing-linux-forensic-analysis-why-you-should-care-dec-2/?submission=https://go.magnetforensics.com/l/52162/2020-12-04/kwzwtz">1</a>] Magnet webinar on Linux Forensics</p>

@@ -513,7 +513,7 @@
 <li>75.19.45.11 ⛔️ 1/82</li>
 </ul>
 <p><code>hostintel</code> returned the following results:</p>
-<p><img src="hostintel.png" alt="hostintel"></p>
+<p><img src="images/hostintel.png" alt="hostintel"></p>
 <p><code>196.6.112.70</code>  - South Africa? Hm, even more weird.</p>
 <h4 id="process-tree">Process Tree</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python39 <span class="c1"># have alias for pyenv activate python39</span>
@@ -631,7 +631,7 @@
 </ul>
 <h4 id="malware-check">Malware Check</h4>
 <p><code>vol3 -f memdump.mem windows.malfind.Malfind</code>  reported winlogon.exe process multiple times. <code>powershell</code> (9188), <code>smartscreen</code> (7596), <code>WINWORD.exe</code> (PID 3224, 5164) and OUTLOOK.exe (4388).</p>
-<p><img src="winlogon_malware1.png" alt="winlogon_malware1"></p>
+<p><img src="images/winlogon_malware1.png" alt="winlogon_malware1"></p>
 <p>Looks like <code>winlogon</code> has some executables injected. But I can only be sure if I see the whole code. This process seems to be too suspicious and I would like to dig deeper: <code>vol3 -f memdump.mem -o results windows.memmap.Memmap --pid 3232 --dump</code>.</p>
 <p>Running <code>xxd pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp | more</code> - confirms it&rsquo;s a legal PE executable. This one contains the following strings that are indicators of compromise (meterpreter?):</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">priv_elevate_getsystem</span>
@@ -655,7 +655,7 @@
 </span></span></code></pre></div><p>Virus Total check for <code>pid.3232.vad.0x1a7c79f0000-0x1a7c7a15fff.dmp</code> confirmed it&rsquo;s a meterpreter. <code>pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp</code>  and <code>pid.3232.vad.0x1a7c7970000-0x1a7c79a9fff.dmp</code> are also detected by some antiviruses as generic exploits. <code>pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp</code> is detected as trojan and exploit by some antiviruses.</p>
 <p>This <code>xxd pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp | more</code> one as well.</p>
 <p>This <code>xxd pid.3232.vad.0x1a7c7930000-0x1a7c7962fff.dmp | more</code> one looks suspicious as well, but it doesn&rsquo;t start with MZ, but has an executable later on.</p>
-<p><img src="winlogon_malware2.png" alt="winlogon_malware2"></p>
+<p><img src="images/winlogon_malware2.png" alt="winlogon_malware2"></p>
 <p><code>xxd pid.3232.vad.0x1a7c7970000-0x1a7c79a9fff.dmp | more</code> also looks like a legal executable. So, there are 4 executables injected???</p>
 <p>Strings search over these reveals a <code>hook.dll</code> which is not a normal thing for a winlogon process. Also there is probably some pipe used: <code>\\.\**pipe**\%08X</code>. <code>strings pid.3232.vad.0x1a7c9710000-0x1a7c977bfff.dmp | grep pipe</code>.</p>
 <h3 id="artefact-os-event-logs"><strong>Artefact</strong>: OS Event Logs</h3>
@@ -745,9 +745,9 @@
 <p>🛠 Wireshark</p>
 <p>I will load the first pcap file and then merge it with the second one using GUI of Wireshark. The first thing I am going to check is that South African IP - 196.6.112.70. I will use Wireshark filter bar:  <code>ip.src==196.6.112.70 or ip.dst==196.6.112.70 </code>. Aha! I see some plain text HTTP traffic, that&rsquo;s see what&rsquo;s in it: <code>ip.src==196.6.112.70 or ip.dst==196.6.112.70  and http</code>. Aha. Two GET requests for <code>disco.jpg</code>. Let&rsquo;s <code>Follow HTTP Stream</code>.</p>
 <p>Even thout it claims to be a <code>.png</code>, it looks like a certificate:</p>
-<p><img src="fakecert.png" alt="fakecert"></p>
+<p><img src="images/fakecert.png" alt="fakecert"></p>
 <p>But it&rsquo;s way too large for a certificate. Let&rsquo;s Base64 decode it to see what&rsquo;s inside. I&rsquo;ll use <a href="https://www.base64decode.org/">this</a> online tool. Well, it claimed to be a <code>png</code>, looked like a cert, but it&rsquo;s a windows executable, look at the header (<code>MZ</code>, <code>PE</code> and sections <code>text</code>, <code>rsrc</code>, <code>reloc</code> and the notable string <code>This program cannot be run in DOS mode</code>):</p>
-<p><img src="mzheader.png" alt="mzheader"></p>
+<p><img src="images/mzheader.png" alt="mzheader"></p>
 <p>I need a python script to get the bytes for analysis:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">base64</span>
 </span></span><span class="line"><span class="cl"><span class="n">string</span><span class="o">=</span><span class="s2">&#34;this is where this fake cert will go&#34;</span>
@@ -789,7 +789,7 @@
 <h2 id="malware-analysis">Malware Analysis</h2>
 <h3 id="malware-file-1">Malware File 1</h3>
 <p>The file that was downloaded is likely to be a .NET application (IDA Pro suggested so). So, I&rsquo;ve opened it in dnspy.</p>
-<p><img src="dnspymalware.png" alt="dnspymalware"></p>
+<p><img src="images/dnspymalware.png" alt="dnspymalware"></p>
 <p>Yeah! It&rsquo;s a .NET application, called <code>SharpHound</code>. By the way, Windows Defender on my Windows 11 VM machine has already deleted it twice, so I had to turn it off for analysis. It&rsquo;s already a bad/good sign (depending on the angle).</p>
 <p>PE Explorer says that it&rsquo;s a 32-bit Windows Console Application. Given the size of the code, it&rsquo;s not packed.</p>
 <p>Thankfully, the author of the malware didn&rsquo;t bother protecting the file and its intents: all function names are pretty self-explanatory: GetDomainControllers(), GetLoggedOnUsersAPI, ProcessLoggedOn, IsSidDomainController, NetWkstaUserEnum etc. Looks like some variation of a BloodHound malware which is hunting down DC and using LDAP.</p>
@@ -847,9 +847,9 @@
 <p>The difficulty with the vol2 is that I have to manually determine the OS version in order for it to work properly. Since this challenge is quite new, I think it&rsquo;s not Windows XP.</p>
 <p>Recovering the files that were deleted is a tough task for NTFS. The only option is to carve. In case we need a name only or of the contents of the file is small, MFT table can be used. <code>.\MFTECmd.exe -f 'C:\Users\veronicazvereva\Documents\samples\$MFT.copy0' --csv &quot;C:\Users\veronicazvereva\Documents\samples&quot; --csvf &quot;resultsmft.csv&quot;</code>.</p>
 <p>I&rsquo;ve dumped all the <code>dotm</code> files and ran <code>oleid</code> for each. Luckily, there were not too much of these and the first one was my guy:</p>
-<p><img src="oleid_supplement.png" alt="oleid_supplement"></p>
+<p><img src="images/oleid_supplement.png" alt="oleid_supplement"></p>
 <p>This utility indicated that this file might be malicious since it contains a macro. Let&rsquo;s extract it with <code>olevba file.0xcd8400f25650.0xcd840131b780.DataSectionObject.429D2892.dotm.dat </code> then. This is the summary:</p>
-<p><img src="olevba_supplement.png" alt="olevba_supplement"></p>
+<p><img src="images/olevba_supplement.png" alt="olevba_supplement"></p>
 <p>And below is the script itself (cropped). In general, it created Event Consumers and stuff and downloaded the <code>tmpA7Z2.ps1</code> script which is responsible for the meterpreter injection into winlogon process. A good question, how could this injection actually happen? I though Windows systems are now very secured from this type of attack.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-vb" data-lang="vb"><span class="line"><span class="cl"><span class="o">[</span><span class="p">...</span><span class="o">]</span>
 </span></span><span class="line"><span class="cl">

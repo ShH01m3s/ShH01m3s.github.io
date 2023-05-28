@@ -265,48 +265,48 @@
 <p>First, load the flash drive into Active@Disk Editor or another tool that allows viewing the raw contents of partitions and volumes. The below instructions are given for the Active@Disk Editor. You may use them for other similar tools however.</p>
 <p>Active@Disk Editor loads the FAT32 formatted disk/partition at the start of FAT32 boot record by default. Note the cluster size. In my case there are 8 sectors per cluster and each sector is 512 bytes (both marked with a purple rectangle on the picture below both in hex on the right and in window to the left).</p>
 <p>Navigate to the root directory first (the list of files and folders in the root directory) either by clicking <code>Naviagate &gt; Root Directory</code> or going to the second cluster (Root directory is always at the second cluster. In case you forget the location of a root directory, you may also click <code>Root cluster</code> field value in the left part of the window when the FAT32 boot record template is applied:</p>
-<p><img src="fat-root-cluster.png" alt="fat-root-cluster"></p>
+<p><img src="images/fat-root-cluster.png" alt="fat-root-cluster"></p>
 <p>Once we get to the root directory, we need to find our folder&rsquo;s entry. Keep in mind that the size indicated in the short file name entry of a folder will always be <code>00 00 00 00</code>. Also, the attributes will also indicate <code>0x10</code> (directory). Choose <code>FAT directory entry</code> in the template list (marked with a blue rectangle on the picture above) if it was not chosen automatically. Find the short file name of the folder. In my case <code>NEWFOL~1</code> (the last one). Right-click and choose <code>Set template position</code> here. Click the entry to apply the highlighting. Read the low word and the high word for the first cluster number (the high word is marked with orange 🍊 on the picture below and the low word - in blue 🐬).</p>
-<p><img src="fat-low-high-cluster.png" alt="fat-low-high-cluster"></p>
+<p><img src="images/fat-low-high-cluster.png" alt="fat-low-high-cluster"></p>
 <p>Each value is to be converted to little-endian: <code>0x06 0x00</code> becomes <code>0x0006</code> and <code>0x0000</code> remains the same. Now combine the two: <code>0x00000006</code>.  Click <code>Go to sector</code> on the top pane, convert the value to decimal or enter it in hex with <code>0x</code> prefix. In my case, <code>0x06</code>. Click Enter. This will throw you right to this folder&rsquo;s contents (list of files and nested folders). In my case, there is only on user-created file there (+1 user-created file deleted).</p>
 <blockquote>
 <p>🤬 If the field for the cluster number is not active</p>
 <p>✍️ &hellip;, try reloading the drive.</p>
 </blockquote>
 <p>Locate the short file name, then locate all the long file names above it. In case the file is not deleted, it would be until you find the long file enrty starting with <code>4</code> (see the example below).</p>
-<p><img src="fat-new-folder-contents.png" alt="fat-new-folder-contents"></p>
+<p><img src="images/fat-new-folder-contents.png" alt="fat-new-folder-contents"></p>
 <p>However, since the files are deleted, the first nibble for each entry in the set is <code>E5</code> now. That&rsquo;s why we&rsquo;ll need to find the last long entry by looking at the file name and looking for extension. Another method would be to look at the <code>0x0A</code> offset and read until you see the last case of <code>0x0F</code> (marked with a purple rectangle is the next entry which is not a LFN since it&rsquo;s vlaue at offset <code>0x0A</code> is <code>0x20</code>). In my case, there are only two long file names. Right click at the beginning of the last long file name and choose <code>Set template position</code>. You&rsquo;ll see something like the below picture. Highlighed in yellow is the short file name, two entries above it (green and red) are for the long file names. All the three start with <code>0xE5</code>.</p>
-<p><img src="fat-new-folder-contents-deleted.png" alt="fat-new-folder-contents-deleted"></p>
+<p><img src="images/fat-new-folder-contents-deleted.png" alt="fat-new-folder-contents-deleted"></p>
 <p>Note that structure of this file set is broken and Active@Disk Editor can&rsquo;t find the end of it, but we know where it is (marked with a blue rectangle).</p>
 <p>Now click the short file name entry is broken (the first character is unknown, remember it&rsquo;s now <code>0xE5</code>). This is where the LFN entry will come in handy. In the long file name entry the first byte doesn&rsquo;t indicate a file name character, but a status byte. That&rsquo;s why the file name was unchanged (the second byte of the LFN) and is equal to <code>0x4E</code>. Now we now, what was the first byte of the SFN entry (short file name entry).</p>
 <p>Now, lets fix the first bytes of each entry in the set. Thanks to the LFN, we know the first character of the file name and thus - the first byte of the SFN. So, the first byte of the SFN is <code>0x4E</code> (ASCII <code>N</code>). Now, we know that there are just two LFN entries above it, and the second is the last. So, the first one&rsquo;s first byte should be <code>0x01</code> and the second one - <code>0x42</code> (the last entry in the set starts with <code>4</code>, remember?). These changes are marked with a green circle on the picture below.</p>
-<p><img src="fat-dir-entries-recovery.png" alt="fat-dir-entries-recovery"></p>
+<p><img src="images/fat-dir-entries-recovery.png" alt="fat-dir-entries-recovery"></p>
 <p>Now, to the next step. <strong>The next step is to change FAT table values to indicate allocated (not <code>0x00000000</code>).</strong></p>
 <p>We note the number of the first cluster and the file size. In the picture below, the first cluster for the file is <code>0x00000007</code> (little-endian, remember?). The file size is <code>0x00000010</code> (little-endian again, so you flip all the bytes), 16 bytes (decimal).</p>
-<p><img src="fat-sfn-deleted-location.png" alt="fat-sfn-deleted-location"></p>
+<p><img src="images/fat-sfn-deleted-location.png" alt="fat-sfn-deleted-location"></p>
 <p>We know from the volume boot record that 1 cluster contains 8 sectors, each 512 bytes. Since the file occupies 16 bytes, it is much smaller than 1 sector. So, it occupies 1 cluster. So, we don&rsquo;t need to worry about chains in FAT1 and FAT2. Now, the first cluster is the 7th one. Let&rsquo;s go to the FAT1 and find the entry for the 7th file.</p>
 <blockquote>
 <p>🧪 When I looked at the 7th cluster in the FAT1, it still had the value <code>0xFFFFFF0F</code>, which means that the file was not deallocated. I thought that might have been a bug and restarted Active@Disk Editor. However, the value remained unchanged. I&rsquo;ve checked several times that the file was indeed deleted permanently (yes it was). I then created a file in the root directory and deleted it, restarted Active@Disk Editor and checked the FAT1: the cluster for this file was zeroed. Might it be so, that the files are deallocated only when the folder is the root or the folder is deleted?</p>
 <p>✍️ It looks like the flash drive was mounted to macOS at some point (not the Windows VM). macOS writes its own meta crap 💩, so my deleted file&rsquo;s contents (not the directory entry) was overwritten! How I&rsquo;ve figured that? Well, I have fixed the SFN and the LFN. The FAT1 I have left untouched, since it&rsquo;s already marked as allocated. The file appeared in the folder, but it&rsquo;s contents was esoteric:</p>
-<p><img src="fat-esoteric.png" alt="fat-esoteric"></p>
+<p><img src="images/fat-esoteric.png" alt="fat-esoteric"></p>
 <p>Since the file contents was supposed to be at cluster 7, I&rsquo;ve opened it in Active@Disk Editor at analysed the contents:</p>
-<p><img src="fat-new-contents.png" alt="fat-new-contents"></p>
+<p><img src="images/fat-new-contents.png" alt="fat-new-contents"></p>
 <p>It&rsquo;s definitely not the things I wrote. Besides, observe the first 32 bytes starting with <code>2E</code> and the second 32 bytes, starting with <code>2E 2E</code>. This a FAT directory. Then the files that it contains: <code>Volume Configuration.plist</code> and <code>Store-v2</code>. The <code>plist</code> extension tells me that it&rsquo;s a macOS config file. So, that&rsquo;s what happens if the file contents overwritten but its directory entries are not! 😃</p>
 </blockquote>
 <p>Given the above story, I had to create and delete another file <code>New Document (2).txt</code> in the same folder. The SFN and LFN entries were fixed in the same manner:</p>
-<p><img src="fat-newdoc2-recovered1.png" alt="fat-newdoc2-recovered1"></p>
+<p><img src="images/fat-newdoc2-recovered1.png" alt="fat-newdoc2-recovered1"></p>
 <p>This time the cluster number was <code>0x0A</code> (10 in decimal). We navigate to FAT1 and find this cluster in the list. For better accessibly you may set bytes per line to 4 in Preferences (since each entry is 4 bytes long). We skip the first two entries (they stand for media desscriptor and FAT version) and start counting from 2 (the first entry is cluster 2). We find the cluster:</p>
-<p><img src="fat-10th-sector-dealloc.png" alt="fat-10th-sector-dealloc"></p>
+<p><img src="images/fat-10th-sector-dealloc.png" alt="fat-10th-sector-dealloc"></p>
 <p>Change these <code>00 00 00 00</code> to <code>FF FF FF 0F</code>.</p>
-<p><img src="fat-fat1-fixed-file2.png" alt="fat-fat1-fixed-file2"></p>
+<p><img src="images/fat-fat1-fixed-file2.png" alt="fat-fat1-fixed-file2"></p>
 <p>Let&rsquo;s save the changes:</p>
-<p><img src="fat-recovery-save.png" alt="fat-recovery-save"></p>
+<p><img src="images/fat-recovery-save.png" alt="fat-recovery-save"></p>
 <blockquote>
 <p>🔎 What if the file&rsquo;s SFN and LFN are fixed but the FAT1 entries are not? Well, the file will be visible, but if you try opening it, you&rsquo;ll get the below error:</p>
-<p><img src="fat-corrupt-file.png" alt="fat-corrupt-file"></p>
+<p><img src="images/fat-corrupt-file.png" alt="fat-corrupt-file"></p>
 </blockquote>
 <p>Now, let&rsquo;s check the file in File Explorer:</p>
-<p><img src="fat-recovery-result.png" alt="fat-recovery-result"></p>
+<p><img src="images/fat-recovery-result.png" alt="fat-recovery-result"></p>
 <p>It&rsquo;s back 😁!</p>
 <h3 id="example-2-recovering-a-contigious-fragmented-file">Example 2. Recovering a contigious fragmented file</h3>
 <h2 id="exfat-file-recovery">exFAT File Recovery</h2>

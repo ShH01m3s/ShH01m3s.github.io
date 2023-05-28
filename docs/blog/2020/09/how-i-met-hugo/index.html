@@ -301,7 +301,7 @@ Approximately by that time I’ve reanimated my husband’s MacBook after a long
 </span></span></code></pre></div><p>Obsidian ruins image links when moving the objects. So, to find all of them:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -r <span class="s2">&#34;img\](&#34;</span> . <span class="p">|</span> grep -v images <span class="p">|</span> grep -v https &gt; allimages.txt
 </span></span></code></pre></div><p>Also, keep in mind that the links should be of the following format:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">!<span class="o">[</span>img_name_no_spaces<span class="o">](</span>relative/or/absolute/path/to/image.png<span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">!<span class="o">[</span>img_name_no_spaces<span class="o">](</span>images/image.png<span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># To replace image tags broken by Obsidian when moving folders, macOS (ChatGPT): </span>
 </span></span><span class="line"><span class="cl">find . -type f -name <span class="s2">&#34;*.md&#34;</span> -exec perl -i -pe <span class="s1">&#39;s/!\[(.*?)\]\((.*\/)*images\/(.*\.(png|jpg|jpeg|gif|pn))\)/![\1](images\/\3)/g&#39;</span> <span class="o">{}</span> +  

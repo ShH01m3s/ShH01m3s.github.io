@@ -307,9 +307,9 @@
 </span></span><span class="line"><span class="cl"><span class="c"># or</span>
 </span></span><span class="line"><span class="cl"><span class="n">whoami</span> <span class="p">/</span><span class="n">user</span> <span class="c"># for current user</span>
 </span></span></code></pre></div><p>PC/domain ID can be viewed in <code>SAM\SAM\Domains\Accounts</code>, value <code>V</code>, last 12 bytes of the data chunk:</p>
-<p><img src="sam1.png" alt="sam1"></p>
+<p><img src="images/sam1.png" alt="sam1"></p>
 <p>In order to translate this value, split the hex 12 byte value into three 4 byte chunks. Since these are little-endian, reverse the order of the bytes, convert each to decimal If this is a negative value, something is not right. It&rsquo;s a 32-bit unsigned value! For example, in the below picture we see that the machine id is <code>2d 48 f4 b4 1a b1 b8 73 f1 2a 8a a3</code>. Splitting into 3 chunks gives us: <code>2d 48 f4 b4</code>, <code>1a b1 b8 73</code> and <code>f1 2a 8a a3</code>. Lets now convert each to little-endian: <code>b4 f4 48 2d</code>, <code>73, b8, b1, 1a</code> and <code>a3 8a 2a f1</code>. Now, each set of 4 bytes in decimal: <code>3035908141</code>, <code>1941483802</code>, <code>2743741169</code>. The resulting machine ID part of the SID is then: <code>3035908141-1941483802-2743741169</code>. Let&rsquo;s check in PowerShell:</p>
-<p><img src="whoami-sam-machineid.png" alt="whoami-sam-machineid"></p>
+<p><img src="images/whoami-sam-machineid.png" alt="whoami-sam-machineid"></p>
 <p>In the picture above with the registry window the green square 🟩 shows the RIDs in hex. Given the RID one can deduce something about the user, since there are some users that have predefined RIDs:</p>
 <ul>
 <li><code>S-1-5-21-X-X-X-500</code> - default admin</li>
@@ -329,7 +329,7 @@
 <p>🛠 <a href="https://github.com/D1rkMtr/DumpThatLSASS">https://github.com/D1rkMtr/DumpThatLSASS</a></p>
 <h2 id="login-process">Login Process</h2>
 <p>This is how a general picture looks like:</p>
-<p><img src="mypic.jpg" alt="mypic"></p>
+<p><img src="images/mypic.jpg" alt="mypic"></p>
 <p>Sorry for the dragon 🐉.</p>
 <h2 id="process-authorization">Process Authorization</h2>
 <p>Each process, file or any other object has a set of requirement. In order for some process to get access, it needs to fulfill these requirements. At the same time, these processes have sort of passports or tickets 🎫 which they can use to get something or somewhere. Requirements are called <strong>security descriptors</strong>, and these  &ldquo;passports&rdquo; are called <strong>access tokens</strong>. More information about the both can be found <a href="https://docs.microsoft.com/en-us/windows/win32/secauthz/access-tokens">here</a> and here.</p>

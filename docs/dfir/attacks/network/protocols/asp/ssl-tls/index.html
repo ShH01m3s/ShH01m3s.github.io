@@ -265,27 +265,27 @@
 <li>compression algorithm</li>
 <li>MAC</li>
 </ul>
-<p><img src="client-hello.png" alt="img"></p>
+<p><img src="images/client-hello.png" alt="img"></p>
 <p>The 🌺  server replies with &hellip; surprise-surprise <code>Server Hello</code>. It contains the following things:</p>
 <ul>
 <li>SSL version</li>
 <li>Session ID: <code>12345</code></li>
 <li>server&rsquo;s certificate</li>
 </ul>
-<p><img src="server-hello.png" alt="img"></p>
+<p><img src="images/server-hello.png" alt="img"></p>
 <p>The 🌺  server stops the babbling with <code>Hello done</code> message.</p>
 <p><img src="https://media.giphy.com/media/l41YuiiX86d08iP8k/giphy.gif" alt="img"></p>
 <p>Bob 🐝  checks the certificate at the certificate authority.</p>
-<p><img src="ask-ca.png" alt="img"></p>
+<p><img src="images/ask-ca.png" alt="img"></p>
 <p>Let&rsquo;s assume that the certificate is ok.</p>
-<p><img src="ca-response.png" alt="img"></p>
+<p><img src="images/ca-response.png" alt="img"></p>
 <p>If the certificate is valid, Bob 🐝  generates a secret using an algoruthm <code>G()</code> and random data <code>r</code> as input to get a <code>secret</code>. This <code>secret</code> is then encrypted with some function that both Bob 🐝 and the 🌺  server have agreed on:  <code>Enc(secret)</code>. Then Bob 🐝 sends <code>Client Key Exchange</code> message. This message is encrypted using nectar (or any other asymmetric algo like RSA) with the server&rsquo;s 🌺  public key 🔓.</p>
-<p><img src="lock-secret.png" alt="img"></p>
+<p><img src="images/lock-secret.png" alt="img"></p>
 <p>Upon receiving this message, the 🌺  server decrypts the secret 🤫.</p>
-<p><img src="unlock-secret.png" alt="img"></p>
+<p><img src="images/unlock-secret.png" alt="img"></p>
 <p>It then computes the hash for it 🤫. Bob 🐝  does the same and sends this hash to the 🌺  server in the <code>Change Cipher Spec Finished hash</code> message.</p>
 <p>If the hashes match, the 🌺  server sends <code>Finished</code> message.</p>
-<p><img src="hash-secret.png" alt="img"></p>
+<p><img src="images/hash-secret.png" alt="img"></p>
 <p>That&rsquo;s how the connection is established. One more thing to note, if the session is not expired, then Bob 🐝  sends his session ID in the first, <code>Client Hello</code> message. If it exists, they resume from the step when Bob sends a <code>Finished</code> message.</p>
 <h2 id="tls-improvements">TLS improvements</h2>
 <p>TLS is basically the same, but some algorithms were deprecated. Besides, TLS supports client authentication as well (the additional steps are below). Uses DES/RSA + keyed MAC.</p>
