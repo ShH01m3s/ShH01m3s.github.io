@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>🌎 Network Traffic - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/artefacts/network/"> 👈🏼 Back to </br> Network Artefacts </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#open-connections">Open Connections</a></li>
+        <li><a href="#malware">Malware</a></li>
+      </ul>
+    </li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#open-connections-1">Open Connections</a></li>
+      </ul>
+    </li>
+    <li><a href="#dns">DNS</a>
+      <ul>
+        <li><a href="#windows-dns-cache">Windows DNS Cache</a></li>
+        <li><a href="#dns-names">DNS names</a></li>
+      </ul>
+    </li>
+    <li><a href="#encrypted-traffic">Encrypted Traffic</a>
+      <ul>
+        <li><a href="#tls">TLS</a>
+          <ul>
+            <li><a href="#unix">UNIX</a></li>
+            <li><a href="#windows-1">Windows</a></li>
+          </ul>
+        </li>
+        <li><a href="#ssh">SSH</a></li>
+        <li><a href="#-tools">🛠 Tools</a></li>
+      </ul>
+    </li>
+    <li><a href="#wireshark-filters">Wireshark Filters</a>
+      <ul>
+        <li><a href="#todo">Todo</a></li>
+      </ul>
+    </li>
+    <li><a href="#network-analysis-with-dshell">Network Analysis with Dshell</a></li>
+    <li><a href="#-btfm--rtfm">📘 BTFM 📕 RTFM</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">🌎 Network Traffic</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+            
+            
+              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
+            
+            
+          
+          
+      </div> <br />
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          
+          <a class="platform-link" href="/tools/wireshark">Wireshark</a> 
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 12.10.2020
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>Open connections</strong>.</p>
+<p>Ports identify services (usually, but not always).</p>
+<ul>
+<li>System ports are forensically important <code>0-1023</code>.</li>
+<li>User ports <code>1024-49151</code></li>
+<li>Private <code>49152</code>-last</li>
+</ul>
+<p>Cheatsheets for known ports <a href="https://packetlife.net/media/library/23/common-ports.pdf">here</a>.</p>
+<p>Private IP addresses:</p>
+<ul>
+<li>10.0.0.0 - 10.55.55.55</li>
+<li>17x.0.0.0</li>
+<li>19x.0.0.0</li>
+</ul>
+<p>Make a list of notable ports and IP addresses.</p>
+<p><code>netstat -boan</code> statistics and current tcp connections along with the exe, listening port and PID. For Mac OS netstat there is no <code>-o</code> switch, so I&rsquo;ve used <code>netstat -ban</code>. 👣 Check for Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
+<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
+<h2 id="windows">Windows</h2>
+<h3 id="open-connections">Open Connections</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -abno
+</span></span></code></pre></div><p><code>5158</code> <code>5154</code> -&gt;</p>
+<p><code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
+<p>PID, Application field (path to the executable and exe name), Inbound/Outboun, sport/dport, addresses (src and dst), protocol field.</p>
+<p>If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditin policy using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to star capturing event 5156. I was using Vbox with Windows Server 2019 installed and the machine promoted to DC (Active Directory Feauture installed).</p>
+<p>Example of suspicious case: java listening on port <code>53</code> which is normally used by DNS service. FF using <code>3389</code> port (which is for remote connections). <code>44999</code> (used for private internal connections) some strange executable.</p>
+<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services.</p>
+<blockquote>
+<p>📝 Make a list of processes and connections of several clean systems for &ldquo;known-good&rdquo; reference.</p>
+</blockquote>
+<p>Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
+</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
+</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
+</span></span></code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
+<p><strong>External IPs reputations</strong>. 🛠 <code>hostintel</code>. For running the tool, you&rsquo;ll also need to create a file with a list of IPs. I&rsquo;ve created a file <code>i.txt</code> in the <code>hostintel</code> directory and so my command was:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python hostintel.py config.conf i.txt
+</span></span></code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
+<p>To use <a href="https://github.com/keithjjones/hostintel">hostintel</a>, install it following the instructions on GitHub. Then install geoip2 using  <code>pip install &quot;geoip2==3.0.0&quot; </code>. I got an error that <code>geoip.database</code> was not installed when I installed it with <code>pip install geoip2</code> or from GitHub. This module is for working with GeoIP databases.</p>
+<p>To actually use these databases (one is included with the tool, but it mught get outdated), signup <a href="https://www.maxmind.com/en/geoip2-databases">here</a> and download GeoLite2 City from <a href="https://www.maxmind.com/en/accounts/410417/geoip/downloads">here</a>. This is an archive, unpack it and put the *.mmb file in <code>hostintel/data</code> folder (replace). These dbs are used by other tools as well, so you might want to keep it elsewhere and change its path in config.</p>
+<p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
+<p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
+<p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
+<h3 id="malware">Malware</h3>
+<p><a href="https://malware-traffic-analysis.net">https://malware-traffic-analysis.net</a></p>
+<h2 id="macos">macOS</h2>
+<h3 id="open-connections-1">Open Connections</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo lsof -i -n -p
+</span></span></code></pre></div><h2 id="dns">DNS</h2>
+<h3 id="windows-dns-cache">Windows DNS Cache</h3>
+<p>There are several ways to retrieve this information manually.</p>
+<ol>
+<li>ipconfig /displaydns</li>
+<li><code>Win32_DnsCache</code> from WMI repo (Kansa can collect this data)</li>
+</ol>
+<p>Kansa can be used for stacking this data.</p>
+<p>Stacking, purely manually (no grouping):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">-Filter</span> <span class="s2">&#34;*-DNSCache.csv&#34;</span> <span class="p">|</span> <span class="nb">ForEach-Object</span> <span class="p">{</span> <span class="nb">Import-Csv</span> <span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&#34;DNSCacheStack.csv&#34;</span> <span class="n">-NoTypeInformation</span>
+</span></span></code></pre></div><p>Stacking, purely manual, with grouping (basically, the same results as with <code>Get-LogparserStack.ps1</code> but the case is ignored):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nv">$csvFiles</span> <span class="p">=</span> <span class="nb">Get-ChildItem</span> <span class="n">-Path</span> <span class="s2">&#34;.\*DNSCache.csv&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$result</span> <span class="p">=</span> <span class="p">@()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="nv">$csvFile</span> <span class="k">in</span> <span class="nv">$csvFiles</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$data</span> <span class="p">=</span> <span class="nb">Import-Csv</span> <span class="n">-Path</span> <span class="nv">$csvFile</span><span class="p">.</span><span class="n">FullName</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">$result</span> <span class="p">+=</span> <span class="nv">$data</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">$groupedData</span> <span class="p">=</span> <span class="nv">$result</span> <span class="p">|</span> <span class="nb">Group-Object</span> <span class="n">-Property</span> <span class="n">Name</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Count</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="p">@{</span><span class="n">Name</span><span class="p">=</span><span class="s2">&#34;PC&#34;</span><span class="p">;</span> <span class="n">Expression</span><span class="p">={</span><span class="nv">$_</span><span class="p">.</span><span class="n">Group</span><span class="p">.</span><span class="s1">&#39;PSComputerName&#39;</span><span class="p">}}</span> <span class="c"># the column contains spaces but the script will see no spaces, so, it&#39;s not a typo</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$groupedData</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&#34;result2.csv&#34;</span> <span class="n">-NoTypeInformation</span>
+</span></span></code></pre></div><p>Stacking, Kansa script:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">DNSCache</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimiter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="nb">DNSCache-stack</span><span class="p">.</span><span class="n">csv</span>
+</span></span></code></pre></div><p>You can now use Timeline Explorer or another tool to analyse the data.</p>
+<p>To acieve the same on a macOS machine:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">awk -F<span class="s1">&#39;,&#39;</span> <span class="s1">&#39;NR&gt;1{print $1&#34;,&#34;$2}&#39;</span> *.csv <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> awk <span class="s1">&#39;{print $1&#34;,&#34;$2&#34;,&#34;$3}&#39;</span> &gt; merged.csv
+</span></span></code></pre></div><p>And the Python code to do the same (ChatGPT):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">csv</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Iterate over all the CSV files in the current directory and extract the objects</span>
+</span></span><span class="line"><span class="cl"><span class="n">objects</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">objects</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">list</span><span class="p">(</span><span class="n">reader</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Use Counter to count the occurrences of each object</span>
+</span></span><span class="line"><span class="cl"><span class="n">object_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Write the merged CSV file</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;merged.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Write the header row</span>
+</span></span><span class="line"><span class="cl">    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;IP&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Iterate over the Counter items and write each object as a row in the CSV</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nb">object</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">object_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">count</span><span class="p">,</span> <span class="o">*</span><span class="nb">object</span><span class="p">])</span>
+</span></span></code></pre></div><h3 id="dns-names">DNS names</h3>
+<p>Check IP reputation: <a href="https://www.reverse.it">www.reverse.it</a>, <a href="https://www.urlvoid.com">www.urlvoid.com</a>.</p>
+<h2 id="encrypted-traffic">Encrypted Traffic</h2>
+<h3 id="tls">TLS</h3>
+<ul>
+<li>The plaintext content can be retreived from RAM.</li>
+<li>MiM</li>
+</ul>
+<h4 id="unix">UNIX</h4>
+<blockquote>
+<p><code>lsof -i :443</code> will show you all connections associated with port 443, commonly used for TLS communication. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 163). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<p><img src="dfir/artefacts/network/traffic/images/1.png" alt="img1">
+The first column will give a hint about what the application responsible for this connection is. To get the full path to the app executable, use <code>ps -fp &lt;PID&gt;</code> command:</p>
+<p><img src="dfir/artefacts/network/traffic/images/2.png" alt="img"></p>
+<h4 id="windows-1">Windows</h4>
+<p>Run <code>netstat -a -n -o</code> to get the list of connections and then use <code>tasklist</code> with the PID of interest to see information about the process.</p>
+<h3 id="ssh">SSH</h3>
+<h3 id="-tools">🛠 Tools</h3>
+<p><code>ExtraHop</code> or <code>ntop</code> (see Chapter 1) provides insight into the amount of data being transferred and to where even when that data is encrypted.</p>
+<h2 id="wireshark-filters">Wireshark Filters</h2>
+<p><code>http.request</code> - show only HTTP request. Useful to get rid of all ARP and TCP handshake garbage.</p>
+<p><code>ip.src == 192.168.22.94 and udp.port == 67</code> - show the DHCP requests for this machine. Can show the computer name.</p>
+<h3 id="todo">Todo</h3>
+<p>💡 For each common nmap scan get the footrprint</p>
+<p>💡 For each common DoS attack get the footprint</p>
+<p>💡 Footprint for sqlmap</p>
+<p>💡Footprint for common vulnerability scanners</p>
+<h2 id="network-analysis-with-dshell">Network Analysis with Dshell</h2>
+<p>Please refer to the Toolkit sections, Forensics Lab Setup for installation steps.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">decode -p rtp -i wlan0 <span class="c1"># see all auido and video traffic</span>
+</span></span><span class="line"><span class="cl">decode -d dns 2022-11-07-part-1-of-2-Emotet-infection.pcap <span class="c1"># view DNS request from the pcap</span>
+</span></span></code></pre></div><p>Not sure how this is better than Wireshark + filtering.</p>
+<h2 id="-btfm--rtfm">📘 BTFM 📕 RTFM</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nslookup
+</span></span><span class="line"><span class="cl">&gt; <span class="nb">set</span> <span class="nv">type</span><span class="o">=</span>ns
+</span></span><span class="line"><span class="cl">&gt; bakerst221b.com
+</span></span><span class="line"><span class="cl">&gt; <span class="nb">set</span> <span class="nv">type</span><span class="o">=</span>mx
+</span></span><span class="line"><span class="cl">&gt; bakerst221b.com
+</span></span></code></pre></div><h2 id="references">References</h2>
+<p>[<a href="https://medium.com/@dancovic/dns-enumeration-tutorial-dig-nslookup-host-8eadef72977e">1</a>]NSLOKUP, DIG and HOST utilities usage</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
