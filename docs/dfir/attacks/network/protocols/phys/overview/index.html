@@ -306,9 +306,9 @@
 <h2 id="early-collisions">Early Collisions</h2>
 <p>Let&rsquo;s imagine that two NICs (netword card of different PCs) want to talk to each other. The wire is idle at the moment. Both Bob 👨‍🎨 and Alice 🤸‍♀️ want to send something on the wire and ask the wire approximately the same moment:</p>
 <p><em>Hey, wire, are you busy?</em></p>
-<p><img src="dfir/attacks/network/protocols/phys/overview/images/1.png" alt="img"></p>
+<p><img src="images/1.png" alt="img"></p>
 <p>The wire is not busy and that&rsquo;s why it replies <em>I&rsquo;m free as a bird</em> to each one of them.</p>
-<p><img src="dfir/attacks/network/protocols/phys/overview/images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
+<p><img src="images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
 <blockquote>
 <p>Why, by the way, the wire replies with such a precise time? 9.6 ms? The sole reason for the 9.6 microsecond interframe gap is to allow the station that last transmitted to cycle its circuitry from transmit mode to receive mode. Without the interframe gap, it is possible that a station would miss a frame that was destined for it because it had not yet cycled back into receive mode. From <a href="http://www.firewall.cx/networking-topics/ethernet/198-ethernet-interframe-spacing.html">firewall.cx</a>.</p>
 </blockquote>
@@ -413,11 +413,11 @@
 <p>Since the max length of a cable (10BASE5 thick Ethernet) that connects two machines cannot exceed 500 m (according to the specs), there is a need to amplify and control the signal. Since machines over the wire are much farther then 500 meters, hubs and repreaters serve this particular purpose.</p>
 <p>They both run in promiscuous mode, i.e. they don&rsquo;t care who&rsquo;s the sender, who&rsquo;s the receiver. They simply forward the signal.  They don&rsquo;t even read the data they are transmitting. UTP (unshielded twisted pair cable).</p>
 <p>Number of ports = number of PCs connected. Hubs can have an uplink port to connect to another hub. For example, the hub below has 6 ports. Therefore, it can connect 6 PCs max. Whatever PC1 sends to PC6, other PCs hear as well. It&rsquo;s the job of other OSI layers to discard this frame or not. Such packets are usually discarded on the data link layer by PC&rsquo;s NIC. But if you put your NIC in a promiscuous mode, it will not discard them. Hubs and repeaters are a holyday for a sniffer. Using Wireshark or other packet capture software and being on the same network, one can intercept <strong>all</strong> traffic.</p>
-<p><img src="dfir/attacks/network/protocols/phys/overview/images/1.png" alt="1"></p>
+<p><img src="images/1.png" alt="1"></p>
 <h3 id="coax-cable">COAX cable</h3>
 <p>A Cable is pretty much the same as a hub, it also makes to difference between the frames. Its only concern is to forward. Green squares are resistors (50 Ohm) that absorb the signal so that it won&rsquo;t reflect back (a signal reflection problem discribed <a href="/docs/articles/fundamentals/network/osi/physical/general">here</a>).</p>
 <p>One segment of such cable is max 185 meters (10BASE2 thin Ethernet) and at most 30 nodes.</p>
-<p><img src="dfir/attacks/network/protocols/phys/overview/images/2.png" alt="2"></p>
+<p><img src="images/2.png" alt="2"></p>
 <h2 id="refernces">Refernces</h2>
 <p>[1] firewall.cx</p>
 <p>[2] <a href="https://www.youtube.com/watch?v=du_boiwX1yU">https://www.youtube.com/watch?v=du_boiwX1yU</a></p>
