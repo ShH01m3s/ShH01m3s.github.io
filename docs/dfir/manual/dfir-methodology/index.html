@@ -221,6 +221,13 @@
             <li><a href="#documentation-1">Documentation</a></li>
           </ul>
         </li>
+        <li><a href="#evidence">Evidence</a>
+          <ul>
+            <li><a href="#evidence-integrity">Evidence Integrity</a></li>
+          </ul>
+        </li>
+        <li><a href="#chain-of-custody">Chain Of Custody</a></li>
+        <li><a href="#report">Report</a></li>
         <li><a href="#examination-and-analysis">Examination and Analysis</a></li>
       </ul>
     </li>
@@ -477,6 +484,81 @@ The following list is the top ten identified misconfigurations in Amazon EC2 ins
 <h4 id="documentation-1">Documentation</h4>
 <p>Start documenting even before you get to the scene. First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up images. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible). Identify and assign unique ids to the evidence collected.</p>
 <p><img src="images/chain-of-custody.png" alt="chain-of-custody"></p>
+<h3 id="evidence">Evidence</h3>
+<details>
+    <summary>Expand &hellip;</summary>
+    <blockquote>
+<p>❗️Mind the scope when collecting the evidence. For example, you might not have permission to manage personal devices.</p>
+</blockquote>
+<p><strong>Obvious Physical Evidence</strong>. PC, cameras, flash drives, PDAs, removable media, and mobile devices. Mind the chain of custody.</p>
+<p><strong>Non-obvious Physical Evidence</strong>. Manuals for devices that were not found - look for these devices. Digital media taken with some device that was not found -look for this device: sticky notes or little papers with scrambled letters.</p>
+<p><strong>Cloud Evidence</strong>.</p>
+<blockquote>
+<p>⚠️ Do not forget the charger!</p>
+</blockquote>
+
+</details>
+<h4 id="evidence-integrity">Evidence Integrity</h4>
+<p>One of the essential parts is to ensure evidence integrity. Hashing and Chain of Custody (CoC) exist for this purpose. You can always video record all you do on the screen, commenting on every step. Evidence also needs to be transported and stored safely.</p>
+<h5 id="physical">Physical</h5>
+<p>Don’t contaminate the scene itself (try not to be tempted to eat biscuits 🍪 and burgers 🍔 on the stage, however hard that might seem). This means that you should also preserve the physical evidence as well. Don’t touch ANYTHING before the lead investigator says “OK” 👍. Always mind the scope and get it in writing, even if it’s not a criminal case. Do fingerprints need to be collected? DNA?</p>
+<p>Package the evidence for transport. Transport the evidence. Store the proof while in possession. Use Faraday bags to avoid remote tampering and anti-static and plastic bags to protect from discharge and moisture. Tape and seal the bags with the evidence.</p>
+<h5 id="digital-integrity">Digital Integrity</h5>
+<p>For dead acquisition, it&rsquo;s pretty simple:</p>
+<ul>
+<li><input disabled="" type="checkbox"> You calculate the hash of the drive before imaging it.</li>
+<li><input disabled="" type="checkbox"> Do you imagine the drive?</li>
+<li><input disabled="" type="checkbox"> You get the hash of the image.</li>
+<li><input disabled="" type="checkbox"> whenever you copy this image, you get the copy&rsquo;s hash as well</li>
+</ul>
+<p>All of the steps are recorded in the report and the CoC.</p>
+<p>For live acquisition, it becomes trickier.</p>
+<p>The live system is changing all the time. At all times, keep in mind the <a href="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil." title="https://www.sciencedirect.com/topics/social-sciences/exchange-principle#:~:text=Locard's%20Exchange%20Principle%20states%20that,pollen%2C%20paint%2C%20and%20soil.">Locard&rsquo;s Exchange Principle</a>. It states that when two entities come into contact, they leave the evidence on each other. For the DF field, the investigator will leave traces of their activity when working with the system. This might even result in overwriting some information. That&rsquo;s why keeping a profile as low as possible is essential. That&rsquo;s why you need to know how &ldquo;noisy&rdquo; the tool is, how many files it writes to the disk, and how much RAM space it needs. It&rsquo;s called footprint 🐾. To see how much data is being written to the disk or how much space is occupied in RAM (this overwriting some portion of this RAM), open Task Manager or Activity Monitor to stop etc., whatever tool is working for this OS. Note the &ldquo;Memory&rdquo; and &ldquo;Disk&rdquo; columns, run the utility and see how heavy the footprint is. For example, Belkasoft RAM Capturer has a ~4Mb footprint for RAM acquisition. Magnet RAM Capturer - colossal footprint. Dumpit - the fastest, the smallest footprint. That&rsquo;s why tools must be checked and tested regularly before the investigation.</p>
+<p>Block any network connection, Bluetooth, while on the scene to avoid remote wiping. Look for running wiping software or kill switches.</p>
+<p>Use the latest industry-acceptable hashing algorithms (at least SHA-256). Even though collisions might not be that probable, DF is usually about the court, and if you use MD5, for example, this might be used to discredit your work. The best practice is to use several hashing algorithms (especially when automating the process). If there are arguments around one of the hashing algorithms you&rsquo;ve been using, you&rsquo;d always have another one to back up your process sanity.</p>
+<blockquote>
+<p>❗️Sometimes, a tool might produce a different hash. It might be due to a bug in the code. That&rsquo;s why it&rsquo;s essential to validate the instruments. It&rsquo;s always better to use built-in Linux or macOS hashing tools (<code>shasum</code>, for example). For more examples, see the Tools section.</p>
+</blockquote>
+<p>To prevent battery loss (in case we need the device to be on), keep the device connected to the power supply (for example, portable).</p>
+<blockquote>
+<p>⚠️ Turning off might trigger encryption!</p>
+</blockquote>
+<h3 id="chain-of-custody">Chain Of Custody</h3>
+<details>
+    <summary>Expand &hellip;</summary>
+    <p>❓Where the evidence was found
+❓Time and date the evidence was collected       <br>
+❓Who found the evidence                      <br>
+❓Description of the evidence<br>
+❓Make, model, and S/N of device (if applicable)</p>
+<blockquote>
+<p>📝 I think one of the best ways to keep the Chain of Custody is on Google Drive. This way, we have a history of changes and who has made them. Another way would be to use GitHub.</p>
+</blockquote>
+<h4 id="identify-the-evidence">Identify the evidence</h4>
+<p>Assign IDs for each piece of evidence. For example, for a flash drive, it would look like this—FD (flash drive) + its <em>sequence number</em> within this case + case number. Subsequent images of these devices will have the same number + copy sequence number.</p>
+<p>Example: <em>A USB Flash drive was found on the scene during case study 0124. It was the first USB drive found yet. This device was assigned the number FD-01-0124. Then we made two bit-by-bit copies of this drive, ids assigned: FD-01-0124-01 and FD-01-0124-02, respectively.</em></p>
+
+</details>
+<h3 id="report">Report</h3>
+<details>
+    <summary>Expand &hellip;</summary>
+    <p>Keep track of all the steps taken, the reason for these steps and the outcome. Document the physical condition (mouse to left or right as the owner is a lefty or a righty), applications running, and keep audio notes. Make photos and videos, and make notes. Maintain the Chain of Custody at all times.</p>
+<p>Reports are often read by those who could be more techie. Besides, you would want your information usable at court, should the need arise.</p>
+<p>This is also crucial to share the findings, IOCs and info about threat actors with the threat-hunting team 🔪 .</p>
+<p>The final report should contain the following:</p>
+<ul>
+<li>Case summary (who requested, who&rsquo;s in charge, principles involved, when did the incident occur, when was this report filed, what allegedly happened, copies of all legal authorisations to proceed);</li>
+<li>Authorisations (original request in writing, warrants, subpoenas, written permissions);</li>
+<li>procedural docs (inventory of items examined and chain of custody for each, tools used, a timeline of procedures, list of people performing these procedures, hashed before and after);</li>
+<li>Case notes (all logs extracted from the target system and from the forensic tools, a diagram of the network where investigation occurred (sometimes));</li>
+<li>What physical evidence was collected (videos, pics, copies of docs, interview transcripts);</li>
+<li>Conclusion (ties altogether, supports or refuses the original claim, does NOT prove guilt/innocence).</li>
+</ul>
+<p>Make electronic copies of the report. An archive copy is maintained by the team—DVDs for distribution. Copies of written docs are filed. A summary report is provided along with timelines and written + electronic docs.</p>
+<h4 id="photos-and-videos">Photos And Videos</h4>
+<p>First, make sure that timestamps are configured on both devices. Take as many photos and videos as possible. Take overall and close-up images. Make sure that all the connections between the devices are photographed clearly. Photograph the evidence in situ (if possible).</p>
+
+</details>
 <h3 id="examination-and-analysis">Examination and Analysis</h3>
 <p>Art supersedes science. Know what garbage is. Unexpected places. Pay attention to exculpatory (proving innocence) data.</p>
 <p>❗️ Correlate data with other independent sources. Some data might have been tampered with, and you should try to find other evidence that describes the same data. For example, timestamps can be easily changed. Therefore, try to find network or login events to correlate them.</p>

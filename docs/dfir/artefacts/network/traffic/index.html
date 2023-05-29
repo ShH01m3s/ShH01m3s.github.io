@@ -199,43 +199,39 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a>
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#open-connections">Open Connections</a>
       <ul>
-        <li><a href="#open-connections">Open Connections</a></li>
-        <li><a href="#malware">Malware</a></li>
+        <li><a href="#windows">Windows</a></li>
+        <li><a href="#macos--linux">macOS / Linux</a></li>
       </ul>
     </li>
-    <li><a href="#macos">macOS</a>
+    <li><a href="#dns-cache">DNS Cache</a>
       <ul>
-        <li><a href="#open-connections-1">Open Connections</a></li>
-      </ul>
-    </li>
-    <li><a href="#dns">DNS</a>
-      <ul>
-        <li><a href="#windows-dns-cache">Windows DNS Cache</a></li>
-        <li><a href="#dns-names">DNS names</a></li>
-      </ul>
-    </li>
-    <li><a href="#encrypted-traffic">Encrypted Traffic</a>
-      <ul>
-        <li><a href="#tls">TLS</a>
+        <li><a href="#windows-1">Windows</a>
           <ul>
-            <li><a href="#unix">UNIX</a></li>
-            <li><a href="#windows-1">Windows</a></li>
+            <li><a href="#-btfm">📘 BTFM</a></li>
           </ul>
         </li>
-        <li><a href="#ssh">SSH</a></li>
-        <li><a href="#-tools">🛠 Tools</a></li>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#linux">Linux</a></li>
       </ul>
     </li>
-    <li><a href="#wireshark-filters">Wireshark Filters</a>
+    <li><a href="#dns-names">DNS names</a></li>
+    <li><a href="#dns-requests">DNS Requests</a></li>
+    <li><a href="#encrypted-traffic">Encrypted Traffic</a>
       <ul>
-        <li><a href="#todo">Todo</a></li>
+        <li><a href="#tls">TLS</a></li>
+        <li><a href="#ssh">SSH</a></li>
       </ul>
     </li>
-    <li><a href="#network-analysis-with-dshell">Network Analysis with Dshell</a></li>
-    <li><a href="#-btfm--rtfm">📘 BTFM 📕 RTFM</a></li>
-    <li><a href="#references">References</a></li>
+    <li><a href="#video--audio">Video / Audio</a></li>
+    <li><a href="#references">References</a>
+      <ul>
+        <li><a href="#read">Read</a></li>
+        <li><a href="#practise">Practise</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -292,7 +288,24 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Open connections</strong>.</p>
+    <h2 id="collection">Collection</h2>
+<p>Most of the devices keep some sort of log. As for the network-related issues, these are switches, routers, firewalls, IDS and IPS, web proxies, DC and authentication servers, DCHP servers and application servers.</p>
+<p>SIEMs are log aggregators. When configured correctly all logs and events from all systems in the enterprise flows to a centralised repository where they can then be analysed. Sometimes these SIEM analyse what&rsquo;s normal and what&rsquo;s not. However, they are quite costly 💰.</p>
+<p>One can collect network artefacts from a network level or on the host.</p>
+<p><strong>Network-based collection</strong></p>
+<ol>
+<li>Network tap - a device that&rsquo;s placed between other two or more devices on the network. I presume a hub can be considered a tap.</li>
+<li>SPAN port is another <a href="/docs/dfir/network/osi/network/attacks#span-port">option</a>.</li>
+</ol>
+<p><strong>Host-based collection</strong></p>
+<ol>
+<li>Packet sniffer (🛠️ <code>tcpdump</code> or Wireshark 🦈) installed on the host.</li>
+<li>Open ports</li>
+<li>EDR / Application logs/data</li>
+<li>DNS cache</li>
+<li>Browser activity</li>
+</ol>
+<h2 id="open-connections">Open Connections</h2>
 <p>Ports identify services (usually, but not always).</p>
 <ul>
 <li>System ports are forensically important <code>0-1023</code>.</li>
@@ -306,21 +319,20 @@
 <li>17x.0.0.0</li>
 <li>19x.0.0.0</li>
 </ul>
-<p>Make a list of notable ports and IP addresses.</p>
-<p><code>netstat -boan</code> statistics and current tcp connections along with the exe, listening port and PID. For Mac OS netstat there is no <code>-o</code> switch, so I&rsquo;ve used <code>netstat -ban</code>. 👣 Check for Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
-<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
-<h2 id="windows">Windows</h2>
-<h3 id="open-connections">Open Connections</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -abno
-</span></span></code></pre></div><p><code>5158</code> <code>5154</code> -&gt;</p>
-<p><code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
-<p>PID, Application field (path to the executable and exe name), Inbound/Outboun, sport/dport, addresses (src and dst), protocol field.</p>
-<p>If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditin policy using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to star capturing event 5156. I was using Vbox with Windows Server 2019 installed and the machine promoted to DC (Active Directory Feauture installed).</p>
-<p>Example of suspicious case: java listening on port <code>53</code> which is normally used by DNS service. FF using <code>3389</code> port (which is for remote connections). <code>44999</code> (used for private internal connections) some strange executable.</p>
-<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services.</p>
+<p>Example of suspicious case: java listening on port <code>53</code> which is normally used by DNS service. FF uses <code>3389</code> port (which is for remote connections). <code>44999</code> (used for private internal connections) some strange executable.</p>
+<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, and also look for port-services mismatches or unusual ports or services.</p>
 <blockquote>
 <p>📝 Make a list of processes and connections of several clean systems for &ldquo;known-good&rdquo; reference.</p>
 </blockquote>
+<h3 id="windows">Windows</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -abno
+</span></span></code></pre></div><p><code>netstat -boan</code> statistics and current tcp connections along with the exe, listening port and PID. Run <code>netstat -a -n -o</code> to get the list of connections and then use <code>tasklist</code> with the PID of interest to see information about the process.</p>
+<p>Check for 👣 Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
+<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
+<p><code>5158</code> <code>5154</code> -&gt;</p>
+<p><code>5158</code> -&gt; <code>5031</code> binding started and terminated by firewall.</p>
+<p>PID, Application field (path to the executable and exe name), Inbound/Outbound, <code>sport</code>/<code>dport</code>, addresses (src and dst), protocol field.</p>
+<p>If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditin policy using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to star capturing event 5156. I was using Vbox with Windows Server 2019 installed and the machine promoted to DC (Active Directory Feauture installed).</p>
 <p>Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
 </span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
@@ -336,19 +348,21 @@
 <p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
 <p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
 <p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
-<h3 id="malware">Malware</h3>
-<p><a href="https://malware-traffic-analysis.net">https://malware-traffic-analysis.net</a></p>
-<h2 id="macos">macOS</h2>
-<h3 id="open-connections-1">Open Connections</h3>
+<h3 id="macos--linux">macOS / Linux</h3>
+<p>For Mac OS <code>netstat</code> there is no <code>-o</code> switch, so I&rsquo;ve used <code>netstat -ban</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo lsof -i -n -p
-</span></span></code></pre></div><h2 id="dns">DNS</h2>
-<h3 id="windows-dns-cache">Windows DNS Cache</h3>
+</span></span></code></pre></div><p><code>lsof -i :443</code> will show you all connections associated with port 443, commonly used for TLS communication. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 163). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+<p><img src="dfir/artefacts/network/traffic/images/1.png" alt="img1">
+The first column will give a hint about what the application responsible for this connection is. To get the full path to the app executable, use <code>ps -fp &lt;PID&gt;</code> command:</p>
+<p><img src="dfir/artefacts/network/traffic/images/2.png" alt="img"></p>
+<h2 id="dns-cache">DNS Cache</h2>
+<h3 id="windows-1">Windows</h3>
 <p>There are several ways to retrieve this information manually.</p>
 <ol>
 <li>ipconfig /displaydns</li>
-<li><code>Win32_DnsCache</code> from WMI repo (Kansa can collect this data)</li>
+<li><code>Win32_DnsCache</code> from WMI repo (use Kansa to collect and stack this data)</li>
 </ol>
-<p>Kansa can be used for stacking this data.</p>
+<h4 id="-btfm">📘 BTFM</h4>
 <p>Stacking, purely manually (no grouping):</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-ChildItem</span> <span class="n">-Filter</span> <span class="s2">&#34;*-DNSCache.csv&#34;</span> <span class="p">|</span> <span class="nb">ForEach-Object</span> <span class="p">{</span> <span class="nb">Import-Csv</span> <span class="nv">$_</span><span class="p">.</span><span class="n">FullName</span> <span class="p">}</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&#34;DNSCacheStack.csv&#34;</span> <span class="n">-NoTypeInformation</span>
 </span></span></code></pre></div><p>Stacking, purely manual, with grouping (basically, the same results as with <code>Get-LogparserStack.ps1</code> but the case is ignored):</p>
@@ -364,8 +378,9 @@
 </span></span><span class="line"><span class="cl"><span class="nv">$groupedData</span> <span class="p">|</span> <span class="nb">Export-Csv</span> <span class="n">-Path</span> <span class="s2">&#34;result2.csv&#34;</span> <span class="n">-NoTypeInformation</span>
 </span></span></code></pre></div><p>Stacking, Kansa script:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="nb">Get-LogparserStack</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-FilePattern</span> <span class="p">*</span><span class="n">DNSCache</span><span class="p">.</span><span class="n">csv</span> <span class="n">-Delimiter</span> <span class="s2">&#34;,&#34;</span> <span class="n">-Direction</span> <span class="n">asc</span> <span class="n">-OutFile</span> <span class="nb">DNSCache-stack</span><span class="p">.</span><span class="n">csv</span>
-</span></span></code></pre></div><p>You can now use Timeline Explorer or another tool to analyse the data.</p>
-<p>To acieve the same on a macOS machine:</p>
+</span></span></code></pre></div><p>You can now use 🛠️ Timeline Explorer or another tool to analyse the data.</p>
+<h3 id="macos">macOS</h3>
+<p>To achieve the same on a macOS machine:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">awk -F<span class="s1">&#39;,&#39;</span> <span class="s1">&#39;NR&gt;1{print $1&#34;,&#34;$2}&#39;</span> *.csv <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> awk <span class="s1">&#39;{print $1&#34;,&#34;$2&#34;,&#34;$3}&#39;</span> &gt; merged.csv
 </span></span></code></pre></div><p>And the Python code to do the same (ChatGPT):</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">csv</span>
@@ -391,47 +406,48 @@
 </span></span><span class="line"><span class="cl">    <span class="c1"># Iterate over the Counter items and write each object as a row in the CSV</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nb">object</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">object_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 </span></span><span class="line"><span class="cl">        <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">count</span><span class="p">,</span> <span class="o">*</span><span class="nb">object</span><span class="p">])</span>
-</span></span></code></pre></div><h3 id="dns-names">DNS names</h3>
+</span></span></code></pre></div><h3 id="linux">Linux</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">netstat -tulpn
+</span></span><span class="line"><span class="cl">chkconfig &lt;servicename&gt; off <span class="c1"># disable</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo lsof -i -n -P
+</span></span></code></pre></div><h2 id="dns-names">DNS names</h2>
 <p>Check IP reputation: <a href="https://www.reverse.it">www.reverse.it</a>, <a href="https://www.urlvoid.com">www.urlvoid.com</a>.</p>
-<h2 id="encrypted-traffic">Encrypted Traffic</h2>
-<h3 id="tls">TLS</h3>
-<ul>
-<li>The plaintext content can be retreived from RAM.</li>
-<li>MiM</li>
-</ul>
-<h4 id="unix">UNIX</h4>
+<p>To get the DNS servers for this particular domain, use 🛠️ <code>nslookup</code> (a tool available on many OS).</p>
 <blockquote>
-<p><code>lsof -i :443</code> will show you all connections associated with port 443, commonly used for TLS communication. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 163). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+<p>❗️Note, however, that the macOS version of the tool is limited and doesn&rsquo;t have some of the options implemented (like <code>-l</code> or zone transfer).</p>
 </blockquote>
-<p><img src="dfir/artefacts/network/traffic/images/1.png" alt="img1">
-The first column will give a hint about what the application responsible for this connection is. To get the full path to the app executable, use <code>ps -fp &lt;PID&gt;</code> command:</p>
-<p><img src="dfir/artefacts/network/traffic/images/2.png" alt="img"></p>
-<h4 id="windows-1">Windows</h4>
-<p>Run <code>netstat -a -n -o</code> to get the list of connections and then use <code>tasklist</code> with the PID of interest to see information about the process.</p>
-<h3 id="ssh">SSH</h3>
-<h3 id="-tools">🛠 Tools</h3>
-<p><code>ExtraHop</code> or <code>ntop</code> (see Chapter 1) provides insight into the amount of data being transferred and to where even when that data is encrypted.</p>
-<h2 id="wireshark-filters">Wireshark Filters</h2>
-<p><code>http.request</code> - show only HTTP request. Useful to get rid of all ARP and TCP handshake garbage.</p>
-<p><code>ip.src == 192.168.22.94 and udp.port == 67</code> - show the DHCP requests for this machine. Can show the computer name.</p>
-<h3 id="todo">Todo</h3>
-<p>💡 For each common nmap scan get the footrprint</p>
-<p>💡 For each common DoS attack get the footprint</p>
-<p>💡 Footprint for sqlmap</p>
-<p>💡Footprint for common vulnerability scanners</p>
-<h2 id="network-analysis-with-dshell">Network Analysis with Dshell</h2>
-<p>Please refer to the Toolkit sections, Forensics Lab Setup for installation steps.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">decode -p rtp -i wlan0 <span class="c1"># see all auido and video traffic</span>
-</span></span><span class="line"><span class="cl">decode -d dns 2022-11-07-part-1-of-2-Emotet-infection.pcap <span class="c1"># view DNS request from the pcap</span>
-</span></span></code></pre></div><p>Not sure how this is better than Wireshark + filtering.</p>
-<h2 id="-btfm--rtfm">📘 BTFM 📕 RTFM</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nslookup
 </span></span><span class="line"><span class="cl">&gt; <span class="nb">set</span> <span class="nv">type</span><span class="o">=</span>ns
 </span></span><span class="line"><span class="cl">&gt; bakerst221b.com
 </span></span><span class="line"><span class="cl">&gt; <span class="nb">set</span> <span class="nv">type</span><span class="o">=</span>mx
 </span></span><span class="line"><span class="cl">&gt; bakerst221b.com
+</span></span></code></pre></div><h2 id="dns-requests">DNS Requests</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">decode -d dns 2022-11-07-part-1-of-2-Emotet-infection.pcap <span class="c1"># view DNS request from the pcap</span>
+</span></span></code></pre></div><h2 id="encrypted-traffic">Encrypted Traffic</h2>
+<h3 id="tls">TLS</h3>
+<ul>
+<li>The plaintext content can be retrieved from RAM.</li>
+<li>MiM</li>
+</ul>
+<h3 id="ssh">SSH</h3>
+<p>🛠 <code>ExtraHop</code> or 🛠 <code>ntop</code> (see Chapter 1) provides insight into the amount of data being transferred and to where even when that data is encrypted.</p>
+<p>🛠 Wireshark Filters:</p>
+<ol>
+<li><code>http.request</code> - show only HTTP request. Useful to get rid of all ARP and TCP handshake garbage.</li>
+<li><code>ip.src == 192.168.22.94 and udp.port == 67</code> - show the DHCP requests for this machine. Can show the computer name.</li>
+</ol>
+<h2 id="video--audio">Video / Audio</h2>
+<p>🛠️ <code>dshell</code> can be used to analyse a <code>pcap</code> file for the specific traffic types. Please refer to the Toolkit sections, Forensics Lab Setup for installation steps.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">decode -p rtp -i wlan0 <span class="c1"># see all auido and video traffic</span>
 </span></span></code></pre></div><h2 id="references">References</h2>
+<h3 id="read">Read</h3>
 <p>[<a href="https://medium.com/@dancovic/dns-enumeration-tutorial-dig-nslookup-host-8eadef72977e">1</a>]NSLOKUP, DIG and HOST utilities usage</p>
+<p>Digital forensics and Incident Response, G. Johansen</p>
+<h3 id="practise">Practise</h3>
+<ol>
+<li><a href="https://malware-traffic-analysis.net">https://malware-traffic-analysis.net</a></li>
+</ol>
 
   </div>
 </article>
