@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Investigation Techniques - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#find-evil">Find Evil</a>
+          <ul>
+            <li><a href="#known-good">Known Good</a></li>
+          </ul>
+        </li>
+        <li><a href="#behavioural-analysis">Behavioural Analysis</a></li>
+        <li><a href="#frequency-analysis">Frequency Analysis</a></li>
+        <li><a href="#pattern-based-analysis">Pattern-based Analysis</a></li>
+        <li><a href="#stacking">Stacking</a></li>
+      </ul>
+    </li>
+    <li><a href="#prioritise-and-pivot">Prioritise And Pivot</a></li>
+    <li><a href="#critical-thinking">Critical Thinking</a></li>
+    <li><a href="#how-to-prove-compromise">How to prove compromise❓</a></li>
+    <li><a href="#how-to-prove-intent-">How to prove intent ❓</a></li>
+    <li><a href="#how-to-prove-user-knew-">How to prove user knew ❓</a></li>
+    <li><a href="#types-of-users">Types of Users</a>
+      <ul>
+        <li><a href="#dummy--vs-poopy-"><strong>Dummy</strong> 😬 vs <strong>Poopy</strong> 💩</a></li>
+        <li><a href="#sheep--vs-others---and-"><strong>Sheep</strong> 🐑 vs <strong>others</strong> 💩, 😬 and 🦓</a></li>
+        <li><a href="#poopy--vs-donkey-"><strong>Poopy</strong> 💩 vs <strong>donkey</strong> 🦓</a></li>
+        <li><a href="#poopy--and-donkey--vs-others--and-"><strong>Poopy</strong> 💩 and <strong>donkey</strong> 🦓 vs <strong>others</strong> 😬 and 🐑</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Investigation Techniques</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 26.05.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>There are a couple of techniques to use. This can be applied to everything: logs, dynamic malware analysis, user activity, folder activity, system events etc.</em></p>
+<h3 id="find-evil">Find Evil</h3>
+<p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example: suddenly increased server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
+<p>🛠 Typically, this kind of stuff (spikes) is picked up by the IDS/IPS/WAF systems quite neatly.
+🗒 TODO: <a href="https://www.open-scap.org/security-policies/scap-security-guide/">https://www.open-scap.org/security-policies/scap-security-guide/</a>.</p>
+<h4 id="known-good">Known Good</h4>
+<p>Of course, in order to find evil, one needs to know what&rsquo;s NOT. Only some of the files are worth considering. However, it takes a lot of work to keep all of them in mind. I&rsquo;ve made several database files that contain information on files on a clean installed system. There will be some divisions, but I hope it will also help eliminate a massive pack of files.</p>
+<p>When reviewing processes and artefacts for potential maliciousness, I use the following list, where items are ordered by their likelihood of being malicious.</p>
+<ol>
+<li>Outstanding <code>exe</code> or bat <code>files</code> named with one digit or letter like <code>a.ps1</code>, <code>1.bat</code>. <code>a.exe</code> etc.</li>
+<li>Drivers that were installed recently or that I don&rsquo;t recognise.</li>
+<li>Unfamiliar program names (google or ask ChatGPT to know more about such program)</li>
+<li>Familiar programs in unusual places</li>
+<li>Programs that seem legit are in the expected folders (last resort).</li>
+</ol>
+<h3 id="behavioural-analysis">Behavioural Analysis</h3>
+<p>A little more sophisticated &ldquo;Find Evil&rdquo; technique is what I call <strong>behavioural analysis</strong>. For this method, you must think like an attacker and a regular user. For example, for everyday use, the failed login process would look something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Reset password</li>
+<li>Login</li>
+</ul>
+<p>For a malicious user, it would be something like (brute-forcing):</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>N-login attempt - account blocked</li>
+<li>Sleep for N minutes</li>
+<li>M-login attempt - error</li>
+<li>etc</li>
+</ul>
+<p>For a malicious user attempting password spraying attack (when one password is used for different accounts), you are likely to do something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Stop (no successful login or password reset)</li>
+</ul>
+<h3 id="frequency-analysis">Frequency Analysis</h3>
+<p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look either for something more or less frequent. Covering all the cases is hard, but maybe some examples will do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
+<p>🛠 SIEM/IDS + ML (machine learning engine) could help identify those &ldquo;unusual things&rdquo;. Some SIEM would allow making rules based on different log fields. So, for example, in the above scenario, one could create a rule to alert the CSIRT if a 100 threshold for 404 HTTP status code returned is hit in 1 minute.</p>
+<h3 id="pattern-based-analysis">Pattern-based Analysis</h3>
+<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could indicate command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
+<p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
+<p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
+<h3 id="stacking">Stacking</h3>
+<p>It&rsquo;s not a separate technique per se. Instead, it refers to analysing a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear a few times or are seen on one system only usually stand out.</p>
+<h2 id="prioritise-and-pivot">Prioritise And Pivot</h2>
+<p>There are different paths to follow to answer the same questions. Some are more efficient.</p>
+<p>I am pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
+<ul>
+<li>Looking for malware and finding program run entries for malware</li>
+<li>Stop looking for other malware and focus on that one.
+<ul>
+<li>What happened before and after?</li>
+<li>What else is in the same folder?</li>
+<li>What does it do?</li>
+</ul>
+</li>
+<li>Repeat for each you find</li>
+</ul>
+<p>How to find the first evidence? Prioritise or brute force.</p>
+<ul>
+<li>Prioritise (Manual). You always need to find out where the evidence is going to be.
+<ul>
+<li>impact on the investigation result</li>
+<li>likelihood of finding anything</li>
+<li>False positive?</li>
+<li>time required</li>
+</ul>
+</li>
+<li><strong>Brute force</strong> (Automated). Let tools and software find evidence.</li>
+</ul>
+<blockquote>
+<p>Cyber Triage: can I mark something as wrong and run the analysis for this piece of evidence again? - yes</p>
+</blockquote>
+<p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
+<p>The main idea is to concentrate on some areas and answer some specific questions, like:</p>
+<ol>
+<li>Is there child exploitation material? Search videos and pictures.</li>
+<li>Is this PC compromised? It needs to be more prominent.</li>
+<li>Who did this computer communicate with?</li>
+</ol>
+<p><strong>First option:</strong></p>
+<p>Big problem &ndash;&gt; n*(minor problem). Recursively break a problem into minor issues until one becomes solvable.</p>
+<p><strong>Second option:</strong></p>
+<p>Or we can be guided by artefact ⛏️  categories.</p>
+<p>First, break the more significant problem into smaller ones. Then answer questions with artefact ⛏️ categories.</p>
+<p>Here is the pseudocode for this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stacked</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">get</span> <span class="n">artifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">current</span> <span class="n">problem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="n">poseQuestion</span><span class="p">(</span><span class="kt">string</span> <span class="n">problem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><strong>How does a computer work?</strong> Hardware, OS, Processes. <strong>How does the attacker work?</strong> Remote access changes, detection avoidance etc.</p>
+<p><strong>RoadMap</strong></p>
+<ol>
+<li>Is the system compromised?
+<ol>
+<li>Are there mal-related changes?</li>
+<li>Is there mal user activity?
+<ol>
+<li>Suspicious logins?
+<ol>
+<li>Login artefact category ⛏️: Event log 4624, 4778, active users etc</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Are there malware progs?</li>
+<li>Are there mal OS changes?</li>
+</ol>
+</li>
+</ol>
+<p>Prioritisation is based on: likely relevance, result accuracy, and time to answer.</p>
+<p>Beginner: start with a process and fill in categories</p>
+<p>Advanced: when you already know about classes, think from that perspective.</p>
+<p>Manager: categories</p>
+<p>Cyber Triage User: same</p>
+<p>File name &ndash;&gt; meta &ndash;&gt; content</p>
+<h2 id="critical-thinking">Critical Thinking</h2>
+<p><strong>Challenge assumptions</strong> (sometimes it&rsquo;s something you have not seen or dealt with before), consider alternatives, evaluate data, identify critical drivers, and understand the context.</p>
+<p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorise these assumptions based on certainty. Refine and remove those assumptions that are proven to be incorrect. Identify additional data needs for those assumptions that are still uncertain. Research?</p>
+<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the other options. The null hypothesis is the opposite of the central hypothesis (for anomalous data).</p>
+<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for average to detect the bizarre (like, a clean system installation is examined, and everything is compared to it). Look for inconsistent data. **Assess the data against different hypotheses to see how well it fits.</p>
+<p>Identify critical drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
+<p>Understand the context from the perspective of different stakeholders. Framing techniques help keep everyone on the same page (what do they need from me, how can I frame the issue, do I need to place their questions in a broader context). Same vocabulary. Steps:</p>
+<ul>
+<li>Key components. Break the problem down and identify the parts, actors and categories.</li>
+<li>Factors at Play.</li>
+<li>Relationships. Static? Dynamic? Graphing.</li>
+<li>Similarities/Differences. Leverage past work!</li>
+<li>Redefine. Rephrase and paraphrase the issue. What is the root cause?</li>
+</ul>
+<blockquote>
+<p>💡 Maybe it&rsquo;s better to arrange it as a table. Merge with the information from the Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
+</blockquote>
+<h2 id="how-to-prove-compromise">How to prove compromise❓</h2>
+<blockquote>
+<p>TODO: Move to Canva, make a decision tree from it rather</p>
+</blockquote>
+<p>Lot&rsquo;s of attacks involve account compromise. In some cases malware is not even needed. There are several arguments for the defence: <em>I didn&rsquo;t know</em>, <em>It was not me</em>, <em>It was a malware</em> and <em>It happened accidently</em>.</p>
+<p>✍️ <strong>Suspicious logins?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Should this user use this account?</li>
+<li><input disabled="" type="checkbox"> Are they new to the computer?</li>
+<li><input disabled="" type="checkbox"> If remote, does the account usually come from that computer?</li>
+<li><input disabled="" type="checkbox"> Is the time expected?</li>
+<li><input disabled="" type="checkbox"> Does the account have lots of failed logins? 👉 <em>A very strong indicator of compromise</em></li>
+<li><input disabled="" type="checkbox"> A login during time when the user was absent 👉 <em>A very strong indicator of compromise</em></li>
+</ul>
+<p>✍️ <strong>Malware</strong>. There is a separate section for malware, but it can be a strong defense for some one claiming his or her account was compromised. But! ⚠️ Even if there is a malware found, it&rsquo;s essential to prove that it existed <strong>at the time</strong> that some investigated activity took place.</p>
+<h2 id="how-to-prove-intent-">How to prove intent ❓</h2>
+<p><em>❓  So, back to the question. How to prove that the user knows?</em></p>
+<p>✍️ <strong>Suspicious activity?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>What searches were performed?</strong>
+<ul>
+<li><input disabled="" type="checkbox"> Search relevant to job role?</li>
+<li><input disabled="" type="checkbox"> Search for malicious progs or techniques?</li>
+<li><input disabled="" type="checkbox"> Was there an attempt to delete the evidence? For example, browser cache cleared <em>manually</em>, depends on this browser settings.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Access resources</strong>.
+<ul>
+<li><input disabled="" type="checkbox"> Accessed malwebsite?</li>
+<li><input disabled="" type="checkbox"> Network shares?</li>
+<li><input disabled="" type="checkbox"> Mass copy? 👉 <em>Might be an indicator of data exfiltration.</em></li>
+<li><input disabled="" type="checkbox"> Was it a result of a redirect (300 HTTP or header redirect, or pop-up) 👉 <em>May help the defending side if this can be proved.</em></li>
+<li><input disabled="" type="checkbox"> File accessed soon after creation? 👉 <em>Might be an indicator of some automated task, or not&hellip;.</em>.</li>
+<li><input disabled="" type="checkbox"> Was a file deleted/wiped? 👉 <em>File wiped is a strong indiator of intent.</em> 🛠 Directory Snoop can show that the file was wiped, not simply deleted. Not all wiping software clears the <code>$MFT</code> table.</li>
+<li><input disabled="" type="checkbox"> What devices were attached?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Remotely executed code</strong>. Remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.
+<ul>
+<li><input disabled="" type="checkbox"> Remote = local?</li>
+<li><input disabled="" type="checkbox"> Expected?</li>
+<li><input disabled="" type="checkbox"> Prog expected?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Communications</strong>. Messangers, emails, social networking, forums, websites.
+<ul>
+<li><input disabled="" type="checkbox"> Determine all the mail clients used and use this information to find artefacts. ❗️❗️❗️❗️ Link to collection.</li>
+<li><input disabled="" type="checkbox"> Relevant threads (<code>strings</code> + <code>grep</code> or DFIR framework).</li>
+<li><input disabled="" type="checkbox"> IP in mail spoofed?</li>
+</ul>
+</li>
+</ul>
+<p>👣 User started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch).</p>
+<p>👣 Terms and time when the search was performed. Web artifacts and saved previous searches.</p>
+<p>👣 Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
+<p>👣 Event logs, domain logs. The below question may help finding a malicious user (hacker) or malicious insider with intent. More <a href="/docs/dfir/forensic-investigation/4-accounts">here</a>.</p>
+<p>👣 Mails. ❗️❗️❗️❗️ Link to collection.</p>
+<h2 id="how-to-prove-user-knew-">How to prove user knew ❓</h2>
+<p>✍️ It&rsquo;s often not enough just to find a file on a system. One needs to prove <strong>the intent</strong>. Remember to use more than one artifact whenever possible! For example, the user may be insisting that he or she did not download this file. But, if the browser was set to flush data every 7 days and the timestamps for the deleted file shows it was deleted an hour after it was deleted - this might raiser some reasonable doubt I think 🤔. Or, the file was wiped 🧹 (it&rsquo;s contents filled with <code>0</code>s). If one didn&rsquo;t know it existed, why delete it? Or there is no data on the PC indicating the use of the file, but it was continuously downloaded/uploaded according to the server logs. ⚠️ This, however, won&rsquo;t prove that there was no hacker in place!</p>
+<h2 id="types-of-users">Types of Users</h2>
+<p>Actually, as I read further an further, it seems that everything is about a user. But!</p>
+<p>A user can be of several categories. I&rsquo;ll name each one as shortly as I can to refer to them in future. But I will describe them in more detail below.</p>
+<p><strong>Legitimate user, who has done something bad by accident</strong>. Let&rsquo;s call him a <strong>dummy</strong> 😬. I&rsquo;ve been there, I once changed permissions to <code>Deny</code> for my admin account to disk <code>C</code> on Windows and could do nothing about it later. How stupid was it 🙈? My excuse is that I only started with PCs&hellip; .</p>
+<p><strong>Legitimate user, who has done something bad by intent.</strong> Let&rsquo;s call this one a <strong>poopy</strong> 💩. Say, he or she feels highy underpaid and sells company&rsquo;s kitty plans to some evil dog hackers.</p>
+<p><strong>A user created and used by a hacker.</strong> This one I will call a <strong>sheep</strong> 🐑  as in <em>A wolf in sheep&rsquo;s clothing</em>, since the attacker is trying mask itself as something good.  This one is not unusual, but I guess, easily determined by the sysadmin. However, there are some cases, when an attacker can change view permissions for his/her account on AD so that no one will see this user.</p>
+<p><strong>A user created legitimately, but compromised by a hacker and doing something by intent.</strong> This one will be a <strong>donkey</strong> 🦓, as the attaker is using another account for his ride. I guess it&rsquo;s the most common when the hackers are in the picture.</p>
+<p>And here are the questions we will have to answer during investigations, that can help in distinguishing between these types.</p>
+<h3 id="dummy--vs-poopy-"><strong>Dummy</strong> 😬 vs <strong>Poopy</strong> 💩</h3>
+<p><em>❓ How to prove that the person didn&rsquo;t do it on purpose, but by accident?</em></p>
+<p>✍️ It&rsquo;s often not enough just to find a file on a system. One needs to prove <strong>the intent</strong>. Remember to use more than one artifact whenever possible! For example, the user may be insisting that he or she did not download this file. But, if the browser was set to flush data every 7 days and the timestamps for the deleted file shows it was deleted an hour after it was deleted - this might raiser some reasonable doubt think 🤔. Or, the file was wiped 🧹 (it&rsquo;s contents filled with <code>0</code>s). If one didn&rsquo;t know it existed, why delete it? Or there is no data on the PC indicating the use of the file, but it was continuously downloaded/uploaded according to the server logs. ⚠️ This, however, won&rsquo;t prove that there was no hacker in place!</p>
+<h3 id="sheep--vs-others---and-"><strong>Sheep</strong> 🐑 vs <strong>others</strong> 💩, 😬 and 🦓</h3>
+<p>✍️ <strong>Are there suspicious accounts?</strong> 👣 SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs. The below question may help finding a malicious user (hacker). More <a href="/docs/dfir/forensic-investigation/accounts">here</a>.</p>
+<ul>
+<li><input disabled="" type="checkbox"> User Name does not match conventions for this organisation?</li>
+<li><input disabled="" type="checkbox"> Weird priviledges</li>
+<li><input disabled="" type="checkbox"> Scope (local or domain)</li>
+<li><input disabled="" type="checkbox"> Creation time and date.</li>
+</ul>
+<h3 id="poopy--vs-donkey-"><strong>Poopy</strong> 💩 vs <strong>donkey</strong> 🦓</h3>
+<p><em>❓ How to prove that the account was compromised?</em></p>
+<p>Lot&rsquo;s of attacks involve account compromise. In some cases malware is not even needed. There are several arguments for the defence: <em>I didn&rsquo;t know</em>, <em>It was not me</em>, <em>It was a malware</em> and <em>It happened accidently</em>.</p>
+<p>✍️ <strong>Suspicious logins?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Should this user use this account?</li>
+<li><input disabled="" type="checkbox"> Are they new to the computer?</li>
+<li><input disabled="" type="checkbox"> If remote, does the account usually come from that computer?</li>
+<li><input disabled="" type="checkbox"> Is the time expected?</li>
+<li><input disabled="" type="checkbox"> Does the account have lots of failed logins? 👉 <em>A very strong indicator of compromise</em></li>
+<li><input disabled="" type="checkbox"> A login during time when the user was absent 👉 <em>A very strong indicator of compromise</em></li>
+</ul>
+<p>✍️ <strong>Malware</strong>. There is a separate section for malware above ☝️, but it can be a strong defense for some one claiming his or her account was compromised. But! ⚠️ Even if there is a malware found, it&rsquo;s essential to prove that it existed at the time that some investigated activity took place.</p>
+<h3 id="poopy--and-donkey--vs-others--and-"><strong>Poopy</strong> 💩 and <strong>donkey</strong> 🦓 vs <strong>others</strong> 😬 and 🐑</h3>
+<p>✍️ <strong>Suspicious activity?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>What searches were performed?</strong>
+<ul>
+<li><input disabled="" type="checkbox"> Search relevant to job role?</li>
+<li><input disabled="" type="checkbox"> Search for malicious progs or techniques?</li>
+<li><input disabled="" type="checkbox"> Was there an attempt to delete the evidence? For example, browser cache cleared <em>manually</em>, depends on this browser settings.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Access resources</strong>.
+<ul>
+<li><input disabled="" type="checkbox"> Accessed malwebsite?</li>
+<li><input disabled="" type="checkbox"> Network shares?</li>
+<li><input disabled="" type="checkbox"> Mass copy? 👉 <em>Might be an indicator of data exfiltration.</em></li>
+<li><input disabled="" type="checkbox"> Was it a result of a redirect (300 HTTP or header redirect, or pop-up) 👉 <em>May help the defending side if this can be proved.</em></li>
+<li><input disabled="" type="checkbox"> File accessed soon after creation? 👉 <em>Might be an indicator of some automated task, or not&hellip;.</em>.</li>
+<li><input disabled="" type="checkbox"> Was a file deleted/wiped? 👉 <em>File wiped is a strong indiator of intent.</em> 🛠 Directory Snoop can show that the file was wiped, not simply deleted. Not all wiping software clears the <code>$MFT</code> table.</li>
+<li><input disabled="" type="checkbox"> What devices were attached?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Remotely executed code</strong>. Remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.
+<ul>
+<li><input disabled="" type="checkbox"> Remote = local?</li>
+<li><input disabled="" type="checkbox"> Expected?</li>
+<li><input disabled="" type="checkbox"> Prog expected?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Communications</strong>. Messangers, emails, social networking, forums, websites.
+<ul>
+<li><input disabled="" type="checkbox"> Determine all the mail clients used and use this information to find artefacts. ❗️❗️❗️❗️ Link to collection.</li>
+<li><input disabled="" type="checkbox"> Relevant threads (<code>strings</code> + <code>grep</code> or DFIR framework).</li>
+<li><input disabled="" type="checkbox"> IP in mail spoofed?</li>
+</ul>
+</li>
+</ul>
+<p>👣 User-started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch).</p>
+<p>👣 Terms and time when the search was performed. Web artifacts and saved previous searches.</p>
+<p>👣 Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artefacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
+<p>👣 Event logs, domain logs. The below question may help finding a malicious user (hacker) or malicious insider with intent. More <a href="/docs/dfir/forensic-investigation/4-accounts">here</a>.</p>
+<p>👣 Mails. ❗️❗️❗️❗️ Link to collection.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
