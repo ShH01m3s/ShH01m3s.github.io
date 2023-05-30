@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📘 Manual - Analyst</title>
+  <title>💿 Imaging - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -199,33 +199,15 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#live">Live</a>
+    <li><a href="#windows">Windows</a>
       <ul>
-        <li><a href="#checklist">Checklist</a></li>
-        <li><a href="#order-of-volatility">Order of Volatility</a></li>
-        <li><a href="#write-blockers">Write Blockers</a>
-          <ul>
-            <li><a href="#windows">Windows</a></li>
-            <li><a href="#macos">macOS</a></li>
-          </ul>
-        </li>
-        <li><a href="#windows-1">Windows</a>
-          <ul>
-            <li><a href="#list-all-drives">List All Drives</a></li>
-            <li><a href="#collect">Collect</a></li>
-          </ul>
-        </li>
-        <li><a href="#macos--linux">macOS / Linux</a>
-          <ul>
-            <li><a href="#list-all-drives-1">List All Drives</a></li>
-          </ul>
-        </li>
+        <li><a href="#macos--linux">macOS / Linux</a></li>
         <li><a href="#containers">Containers</a></li>
       </ul>
     </li>
     <li><a href="#dead">Dead</a>
       <ul>
-        <li><a href="#macos-1">macOS</a>
+        <li><a href="#macos">macOS</a>
           <ul>
             <li><a href="#fusion-drives">Fusion Drives</a></li>
             <li><a href="#target-disk-intel">Target Disk (Intel)</a></li>
@@ -252,7 +234,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">📘 Manual</h1>
+<h1 class="title">💿 Imaging</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -305,99 +287,14 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>There are two significant types of acquisition: live 🍀 and dead ☠️. Choosing based on the system&rsquo;s initial state in question is usually preferable. So, for example, if the system is turned on, perform live acquisition first, capturing all volatile data that will be deleted after reboot. Otherwise, jump right to the dead acquisition (if the system is shut down).</p>
+    <p>There are two types of acquisitions: live 🍀 and dead ☠️. Choosing based on the system&rsquo;s initial state in question is usually preferable. So, for example, if the system is turned on, perform live acquisition first, capturing all volatile data that will be deleted after reboot. Otherwise, jump right to the dead acquisition (if the system is shut down).</p>
 <blockquote>
 <p>⚠️ There are some caveats which need to be handled, though. For example, at the moment of this writing (📆 <code>11/07/2022</code>), macOS has introduced Share Disk mode for the newest M1 machines. Unlike the Target disk mode, which would treat the disk as external, making it possible to turn on the write blocker, this new mode is more like a network share and works over SMB (over the wire). This way, the target disk won&rsquo;t show with the <code>diskutil</code> list; thus, all standard procedures for write blocking won&rsquo;t work. I don&rsquo;t know if an ordinary physical write blocker will work since the mechanism is different. I have posted this question on <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">forensicfocus.com</a> but have not received any updates.</p>
 </blockquote>
 <blockquote>
 <p>❗️ The target media needs to be sterilised first! Refer to the sterilisation article for more details.</p>
 </blockquote>
-<h2 id="live">Live</h2>
-<h3 id="checklist">Checklist</h3>
-<details>
-    <summary>Expand&hellip;</summary>
-    <ul>
-<li><input disabled="" type="checkbox"> Attach a write blocker or run a software-based one. On the forensic MacBook, you can turn off disk arbitration or use write blockers. To turn off this feature, refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It&rsquo;s needed so the forensic machine won&rsquo;t change the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</li>
-<li><input disabled="" type="checkbox"> List all drives to get the id of the target.</li>
-<li><input disabled="" type="checkbox"> Connect external HDD or SSD</li>
-<li><input disabled="" type="checkbox"> Launch some forensic distribution (for example, Paladin). Make an image of the local HDD (❗️ Won&rsquo;t work for M1 Apple devices).</li>
-</ul>
-
-</details>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really preventing changes to the target drive?</em></p>
-</blockquote>
-<h3 id="order-of-volatility">Order of Volatility</h3>
-<ul>
-<li><input disabled="" type="checkbox"> <strong>Cache</strong>, <strong>registers</strong> (<strong>CPU</strong>). 🛠 Debuggers (OllyDbg, gdb, x64dbg etc)</li>
-<li><input disabled="" type="checkbox"> <strong>ARoTa MeKSaPTa</strong>. ARP cache, routing table, memory, kernel statistics, process table. <strong>Mnemonics</strong>: ARoTa MeKSaPTa
-<ul>
-<li><input disabled="" type="checkbox"> <strong>Routing tables</strong>. Contain the following info: destination IP addresses or networks; the gateway IP address, or interface name if a directly connected resource; the metric, or cost, associated with the route – this enables the most efficient route to be selected; the outgoing interface the machine will use when forwarding a packet.
-<ul>
-<li><input disabled="" type="checkbox"> Windows <code>route print</code></li>
-<li><input disabled="" type="checkbox"> UNIX <code>netstat -rn</code></li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>ARP cache</strong>: <code>arp -a</code></li>
-<li><input disabled="" type="checkbox"> <strong>Process table</strong>. The list of processes currently running + metadata.
-<ul>
-<li><input disabled="" type="checkbox"> UNIX <code>ps</code></li>
-<li><input disabled="" type="checkbox"> Windows. Task Manager (GUI) or <code>tasklist</code> (-&gt; <code>csv</code>).</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Kernel stats</strong>. 🛠 RAMMap, part of the Sysinternals suite for Windows, and memmap in the Linux world. Tracks the page usage (physical RAM chunks), mappings of those pages.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Temporary files</strong>. Malware likes these folders because it&rsquo;s often already full of garbage.
-<ul>
-<li><input disabled="" type="checkbox"> Linux <code>/tmp</code>.</li>
-<li><input disabled="" type="checkbox"> swap (UNIX)</li>
-<li><input disabled="" type="checkbox"> pagefile (Windows)</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Disk</strong>.</li>
-<li><input disabled="" type="checkbox"> <strong>Logs</strong>. Monitoring data and remote logging pertaining to the computer in question. SIEMs and other log storages.</li>
-<li><input disabled="" type="checkbox"> Physical <strong>configurations</strong>, network topology.</li>
-<li><input disabled="" type="checkbox"> Archival media. CDs, backups, USBs.</li>
-</ul>
-<h3 id="write-blockers">Write Blockers</h3>
-<h4 id="windows">Windows</h4>
-<p><strong>Windows Software Write Blocker</strong> Basically, one can do this manually. This includes changing the value in the registry.</p>
-<p><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies</code> changing the value of the WriteProtect DWORD to 1 under this key, the device will be set to read-only mode, preventing any data from being written to it.</p>
-<h4 id="macos">macOS</h4>
-<p>Either use a hardware write blocker or turn off disk arbitration.</p>
-<p><strong>Disk Arbitration</strong> prevents the host computer from writing data to the target MacBook using Target Disk Mode. To turn off this feature, refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It’s needed so the forensic machine won’t change the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
-<blockquote>
-<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really preventing changes to the target drive?</em></p>
-</blockquote>
-<blockquote>
-<p>🧪 When attaching my MacBook to another via Share Disk mode, I deleted files from the target MacBook even with DA off. Why?
-Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s an SMB share. See the comprehensive research above.</p>
-</blockquote>
-<p>There is also a tool 🛠️ <a href="https://github.com/aburgh/Disk-Arbitrator">https://github.com/aburgh/Disk-Arbitrator</a>. That helps and eases the work. I need to check this out.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Turn DA off</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># Old macOS</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /etc/mach_init.d
-</span></span><span class="line"><span class="cl"> ls
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl"> sudo cp diskarbitrationd.plist /
-</span></span><span class="line"><span class="cl"> ls /
-</span></span><span class="line"><span class="cl">sudo rm diskarbitrationd.plist.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># New macOS</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># Option #1. Kill the process</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># cat /var/run/diskarbitrationd.pid gives the PID </span>
-</span></span><span class="line"><span class="cl"><span class="c1"># ps -ex gives the proc list</span>
-</span></span><span class="line"><span class="cl">ps -ex <span class="p">|</span> grep <span class="k">$(</span>cat /var/run/diskarbitrationd.pid<span class="k">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Option #2. Remove the plist</span>
-</span></span><span class="line"><span class="cl">sudo cp /System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist /
-</span></span><span class="line"><span class="cl"><span class="c1"># give read-only FS</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># Turn on</span>
-</span></span><span class="line"><span class="cl">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
-</span></span></code></pre></div><h3 id="windows-1">Windows</h3>
-<h4 id="list-all-drives">List All Drives</h4>
+<h2 id="windows">Windows</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">diskpart</span>
 </span></span><span class="line"><span class="cl"><span class="n">DISKPART</span><span class="p">&gt;</span> <span class="n">list</span> <span class="n">disk</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo dd <span class="k">if</span><span class="o">=</span>/dev/sda1 <span class="nv">of</span><span class="o">=</span>/case1/diska1.dd
@@ -414,52 +311,9 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s a
 ✍🏻 go to Disk Utility and unmount the drive (don&rsquo;t eject it).</p>
 </blockquote>
 <blockquote>
-<p>📝 Some commercial tools like <strong>Cyber Triage</strong> allow analysing the evidence on a live system without imaging drives or dumping memory. The digital footprint is claimed to be minimal. It can be used remotely.</p>
-</blockquote>
-<blockquote>
 <p>🧪 Will any USB work (GPT or MSDOS) or should I have both for different cases?</p>
 </blockquote>
-<h4 id="collect">Collect</h4>
-<p>Using 🛠️ <code>Kansa</code>, one can collect a wealth of artefacts from a Windows machine.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Get-NetConnectionProfile</span>
-</span></span><span class="line"><span class="cl"><span class="nb">Set-NetConnectionProfile</span> <span class="n">-InterfaceIndex</span> <span class="n">X</span> <span class="n">-NetworkCategory</span> <span class="n">private</span> <span class="c"># requires admin</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">.\</span><span class="n">kansa</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Pushbin</span> <span class="n">-Target</span> <span class="n">localhost</span> <span class="n">-Credential</span> <span class="n">username</span> <span class="n">-Authentication</span> <span class="n">Negotiate</span>
-</span></span></code></pre></div><blockquote>
-<p>❗️ On macOS Parallels 18 with Windows 11 running as a VM, you&rsquo;d need to change the password for the user first to provide them in the prompt.</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">Select-String</span> <span class="s2">&#34;something&#34;</span> <span class="p">*.</span><span class="n">csv</span> <span class="c"># search for something keyword in all csv files in the current directory</span>
-</span></span></code></pre></div><p>If the <code>-Analysis</code> option is provided when collecting data, it will generate analysis files following the collection from remote hosts. This script can be used to pull the frequency of autoruns based on ImagePath, LaunchString and MD5 tuple (given that the publisher is not verified): <code>Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1</code> <a href="https://github.com/davehull/Kansa/blob/master/Analysis/asep/Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1">https://github.com/davehull/Kansa/blob/master/Analysis/asep/Get-ASEPImagePathLaunchStringMD5UnsignedStack.ps1</a>. Here is the most crucial part of the script, its heart ❤️:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sql" data-lang="sql"><span class="line"><span class="cl"><span class="k">SELECT</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="k">COUNT</span><span class="p">(</span><span class="n">ImagePath</span><span class="p">,</span><span class="w"> </span><span class="n">LaunchString</span><span class="p">,</span><span class="w"> </span><span class="n">MD5</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">ct</span><span class="p">,</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="n">ImagePath</span><span class="p">,</span><span class="n">LaunchString</span><span class="p">,</span><span class="n">MD5</span><span class="p">,</span><span class="n">Publisher</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">FROM</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="o">*</span><span class="n">autorunsc</span><span class="p">.</span><span class="n">csv</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">WHERE</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="n">Publisher</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;(Verified)%&#39;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="p">(</span><span class="n">ImagePath</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">like</span><span class="w"> </span><span class="s1">&#39;File not found%&#39;</span><span class="p">)</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> 
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="n">ImagePath</span><span class="p">,</span><span class="w"> </span><span class="n">LaunchString</span><span class="p">,</span><span class="w"> </span><span class="n">MD5</span><span class="p">,</span><span class="w"> </span><span class="n">Publisher</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">	</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">		</span><span class="n">ct</span><span class="w"> </span><span class="k">ASC</span><span class="w">
-</span></span></span></code></pre></div><p>This script accomplishes frequency analysis using <code>Get-Command logparser.exe</code> with the above SQL statement.</p>
-<p>Select columns <code>ImagePath, LaunchString, MD5, and Publisher</code> from all CSV files with the names that end with <code>autorunsc.csv</code>. Then use <code>(ImagePath, LaunchString, MD5)</code> as a unique identifier, discard all that have been <code>Verified</code> in the <code>Publisher</code> column and <code>File not found </code>in the <code>ImagePath</code> column. Count unique values, put in the <code>ct</code> column, group by <code>ImagePath, LaunchString, MD5, Publisher</code> and sort in ascending order.</p>
-<p>Another tool is 🛠️ <code>Autoruns</code> (comes with Sysinternals), but its focus is various autorun locations.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">autorunsc</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">accepteula</span> <span class="n">-a</span> <span class="p">*</span> <span class="n">-c</span> <span class="n">-h</span> <span class="n">-s</span> <span class="s1">&#39;*&#39;</span> <span class="n">-nobanner</span>
-</span></span></code></pre></div><p><code>a</code> - all artefacts (boot, appinit dlls, explorer addons, sidebar gadgets, image hijacks, IE addons, known dlls, logon startups, WMI, office addons, printerr mon dll, LSA sec providers, autostart services and non-disabled drivres, winlogon entries, scheduled tasks, winlock protocol and net providers).
-<code>c</code> - codec
-<code>h</code> - hashes
-<code>s</code> - verify digital signature
-<code>'*'</code> - all user profiles</p>
-<p>Something similar to Kansa is KAPE, but looks like it is no longer maintained. It provides the ability to extract artefacts from the mounted drives (be it an image, over network or a loval drive). Here are the files/folders pulled: <a href="https://ericzimmerman.github.io/KapeDocs/#!Pages%5C2.1-Targets.md">https://ericzimmerman.github.io/KapeDocs/#!Pages%5C2.1-Targets.md</a>.</p>
 <h3 id="macos--linux">macOS / Linux</h3>
-<p>🛠️ <a href="https://github.com/Dead-Simple-Scripts/AutoLLR">AutoLLR</a>. This script was designed for Linux. However, it can be adjusted for macOS. For example, adding <code>system_profiler</code>, <code>sw_vers</code>. Substitute <code>prinenv</code> for <code>env</code>.</p>
-<blockquote>
-<p>💡 My plan is to review and try running all these commands. This will help understand the type of evidence in the system and make necessary macOS-specific substitutions.</p>
-</blockquote>
-<blockquote>
-<p>💡 Write a macOS triage tool similar to Kansa but bash-based, specifically targeting macOS. Do the same for iOS, Android, Linux, AWS etc. Check Sarah&rsquo;s GitHub to ensure there is nothing of that sort yet. Use <a href="https://github.com/mac4n6/APOLLO">https://github.com/mac4n6/APOLLO</a> to collect DBS,  <a href="https://github.com/mac4n6/macMRU-Parser">https://github.com/mac4n6/macMRU-Parser</a> to collect plists, <a href="https://github.com/mac4n6/Mac-Locations-Scraper">https://github.com/mac4n6/Mac-Locations-Scraper</a> location DBS, <a href="https://github.com/mac4n6/iOS-Frequent-Locations-Dumper">https://github.com/mac4n6/iOS-Frequent-Locations-Dumper</a> frequent locations.</p>
-</blockquote>
-<h4 id="list-all-drives-1">List All Drives</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo fdisk -l <span class="c1"># Linux</span>
 </span></span><span class="line"><span class="cl">lsblk
 </span></span><span class="line"><span class="cl">mount
@@ -494,7 +348,7 @@ Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s a
 </ul>
 
 </details>
-<h3 id="macos-1">macOS</h3>
+<h3 id="macos">macOS</h3>
 <p>For newer MacBooks, it gets tricky. I posted the question <a href="https://www.forensicfocus.com/forums/general/apple-silicon-m1-chip-based-computers/">here</a>. No answer still (📆 <code>02/08/2022</code>).</p>
 <p>At first, Mac imaging was no different from imaging other devices running other OS (Windows or Linux). But then they added Fusion Drives which was quite a trouble for analysts. Samuri stumbled upon it, and they had to work this out. But after T2, Mac imaging has become even more painful since it&rsquo;s impossible to image a drive without a password and another Mac even if File Vault is turned off. At the moment, Mac forensics resembles iOS forensics because there is probably little you can do without a password. There used to be some disk mode in which one could perform imaging, but now it doesn&rsquo;t work without a passcode.</p>
 <p>Another interesting key point is that the kill signal can now be sent over Bluetooth. That means if someone with Bluetooth enabled on the crime scene, the owner of the evidence (Mac device) could send a command to wipe his notebook leveraged through the investigator&rsquo;s Bluetooth. It sounds made up, but a Mac forensics expert said this is what it looks like now.</p>

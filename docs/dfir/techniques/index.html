@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Investigation Techniques - Analyst</title>
+  <title>🔎 Detection and Investigation Techniques - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -199,7 +199,14 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#detection-types">Detection Types</a>
+      <ul>
+        <li><a href="#-automated">🖲️ Automated</a></li>
+        <li><a href="#-semi-automated-and-manual-examination">⛏️ Semi-automated and Manual Examination</a></li>
+        <li><a href="#-deeper-look">🔬 Deeper Look</a></li>
+      </ul>
+    </li>
+    <li><a href="#detection-techniques">Detection Techniques</a>
       <ul>
         <li><a href="#find-evil">Find Evil</a>
           <ul>
@@ -209,10 +216,15 @@
         <li><a href="#behavioural-analysis">Behavioural Analysis</a></li>
         <li><a href="#frequency-analysis">Frequency Analysis</a></li>
         <li><a href="#pattern-based-analysis">Pattern-based Analysis</a></li>
-        <li><a href="#stacking">Stacking</a></li>
+        <li><a href="#ttps-and-attck-mitre">TTPs and ATT&amp;CK MITRE</a></li>
       </ul>
     </li>
-    <li><a href="#prioritise-and-pivot">Prioritise And Pivot</a></li>
+    <li><a href="#investigation-techniques">Investigation Techniques</a>
+      <ul>
+        <li><a href="#stacking">Stacking</a></li>
+        <li><a href="#prioritise-and-pivot">Prioritise And Pivot</a></li>
+      </ul>
+    </li>
     <li><a href="#critical-thinking">Critical Thinking</a></li>
     <li><a href="#how-to-prove-compromise">How to prove compromise❓</a></li>
     <li><a href="#how-to-prove-intent-">How to prove intent ❓</a></li>
@@ -237,7 +249,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Investigation Techniques</h1>
+<h1 class="title">🔎 Detection and Investigation Techniques</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -260,18 +272,62 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>There are a couple of techniques to use. This can be applied to everything: logs, dynamic malware analysis, user activity, folder activity, system events etc.</em></p>
+    <p><em>One can detect something automatically or look for it. So, the investigation (incident response and digital forensics) can either start from a security alert or threat-hunting. Let&rsquo;s dive deeper into what techniques are used to spot the attacker.</em></p>
+<p>When something happens on the machine, it leaves a trace. There are different locations these traces can be found; they are called <strong>artefacts</strong>. Artefacts include Windows registry, macOS <code>plist</code> files, file metadata, logs, etc. I have dedicated the whole section to various artefacts, their specifics and analysis tips. Those artefacts might have information valuable for the investigation and that we call <strong>evidence</strong>. Some examples of evidence are paths to malicious executables in the registry, executable names and passed arguments in the logs, malicious scripts, some strings found in a file etc. One can think of artefacts as roads 🛣️ and evidence as footprints on those roads 👣 and 🐾. The road remains the same, but there are multiple footprints of different types, and some indicate malicious activity. However, it&rsquo;s not always easy or possible to tell who left the footprint and whether or not it was forged.</p>
+<p>Both legitimate users and attackers produce the evidence by intentionally or inadvertently altering the artefacts. Intentional altering of artefacts is complex and only sometimes possible. There are several ways the attacker can perform activity on a system; let&rsquo;s see what these are.</p>
+<p><img src="images/attacker-artefacts.png" alt="img">
+The attacker needs to do his job, right? So, the attacker needs to use some tools, and whatever he or she uses will leave a trace. Even wiping the traces leaves some traces. Although finding those traces is only sometimes straightforward, it&rsquo;s usually possible. There are two options for the attacker:</p>
+<ol>
+<li><strong>Physical access</strong>. One can steal a laptop or use the unlocked machine while the employee is having lunch.</li>
+<li><strong>Remote access</strong>. Most of the time, the attacker doesn&rsquo;t have physical access and needs to do some research and crafting to get the &ldquo;treasure&rdquo;.</li>
+</ol>
+<p>There are various ways to get initial access, and those techniques are well covered on the <a href="https://attack.mitre.org/tactics/TA0001/">MITRE website</a>. Once this access is acquired, the attacker doesn&rsquo;t have a wealth of options to go forward with. One of them and frequently used by the attacker, is using some malware 🦠. Of course, he needs to deliver this malware to the system and run it. Running malware leaves traces 🐾. Sometimes (quite often), the attacker will try to use the legitimate tools already preinstalled on the target machine. And guess what? These tools also leave traces 👣! The trick here is to investigate WHO ran this tool 🤔.</p>
+<p>Some things do not require the use of specialised tools. For example,</p>
+<h2 id="detection-types">Detection Types</h2>
+<p>Unless we protect a small company with 2-3 computers, we can&rsquo;t afford to repeatedly spend days on a single machine to ensure everything is in order. And even if we had that much time, it could be more practical. In the ideal scenario, we would want to automatically detect as much as possible and then manually examine only systems that were likely compromised.</p>
+<p>Unless the attacker has physical access to the machine, tricked the legit user into doing bad things or has some RDP or similar access due to misconfiguration, they need to run some process (usually malware) to hook and achieve their goals. So, there are three types of processes traces of which we need to look out for:</p>
+<ol>
+<li>🥸 Active malware</li>
+<li>😴 Dorman malware (will run eventually and become 🥸)</li>
+<li>🤪 Living Off the Land (LOL)</li>
+</ol>
+<p>I will use these emojis for detection and threat-hunting techniques suitable for this process type.</p>
+<h3 id="-automated">🖲️ Automated</h3>
+<p>We can leverage the following data to write and tune our threat-hunting rules:</p>
+<ol>
+<li>✍🏻 Antivirus and signatures 🥸 and 😴</li>
+<li>👣 IoCs 🥸 , 😴 and 🤪 (LOL is trickier)</li>
+<li>🤨 Anomalies (Legit Automated Process and Malware) 🥸 and 😴</li>
+</ol>
+<p>Now, these only sometimes work and fire. First, signatures are useless if it&rsquo;s a new malware or a modified or polymorphic one. Besides, signature databases grow more extensive and are harder to manage. Besides, think about it, humans sometimes create signatures, and humans make mistakes. Even if you have some perfect Yara rule, it takes time to scan the system, and you can&rsquo;t possibly have a perfect rule for every single malware out there. Besides, attackers do not always use malware; sometimes, they use what&rsquo;s already on the system and is legit.</p>
+<p>Secondly, there will be no IoC (Indicators of Compromise) if it&rsquo;s a new campaign. Also, some IoCs become irrelevant very quickly. For example, it&rsquo;s fairly easy for the attacker to change an IP address, domain name, file hash or name.</p>
+<p>Anomalies are more reliable and long-living, but there is still a good chance of missing something that is not seen as an anomaly. For example, the attacker stole the admin creds and used the admin tools from the admin machine during working hours. What&rsquo;s anomalous about that?</p>
+<p><strong>Pattern-based</strong> and <strong>behavioural deviations</strong> are good techniques to use here.</p>
+<h3 id="-semi-automated-and-manual-examination">⛏️ Semi-automated and Manual Examination</h3>
+<p>We know some things about the attackers that are usually the same across different actors: they need to achieve their goals (usually, they are after the information), they need to stay persistent, and usually, they need to hop from one machine to another. We can assume the attacker would target specific locations and settings if they sneak through our detection mechanisms. The persistence techniques are limited, as are those for lateral movement.</p>
+<ol>
+<li>Persistence mechanisms. For example, checking a Windows machine&rsquo;s <code>Run</code> and <code>RunOnce</code> keys can sometimes reveal something suspicious.</li>
+<li>Artefacts and logs collected across multiple machines.</li>
+<li>Timeline analysis</li>
+<li>RAM</li>
+</ol>
+<p><strong>Stacking</strong> and <strong>frequency analysis</strong> is very good approaches here.</p>
+<h3 id="-deeper-look">🔬 Deeper Look</h3>
+<p>This only makes sense when we have a limited list of machines to examine. We could look at the same artefacts as in the previous step. Forensic acquisition and analysis are exactly what this step is about. RAM analysis is usually performed in this step (not always necessary or possible). We would check for filesystem metadata (like MFT on NTFS) and analyse unallocated or slack space. Of course, attackers want to avoid being easily found, so they employ evasion techniques. We would also look out for possible anti-detection and anti-forensics techniques.</p>
+<p>This step is the best and sometimes the only bet for finding dormant 😴 malware and LOLs 🤪. Also, don&rsquo;t forget that sometimes it&rsquo;s as &ldquo;simple&rdquo; as an insider threat (not actually that simple), so, a deeper look to prove intent could be due.</p>
+<p><strong>Pattern-based analysis</strong>, <strong>behavioural analysis</strong>, <strong>stacking</strong>, <strong>frequency analysis</strong>, and <strong>finding evil</strong> are excellent techniques for this step.</p>
+<h2 id="detection-techniques">Detection Techniques</h2>
 <h3 id="find-evil">Find Evil</h3>
 <p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example: suddenly increased server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
 <p>🛠 Typically, this kind of stuff (spikes) is picked up by the IDS/IPS/WAF systems quite neatly.
 🗒 TODO: <a href="https://www.open-scap.org/security-policies/scap-security-guide/">https://www.open-scap.org/security-policies/scap-security-guide/</a>.</p>
 <h4 id="known-good">Known Good</h4>
-<p>Of course, in order to find evil, one needs to know what&rsquo;s NOT. Only some of the files are worth considering. However, it takes a lot of work to keep all of them in mind. I&rsquo;ve made several database files that contain information on files on a clean installed system. There will be some divisions, but I hope it will also help eliminate a massive pack of files.</p>
+<p>Of course, to find evil, one needs to know what&rsquo;s NOT. Only some of the files are worth considering. However, it takes a lot of work to keep all of them in mind. I&rsquo;ve made several database files that contain information on files on a clean installed system. There will be some divisions, but I hope it will also help eliminate a massive pack of files.</p>
 <p>When reviewing processes and artefacts for potential maliciousness, I use the following list, where items are ordered by their likelihood of being malicious.</p>
 <ol>
 <li>Outstanding <code>exe</code> or bat <code>files</code> named with one digit or letter like <code>a.ps1</code>, <code>1.bat</code>. <code>a.exe</code> etc.</li>
-<li>Drivers that were installed recently or that I don&rsquo;t recognise.</li>
-<li>Unfamiliar program names (google or ask ChatGPT to know more about such program)</li>
+<li>Drivers that were installed recently or that I need to recognise.</li>
+<li>Unfamiliar program names (google or ask ChatGPT to know more about such programs)</li>
 <li>Familiar programs in unusual places</li>
 <li>Programs that seem legit are in the expected folders (last resort).</li>
 </ol>
@@ -301,15 +357,25 @@
 <li>Stop (no successful login or password reset)</li>
 </ul>
 <h3 id="frequency-analysis">Frequency Analysis</h3>
-<p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look either for something more or less frequent. Covering all the cases is hard, but maybe some examples will do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
+<p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look for something more or less frequent. Covering all the cases is hard, but some examples may do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
 <p>🛠 SIEM/IDS + ML (machine learning engine) could help identify those &ldquo;unusual things&rdquo;. Some SIEM would allow making rules based on different log fields. So, for example, in the above scenario, one could create a rule to alert the CSIRT if a 100 threshold for 404 HTTP status code returned is hit in 1 minute.</p>
 <h3 id="pattern-based-analysis">Pattern-based Analysis</h3>
-<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could indicate command line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
+<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could indicate command-line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
 <p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
 <p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
+<h3 id="ttps-and-attck-mitre">TTPs and ATT&amp;CK MITRE</h3>
+<p><strong>Cyber Analytics Repository</strong> - <a href="https://car.mitre.org/">https://car.mitre.org/</a>. That&rsquo;s basically what I was planning to write here, but it&rsquo;s already implemented and in a very neat way. Each tactic is described here, with a short description, categorisation, Splunk queries, and available tools. As I said, need.</p>
+<p><strong>Matrices</strong> are another way to categorise attackers&rsquo; tactics and techniques. It&rsquo;s a table (<a href="https://attack.mitre.org/techniques/enterprise/">enterprise</a> and <a href="https://attack.mitre.org/techniques/mobile/">mobile</a>). In these tables, attacking techniques are categorised by type and by attack stage. Clicking on any technique will bring you to its description, mitigation and detection tips.</p>
+<p>What can I add to this? I don&rsquo;t know right now. I am relieved that I don&rsquo;t have to do it myself and, at the same time, disappointed I don&rsquo;t get to research and analyse this information myself. I could add some examples from my own experience&hellip;., or additional tips&hellip; That&rsquo;s some food 🍱 for thought. Here is a <a href="https://attack.mitre.org/resources/contribute/">link</a> to contribute.  It looks like they are looking for more macOS and Cloud tactics, and since I am particularly interested in these, it might be my niche.</p>
+<p>One additional thing I could do here is to develop a learning plan. And use it as a sketch to sort other content on this website accordingly.</p>
+<p>The interesting part is that if you look at MITRE, you will notice that lateral movement and initial access both have the least number of techniques.</p>
+<p><img src="mitre-two-techniques.png" alt="img"></p>
+<p>What does it mean? It means that you have more chances to tune the detection mechanisms for these stages and then deduce and validate hypothesis for other stages.</p>
+<h2 id="investigation-techniques">Investigation Techniques</h2>
+<p>When we have a lot of data, we need to eliminate all the noise to make the above techniques easier to use. One way is to combine all the data of the same type from all the machines and apply the above techniques to the data set. Think of it as a huge database of data (SIEM, if you will). Another way is to use each artefact to pivot around it to look for other related artefacts.</p>
 <h3 id="stacking">Stacking</h3>
 <p>It&rsquo;s not a separate technique per se. Instead, it refers to analysing a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear a few times or are seen on one system only usually stand out.</p>
-<h2 id="prioritise-and-pivot">Prioritise And Pivot</h2>
+<h3 id="prioritise-and-pivot">Prioritise And Pivot</h3>
 <p>There are different paths to follow to answer the same questions. Some are more efficient.</p>
 <p>I am pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
 <ul>

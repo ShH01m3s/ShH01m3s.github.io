@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>💭 RAM Collection - Analyst</title>
+  <title>🚫 Write Blockers - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -199,6 +199,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#hardware-write-blockers">Hardware write blockers</a></li>
     <li><a href="#windows">Windows</a></li>
     <li><a href="#macos">macOS</a></li>
     <li><a href="#references">References</a></li>
@@ -213,7 +214,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">💭 RAM Collection</h1>
+<h1 class="title">🚫 Write Blockers</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -227,7 +228,7 @@
       
     </div>
     
-    <b>Created:</b> 29.05.2023
+    <b>Created:</b> 30.05.2023
     <br />
 
     
@@ -236,20 +237,44 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>Here I will collect information about RAM acquisition for various systems.</em></p>
+    <p><em>During live and dead acquisition, it&rsquo;s important not to mess up with the evidence. Write blockers protect the evidence from accidental tampering the evidence making sure it will be admissible in court.</em></p>
+<h2 id="hardware-write-blockers">Hardware write blockers</h2>
 <h2 id="windows">Windows</h2>
+<p><strong>Windows Software Write Blocker</strong> Basically, one can do this manually. This includes changing the value in the registry.</p>
+<p><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies</code> changing the value of the WriteProtect DWORD to 1 under this key, the device will be set to read-only mode, preventing any data from being written to it.</p>
+<h2 id="macos">macOS</h2>
+<p>Either use a hardware write blocker or turn off disk arbitration.</p>
+<p><strong>Disk Arbitration</strong> prevents the host computer from writing data to the target MacBook using Target Disk Mode. To turn off this feature, refer to <a href="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon" title="https://forensicswiki.xyz/wiki/index.php?title=Disabling_Macintosh_Disk_Arbitration_Daemon">this</a> page. It’s needed so the forensic machine won’t change the data on the suspect MacBook. For Mac acquisition - follow <a href="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode" title="https://forensicswiki.xyz/wiki/index.php?title=Acquiring_a_MacOS_System_with_Target_Disk_Mode">these</a> steps.</p>
 <blockquote>
-<p>&hellip;force a crash and subsequently produce a memory dump as a mechanism for collecting volatile data. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 165). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+<p>🧪 <em>What files are changed when something is connected to a Mac (USB or using Thunderbolt)? Is turning off the disk arbitration feature really preventing changes to the target drive?</em></p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">dd</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">PhysicalMemory</span> <span class="n">of</span><span class="p">=</span><span class="n">memory</span><span class="p">.</span><span class="n">img</span> <span class="n">conv</span><span class="p">=</span><span class="n">noerror</span> <span class="c"># requires elevated privileges.</span>
-</span></span></code></pre></div><h2 id="macos">macOS</h2>
-<p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>], there is a list of tools to be used for RAM acquisition. I’ve tried several of them and realised that the current problem in the forensic community is that the tools get old much faster than the information gets updated… Sadly.</em></p>
-<p><code>OSXPmem</code></p>
-<p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There are a few complications, though.</p>
 <blockquote>
-<p>⚠️ SIP needs to be disabled. Freeboot &gt; CMD+R &gt; Terminal &gt; csrutil disable &gt; reboot). Otherwise, you might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, you might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root: wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal for changes to take place!</p>
+<p>🧪 When attaching my MacBook to another via Share Disk mode, I deleted files from the target MacBook even with DA off. Why?
+Share Disk doesn&rsquo;t work the same way as the Target Disk mode. It&rsquo;s an SMB share. See the comprehensive research above.</p>
 </blockquote>
-<h2 id="references">References</h2>
+<p>There is also a tool 🛠️ <a href="https://github.com/aburgh/Disk-Arbitrator">https://github.com/aburgh/Disk-Arbitrator</a>. That helps and eases the work. I need to check this out.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Turn DA off</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Old macOS</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /etc/mach_init.d
+</span></span><span class="line"><span class="cl"> ls
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> sudo cp diskarbitrationd.plist /
+</span></span><span class="line"><span class="cl"> ls /
+</span></span><span class="line"><span class="cl">sudo rm diskarbitrationd.plist.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># New macOS</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Option #1. Kill the process</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cat /var/run/diskarbitrationd.pid gives the PID </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ps -ex gives the proc list</span>
+</span></span><span class="line"><span class="cl">ps -ex <span class="p">|</span> grep <span class="k">$(</span>cat /var/run/diskarbitrationd.pid<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Option #2. Remove the plist</span>
+</span></span><span class="line"><span class="cl">sudo cp /System/Library/LaunchDaemons/com.apple.diskarbitrationd.plist /
+</span></span><span class="line"><span class="cl"><span class="c1"># give read-only FS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Turn on</span>
+</span></span><span class="line"><span class="cl">sudo cp /diskarbitrationd.plist /etc/mach_init.d.
+</span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     Something here
