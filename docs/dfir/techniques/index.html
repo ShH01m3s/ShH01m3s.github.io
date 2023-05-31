@@ -219,10 +219,11 @@
         <li><a href="#ttps-and-attck-mitre">TTPs and ATT&amp;CK MITRE</a></li>
       </ul>
     </li>
-    <li><a href="#investigation-techniques">Investigation Techniques</a>
+    <li><a href="#analysis-techniques">Analysis Techniques</a>
       <ul>
         <li><a href="#stacking">Stacking</a></li>
         <li><a href="#prioritise-and-pivot">Prioritise And Pivot</a></li>
+        <li><a href="#pivot-tables">Pivot tables</a></li>
       </ul>
     </li>
     <li><a href="#critical-thinking">Critical Thinking</a></li>
@@ -273,19 +274,6 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>One can detect something automatically or look for it. So, the investigation (incident response and digital forensics) can either start from a security alert or threat-hunting. Let&rsquo;s dive deeper into what techniques are used to spot the attacker.</em></p>
-<p>Both legitimate users and attackers produce the evidence by intentionally or inadvertently altering the artefacts. Intentional altering of artefacts is complex and only sometimes possible. There are several ways the attacker can perform activity on a system; let&rsquo;s see what these are.</p>
-<p><img src="images/attacker-artefacts.png" alt="img"></p>
-<p>The attacker needs to do his job. So, the attacker needs to use some tools, and whatever he or she uses will leave a trace. Even wiping the traces leaves some traces. Although finding those traces is only sometimes straightforward, it&rsquo;s usually possible. There are two options for the attacker:</p>
-<ol>
-<li><strong>Physical access</strong>. One can steal a laptop or use the unlocked machine while the employee is having lunch.</li>
-<li><strong>Remote access</strong>. Most of the time, the attacker doesn&rsquo;t have physical access and needs to do some research and crafting to get the &ldquo;treasure&rdquo;.</li>
-</ol>
-<p>There are various ways to get initial access, and those techniques are well covered on the <a href="https://attack.mitre.org/tactics/TA0001/">MITRE website</a>. Once this access is acquired, the attacker has limited options to go forward with. One of them and frequently used by the attacker, is using some malware 🦠. Of course, he needs to deliver this malware to the system and run it. Running malware leaves traces 🐾. Sometimes (quite often), the attacker will try to use the legitimate tools already preinstalled on the target machine. And guess what? These tools also leave traces 👣! The trick here is to investigate WHO ran this tool 🤔.</p>
-<p>Another option the attacker 🍒 has is social engineering vector, including various phishing attacks, tailgating etc. But eventually, this also comes to running something on a machine, be it a legit program or not so much.</p>
-<p><img src="images/user-artefacts.png" alt="img"></p>
-<p>Let&rsquo;s imagine a legitimate ordinary user with no malicious intent or malware installed. What would their daily activity look like? Also, running some programs which, of course, leave some traces.</p>
-<p>But how do we distinguish between a legitimate user 🥦 and an attacker 🍒? When we find malware, and we see its traces 🐾 on the system, it&rsquo;s one story. But what if the attacker got remote access to the system and used a legit tool on the user&rsquo;s 🥦 behalf? What if the attacker 🍒 has tricked the user 🥦 into running something evil? How do we know it&rsquo;s 👣 and not 🐾? Sometimes we don&rsquo;t.</p>
-<p><img src="images/both-artefacts.png" alt="img"></p>
 <h2 id="detection-types">Detection Types</h2>
 <p>Unless we protect a small company with 2-3 computers, we can&rsquo;t afford to repeatedly spend days on a single machine to ensure everything is in order. And even if we had that much time, it could be more practical. In the ideal scenario, we would want to automatically detect as much as possible and then manually examine only systems that were likely compromised.</p>
 <p>Unless the attacker has physical access to the machine, tricked the legit user into doing bad things or has some RDP or similar access due to misconfiguration, they need to run some process (usually malware) to hook and achieve their goals. So, there are three types of processes traces of which we need to look out for:</p>
@@ -373,14 +361,51 @@
 <p>One additional thing I could do here is to develop a learning plan. And use it as a sketch to sort other content on this website accordingly.</p>
 <p>The interesting part is that if you look at MITRE, you will notice that lateral movement and initial access both have the least number of techniques.</p>
 <p><img src="images/mitre-two-techniques.png" alt="img"></p>
-<p>What does it mean? It means that you have more chances to tune the detection mechanisms for these stages and then deduce and validate hypothesis for other stages.</p>
-<h2 id="investigation-techniques">Investigation Techniques</h2>
+<p>What does it mean? It means that you have more chances to tune the detection mechanisms for these stages and then deduce and validate the hypothesis for other stages.</p>
+<h2 id="analysis-techniques">Analysis Techniques</h2>
 <p>When we have a lot of data, we need to eliminate all the noise to make the above techniques easier to use. One way is to combine all the data of the same type from all the machines and apply the above techniques to the data set. Think of it as a huge database of data (SIEM, if you will). Another way is to use each artefact to pivot around it to look for other related artefacts.</p>
 <h3 id="stacking">Stacking</h3>
-<p>It&rsquo;s not a separate technique per se. Instead, it refers to analysing a bunch of systems. You would use either of the techniques above for a BUNCH of systems. Frequency analysis is usually the first one to go. Items that appear a few times or are seen on one system only usually stand out.</p>
+<p>It&rsquo;s not a distinct technique per se, but rather a method that helps identify leads to pursue. We gather data from multiple systems and utilize either of the aforementioned techniques to detect malicious activity. Typically, frequency analysis is the initial approach. Wondering why? Have you ever come across the law of large numbers (a concept from probability theory and statistics)? As the sample size increases, the sample mean or any other sample statistic approaches the true mean or parameter. To put it in simpler terms, as you collect more data from various machines, the average will converge towards the true average.</p>
+<p>Let&rsquo;s consider an example: we have 10 machines, with <code>tool.exe</code> installed on 6 of them and absent on the remaining 4. Is this a deviation? Now, let&rsquo;s examine 100 machines. We observe that <code>tool.exe</code> is installed on 90 machines. Therefore, it could either be a legitimate tool or a major breach 😱. Consequently, when the dataset is small, it becomes more challenging to determine through frequency analysis if something is amiss. However, with a larger dataset, the discrepancies in frequency become more apparent.</p>
 <h3 id="prioritise-and-pivot">Prioritise And Pivot</h3>
-<p>There are different paths to follow to answer the same questions. Some are more efficient.</p>
-<p>I am pulling on threads.  Find a piece of evidence and focus on that to fully understand it. Example (depth search):</p>
+<p>One single action on a system can leave multiple traces simultaneously. Furthermore, within a single campaign, several traces can be linked to the same activity. Often, systems are inundated with data, and not all of it is pertinent. Even when the data is valuable, it requires additional information to substantiate a claim. Using stacking and frequency analysis, we have inferred that two machines are likely compromised and possess noteworthy artefacts. The question then arises: How do we proceed? 🤔</p>
+<p>That&rsquo;s when pivoting comes into play. We use single evidence of some suspicious action and look for related evidence. For example, we have determined that some <code>malicious.exe</code> was launched from the command line. Let&rsquo;s pivot around it to find new evidence. What we might want to know is if <code>malicious.exe</code> was injecting into another process or creating files. Let&rsquo;s imagine that it created a child process <code>malchild.exe</code>. What did it do? It created a file <code>open.docx</code>. Oh, there is a template in the doc document with a link to a remote machine. What&rsquo;s the domain name? What&rsquo;s the IP? Ok, looks like we have exhausted this lead.</p>
+<p>When we found <code>malicious.exe</code>, it was not the only lead we had. We also found a new user on the system - <code>iamgood</code>. What level of access did it have? What activity was performed by this user? It&rsquo;s another lead, and now we are pivoting around <code>iamgood</code> user.</p>
+<h3 id="pivot-tables">Pivot tables</h3>
+<p>One of the tools that might be useful for pivoting is Excel or Numbers, or any similar tool. You can create a pivot table when you have a large set of data of the same structure, for example, logs. Using a sample log file, I will show how this can be useful to spot something out of the ordinary in a large data set.</p>
+<p>You can perform pivoting with other tools like the following:</p>
+<ul>
+<li>some dedicated framework</li>
+<li>LogParser</li>
+<li>Script</li>
+<li>SIEM (some of them)</li>
+</ul>
+<p>I will show the process for smaller datasets with Numbers or Excel.</p>
+<p>In Excel, choose <code>Import</code> -&gt; <code>csv</code> from the menu. Choose your delimiter. If some columns are sticking together, use <code>Data -&gt; Text to Column</code> to separate them with another delimiter. Select the table that contains the data and choose <code>Data</code> -&gt; <code>Summarise with Pivot table</code>. Also, you can add filters to each column for further aid. On macOS using Numbers, open the <code>csv</code> and choose <code>Pivot table</code> on the top.</p>
+<p>Imagine we have accesslogs.csv that contains HTTP logs to the server. Something like the following:</p>
+<p><img src="images/excel-dataset.png" alt="img"></p>
+<p>Creating a pivot table helps to answer questions like these:</p>
+<ol>
+<li>How many requests returned 200 status codes on average?</li>
+<li>Which IP address received the largest number of 404?</li>
+<li>Which page was the most frequently used?</li>
+</ol>
+<p>And many more. Here is an example of a pivot table created in Excel. You can choose what data to use as columns, rows and values. Most of the time, by default, I guess, both Numbers and Excel suggest calculating the sum for the values. However, in this case, we don&rsquo;t need to get the sum of status codes (that doesn&rsquo;t make any sense). We better see the number (count). Just right-click the value in the <code>Values</code> section in settings and choose <code>count</code> instead of <code>sum</code>.</p>
+<p><img src="images/excel-pivot-table.png" alt="img"></p>
+<p>And here is what pivot tables look like in Numbers.</p>
+<p><img src="images/numbers-pivot-table.png" alt="img"></p>
+<p>My table above clearly shows which IP addresses made the most requests and which IP address had the largest number of <code>404</code>. Might this be an attacker brute-forcing or trying to exploit an IDOR? Hm&hellip; 🤔. Let&rsquo;s filter by this IP and see the pages visited by <code>192.168.1.103</code>. Here is a new pivot table:</p>
+<p><img src="images/numbers-pivot-table-2.png" alt="img"></p>
+<p>Interesting, so, the attacker was particularly interested in <code>page3.html</code>, I see.</p>
+<blockquote>
+<p>💡 Generate pivot tables each day during the month for statistical analysis. Later deviations might highlight suspicious traffic.</p>
+</blockquote>
+<blockquote>
+<p>❗️ Note the data that are of low frequency.</p>
+</blockquote>
+<p>Another good way to quickly filter out the logs is the <code>fzf</code> <a href="https://github.com/junegunn/fzf">utility</a>. It works both on macOS and Linux. I don&rsquo;t know about Windows, but you could always utilise WSL there. Here is a <a href="https://www.youtube.com/watch?v=tB-AgxzBmH8">video</a> how one can dive into this utility and use it to speed up searching. Thanks to my genius colleague Kieran for the below command and for his advice to use <code>fzf</code>! Below is an example of quickly filtering the logs for AWS.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs filter-log-events --log-group-name /something/aything --profile prodserver <span class="p">|</span> jq -c <span class="s1">&#39;.events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;cat {}&#39;</span>
+</span></span></code></pre></div><p>You can go to Logs -&gt; Logs Insights and query the logs there using a query language. To the right, many valuable examples are under Query -&gt; Sample queries.</p>
 <ul>
 <li>Looking for malware and finding program run entries for malware</li>
 <li>Stop looking for other malware and focus on that one.
