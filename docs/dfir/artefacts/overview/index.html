@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📜 Artefacts DB - Analyst</title>
+  <title>Artefacts Overview - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -90,7 +90,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -195,9 +194,16 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+   <a href="/docs/dfir/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -205,37 +211,48 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">Artefacts Overview</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 31.05.2023
+    <br />
+
+    
+
+  </header>
 
 
-
- 
- <h1 class="title">📜 Artefacts DB</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/host/"> Host Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/network/"> Network Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/logs/"> 🪵 Logs</a></h2> 
-    <p> <p><em>In order to detect and response to the incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/cloud/"> ⛅️ Cloud Storage</a></h2> 
-    <p> Windows For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/remote/"> Remote Connections</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/overview/"> Artefacts Overview</a></h2> 
-    <p> <p><em>What are artefacts, and how are they different from evidence? What types of artefacts are there, and how to look them out? This article overviews artefacts, their categories and their analysis approach.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/defences/"> 🛡️ Defence Mechanisms</a></h2> 
-    <p> <p><em>In this section, I will collect different defence mechanisms, bypass techniques and possible artefacts to look out for.</em></p></p>
-
-
-
-
+  <div class="content" itemprop="articleBody">
+    <p><em>What are artefacts, and how are they different from evidence? What types of artefacts are there, and how to look them out? This article overviews artefacts, their categories and their analysis approach.</em></p>
+<p>Everything happening on the computer 🖥️ or a mobile device 📱 (a little computer itself) is driven by a <em>process</em>. Which one? This is what we are answering during our investigation. Like when we say that everything is made of atoms or a file on a PC - it&rsquo;s a simplification, but it allows us to break the problem down into a manageable set of smaller problems.</p>
+<p>When in the morning, while coffee ☕️ is still too hot to drink, you open your mail ✉️ client to see what&rsquo;s new, you are running a mail <em>process</em> that allows you to do that. You see than an email about your project and the attachment. You then save it to disk (your mail <em>process</em> ✉️ does that), then open it with some text editor 📝 <em>process</em>. You then see a notification about an upcoming meeting (the calendar 📆  <em>process</em> sends it to you), you log in to some video conference tool (yet another <em>process</em>) and talk to your colleagues. Behind the scenes, your PC uses a microphone, video drivers, and <em>processes</em>. So, everything on a system is a file, while a process creates everything created. That&rsquo;s why it is so difficult to prove intent - <em>processes</em> create traces, not the users directly. We know that behind every process is a user (legit or not) or a system (basically another process!).</p>
+<p>Below is a roadmap diagram for the artefacts, how these are connected and what I might be missing.
+<img src="images/processes-artefacts-whole.jpeg" alt="img"></p>
+<p>Let&rsquo;s start from the top. As we have already discovered, any trace on the system is left by a process 🚑. Information can reside either on disk 💿 or in RAM 💬. Now, not always, and not all processes are in RAM 💬 and on disk 💿. The process can be found in RAM 💬 only when executing and a while after that.</p>
+<p>What the process looks like when executing and residing on disk (image file, we call it) - are sometimes two different things (in the case of polymorphic files, packed or encrypted). That&rsquo;s why I have marked the executed rectangle with RAM 💬 only.</p>
+<p>Also, if the attacker attacks the environment, it&rsquo;s another story. While gaining remote access through some vulnerability or misconfiguration, no artefact on disk might show that. However, if this processes changes configuration, if the activity is logged on the system, or if the process creates files, we will see some on-disk artefacts.</p>
+<p><img src="images/processes-artefacts-p1.png" alt="img"></p>
+<p>Now, what&rsquo;s an artefact, and what&rsquo;s the evidence? When something happens on the machine, it leaves a trace. There are different locations these traces can be found; they are called <strong>artefacts</strong>. Artefacts include Windows registry, macOS <code>plist</code> files, file metadata, logs, etc. I have dedicated the whole section to various artefacts, their specifics and analysis tips. Those artefacts might have information valuable for the investigation and that we call <strong>evidence</strong>. Some examples of evidence are paths to malicious executables in the registry, executable names and passed arguments in the logs, malicious scripts, some strings found in a file etc. One can think of artefacts as roads 🛣️ and evidence as footprints on those roads 👣 and 🐾. The road remains the same, but there are multiple footprints of different types, and some indicate malicious activity. However, it&rsquo;s not always easy or possible to tell who left the footprint and whether or not it was forged.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
@@ -250,7 +267,6 @@
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>
