@@ -228,18 +228,7 @@
         <li><a href="#pivot-tables">Pivot tables</a></li>
       </ul>
     </li>
-    <li><a href="#critical-thinking">Critical Thinking</a></li>
-    <li><a href="#how-to-prove-compromise">How to prove compromise❓</a></li>
-    <li><a href="#how-to-prove-intent-">How to prove intent ❓</a></li>
-    <li><a href="#how-to-prove-user-knew-">How to prove user knew ❓</a></li>
-    <li><a href="#types-of-users">Types of Users</a>
-      <ul>
-        <li><a href="#dummy--vs-poopy-"><strong>Dummy</strong> 😬 vs <strong>Poopy</strong> 💩</a></li>
-        <li><a href="#sheep--vs-others---and-"><strong>Sheep</strong> 🐑 vs <strong>others</strong> 💩, 😬 and 🦓</a></li>
-        <li><a href="#poopy--vs-donkey-"><strong>Poopy</strong> 💩 vs <strong>donkey</strong> 🦓</a></li>
-        <li><a href="#poopy--and-donkey--vs-others--and-"><strong>Poopy</strong> 💩 and <strong>donkey</strong> 🦓 vs <strong>others</strong> 😬 and 🐑</a></li>
-      </ul>
-    </li>
+    <li><a href="#types-of-users">Types of Users</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -402,7 +391,7 @@
 <li>What else is in the same folder?</li>
 <li>What does it do?</li>
 </ol>
-<p>But what if we don&rsquo;t know where to start and what to look out for? For starters, the initial triage and stacking must give some clues. But if there is nothing at all, try a little speculation using the MITRE matrix. &ldquo;But there are so many techniques there! Where to start?&rdquo; - you might ask. Prioritise or brute force! Start with the CERTAINLY compromised machines, leaving those likely compromised for later.</p>
+<p>But what if we need to figure out where to start and what to look out for? For starters, the initial triage and stacking must give some clues. But if there is nothing at all, try a little speculation using the MITRE matrix. &ldquo;But there are so many techniques there! Where to start?&rdquo; - you might ask. Prioritise or brute force! Start with the CERTAINLY compromised machines, leaving those likely compromised for later.</p>
 <p><strong>Prioritise (Manual)</strong>. It would be best if you always had an assumption about the evidence location. Although the attacker uses many different techniques, it&rsquo;s not an endless list. Remember the MITRE matrix? Initial access and lateral movement have the least number of techniques. When you have a least of ideas, start prioritising by answering the following questions:</p>
 <ol>
 <li>Possible impact on the investigation result.</li>
@@ -463,158 +452,17 @@
 <blockquote>
 <p>💡 Generate pivot tables each day during the month for statistical analysis. Later deviations might highlight suspicious traffic.</p>
 </blockquote>
-<p>When reviewing this type of data, common sense is crucial. For example, it is not reasonable to expect a high volume of requests to your admin page from various IP addresses returning <code>404</code> or <code>500</code>. However, it is expected for other pages to receive a significant number of requests. Additionally, the predominant response code should be 200, so a sudden increase in 404 responses could indicate a potential technical or security issue.</p>
+<p>When reviewing this type of data, common sense is crucial. For example, it is unreasonable to expect a high volume of requests to your admin page from various IP addresses returning <code>404</code> or <code>500</code>. However, it is expected for other pages to receive a significant number of requests. The predominant response code should also be 200, so a sudden increase in 404 responses could indicate a potential technical or security issue.</p>
 <p>Another good way to quickly filter out the logs is the <code>fzf</code> <a href="https://github.com/junegunn/fzf">utility</a>. It works both on macOS and Linux. I don&rsquo;t know about Windows, but you could always use WSL there. Here is a <a href="https://www.youtube.com/watch?v=tB-AgxzBmH8">video</a> of how one can dive into this utility and use it to speed up the search. Below is an example of how one can filter using a combination of <code>jq</code> and <code>fzf</code> tools (for <code>json</code> logs).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs filter-log-events --log-group-name /something/anything --profile prodserver <span class="p">|</span> jq -c <span class="s1">&#39;.events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;cat {}&#39;</span>
-</span></span></code></pre></div><h2 id="critical-thinking">Critical Thinking</h2>
-<p><strong>Challenge assumptions</strong> (sometimes it&rsquo;s something you have not seen or dealt with before), consider alternatives, evaluate data, identify critical drivers, and understand the context.</p>
-<p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorise these assumptions based on certainty. Refine and remove those assumptions that are proven to be incorrect. Identify additional data needs for those assumptions that are still uncertain. Research?</p>
-<p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the other options. The null hypothesis is the opposite of the central hypothesis (for anomalous data).</p>
-<p>Know your data! <strong>Know normal and abnormal</strong>. Establish the baselines for average to detect the bizarre (like, a clean system installation is examined, and everything is compared to it). Look for inconsistent data. **Assess the data against different hypotheses to see how well it fits.</p>
-<p>Identify critical drivers: technology, regulatory (laws and standards), society (politics, people want to be safe), supply chain (logistics, cost, scheduling, customer requirements), employees (skills and training needed), threat actors (tech capabilities, motives, opportunity).</p>
-<p>Understand the context from the perspective of different stakeholders. Framing techniques help keep everyone on the same page (what do they need from me, how can I frame the issue, do I need to place their questions in a broader context). Same vocabulary. Steps:</p>
-<ul>
-<li>Key components. Break the problem down and identify the parts, actors and categories.</li>
-<li>Factors at Play.</li>
-<li>Relationships. Static? Dynamic? Graphing.</li>
-<li>Similarities/Differences. Leverage past work!</li>
-<li>Redefine. Rephrase and paraphrase the issue. What is the root cause?</li>
-</ul>
-<blockquote>
-<p>💡 Maybe it&rsquo;s better to arrange it as a table. Merge with the information from the Cyber Triage DFIR webinar by Brian Carrier and Digital Archaeology.</p>
-</blockquote>
-<h2 id="how-to-prove-compromise">How to prove compromise❓</h2>
-<blockquote>
-<p>TODO: Move to Canva, make a decision tree from it rather</p>
-</blockquote>
-<p>Lot&rsquo;s of attacks involve account compromise. In some cases malware is not even needed. There are several arguments for the defence: <em>I didn&rsquo;t know</em>, <em>It was not me</em>, <em>It was a malware</em> and <em>It happened accidently</em>.</p>
-<p>✍️ <strong>Suspicious logins?</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> Should this user use this account?</li>
-<li><input disabled="" type="checkbox"> Are they new to the computer?</li>
-<li><input disabled="" type="checkbox"> If remote, does the account usually come from that computer?</li>
-<li><input disabled="" type="checkbox"> Is the time expected?</li>
-<li><input disabled="" type="checkbox"> Does the account have lots of failed logins? 👉 <em>A very strong indicator of compromise</em></li>
-<li><input disabled="" type="checkbox"> A login during time when the user was absent 👉 <em>A very strong indicator of compromise</em></li>
-</ul>
-<p>✍️ <strong>Malware</strong>. There is a separate section for malware, but it can be a strong defense for someone claiming their account was compromised. But! ⚠️ Even if there is a malware found, it&rsquo;s essential to prove that it existed <strong>at the time</strong> that some investigated activity took place.</p>
-<h2 id="how-to-prove-intent-">How to prove intent ❓</h2>
-<p><em>❓  So, back to the question. How to prove that the user knows?</em></p>
-<p>✍️ <strong>Suspicious activity?</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> <strong>What searches were performed?</strong>
-<ul>
-<li><input disabled="" type="checkbox"> Search relevant to job role?</li>
-<li><input disabled="" type="checkbox"> Search for malicious progs or techniques?</li>
-<li><input disabled="" type="checkbox"> Was there an attempt to delete the evidence? For example, the browser cache cleared <em>manually</em> depends on this browser settings.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Access resources</strong>.
-<ul>
-<li><input disabled="" type="checkbox"> Accessed malwebsite?</li>
-<li><input disabled="" type="checkbox"> Network shares?</li>
-<li><input disabled="" type="checkbox"> Mass copy? 👉 <em>Might be an indicator of data exfiltration.</em></li>
-<li><input disabled="" type="checkbox"> Was it a result of a redirect (300 HTTP or header redirect, or pop-up) 👉 <em>May help the defending side if this can be proved.</em></li>
-<li><input disabled="" type="checkbox"> File accessed soon after creation? 👉 <em>Might be an indicator of some automated task, or not&hellip;.</em>.</li>
-<li><input disabled="" type="checkbox"> Was a file deleted/wiped? 👉 <em>File wiped is a strong indiator of intent.</em> 🛠 Directory Snoop can show that the file was wiped, not simply deleted. Not all wiping software clears the <code>$MFT</code> table.</li>
-<li><input disabled="" type="checkbox"> What devices were attached?</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Remotely executed code</strong>. Remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.
-<ul>
-<li><input disabled="" type="checkbox"> Remote = local?</li>
-<li><input disabled="" type="checkbox"> Expected?</li>
-<li><input disabled="" type="checkbox"> Prog expected?</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Communications</strong>. Messangers, emails, social networking, forums, websites.
-<ul>
-<li><input disabled="" type="checkbox"> Determine all the mail clients used and use this information to find artefacts. ❗️❗️❗️❗️ Link to collection.</li>
-<li><input disabled="" type="checkbox"> Relevant threads (<code>strings</code> + <code>grep</code> or DFIR framework).</li>
-<li><input disabled="" type="checkbox"> IP in mail spoofed?</li>
-</ul>
-</li>
-</ul>
-<p>👣 User started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch).</p>
-<p>👣 Terms and time when the search was performed. Web artifacts and saved previous searches.</p>
-<p>👣 Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artifacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
-<p>👣 Event logs, domain logs. The below question may help finding a malicious user (hacker) or malicious insider with intent. More <a href="/docs/dfir/forensic-investigation/4-accounts">here</a>.</p>
-<p>👣 Mails. ❗️❗️❗️❗️ Link to collection.</p>
-<h2 id="how-to-prove-user-knew-">How to prove user knew ❓</h2>
-<p>✍️ It&rsquo;s often not enough just to find a file on a system. One needs to prove <strong>the intent</strong>. Remember to use more than one artifact whenever possible! For example, the user may be insisting that he or she did not download this file. But, if the browser was set to flush data every 7 days and the timestamps for the deleted file shows it was deleted an hour after it was deleted - this might raiser some reasonable doubt I think 🤔. Or, the file was wiped 🧹 (it&rsquo;s contents filled with <code>0</code>s). If one didn&rsquo;t know it existed, why delete it? Or there is no data on the PC indicating the use of the file, but it was continuously downloaded/uploaded according to the server logs. ⚠️ This, however, won&rsquo;t prove that there was no hacker in place!</p>
-<h2 id="types-of-users">Types of Users</h2>
-<p>Actually, as I read further an further, it seems that everything is about a user. But!</p>
-<p>A user can be of several categories. I&rsquo;ll name each one as shortly as I can to refer to them in future. But I will describe them in more detail below.</p>
+</span></span></code></pre></div><h2 id="types-of-users">Types of Users</h2>
+<p>Actually, as I read further and further, it seems that everything is about a user. But!</p>
+<p>A user can be of several categories. I&rsquo;ll name each one as short as I can to refer to them in future. But I will describe them in more detail below.</p>
 <p><strong>Legitimate user, who has done something bad by accident</strong>. Let&rsquo;s call him a <strong>dummy</strong> 😬. I&rsquo;ve been there, I once changed permissions to <code>Deny</code> for my admin account to disk <code>C</code> on Windows and could do nothing about it later. How stupid was it 🙈? My excuse is that I only started with PCs&hellip; .</p>
-<p><strong>Legitimate user, who has done something bad by intent.</strong> Let&rsquo;s call this one a <strong>poopy</strong> 💩. Say, he or she feels highy underpaid and sells company&rsquo;s kitty plans to some evil dog hackers.</p>
-<p><strong>A user created and used by a hacker.</strong> This one I will call a <strong>sheep</strong> 🐑  as in <em>A wolf in sheep&rsquo;s clothing</em>, since the attacker is trying mask itself as something good.  This one is not unusual, but I guess, easily determined by the sysadmin. However, there are some cases, when an attacker can change view permissions for his/her account on AD so that no one will see this user.</p>
-<p><strong>A user created legitimately, but compromised by a hacker and doing something by intent.</strong> This one will be a <strong>donkey</strong> 🦓, as the attaker is using another account for his ride. I guess it&rsquo;s the most common when the hackers are in the picture.</p>
+<p><strong>Legitimate user, who has done something bad by intent.</strong> Let&rsquo;s call this one a <strong>poopy</strong> 💩. Say, he or she feels highly underpaid and sells the company&rsquo;s kitty plans to some evil dog hackers.</p>
+<p><strong>A user created and used by a hacker.</strong> This one I will call a <strong>sheep</strong> 🐑  as in <em>A wolf in sheep&rsquo;s clothing</em> since the attacker is trying to mask itself as something good.  This one is not unusual, but I guess, easily determined by the sysadmin. However, there are some cases, when an attacker can change view permissions for his/her account on AD so that no one will see this user.</p>
+<p><strong>A user created legitimately, but compromised by a hacker and doing something by intent.</strong> This one will be a <strong>donkey</strong> 🦓, as the attacker is using another account for his ride. I guess it&rsquo;s the most common when the hackers are in the picture.</p>
 <p>And here are the questions we will have to answer during investigations, that can help in distinguishing between these types.</p>
-<h3 id="dummy--vs-poopy-"><strong>Dummy</strong> 😬 vs <strong>Poopy</strong> 💩</h3>
-<p><em>❓ How to prove that the person didn&rsquo;t do it on purpose, but by accident?</em></p>
-<p>✍️ It&rsquo;s often not enough just to find a file on a system. One needs to prove <strong>the intent</strong>. Remember to use more than one artifact whenever possible! For example, the user may be insisting that he or she did not download this file. But, if the browser was set to flush data every 7 days and the timestamps for the deleted file shows it was deleted an hour after it was deleted - this might raiser some reasonable doubt think 🤔. Or, the file was wiped 🧹 (it&rsquo;s contents filled with <code>0</code>s). If one didn&rsquo;t know it existed, why delete it? Or there is no data on the PC indicating the use of the file, but it was continuously downloaded/uploaded according to the server logs. ⚠️ This, however, won&rsquo;t prove that there was no hacker in place!</p>
-<h3 id="sheep--vs-others---and-"><strong>Sheep</strong> 🐑 vs <strong>others</strong> 💩, 😬 and 🦓</h3>
-<p>✍️ <strong>Are there suspicious accounts?</strong> 👣 SAM reg hive (local and domain). Even if the account is deleted, then you can still spot it: user directory sometimes is retained and also check logs. The below question may help finding a malicious user (hacker). More <a href="/docs/dfir/forensic-investigation/accounts">here</a>.</p>
-<ul>
-<li><input disabled="" type="checkbox"> User Name does not match conventions for this organisation?</li>
-<li><input disabled="" type="checkbox"> Weird priviledges</li>
-<li><input disabled="" type="checkbox"> Scope (local or domain)</li>
-<li><input disabled="" type="checkbox"> Creation time and date.</li>
-</ul>
-<h3 id="poopy--vs-donkey-"><strong>Poopy</strong> 💩 vs <strong>donkey</strong> 🦓</h3>
-<p><em>❓ How to prove that the account was compromised?</em></p>
-<p>Lot&rsquo;s of attacks involve account compromise. In some cases malware is not even needed. There are several arguments for the defence: <em>I didn&rsquo;t know</em>, <em>It was not me</em>, <em>It was a malware</em> and <em>It happened accidently</em>.</p>
-<p>✍️ <strong>Suspicious logins?</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> Should this user use this account?</li>
-<li><input disabled="" type="checkbox"> Are they new to the computer?</li>
-<li><input disabled="" type="checkbox"> If remote, does the account usually come from that computer?</li>
-<li><input disabled="" type="checkbox"> Is the time expected?</li>
-<li><input disabled="" type="checkbox"> Does the account have lots of failed logins? 👉 <em>A very strong indicator of compromise</em></li>
-<li><input disabled="" type="checkbox"> A login during time when the user was absent 👉 <em>A very strong indicator of compromise</em></li>
-</ul>
-<p>✍️ <strong>Malware</strong>. There is a separate section for malware above ☝️, but it can be a strong defense for some one claiming his or her account was compromised. But! ⚠️ Even if there is a malware found, it&rsquo;s essential to prove that it existed at the time that some investigated activity took place.</p>
-<h3 id="poopy--and-donkey--vs-others--and-"><strong>Poopy</strong> 💩 and <strong>donkey</strong> 🦓 vs <strong>others</strong> 😬 and 🐑</h3>
-<p>✍️ <strong>Suspicious activity?</strong></p>
-<ul>
-<li><input disabled="" type="checkbox"> <strong>What searches were performed?</strong>
-<ul>
-<li><input disabled="" type="checkbox"> Search relevant to job role?</li>
-<li><input disabled="" type="checkbox"> Search for malicious progs or techniques?</li>
-<li><input disabled="" type="checkbox"> Was there an attempt to delete the evidence? For example, browser cache cleared <em>manually</em>, depends on this browser settings.</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Access resources</strong>.
-<ul>
-<li><input disabled="" type="checkbox"> Accessed malwebsite?</li>
-<li><input disabled="" type="checkbox"> Network shares?</li>
-<li><input disabled="" type="checkbox"> Mass copy? 👉 <em>Might be an indicator of data exfiltration.</em></li>
-<li><input disabled="" type="checkbox"> Was it a result of a redirect (300 HTTP or header redirect, or pop-up) 👉 <em>May help the defending side if this can be proved.</em></li>
-<li><input disabled="" type="checkbox"> File accessed soon after creation? 👉 <em>Might be an indicator of some automated task, or not&hellip;.</em>.</li>
-<li><input disabled="" type="checkbox"> Was a file deleted/wiped? 👉 <em>File wiped is a strong indiator of intent.</em> 🛠 Directory Snoop can show that the file was wiped, not simply deleted. Not all wiping software clears the <code>$MFT</code> table.</li>
-<li><input disabled="" type="checkbox"> What devices were attached?</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Remotely executed code</strong>. Remote host + username; interactive or cmd; time. Registry. Event logs for logins and Event login for remote processes.
-<ul>
-<li><input disabled="" type="checkbox"> Remote = local?</li>
-<li><input disabled="" type="checkbox"> Expected?</li>
-<li><input disabled="" type="checkbox"> Prog expected?</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> <strong>Communications</strong>. Messangers, emails, social networking, forums, websites.
-<ul>
-<li><input disabled="" type="checkbox"> Determine all the mail clients used and use this information to find artefacts. ❗️❗️❗️❗️ Link to collection.</li>
-<li><input disabled="" type="checkbox"> Relevant threads (<code>strings</code> + <code>grep</code> or DFIR framework).</li>
-<li><input disabled="" type="checkbox"> IP in mail spoofed?</li>
-</ul>
-</li>
-</ul>
-<p>👣 User-started processes (Event log, RunMRU, MUICache, UserAssist, AppCompatCache or Shimcache, BAM (Background activity monitor), RecentApps, RecentFilecache or AmCache, SRUM (system resource usage monitor), Windows Timeline, Prefetch).</p>
-<p>👣 Terms and time when the search was performed. Web artifacts and saved previous searches.</p>
-<p>👣 Includes Host (remote or local), path, time. (configs like history of browser; recently used files, process handles). FileExplorer&rsquo;s ShellBags (what folder was opened) and RunMRU,Application Most Recently Used Files, Web artefacts (cookies, history, db, cache), Memory (commands, remote desk info, paths), cont monitoring.</p>
-<p>👣 Event logs, domain logs. The below question may help finding a malicious user (hacker) or malicious insider with intent. More <a href="/docs/dfir/forensic-investigation/4-accounts">here</a>.</p>
-<p>👣 Mails. ❗️❗️❗️❗️ Link to the collection.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
