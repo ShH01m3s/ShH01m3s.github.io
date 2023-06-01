@@ -297,7 +297,7 @@
 </ul>
 <h2 id="sid">SID</h2>
 <p>Below is the structure of a SID. SID, shortly speaking, is a user id. The actual ID of the user, is the RID (relative identifier) part.</p>
-<p><img src="images/1.png" alt="1"></p>
+<p><img src="dfir/attacks/auth/win-auth/images/1.png" alt="1"></p>
 <p>In case <code>Who created it?</code> aka issuing authority ends with number <code>21</code>, there will be a trailing SID which represendts PC or domain identifier (purple in the picture above). <code>1</code> - revision number, <code>5</code> - issuing autority, <code>21</code> - sub-issuing authority.</p>
 <blockquote>
 <p>❗️Built-in accounts don&rsquo;t have Unique domain identifier and RID.</p>
@@ -352,7 +352,7 @@
 <h2 id="sam">SAM</h2>
 <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\System32\config\SAM</code>.</p>
 <p>⚠️ This file cannot be edited through the RegEdit unless admin grants you permissions (data marked with red is not accesssible unless the access is granted by admin):</p>
-<p><img src="images/sam-hive-permissions.png" alt="sam-hive-permissions"></p>
+<p><img src="dfir/attacks/auth/win-auth/images/sam-hive-permissions.png" alt="sam-hive-permissions"></p>
 <p>However, this file can be accessed on a dead-box system. ⚠️ Also, this file only stores local creds, not domain or Microsoft account credentials!</p>
 <p>SAM is a database of files, and it stores all the information about all the users: login information, password hashes, group information.</p>
 <p>🛠 Registry Explorer (Eric Zimmerman&rsquo;s tool) can collect all user from the SAM and Profile files and show them assembled. This data can be exported to Excel, for example.</p>

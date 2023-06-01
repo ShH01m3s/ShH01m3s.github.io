@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>⛅️ Cloud Storage - Analyst</title>
+  <title>Cloud Artefacts - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-single'>
+<body class='page page-default-list'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -90,6 +90,7 @@
     </div>
     
 
+    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/cloud/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -194,18 +195,9 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
+    <a href="/docs/dfir/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
   </p>
-  <aside>
-   <nav id="TableOfContents">
-  <ul>
-    <li><a href="#windows">Windows</a></li>
-    <li><a href="#macos">macOS</a></li>
-    <li><a href="#aws">AWS</a></li>
-  </ul>
-</nav>
- </aside>
-</div>
+</div> 
 
 
 
@@ -213,64 +205,19 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">⛅️ Cloud Storage</h1>
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    <div class="meta">
-      
-      
-      <div class="article-category">
-          
-            
-            
-            
-            
-            
-              <i class="fab fa-linux"></i>&nbsp;<i class="fab fa-apple"></i>&nbsp;<i class="fab fa-windows"></i>&nbsp;<i class="fas fa-mobile"></i>
-            
-            
-          
-          
-      </div> <br />
-      
-
-      
-      
-
-      
-    </div>
-    
-    <b>Created:</b> 12.10.2020
-    <br />
-
-    
-
-  </header>
 
 
-  <div class="content" itemprop="articleBody">
-    <h2 id="windows">Windows</h2>
-<p>For OneDrive the most useful artifacts are stored locally. If you get access to the account online - may see the deleted items and their versions. <code>C:\Users\%Username%\AppData\Local\Microsoft\OneDrive\logs</code>. This folder contains <code>Personal</code> and <code>Common</code>. Neither has anything of particular interest, but may be an indicator, that the software was used.</p>
-<blockquote>
-<p>⚠️ Business version of OneDrive adds a few lines of code to the start of every doc, thus MD5 hashes will differ.</p>
-</blockquote>
-<p>DropBox is another tool for storing content online and sharing it: <code>C:\Users\%Username%\AppData\Local\Microsoft\Dropbox</code>. The most interesting files are <code>filecache.db</code> (not deleted files and folders, encrypted by default) and <code>sigstore.db</code> (how large the file is). Use 🛠 Magnet Dropbox Decryptor to get the contents of the <code>filecache.db</code>. It also uses <code>config.db</code> containing user email and the most recently changed files. Deleted files are not kept locally. For free accounts they are kept online for 30 days, for pros - forever.</p>
-<h2 id="macos">macOS</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Application Support/iCloud/Account
-</span></span><span class="line"><span class="cl">/Users/%username%/Library/Application Support/CloudDocs/session/db/
-</span></span></code></pre></div><h2 id="aws">AWS</h2>
-<blockquote>
-<p>For example, handling a data disclosure incident from an Amazon S3 bucket involves API calls to retrieve the bucket&rsquo;s policy, analyzing the S3 access logs, and possibly looking at AWS CloudTrail logs. In this example, your investigation is unlikely to involve data forensic tools or network traffic analysis tools.</p>
-</blockquote>
-<p>Logs and Monitors (AWS offers a bunch of services for that) + OS logs + App logs + TI + billing activity + someone noticed + AWS support + Partnet tools.</p>
-<p>Security Hub. Centralized logging solution and Amazon Athena to analyse.</p>
-<p><a href="https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/cloud-security-incidents.html">https://docs.aws.amazon.com/whitepapers/latest/aws-security-incident-response-guide/cloud-security-incidents.html</a></p>
 
-  </div>
-</article>
-</div>
-</div>
+ 
+ <h1 class="title">Cloud Artefacts</h1> 
+ 
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/cloud/config/"> AWS Configuration</a></h2> 
+    <p> Default Configurations By default, SSH 22 and RDP 3389 are closed, but these are suggested to be opened when creaing them, warning how dangeroud this is.</p>
+
+
+
+
 
         </div>
       </div>
@@ -285,6 +232,7 @@
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/cloud/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>

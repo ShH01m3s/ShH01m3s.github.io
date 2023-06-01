@@ -229,6 +229,7 @@
       </ul>
     </li>
     <li><a href="#types-of-users">Types of Users</a></li>
+    <li><a href="#observations">Observations</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -268,11 +269,14 @@
 <p>Everything happening on the computer 🖥️ or a mobile device 📱 (a little computer itself) is driven by a <em>process</em>. Which one? This is what we are answering during our investigation. Like when we say that everything is made of atoms or a file on a PC - it&rsquo;s a simplification, but it allows us to break the problem down into a manageable set of smaller problems.</p>
 <p>When in the morning, while coffee ☕️ is still too hot to drink, you open your mail ✉️ client to see what&rsquo;s new, you are running a mail <em>process</em> that allows you to do that. You see than an email about your project and the attachment. You then save it to disk (your mail <em>process</em> ✉️ does that), then open it with some text editor 📝 <em>process</em>. You then see a notification about an upcoming meeting (the calendar 📆  <em>process</em> sends it to you), you log in to some video conference tool (yet another <em>process</em>) and talk to your colleagues. Behind the scenes, your PC uses a microphone, video drivers, and <em>processes</em>. So, everything on a system is a file, while a process creates everything created. That&rsquo;s why it is so difficult to prove intent - <em>processes</em> create traces, not the users directly. We know that behind every process is a user (legit or not) or a system (basically another process!).</p>
 <p>Below is a roadmap diagram for the artefacts and how these are connected.</p>
-<p><img src="images/processes-artefacts-whole.jpeg" alt="img"></p>
+<p><img src="images/artefacts-all.png" alt="img"></p>
 <p>Let&rsquo;s start from the top. As we have already discovered, any trace on the system is left by a process 🚑. Information can reside either on disk 💿 or in RAM 💬. Now, not always, and not all processes are in RAM 💬 and on disk 💿. The process can be found in RAM 💬 only when executing and a while after that.</p>
 <p>What the process looks like when executing and residing on disk (image file, we call it) - are sometimes two different things (in the case of polymorphic files, packed or encrypted). That&rsquo;s why I have marked the executed rectangle with RAM 💬 only.</p>
 <p>Also, if the attacker attacks the environment, it&rsquo;s another story. While gaining remote access through some vulnerability or misconfiguration, no artefact on disk might show that. However, if this processes changes configuration, if the activity is logged on the system, or if the process creates files, we will see some on-disk artefacts.</p>
-<p><img src="images/processes-artefacts-p1.png" alt="img"></p>
+<p><img src="images/artefacts-overview.png" alt="img"></p>
+<p>Now, let&rsquo;s focus on the lower part of the image. When a process is running, it inevitably makes some changes. Technically speaking, configurations and logs are also considered files, so I have included them within the files section. However, given their distinct natures, they are visually distinguished by different colours.</p>
+<p>Everything is created and modified by a process (unless the user takes a hammer 🔨 and smashes the computer 🖥️). And there are only two states for a process: saved on disk 💿 or executing (i.e. residing in RAM 💬). When executing, it intentionally or inadvertently creates, changes or deletes some files (including configs and logs). Whatever the process is doing, it goes through RAM first. So, until this memory space is overwritten, it might contain strings, files, and even other processes.</p>
+<p>There are two process types: core 🫀 (preinstalled programs required for the OS to run) and other. So, it is reasonable to assume that the user never saves these core processes on disk; they are supposed to be there. The only way they are changing is through OS updates.</p>
 <h2 id="artefacts-vs-evidence">Artefacts vs Evidence</h2>
 <p>Now, what&rsquo;s an artefact, and what&rsquo;s the evidence? When something happens on the machine, it leaves a trace. There are different locations these traces can be found; they are called <strong>artefacts</strong>. Artefacts include Windows registry, macOS <code>plist</code> files, file metadata, logs, etc. I have dedicated the whole section to various artefacts, their specifics and analysis tips. Those artefacts might have information valuable for the investigation and that we call <strong>evidence</strong>. Some examples of evidence are paths to malicious executables in the registry, executable names and passed arguments in the logs, malicious scripts, some strings found in a file etc. One can think of artefacts as roads 🛣️ and evidence as footprints on those roads 👣 and 🐾. The road remains the same, but there are multiple footprints of different types, and some indicate malicious activity. However, it&rsquo;s not always easy or possible to tell who left the footprint and whether or not it was forged.</p>
 <p>Both legitimate users and attackers produce the evidence by intentionally or inadvertently altering the artefacts. Intentional altering of artefacts is complex and only sometimes possible. There are several ways the attacker can perform activity on a system; let&rsquo;s see what these are.</p>
@@ -463,6 +467,10 @@
 <p><strong>A user created and used by a hacker.</strong> This one I will call a <strong>sheep</strong> 🐑  as in <em>A wolf in sheep&rsquo;s clothing</em> since the attacker is trying to mask itself as something good.  This one is not unusual, but I guess, easily determined by the sysadmin. However, there are some cases, when an attacker can change view permissions for his/her account on AD so that no one will see this user.</p>
 <p><strong>A user created legitimately, but compromised by a hacker and doing something by intent.</strong> This one will be a <strong>donkey</strong> 🦓, as the attacker is using another account for his ride. I guess it&rsquo;s the most common when the hackers are in the picture.</p>
 <p>And here are the questions we will have to answer during investigations, that can help in distinguishing between these types.</p>
+<h2 id="observations">Observations</h2>
+<ul>
+<li>I&rsquo;ve noticed that people who favour Linux and, for some reason, use either Windows or macOS prefer their dock at the left (mostly) side rather than at the bottom of the screen.</li>
+</ul>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
