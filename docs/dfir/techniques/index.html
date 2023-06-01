@@ -224,6 +224,7 @@
       <ul>
         <li><a href="#stacking">Stacking</a></li>
         <li><a href="#prioritise-and-pivot">Prioritise And Pivot</a></li>
+        <li><a href="#divide-and-conquer">Divide And Conquer</a></li>
         <li><a href="#pivot-tables">Pivot tables</a></li>
       </ul>
     </li>
@@ -395,7 +396,43 @@
 <p>One single action on a system can leave multiple traces simultaneously. Furthermore, within a single campaign, several traces can be linked to the same activity. Often, systems are inundated with data, and not all of it is pertinent. Even when the data is valuable, it requires additional information to substantiate a claim. Using stacking and frequency analysis, we have inferred that two machines are likely compromised and possess noteworthy artefacts. The question then arises: How do we proceed? 🤔</p>
 <p>That&rsquo;s when pivoting comes into play. We use single evidence of some suspicious action and look for related evidence. For example, we have determined that some <code>malicious.exe</code> was launched from the command line. Let&rsquo;s pivot around it to find new evidence. What we might want to know is if <code>malicious.exe</code> was injecting into another process or creating files. Let&rsquo;s imagine that it created a child process <code>malchild.exe</code>. What did it do? It created a file <code>open.docx</code>. Oh, there is a template in the doc document with a link to a remote machine. What&rsquo;s the domain name? What&rsquo;s the IP? Ok, looks like we have exhausted this lead.</p>
 <p>When we found <code>malicious.exe</code>, it was not the only lead we had. We also found a new user on the system - <code>iamgood</code>. What level of access did it have? What activity was performed by this user? It&rsquo;s another lead, and now we are pivoting around <code>iamgood</code> user.</p>
-<h3 id="pivot-tables">Pivot tables</h3>
+<p>Here is another example of pivoting. Say, we know that the machine must contain a malicious downloader script. Stop looking for other malware and focus on that one. Once it&rsquo;s found, using different other artefacts, answer the following questions.</p>
+<ol>
+<li>What happened before and after?</li>
+<li>What else is in the same folder?</li>
+<li>What does it do?</li>
+</ol>
+<p>But what if we don&rsquo;t know where to start and what to look out for? For starters, the initial triage and stacking must give some clues. But if there is nothing at all, try a little speculation using the MITRE matrix. &ldquo;But there are so many techniques there! Where to start?&rdquo; - you might ask. Prioritise or brute force! Start with the CERTAINLY compromised machines, leaving those likely compromised for later.</p>
+<p><strong>Prioritise (Manual)</strong>. It would be best if you always had an assumption about the evidence location. Although the attacker uses many different techniques, it&rsquo;s not an endless list. Remember the MITRE matrix? Initial access and lateral movement have the least number of techniques. When you have a least of ideas, start prioritising by answering the following questions:</p>
+<ol>
+<li>Possible impact on the investigation result.</li>
+<li>The likelihood of finding anything.</li>
+<li>Could it be a false positive?</li>
+<li>How much time do you need to follow this lead?</li>
+</ol>
+<p>Also, depending on the case, you&rsquo;d look for different things in different locations. Here are several examples:</p>
+<ol>
+<li>Search videos and pictures if it&rsquo;s a child exploitation case.</li>
+<li>If it&rsquo;s a data exfiltration case, try starting with audit logs for the service that contains that data.</li>
+</ol>
+<p><strong>Brute force (Automated)</strong>. Let tools and software find evidence. Just let it check the most likely evidence locations for anything suspicious. One of the tools capable of it is 🛠️ Cyber Triage.</p>
+<h3 id="divide-and-conquer">Divide And Conquer</h3>
+<p>You can use the following roadmap to follow the divide-and-conquer approach.</p>
+<p><img src="images/divide-and-conquer.png" alt="img"></p>
+<p><strong>Recursive.</strong> When you have a big and ambiguous problem, it always takes time to see where to start. The best approach here would be to recursively break a problem into minor issues until one becomes solvable. This helps us to come up with a list of questions to answer.</p>
+<p><strong>Artefact-driven</strong>. Now that you have the list of questions  ❓, answer them with artefact ⛏️ categories.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">break_down</span><span class="p">(</span><span class="n">problem</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">questions</span> <span class="o">=</span> <span class="n">break_down</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">questions</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">find_artefacts</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">artefacts</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">questions</span> <span class="o">=</span> <span class="n">break_down</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">find_artefacts</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	
+</span></span></code></pre></div><h3 id="pivot-tables">Pivot tables</h3>
 <p>One of the tools that might be useful for pivoting is Excel or Numbers, or any similar tool. You can create a pivot table when you have a large set of data of the same structure, for example, logs. Using a sample log file, I will show how this can be useful to spot something out of the ordinary in a large data set.</p>
 <p>You can perform pivoting with other tools like the following:</p>
 <ul>
@@ -420,93 +457,16 @@
 <p><img src="images/numbers-pivot-table.png" alt="img"></p>
 <p>My table above clearly shows which IP addresses made the most requests and which IP address had the largest number of <code>404</code>. Might this be an attacker brute-forcing or trying to exploit an IDOR? Hm&hellip; 🤔. Let&rsquo;s filter by this IP and see the pages visited by <code>192.168.1.103</code>. Here is a new pivot table:</p>
 <p><img src="images/numbers-pivot-table-2.png" alt="img"></p>
-<p>Interesting, so, the attacker was particularly interested in <code>page3.html</code>, I see.</p>
+<p>Interesting. So, the attacker seemed to have a specific interest in <code>page3.html</code>. Let&rsquo;s find out how many times this IP received a <code>200</code> or <code>404</code> response for that page.</p>
+<p><img src="images/numbers-pivot-table-3.png" alt="img"></p>
+<p>As we can see, this IP (our presumed attacker) only received 200 when requesting this page). It seems like this was something other than a brute-force attempt. It&rsquo;s a lame example, of course. I promise I will try to come up with something better in the future.</p>
 <blockquote>
 <p>💡 Generate pivot tables each day during the month for statistical analysis. Later deviations might highlight suspicious traffic.</p>
 </blockquote>
-<blockquote>
-<p>❗️ Note the data that are of low frequency.</p>
-</blockquote>
-<p>Another good way to quickly filter out the logs is the <code>fzf</code> <a href="https://github.com/junegunn/fzf">utility</a>. It works both on macOS and Linux. I don&rsquo;t know about Windows, but you could always utilise WSL there. Here is a <a href="https://www.youtube.com/watch?v=tB-AgxzBmH8">video</a> how one can dive into this utility and use it to speed up searching. Thanks to my genius colleague Kieran for the below command and for his advice to use <code>fzf</code>! Below is an example of quickly filtering the logs for AWS.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs filter-log-events --log-group-name /something/aything --profile prodserver <span class="p">|</span> jq -c <span class="s1">&#39;.events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;cat {}&#39;</span>
-</span></span></code></pre></div><p>You can go to Logs -&gt; Logs Insights and query the logs there using a query language. To the right, many valuable examples are under Query -&gt; Sample queries.</p>
-<ul>
-<li>Looking for malware and finding program run entries for malware</li>
-<li>Stop looking for other malware and focus on that one.
-<ul>
-<li>What happened before and after?</li>
-<li>What else is in the same folder?</li>
-<li>What does it do?</li>
-</ul>
-</li>
-<li>Repeat for each you find</li>
-</ul>
-<p>How to find the first evidence? Prioritise or brute force.</p>
-<ul>
-<li>Prioritise (Manual). You always need to find out where the evidence is going to be.
-<ul>
-<li>impact on the investigation result</li>
-<li>likelihood of finding anything</li>
-<li>False positive?</li>
-<li>time required</li>
-</ul>
-</li>
-<li><strong>Brute force</strong> (Automated). Let tools and software find evidence.</li>
-</ul>
-<blockquote>
-<p>Cyber Triage: can I mark something as wrong and run the analysis for this piece of evidence again? - yes</p>
-</blockquote>
-<p>See the general schema <a href="/files/pdf/DivideAndConquerDiag202010-201008-094835.pdf">here</a>.</p>
-<p>The main idea is to concentrate on some areas and answer some specific questions, like:</p>
-<ol>
-<li>Is there child exploitation material? Search videos and pictures.</li>
-<li>Is this PC compromised? It needs to be more prominent.</li>
-<li>Who did this computer communicate with?</li>
-</ol>
-<p><strong>First option:</strong></p>
-<p>Big problem &ndash;&gt; n*(minor problem). Recursively break a problem into minor issues until one becomes solvable.</p>
-<p><strong>Second option:</strong></p>
-<p>Or we can be guided by artefact ⛏️  categories.</p>
-<p>First, break the more significant problem into smaller ones. Then answer questions with artefact ⛏️ categories.</p>
-<p>Here is the pseudocode for this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">function</span> <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">Stack</span> <span class="n">problemStack</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stacked</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="n">problemStack</span><span class="p">.</span><span class="n">len</span> <span class="p">==</span> <span class="m">0</span> <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">currentProblem</span> <span class="p">=</span> <span class="n">problem</span><span class="p">.</span><span class="n">pop</span><span class="p">;</span> 
-</span></span><span class="line"><span class="cl">  <span class="k">get</span> <span class="n">artifacts</span><span class="p">(</span><span class="n">poseQuestion</span><span class="p">(</span><span class="n">current</span> <span class="n">problem</span><span class="p">,</span> <span class="n">stackLen</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">  <span class="n">breakIntoSmallerProblems</span><span class="p">(</span><span class="n">problemStack</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">function</span> <span class="n">poseQuestion</span><span class="p">(</span><span class="kt">string</span> <span class="n">problem</span><span class="p">,</span> <span class="kt">int</span> <span class="n">stackLen</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">stackLen</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">)</span> <span class="n">prioritisize</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="k">else</span> <span class="n">answerWithAutoTools</span><span class="p">(</span><span class="n">problem</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><strong>How does a computer work?</strong> Hardware, OS, Processes. <strong>How does the attacker work?</strong> Remote access changes, detection avoidance etc.</p>
-<p><strong>RoadMap</strong></p>
-<ol>
-<li>Is the system compromised?
-<ol>
-<li>Are there mal-related changes?</li>
-<li>Is there mal user activity?
-<ol>
-<li>Suspicious logins?
-<ol>
-<li>Login artefact category ⛏️: Event log 4624, 4778, active users etc</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>Are there malware progs?</li>
-<li>Are there mal OS changes?</li>
-</ol>
-</li>
-</ol>
-<p>Prioritisation is based on: likely relevance, result accuracy, and time to answer.</p>
-<p>Beginner: start with a process and fill in categories</p>
-<p>Advanced: when you already know about classes, think from that perspective.</p>
-<p>Manager: categories</p>
-<p>Cyber Triage User: same</p>
-<p>File name &ndash;&gt; meta &ndash;&gt; content</p>
-<h2 id="critical-thinking">Critical Thinking</h2>
+<p>When reviewing this type of data, common sense is crucial. For example, it is not reasonable to expect a high volume of requests to your admin page from various IP addresses returning <code>404</code> or <code>500</code>. However, it is expected for other pages to receive a significant number of requests. Additionally, the predominant response code should be 200, so a sudden increase in 404 responses could indicate a potential technical or security issue.</p>
+<p>Another good way to quickly filter out the logs is the <code>fzf</code> <a href="https://github.com/junegunn/fzf">utility</a>. It works both on macOS and Linux. I don&rsquo;t know about Windows, but you could always use WSL there. Here is a <a href="https://www.youtube.com/watch?v=tB-AgxzBmH8">video</a> of how one can dive into this utility and use it to speed up the search. Below is an example of how one can filter using a combination of <code>jq</code> and <code>fzf</code> tools (for <code>json</code> logs).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs filter-log-events --log-group-name /something/anything --profile prodserver <span class="p">|</span> jq -c <span class="s1">&#39;.events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;cat {}&#39;</span>
+</span></span></code></pre></div><h2 id="critical-thinking">Critical Thinking</h2>
 <p><strong>Challenge assumptions</strong> (sometimes it&rsquo;s something you have not seen or dealt with before), consider alternatives, evaluate data, identify critical drivers, and understand the context.</p>
 <p>List all assumptions and ask yourself how sure you are of these statements and what might happen if they are wrong. Categorise these assumptions based on certainty. Refine and remove those assumptions that are proven to be incorrect. Identify additional data needs for those assumptions that are still uncertain. Research?</p>
 <p>Think about the <strong>alternatives</strong>, for example, brainstorming. Ask yourself the six W&rsquo;s to help develop the other options. The null hypothesis is the opposite of the central hypothesis (for anomalous data).</p>
