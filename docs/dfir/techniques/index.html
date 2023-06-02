@@ -199,7 +199,20 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#artefacts-vs-evidence">Artefacts vs Evidence</a></li>
+    <li><a href="#artefacts-vs-evidence">Artefacts vs Evidence</a>
+      <ul>
+        <li><a href="#-types-of-evidence-">🐾 Types of Evidence 👣</a></li>
+        <li><a href="#circumstantial">Circumstantial</a></li>
+        <li><a href="#incontrovertible">Incontrovertible</a></li>
+        <li><a href="#corroborating">Corroborating</a></li>
+        <li><a href="#common-activity-artefacts">🏺Common Activity Artefacts</a>
+          <ul>
+            <li><a href="#secondary-artefacts">Secondary artefacts</a></li>
+            <li><a href="#primary-artefacts">Primary Artefacts</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
     <li><a href="#detection-types">Detection Types</a>
       <ul>
         <li><a href="#-automated">🖲️ Automated</a></li>
@@ -292,6 +305,79 @@
 <p>Let&rsquo;s imagine a legitimate ordinary user with no malicious intent or malware installed. What would their daily activity look like? Also, running some programs which, of course, leave some traces.</p>
 <p>But how do we distinguish between a legitimate user 🥦 and an attacker 🍒? When we find malware, and we see its traces 🐾 on the system, it&rsquo;s one story. But what if the attacker got remote access to the system and used a legit tool on the user&rsquo;s 🥦 behalf? What if the attacker 🍒 has tricked the user 🥦 into running something evil? How do we know it&rsquo;s 👣 and not 🐾? Sometimes we don&rsquo;t.</p>
 <p><img src="images/both-artefacts.png" alt="img"></p>
+<h3 id="-types-of-evidence-">🐾 Types of Evidence 👣</h3>
+<h3 id="circumstantial">Circumstantial</h3>
+<blockquote>
+<p>Circumstantial evidence refers to the collection of facts that, when considered together, can be used to infer a conclusion about malicious activity or a person involved. This type of evidence does not directly prove the fact in question but allows for the possibility of drawing inferences to establish the fact indirectly. Circumstantial evidence is often used in digital forensics and incident investigations when direct evidence is not available. Let&rsquo;s consider a scenario in which an organization suspects a data breach has occurred. They are trying to determine if an employee, John, is responsible for the breach. Direct evidence would be something like a security video showing John copying sensitive files onto a USB drive or an email sent by John admitting to the breach. Circumstantial evidence, on the other hand, would involve facts that indirectly suggest John&rsquo;s involvement. For example: Log files showing that John&rsquo;s user account accessed the sensitive files just before the data breach occurred. Records indicating that John&rsquo;s computer was connected to a USB drive around the same time the files were accessed. The breached files were found on a dark web marketplace, and the seller&rsquo;s account was linked to an email address similar to one John used for personal purposes. John had recently expressed dissatisfaction with the company and was looking for a new job. None of these individual facts directly prove that John is responsible for the data breach. However, when considered together, they create a strong circumstantial case suggesting John&rsquo;s involvement in the malicious activity. ChatGPT</p>
+</blockquote>
+<h3 id="incontrovertible">Incontrovertible</h3>
+<blockquote>
+<p>Incontrovertible evidence refers to evidence that is indisputable, irrefutable, or impossible to deny. It is so strong and compelling that it leaves no room for doubt or argument. In digital forensics, incontrovertible evidence may include things like unaltered log files, digital signatures, or cryptographic hashes that prove the integrity and authenticity of data. However, it is essential to note that it can be challenging to obtain incontrovertible evidence in digital forensics due to the potential for data manipulation or tampering.</p>
+</blockquote>
+<h3 id="corroborating">Corroborating</h3>
+<blockquote>
+<p>Corroborating evidence is additional evidence that supports or confirms the initial evidence or a fact in question. Corroborating evidence helps to strengthen the overall case by providing independent confirmation of the facts or findings. In digital forensics, corroborating evidence may include things like additional log files from different systems, witness statements, or even physical evidence that supports the digital evidence. The use of corroborating evidence is particularly important in digital forensics because it can help to establish the reliability and credibility of the findings and minimize the chances of false positives or inaccurate conclusions.</p>
+</blockquote>
+<h3 id="common-activity-artefacts">🏺Common Activity Artefacts</h3>
+<p>Below is the list of the most common artefacts that could be used to determine user activity. Some of them are mobile specific.</p>
+<p>I&rsquo;ve devided them into two main groups: primary and secondary. Primary artefacts are those that are specifically designed to provide this information. For example, you can view contacts via address book or read SMS messages.</p>
+<p>Secondary artefacts are like data lakes: they aggreagate lots sort of information that might or might not contain something relevant. In requires wits and analysis in order to retrieve something useful from there if anything is there. For example, to determine if a person knows another person, you could see their contact list (which is the easiest way). However, not all connections are added there. So, you&rsquo;d probably refer to mailing activity as well. The last resort would be to see photos and videos in order to find a familiar face. There is small chance to also find this information in some notes. For example, &ldquo;I met Julia Roberts yesterday on the tube! Imagine that!&rdquo; Some artefacts are listed both under secondary and primary sections since for some purposes they might be secondary. For example, social media is basically a very sophisticated address book + messages system. However, there are feeds there as well and as with all messages in general you sometime find something relevant there. For instance, if you are not sure if the person did work this day and check their social media page where there was a photo from a bar posted at 2pm on Thursday (too early, ey!), you might be relatively sure that no, the person was no at work that time.</p>
+<h4 id="secondary-artefacts">Secondary artefacts</h4>
+<ul>
+<li>Notes</li>
+<li>Voice assistant&rsquo;s logs</li>
+<li>Browser activity</li>
+<li>Photos, videos (local, online)</li>
+<li>Screen or voice recordings</li>
+<li>Calendar events</li>
+<li>Music</li>
+<li>Gaming</li>
+<li>Social media</li>
+</ul>
+<h4 id="primary-artefacts">Primary Artefacts</h4>
+<details>
+    <summary>See all&hellip;</summary>
+    <ul>
+<li>👥 Contacts and Connections
+<ul>
+<li>📖 Address book</li>
+<li>💬 Messangers</li>
+<li>💬 Social media</li>
+<li>✉️ Mail</li>
+<li>SMS/MMS</li>
+<li>☎️ Call history (video, phone)</li>
+</ul>
+</li>
+<li>🗺 Geo posisition
+<ul>
+<li>Device IP</li>
+<li>Traffic (if logged)</li>
+<li>Social communications metadata</li>
+<li>Maps applications</li>
+<li>VPNs used (logs if any)</li>
+<li>Photos and videos</li>
+<li>Documents saved/downloaded/deleted/modified</li>
+<li>Calendar events</li>
+<li>Web browsing</li>
+<li>Screen or voice recordings</li>
+</ul>
+</li>
+<li>Computer Activity
+<ul>
+<li>System logs (logs, prefetch, events etc)</li>
+<li>Documents saved/downloaded/deleted/modified/renamed/copied</li>
+<li>Folders traversed</li>
+<li>USB and other external media attached</li>
+<li>Processes running/terminated/spawned</li>
+<li>Encryption/wiping software usage</li>
+<li>Shortcuts, symbolic links and links</li>
+<li>Configuration files (etc, plist, registry)</li>
+<li>Network connections opened/closed</li>
+</ul>
+</li>
+</ul>
+
+</details>
 <h2 id="detection-types">Detection Types</h2>
 <p>Unless we protect a small company with 2-3 computers, we can&rsquo;t afford to repeatedly spend days on a single machine to ensure everything is in order. And even if we had that much time, it could be more practical. In the ideal scenario, we would want to automatically detect as much as possible and then manually examine only systems that were likely compromised.</p>
 <p>Unless the attacker has physical access to the machine, tricked the legit user into doing bad things or has some RDP or similar access due to misconfiguration, they need to run some process (usually malware) to hook and achieve their goals. So, there are three types of processes traces of which we need to look out for:</p>

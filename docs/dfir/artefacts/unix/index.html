@@ -212,10 +212,32 @@
  <h1 class="title">UNIX Artefacts</h1> 
  
 
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/dnscache/"> DNS Cache</a></h2> 
+    <p> macOS To achieve the same on a macOS machine:
+awk -F&#39;,&#39; &#39;NR&gt;1{print $1&#34;,&#34;$2}&#39; *.csv | sort | uniq -c | awk &#39;{print $1&#34;,&#34;$2&#34;,&#34;$3}&#39; &gt; merged.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/connections/"> Network Connections</a></h2> 
+    <p> For Mac OS netstat there is no -o switch, so I&rsquo;ve used netstat -ban.
+sudo lsof -i -n -p lsof -i :443 will show you all connections associated with port 443, commonly used for TLS communication.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/spotlight/"> Spotlight Data</a></h2> 
+    <p> /Users/username/.zsh_history look for something like hdiutil mount silenteye-0.4.1b-snowleopard.dmg and sudo cp -R /Volumes/SilentEye/silenteye-0.4.1b-snowleopard_installer.app /Applications.
+Also, /Users/sneaky/Library/Application Support/com.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/backup/"> Backups</a></h2> 
+    <p> /Users/%username%/Library/Application Support/MobileSync/Backup/
+References Expand&hellip; Something here </p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/ram/"> RAM</a></h2> 
+    <p> <p><em>This is about &hellip; .</em></p></p>
+
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/config/"> UNIX Configs</a></h2> 
     <p> Linux SSH Files /home/%username%/.ssh/authorized_keys /home/%username%/.ssh/known_hosts
 /home/%username%/.ssh/config
 /home/%username%/.ssh/id_* (defualt) and just /home/%username%/.ssh/ for all the keys</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/core/"> UNIX Core</a></h2> 
+    <p> </p>
 
 
 

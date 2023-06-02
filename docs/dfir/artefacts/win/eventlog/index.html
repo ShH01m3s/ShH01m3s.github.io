@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Windows Event Log - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/artefacts/win/"> 👈🏼 Back to </br> Windows Artefacts </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#system-and-event-logs">System and Event Logs</a></li>
+        <li><a href="#event-viewer">Event Viewer</a></li>
+        <li><a href="#event-log-explorer">Event Log Explorer</a></li>
+        <li><a href="#evtxecmd">Evtxecmd</a></li>
+        <li><a href="#chainsaw">Chainsaw</a></li>
+        <li><a href="#kansa">Kansa</a></li>
+        <li><a href="#sysmon">Sysmon</a></li>
+        <li><a href="#codes">Codes</a></li>
+        <li><a href="#processes">Processes</a>
+          <ul>
+            <li><a href="#25">25</a></li>
+          </ul>
+        </li>
+        <li><a href="#user-activity">User Activity</a>
+          <ul>
+            <li><a href="#4624">4624</a></li>
+            <li><a href="#4625">4625</a></li>
+            <li><a href="#4634">4634</a></li>
+            <li><a href="#4648">4648</a></li>
+            <li><a href="#4672">4672</a></li>
+            <li><a href="#4771">4771</a></li>
+            <li><a href="#4772">4772</a></li>
+            <li><a href="#4773">4773</a></li>
+            <li><a href="#4774">4774</a></li>
+            <li><a href="#4775">4775</a></li>
+            <li><a href="#4776">4776</a></li>
+            <li><a href="#4777">4777</a></li>
+            <li><a href="#4778">4778</a></li>
+            <li><a href="#4800">4800</a></li>
+            <li><a href="#4802">4802</a></li>
+            <li><a href="#4803">4803</a></li>
+            <li><a href="#4717">4717</a></li>
+            <li><a href="#4718">4718</a></li>
+            <li><a href="#4720">4720</a></li>
+            <li><a href="#4722">4722</a></li>
+            <li><a href="#4723">4723</a></li>
+            <li><a href="#4803-1">4803</a></li>
+            <li><a href="#4724">4724</a></li>
+            <li><a href="#4725">4725</a></li>
+            <li><a href="#4726">4726</a></li>
+            <li><a href="#4740">4740</a></li>
+          </ul>
+        </li>
+        <li><a href="#lateral-movement">Lateral Movement</a>
+          <ul>
+            <li><a href="#4697">4697</a></li>
+            <li><a href="#5140">5140</a></li>
+            <li><a href="#5141---5145">5141 - 5145</a></li>
+            <li><a href="#7045">7045</a></li>
+          </ul>
+        </li>
+        <li><a href="#anti-forensics">Anti-Forensics</a>
+          <ul>
+            <li><a href="#1102">1102</a></li>
+            <li><a href="#104">104</a></li>
+          </ul>
+        </li>
+        <li><a href="#usb">USB</a>
+          <ul>
+            <li><a href="#20001">20001</a></li>
+            <li><a href="#20002">20002</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#exercise">Exercise</a></li>
+    <li><a href="#references">References</a></li>
+    <li><a href="#references-1">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Windows Event Log</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 02.06.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This is about &hellip; .</em></p>
+<p>Check for 👣 Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
+<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
+<p><code>5158</code> <code>5154</code> -&gt;</p>
+<p><code>5158</code> -&gt; <code>5031</code> binding started and terminated by firewall.</p>
+<p>PID, Application field (path to the executable and exe name), Inbound/Outbound, <code>sport</code>/<code>dport</code>, addresses (src and dst), protocol field.</p>
+<p>If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditin policy using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to star capturing event 5156. I was using Vbox with Windows Server 2019 installed and the machine promoted to DC (Active Directory Feauture installed).</p>
+<p>Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
+</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
+</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
+</span></span></code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
+<p><strong>External IPs reputations</strong>. 🛠 <code>hostintel</code>. For running the tool, you&rsquo;ll also need to create a file with a list of IPs. I&rsquo;ve created a file <code>i.txt</code> in the <code>hostintel</code> directory and so my command was:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python hostintel.py config.conf i.txt
+</span></span></code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
+<p>To use <a href="https://github.com/keithjjones/hostintel">hostintel</a>, install it following the instructions on GitHub. Then install geoip2 using  <code>pip install &quot;geoip2==3.0.0&quot; </code>. I got an error that <code>geoip.database</code> was not installed when I installed it with <code>pip install geoip2</code> or from GitHub. This module is for working with GeoIP databases.</p>
+<p>To actually use these databases (one is included with the tool, but it mught get outdated), signup <a href="https://www.maxmind.com/en/geoip2-databases">here</a> and download GeoLite2 City from <a href="https://www.maxmind.com/en/accounts/410417/geoip/downloads">here</a>. This is an archive, unpack it and put the *.mmb file in <code>hostintel/data</code> folder (replace). These dbs are used by other tools as well, so you might want to keep it elsewhere and change its path in config.</p>
+<p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
+<p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
+<p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
+<p><strong>Event logs and Event Trace Logs:</strong>
+<code>C:\Windows\system32\</code></p>
+<ul>
+<li><code>config\*.evt</code></li>
+<li><code>winevt\logs\*.evt</code></li>
+<li><code>LogFiles\WMI\*</code></li>
+<li><code>SleepStudy\*</code></li>
+</ul>
+<p><code>C:\Windows\system32\WDI</code></p>
+<ul>
+<li><code>LogFiles\*etl\*</code></li>
+<li><code>{\*</code></li>
+</ul>
+<p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
+<p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
+<h3 id="system-and-event-logs">System and Event Logs</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\w</span>inevt<span class="se">\l</span>ogs<span class="se">\*</span>.evtx
+</span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\S</span>RU<span class="se">\s</span>rudb.dat
+</span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\i</span>nf<span class="se">\s</span>etupapi.dev.log
+</span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>onnectedDevicesPlatform<span class="se">\*\A</span>ctivitiesCache.db
+</span></span></code></pre></div><h3 id="event-viewer">Event Viewer</h3>
+<blockquote>
+<p><em>❓How could an attacker delete entries from the Event Viewer and what level of access would they need?</em></p>
+</blockquote>
+<p>To configure what&rsquo;s being logged and what&rsquo;s ignored, set up the appropriate policies here -<code>secpol.msc</code>. Config example:</p>
+<ol>
+<li>Audit account logon events - success + failure</li>
+<li>Audit account management - success + failure</li>
+<li>Audit logon events - success + failure</li>
+<li>Audit object accesss - failure (too many successes will be generated)</li>
+<li>Audit privileged use - success + failure</li>
+<li>Audir system events - success + failure</li>
+</ol>
+<p>This might chew up lots of disk space, so be careful. I might try this configs to look for network events, I could not see before.</p>
+<h3 id="event-log-explorer">Event Log Explorer</h3>
+<p>Has a free version for non-commercial use. Allow creating lots of filters and has a GUI.</p>
+<h3 id="evtxecmd">Evtxecmd</h3>
+<p>Eric Zimmerman&rsquo;s <strong>Evtxecmd</strong> tool. Console tool that can export the result in a csv file. This csv can then be loaded into TimeLine explorer for further analysis.</p>
+<h3 id="chainsaw">Chainsaw</h3>
+<p>Is a CUI tool that has some predefined rules to search for interesting events. Can digest a lot of event logs at a time and produce a single output. For a usage example refer to the Blog section (Cybercorp1, calendar 📅 Jan 2022).</p>
+<h3 id="kansa">Kansa</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="n">Modules</span><span class="p">\</span><span class="n">Log</span><span class="p">\</span><span class="nb">Get-LogWinEvent</span><span class="p">.</span><span class="n">ps1</span> <span class="n">security</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+</span></span></code></pre></div><h3 id="sysmon">Sysmon</h3>
+<p>Sysmon includes the following capabilities:</p>
+<ul>
+<li>Logs process creation with full command line for both current and parent processes.</li>
+<li>Records the hash of process image files using SHA1 (the default), MD5, SHA256 or IMPHASH.</li>
+<li>Multiple hashes can be used at the same time.</li>
+<li>Includes a process GUID in process create events to allow for correlation of events even when Windows reuses process IDs.</li>
+<li>Includes a session GUID in each event to allow correlation of events on same logon session.</li>
+<li>Logs loading of drivers or DLLs with their signatures and hashes.</li>
+<li>Logs opens for raw read access of disks and volumes.</li>
+<li>Optionally logs network connections, including each connection’s source process, IP addresses, port numbers, hostnames and port names.</li>
+<li>Detects changes in file creation time to understand when a file was really created. Modification of file create timestamps is a technique commonly used by malware to cover its tracks.</li>
+<li>Automatically reload configuration if changed in the registry.</li>
+<li>Rule filtering to include or exclude certain events dynamically.</li>
+<li>Generates events from early in the boot process to capture activity made by even sophisticated kernel-mode malware.</li>
+</ul>
+<p>Log IDs 1-24 + 225.</p>
+<p><a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/">https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/</a></p>
+<p><strong>System Logs</strong>.</p>
+<p><strong>Security Logs</strong>.</p>
+<p><strong>Application Logs</strong>. Not generally useful for IR.</p>
+<h3 id="codes">Codes</h3>
+<h3 id="processes">Processes</h3>
+<h4 id="25">25</h4>
+<p>Sysmon. Process Injection attempt.</p>
+<h3 id="user-activity">User Activity</h3>
+<h4 id="4624">4624</h4>
+<p>System.</p>
+<p>Successful login. Type 2 (console). Keep in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.</p>
+<h4 id="4625">4625</h4>
+<p>System.</p>
+<p>Failed logon attempt.</p>
+<h4 id="4634">4634</h4>
+<p>System. User logged off.</p>
+<h4 id="4648">4648</h4>
+<p>System. <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">Auth</a> with explicit credentials.</p>
+<h4 id="4672">4672</h4>
+<p>System. Priviledges account usage. Can be used to check account privileges.</p>
+<h4 id="4771">4771</h4>
+<h4 id="4772">4772</h4>
+<h4 id="4773">4773</h4>
+<h4 id="4774">4774</h4>
+<h4 id="4775">4775</h4>
+<h4 id="4776">4776</h4>
+<p>Local account authentication, meaning not involving a DC. Authentication attempts other then those of local users are suspicious by default. You can filter by a portion of unique pc/domain identifier to exclude all built-in accounts.</p>
+<h4 id="4777">4777</h4>
+<h4 id="4778">4778</h4>
+<p>Session reconnect event. RDP. Check for 4624 Type 10.</p>
+<h4 id="4800">4800</h4>
+<h4 id="4802">4802</h4>
+<h4 id="4803">4803</h4>
+<h4 id="4717">4717</h4>
+<h4 id="4718">4718</h4>
+<h4 id="4720">4720</h4>
+<p>Account created</p>
+<h4 id="4722">4722</h4>
+<h4 id="4723">4723</h4>
+<h4 id="4803-1">4803</h4>
+<h4 id="4724">4724</h4>
+<h4 id="4725">4725</h4>
+<h4 id="4726">4726</h4>
+<h4 id="4740">4740</h4>
+<h3 id="lateral-movement">Lateral Movement</h3>
+<h4 id="4697">4697</h4>
+<p>Security.</p>
+<p>New service installed.</p>
+<h4 id="5140">5140</h4>
+<p>Security.</p>
+<p>Mount shares.</p>
+<h4 id="5141---5145">5141 - 5145</h4>
+<p>Security.</p>
+<p>SMB shares</p>
+<h4 id="7045">7045</h4>
+<p>System. Service installed. Logged by default. Services started with user credentials are suspicious.</p>
+<h3 id="anti-forensics">Anti-Forensics</h3>
+<h4 id="1102">1102</h4>
+<p><strong>Security</strong>. Logs what user cleared the logs.</p>
+<h4 id="104">104</h4>
+<p><strong>System</strong>. Logs what logs were cleared 🥶. Logs their SID.</p>
+<h3 id="usb">USB</h3>
+<p>System 6416</p>
+<h4 id="20001">20001</h4>
+<h4 id="20002">20002</h4>
+<h2 id="exercise">Exercise</h2>
+<p>I&rsquo;ve set up my lab as vaguely described <a href="/docs/blog/2021/03/how-i-have-built-my-lab">here</a>. Then, I&rsquo;ve logged into the user <code>sherlock</code> account. Now, I want to see this even in the Event Viewer. Most probably, it&rsquo;s the Security of System logs. I have wrong time settings on the both machines, but I don&rsquo;t think it&rsquo;s a problem for now. I&rsquo;ve noticed some Logon of type 3 in the logs, but the user is not specified. I don&rsquo;t quite remember, which id the network logon type has. I think it&rsquo;s 4&hellip; .</p>
+<p>No, logon type 3 is the network logon. Weird. It happens very often.</p>
+<p>Since there is no SID shown, I suspect that might be a system acc.</p>
+<p>Sorting took some time, and I have noticed that Logon events have these IDs: 4624, 4634, 4625, 4648. Now I am going to filter by these IDs and revert to sorting by date and time. Nothing was found. I&rsquo;ve cleared IDs, leaving just the user name. The filter returned no results as well.</p>
+<p>However, I&rsquo;ve also noticed, that even though no username was specified (<code>N/A</code>), the PC name was mentioned: SHERLOCKPC$. Using this to filter the logs, resulted in null results. Tried SHERLOCKPC as well - nothing.</p>
+<p>Some packet was blocked.</p>
+<p>Clear log. Then try logging in several times with the wrong password. Then log in with the correct one. Observe the logs. Well, seems like <code>Logon</code> and <code>Logoff</code> events are not initiated by the user. So, the login attempts are actually <code>Kerberos Authentication Service</code>. Now it makes more sense. Let&rsquo;s filter by this event (4768 - success and 4771 - failure). After successful authentication, we have Kerberos Service Ticket Operations (4769). And now I have it!</p>
+<p>I&rsquo;ve now triggered several authentication failures and one authentication success. And there it is. I have 2 events 4771 (failures) then one event 4768 (success) followed by three events 4769. Why three?</p>
+<p>Every minute 4624 and 4634 events are created, meaning new session creating. It seems so that every time I do something in my user account, the events 4624 and 4634 emerge in the logs. Or just every minute.</p>
+<p>Let&rsquo;s go to the user PC (sherlock) and see his logs. It says that access was denied (either the query is too long or the daemon is not running). Of course, the first thing to do was to check whether the service is really running, but it was. So, the problem was something else. Query too long? Don&rsquo;t think so, since I have not created any views so far. I tried to clear the logs, but failed. May be it&rsquo;s because the DC is shutdown, or because the user doesn&rsquo;t have the rights to do so. The only way to check that is to turn on the DC.</p>
+<p>Can&rsquo;t find the event id that is associated with this activity. Thought 5152 was, but then I saw it appeared on its own.</p>
+<p>However System logs had one interesting entry. But failing again has not triggered it.</p>
+<h2 id="references">References</h2>
+<p>📚 <a href="https://cybersecuritynews.com/windows-event-log-analysis/">https://cybersecuritynews.com/windows-event-log-analysis/</a></p>
+<h2 id="references-1">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

@@ -199,6 +199,12 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#audit">Audit</a>
+      <ul>
+        <li><a href="#login-activity">Login activity</a></li>
+        <li><a href="#service-usage-activity">Service usage activity</a></li>
+      </ul>
+    </li>
     <li><a href="#cloudtrail">CloudTrail</a>
       <ul>
         <li><a href="#-btfm">📘 BTFM</a></li>
@@ -287,6 +293,35 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>This document is devoted to AWS logs. Several examples are analysed and useful fields are marked.</em></p>
+<h2 id="audit">Audit</h2>
+<h3 id="login-activity">Login activity</h3>
+<p>For admin account go to IAM -&gt; Credential report to see all the users and the following information:</p>
+<ol>
+<li>user name</li>
+<li>arn (acc N + username)</li>
+<li>user_creation_time</li>
+<li>password_enabled</li>
+<li>password_last_used</li>
+<li>password_last_changed</li>
+<li>password_next_rotation</li>
+<li>mfa_active</li>
+<li>access_key_1_active</li>
+<li>access_key_1_last_rotated</li>
+<li>access_key_1_last_used_date</li>
+<li>access_key_1_last_used_region</li>
+<li>access_key_1_last_used_service</li>
+<li>access_key_2_active</li>
+<li>access_key_2_last_rotated</li>
+<li>access_key_2_last_used_date</li>
+<li>access_key_2_last_used_region</li>
+<li>access_key_2_last_used_service</li>
+<li>cert_1_active</li>
+<li>cert_1_last_rotated</li>
+<li>cert_2_active</li>
+<li>cert_2_last_rotated</li>
+</ol>
+<h3 id="service-usage-activity">Service usage activity</h3>
+<p>Also, you can go to IAM -&gt; username -&gt; Access Advisor tab to see the services that this user has access to and when these were last used.</p>
 <h2 id="cloudtrail">CloudTrail</h2>
 <p>This is an example log from a AWS CTF <a href="https://cyberdefenders.org/blueteam-ctf-challenges/84">challenge</a>. I am going to use this one in order to get an idea of what is being logged and how this can be useful for investigations.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>

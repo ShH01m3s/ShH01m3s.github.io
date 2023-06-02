@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>DFIR Checklists - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-reverse 🔧">
+      <a href="/docs/reverse">
+        <span>Reverse 🔧</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-threat hunting 🪤">
+      <a href="/docs/thunting">
+        <span>Threat Hunting 🪤</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tech reference 📚">
+      <a href="/docs/reference">
+        <span>Tech Reference 📚</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/old/manual/"> 👈🏼 Back to </br> Misc </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-response">First Response</a></li>
+    <li><a href="#incident-response-sans">Incident Response (SANS)</a></li>
+    <li><a href="#digital-forensics">Digital Forensics</a>
+      <ul>
+        <li><a href="#toolkit-assembly-for-physical-acquisition">Toolkit Assembly For Physical Acquisition</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">DFIR Checklists</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 26.05.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>Here I am collecting checklists that might be helpful when conducting an investigation.</em></p>
+<h2 id="first-response">First Response</h2>
+<h2 id="incident-response-sans">Incident Response (SANS)</h2>
+<details>
+    <summary>See the full checklist&hellip;</summary>
+    <ul>
+<li><input disabled="" type="checkbox"> 🥒 Preparation
+<ul>
+<li><input disabled="" type="checkbox"> 📝 <strong>Compile</strong> a list of all your assets (servers, networks, applications etc.)</li>
+<li><input disabled="" type="checkbox"> 📈 <strong>Rank</strong> them by the level of importance.</li>
+<li><input disabled="" type="checkbox"> 👁 <strong>Monitor</strong> their traffic patterns and create baselines.</li>
+<li><input disabled="" type="checkbox"> 🫂 Create a <strong>communication plan</strong> (who to contact, how, and when based on each incident type). <strong>Incident Handler Communications and Facilities</strong> (contacts, on-call info, reporting mechanism, issue tracking, smartphones, encryption soft, war room, secure storage).</li>
+<li><input disabled="" type="checkbox"> 🚧 Determine which security events and at what <strong>thresholds</strong> should be investigated.</li>
+<li><input disabled="" type="checkbox"> 📖 Create one <strong>incident response plan</strong> and playbooks for each type of incident that are most likely to happen or can inflict the most damage.</li>
+<li><input disabled="" type="checkbox"> 📖 Create an <strong>Incident Response Policy</strong>.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Identification (🔬🧪  DF *)
+<ul>
+<li><input disabled="" type="checkbox"> 🚨 <strong>Discover</strong>. Discovery and classification (Where is the sensitive data?), Entitlements reporting (Who can access), Vulnerability Assessment (How to secure it?).</li>
+<li><input disabled="" type="checkbox"> 🔎 <strong>Investigate</strong>.</li>
+<li><input disabled="" type="checkbox"> ⛓ <strong>Harden</strong>. Reconfigure, mask, encrypt (How to protect sensitive data?)</li>
+<li><input disabled="" type="checkbox"> 👀 🗡 <strong>Monitor and Protect.</strong> Activity monitoring, Blocking quarantine, dynamic data masking</li>
+<li><input disabled="" type="checkbox"> <strong>Repeat</strong>.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Containment (🔬🧪  DF *)</li>
+<li><input disabled="" type="checkbox"> Eradication (🔬🧪  DF *)</li>
+<li><input disabled="" type="checkbox"> Recovery (🔬🧪  DF *)</li>
+<li><input disabled="" type="checkbox"> Lessons Learnt (🔬🧪  DF *)</li>
+</ul>
+<blockquote>
+<p>🔬🧪 Digital Forensics process can take place at any stage of the incident response process.</p>
+</blockquote>
+
+</details>
+<h2 id="digital-forensics">Digital Forensics</h2>
+<details>
+    <summary>See the full checklist&hellip;</summary>
+    <ul>
+<li><input disabled="" type="checkbox"> 🤔 Identification/Assessment (aka <strong>Preparation</strong>)
+<ul>
+<li><input disabled="" type="checkbox"> Define <strong>scope</strong></li>
+<li><input disabled="" type="checkbox"> <strong>Sterilise</strong> the target media (more <a href="https://bakerst221b.com/docs/dfir/investigation/collection/#sterilising-target-media">here</a>)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🧹 <strong>Collection</strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🏃🏼 <strong>First response</strong>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Sanitise</strong> the target disk that will be used to copy evidence to</li>
+<li><input disabled="" type="checkbox"> Prepare all the <strong>toolkits</strong> that will be needed.</li>
+<li><input disabled="" type="checkbox"> Start filling out the <strong>Chain of Custody</strong> form; each piece of evidence is assigned a unique ID (see below for examples).</li>
+<li><input disabled="" type="checkbox"> All <strong>photos</strong> were taken before touching the scene.</li>
+<li><input disabled="" type="checkbox"> Ensure that the Internet, Bluetooth, and AirDrop are <strong>all turned off</strong> on the machine used to acquire the image (* in case of physical acquisition).</li>
+<li><input disabled="" type="checkbox"> Connect the <strong>write blocker</strong> to the PC, and the evidence drive to the write blocker (power + data cables) or launch a software write blocker on the acquirer machine (see below for how-to) (* in case of physical acquisition).</li>
+<li><input disabled="" type="checkbox"> Calculate <strong>the hash of the evidence drive</strong> (pre-hash). Document it.</li>
+<li><input disabled="" type="checkbox"> Image the evidence.</li>
+<li><input disabled="" type="checkbox"> Calculate the <strong>hash of the original evidence</strong> again, validate the hash and document it.</li>
+<li><input disabled="" type="checkbox"> Calculate the **hash of the image taken (post-hash) and ensure it matches the above ones taken previously.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🤏🏼 <strong>Acquisition</strong> (live or dead).
+<ul>
+<li><input disabled="" type="checkbox"> Physical storage. Mind the order of volatility, see RFC <a href="https://www.ietf.org/rfc/rfc3227.txt">here</a>.
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Cache</strong>, <strong>registers</strong> (<strong>CPU</strong>). 🛠 Debuggers (OllyDbg, gdb, x64dbg etc)</li>
+<li><input disabled="" type="checkbox"> <strong>ARoTa MeKSaPTa</strong>. ARP cache, routing table, memory, kernel statistics, process table. <strong>Mnemonics</strong>: ARoTa MeKSaPTa
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Routing tables</strong>. Contain the following info: destination IP addresses or networks; the gateway IP address, or interface name if a directly connected resource; the metric, or cost, associated with the route – this enables the most efficient route to be selected; the outgoing interface the machine will use when forwarding a packet.
+<ul>
+<li><input disabled="" type="checkbox"> Windows <code>route print</code></li>
+<li><input disabled="" type="checkbox"> UNIX <code>netstat -rn</code></li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>ARP cache</strong>: <code>arp -a</code></li>
+<li><input disabled="" type="checkbox"> <strong>Process table</strong>. The list of processes currently running + metadata.
+<ul>
+<li><input disabled="" type="checkbox"> UNIX <code>ps</code></li>
+<li><input disabled="" type="checkbox"> Windows. Task Manager (GUI) or <code>tasklist</code> (-&gt; <code>csv</code>).</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Kernel stats</strong>. 🛠 RAMMap, part of the Sysinternals suite for Windows, and memmap in the Linux world. Tracks the page usage (physical RAM chunks), mappings of those pages.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Temporary files</strong>. Malware likes these folders because it&rsquo;s often already full of garbage.
+<ul>
+<li><input disabled="" type="checkbox"> Linux <code>/tmp</code>.</li>
+<li><input disabled="" type="checkbox"> swap (UNIX)</li>
+<li><input disabled="" type="checkbox"> pagefile (Windows)</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> <strong>Disk</strong>.</li>
+<li><input disabled="" type="checkbox"> <strong>Logs</strong>. Monitoring data and remote logging pertaining to the computer in question. SIEMs and other log storages.</li>
+<li><input disabled="" type="checkbox"> Physical <strong>configurations</strong>, network topology.</li>
+<li><input disabled="" type="checkbox"> Archival media. CDs, backups, USBs.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Logical backup</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🗳 Evidence <strong>Preservation</strong>
+<ul>
+<li><input disabled="" type="checkbox"> Copy original, operate on the copy.</li>
+<li><input disabled="" type="checkbox"> Calculate <strong>hashes</strong> at each stage (unless it&rsquo;s cloud evidence)</li>
+<li><input disabled="" type="checkbox"> Use hardware <strong>write-blockers</strong> or software write-blockers</li>
+<li><input disabled="" type="checkbox"> Make sure <strong>min number of files</strong> is created.</li>
+<li><input disabled="" type="checkbox"> Register <strong>timestamps</strong> before opening files.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 📇 <strong>Documentation</strong>.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🔬🧪  <strong>Examination &amp; Analysis</strong>
+<ul>
+<li><input disabled="" type="checkbox"> 🦠 Malicious Process
+<ul>
+<li><input disabled="" type="checkbox"> Network</li>
+<li><input disabled="" type="checkbox"> Files</li>
+<li><input disabled="" type="checkbox"> Processes</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 👥 User
+<ul>
+<li><input disabled="" type="checkbox"> Is there malicious user activity (account takeover, insider threat)?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> ⚙️ OS Configs
+<ul>
+<li><input disabled="" type="checkbox"> Are there mal configs (services enabled, disabled logging)?</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> 🗜 Hardware
+<ul>
+<li><input disabled="" type="checkbox"> Are there mal hardware changes (firmware, BIOS)?</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</details>
+<h3 id="toolkit-assembly-for-physical-acquisition">Toolkit Assembly For Physical Acquisition</h3>
+<details>
+    <summary>Expand &hellip;</summary>
+    <ul>
+<li>A PC technician&rsquo;s toolkit 🧰 (screwdrivers 🪛, squeezers, scissors✂️, portable batteries 🔋, etc.) to be able to remove HDD, lockdown cables etc.) ✅</li>
+<li>Digital camera 📸  that embeds timestamps on the photos. 📝 Take photos; the more, the better!</li>
+<li>Video camera 📹. 📝 Take a video; the longer, the better.</li>
+<li>For labelling and documenting (labels, markers, pens, 🖊, evidence tape 🚧).</li>
+<li>They are transporting and managing evidence 💼 (Faraday bag, Anti-static bag, evidence log, large envelopes ✉️,  gloves🧤, sanitiser).</li>
+<li>Documents (chain of custody, notes 🗒, warrants/subpoenas).</li>
+<li>Digital forensics specifics (forensics software, write blockers, laptop 💻, sterilise target media, flash drives for live/dead acquisition, bootable, Apple USB Type-C wires).</li>
+</ul>
+
+</details>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
