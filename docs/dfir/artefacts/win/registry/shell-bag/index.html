@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -118,33 +100,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -250,11 +214,32 @@
 </blockquote>
 <p>Right under <code>BagMRU</code> subkey, there is only one subkey (in this case, in case of shell bags, a folder): <code>0</code>.  <code>MRUListEx</code> contains a list of folders inside this one identified by sequence numbers. In our example there are only three subfolders (and, hence, values in the list) in this folder: <code>00 00 00 00</code>, just <code>0</code> in little-endian (green), <code>01 00 00 00</code>, just <code>1</code> in little-endian (orange) and <code>02 00 00 00</code>, just <code>2</code> in little-endian (purple). Above the <code>MRUListEx</code> there are three values in our case, each corresponding to the subfolder and containing a folder path and name. In the example below the <code>0</code> subfolder&rsquo;s value is expanded and marked with a green circle.</p>
 <p>Each of these folders in the list will have a corresponding subkey inside our <code>0</code> subkey/folder (marked with arrows on the left).</p>
-<p><img src="images/shell-bag.png" alt="shell-bag"></p>
+<p><img src="dfir/artefacts/win/registry/shell-bag/images/shell-bag.png" alt="shell-bag"></p>
 <p>So, we have a parent folder info, what folders it contains and the paths to them. Now, since ShellBags store folder settings, where are they? Under the second subkey, <code>Bags</code>. But since sequence numbers are used here as well, how do we find the folder we need? Are these sequence number the same as on the picture above? The answer is <em>no</em>. On the picture above numbering restarts from <code>0</code> for each folder&rsquo;s subfolders, so that each folder that has at least one subfolder, will have at least <code>0</code> value and a <code>0</code> subkey. However, the <code>Bags</code> subkeys numbers folders sequencially. Each subkey representing a folder in a <code>BagMRU</code> subkey we&rsquo;ve seen above, will have a value <code>NodeSlot</code>. This is a number it&rsquo;s identified by withing <code>Bags</code> subkey. See the below example for the folder <code>0</code>.</p>
-<p><img src="images/shell-bag2.png" alt="shell-bag2"></p>
+<p><img src="dfir/artefacts/win/registry/shell-bag/images/shell-bag2.png" alt="shell-bag2"></p>
 <p>🛠 ShellBagsExplorer (E. Zimmerman) is a tools that helps automating this process which is useful for larger amount of data.</p>
-<p><img src="images/shell-bag3.png" alt="shell-bag3"></p>
+<p><img src="dfir/artefacts/win/registry/shell-bag/images/shell-bag3.png" alt="shell-bag3"></p>
+<p>The above is an example of the ShellBagsExplorer for my Windows 10 Parallels VM. Pretty user-friendly representation and lot&rsquo;s of valuable information. Note the folders on the very top: <code>\\Mac\vm</code>, <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code>. Someone who is using Paralells Windows 10 on Mac might note this at once, that this is a VM running on a Mac. Also, both <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code> are no longer available for Windows 10, but they were not deleted from the registry as you may see. That&rsquo;s because when folders are deleted, they are not deleted from here, at least not soon.</p>
+<p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\BagMRU </code>. Values: <code>MRUListEx</code>, <code>NodeSlot</code>, <code>Subkeys</code>.</p>
+<p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\Bags</code>. Values: <code>Shell</code>, will have folder&rsquo;s GUID.</p>
+<p><code>Created On</code>: when the folder was created/moved/renamed. Last accessed and created are sometimes the same. Last modified is when the preferences were last changed (window resized, view options changed). Mind if it’s utc or gmt. Also, this data might be updated with a little lag. <code>Last key write time</code> is the ShellBag&rsquo;s timestamp.</p>
+<blockquote>
+<p>⚠️ Shortcuts MAC times are not updated!</p>
+<p>⚠️ Fat16 only records date. No time. So the <code>Last accessed</code> time for a fat16 formatted folder will be <code>00:00:00.000</code>. It&rsquo;s more usual for a USB removable media.</p>
+</blockquote>
+<p><code>Created On</code>, <code>Modified On</code> and <code>Last accessed on</code> are all FS timestamps ❗️❗️❗️ However, <code>Registry last write time</code> is its own timestamp and it seems to be updated even when no preferences were changed.</p>
+<p>Track Windows folder settings (how the view is set), track zip files, folder access, even if information was deleted. Can also show folders on removable media. This data is a little bit confusing at first, but can be digested in a couple of minutes. One important thing to note is that both keys are interconnected. I&rsquo;ve used arrows, squares and circles to mark data corresponding to each for better visualization on the picture below. Sometimes, additional info for NTFS filesystem will be available (MFT record number) and file system type as well, not always however.</p>
+<blockquote>
+<p>⚠️ Proves that the user interacted with these folders if they are found in ShellBags but not on the system.</p>
+<p>❓ How about when being hacked? A hacker might delete the folder.</p>
+</blockquote>
+<p>Right under <code>BagMRU</code> subkey, there is only one subkey (in this case, in case of shell bags, a folder): <code>0</code>.  <code>MRUListEx</code> contains a list of folders inside this one identified by sequence numbers. In our example there are only three subfolders (and, hence, values in the list) in this folder: <code>00 00 00 00</code>, just <code>0</code> in little-endian (green), <code>01 00 00 00</code>, just <code>1</code> in little-endian (orange) and <code>02 00 00 00</code>, just <code>2</code> in little-endian (purple). Above the <code>MRUListEx</code> there are three values in our case, each corresponding to the subfolder and containing a folder path and name. In the example below the <code>0</code> subfolder&rsquo;s value is expanded and marked with a green circle.</p>
+<p>Each of these folders in the list will have a corresponding subkey inside our <code>0</code> subkey/folder (marked with arrows on the left).</p>
+<p><img src="dfir/artefacts/win/registry/shell-bag/images/shell-bag.png" alt="shell-bag"></p>
+<p>So, we have a parent folder info, what folders it contains and the paths to them. Now, since ShellBags store folder settings, where are they? Under the second subkey, <code>Bags</code>. But since sequence numbers are used here as well, how do we find the folder we need? Are these sequence number the same as on the picture above? The answer is <em>no</em>. On the picture above numbering restarts from <code>0</code> for each folder&rsquo;s subfolders, so that each folder that has at least one subfolder, will have at least <code>0</code> value and a <code>0</code> subkey. However, the <code>Bags</code> subkeys numbers folders sequencially. Each subkey representing a folder in a <code>BagMRU</code> subkey we&rsquo;ve seen above, will have a value <code>NodeSlot</code>. This is a number it&rsquo;s identified by withing <code>Bags</code> subkey. See the below example for the folder <code>0</code>.</p>
+<p><img src="dfir/artefacts/win/registry/shell-bag/images/shell-bag2.png" alt="shell-bag2"></p>
+<p>🛠 ShellBagsExplorer (E. Zimmerman) is a tools that helps automating this process which is useful for larger amount of data.</p>
+<p><img src="dfir/artefacts/win/registry/shell-bag/images/shell-bag3.png" alt="shell-bag3"></p>
 <p>The above is an example of the ShellBagsExplorer for my Windows 10 Parallels VM. Pretty user-friendly representation and lot&rsquo;s of valuable information. Note the folders on the very top: <code>\\Mac\vm</code>, <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code>. Someone who is using Paralells Windows 10 on Mac might note this at once, that this is a VM running on a Mac. Also, both <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code> are no longer available for Windows 10, but they were not deleted from the registry as you may see. That&rsquo;s because when folders are deleted, they are not deleted from here, at least not soon.</p>
 <h2 id="references">References</h2>
 <details>

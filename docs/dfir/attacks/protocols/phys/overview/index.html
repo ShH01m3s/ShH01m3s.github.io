@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -118,33 +100,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -282,7 +246,7 @@
 <li><strong>Signal reflection</strong>. Unterminated cable, imdence mismatch, too high band radius of the cable. Electrons are &ldquo;bouncing back&rdquo; when there is no resistor to absorb the voltage potential OR when there are several wires with different impedence.</li>
 </ol>
 <p>Below is the depiction of a cable that does not contain a resistor at the end:</p>
-<p><img src="images/8.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/8.png" alt="img"></p>
 <p>Below is the depiction of two cables with different impedence being connected:</p>
 <p><img src="images/9.png" alt="Screenshot 2021-02-20 at 14.43.42"></p>
 <p>Expert Sniffer is the tool to detect runt and corrupted frames. Can of course also be examined with a hex editor.</p>
@@ -306,26 +270,26 @@
 <h2 id="early-collisions">Early Collisions</h2>
 <p>Let&rsquo;s imagine that two NICs (netword card of different PCs) want to talk to each other. The wire is idle at the moment. Both Bob 👨‍🎨 and Alice 🤸‍♀️ want to send something on the wire and ask the wire approximately the same moment:</p>
 <p><em>Hey, wire, are you busy?</em></p>
-<p><img src="images/1.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/1.png" alt="img"></p>
 <p>The wire is not busy and that&rsquo;s why it replies <em>I&rsquo;m free as a bird</em> to each one of them.</p>
-<p><img src="images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/2.png" alt="Screenshot 2021-02-20 at 11.19.07"></p>
 <blockquote>
 <p>Why, by the way, the wire replies with such a precise time? 9.6 ms? The sole reason for the 9.6 microsecond interframe gap is to allow the station that last transmitted to cycle its circuitry from transmit mode to receive mode. Without the interframe gap, it is possible that a station would miss a frame that was destined for it because it had not yet cycled back into receive mode. From <a href="http://www.firewall.cx/networking-topics/ethernet/198-ethernet-interframe-spacing.html">firewall.cx</a>.</p>
 </blockquote>
 <p>Since both think that the wire is free (and so it actually is at the moment), both send some stream of bits (green ball).</p>
-<p><img src="images/3.png" alt="Screenshot 2021-02-20 at 11.19.25"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/3.png" alt="Screenshot 2021-02-20 at 11.19.25"></p>
 <p>The balls are approaching each other&hellip;</p>
-<p><img src="images/4.png" alt="Screenshot 2021-02-20 at 11.19.30"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/4.png" alt="Screenshot 2021-02-20 at 11.19.30"></p>
 <p>&hellip; and babam! 💥 When they meet, there appears an abnormal voltage  (collision). This interrupted frame is called <strong>Runt</strong>.</p>
-<p><img src="images/5.png" alt="Screenshot 2021-02-20 at 11.19.37"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/5.png" alt="Screenshot 2021-02-20 at 11.19.37"></p>
 <p>This abnormal voltage then propagates back to both Bob 👨‍🎨 and Alice 🤸‍♀️.</p>
-<p><img src="images/6.png" alt="Screenshot 2021-02-20 at 11.19.48"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/6.png" alt="Screenshot 2021-02-20 at 11.19.48"></p>
 <p>Their NICs both understand that there was a collision and therefore their data was not sent. Both of them send 32 bit jam and let. TBEBA (<strong>T</strong>runcated <strong>B</strong>inary <strong>E</strong>xponential <strong>B</strong>ackoff <strong>A</strong>lgo) takes it from there to determine the best time when to retry. All this takes at max 2-3 ms usually.</p>
 <p>This is a normal flow. But sometimes when the wire is longer that it should be or a malfunctioning adapter, for example, or there was some other reason (can&rsquo;t think for any), late collision can happen (this is very bad). A collision can be detected only if NIC&rsquo;s in transmit mode.</p>
 <h2 id="late-collisions">Late Collisions</h2>
 <p>For 10BASE5 thick Ethernet the recommended wire length is 500 meters. For 10BASE2 think Ethernet - 185 meters. A problem can happen if the wire is longer than that.</p>
 <p>Say, the collision took place very close to Alice 🤸‍♀️ and very far from Bob 👨‍🎨.</p>
-<p><img src="images/7.png" alt="Screenshot 2021-02-20 at 12.12.57"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/7.png" alt="Screenshot 2021-02-20 at 12.12.57"></p>
 <p>As usual, as soon as the collision takes place, an abnormal voltage propagetes in both directions: to Alice 🤸‍♀️ and Bob 👨‍🎨. Alice sends jam bits upon detecting this collision as it should have, but Bob 👨‍🎨 is no longer listening. When Bob&rsquo;s NIC gets this signal, it doesn&rsquo;t understand what is that and does not resend the frame. Such collisions are only fixed on the upper layers, which can take 10-100 times as much.</p>
 <blockquote>
 <p>❗️ Full-duplex communication allows for the conversations in both directions simultaneously. Semi-duplex - only one direction at a time.  The NIC switches between the two modes. The protocol used is now not seen on the network, since most of the connections are full-duplex.</p>
@@ -413,11 +377,11 @@
 <p>Since the max length of a cable (10BASE5 thick Ethernet) that connects two machines cannot exceed 500 m (according to the specs), there is a need to amplify and control the signal. Since machines over the wire are much farther then 500 meters, hubs and repreaters serve this particular purpose.</p>
 <p>They both run in promiscuous mode, i.e. they don&rsquo;t care who&rsquo;s the sender, who&rsquo;s the receiver. They simply forward the signal.  They don&rsquo;t even read the data they are transmitting. UTP (unshielded twisted pair cable).</p>
 <p>Number of ports = number of PCs connected. Hubs can have an uplink port to connect to another hub. For example, the hub below has 6 ports. Therefore, it can connect 6 PCs max. Whatever PC1 sends to PC6, other PCs hear as well. It&rsquo;s the job of other OSI layers to discard this frame or not. Such packets are usually discarded on the data link layer by PC&rsquo;s NIC. But if you put your NIC in a promiscuous mode, it will not discard them. Hubs and repeaters are a holyday for a sniffer. Using Wireshark or other packet capture software and being on the same network, one can intercept <strong>all</strong> traffic.</p>
-<p><img src="images/1.png" alt="1"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/1.png" alt="1"></p>
 <h3 id="coax-cable">COAX cable</h3>
 <p>A Cable is pretty much the same as a hub, it also makes to difference between the frames. Its only concern is to forward. Green squares are resistors (50 Ohm) that absorb the signal so that it won&rsquo;t reflect back (a signal reflection problem discribed <a href="/docs/articles/fundamentals/network/osi/physical/general">here</a>).</p>
 <p>One segment of such cable is max 185 meters (10BASE2 thin Ethernet) and at most 30 nodes.</p>
-<p><img src="images/2.png" alt="2"></p>
+<p><img src="dfir/attacks/protocols/phys/overview/images/2.png" alt="2"></p>
 <h2 id="refernces">Refernces</h2>
 <p>[1] firewall.cx</p>
 <p>[2] <a href="https://www.youtube.com/watch?v=du_boiwX1yU">https://www.youtube.com/watch?v=du_boiwX1yU</a></p>

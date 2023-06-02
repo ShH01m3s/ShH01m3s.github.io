@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -118,33 +100,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -194,11 +158,18 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/artefacts/win/"> 👈🏼 Back to </br> Windows Artefacts </a>
+   <a href="/docs/dfir/artefacts/win/"> 👈🏼 Back to </br> 🪟 Windows Artefacts </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li>
+      <ul>
+        <li><a href="#attacks--investigation">Attacks &amp; Investigation</a></li>
+        <li><a href="#default-accounts">Default accounts</a></li>
+        <li><a href="#protecting-domain-accounts">Protecting Domain Accounts</a></li>
+      </ul>
+    </li>
     <li><a href="#group-policy">Group Policy</a></li>
     <li><a href="#attacks">Attacks</a></li>
     <li><a href="#references">References</a></li>
@@ -258,7 +229,38 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is about &hellip; .</em></p>
+    <p>Moving accounts and auth policies to the server side. Azure Active Directory is when instead of having a physical server, you have a server in the cloud ⛅️. Defines a set of rules to restrict users&rsquo; access to resources. PCs that are part of AD usually don&rsquo;t have full access to the systems.</p>
+<p>AD DS store contains db files and processes that manage directory information for users, services and applications. Consists of <code>Ntds.dit</code> file, at <code>%SystemRoot%\	NTDS</code> folder on all DC. Is only accessible thtough the DC&rsquo;s processes and protocols.</p>
+<p><strong>Class objects</strong>. What objects can be created in the dir (User, Computer).</p>
+<p><strong>Attribute objects</strong>. Info attached to an object (Display name).</p>
+<p><strong>Forests</strong>. Share common schema, config partition, global catalog, trusts between domains in the forest, Enterprise Admins and Schema Admins groups.</p>
+<p><strong>OU</strong>. Organisational Units. Containers with users, groups, computers or other OUs.  Represent the org hierarchy and logically, manage objects in consistent way, delegate permissions and apply policies.</p>
+<p><strong>Trust</strong>. Directional (peer to peer) and Transitive (the friend of my friend is my friend).</p>
+<h3 id="attacks--investigation">Attacks &amp; Investigation</h3>
+<p><strong>LLMNR Poisoning</strong>. NBT-NS (former name). Used when DNS screws up. Uses NTLMv2 hash and username. ⚔️ Disable LLMNR (Turn off multicast name resolution) and NBT-NS. If these are needed: require network access control, strong user passwords (14+ chars).</p>
+<p><strong>SMB Relay</strong>. Resend the stolen hashes to the machines that can use them instead of cracking them. Pass the hash? SMB must be disabled for the attack to work, relayed creds are admin for the machine. <code>nmap --script=smb2-security-mode.nse -p445 &lt;IP range&gt;</code> to check for SMB with signing <strong>off</strong>. Use the tool <code>ntlmrelayx.py tf targets.txt -smb2support -i</code> (<code>i</code> for Interactive shell) along with the responder (HTTP and SMB off). Use <code>nc &lt;IP&gt; &lt;port&gt;</code> to connect to the open connection. ⚔️ Enable SMB signing, disable NTLM auth over network, local admin restriction ()</p>
+<h3 id="default-accounts">Default accounts</h3>
+<p><strong>Administrator account</strong>.</p>
+<p><strong>Guest account</strong>.</p>
+<p><strong>HelpAssistant Account</strong>.</p>
+<p><strong>KRBTGT account</strong>. More like a system account.</p>
+<h3 id="protecting-domain-accounts">Protecting Domain Accounts</h3>
+<p>First of all, separate admin accs from user accs. For admin accs follow the least priv principle.</p>
+<p><strong>Privileged account</strong>:</p>
+<p><strong>Minimum</strong>. Several levels of admins with separate accounts: domain, enterprise admins and other types of admins. They have various levels of access. This one 👮‍♂️ has most access, this one 👨‍🏫 a little more and this one 👨‍🎨 has not so much access as he would like to.</p>
+<p><strong>Better</strong>. Separate accounts with different right for different admins roles (admin that only set up the PCs, admins that manage AD etc). Some of them have reduced rights. Usually, segregated by OU (org unit, i.e. department). For example, there is a marketing unit and they have their own admins, that support their daily activity.</p>
+<p><strong>Ideal</strong>. Different accs for different <strong>trust levels</strong>. So, for example, one administrator 👨‍🏫 will have several accounts: main admin account for managing resources, another admin account for adding users. Also, standard account for his daily routine and say personal, for something that&rsquo;s not related to work.</p>
+<p><strong>Standard user account</strong> 🤪:</p>
+<p>E-mail 📬, browsing the Internet 🌎, using business applications.</p>
+<p>It&rsquo;s also a good practice to <strong>create dedicated workstations</strong> that don&rsquo;t have network and email access:</p>
+<p><strong>Minimum</strong>.  Build dedicated worstations 🖥 that don&rsquo;t have internet access.</p>
+<p><strong>Better</strong>. Don&rsquo;t grant local admin rights for the machine to the admins that are using these machines.</p>
+<p><strong>Ideal</strong>. No network 🌎🚫 access, only access to domains and servers that this admin manages.</p>
+<p>Restrict admin logon to servers and workstations.</p>
+<p><strong>Minimum</strong>.  Identify all machines that admins cannot login to. Then restrict access appropriately.</p>
+<p><strong>Better</strong>. Don&rsquo;t let domain admins login to non-domain controller servers and worstations.</p>
+<p><strong>Ideal</strong>. Restrict server admins logging into workstations in addition to domain admins.</p>
+<p>➕Disable the account delegation for admins. Account delegation lets servers and PCs impersonate certain accounts and perform actions with these rights. For admin accs that should be disabled.</p>
 <h2 id="group-policy">Group Policy</h2>
 <p>Allows system administrators to define and enforce settings and configurations for user accounts and computers in a Windows domain</p>
 <h2 id="attacks">Attacks</h2>
@@ -268,6 +270,7 @@
     <summary>Expand&hellip;</summary>
     Something here
 </details>
+
   </div>
 </article>
 </div>

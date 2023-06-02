@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -118,33 +100,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -621,7 +585,7 @@ Variable <code>b</code>. (🍇XOR 🐝) XOR 🐝. We can get rid of the brackets
 <h2 id="rolror-vs-shlshr">ROL/ROR vs SHL/SHR</h2>
 <p>What&rsquo;s the difference between the two (well, even four)? When I inspected my old notes, I&rsquo;ve got a little confused because I&rsquo;d totally forgotten that. Tha&rsquo;ts why I&rsquo;ve included this section for future, should my memory fail me once again.</p>
 <p>The difference between the two is pretty much the same as the difference between &ldquo;rolling&rdquo; and &ldquo;shifting&rdquo;. Say, we have a password padlock for a suitcase and set our passcode to <code>1234</code>.</p>
-<p><img src="images/ror-rol.jpg" alt="ror-rol"></p>
+<p><img src="reference/algorithms/bitwise/images/ror-rol.jpg" alt="ror-rol"></p>
 <p>Then we shuffle it and have <code>5432</code>. How to open it then? We rotate each dial until we get to our passcode digits: the dial with <code>5</code> is rotated 4 times to get <code>1</code>, the dial with <code>4</code> is rotated 6 times and etc. No one would expect that when we rotate a dial on the lock, it disapears after reaching the end. But that would be the case if the operation in the padlock&rsquo;s intestines was shifting. And that what&rsquo;s happening to the shifted bits when shifting:</p>
 <p><img src="https://media.giphy.com/media/4bDXKRN2arfPy/giphy.gif" alt="img"></p>
 <p>So, in <code>ROR/ROL</code> instruction no bits are lost, all of the bits of the original number are preserved. They are just rolling like those numbers in the lock 🔒. But with <code>SHL/SHR</code> instruction the numbers are dimped into a 🐛 wormhole and never seen again. If we shift long enogh, we turn any number to a bunch of zeroes until the only footprint left would be a <code>CF</code> flag which will hold the last shifted and dropped off bit. But even this would be overwritten with <code>0</code> shoud you shift one last time&hellip;</p>

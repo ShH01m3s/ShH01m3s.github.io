@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -119,33 +101,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -195,7 +159,7 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/artefacts/win/"> 👈🏼 Back to </br> Windows Artefacts </a>
+    <a href="/docs/dfir/artefacts/win/"> 👈🏼 Back to </br> 🪟 Windows Artefacts </a>
   </p>
 </div> 
 
@@ -212,51 +176,15 @@
  <h1 class="title">Windows Registry</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/installed/"> Installed Apps</a></h2> 
-    <p> Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/devices/"> 🖱 Devices Attached</a></h2> 
+    <p> Windows Are we looking for USB storage media activity or all USB devices? Like, cameras 📸?</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/jumplist/"> Jumplist Data</a></h2> 
-    <p> Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData.
-Shows applications accessed.
-References Expand&hellip; Something here </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/recentapps/"> Recents</a></h2> 
-    <p> *Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps.
-Similar to User Assist. It also shows files and applications that were used through this application.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/uninstalled/"> Uninstalled</a></h2> 
-    <p> Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall
-References Expand&hellip; Something here </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/amcache/"> AmCache</a></h2> 
-    <p> Path to file 🛣️: C:\Windows\AppCompat\Programs.
-Since Windows 8. Stored information about program execution, including those, that were run from a USB drive.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/bam/"> BAM</a></h2> 
-    <p> Key 🔑: ControlSet001\Services\BAM.
-⚠️ Windows 10 only!
-Background Activity Monitor. Organised by user SID. Windows apps&rsquo; names are not parsed very well here.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/comdlg32/"> ComDlg32</a></h2> 
-    <p> Key 🔑: NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32.
-CIDSizeMRU- Tracks applications globally. MRU start at zero. Timestamp for the most recent item only.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/mui/"> MUICache</a></h2> 
-    <p> Key 🔑: Local Settings\Software\Microsoft\Windows\Shell\MuiCache.
-Installed and executed applications for that particular user. But no timestamps for this acts, only last write data and time for the key in registry.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/programs/"> Programs</a></h2> 
+    <p> </p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/shell-bag/"> ShellBag</a></h2> 
     <p> Key 🔑 : UsrClass\Local Settings\Software\Microsoft\Windows\Shell\BagMRU . Values: MRUListEx, NodeSlot, Subkeys.
 Key 🔑 : UsrClass\Local Settings\Software\Microsoft\Windows\Shell\Bags. Values: Shell, will have folder&rsquo;s GUID.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/shimcache/"> ShimCache aka AppCompatCache</a></h2> 
-    <p> Key 🔑: CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache.
-🛠: ShimCacheParser.py (requires Python2), AppCompatCacheParser
-Originally was used to identify compatibility issues between 32 and 64 bit progs.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/userassist/"> User Assist</a></h2> 
-    <p> Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist.
-List of progs and applets that can be quicly started from the Start menu for usability, the most often used items.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/anatomy/"> ⚙️ Windows Registry</a></h2> 
     <p> Hives:

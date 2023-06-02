@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -118,33 +100,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -298,13 +262,13 @@
 <p><em>How can it achieve that?</em></p>
 <p>The first option is to to ask every machine in the neighbourhood until it finally finds its fellow, using, for example, something like ARP protocol but for Data Link layer. But this would take <code>O(n)</code> time for <code>n</code> machines. The more machines are in the district, the more time is needed to asks everyone. The worst case is when the machine needed is the last asked (that&rsquo;s why <code>O(n)</code>).</p>
 <p>The second option is the one actually being used. The switch 🧑‍💼sends this frame from PC1 to <strong>every</strong>  machine in the neighbourhood (yes, it&rsquo;s a violation of confidentiality&hellip;). It&rsquo;s called <em>broadcasting</em>. Whoever responds - is PC6.</p>
-<p><img src="images/1.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/1.png" alt="img"></p>
 <p>The switch 🧑‍💼now puts down its MAC (<code>bb:bb:bb:bb:bb:bb</code>) and assigns it to the cubilcle #<code>4</code> .</p>
-<p><img src="images/2.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/2.png" alt="img"></p>
 <p>PC6 🖥 goes to the cubicle <code>4</code>, reads the frame from PC1 and sends a response. Now the switch checks against his doodle (which indicate that PC1 is in the cubicle <code>1</code>) and delievers the response to the cubicle <code>1</code> where PC1 is still waiting 🖥  (and <del>not</del> picking up his nose ❓).</p>
 <p><img src="https://media.giphy.com/media/xT0xeuS2LbEKg71qfe/giphy.gif" alt="img"></p>
 <p>From now on all frames between PC1 and PC6 will be forwarded without prior flooding and violating the confidentiality.</p>
-<p><img src="images/3.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/3.png" alt="img"></p>
 <h4 id="step-2-forwarding-and-filtering">Step 2 Forwarding and Filtering</h4>
 <p>The destination is known, forward to the correct port. If the destination is not known yet, find out and assing a port to that address.</p>
 <h4 id="step-3-loop-avoidance-optional">Step 3 Loop avoidance (optional)</h4>
@@ -314,15 +278,15 @@
 <p>Secondly, what&rsquo;s a <strong>broadcast</strong>? It means <em>&ldquo;Tell everyone&rdquo;</em>. To specify that this message is destined for everyone, a machine puts MAC address <code>FF:FF:FF:FF:FF:FF</code> (it was agreed by the techies community) in the frame header. When a network device (router, switch, bridge etc) receives a frame with this <strong>precise</strong> MAC address, it knows it should forward it to everyone connected to this network. When a PC&rsquo;s NIC (network card) gets such a frame, it reads it as if it were sent to its own MAC. So, PC&rsquo;s NIC will read only frames with its own MAC and with <code>FF:FF:FF:FF:FF:FF</code> (if it&rsquo;s not running in the promiscuous mode).</p>
 <p>If you only have one switch 👨‍🎨, it may go ill 🤧 and stop working. The whole network will then go down. It&rsquo;s not a desired behaviour and needs to be though of. So, we add a second switch to the network 👨‍🍳 . Sounds great? Well, it is if your switch supports STP, but what happens if it doesn&rsquo;t?</p>
 <p>Let&rsquo;s assume the following infrastructure:</p>
-<p><img src="images/4.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/4.png" alt="img"></p>
 <p>There are two cables. One connecting PC1 💻 ,2💻 and 3💻, another - PC4 🖥 ,5🖥 and 6🖥. All of these PC&rsquo;s are in the same LAN (they know each other pretty well and receive the same broadcast messages) and the cables are connected with two switches: the switch #1 👨‍🎨 and the switch #2 👨‍🍳 . Both switches have their first ports connected to the upper cable (#1) with the green PCs 1,2,3 and their second ports to the lower cable (#2) with the purple PCs 4,5,6.</p>
 <p>For some reason, PC1 💻 decides to send a broadcast &ldquo;<em>Hey, guys! Check out this beautiful spam letter!</em>&rdquo; (see the blue arrow #1 in the picture below):</p>
-<p><img src="images/5.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/5.png" alt="img"></p>
 <p><em>So, what happens next? Where is the problem with this?</em></p>
 <p>This message reaches the first port of the switch #1 👨‍🎨. The switch #1 👨‍🎨 forwards this message to all purple PC&rsquo;s.  This messages runs happily along the wire, being delievered to the PCs of the second cable and also to the second port of the switch #2 👨‍🍳. Observe the green dashed arrow #2 on the picture below. By now, the switch #1 👨‍🎨 , the switch #2 👨‍🍳 and each of the pink PCs have received this message only once (see the red counter in front of each on the picture below). So, each of the PCs on the network (except, of course, PC1 who sent this spam and obviuosly finds it interesting) is facepalming 🤦‍♀ for the first time.</p>
-<p><img src="images/5.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/5.png" alt="img"></p>
 <p>The switch #2 👨‍🍳 is very responsible and forwards this message back to the realm of the green PCs (where this message has originally been sent from). Now, this ridiculous message is sent along the wire #1 and reaches PC1 (which has sent it), PC2 and PC3 and also the first port of the brother-switch #1 👨‍🎨. This is what the blue dashed arrow #3 shows on the picture below. It&rsquo;s just started smelling very bad 👃 &hellip; .</p>
-<p><img src="images/6.png" alt="img"></p>
+<p><img src="dfir/attacks/protocols/dlink/overview/images/6.png" alt="img"></p>
 <p>The switch #1 👨‍🎨 re-sends this broadcast to the purple PCs connected to its port #2. The switch #2 👨‍🍳 receives it as well (see the pink dashed arrow #4 on the picture above) and re-sends it to its first port. From the first port it is then sent to the green PCs 1,2,3 and the first port of the switch #1 👨‍🎨 . This is what the arrow #5 shows on the picture above. By now, the switch #1 and each of the green PCs has received this message three times, the switch #2 and each of the purple PCs has received this stupid message twice.</p>
 <p>Now, re-read paragraphs 1 and 2, the re-read again and again and again&hellip;  😄. This goes on and on infinitely&hellip;. Each time the switch #1 👨‍🎨 receives this broadcast, it re-sends it to the purple PCs and the switch #2 👨‍🍳. Everytime the switch #2 👨‍🍳, in turn, receives this message, it re-sends it to the green PCs and the switch #1 👨‍🎨. Facepalming is not that funny anymore and all the digital guys start feeling uncomfortable and scared 😱. The both switches at the same time are 🤷‍♂ 🤷‍♂ and keep doing somethin suspicious. The worst thing is that the switches are so busy doing something  weird and useless, that they don&rsquo;t have time to actually do the serious and important stuff 🏤 .</p>
 <p>That&rsquo;s what&rsquo;s called a <strong>broadcast storm</strong>. In the real world dwelled with people, once someone receives the message twice, he or she usually says <em>&ldquo;I&rsquo;ve already heard that&rdquo;</em>. This saves him or her from further bothering. That&rsquo;s why STP (<strong>S</strong>panning <strong>T</strong>ree <strong>P</strong>rotocol) was invented for for network devices.</p>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Memory Addressing - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/artefacts/reverse/basics/"> 👈🏼 Back to </br> 📚 Basics </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#virtual-address-va">Virtual Address (VA)</a></li>
+    <li><a href="#image-base">Image base</a></li>
+    <li><a href="#rva">RVA</a></li>
+    <li><a href="#raw">RAW</a></li>
+    <li><a href="#physical-address-pa">Physical Address (PA)</a></li>
+    <li><a href="#alignment">Alignment</a>
+      <ul>
+        <li><a href="#file-alignment">File Alignment</a></li>
+        <li><a href="#page-alignment">Page Alignment</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Memory Addressing</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      <div class="article-category">
+        <i class="fas fa-tools"></i>
+          
+          
+          <a class="platform-link" href="/tools/peview">PEView</a> 
+          
+      </div> <br />
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 18.10.2020
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>I&rsquo;ve had a lot of time to dive into certain pecularities of how programs are outlined both in RAM and on disk when working as a malware analyst. One part of my job was to treat infected files. For that purpose I wrote remedy scripts. For them to work I had to have a solid underatanding where to perform the amputation. Since the topic might be a little confusing, I&rsquo;ve published it here. Originally it was hand-written in my 💎 notebook 📓.</em></p>
+<h2 id="intro">Intro</h2>
+<p>A program exists in two main instances: on HDD or SSD (or USB drive) when being idle and not being run, and in RAM when being executed. Basically, it has alsmost all the same information but &hellip; the keyword is <strong>almost</strong>. What you see with a disassmebler like radare2 or IDA - is the code with addresses as they reside on the disk. But when you run a debugger, the memory addresses become different. Partly, this is due to the fact, that nowadays to mitigate different lowlevel attacks there is a random memory addressing technique. Whenever the program is run, the <strong>absolute</strong> addresses differ. Well&hellip; since the addresses have to be aligned&hellip; the last 3-4 digits of the addresses before and after executing are the same 😜.</p>
+<p>To be honest, I only studied it on a Windows OS. I&rsquo;m not yet quit sure, how that really works with Mach-O or elf files. But I presume, anyway it&rsquo;s be easier to figure out after a solid undertanding of this notion for Windows OS.</p>
+<p>First things first, we need to specify some terms to operate on later.</p>
+<h2 id="virtual-address-va">Virtual Address (VA)</h2>
+<p>Each process is allocates some address space, so that other processes don&rsquo;t meddle with its affairs. As we know from the Meltdown vulnerability overview, some address space is shared between processes - kernel space, the most desired part of the realm, so to say.</p>
+<p>When the CPU is asked for some new memory allocation, it looks at its assets and provides what&rsquo;s required. The memory space allocated is not always contigious. Imagine the following memory of 12 blocks.</p>
+<p><img src="all-free.png" alt="img">
+It&rsquo;s free, idle, virgin. Now, the first &ldquo;customer&rdquo; 🌴 comes along and asks for one memory block, and he gets one. Another process 🍇 also needs three more blocks. Now, the next three blocks are given to the process. Now the first process 🌴 needs two more blocks now, then 🍑 suddnely another flufy fella comes along and requests two block. Since all was free at the beginning, the CPU doesn&rsquo;t really have a problem, just giving the contigious blocks of memory. Here is what our fully occupies memory space would look like.
+<img src="all-full.png" alt="img">
+Now, imagine that the first process 🌴 goes on holiday and thus its memory blocks are freed by the CPU (doesn&rsquo;t mean cleaned though, but that a whole other story). Here is our memory now:</p>
+<p><img src="partial.png" alt="img">
+Now, imagine another process 🫐 that needs 5 block. CPU has 5 block, but they are not close to each other. So, CPU can give out non-contigious blocks for a change. Now, does it return 5 different addresses or 3 differnt addersses with their sizes? Turns out, neither.
+<img src="proceess-four.png" alt="img">
+It would be hell to manage memory like this. That&rsquo;s why CPU has a page table to map actual real physical addresses to virtual addresses it gives out to the processes. So, when the address space is assigned to a process, usually starts at <code>0x00000000</code>.  Of course, in reality it is not all zeros, it could be something like <code>0x087a4aba</code> under the hood. However, the process doesn&rsquo;t know it, neither it needs to, really.</p>
+<p>In each process thinks it&rsquo;s the only king 👑 in the kingdom, when in fact none of them are.</p>
+<p><img src="https://media.giphy.com/media/3o7qDFG9zFVMy5Vzry/giphy.gif" alt="img"></p>
+<p>Each process is promised <code>0x00000000</code> to <code>0xFFFFFFFF</code> addresses (32-bit systems). The kernel space usually starts at <code>0x80000000</code> and ends at <code>0xFFFFFFFF</code>.</p>
+<p>Here is a little extract on the topic from ChatGPT:</p>
+<blockquote>
+<ol>
+<li><strong>Windows</strong>: In 64-bit versions of Windows, user-mode addresses span from 0x00000000<code>00000000 to 0x00007FFF</code>FFFFFFFF, and kernel-mode addresses span from 0xFFFF0800<code>00000000 to 0xFFFFFFFF</code>FFFFFFFF. The exact ranges can vary depending on system configuration, such as the enabled user-mode address space.</li>
+<li><strong>macOS</strong>: In 64-bit macOS, traditionally the lower 4 GB of address space was allocated to user space, with the rest reserved for the kernel. However, with macOS Catalina and later, Apple introduced a new feature called &ldquo;Four-Level Page Tables&rdquo; for their 64-bit ARM architecture (used in Apple Silicon Macs), which changed the division of user and kernel space. Apple hasn&rsquo;t officially published the new division, but in many cases, the kernel space starts at a much higher address.</li>
+</ol>
+</blockquote>
+<p>A very rough idea of how this looks like for our imaginary memory block of palms and fruits.</p>
+<p><img src="virtual-to-physical.png" alt="img"></p>
+<h2 id="image-base">Image base</h2>
+<p>The first virtual address is what they call <strong>image base</strong>. For example, on the picture below you can see the image base of 🌴 marked with a thick arrow and the arrows connecting the virtual address blocks to their actual physical locations.</p>
+<p><img src="image-base.png" alt="img"></p>
+<p>On Windows (at least when I was doing reverse engineering), the image base for the PE executables were <code>0x40000000</code>. Image base is not neccessarily the first address from the allocated address space for this process. Neither it&rsquo;s always where its code starts. It&rsquo;s some agreed upon point on that all the relative virtual addresses rely upon (read below).</p>
+<h2 id="rva">RVA</h2>
+<p>RVA stands for relative virtual address. Relative to what? To the image base of this particular process. Because, the addresses can get really long on the modern 64-bit systems, and not always they start from <code>0x00000000</code>. Anyway, very often instead of using a full address, a process uses it&rsquo;s shortened versions. Pretty much like Benjamin is called Ben most of the time (I presume).</p>
+<p>Image base and relative virtual addresses are very useful terms. DLL&rsquo;s (libraries extending the processes&rsquo;s functionality), when loaded into memory can be loaded at different virtual addresses. But all the code, all the functions they remain on the same &ldquo;distance&rdquo; from the code start. That&rsquo;s why when the code uses relative addresses, it will work regardless of where it&rsquo;s really loaded. Think of it as a variable, an offset from the start.</p>
+<p><img src="rva.png" alt="img"></p>
+<p>Import tables (when the code you load has dependencies with other processes, including some dlls) contain RVAs as well.</p>
+<h2 id="raw">RAW</h2>
+<p>When the code (its image, we call it) is on disk, not loaded, it&rsquo;s basically a file and the addresses for that data is different. When the image is then loaded into RAM, the addresses are different. RAW address are those for when the file is NOT yet loaded and resides only on disk.</p>
+<h2 id="physical-address-pa">Physical Address (PA)</h2>
+<h2 id="alignment">Alignment</h2>
+<p>OS moves stuff in chunks, and it usually rounds things up. FileAlignment is usually 512 bytes. PageAlignment is usually 1024 bytes (1 page), differs from one CPU to another. So, for a 513 bytes file it would be rounded up to 1024 in disk and in memory - to 1 page (1024). But all these numbers vary from OS and in case of disk memory - file system as well.</p>
+<h3 id="file-alignment">File Alignment</h3>
+<h3 id="page-alignment">Page Alignment</h3>
+<h2 id="summary">Summary</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">VA</span> <span class="o">=</span> <span class="n">ImageBase</span> <span class="o">+</span> <span class="n">RVA</span>
+</span></span><span class="line"><span class="cl"><span class="n">RAW</span> <span class="o">=</span> <span class="n">RVA</span> <span class="o">-</span> <span class="n">sectionRVA</span> <span class="o">+</span> <span class="n">FileStartToSectionStartOffset</span> <span class="c1"># RVA - sectionRVA gives us the RVA from the section start</span>
+</span></span><span class="line"><span class="cl"><span class="n">RVA</span> <span class="o">=</span> <span class="n">RAW</span> <span class="o">+</span> <span class="n">sectionRVA</span> <span class="o">-</span> <span class="n">RAWsection</span>
+</span></span></code></pre></div><p>To better understand the topic, I highly recommend opening some PE executable on Windows with PEView utility. There you will see <code>IMAGE_SECTION_H</code>. Open, for example, a <code>.text</code> section (the one with all the code). Note virtual size and physical size.</p>
+<p>For example, VS = <code>5027D</code> and PS = <code>50400</code>.</p>
+<p>Now, go to <code>IMAGE_OPTIONAL_HEADER</code>. Section alignment = <code>1000</code> and file alignment = <code>200</code>. VS - section before alignment and PS is what you will see after the alignment for a file on disk.</p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
