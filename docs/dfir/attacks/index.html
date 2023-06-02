@@ -243,6 +243,39 @@ VPN Virtual private network.</p>
     <h2><a href="https://bakerst221b.com/docs/dfir/attacks/pipe/"> Pipes</a></h2> 
     <p> A named pipe is not exactly the same as a reverse shell, but it can be used in a similar way to establish a remote connection between two systems.</p>
 
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/defense/"> Firewalls</a></h2> 
+    <p> Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/persistence/"> Persistence Mechanisms</a></h2> 
+    <p> </p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/dos/"> DoS Attacks and Mitigations</a></h2> 
+    <p> <p><em>In this article, I will cover the main DoS techniques and how they look in the logs. I will also cover some main mitigation techniques.</em></p></p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/evasion/"> Evasion Techniques</a></h2> 
+    <p> <p><em>This is about &hellip; .</em></p></p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/cloud/"> 📚 Cloud</a></h2> 
+    <p> </p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/containers/"> 📚 Containers</a></h2> 
+    <p> </p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/ids-ips/"> Host-based IDP/IPS</a></h2> 
+    <p> <p>Host-based IDS look for local system configurations and behaviour, while network-based IDS look for network connections and looks for anomalies and common signatures.</p>
+<p>IDS and IPS as firewall&rsquo;s filters. There are Control Plane (looks after the OS and routing table) and the Forwarding Plane (makes decisions on routing and discarding). If something happens to the Control Plane, the device will still forward the traffic (really???).</p>
+<p>By default IDS only <strong>listens 👂</strong> the traffic. It&rsquo;s usually connected to the span port on a switch. Looks for anomalies and sends alerts. Won&rsquo;t take any actions by default, but can be configured in such a way. If the IDS is down, nothing is changed for the rest of the network, it&rsquo;s still operating.</p>
+<p>IPS takes actions on its own. It is not connected to the span port, but rather is a gateway. Before it inspects and allows a packet through, nothing can move forward. So, if IPS is down, everyone is down (unless there is some load balancing enabled or may be some policy for such cases). Positioned right after the router, edge device or a firewall.</p></p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/recon/"> Network Recon</a></h2> 
+    <p> traceroute, tracert On Windows, it&rsquo;s tracert (due to some legacy max-name-size limitations). On Linux and macOS - traceroute.</p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/port-scanning/"> Port Scanning</a></h2> 
+    <p> <p><em>There are several techniques for port scanning. Some of them work for one OS only.</em></p></p>
+
+    <h2><a href="https://bakerst221b.com/docs/dfir/attacks/net-btfm/"> 📘 BTFM</a></h2> 
+    <p> dshell # MacOSX path to directory with pyenv (example): /Users/[user_name]/.pyenv/versions/3.8.5/envs/python3/lib/python3.8/site-packages/dshell/ decode -l # list decoders decode -d [decoder_name] # decoder info # who talked to whom decode -d ip [capture_file_name].</p>
+
 
 
 
@@ -318,19 +351,12 @@ h2 {
             <li class="page-item"><a href="/docs/dfir/attacks/page/2/" class="page-link">2</a></li>
             
         
-            
-             
-            <li class="page-item"><a href="/docs/dfir/attacks/page/3/" class="page-link">3</a></li>
-            
-        
 
         
         <li class="page-item"><a href="/docs/dfir/attacks/page/2/" rel="next" class="page-link">Next ›</a></li>
         
 
         
-        
-        <li class="page-item"><a href="/docs/dfir/attacks/page/3/" rel="last" class="page-link">Last »</a></li>
         
     </ul>
 </nav>
