@@ -220,9 +220,9 @@
     <p><em>This article is all about different authentication/authorisation mechanisms such as Basic Auth, SSO, tokens etc.</em></p>
 <p>First, what&rsquo;s the difference between authentication and authorisation? Let&rsquo;s start with a simple example. But how can I use examples without a little analogy, right? Let&rsquo;s introduce our <em>&ldquo;actors&rdquo;</em>.</p>
 <p>Imagine, there is a castle that we need to protect, because there are a lot of rooms there and some of them have safety boxes with gold coins in them.</p>
-<p><img src="castle-sketch.jpg" alt="img"></p>
+<p><img src="images/castle-sketch.jpg" alt="img"></p>
 <p>We can&rsquo;t let everyone in, so, we need to place some sort of a guard to make sure only certain people can come in. So, we find a dragon egg, nurture a dragon for ourselves and place it nearby to guard our treasures.</p>
-<p><img src="dragon.png" alt="img"></p>
+<p><img src="images/dragon.png" alt="img"></p>
 <p>Scary&hellip; Good enough. Great! I resent the idea of addressing these magnificent creatures with neutral pronouns as if they were not people&hellip; So, my dragon is a <em>he</em>. After all, we are all entitled to choose our pronouns now, so why not grant this right to the beloved characters of most, if not all, fantasy and medieval stories? His name is Drogon, by the way (I am usually good at giving nicknames to pets, but this time I&rsquo;d rather steal the name).</p>
 <p>Now, lets see the process closer.</p>
 <p>So, our dragon knows the faces of three people: its master, master&rsquo;s child and a dragon carer. The dragon will let either of them pass, and will grill and chew on anyone else. It must be very lonely in this castle&hellip; .</p>
@@ -240,14 +240,14 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Authorization: Basic c2hlcmxvY2s6Z29vZGpvYmNyYWNraW5ndGhlcGFzc3dvcmQsbWFu
 </span></span></code></pre></div><p>Now, the server will know how to treat the value encoded.</p>
 <p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
-<p><img src="basic-auth.jpeg" alt="img">
+<p><img src="images/basic-auth.jpeg" alt="img">
 You don&rsquo;t need Basic Auth described above to use local authentication, for example and there are other means to send username and password (for example, in a POST body). That&rsquo;s just one way of doing it.</p>
 <h2 id="tokens">Tokens</h2>
 <p>Why send username and password if we can send just password if we are sure it&rsquo;s unique, of course. In our little analogy let&rsquo;s assume that the dragon has several favourite toys. Trusted people are given a toy 🧸 each, and they can show it to the dragon 🐉 to avoid being sniffed and interrogated. The toy remains with them, and the dragon can play with it while the visitors are in the castle. But how do you get a toy? Well, you need to get sniffed at least once in order to get one.</p>
 <p>In IT world, that basically means that we user our username and password to authenticate, and then we generate a token to use ongoing forward instead. While with the user and password I can do everything this user is allowed to do, the token might have reduced permissions. Also, if my token gets compromised, I revoke it and generate another one. When using services&rsquo; APIs it&rsquo;s very common to use tokens. There are different types of tokens, they might have differnt expiration periods, and they can be passed in various ways, but they are still tokens.</p>
 <p>Tokens are usually either random strings or pieces of information encoded and signed (JWT). Token can be stored on the server or be stateless (depends on the token). If the token is signed, we can avoid storing it on the server.</p>
 <p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
-<p><img src="tokens.jpeg" alt="img"></p>
+<p><img src="images/tokens.jpeg" alt="img"></p>
 <h3 id="simple-web-tokens">Simple Web Tokens</h3>
 <h3 id="jwt-json-web-tokens">JWT (JSON Web Tokens)</h3>
 <p>RFC 7519, you can decode JWT tokens here - <a href="https://jwt.io/">https://jwt.io/</a>.</p>
@@ -276,27 +276,27 @@ You don&rsquo;t need Basic Auth described above to use local authentication, for
 <p>Each part is separated with a dot <code>.</code>.</p>
 <p>I&rsquo;m not quite sure how to stretch my analogy to encompass JWT tokens, to be honest. My dragon would have to learn how to read and verify signatures, which would effectively turn it into a notary, and where&rsquo;s the fun in that?</p>
 <p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
-<p><img src="jwt-token.jpeg" alt="img"></p>
+<p><img src="images/jwt-token.jpeg" alt="img"></p>
 <h3 id="sessions-cookies">Sessions, Cookies</h3>
 <p>Imagine, our dragon likes special cookies 🍪 with a little meaty touch. Suppose, when we have visitors who were sniffed already, we give them a cookie to give the dragon the next time they would like to pay us a visit. This way they can save themselves a emberassment of wetting themselved the next time the dragon is taking a closer look.</p>
 <p>Let&rsquo;s now see how that really works in a less frightnening situation. We use username and password to login and verify our identity. The server generated a cookie/session id. There are lots of different algoritms to generate those, we don&rsquo;t really care about it here. All we care about is that this cookies is stored in the browser&rsquo;s local storage and in the server&rsquo;s RAM or the server&rsquo;s local storage (this happens too). Hit F12 and go to the <code>Application</code> tab. You will see browser&rsquo;s stash. There are three places where sessions ids can be stored, but usually it&rsquo;s the Cookies storage.</p>
-<p><img src="dfir/attacks/protocols/asp/network-auth/images/browser-stash.png" alt="img"></p>
+<p><img src="images/browser-stash.png" alt="img"></p>
 <p>When the user logs out or the session ID expires, it is deleted both on the client side and the server side.</p>
 <p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
-<p><img src="cookies.jpeg" alt="img"></p>
+<p><img src="images/cookies.jpeg" alt="img"></p>
 <h3 id="oauth-open-authorisation">OAuth (Open Authorisation)</h3>
 <p>Drogon 🐉 will be playing the role of an resource server <a href="https://drogon.com">https://drogon.com</a> and the master 😵‍💫 is the authorisation server <a href="https://master.com">https://master.com</a>. Now, the master&rsquo;s son 🤪 wants to come through. Here is the play.</p>
 <blockquote>
 <p>❗️ That&rsquo;s not the most accurate representation of the process from the technical perspective. For this refer to the inforgram at the end of this section. All the communication between Drogon and the Master is well heard by the master&rsquo;s son. In the IT world that means that Drogon is the Client App and all requets made by the app are visible to the user himself. Also, step 2 is a redirect link for the client, so, I could as well stretch the arrow from Drogon to the Master, but that seemed more confusing. Drogon here is both the client and the server side of the applicaiton.</p>
 </blockquote>
 <p>The user 🤪 tries to access the resource 🏰, gets kicked in the balls by the app 🐉 and is sent to authorisation server 😵‍💫 to confirm his or her identity.</p>
-<p><img src="oauth-1.png" alt="img"></p>
+<p><img src="images/oauth-1.png" alt="img"></p>
 <p>After the checks are done by this authorisation center, the user get&rsquo;s a link with a code 🕊 generated by this authorisation server 😵‍💫.
-<img src="oauth-2.png" alt="img"></p>
+<img src="images/oauth-2.png" alt="img"></p>
 <p>The app 🐉 then sends this code along with some info about itself along back to the authorisation server 😵‍💫. The authorisation server 😵‍💫 generates a token 🍰 and sends it to the app 🐉 via the user&rsquo;s 🤪 browser, where it gets saved to the cookie or other storage, and is sent most likely in the <code>Authorization</code> header with a token keyword preceeding the token itself.
-<img src="oauth-3.png" alt="img">
+<img src="images/oauth-3.png" alt="img">
 Happy END! (Although rather depends on the perpective&hellip;.)
-<img src="oauth-4.png" alt="img"></p>
+<img src="images/oauth-4.png" alt="img"></p>
 <p>Basically, it translates to &ldquo;Hey, this guy knows me, ask him and he will confirm I am a good fella&rdquo;. While that doesn&rsquo;t sound that reliable in our dragon scenario, its current implementation in IT world does. Essentially, it&rsquo;s just another way to get some token. It&rsquo;s just that in this case the token is not generated by the service that the client is trying to access but rather by some third-party authorised by both the client and the server.</p>
 <p>There are 4 types of flow that can be used (from ChatGPT).</p>
 <ol>
@@ -306,7 +306,7 @@ Happy END! (Although rather depends on the perpective&hellip;.)
 <li><strong>Password Grant Flow (Resource Owner Password Credentials)</strong>: This grant type involves the user sharing their service provider credentials (username and password) directly with the application, which then uses these credentials to obtain an access token. This grant type is less secure and recommended only for trusted applications or legacy systems where other grant types are not feasible. It is not recommended for modern applications due to the security risks of sharing user credentials with third-party applications. In the example above, the master&rsquo;s son 🤪 would have to show the passport and reveal the secret about the lady on the side 💃🏻 to Drogon 🐉 directly. One can see how that&rsquo;s not something you&rsquo;d want. Although in the scenario I have described it looks like more the Master&rsquo;s problem rather than the son&rsquo;s (that&rsquo;s why the scenario is not 💯% accurate, sorry 🤷🏻‍♀️). But imagine that lady on the side is something son&rsquo;s not interested in revealing to anyone else either. Maybe he&rsquo;s going into politics and the last thing he needs is a personal profile of ill repute.</li>
 </ol>
 <p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.
-<img src="oauth.jpeg" alt="img"></p>
+<img src="images/oauth.jpeg" alt="img"></p>
 <h3 id="sso-security-assertions-markup-language">SSO (Security Assertions Markup Language)</h3>
 <p>The idea is very close to OAuth, if you ask me: using a singe resource to login to multiple resources and that single resource NOT being the same password, god forbid 🤞🏼!</p>
 <p>Now, the highlevel overview is quite simple. Remember the last time that you bought an Oyster card or whatever analogous thing you have in your country (Troyka in Moscow or InstanbulKart in Instanbul)? It&rsquo;s a card that can be used in subway, buses and even the river transport. When you buy a ticket from Identity Provider and pay for it. Then you provide this ticket to whatever service provider you are trying to use (river transport, a bus or subway). SSO is very similar to that. You don&rsquo;t need separate tickets for each transport, you have one.</p>
@@ -314,7 +314,7 @@ Happy END! (Although rather depends on the perpective&hellip;.)
 <p>Let&rsquo;s imagine that the master has three castles and his son is able to get inside each of them. The second castle is protected by a bear 🧸 and the third - by COVID-19 🦠. While Drogon needs to sniff his visitors, the bear relies on the sound of the footsteps 👣, and COVID-19 🦠 checks the number and type of <em>&ldquo;weak points&rdquo;</em>. If only there was a way to get inside each one of them with just one set of credentials&hellip; 🤔</p>
 <p>What would happen is the son 🤪 comes to daddy 😵‍💫 again and says, that he wants to have a card that would let him pass in any of these three castles. Daddy agrees, looks at his son very carefully, and gives him a note saying something like &ldquo;My son who looks like this 🤪 can have acces to the following castles:  🏰🏯🛖&rdquo;. Now, the son 🤪 comes to Drogon and gives him the card. Drogon is no fool, so he looks at the note and checks if there are any indications of tampering (letters fixed, part of the text erased etc). If there are non - Drogon will have to chew on something else.</p>
 <p>I am adding this picture from <a href="https://www.linkedin.com/posts/ethical-hackers-academy_intelligence-cyber-informationsecurity-activity-7054186472102391809-OaKC?utm_source=share&amp;utm_medium=member_desktop">Ethical Hackers Academy on LinkedIn</a> because I think it&rsquo;s a very good visualisation of the process.</p>
-<p><img src="sso.jpeg" alt="img"></p>
+<p><img src="images/sso.jpeg" alt="img"></p>
 <h4 id="saml">SAML</h4>
 <p>It&rsquo;s a protocol for SSO, XML-based.</p>
 <h4 id="openid">OpenID</h4>

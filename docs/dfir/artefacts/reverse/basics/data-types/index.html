@@ -208,7 +208,7 @@
 <p><code>0  0  0  0    0  0  0  1    0  0  0  1    1  1  1  1</code></p>
 <p>But <code>VarInt</code>s are split into 7-bit chunks, each starting with either <code>0</code> if this chunk is the last or <code>1</code> if there are more chunks to go. This looks something like a metadata. So, instead of 8 bits for actual data, we have only 7, leaving each 8th bit for metadata (read the next byte or not). Splitting up the above value will leave us with the following chunks of data:</p>
 <p>🍊 <code>0  0  0    0  0  1  0</code> (marked orange on the screenshot) and 🍏 <code>0  0  1    1  1  1  1</code> (marked green on the screenshot).</p>
-<p><img src="287-bin.png" alt="287-bin"></p>
+<p><img src="images/287-bin.png" alt="287-bin"></p>
 <p>Since <code>VarInt</code>s are little-endian, 🍏-chunk is read the first, so we need to reverse the order of the above chunks.</p>
 <p>🍏 <code>0  0  1    1  1  1  1</code> 🍊 <code>0  0  0    0  0  1  0</code></p>
 <p>We also need to specify that the number is more that 1 byte long (i.e. there are more chunks than just 🍏 one) and put a <code>1</code> meta-bit at the beginning to tell the system that the next byte needs to be read as well.</p>
@@ -222,7 +222,7 @@
 <p>Let&rsquo;s divide this binary into two 8-bit chunks:</p>
 <p>🍏 <code>1</code>  <code>1 1 0   0 0 1 1</code> and 🍊 <code>0</code>  <code>0 0 0   0 0 0 1</code>. Let&rsquo;s read the first leftmost bit of the 🍏 digit: <code>1</code>. That means, we need to take 🍊 into account as well. So, getting rid of the 🍏 and 🍊 meta-bits (since we have already processed them), we have these 14 bits left:</p>
 <p>🍏 <code>1 1 0   0 0 1 1</code> and 🍊 <code>0 0 0   0 0 0 1</code>. Since <code>VarInt</code> is little-endian, let&rsquo;s switch the above digits: 🍊 <code>0 0 0   0 0 0 1</code> and 🍏 <code>1 1 0   0 0 1 1</code>. Now, lets convert  <code>1</code> (🍊) <code>1 1 0   0 0 1 1</code> (🍏 ) to decimal as a whole: <code>227</code>:</p>
-<p><img src="227-bin.png" alt="227-bin"></p>
+<p><img src="images/227-bin.png" alt="227-bin"></p>
 <p>So, the basic algorithm would be:</p>
 <ol>
 <li>Read the first (leftmost bit of each byte). If the bit is set to <code>1</code> - add the number to the array for processing.</li>

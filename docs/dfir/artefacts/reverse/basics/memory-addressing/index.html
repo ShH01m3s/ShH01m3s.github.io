@@ -226,13 +226,13 @@
 <h2 id="virtual-address-va">Virtual Address (VA)</h2>
 <p>Each process is allocates some address space, so that other processes don&rsquo;t meddle with its affairs. As we know from the Meltdown vulnerability overview, some address space is shared between processes - kernel space, the most desired part of the realm, so to say.</p>
 <p>When the CPU is asked for some new memory allocation, it looks at its assets and provides what&rsquo;s required. The memory space allocated is not always contigious. Imagine the following memory of 12 blocks.</p>
-<p><img src="all-free.png" alt="img">
+<p><img src="images/all-free.png" alt="img">
 It&rsquo;s free, idle, virgin. Now, the first &ldquo;customer&rdquo; 🌴 comes along and asks for one memory block, and he gets one. Another process 🍇 also needs three more blocks. Now, the next three blocks are given to the process. Now the first process 🌴 needs two more blocks now, then 🍑 suddnely another flufy fella comes along and requests two block. Since all was free at the beginning, the CPU doesn&rsquo;t really have a problem, just giving the contigious blocks of memory. Here is what our fully occupies memory space would look like.
-<img src="all-full.png" alt="img">
+<img src="images/all-full.png" alt="img">
 Now, imagine that the first process 🌴 goes on holiday and thus its memory blocks are freed by the CPU (doesn&rsquo;t mean cleaned though, but that a whole other story). Here is our memory now:</p>
-<p><img src="partial.png" alt="img">
+<p><img src="images/partial.png" alt="img">
 Now, imagine another process 🫐 that needs 5 block. CPU has 5 block, but they are not close to each other. So, CPU can give out non-contigious blocks for a change. Now, does it return 5 different addresses or 3 differnt addersses with their sizes? Turns out, neither.
-<img src="proceess-four.png" alt="img">
+<img src="images/proceess-four.png" alt="img">
 It would be hell to manage memory like this. That&rsquo;s why CPU has a page table to map actual real physical addresses to virtual addresses it gives out to the processes. So, when the address space is assigned to a process, usually starts at <code>0x00000000</code>.  Of course, in reality it is not all zeros, it could be something like <code>0x087a4aba</code> under the hood. However, the process doesn&rsquo;t know it, neither it needs to, really.</p>
 <p>In each process thinks it&rsquo;s the only king 👑 in the kingdom, when in fact none of them are.</p>
 <p><img src="https://media.giphy.com/media/3o7qDFG9zFVMy5Vzry/giphy.gif" alt="img"></p>
@@ -245,15 +245,15 @@ It would be hell to manage memory like this. That&rsquo;s why CPU has a page tab
 </ol>
 </blockquote>
 <p>A very rough idea of how this looks like for our imaginary memory block of palms and fruits.</p>
-<p><img src="virtual-to-physical.png" alt="img"></p>
+<p><img src="images/virtual-to-physical.png" alt="img"></p>
 <h2 id="image-base">Image base</h2>
 <p>The first virtual address is what they call <strong>image base</strong>. For example, on the picture below you can see the image base of 🌴 marked with a thick arrow and the arrows connecting the virtual address blocks to their actual physical locations.</p>
-<p><img src="image-base.png" alt="img"></p>
+<p><img src="images/image-base.png" alt="img"></p>
 <p>On Windows (at least when I was doing reverse engineering), the image base for the PE executables were <code>0x40000000</code>. Image base is not neccessarily the first address from the allocated address space for this process. Neither it&rsquo;s always where its code starts. It&rsquo;s some agreed upon point on that all the relative virtual addresses rely upon (read below).</p>
 <h2 id="rva">RVA</h2>
 <p>RVA stands for relative virtual address. Relative to what? To the image base of this particular process. Because, the addresses can get really long on the modern 64-bit systems, and not always they start from <code>0x00000000</code>. Anyway, very often instead of using a full address, a process uses it&rsquo;s shortened versions. Pretty much like Benjamin is called Ben most of the time (I presume).</p>
 <p>Image base and relative virtual addresses are very useful terms. DLL&rsquo;s (libraries extending the processes&rsquo;s functionality), when loaded into memory can be loaded at different virtual addresses. But all the code, all the functions they remain on the same &ldquo;distance&rdquo; from the code start. That&rsquo;s why when the code uses relative addresses, it will work regardless of where it&rsquo;s really loaded. Think of it as a variable, an offset from the start.</p>
-<p><img src="rva.png" alt="img"></p>
+<p><img src="images/rva.png" alt="img"></p>
 <p>Import tables (when the code you load has dependencies with other processes, including some dlls) contain RVAs as well.</p>
 <h2 id="raw">RAW</h2>
 <p>When the code (its image, we call it) is on disk, not loaded, it&rsquo;s basically a file and the addresses for that data is different. When the image is then loaded into RAM, the addresses are different. RAW address are those for when the file is NOT yet loaded and resides only on disk.</p>

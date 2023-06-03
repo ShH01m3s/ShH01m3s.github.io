@@ -218,9 +218,9 @@
   <div class="content" itemprop="articleBody">
     <h2 id="macos">macOS</h2>
 <p>By default, all console data is not being logged. Only staff that was typed with <code>sudo</code> is. Below is the screenshot of the Console app (streaming on) when <code>sudo ls</code> command is typed in the Terminal.</p>
-<p><img src="sudo-console.png" alt="sudo-console">
+<p><img src="images/sudo-console.png" alt="sudo-console">
 And here is what&rsquo;s being logged when one types <code>sudo su</code> and then <code>ls</code>.</p>
-<p><img src="sudo-console-2.png" alt="sudo-console-2">
+<p><img src="images/sudo-console-2.png" alt="sudo-console-2">
 What about using <code>ls</code> or <code>cat</code> without elevating privileges? Nothing is logged at all (trying <code>helloworld</code>, cat <code>metadata.db</code> or <code>visudo</code>). So, how one keeps logging their Terminal history? It would be also great to add PID of the process, effective and real usernames. Here is how I&rsquo;ve managed to do it on my local machine (to further integrate the logs with Elastic).</p>
 <p>There were several problems that I&rsquo;ve encountered given it&rsquo;s a macOS.
 First of all, macOS default interpreter is zsh, which doesn&rsquo;t have <code>PROMT_COMMAND</code> variable. This variable in bash allows executing some script after each command. I&rsquo;ve found a <a href="https://superuser.com/questions/735660/whats-the-zsh-equivalent-of-bashs-prompt-command">soulution</a> in the internet to overcome this pecularity: add <code>bash precmd() { eval &quot;$PROMPT_COMMAND&quot; }</code> at the beginning of the <code>~/.zshrc</code> file, then add export <code>PROMPT_COMMAND=&quot;&quot;</code> right after it. This would simulate the desired behaviour. Don&rsquo;t forget to <code>source ~/.zshrc</code> or relaunching the Terminal for the changes to be applied.</p>

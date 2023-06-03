@@ -246,7 +246,7 @@
 <p>With newer versions of iOS the Oslog API is used. To see the logs, use <code>oslog</code> utility from Cydia repository or <code>Passionfruit</code> multitool. Can pipe to grep to filter output.</p>
 <h3 id="fsevents">Fsevents</h3>
 <p>Directory events only 10.5-10.6. File events since 10.7. Each record is assigned a name which is constucted the following way: <code>hex(last_event_id + 1)</code>. Lots of zeroes appended at the beginning of the file name. Example: <code>000000000112f2d8</code>.</p>
-<p><img src="fsevents_example1.png" alt="fsevents_example1"></p>
+<p><img src="images/fsevents_example1.png" alt="fsevents_example1"></p>
 <blockquote>
 <p>⚠️ Records are stored alphabetically, not chronologically!!! By alphabetically I mean sorted by file/dir full path.</p>
 </blockquote>
@@ -258,7 +258,7 @@
 <p>🧪 However, I couldn&rsquo;t find it on my M1 (macOS Big Sur, 11.2.3). The daemon was running (checked with Activity Monitor). Grabbing the processes path on disk (search for <code>fseventsd</code>, double-click, choose <code>Sample</code> and get the path from the result)</p>
 <p>👌 I have found it here: <code>./System/Volumes/Data/.fseventsd</code>. On iOS - <code>/private/var/.fseventsd</code>, for System: <code>/.fseventsd</code> and Developer Patch at <code>/DeveloperPatch/.fseventsd</code>.</p>
 </blockquote>
-<p><img src="fseventsd-path.png" alt="fseventsd-path"></p>
+<p><img src="images/fseventsd-path.png" alt="fseventsd-path"></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  python FSEParser_V3.3.py -s -t folder /.fseventsd -o /Users/sentinel/Desktop/FSEvents_Out
 </span></span></code></pre></div><p><strong>Keywords</strong>: Mount/Volume, Safari/Chrome (web search), Renamed/.trash (trash).</p>
 <p>Lot&rsquo;s of information, so, think well whether to process it or not, since it&rsquo;ll take time.</p>
@@ -373,7 +373,7 @@
 <blockquote>
 <p>🧪 I presume, that&rsquo;s the date and time when the log files were created. Or is this the date and time when <code>FSEventsParser</code> was performing its duties?</p>
 </blockquote>
-<p><img src="timestamps.png" alt="timestamps"></p>
+<p><img src="images/timestamps.png" alt="timestamps"></p>
 <h4 id="-trash-activity">🗑 Trash activity</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT
 </span></span><span class="line"><span class="cl">*, _ROWID_ &#34;NAVICAT_ROWID&#34;

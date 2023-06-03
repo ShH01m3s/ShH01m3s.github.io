@@ -247,23 +247,23 @@
 </span></span><span class="line"><span class="cl">    <span class="n">roses</span> <span class="o">+=</span> <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">  <span class="k">return</span>
 </span></span></code></pre></div><p>Let&rsquo;s say that <code>triple_roses()</code> and <code>add_roses()</code> are run in separete threads. They both access <code>roses</code> variable. First, <code>add_roses()</code> accesses the variable and checks, whether there is a single 🌹. Since this variable is initialized with 1, yes. It&rsquo;s okay for <code>add_roses()</code> function and it evaluates the condition (<code>if roses == 1</code>) to <code>True</code>. However, before it executes <code>roses += 1</code>, triple <code>triple_roses()</code> gains access to the variable from another thread. Since <code>roses</code> is still equal to 1, <code>if roses == 1</code> condition of <code>triple_roses()</code> also evaluates to <code>True</code> and the next line of code is executed <code>roses *= 3</code>. Now, there are 3 roses. Now, the <code>add_roses()</code> executes its <code>roses += 1</code> and now there are 4 roses. So, to summarize, <code>roses</code> get triples first and then incremented by one.</p>
-<p><img src="dfir/artefacts/reverse/basics/process-thread-mutant/images/1.png" alt="img"></p>
+<p><img src="images/1.png" alt="img"></p>
 <p>❓ <em>But what if <code>add_roses()</code> executed its <code>roses += 1</code> first, immediatly after <code>if roses == 1</code>?</em></p>
 <p>Then, <code>roses</code> would be incremented by 1 first (it would become equal to 2), then <code>triple_roses()</code> would evaluate this condition <code>if roses == 1</code> to <code>False</code> and the amount of roses would remain the same (2).</p>
-<p><img src="dfir/artefacts/reverse/basics/process-thread-mutant/images/2.png" alt="img"></p>
+<p><img src="images/2.png" alt="img"></p>
 <p>❓ <em>But what if <code>add_roses()</code> executed its <code>roses += 1</code> after <code>triple_roses()</code> has evaluated <code>if roses == 1</code>, but before it executed <code>roses *= 3</code>?</em></p>
 <p>Then, <code>roses</code> would be incremented by 1 first and then multiplied by 3 which would give us 6 roses.</p>
-<p><img src="dfir/artefacts/reverse/basics/process-thread-mutant/images/3.png" alt="img"></p>
+<p><img src="images/3.png" alt="img"></p>
 <p>❓ <em>But what if <code>triple_roses()</code> executed its <code>roses *= 3</code> first, immediatly after <code>if roses == 1</code>?</em></p>
 <p>Then, <code>roses</code> would be multiplied by 3 first (it would become equal to 3), then <code>add_roses()</code> would evaluate this condition <code>if roses == 1</code> to <code>False</code> and the amount of roses would remain the same (3).</p>
-<p><img src="dfir/artefacts/reverse/basics/process-thread-mutant/images/4.png" alt="img4"></p>
+<p><img src="images/4.png" alt="img4"></p>
 <p>As you can see, too much depends on which statement was executed first. The program is unpredictible which is usually not desired for programs. They are not women after all 💃. It would be like a black box, you&rsquo;ll never know, whether there are 4, 6, 3, or 1 roses out there&hellip; This would be scary world of course&hellip;</p>
 <p>That&rsquo;s why locks 🔒 on resources were introduced and that&rsquo;s also how deadlocks ☠️ 🔒 were &ldquo;introduced&rdquo; as well.</p>
 <p>Here is the picture from my old notebook about it:</p>
-<p><img src="mutex.jpeg" alt="img"></p>
+<p><img src="images/mutex.jpeg" alt="img"></p>
 <h3 id="deadlock">Deadlock</h3>
 <p>Let&rsquo;s say we have two functions <code>pour_beer()</code> and <code>drink_beer()</code>. Each of the functions needs an access to a 🍺. But there is only one 🍺 available. Say, <code>drink_beer()</code> puts a lock on the 🔒 🍺 (using a mutex) and calls <code>pour_beer()</code>. <code>pour_beer()</code> needs an access to 🔒 🍺 as well and cannot return until the 🔒 🍺  is released, but it&rsquo;s locked by <code>drink_beer()</code>! On the other hand, <code>drink_beer()</code> cannot return until it&rsquo;s call to <code>pour_beer()</code> returns some result and doesn&rsquo;t release the 🔒 🍺. This is what a deadlock ☠️ 🔒 is. It looks something like below (I could not find the exact picture and I couldn&rsquo;t then decide between the two, therefore I paste both):</p>
-<p><img src="l82ttki6urvz.jpg" alt="l82ttki6urvz"></p>
+<p><img src="images/l82ttki6urvz.jpg" alt="l82ttki6urvz"></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">func1</span><span class="p">(){</span>
 </span></span><span class="line"><span class="cl">	<span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">	<span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="mi">2</span>
@@ -275,7 +275,7 @@
 </span></span><span class="line"><span class="cl">	<span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="mi">3</span>
 </span></span><span class="line"><span class="cl">	<span class="n">get</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p><img src="cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545.jpg" alt="cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545"></p>
+</span></span></code></pre></div><p><img src="images/cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545.jpg" alt="cat-waiting-another-to-wake-up-cat-waking-gently-to-another-to-play-looking-patiently-to-play-two-kittens-156896545"></p>
 <p>I hope that clears things up a bit 😊.</p>
 <h2 id="references">References</h2>
 <p><a href="https://hal.archives-ouvertes.fr/tel-02977242/document">https://hal.archives-ouvertes.fr/tel-02977242/document</a></p>

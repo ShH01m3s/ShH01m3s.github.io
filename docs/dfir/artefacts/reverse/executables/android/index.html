@@ -258,9 +258,9 @@
 <h2 id="basics">Basics</h2>
 <p>Android applications are usually written in Java, but may sometimes use a pinch 🤏 of C/C++ code as well. As you might already know, Java is not compiled into machine code right away, no-no-no. It&rsquo;s compiled to Java Bytecode at first and is kept that way waiting for some magical 🧙 moment to come&hellip; . This moment the bytecode is finally turned into the machine code by JM (Java Machine).</p>
 <p>Here is a picture of Java bytecode (white background to the left) and ARM assembly (black to the right) just for you to get an idea of how different (or not that different) these two thingies are. After the magical moment (which we are going to discuss later), the code to the left will be translated into something close to the code to the right.</p>
-<p><img src="java-vs-assembly-raw.png" alt="javavsassembly"></p>
+<p><img src="images/java-vs-assembly-raw.png" alt="javavsassembly"></p>
 <p>One major difference between them however (if no obfuscation was applied to Java code prior to compilation), is that Java bytecode can be decompiled to something very close to the original source code (the one produced by all-the-mighty-ones programmers, possibly during one of those sleepless 😴  nights). However assemly (either ARM or x86 is not decompiled that easily). Here is another comparison just FYI.</p>
-<p><img src="java-vs-assembly-decomp.png" alt="java-vs-assembly-decomp"></p>
+<p><img src="images/java-vs-assembly-decomp.png" alt="java-vs-assembly-decomp"></p>
 <p>To the left we have a piece of ARM assembly from some Swift application (ARM code was shown above) decompiled with Ghidra (residing in Cutter) and to the left we can observe what does the decompiled Java bytecode looks like (the same function we saw in the screenshot above).</p>
 <p>So, as you can see reversing ARM is no piece of cake 🍰, but reversing of Java bytecode is 😋. However, there is one thing to note&hellip; 📝. I&rsquo;ve already mentioned that Android applications, thought they mostly use human-readable-when-decompiled Java bytecode, sometimes use C/C++ code as well and those buddies are tough 💪. These parts of application are called <em>native</em> code, since they are <em>native</em> to Linux kernel which Android OS is based on, while Java code is like a wolf 🐺 in a sheep&rsquo;s 🐏 clothing, lurking all that <em>understandable</em> in the dungeons of JM.</p>
 <p>Since there are two types of code base that an Android app might use, there are two types of debugging, depending on what exactly we want to debug. If we are after the Java code - we use <code>jdb</code>, if we are after native code - we use <code>gdb</code>. The same same division applies to tracing (see below if you are not familiar with this notion).</p>
@@ -286,7 +286,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>This is an example of a very simple VM. It has only 4 instructions which it translates to real assembly. <code>0x12</code> means <code>0x5b</code> which in human-readable assebly means <code>pop ebx</code>, telling the CPU to put the last value from the stack into <code>ebx</code> and move the stack pointer to the next value. <code>0x13</code> means <code>0x83c201</code> in real machine code, which can be interpreted as <code>add edx, 0x1</code>, which tells the CPU to add <code>1</code> to the value stored in <code>edx</code> registy. And so on. So, basically, a VM in this case is just a switch statement that translated its own bytecode into the one that the CPU understands. I presume, Dalvik VM, Java VM and ART are based on the same principle.</p>
 <p>So, there is this Dalvik VM (ART for the later versions) which is like a one-way interpreter: listening to one party and delivering the information to another party in the form that it understands. However, as I&rsquo;ve already mentioned, there is this <em>native</em> code part. This one is called by the Dalvik VM (which reads this plea from the Java bytecode), but it&rsquo;s run <em>natively</em>, i.e. directly by Linux kernel. Here is a little sketch of how this whole thing works:</p>
-<p><img src="android-process-arch.png" alt="android-process-arch"></p>
+<p><img src="images/android-process-arch.png" alt="android-process-arch"></p>
 <p>🗒</p>
 <p>Java and native code talk via a JNI bridge (an arrow on the diagram above). Now, in order to debug both parts we need to understand, how this communication really works.</p>
 <p>Native code is invoked via <code>System.load()</code> method (something similar to <code>LoadLibrary</code> for WinAPI, I guess). Android uses <code>bionic</code> instead of <code>glibc</code>, since it has some code specific to a mobile platform. JNI means Java Native Interface. <code>JNIEnv</code> is a pointer to a table. This table contains a list of functions&rsquo; offsets. This offsets point to their interfaces, that can be used to run a function. This is how Java code can <em>talk</em> to the native code.</p>
@@ -347,7 +347,7 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># stop right after System.LoadLibrary() returns</span>
 </span></span><span class="line"><span class="cl">&gt; step up
 </span></span></code></pre></div><p>This is what success looks like:</p>
-<p><img src="run-jdb-client.png" alt="run-jdb-client"></p>
+<p><img src="images/run-jdb-client.png" alt="run-jdb-client"></p>
 <h3 id="step-3-run-the-gdbserver">Step 3. Run the <code>gdbserver</code></h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># forward the port to connect the gdb client to the gdb server</span>
 </span></span><span class="line"><span class="cl">adb forward tcp:1234 tcp:1234
@@ -356,22 +356,22 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># gdbserver should be installed on Android device</span>
 </span></span><span class="line"><span class="cl">/data/local/tmp/gdbserver --attach localhost:1234 <span class="o">[</span>PID<span class="o">]</span> 
 </span></span></code></pre></div><p>🍀 This is what success looks like:</p>
-<p><img src="run-gdbserver.png" alt="run-gdbserver"></p>
+<p><img src="images/run-gdbserver.png" alt="run-gdbserver"></p>
 <p>Now, it&rsquo;s time to attach the <code>gdb</code> client (on PC 🖥️) to the running <code>gdbserver</code> (on mobile device📱).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># start the gdb client on your PC</span>
 </span></span><span class="line"><span class="cl"><span class="nv">$TOOLCHAIN</span>/arm-linux-androideabi-gdb libnative-lib.so
 </span></span><span class="line"><span class="cl"><span class="c1"># attach to the process </span>
 </span></span><span class="line"><span class="cl">target remote :<span class="o">[</span>PID<span class="o">]</span>
 </span></span></code></pre></div><p>🍀 This is what success looks like:</p>
-<p><img src="run-gdb-client.png" alt="run-jdb-client"></p>
+<p><img src="images/run-gdb-client.png" alt="run-jdb-client"></p>
 <blockquote>
 <p><strong>Problem 🛑 1.</strong> When running <code>gdb</code> client on PC at the very end, you might get a &ldquo;Remote connection closed&rdquo;. That means that for some reason it cannot connect to the target <code>gdbserver</code> on the mobile device.</p>
 <p><strong>Fix ⚒️</strong>. One of the most obvious and the easiest to fix reasons is that you have not run the <code>gdbserver</code> on the <strong>mobile</strong> device. Remember, that there are two parts of this software. Start all over and follow the steps thoroughly. First, turn on the &ldquo;Wait for debugger&rdquo; option on mobile device (settings). Then start the <code>jdb</code> (if you need to suspend the process from the start), othervise, you may skip this step. Then forward the info stream via <code>adb</code> to be able to connect. Start the <code>gdbserver</code> on mobile device and then (only then), try attaching the <code>gdb</code> client.</p>
 </blockquote>
 <p>This is not a success:</p>
-<p><img src="gdb-fail-1.png" alt="gdb-fail-1"></p>
+<p><img src="images/gdb-fail-1.png" alt="gdb-fail-1"></p>
 <p>&hellip; and this is not either:</p>
-<p><img src="gdb-fail-2.png" alt="gdb-fail-2"></p>
+<p><img src="images/gdb-fail-2.png" alt="gdb-fail-2"></p>
 <h2 id="tracing">Tracing</h2>
 <h3 id="tracing-java">Tracing Java</h3>
 <p>The easiest way I see it, is to use &ldquo;Export classes&rdquo; in ByteCode Viewer and load them into AnroidStudio. Fix all the possible errors (oh, there are going to be lots of them, if it&rsquo;s not a lab application, believe me, I&rsquo;ve been there 😓) and happy debugging and tracing with GUI.</p>
@@ -415,8 +415,8 @@
 <p><code>frida-trace -p [PID] -j '*!*certificate*/isu'</code> - triggers a case-insensitive query (<code>i</code>), including method signatures (<code>s</code>) and excluding system classes (<code>u</code>). This is for Java tracing with <code>frida-trace</code>. The same can be accomplished with <code>Java.enumerateMethods('*youtube*!on*')</code> added to a frida scipt.</p>
 <h3 id="tracing-native-functions">Tracing Native Functions</h3>
 <p>Though reversing native functions is a much tougher process, tracing is not. Quite the contrary: it&rsquo;s way easier to trace native calls that Java ones. Tracing native calls can be performed in various of ways. On of my favourite is using <code>frida-trace</code>. Remember 📝 that Java code is compiled to machine code at some point (both in case of JIT or AOT), so when it&rsquo;s already translated into <code>1</code>s and <code>0</code>s, the native calls might (and most likely will) be made. That&rsquo;s where they can be seen even if the application doesn&rsquo;t use JNI calls from the Java code (assumption). To test this assumption, I&rsquo;ve hooked all functions, containing &ldquo;write&rdquo; in its name and ran the program from OWASP (<code>HelloWorld_JNI.apk</code>): <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*read*&quot;</code>. It took<code>frida-trace</code> around a minute or two to instrument all the functions. Then it crashed. I&rsquo;ve also tried <code>frida-trace -H 192.168.1.X -p [PID] -i &quot;*write*&quot;</code>. Took very long as well, but didn&rsquo;t crash. Resuming the process hooked with <code>jdb</code> resulted in lots of traced calls. And these are only those, containing <code>&quot;write&quot;</code>:</p>
-<p><img src="native-calls-2.png" alt="native-calls-2"></p>
-<p><img src="native-calls-1.png" alt="native-calls-1"></p>
+<p><img src="images/native-calls-2.png" alt="native-calls-2"></p>
+<p><img src="images/native-calls-1.png" alt="native-calls-1"></p>
 <p>Started at <code>82765 ms</code> and finished at <code>88812 ms</code>. So, it took around <code>6047 ms</code> ~ <code>6</code> sec in total. And this is a simple application that does nothing more than writing &ldquo;HelloWorld!&rdquo; using native code (C++), i.e. calling one custom C++ function. Obviously, this call could not generate so much stuff. Looks like my assumption was correct.</p>
 <p>It&rsquo;s also possible to trace native calls with <code>ptrace</code> system call with <code>strace</code>. <code>strace</code> can be build from source with NDK. However, if there are some anti-tampering techniques in place that detect <code>ptrace</code> - won&rsquo;t work. Another option is to use <code>ftrace</code>. To enable: <code>echo 1 &gt; /proc/sys/kernel/ftrace_enabled</code>. And view the result here: <code>/sys/kernel/debug/tracing</code>. <code>KProbes</code> allows to insert probes into arbitrary code addresses, but to use it, you need to compile your own kernel 😯.</p>
 <p>Finding JNI calls with <code>frida-trace</code>: <code>frida-trace -U -i &quot;Java_*&quot; [package.name]</code>. If symbols are unavailable, trace by address: <code>frida-trace -p [PID] -a &quot;[libname.so]!0xXXXXX&quot;</code>.</p>
@@ -430,7 +430,7 @@
 <p><code>AndroidManifest.xml</code> file contains different settings for the application within the <code>&lt;application&gt;</code> tag. One of such settings is <code>android:debuggable</code> being equal to <code>true</code> (by default, if there is no such settings in the file, the application <strong>cannot</strong> be debugged). This prevents the application from being debugged over JDWP (using <code>jdb</code>), but doesn&rsquo;t prevent it from being debugged using <code>gdb</code> (from the Linux OS space).</p>
 <p>⛏ <em>How to circumvent <code>android:debuggable=false</code>?</em></p>
 <p>Patch <code>AndroidManifest.xml</code> by setting <code>android:debuggable</code> to <code>true</code>. If there is no such setting there (by default it&rsquo;s set to <code>false</code> unless there is a <code>testCoverageEnabled true</code> в <a href="https://stackoverflow.com/questions/36557070/gradle-is-generating-debuggable-apks-on-release-mode/36558588">файле</a> <code>build.gradle</code>), add it to the <code>application</code> tag like this:</p>
-<p><img src="android-debuggable.png" alt="android-debuggable"></p>
+<p><img src="images/android-debuggable.png" alt="android-debuggable"></p>
 <p>Rebuild the application and sign it with your certificate in order to get it installed properly on the device. To rebuild and sign the application follow <a href="https://bakerst221b.com/docs/toolkit/manuals/android-btfm-rtfm#bypasses">these</a> instructions (Android BTFTM and RTFM, bypasses section). The general idea is to follow these steps:</p>
 <ol>
 <li>Decompile the application to get to the bytecode or AndroidManifest.xml with <code>apktool d &lt;package_name&gt;.apk</code>. We are after <code>AndroidManifest.xml</code> here.</li>

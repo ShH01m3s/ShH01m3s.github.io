@@ -173,7 +173,6 @@
             <li><a href="#finder-mru">Finder MRU</a></li>
           </ul>
         </li>
-        <li><a href="#share-points">Share Points</a></li>
       </ul>
     </li>
     <li><a href="#linux">Linux</a></li>
@@ -228,7 +227,7 @@
 <p>To find the evidence of execution, try the following artefacts:</p>
 <ol>
 <li>Dr Watson</li>
-<li>Installed and unintalled
+<li>Installed and uninstalled
 <ol>
 <li>Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore. The last write time is when the application was installed.</li>
 <li>Key 🔑 Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore for installed Microsoft applications. Defines between those that were installed for a specific user or system-wide.</li>
@@ -254,41 +253,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Application Support/com.apple.spotlight.Shortcuts
 </span></span></code></pre></div><h4 id="finder-mru">Finder MRU</h4>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/Users/%username%/Library/Preferences/com.apple.finder.plist
-</span></span></code></pre></div><h3 id="share-points">Share Points</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">plutil -p &#34;./0/root/private/var/db/dslocal/nodes/Default/sharepoints/Super Sneaky’s Public Folder.plist&#34;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">`/Users/username/.zsh_history` look for something like `hdiutil mount silenteye-0.4.1b-snowleopard.dmg` and `sudo cp -R /Volumes/SilentEye/silenteye-0.4.1b-snowleopard_installer.app /Applications`. 
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Also, `/Users/sneaky/Library/Application Support/com.apple.spotlight/com.apple.spotlight.Shortcuts` if it was then searched via Spotlight.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">`plutil -p &#34;/Users/sneaky/Library/Preferences/com.apple.dock.plist&#34;` . Also gives some information on the file location, timestamps and bundle id.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">```bash
-</span></span><span class="line"><span class="cl">1 =&gt; {
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">      &#34;GUID&#34; =&gt; 2221790314
-</span></span><span class="line"><span class="cl">      &#34;tile-data&#34; =&gt; {
-</span></span><span class="line"><span class="cl">        &#34;book&#34; =&gt; {length = 592, bytes = 0x626f6f6b 50020000 00000410 30000000 ... 04000000 00000000 }
-</span></span><span class="line"><span class="cl">        &#34;bundle-identifier&#34; =&gt; &#34;com.bitrock.installbuilder&#34;
-</span></span><span class="line"><span class="cl">        &#34;dock-extra&#34; =&gt; 0
-</span></span><span class="line"><span class="cl">        &#34;file-data&#34; =&gt; {
-</span></span><span class="line"><span class="cl">          &#34;_CFURLString&#34; =&gt; &#34;file:///Applications/silenteye-0.4.1b-snowleopard_installer.app/&#34;
-</span></span><span class="line"><span class="cl">          &#34;_CFURLStringType&#34; =&gt; 15
-</span></span><span class="line"><span class="cl">        }
-</span></span><span class="line"><span class="cl">        &#34;file-label&#34; =&gt; &#34;silenteye-0.4.1b-snowleopard_installer&#34;
-</span></span><span class="line"><span class="cl">        &#34;file-mod-date&#34; =&gt; 187534827240406
-</span></span><span class="line"><span class="cl">        &#34;file-type&#34; =&gt; 1
-</span></span><span class="line"><span class="cl">        &#34;parent-mod-date&#34; =&gt; 187380208417750
-</span></span><span class="line"><span class="cl">      }
-</span></span><span class="line"><span class="cl">      &#34;tile-type&#34; =&gt; &#34;file-tile&#34;
-</span></span><span class="line"><span class="cl">    }
-</span></span></code></pre></div><blockquote>
-<p>🗒 TODO:
-Binary file ./0/root/Users/sneaky/Library/Application Support/com.apple.spotlight/appList.dat matches
-Binary file ./0/root/Users/sneaky/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.FavoriteVolumes.sfl2 matches
-Binary file ./0/root/Users/sneaky/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentApplications.sfl2 matches</p>
-</blockquote>
-<h2 id="linux">Linux</h2>
+</span></span></code></pre></div><h2 id="linux">Linux</h2>
 <ol>
 <li>Trash <code>/home/%username%/.local/share/Trash/</code></li>
 <li>Recent Files <code>/home/%username%/.local/share/recently-used.xbel</code></li>

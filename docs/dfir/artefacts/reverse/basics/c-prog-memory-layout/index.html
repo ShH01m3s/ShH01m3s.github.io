@@ -237,11 +237,11 @@
     <h2 id="intro">Intro</h2>
 <p>At the very beginning of my career I found it hard to grasp the notion of memory layout and stack. Even when I read about it several times, it didn&rsquo;t feel solid. That&rsquo;s why I drew drew and drew. Because my mind prefers pictures, analogies, metaphors and examples! So, I&rsquo;ve made that. May be someone finds it useful.</p>
 <h2 id="picture">Picture</h2>
-<p><img src="memoryLayoutC.png" alt="memoryLayoutC"></p>
+<p><img src="images/memoryLayoutC.png" alt="memoryLayoutC"></p>
 <h2 id="metaphor-and-analogy">Metaphor and Analogy</h2>
 <p>I was thinking about a good metaphor, but that was the extent of my imagination&hellip; Let&rsquo;s say some weirdo (let&rsquo;s call him Gargaralian) is piling up all the boring books he has 📚 under the table because the appartment is too small and the luxury of having a bookcase is not an option available for him. Besides, the table is a little loose, so that pile of books could be like the fifth leg. Something like that:</p>
-<p><img src="books_under_table.jpg" alt="books_under_table"></p>
-<p><img src="books_under_table_2.png" alt="books_under_table_2"></p>
+<p><img src="images/books_under_table.jpg" alt="books_under_table"></p>
+<p><img src="images/books_under_table_2.png" alt="books_under_table_2"></p>
 <p>He is piling them up to reach the table top. He has limited space from the floor to the table top, around <code>4294967295</code> of hydroget atoms (he&rsquo;s a weirdo, thus he counts table heights in atoms of hydrogen 🤓 ). For normal people, it&rsquo;s about 43 centimetres (around 17 inches). With each book 📘 the distance to the table top is decreased ⬇️ . So, when he puts the first book, the distance becomes smaller - 39 cm. I think, you get the main idea. The same is with memory for each program: each one of them is given a limited space and it should decide wisely how to use it. Some programs might fail that task and have an overflow (when there are more books than the table height lets us pile), some underflow (when there are on the contrary not enough books and the table gets loose), but that&rsquo;s whole another story.</p>
 <p>We will go from the top to the bottom, from the highest address (<code>0xffffffff</code>) to the lowest (<code>0x00000000</code>). As an example, I&rsquo;ll use <code>ping</code> program. So, we have 6 books&hellip;</p>
 <h2 id="memory-segmentation">Memory Segmentation</h2>
@@ -277,15 +277,15 @@
 <p>Each function&rsquo;s belongings on the stack are called a stack frame. Each function gets one. I don&rsquo;t know about you, but I&rsquo;ve watched my fair share of detective movies and series, and when they show someone getting arrested, they come to jail, register and leave all their belongings. They get them back when they are released. You might relate this to a stack: <em>please save this and that until I return</em>.</p>
 <p>The <code>EBP</code> value is needed in order to &ldquo;delete&rdquo; the bunch of stuff stored on the stack for this particular function. They are not actually deleted, they will eventually get overwritten, but since <code>EBP</code> is no logner pointing there, and <code>ESP</code> is restored to the value of the EBP, <code>they</code> are not available for the code.</p>
 <p>Here is a little picture of a stack, that shows how <code>EBP</code> can be moved up and down. Here is how the stack is built:</p>
-<p><img src="growing-stack.png" alt="img"></p>
+<p><img src="images/growing-stack.png" alt="img"></p>
 <p>So, here is how our stack will look like when when the 🚜 function is executed:</p>
-<p><img src="stack-full.png" alt="img"></p>
+<p><img src="images/stack-full.png" alt="img"></p>
 <p>On the other hand, <code>ESP</code> is moving up and down WITHIN the given frame, with each addition or removal from the stack. <code>EBP</code> stays the same WITHIN the frame and changes only when the frame is changed. Since all local variables are added at the beginning of the function in assembly (regardless of where those were added in the source code), and CPU knows the number of those local variables, it can use EBP as a base and calcilate the address of each variable by adding multiples of 32-bits (8 bytes) to the EBP. It&rsquo;s pretty much the same thing as with relative virtual addresses and image base described <a href="https://bakerst221b.com/docs/reverse/basics/memory-addressing/">here</a>.</p>
 <p>Below is a picture of one frame to visualise the difference between <code>EBP</code> and <code>ESP</code>:</p>
-<p><img src="esp-ebp.png" alt="img"></p>
+<p><img src="images/esp-ebp.png" alt="img"></p>
 <p>In the pictures above, fingers pointing to the right 👉🏾 are <code>EBP</code> pointers, palm-front ☝🏾 is <code>ESP</code> and 👈🏾 is a saved <code>EIP</code> (return address). Each function has a finger of different colour, making tracking the changes in the pictures easier. The 🥀 <code>grow_rose</code>&rsquo;s base pointer is of the darker colour 👉🏾, and its <code>EIP</code> (function pointer) is of the same colour but pointing to the left 👈🏾. The 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 and EIP 👈 are yellow. And last but not least, the 🚜 <code>plough</code> function&rsquo;s <code>EBP</code> 👉🏼 and <code>EIP</code> 👈🏼 are both beige.</p>
 <p>Now, when the 🚜 <code>plough</code> function returns, the CPU retrieves the 🌱<code>seed</code> function&rsquo;s <code>EBP</code> 👉 from the 🚜 <code>plough</code> function&rsquo;s stack frame so that now <code>EBP</code> points to the base of this stack frame, which is now 🌱<code>seed</code> function&rsquo;s frame. It also returns the <code>EIP</code> value from the stack, knowing which line of code to execute next.</p>
-<p><img src="removing-from-stack.png" alt="img"></p>
+<p><img src="images/removing-from-stack.png" alt="img"></p>
 <blockquote>
 <p>Just in case you are wondering, return values is stored in the <code>EAX</code> register, not on the stack.</p>
 </blockquote>
@@ -331,7 +331,7 @@
 </span></span></code></pre></div><p>Let&rsquo;s start with the first line, <code>sub esp,0x8</code>. Remember that the stack is growing towards the LOWEST address? So, the <code>ESP</code> pointer gets smaller each time the stack grows. When we ADD something to the stack, we need to SUBTRACT from the stack pointer. When we want to DELETE something, we ADD. A little confusing, I know. Remember, though, on some systems stack grows downwards!</p>
 <p>If you see the source code for the assembly above, or if you prefer the hardcore way, you may notice that there are two local variables, integers <code>20</code> and <code>10</code>. Integers on a 32-bit system are 4 bytes in size. So, two integers is 8 bytes. By substracting 8 from the ESP we are moving the stack pointer down towards the lowest address and thus preparing the nest🪺 for the two local variables.</p>
 <p>The second line, <code>and esp, 0xfffffff0</code> is for the alignment purposes as all addresses need to be aligned to 16-byte (in case of 32-bit systems at least) for some operations. The <code>0xfffffff0</code> mask used with AND operand clears the last bytes of the ESP. Here is what this mask looks like in binary:</p>
-<p><img src="and-mask.png" alt="img"></p>
+<p><img src="images/and-mask.png" alt="img"></p>
 <p>As you can see, the last 4 bits are equal to <code>0</code>. When <code>1</code> is <code>AND</code>ed with <code>0</code>, you get <code>0</code>. When something get&rsquo;s <code>AND</code>ed with <code>1</code>, it remains as it was. So, for the first 28 bits all <code>1</code>s will remain <code>1</code>s and all <code>0</code>s will remain <code>0</code>s. For the last 4 bits, regardless of the original value, all the 4 bits will be set to <code>0</code>. Pretty much as if we were multiplying by <code>1</code> or <code>0</code>, same effect here.</p>
 <p>The following line <code>mov eax,0x0</code>, I assume, is for making sure that the <code>EAX</code> register is cleaned before used (it&rsquo;s always used for the return value on Windows and some other systems). However, I don&rsquo;t yet understand what that&rsquo;s for: <code>sub esp,eax</code>.</p>
 <blockquote>

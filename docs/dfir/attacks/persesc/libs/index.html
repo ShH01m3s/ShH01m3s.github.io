@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Library Abuse - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/attacks/persesc/"> 👈🏼 Back to </br> Persistence and Escalation Mechanisms </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#dll-search-order-hijacking">DLL Search Order Hijacking</a></li>
+        <li><a href="#phantom-dll-hijacking">Phantom DLL hijacking</a></li>
+        <li><a href="#dll-side-by-side-loading-sxs">DLL Side-by-side loading (SxS)</a></li>
+        <li><a href="#relative-path-dll-hijacking">Relative Path DLL Hijacking</a></li>
+      </ul>
+    </li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#dylibs-environment-variables">Dylibs Environment Variables</a></li>
+        <li><a href="#proxying">Proxying</a></li>
+        <li><a href="#hijacking">Hijacking</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Library Abuse</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 03.06.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="windows">Windows</h2>
+<h3 id="dll-search-order-hijacking">DLL Search Order Hijacking</h3>
+<blockquote>
+<p>👑 - require w permissions for <code>Windows</code> and <code>Windows\System32</code>.</p>
+</blockquote>
+<p><strong>Detection</strong>:</p>
+<ol>
+<li>💭 unusual locations for new DLL created or saved during the attack (especially unsigned)</li>
+<li>💭 see RAM for DLLs loaded from the wrong locations</li>
+<li>💭 multiple locations for one DLL</li>
+<li>💭 behavioural analysis (C2C or other)</li>
+<li>🛠️ <a href="https://github.com/adamkramer/dll_hijack_detect/releases">https://github.com/adamkramer/dll_hijack_detect/releases</a></li>
+<li>IDS/IPS</li>
+<li>Integrity controls?</li>
+</ol>
+<blockquote>
+<p><strong>Example</strong>: <code>eplorer.exe</code> loading <code>ntshrui.dll</code>.</p>
+</blockquote>
+<p>Following is the search order for modern Windows systems:</p>
+<ol>
+<li>Manifest (if the application provides an absolute path to the <code>dll</code>)</li>
+<li>RAM</li>
+<li>SxS</li>
+<li><code>KnowDLLs</code> list <code>HKLM\SYSTEM\CurrentControlSet\Control\WOW</code>  or <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs</code> ([docs](KnowDLLs<code>list</code>HKLM\SYSTEM\CurrentControlSet\Control\WOW`)). So, if the dll is in the list, the link from the registry is used, and there is no search conducted.</li>
+<li>Application&rsquo;s loading directory</li>
+<li><code>C:\Windows\System32</code></li>
+<li><code>C:\Windows\system</code></li>
+<li><code>C:\Windows</code></li>
+<li>Application&rsquo;s registered App Paths directories ❓/ Current directory</li>
+<li><code>%PATH%</code> env variable</li>
+</ol>
+<blockquote>
+<p>❗️ If a DLL has dependencies, the system searches for the dependent DLLs as if they were loaded with just their module names. This is true even if the first DLL was loaded by specifying a full path. [<a href="https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching">1</a>] So, that means that we can make a side-loading attack on &ldquo;a side-loaded <code>dll</code>&rdquo;!</p>
+</blockquote>
+<blockquote>
+<p>❓Not sure about the different paths specified for the KnowDlls entries. This might be due to the different OS versions. See <a href="http://stuff.is-a-geek.net/OnlineDocs/Microsoft/NTmisc/Troubleshooting%20NTVDM%20and%20WOW%20startup%20problems.htm">here</a>:</p>
+<p>For 16-bit apps, Windows NT uses KnownDLLs to implicitly and explicitly load DLLs. The value is at <code>HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\WOW</code>. At this key, <code>KnownDLLs</code> is a type <code>REG_SZ</code> value which lists the 8.3 DLL names, separated by spaces. Without a <code>KnownDLLs</code> entry, <code>WOW</code> searches:</p>
+<ol>
+<li>The current directory.</li>
+<li>The <code>%SystemRoot%</code> directory.</li>
+<li>The <code>%SystemRoot%\SYSTEM</code> directory.</li>
+<li>The <code>%SystemRoot%\SYSTEM32</code> directory.</li>
+<li>The <code>.exe</code> file directory.</li>
+<li>The directories in your <code>Path</code> environment variable.</li>
+</ol>
+</blockquote>
+<p>With the KnownDLLs entry, WOW only searches the %SystemRoot%\SYSTEM32 directory.</p>
+<p>The order also depends on the <code>SafeDllSearchMode</code> (🔑 <code>HKLM\System\CurrentControlSet\Control\Session Manager\SafeDllSearchMode</code>).  Here is the quote from the <a href="https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#standard-search-order-for-desktop-applications">docs</a>:</p>
+<blockquote>
+<p>If <strong>SafeDllSearchMode</strong> is enabled ✅, the search order is as follows:</p>
+<ol>
+<li>The directory from which the application loaded.</li>
+<li>The system directory. Use the <a href="https://learn.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya"><strong>GetSystemDirectory</strong></a> function to get the path of this directory.</li>
+<li>The 16-bit system directory. No function obtains the path of this directory, but it is searched.</li>
+<li>The Windows directory. Use the <a href="https://learn.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya"><strong>GetWindowsDirectory</strong></a> function to get the path of this directory.
+<strong>&gt;5. The current directory.</strong></li>
+<li>The directories are listed in the PATH environment variable. Note that this does not include the per-application path specified by the <strong>App Paths</strong> registry key. The <strong>App Paths</strong> key is not used when computing the DLL search path.</li>
+</ol>
+<p>If <strong>SafeDllSearchMode</strong> is disabled ⛔️, the search order is as follows:</p>
+<ol>
+<li>The directory from which the application loaded.
+<strong>&gt; 2. The current directory.</strong></li>
+<li>The system directory. Use the <a href="https://learn.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya"><strong>GetSystemDirectory</strong></a> function to get the path of this directory.</li>
+<li>The 16-bit system directory. No function obtains the path of this directory, but it is searched.</li>
+<li>The Windows directory. Use the <a href="https://learn.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya"><strong>GetWindowsDirectory</strong></a> function to get the path of this directory.</li>
+<li>The directories that are listed in the PATH environment variable. Note that this does not include the per-application path specified by the <strong>App Paths</strong> registry key. The <strong>App Paths</strong> key is not used when computing the DLL search path.</li>
+</ol>
+</blockquote>
+<h3 id="phantom-dll-hijacking">Phantom DLL hijacking</h3>
+<p>An executable is trying to load a very old <code>dll</code>, even though it&rsquo;s superfluous. Some don&rsquo;t even exist anymore, for example, <code>fxsst.dll</code> (fax service). The attacker creates a DLL with the same name and some nefarious functionality.</p>
+<p>📚 <strong>Further Reading</strong>:</p>
+<ol>
+<li>forrest-orr.net/post/malicious-memory-artifacts-part-i-dll-hollowing</li>
+<li><a href="https://resources.infosecinstitute.com/topic/dll-hijacking-attacks-revisited/">https://resources.infosecinstitute.com/topic/dll-hijacking-attacks-revisited/</a></li>
+</ol>
+<h3 id="dll-side-by-side-loading-sxs">DLL Side-by-side loading (SxS)</h3>
+<p>Side-by-side loading (SxS) mechanism to introduce updated versions of DLL. It can be used to circumvent anti-virus. Example: PlugX RAT. Legitimately signed <code>exe</code> uses SxS to load a malicious <code>dll</code>. The attacker puts a nefarious <code>dll</code> somewhere down the road to ensure it&rsquo;s loaded instead of a legitimate one.</p>
+<p>📚 <strong>Further Reading</strong>:</p>
+<ol>
+<li><a href="https://www.bitdefender.com/blog/businessinsights/tech-explainer-what-is-dll-sideloading/">https://www.bitdefender.com/blog/businessinsights/tech-explainer-what-is-dll-sideloading/</a></li>
+<li><a href="https://www.mandiant.com/resources/reports/dll-side-loading-thorn-side-anti-virus-industry">https://www.mandiant.com/resources/reports/dll-side-loading-thorn-side-anti-virus-industry</a></li>
+</ol>
+<h3 id="relative-path-dll-hijacking">Relative Path DLL Hijacking</h3>
+<p>The attacker discovers vulnerable executable files (ones that use relative paths to DLLs) and creates a malicious DLL to replace the legitimate one. Afterwards, they duplicate that executable and place it in the same directory as the malicious DLL. When that executable is launched, it will load the DLL living side by side rather than the legit one from a system directory.</p>
+<p><strong>Detection</strong>:</p>
+<ol>
+<li>📂 Unusual locations for known libraries (especially, unsigned)</li>
+<li>📂 Duplications</li>
+</ol>
+<h2 id="macos">macOS</h2>
+<h3 id="dylibs-environment-variables">Dylibs Environment Variables</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">DYLD_*
+</span></span><span class="line"><span class="cl">DYLD_INSERT_LIBRARIES <span class="c1"># all libs from this env will be loaded</span>
+</span></span><span class="line"><span class="cl">DYLD_FRAMEWORK_PATH
+</span></span></code></pre></div><p>These libraries are loaded within a trusted host process, not resulting in a new process.</p>
+<p>A <code>plist</code> for launch item - <code>EnvironmentVariables</code>. For application - <code>LSEnvironment</code> (<code>Info.plist</code>).</p>
+<h3 id="proxying">Proxying</h3>
+<h3 id="hijacking">Hijacking</h3>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

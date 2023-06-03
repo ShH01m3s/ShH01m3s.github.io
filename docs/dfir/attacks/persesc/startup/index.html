@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Config Abuse - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/attacks/persesc/"> 👈🏼 Back to </br> Persistence and Escalation Mechanisms </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#-file-system">📂 File System</a></li>
+        <li><a href="#-registry">⚙️ Registry</a></li>
+        <li><a href="#policies">Policies</a></li>
+      </ul>
+    </li>
+    <li><a href="#linux">Linux</a></li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#login-items">Login Items</a></li>
+        <li><a href="#programming-persistence">Programming persistence</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Config Abuse</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 03.06.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>Some persistence and escalation techniques don&rsquo;t require an exploit but only a little tweaking of some config.</em></p>
+<h2 id="windows">Windows</h2>
+<h3 id="-file-system">📂 File System</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">%AppData%<span class="se">\R</span>oaming<span class="se">\M</span>icorsoft<span class="se">\W</span>indows<span class="se">\S</span>tart Menu<span class="se">\P</span>rograms<span class="se">\S</span>tartup
+</span></span></code></pre></div><h3 id="-registry">⚙️ Registry</h3>
+<p>The list of reg keys that could be abused for persistence and escalation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">🔑 C:<span class="se">\U</span>sers<span class="se">\[</span>Username<span class="o">]</span><span class="se">\A</span>ppData<span class="se">\R</span>oaming<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\S</span>tart Menu<span class="se">\P</span>rograms<span class="se">\S</span>tartup <span class="o">(</span>default<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 C:<span class="se">\P</span>rogramData<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\S</span>tart Menu<span class="se">\P</span>rograms<span class="se">\S</span>tartUp <span class="o">(</span>default<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>un <span class="o">(</span>default<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unOnce <span class="o">(</span>default<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>un <span class="o">(</span>default<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unOnce <span class="o">(</span>default<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unOnceEx: reg add HKLM<span class="se">\S</span>OFTWARE<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unOnceEx<span class="se">\0</span>001<span class="se">\D</span>epend /v <span class="m">1</span> /d <span class="s2">&#34;C:\temp\evil[.]dll&#34;</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\E</span>xplorer<span class="se">\U</span>ser Shell Folders
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\E</span>xplorer<span class="se">\S</span>hell Folders
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>OFTWARE<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\E</span>xplorer<span class="se">\S</span>hell Folders
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>OFTWARE<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\E</span>xplorer<span class="se">\U</span>ser Shell Folders
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unServicesOnce
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unServicesOnce
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unServices
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\R</span>unServices
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\P</span>olicies<span class="se">\E</span>xplorer<span class="se">\R</span>un <span class="o">(</span>when specified in the policy settings<span class="o">)</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows<span class="se">\C</span>urrentVersion<span class="se">\P</span>olicies<span class="se">\E</span>xplorer<span class="se">\R</span>un <span class="o">(</span>when specified in the policy settings<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows NT<span class="se">\C</span>urrentVersion<span class="se">\W</span>inlogon<span class="se">\U</span>serinit <span class="c1"># Usually, only userinit.exe is referenced here. Winlogon.exe will launch all executables mentioned. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows NT<span class="se">\C</span>urrentVersion<span class="se">\W</span>inlogon<span class="se">\S</span>hell 
+</span></span><span class="line"><span class="cl">🔑 HKEY_CURRENT_USER<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows NT<span class="se">\C</span>urrentVersion<span class="se">\W</span>indows <span class="c1"># run when any user logs on.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># multistring BootExecute value of the registry</span>
+</span></span><span class="line"><span class="cl">🔑 HKEY_LOCAL_MACHINE<span class="se">\S</span>ystem<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\S</span>ession Manager <span class="c1"># to autocheck autochk *. This value causes Windows, at startup, to check the file-system integrity of the hard disks if the system has been shut down abnormally. Adversaries can add other programs or processes to this registry value which will automatically launch at boot. Adversaries can use the autostart mechanism provided by LSA authentication packages for persistence by placing a reference to a binary in the Windows Registry location HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ with the key value of &#34;Authentication Packages&#34;=&lt;target binary&gt;. The binary will then be executed by the system when the authentication packages are loaded. Time providers are implemented as dynamic-link libraries (DLLs) that are registered in the subkeys of HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\W32Time\TimeProviders\. The time provider manager, directed by the service control manager, loads and starts time providers listed and enabled under this key at system startup and/or whenever parameters are changed. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">🔑 HKLM<span class="se">\S</span>oftware<span class="o">[</span><span class="se">\W</span>ow6432Node<span class="se">\]\M</span>icrosoft<span class="se">\W</span>indows NT<span class="se">\C</span>urrentVersion<span class="se">\W</span>inlogon<span class="se">\ </span>
+</span></span><span class="line"><span class="cl">🔑 HKCU<span class="se">\S</span>oftware<span class="se">\M</span>icrosoft<span class="se">\W</span>indows NT<span class="se">\C</span>urrentVersion<span class="se">\W</span>inlogon<span class="se">\ </span><span class="c1"># are used to manage additional helper programs and functionalities that support Winlogon.</span>
+</span></span><span class="line"><span class="cl">	🔑 Winlogon<span class="se">\N</span>otify points to notification package DLLs that handle Winlogon events.
+</span></span><span class="line"><span class="cl">	🔑 Winlogon<span class="se">\U</span>serinit points to userinit.exe, the user initialisation program executed when a user logs on
+</span></span><span class="line"><span class="cl">	🔑 Winlogon<span class="se">\S</span>hell points to explorer.exe, the system shell executed when a user logs on
+</span></span><span class="line"><span class="cl">HKLM<span class="se">\S</span>YSTEM<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\L</span>sa<span class="se">\S</span>ecurity Packages, HKLM<span class="se">\S</span>YSTEM<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\L</span>sa<span class="se">\O</span>SConfig<span class="se">\S</span>ecurity Packages load into LSA space, meaning having access to unencrypted password info. 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Boot execute. Not sure what that means https://www.tenable.com/plugins/nessus/70615. It could be [this](https://github.com/beahunt3r/Windows-Hunting/blob/master/Persistence/Registry%20Autoruns/Boot%20Execute):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">🔑 HKLM<span class="se">\S</span>ystem<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\S</span>erviceControlManagerExtension
+</span></span><span class="line"><span class="cl">🔑 HKLM<span class="se">\S</span>ystem<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\S</span>ession Manager<span class="se">\B</span>ootExecute
+</span></span><span class="line"><span class="cl">🔑 HKLM<span class="se">\S</span>ystem<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\S</span>ession Manager<span class="se">\E</span>xecute
+</span></span><span class="line"><span class="cl">🔑 HKLM<span class="se">\S</span>ystem<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\S</span>ession Manager<span class="se">\S</span>0InitialCommand
+</span></span><span class="line"><span class="cl">🔑 HKLM<span class="se">\S</span>ystem<span class="se">\C</span>urrentControlSet<span class="se">\C</span>ontrol<span class="se">\S</span>ession Manager<span class="se">\S</span>etupExecute
+</span></span></code></pre></div><h3 id="policies">Policies</h3>
+<p>More about it <a href="https://www.tenforums.com/tutorials/87919-enable-data-persistence-microsoft-edge-application-guard.html#option1">here</a>. This could be used to allow some legit software.</p>
+<p><code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</code> (when specified in the policy settings)</p>
+<ul>
+<li><code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run</code> (when specified in the policy settings)</li>
+</ul>
+<h2 id="linux">Linux</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/systemd/system  
+</span></span><span class="line"><span class="cl">/usr/lib/systemd/system 
+</span></span><span class="line"><span class="cl">/etc/init*
+</span></span></code></pre></div><h2 id="macos">macOS</h2>
+<h3 id="login-items">Login Items</h3>
+<p><code>System Preferences -&gt; Users &amp; Groups -&gt; Login Items</code>. Additional: SDF podcast.</p>
+<p>How to determine if it&rsquo;s malicious? Well, the sure way is only to reverse engineer it, but it is time consuming. So, you need to narrow down the candidates first. There are a couple of indicators that are commonly seen in malware.</p>
+<blockquote>
+<p>Login items run within the user’s desktop session, inheriting the user’s permissions, and start automatically at user login. Due to this afforded persistence, Mac malware will commonly install itself as a login item. You can find examples of this technique in malware like Kitm, NetWire, and WindTail. Wardle, Patrick. The Art of Mac Malware (p. 24). No Starch Press. Kindle Edition.</p>
+</blockquote>
+<blockquote>
+<p>❗️ macOS doesn’t readily show the full path to a persisted login item in its interface (unless you hover over the item for a few seconds)</p>
+</blockquote>
+<p>👻 <code>backgroundtaskmanagementagent</code> is a daemon that is running in the background and thus also manages login items. The list of the items is stored in a file ⚙️  named <code>backgrounditems.btm</code>.</p>
+<h3 id="programming-persistence">Programming persistence</h3>
+<p>⚙️  <code>LSSharedFileListCreate</code> (returns the reference to the list) -&gt; <code>LSSharedFileListInsertItemURL</code> (adds a new item, requires a full path to the item).</p>
+<p>To view the APIs used run <code>nm WindTail/Final_Presentation.app/Contents/MacOS/usrnode</code>. The above two APIs in the list suggest the binary used this persistence mechanism.</p>
+<p>🥷🏼 (stealthy) <code>SMLoginItemSetEnabled</code> - the “Modern Login Items” blog post or Apple’s documentation. This allows application-specific helper login items. They don&rsquo;t show up in the Preferences. Those items are stored in <code>LoginItems</code> subdirectory of an application’s bundle.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
