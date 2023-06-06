@@ -163,13 +163,13 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#cmd">CMD</a></li>
+    <li><a href="#powershell">PowerShell</a>
       <ul>
-        <li><a href="#cmd">CMD</a></li>
-        <li><a href="#powershell">PowerShell</a></li>
-        <li><a href="#wsl">WSL</a></li>
+        <li><a href="#logs">Logs</a></li>
       </ul>
     </li>
+    <li><a href="#wsl">WSL</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -205,14 +205,17 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h3 id="cmd">CMD</h3>
-<h3 id="powershell">PowerShell</h3>
-<p>Windows PowerShell Event logs Operational Monitoring.</p>
-<p><code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell%Operational.evtx</code>, ID 4103, 4104 (if Windows considers suspicious).</p>
-<p><code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell.evtx</code>. ID 400, 800.</p>
-<p><code>%userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost</code> - poweshell history.</p>
-<p>Powershell has short commands. For example, <code>Get-Command</code> cmdlet can be shortened to gcm. Used along with wildcards, one can obfuscate a script a little: gcm &lsquo;i<em>e-e</em>&rsquo; gets the list of commands satisfying this expression, which is only one:<code> Invoke-Expression</code>.</p>
-<h3 id="wsl">WSL</h3>
+    <h2 id="cmd">CMD</h2>
+<p>Batch script. Highly limited in functionality and caching all sorts of crap including credentials.</p>
+<h2 id="powershell">PowerShell</h2>
+<p>PowerShell has short commands. For example, <code>Get-Command</code> cmdlet can be shortened to <code>gcm</code>. Used along with wildcards, one can obfuscate a script a little: <code>gcm 'i*e-e*'</code> gets the list of commands satisfying this expression, which is only one:<code> Invoke-Expression</code>.</p>
+<p><code>Enter-PSSession</code> - similar to SSH, but uses Kerberos for authentication.</p>
+<p>📚 <strong>Further reading</strong>: <a href="https://devblogs.microsoft.com/scripting/weekend-scripter-using-powershell-to-aid-in-security-forensics/">https://devblogs.microsoft.com/scripting/weekend-scripter-using-powershell-to-aid-in-security-forensics/</a>, <a href="https://www.ldap389.info/en/2013/06/17/powershell-forensic-onliners-regex-get-eventlog/">https://www.ldap389.info/en/2013/06/17/powershell-forensic-onliners-regex-get-eventlog/</a>, <a href="https://devblogs.microsoft.com/scripting/use-powershell-to-perform-offline-analysis-of-security-logs/">https://devblogs.microsoft.com/scripting/use-powershell-to-perform-offline-analysis-of-security-logs/</a>, <a href="https://devblogs.microsoft.com/scripting/learn-the-easy-way-to-use-powershell-to-get-file-hashes/">https://devblogs.microsoft.com/scripting/learn-the-easy-way-to-use-powershell-to-get-file-hashes/</a>, <a href="https://devblogs.microsoft.com/scripting/use-powershell-to-compute-md5-hashes-and-find-changed-files/">https://devblogs.microsoft.com/scripting/use-powershell-to-compute-md5-hashes-and-find-changed-files/</a>.</p>
+<h3 id="logs">Logs</h3>
+<p>Windows PowerShell Event logs Operational Monitoring: <code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell%Operational.evtx</code>, ID <code>4103</code>, <code>4104</code> (if Windows considers it suspicious).</p>
+<p><code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell.evtx</code>. ID <code>400</code>, <code>800</code>.</p>
+<p><code>%userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost</code> - PowerShell history.</p>
+<h2 id="wsl">WSL</h2>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

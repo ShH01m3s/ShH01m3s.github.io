@@ -163,6 +163,12 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li>
+      <ul>
+        <li><a href="#types">Types</a></li>
+        <li><a href="#whitelist">Whitelist</a></li>
+      </ul>
+    </li>
     <li><a href="#-btfm">📘 BTFM</a></li>
     <li><a href="#terms">Terms</a></li>
     <li><a href="#analysis-with-wmi">Analysis with WMI</a></li>
@@ -219,20 +225,67 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>A little theory&hellip; . <strong>Event filter</strong> is a condition that should be met for something to happen. What&rsquo;s the something? This something is an <strong>Event Consumer</strong> (script or executable). <strong>Binding</strong> is used to tie these two guys up. To setup, this thing - use Powershell or <code>mofcomp.exe</code> (compiles <code>MOF</code> files into <code>OBJECTS.DATA</code>).</p>
+    <p><em>In days of yore, there existed a humble batch, whence emerged the WMI, and it didst hold dominion o&rsquo;er the realm of Windows contraptions for a considerable span until it was entwined with the might of PowerShell.</em></p>
+<p>An <strong>event filter</strong> is a condition that should be met for something to happen. What&rsquo;s the something? This something is an <strong>Event Consumer</strong> (script or executable). <strong>Binding</strong> is used to tie these two guys up. To set up, up this thing we can use PowerShell or <code>mofcomp.exe</code> (compiles <code>MOF</code> files into <code>OBJECTS.DATA</code>). It is similar to scheduled tasks but much more flexible, robust and capable. Malware has been using WMI for a while, the pioneer being the notorious 🦠 Stuxnet.</p>
 <blockquote>
 <p>⚠️  WMI consumers run with SYSTEM privileges.</p>
 </blockquote>
-<p>Init of event filter, consumer and binder are usually contained within a <code>MOF</code> file used to register new classes into the WMI repo. <code>Set-WmiInstance</code> or <code>CreateInstance</code> can also be used. To note, Metasploit can do that as well (PowerShell commands under the hood?). Example 🦠: Stuxnet.</p>
+<p>There are two ways to interact with WMI: <code>wmic</code> utility (running as a process <code>wmprsve.exe</code>) and PowerShell (many cmdlets are wrappers around WMI). When you create a filter-consumer-binder thingy, it&rsquo;s added to a MOF file which is some WMI repo. It is used to register new classes into the WMI repo. <code>Set-WmiInstance</code> or <code>CreateInstance</code> can also be used. To note, Metasploit can do that as well (PowerShell commands under the hood?).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/?</span>
 </span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">full</span>
 </span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="n">nicconfig</span> <span class="n">get</span>
 </span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="p">&lt;</span><span class="n">IP</span><span class="p">&gt;</span> <span class="k">process</span> <span class="n">get</span>
-</span></span></code></pre></div><p><strong>Tools</strong> 🛠: Cmdlet <code>Get-WmiOject</code> can identify and delete entries, Kansa Framework, <code>autoruns</code> (Sysinternals).</p>
-<p>📚 <strong>References</strong>: <a href="https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/">pentest lab article</a>, SANS <a href="https://www.sans.org/blog/wmic-for-incident-response/">article</a>.</p>
+</span></span></code></pre></div><h3 id="types">Types</h3>
+<p>The first two types are beloved attackers because they give the best capabilities. The <code>LogFileEventConsumer</code> and <code>NTEventLogEventConsumer</code> could be used to cover the tracks, while <code>SMTPEventConsumer</code> could be utilised for C2C, but I have not researched that.</p>
+<ol>
+<li>ActiveScriptEventConsumer 🔥 - execute a <code>vbs</code> or <code>js</code> script.</li>
+<li>CommandLineEventConsumer 🔥 - start a process.</li>
+<li>LogFileEventConsumer - write to logs.</li>
+<li>NTEventLogEventConsumer - log message to event logs.</li>
+<li>SMTPEventConsumer - email via SMTP.</li>
+<li>Custom - one needs a COM object to use that.</li>
+</ol>
+<h3 id="whitelist">Whitelist</h3>
+<p>There are not too many default WMI consumers, so it&rsquo;s pretty trivial to whitelist those.</p>
+<ol>
+<li><code>SCM Event Log Consumer</code>. This WMI consumer monitors events related to the Service Control Manager (SCM) on a Windows machine. It captures service start, stop, and failure events, allowing administrators to track and troubleshoot service-related issues.</li>
+<li><code>TSLogonFilter</code> - filters and captures events related to Terminal Services logon on a Windows machine. It enables administrators to monitor and log user logon activities, session creation, and other related events in a Terminal Services environment.</li>
+<li><code>KernCap.vbs</code> -  acts as a WMI consumer and is used to capture kernel events on a Windows machine. It allows administrators to monitor and log events related to the Windows kernel, such as driver loading, system crashes, and other low-level system activities.</li>
+<li><code>BVTFilter</code> -  filters and captures events related to Boot Verification Test (BVT) on a Windows machine. BVT is a testing mechanism Microsoft uses to verify the integrity and functionality of the Windows boot process. The BVTFilter consumer helps monitor and log events associated with this testing process.</li>
+<li><code>RAevent.vbs</code> - used for capturing events related to Remote Assistance (RA) sessions on a Windows machine. It allows administrators or remote support personnel to monitor and log events related to RA sessions, including session initiation, user interaction, and session termination.</li>
+<li><code>NTEventLogConsumer</code> - captures events from the Windows Event Log. It can monitor and log various events recorded in the Event Log, including application, system, and security events. Its purpose is to provide a general mechanism for capturing events from the Windows Event Log.</li>
+<li><code>TSLogonEvents.vbs</code> - designed to capture events related to Terminal Services logon on a Windows machine. It enables administrators to monitor and log user logon activities, session creation, and other related events, specifically in a Terminal Services environment.</li>
+<li><code>RmAssistEventFilter</code> filters and captures events related to a Windows machine&rsquo;s Resource Manager Assistance (RmAssist) feature. RmAssist is a Windows Server feature that assists in managing resources for virtual machines. The RmAssistEventFilter consumer allows administrators to monitor and log events related to resource management activities.</li>
+<li><code>WSCEAA.exe</code> (Dell) - ???</li>
+</ol>
+<p>📚 <strong>References</strong>: <a href="https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/">pentest lab article</a>, SANS <a href="https://www.sans.org/blog/wmic-for-incident-response/">article</a>, <a href="https://www.sans.org/blog/finding-evil-wmi-event-consumers-with-disk-forensics/?utm_medium=Social&amp;utm_source=Twitter&amp;utm_content=WMI%20Forensics_Blog_VMR&amp;utm_campaign=DFIR%20Blog">https://www.sans.org/blog/finding-evil-wmi-event-consumers-with-disk-forensics/?utm_medium=Social&amp;utm_source=Twitter&amp;utm_content=WMI%20Forensics_Blog_VMR&amp;utm_campaign=DFIR%20Blog</a>, <a href="https://www.sans.org/blog/wmic-for-incident-response/">https://www.sans.org/blog/wmic-for-incident-response/</a>, <a href="https://isc.sans.edu/diary/Tip+of+the+Day+-+Like+a+Kid+in+a+WMIC+Candy+Store/1622">https://isc.sans.edu/diary/Tip+of+the+Day+-+Like+a+Kid+in+a+WMIC+Candy+Store/1622</a></p>
 <h2 id="-btfm">📘 BTFM</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="p">.\</span><span class="n">Modules</span><span class="p">\</span><span class="k">Process</span><span class="p">\</span><span class="nb">Get-ProcsWMI</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">Out-GridView</span> <span class="c"># Kansa&#39;s Module to pull info about ProcsWMI from the live system and display in a user-friendly mode.</span>
-</span></span></code></pre></div><h2 id="terms">Terms</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="c"># See the consumers</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">___EventFilter</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">___EventConsumer</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="n">Subscription</span> <span class="n">-Class</span> <span class="n">___FilterToConsumerBinding</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="k">Default</span> <span class="n">-Class</span> <span class="n">___EventFilter</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="k">Default</span> <span class="n">-Class</span> <span class="n">___EventConsumer</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Get-WmiObject</span> <span class="n">-Namespace</span> <span class="n">root</span><span class="p">\</span><span class="k">Default</span> <span class="n">-Class</span> <span class="n">___FilterToConsumerBinding</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Create consumers</span>
+</span></span><span class="line"><span class="cl"><span class="nb">Set-WmiInstance</span>
+</span></span><span class="line"><span class="cl"><span class="n">CreateInstance</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Spot processes NOT running from Windows folder. You see a system process here - red flag 🚩 </span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="k">PROCESS</span> <span class="nb">WHERE </span><span class="s2">&#34;NOT ExecutablePath LIKE &#39;%Windows%&#39;&#34;</span> <span class="n">GET</span> <span class="n">ExecutablePath</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># remote management</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># list autoruns</span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="n">IP</span> <span class="n">startup</span> <span class="n">list</span> <span class="n">all</span> 
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="n">IP</span> <span class="k">process</span> <span class="n">get</span> <span class="c"># get process list</span>
+</span></span><span class="line"><span class="cl"><span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="n">IP</span> <span class="n">nicconfig</span> <span class="n">get</span> <span class="c"># net config on a remote system</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> <span class="p">.\</span><span class="n">Modules</span><span class="p">\</span><span class="k">Process</span><span class="p">\</span><span class="nb">Get-ProcsWMI</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">Out-GridView</span> <span class="c"># Kansa&#39;s Module to pull info about ProcsWMI from the live system and display in a user-friendly mode.</span>
+</span></span></code></pre></div><p>🛠️ <code>autorunsc</code> and 🛠️ <code>Kansa</code> both can get the artefacts associated with this mechanism. Also, 🛠️ <code>PoSh-R2</code> (<a href="https://github.com/WiredPulse/PoSh-R2">here</a>) and <code>Velociraptor</code> are both tools to use for the collection.</p>
+<h2 id="terms">Terms</h2>
 <p><strong>cmdlet</strong> - put certain enhanced operating system functions into effect when usung powershell, example: <code>Get-Help</code>.</p>
 <p><strong>WMI</strong> (Windows Management Instrumentation). Some of the functions are available through powershell cmdlets. Use <code>Get-Command -Noun WMI*</code> to get all WMI cmdlets. On my Windows VM (Parallels, Windows insider) I got this result:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="n">C:</span><span class="p">\</span><span class="n">Users</span><span class="p">\</span><span class="n">user</span><span class="p">&gt;</span> <span class="nb">Get-Command</span> <span class="n">-Noun</span> <span class="n">WMI</span><span class="p">*</span>
@@ -310,7 +363,6 @@
     <summary>Expand&hellip;</summary>
     Something here
 </details>
-
   </div>
 </article>
 </div>
