@@ -230,7 +230,7 @@
   <div class="content" itemprop="articleBody">
     <p><em>This article collects the basics of TCP protocol. Its friend UDP (transport layer protocol as well) is faster but less reliable.</em></p>
 <h2 id="segment-structure">Segment structure</h2>
-<p><img src="dfir/attacks/protocols/transport/tcp/images/1.png" alt="img"></p>
+<p><img src="images/1.png" alt="img"></p>
 <h3 id="intro">Intro</h3>
 <p>The desired prerequisite for this article is <a href="/docs/articles/fundamentals/network/osi/overview">this</a>. It&rsquo;s also recommended to read about <strong>data structures</strong>.  A very good book that I&rsquo;ve accidenatlly stumbled upon is Brian Carrier&rsquo;s <em>File System Forensic Analysis</em> [<a href="#references">3</a>]. I also strongly believe, that the best way to learn is to activate different parts of the brain. Simple reading is not enough, that&rsquo;s why I&rsquo;m trying to mix in pictures and emoji. Also, metaphors help and analogies which I also try to provide. But it would really help, if you installed some packet capture program (<a href="https://www.wireshark.org/download.html">Wireshark</a> is an example), opened some network interface and observed the stuff I&rsquo;m talking about yourself.</p>
 <p>Off we go ✈️.</p>
@@ -263,13 +263,13 @@
 <p>Imagine, Homer receives these packages in the right order: <code>1</code> 📦-&gt; <code>2</code> 📦-&gt; <code>3</code> 📦-&gt; <code>4</code>📦 -&gt; <code>5</code>  📦-&gt; <code>6</code> 📦-&gt; <code>7</code> 📦-&gt; <code>8</code> 📦-&gt; <code>9</code> 📦 . He didn&rsquo;t know that there were supposed to be 10 packages in total. He might notice the mistake if he then opens them all and finds something in the wrong state.</p>
 <p>The best solution to track packages 📦 and to detect errors 🛑 right away is for Marge to send a package along with the number of the next package. For example,  <code>1</code> 📦 (the next is <code>2</code>)-&gt; <code>2</code> 📦 (the next is <code>3</code>)-&gt; <code>3</code> 📦 (the next is <code>4</code>)-&gt; <code>4</code>📦 (the next is <code>5</code>) -&gt; <code>5</code>  📦 (the next is <code>6</code>)-&gt; <code>6</code> 📦 (the next is <code>7</code>)-&gt; <code>7</code> 📦(the next is <code>8</code>)-&gt; <code>8</code> 📦 (the next is <code>9</code>)-&gt; <code>9</code> 📦 (the next is <code>10</code>)-<code>10</code>📦 (it&rsquo;s the last).</p>
 <p>The problem with this scheme is that these numbers are predictable and someone malicious might interfere and substitue a legitimate package 📦 with his/her package 🕷️📦. Consider this scenario:</p>
-<p><img src="dfir/attacks/protocols/transport/tcp/images/14.png" alt="img"></p>
+<p><img src="images/14.png" alt="img"></p>
 <ol>
 <li>A pervert puppy 🐕  (don&rsquo;t judge the puppy) wants to get a picture of naked dogs from the server (arrow #1) and after establishing the connection, the server sends the first picture to the puppy with a sequence number 1.</li>
 <li>A genius hacker has been listening and now knows that the next sequence number is <code>2</code>.</li>
 <li>To prevent the server from sending the second picture, he keeps it busy with requests and meanwhile sends a picture with number <code>2</code> on it to the pervert puppy 🐕 . And on this picture, oh horror! Let&rsquo;s not tell. Now puppy will wait until his 18-21 year to look at the naked ladies.</li>
 </ol>
-<p><img src="dfir/attacks/protocols/transport/tcp/images/15.png" alt="img"></p>
+<p><img src="images/15.png" alt="img"></p>
 <p>When the servere is finally free and ready, it, of course, might send the pictire <code>2</code> (the one originally requested by the puppy), but since the puppy has already received picture #2, he&rsquo;ll ignore it.</p>
 <p>That&rsquo;s why these sequence numbers are supposed to be unpredictable or at least very hard to predict. On Windows machines they were just incremented by one after the first sequence number was generated for the connection. That&rsquo;s why the attacker only had to intercept one request to calculate the next sequence number.</p>
 <p>See the screenshot below for an example from the wild 🐅 :</p>
