@@ -163,16 +163,29 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#anatomy">Anatomy</a>
       <ul>
-        <li><a href="#system-and-event-logs">System and Event Logs</a></li>
+        <li><a href="#location">Location</a></li>
+      </ul>
+    </li>
+    <li><a href="#tools">Tools</a>
+      <ul>
         <li><a href="#event-viewer">Event Viewer</a></li>
         <li><a href="#event-log-explorer">Event Log Explorer</a></li>
         <li><a href="#evtxecmd">Evtxecmd</a></li>
         <li><a href="#chainsaw">Chainsaw</a></li>
         <li><a href="#kansa">Kansa</a></li>
         <li><a href="#sysmon">Sysmon</a></li>
-        <li><a href="#codes">Codes</a></li>
+      </ul>
+    </li>
+    <li><a href="#codes">Codes</a>
+      <ul>
+        <li><a href="#unsorted">Unsorted</a>
+          <ul>
+            <li><a href="#4907">4907</a></li>
+          </ul>
+        </li>
+        <li><a href="#network">Network</a></li>
         <li><a href="#processes">Processes</a>
           <ul>
             <li><a href="#25">25</a></li>
@@ -232,7 +245,6 @@
     </li>
     <li><a href="#exercise">Exercise</a></li>
     <li><a href="#references">References</a></li>
-    <li><a href="#references-1">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -267,28 +279,29 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>This is about &hellip; .</em></p>
-<p>Check for 👣 Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
-<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
-<p><code>5158</code> <code>5154</code> -&gt;</p>
-<p><code>5158</code> -&gt; <code>5031</code> binding started and terminated by firewall.</p>
-<p>PID, Application field (path to the executable and exe name), Inbound/Outbound, <code>sport</code>/<code>dport</code>, addresses (src and dst), protocol field.</p>
-<p>If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditin policy using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to star capturing event 5156. I was using Vbox with Windows Server 2019 installed and the machine promoted to DC (Active Directory Feauture installed).</p>
-<p>Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
-</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
-</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
-</span></span><span class="line"><span class="cl"> 
-</span></span><span class="line"><span class="cl"> <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
-</span></span></code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
-<p><strong>External IPs reputations</strong>. 🛠 <code>hostintel</code>. For running the tool, you&rsquo;ll also need to create a file with a list of IPs. I&rsquo;ve created a file <code>i.txt</code> in the <code>hostintel</code> directory and so my command was:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python hostintel.py config.conf i.txt
-</span></span></code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
-<p>To use <a href="https://github.com/keithjjones/hostintel">hostintel</a>, install it following the instructions on GitHub. Then install geoip2 using  <code>pip install &quot;geoip2==3.0.0&quot; </code>. I got an error that <code>geoip.database</code> was not installed when I installed it with <code>pip install geoip2</code> or from GitHub. This module is for working with GeoIP databases.</p>
-<p>To actually use these databases (one is included with the tool, but it mught get outdated), signup <a href="https://www.maxmind.com/en/geoip2-databases">here</a> and download GeoLite2 City from <a href="https://www.maxmind.com/en/accounts/410417/geoip/downloads">here</a>. This is an archive, unpack it and put the *.mmb file in <code>hostintel/data</code> folder (replace). These dbs are used by other tools as well, so you might want to keep it elsewhere and change its path in config.</p>
-<p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
-<p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
-<p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
+    <p><em>Event Logs in Windows provide valuable insights for defenders. They can be forwarded to a central machine to monitor organisational-level activities and detect malicious behaviour effectively.</em></p>
+<h2 id="anatomy">Anatomy</h2>
+<p>There are several major log trails: Application, Security, System, Setup and Forwarded.</p>
+<p>Each event contains the following information:</p>
+<ol>
+<li>Log Name (aka a trail)</li>
+<li>Source (which application is complaining)</li>
+<li>ID - unique identifier for this event <strong>type</strong>. Meaning there will be a lot of events with the same Event ID.</li>
+<li>EventRecord ID - unique identifier for this <strong>event</strong>. Meaning for each log entry, this value will be different.</li>
+<li>Task Category - what is this event for?</li>
+<li>Level - no worries (🏝️), be careful (🤔) or hell, my pants are on fire (😨), you catch the drift.</li>
+<li>Keywords - aka a tag, to help categorise an event.</li>
+<li>User - user account responsible for this.</li>
+<li>OpCode - Identify the specific operation that the event reports.</li>
+<li>Timestamp when the event was logged.</li>
+<li>Computer - the name of a machine responsible for this.</li>
+<li>XML data - holds all the items from 1 to 10 and some more.</li>
+</ol>
+<p>📚 <strong>Further Reading</strong>: <a href="https://learn.microsoft.com/en-US/windows/security/threat-protection/">https://learn.microsoft.com/en-US/windows/security/threat-protection/</a></p>
+<blockquote>
+<p>❗️If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditing policies using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to start capturing event 5156. I was using Vbox with Windows Server 2019 installed, and the machine was promoted to DC (Active Directory Feature installed).</p>
+</blockquote>
+<h3 id="location">Location</h3>
 <p><strong>Event logs and Event Trace Logs:</strong>
 <code>C:\Windows\system32\</code></p>
 <ul>
@@ -302,14 +315,14 @@
 <li><code>LogFiles\*etl\*</code></li>
 <li><code>{\*</code></li>
 </ul>
-<p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. Can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
+<p>The main guy for logs on Windows - Windows Event Manager. Located at <code>%SystemRoot%\Windows\System32\winevt\Logs</code>. It can be viewed by Event Viewer on a live system. Tools 🛠 for analysis: <code>Evtxtract</code> (python2, <a href="https://pypi.org/project/evtxtract/">here</a>, requires <code>pip install python-evtx</code> first), Magnet AXIOM 💰, <code>FullEventLogView</code> (can be used to get logs from current/remote machine or a folder and show them in GUI).</p>
 <p>IIS logs are by default here: <code>C:\%System%\System32\LogFiles\W3SVC1</code>.</p>
-<h3 id="system-and-event-logs">System and Event Logs</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\w</span>inevt<span class="se">\l</span>ogs<span class="se">\*</span>.evtx
 </span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\S</span>ystem32<span class="se">\S</span>RU<span class="se">\s</span>rudb.dat
 </span></span><span class="line"><span class="cl"><span class="se">\W</span>indows<span class="se">\i</span>nf<span class="se">\s</span>etupapi.dev.log
 </span></span><span class="line"><span class="cl"><span class="se">\U</span>sers<span class="se">\%</span>username%<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\C</span>onnectedDevicesPlatform<span class="se">\*\A</span>ctivitiesCache.db
-</span></span></code></pre></div><h3 id="event-viewer">Event Viewer</h3>
+</span></span></code></pre></div><h2 id="tools">Tools</h2>
+<h3 id="event-viewer">Event Viewer</h3>
 <blockquote>
 <p><em>❓How could an attacker delete entries from the Event Viewer and what level of access would they need?</em></p>
 </blockquote>
@@ -318,11 +331,12 @@
 <li>Audit account logon events - success + failure</li>
 <li>Audit account management - success + failure</li>
 <li>Audit logon events - success + failure</li>
-<li>Audit object accesss - failure (too many successes will be generated)</li>
+<li>Audit object access - failure (too many successes will be generated)</li>
 <li>Audit privileged use - success + failure</li>
-<li>Audir system events - success + failure</li>
+<li>Audit system events - success + failure</li>
 </ol>
-<p>This might chew up lots of disk space, so be careful. I might try this configs to look for network events, I could not see before.</p>
+<p>This might chew up lots of disk space, so be careful. I might try this config to look for network events, I could not see before.</p>
+<p>You can create a custom filter to pivot around some event. For example, filter for <code>4624</code> events. One can do it both in the UI menu or provide an XML query (📚 read more <a href="https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/advanced-xml-filtering-in-the-windows-event-viewer/ba-p/399761">here</a>).</p>
 <h3 id="event-log-explorer">Event Log Explorer</h3>
 <p>Has a free version for non-commercial use. Allow creating lots of filters and has a GUI.</p>
 <h3 id="evtxecmd">Evtxecmd</h3>
@@ -352,7 +366,65 @@
 <p><strong>System Logs</strong>.</p>
 <p><strong>Security Logs</strong>.</p>
 <p><strong>Application Logs</strong>. Not generally useful for IR.</p>
-<h3 id="codes">Codes</h3>
+<h2 id="codes">Codes</h2>
+<h3 id="unsorted">Unsorted</h3>
+<h4 id="4907">4907</h4>
+<p>Audit policy change.</p>
+<blockquote>
+<p>This event generates when the SACL of an object (for example, a registry key or file) was changed.</p>
+</blockquote>
+<p>Windows System Logs</p>
+<p>Event ID 1074 (System Shutdown/Restart): This event log indicates when and why the system was shut down or restarted. By monitoring these events, you can determine if there are unexpected shutdowns or restarts, potentially revealing malicious activity such as malware infection or unauthorized user access.
+Event ID 6005 (The Event log service was started): This event log marks the time when the Event Log Service was started. This is an important record, as it can signify a system boot-up, providing a starting point for investigating system performance or potential security incidents around that period. It can also be used to detect unauthorized system reboots.
+Event ID 6006 (The Event log service was stopped): This event log signifies the moment when the Event Log Service was stopped. It is typically seen when the system is shutting down. Abnormal or unexpected occurrences of this event could point to intentional service disruption for covering illicit activities.
+Event ID 6013 (Windows uptime): This event occurs once a day and shows the uptime of the system in seconds. A shorter than expected uptime could mean the system has been rebooted, which could signify a potential intrusion or unauthorized activities on the system.
+Event ID 7040 (Service status change): This event indicates a change in service startup type, which could be from manual to automatic or vice versa. If a crucial service&rsquo;s startup type is changed, it could be a sign of system tampering.
+Windows Security Logs</p>
+<p>Event ID 1102 (The audit log was cleared): I&rsquo;ve already discussed this one, but to reiterate, clearing the audit log is often a sign of an attempt to remove evidence of an intrusion or malicious activity.
+Event ID 1116 (Antivirus malware detection): This event is particularly important because it logs when Defender detects a malware. A surge in these events could indicate a targeted attack or widespread malware infection.
+Event ID 1118 (Antivirus remediation activity has started): This event signifies that Defender has begun the process of removing or quarantining detected malware. It&rsquo;s important to monitor these events to ensure that remediation activities are successful.
+Event ID 1119 (Antivirus remediation activity has succeeded): This event signifies that the remediation process for detected malware has been successful. Regular monitoring of these events will help ensure that identified threats are effectively neutralized.
+Event ID 1120 (Antivirus remediation activity has failed): This event is the counterpart to 1119 and indicates that the remediation process has failed. These events should be closely monitored and addressed immediately to ensure threats are effectively neutralized.
+Event ID 4624 (Successful Logon): This event records successful logon events. This information is vital for establishing normal user behavior. Abnormal behavior, such as logon attempts at odd hours or from different locations, could signify a potential security threat.
+Event ID 4625 (Failed Logon): This event logs failed logon attempts. Multiple failed logon attempts could signify a brute-force attack in progress.
+Event ID 4648 (A logon was attempted using explicit credentials): This event is triggered when a user logs on with explicit credentials to run a program. Anomalies in these logon events could indicate lateral movement within a network, which is a common technique used by attackers.
+Event ID 4656 (A handle to an object was requested): This event is triggered when a handle to an object (like a file, registry key, or process) is requested. This can be a useful event for detecting attempts to access sensitive resources.
+Event ID 4672 (Special Privileges Assigned to a New Logon): This event is logged whenever an account logs on with super user privileges. Tracking these events helps to ensure that super user privileges are not being abused or used maliciously.
+Event ID 4698 (A scheduled task was created): This event is triggered when a scheduled task is created. Monitoring this event can help you detect persistence mechanisms, as attackers often use scheduled tasks to maintain access and run malicious code.
+Event ID 4700 &amp; Event ID 4702 (A scheduled task was enabled/disabled): This records the enabling or disabling of a scheduled task. Scheduled tasks are often manipulated by attackers for persistence or to run malicious code, thus these logs can provide valuable insight into suspicious activities.
+Event ID 4702 (A scheduled task was updated): Similar to 4698, this event is triggered when a scheduled task is updated. Monitoring these updates can help detect changes that may signify malicious intent.
+Event ID 4719 (System audit policy was changed): This event records changes to the audit policy on a computer. It could be a sign that someone is trying to cover their tracks by turning off auditing or changing what events get audited.
+Event ID 4738 (A user account was changed): This event records any changes made to user accounts, including changes to privileges, group memberships, and account settings. Unexpected account changes can be a sign of account takeover or insider threats.
+Event ID 4771 (Kerberos pre-authentication failed): This event is similar to 4625 (failed logon) but specifically for Kerberos authentication. An unusual amount of these logs could indicate an attacker attempting to brute force your Kerberos service.
+Event ID 4776 (The domain controller attempted to validate the credentials for an account): This event helps track both successful and failed attempts at credential validation by the domain controller. Multiple failures could suggest a brute-force attack.
+Event ID 5001 (Antivirus real-time protection configuration has changed): This event indicates that the real-time protection settings of Defender have been modified. Unauthorized changes could indicate an attempt to disable or undermine the functionality of Defender.
+Event ID 5140 (A network share object was accessed): This event is logged whenever a network share is accessed. This can be critical in identifying unauthorized access to network shares.
+Event ID 5142 (A network share object was added): This event signifies the creation of a new network share. Unauthorized network shares could be used to exfiltrate data or spread malware across a network.
+Event ID 5145 (A network share object was checked to see whether client can be granted desired access): This event indicates that someone attempted to access a network share. Frequent checks of this sort might indicate a user or a malware trying to map out the network shares for future exploits.
+Event ID 5157 (The Windows Filtering Platform has blocked a connection): This is logged when the Windows Filtering Platform blocks a connection attempt. This can be helpful for identifying malicious traffic on your network.
+Event ID 7045 (A service was installed in the system): A sudden appearance of unknown services might suggest malware installation, as many types of malware install themselves as services.
+Event ID 1102 (The audit log was cleared): This event suggests that someone is trying to hide their activity, as clearing the audit log is often associated with attempts to remove traces of a breach.</p>
+<h3 id="network">Network</h3>
+<p>Check for 👣 Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting. <code>5158</code> -&gt; <code>5031</code> binding started and terminated by fw.</p>
+<p>Filter out internal addresses (they are not interesting initially). Check the remote connections. Check executables that launched these connections, also look for port-services mismatch or unusual ports or services. ☝️ malware section as well.</p>
+<p><code>5158</code> <code>5154</code> -&gt;</p>
+<p><code>5158</code> -&gt; <code>5031</code> binding started and terminated by firewall.</p>
+<p>PID, Application field (path to the executable and exe name), Inbound/Outbound, <code>sport</code>/<code>dport</code>, addresses (src and dst), protocol field.</p>
+<p>Windows Security Event Log <code>5156</code> is triggered when a network connection is allowed. 4688 - new process starting.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"> <span class="nb">write-EventLog</span> <span class="n">-eventID</span> <span class="n">5156</span> <span class="n">-EntryType</span> <span class="n">FailureAudit</span> <span class="n">-message</span> <span class="s2">&#34;hello&#34;</span> 
+</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Log</span> <span class="n">Application</span>
+</span></span><span class="line"><span class="cl"> <span class="p">&gt;</span><span class="n">Source</span> <span class="n">Application</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> <span class="n">auditpol</span> <span class="p">/</span><span class="nb">set </span><span class="p">/</span><span class="n">subcategory</span><span class="err">:”</span><span class="n">Filtering</span> <span class="n">Platform</span> <span class="n">Connection</span><span class="err">”</span> <span class="p">/</span><span class="n">success</span><span class="err">:</span><span class="n">disable</span> <span class="p">/</span><span class="n">failure</span><span class="err">:</span><span class="n">enable</span>
+</span></span></code></pre></div><p><img src="images/5156-event.png" alt="5156-event"></p>
+<p><strong>External IPs reputations</strong>. 🛠 <code>hostintel</code>. For running the tool, you&rsquo;ll also need to create a file with a list of IPs. I&rsquo;ve created a file <code>i.txt</code> in the <code>hostintel</code> directory and so my command was:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python hostintel.py config.conf i.txt
+</span></span></code></pre></div><p>Filter the record to indentify external IP addresses with which the PC is commincating. Then check external IPs reputations for suspicious using, for example, <code>hostintel</code>.</p>
+<p>To use <a href="https://github.com/keithjjones/hostintel">hostintel</a>, install it following the instructions on GitHub. Then install geoip2 using  <code>pip install &quot;geoip2==3.0.0&quot; </code>. I got an error that <code>geoip.database</code> was not installed when I installed it with <code>pip install geoip2</code> or from GitHub. This module is for working with GeoIP databases.</p>
+<p>To actually use these databases (one is included with the tool, but it mught get outdated), signup <a href="https://www.maxmind.com/en/geoip2-databases">here</a> and download GeoLite2 City from <a href="https://www.maxmind.com/en/accounts/410417/geoip/downloads">here</a>. This is an archive, unpack it and put the *.mmb file in <code>hostintel/data</code> folder (replace). These dbs are used by other tools as well, so you might want to keep it elsewhere and change its path in config.</p>
+<p>Also, about the config. Edit this config - <code>hostintel/sampleconfig.conf</code>. By default, only GeoLite2 City is used, but you can add your free public API keys from different threat intelligence resources like VirusTotal, Censys, OTX, Passive Total or/and Shodan. You might want to rename it more appropriately, like <code>config.conf</code> or <code>aliens-are-among-us.conf</code> 👽. But keep in mind the name of the config, whatever it is, to run the tool.</p>
+<p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? May be it is something legitimate. But if it&rsquo;s recent or/and not regular - might be an indicator.</p>
+<p>Unusual. Unusual application names, paths, typos or pokerhand ports (<code>44488</code> <code>12345</code> or alike). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
 <h3 id="processes">Processes</h3>
 <h4 id="25">25</h4>
 <p>Sysmon. Process Injection attempt.</p>
@@ -368,7 +440,7 @@
 <h4 id="4648">4648</h4>
 <p>System. <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">Auth</a> with explicit credentials.</p>
 <h4 id="4672">4672</h4>
-<p>System. Priviledges account usage. Can be used to check account privileges.</p>
+<p>System. Privileged account usage. It can be used to check account privileges.</p>
 <h4 id="4771">4771</h4>
 <h4 id="4772">4772</h4>
 <h4 id="4773">4773</h4>
@@ -425,14 +497,12 @@
 <p>I&rsquo;ve now triggered several authentication failures and one authentication success. And there it is. I have 2 events 4771 (failures) then one event 4768 (success) followed by three events 4769. Why three?</p>
 <p>Every minute 4624 and 4634 events are created, meaning new session creating. It seems so that every time I do something in my user account, the events 4624 and 4634 emerge in the logs. Or just every minute.</p>
 <p>Let&rsquo;s go to the user PC (sherlock) and see his logs. It says that access was denied (either the query is too long or the daemon is not running). Of course, the first thing to do was to check whether the service is really running, but it was. So, the problem was something else. Query too long? Don&rsquo;t think so, since I have not created any views so far. I tried to clear the logs, but failed. May be it&rsquo;s because the DC is shutdown, or because the user doesn&rsquo;t have the rights to do so. The only way to check that is to turn on the DC.</p>
-<p>Can&rsquo;t find the event id that is associated with this activity. Thought 5152 was, but then I saw it appeared on its own.</p>
+<p>Can&rsquo;t find the event id that is associated with this activity. I Thought 5152 was, but then I saw it appeared on its own.</p>
 <p>However System logs had one interesting entry. But failing again has not triggered it.</p>
 <h2 id="references">References</h2>
-<p>📚 <a href="https://cybersecuritynews.com/windows-event-log-analysis/">https://cybersecuritynews.com/windows-event-log-analysis/</a></p>
-<h2 id="references-1">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    📚 <a href="https://cybersecuritynews.com/windows-event-log-analysis/">https://cybersecuritynews.com/windows-event-log-analysis/</a>
 </details>
   </div>
 </article>

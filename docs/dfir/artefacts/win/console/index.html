@@ -166,6 +166,8 @@
     <li><a href="#cmd">CMD</a></li>
     <li><a href="#powershell">PowerShell</a>
       <ul>
+        <li><a href="#anatomy">Anatomy</a></li>
+        <li><a href="#remote">Remote</a></li>
         <li><a href="#logs">Logs</a></li>
       </ul>
     </li>
@@ -206,11 +208,25 @@
 
   <div class="content" itemprop="articleBody">
     <h2 id="cmd">CMD</h2>
-<p>Batch script. Highly limited in functionality and caching all sorts of crap including credentials.</p>
+<p>Batch script. Highly limited in functionality and caching all sorts of crap, including credentials.</p>
 <h2 id="powershell">PowerShell</h2>
+<h3 id="anatomy">Anatomy</h3>
+<p>Authentication cons:</p>
+<ol>
+<li>Traffic is encrypted</li>
+<li>Kerberos is used for authentication</li>
+<li>Credentials are not cached on the remote system (not AS).</li>
+</ol>
+<p>PowerShell gives you the power of WMI, .NET and COM at once. It provides a unified interface to interact with data types such as the registry, file volumes, Active Directory etc.</p>
+<blockquote>
+<p>❗️The output of most of the ps commands are not strings but objects that can be piped into other commands.</p>
+</blockquote>
 <p>PowerShell has short commands. For example, <code>Get-Command</code> cmdlet can be shortened to <code>gcm</code>. Used along with wildcards, one can obfuscate a script a little: <code>gcm 'i*e-e*'</code> gets the list of commands satisfying this expression, which is only one:<code> Invoke-Expression</code>.</p>
-<p><code>Enter-PSSession</code> - similar to SSH, but uses Kerberos for authentication.</p>
 <p>📚 <strong>Further reading</strong>: <a href="https://devblogs.microsoft.com/scripting/weekend-scripter-using-powershell-to-aid-in-security-forensics/">https://devblogs.microsoft.com/scripting/weekend-scripter-using-powershell-to-aid-in-security-forensics/</a>, <a href="https://www.ldap389.info/en/2013/06/17/powershell-forensic-onliners-regex-get-eventlog/">https://www.ldap389.info/en/2013/06/17/powershell-forensic-onliners-regex-get-eventlog/</a>, <a href="https://devblogs.microsoft.com/scripting/use-powershell-to-perform-offline-analysis-of-security-logs/">https://devblogs.microsoft.com/scripting/use-powershell-to-perform-offline-analysis-of-security-logs/</a>, <a href="https://devblogs.microsoft.com/scripting/learn-the-easy-way-to-use-powershell-to-get-file-hashes/">https://devblogs.microsoft.com/scripting/learn-the-easy-way-to-use-powershell-to-get-file-hashes/</a>, <a href="https://devblogs.microsoft.com/scripting/use-powershell-to-compute-md5-hashes-and-find-changed-files/">https://devblogs.microsoft.com/scripting/use-powershell-to-compute-md5-hashes-and-find-changed-files/</a>.</p>
+<h3 id="remote">Remote</h3>
+<p>WinRM - Windows remote service for remote management. It is turned on by default on Windows Servers 2012+.  The transfer protocol used is WSMAN (SOAP, HTTP and XML). Credentials are NOT cached on the remote system, which is good.</p>
+<p>You may start a session on a remote system using <code>Enter-PSSession</code> (similar to SSH, but uses Kerberos for authentication).</p>
+<p>When dealing with a large number of machines, retrieving data from each one of them using a WMI command can be time-consuming. A better option is to use <code>Invoke-Command</code>, which enables concurrent execution on multiple machines and moves the computation to the remote system. <code>-AsJob</code> option can also be used to move the process to the background if it takes too long to finish.</p>
 <h3 id="logs">Logs</h3>
 <p>Windows PowerShell Event logs Operational Monitoring: <code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell%Operational.evtx</code>, ID <code>4103</code>, <code>4104</code> (if Windows considers it suspicious).</p>
 <p><code>%SystemRoot%\System32\winevt\Logs\Microsoft-Windows-Powershell.evtx</code>. ID <code>400</code>, <code>800</code>.</p>

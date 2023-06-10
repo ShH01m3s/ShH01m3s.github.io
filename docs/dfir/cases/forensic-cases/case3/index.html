@@ -231,20 +231,20 @@
     <ol>
 <li>Running <code>netstat</code>, see the weird python script with established connection to some remote host:</li>
 </ol>
-<p><img src="images/10.png" alt="mg10"></p>
+<p><img src="dfir/cases/forensic-cases/case3/images/10.png" alt="mg10"></p>
 <ol start="2">
 <li>Grab the executable: <code>lsof -p 2082</code> and <code>ps aux  grep 2082</code>.</li>
 </ol>
-<p><img src="images/11.png" alt="img11"></p>
+<p><img src="dfir/cases/forensic-cases/case3/images/11.png" alt="img11"></p>
 <ol start="3">
 <li>Let&rsquo;s see the <code>/tmp/</code> folder for <code>backdoor</code> executable</li>
 <li>Check <code>/proc/2082</code> and <code>ls</code></li>
 </ol>
-<p><img src="images/12.png" alt="img12"></p>
+<p><img src="dfir/cases/forensic-cases/case3/images/12.png" alt="img12"></p>
 <ol start="5">
 <li>Since the executable is a legitimate python, need to explore further. In <code>/proc/2082</code> run <code>sudo cat cmdline</code> shows the comand used to launch, <code>cat task/2082/children</code> shows children PID. <code>sudo cat status</code> shows  general information. <code>cat environ</code> shows &hellip; . <code>cat arp</code> shows MAC addresses of the machines connected:</li>
 </ol>
-<p><img src="images/1.png" alt="img1"></p>
+<p><img src="dfir/cases/forensic-cases/case3/images/1.png" alt="img1"></p>
 <ol start="6">
 <li>Get the backdoor file: file recovery or memory forensics. Sometimes <code>/procfs</code> can manage.</li>
 </ol>
