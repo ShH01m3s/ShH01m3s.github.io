@@ -176,12 +176,48 @@
         <li><a href="#the-end">The End</a></li>
       </ul>
     </li>
-    <li><a href="#golden-ticket">Golden Ticket</a></li>
-    <li><a href="#silver-ticket">Silver Ticket</a></li>
-    <li><a href="#diamond-ticket">Diamond Ticket</a></li>
-    <li><a href="#saphire-ticket">Saphire Ticket</a></li>
-    <li><a href="#pass-the-hash">Pass-the-hash</a></li>
-    <li><a href="#mimikatz">Mimikatz</a></li>
+    <li><a href="#-attacks">⚔️ Attacks</a>
+      <ul>
+        <li><a href="#golden-ticket">Golden Ticket</a>
+          <ul>
+            <li><a href="#-defense">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#silver-ticket">Silver Ticket</a>
+          <ul>
+            <li><a href="#-defense-1">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#diamond-ticket">Diamond Ticket</a></li>
+        <li><a href="#saphire-ticket">Saphire Ticket</a></li>
+        <li><a href="#pass-the-ticket">Pass the Ticket</a>
+          <ul>
+            <li><a href="#-defense-2">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#overpass-the-hash-pass-the-key">Overpass the Hash (Pass the key)</a>
+          <ul>
+            <li><a href="#-defense-3">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#kerberoasting">Kerberoasting</a>
+          <ul>
+            <li><a href="#-defense-4">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#skeleton-key">Skeleton key</a>
+          <ul>
+            <li><a href="#-defense-5">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#dcsync">DCSync</a>
+          <ul>
+            <li><a href="#-defense-6">🛡️ Defense</a></li>
+          </ul>
+        </li>
+        <li><a href="#dsshadow">DSShadow</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
  </aside>
@@ -312,18 +348,54 @@
 <h3 id="the-end">The End</h3>
 <p>That&rsquo;s the final set up with the keys. The user 🤣 has a green, purple and crimson keys. AS 💂‍♀️ has crimson only. TGS 👨🏼‍💼 - yellow, crimson and purple. HTTP server 😵‍💫 - black and purple only.</p>
 <p><img src="images/17.png" alt="img"></p>
-<h2 id="golden-ticket">Golden Ticket</h2>
-<p>A Golden Ticket attack occurs when an attacker gains access to the Key Distribution Center&rsquo;s (KDC) krbtgt account&rsquo;s secret key, which is used to encrypt and sign all Ticket-Granting Tickets (TGTs) within the domain. With the krbtgt account&rsquo;s secret key, the attacker can create forged TGTs, also known as &ldquo;Golden Tickets,&rdquo; for any user within the domain. These forged tickets grant the attacker access to any service on the domain without the need for the user&rsquo;s password or other credentials.</p>
-<p>KDC consists of AS and TGS, that&rsquo;s why it is not a good thing if the golden ticket was forged.</p>
-<h2 id="silver-ticket">Silver Ticket</h2>
-<p>A Silver Ticket attack, also known as a Service Ticket attack, involves forging a service ticket (also known as a Ticket-Granting Service or TGS ticket) for a specific service within the domain. Unlike a Golden Ticket attack, a Silver Ticket attack does not require compromising the krbtgt account&rsquo;s secret key. Instead, the attacker needs the secret key of the targeted service account.</p>
-<h2 id="diamond-ticket">Diamond Ticket</h2>
-<p><a href="https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/">https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/</a></p>
-<h2 id="saphire-ticket">Saphire Ticket</h2>
-<p><a href="https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/">https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/</a></p>
-<h2 id="pass-the-hash">Pass-the-hash</h2>
-<h2 id="mimikatz">Mimikatz</h2>
-<p><a href="https://pgj11.com/posts/Diamond-And-Sapphire-Tickets/">https://pgj11.com/posts/Diamond-And-Sapphire-Tickets/</a></p>
+<h2 id="-attacks">⚔️ Attacks</h2>
+<h3 id="golden-ticket">Golden Ticket</h3>
+<p>A Golden Ticket attack occurs when an attacker gains access to the Key Distribution Center&rsquo;s (KDC) krbtgt account&rsquo;s secret key, which encrypts and signs all Ticket-Granting Tickets (TGTs) within the domain. With the krbtgt account&rsquo;s secret key, the attacker can create forged TGTs, also known as &ldquo;Golden Tickets,&rdquo; for any user within the domain. These forged tickets grant the attacker access to any service on the domain without the need for the user&rsquo;s password or other credentials. KDC consists of AS and TGS, so it is not a good thing if the golden ticket is forged. It means that even if the password was reset for admin if the attacker gets user-level access, the same golden ticket 🎫 can be reused. Retrieve <code>krbtgt</code> either from DC 🏺 RAM or 🏺 <code>NTDS.DIT</code> (AD).</p>
+<h4 id="-defense">🛡️ Defense</h4>
+<p>Since the krbtgt account&rsquo;s secret key is used to create and sign all the other keys, resetting it will inevitably invalidate all the Golden tickets 🎫  within the enterprise. It&rsquo;s recommended to reset this password every 180 days.</p>
+<h3 id="silver-ticket">Silver Ticket</h3>
+<p>A Silver Ticket attack, also known as a Service Ticket attack, involves forging a service ticket (also known as a Ticket-Granting Service or TGS ticket) for a specific service within the domain. Unlike a Golden Ticket attack, a Silver Ticket attack does not require compromising the krbtgt account&rsquo;s secret key. Instead, the attacker needs the secret key of the targeted service account. The attacker dumps the service&rsquo;s hash from memory to forge the ticket.</p>
+<h4 id="-defense-1">🛡️ Defense</h4>
+<p>Reset the password for this service regularly.</p>
+<h3 id="diamond-ticket">Diamond Ticket</h3>
+<p><a href="https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/">https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/</a>
+<a href="https://pgj11.com/posts/Diamond-And-Sapphire-Tickets/">https://pgj11.com/posts/Diamond-And-Sapphire-Tickets/</a></p>
+<h3 id="saphire-ticket">Saphire Ticket</h3>
+<p><a href="https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/">https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks/</a>
+<a href="https://pgj11.com/posts/Diamond-And-Sapphire-Tickets/">https://pgj11.com/posts/Diamond-And-Sapphire-Tickets/</a></p>
+<h3 id="pass-the-ticket">Pass the Ticket</h3>
+<p>Steal from RAM and pass or import on other systems.</p>
+<h4 id="-defense-2">🛡️ Defense</h4>
+<ol>
+<li>Credential Guard</li>
+<li>Remote Credential Guard</li>
+</ol>
+<h3 id="overpass-the-hash-pass-the-key">Overpass the Hash (Pass the key)</h3>
+<p>User NT hash to request a service ticket for the same account.</p>
+<h4 id="-defense-3">🛡️ Defense</h4>
+<ol>
+<li>Credential Guard</li>
+<li>Protected users group</li>
+<li>no RC4 auth</li>
+</ol>
+<h3 id="kerberoasting">Kerberoasting</h3>
+<p>Any user can request access to ANY service within the domain. When the ticket for that service is returned, it contains a hashed password for that service (unsalted). So, the attacker requests a service ticket for a highly privileged service and cracks the NT hash offline.</p>
+<h4 id="-defense-4">🛡️ Defense</h4>
+<ol>
+<li>Complex service account passwords.</li>
+<li>Change <code>krbtgt</code> regularly.</li>
+<li>Managed Service accounts.</li>
+</ol>
+<h3 id="skeleton-key">Skeleton key</h3>
+<p>Patch LSASS on the domain controller to add a backdoor password that works for any domain account.</p>
+<h4 id="-defense-5">🛡️ Defense</h4>
+<p>Smart cards for privileged accounts.</p>
+<h3 id="dcsync">DCSync</h3>
+<p>Domain Controllers are pretty chatty and like talking to their pals via MS-DRSR protocol. This is something similar to the zone transfer for DNS servers. One can impersonate a DC and send a sync request to get passwords and history for an account.  User fake DC replication to retrieve hashes and history for any account without login to the DC.</p>
+<h4 id="-defense-6">🛡️ Defense</h4>
+<p>Audit and limit accounts with replication rights.</p>
+<h3 id="dsshadow">DSShadow</h3>
+<p>Inject crap into AD into a DC.</p>
 
   </div>
 </article>
