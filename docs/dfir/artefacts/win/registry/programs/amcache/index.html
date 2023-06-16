@@ -163,11 +163,10 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#-anatomy">☠️ Anatomy</a>
       <ul>
         <li>
           <ul>
-            <li><a href="#ℹ-information-contained">ℹ️ Information Contained</a></li>
             <li><a href="#-timestamps">⏰ Timestamps</a></li>
             <li><a href="#-tools">🛠 Tools</a></li>
           </ul>
@@ -209,30 +208,29 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>.</p>
-<p>Since Windows 8. Stored information about program execution, including those, that were run from a USB drive.</p>
-<h4 id="ℹ-information-contained">ℹ️ Information Contained</h4>
-<ul>
-<li>install date and time</li>
-<li>name</li>
-<li>version</li>
-<li>path to exe/dll</li>
-<li>source info</li>
-<li>path to uninstall</li>
-<li>publisher name</li>
-<li>volume GUIDs</li>
-<li>container ID of the device from which the program was run.</li>
-</ul>
+    <p><em>And yet another place to check for program execution.</em></p>
+<h2 id="-anatomy">☠️ Anatomy</h2>
+<p><strong>Path</strong> 📂 : <code>C:\Windows\AppCompat\Programs\Amcache.hve</code>.</p>
+<p>Win8+. This artefact stores information about program execution, including those that were executed from a USB drive. It contains the following information:</p>
+<p>🐾 install date and time
+🐾 name
+🐾 version
+🐾 path to exe/dll
+🐾 source info
+🐾 path to uninstall
+🐾 publisher name
+🐾 volume GUIDs
+🐾 container ID of the device from which the program was run.</p>
 <p><code>DeviceCensus</code> - some information about the physical machine itself. For example, for my Parallels VM there was also a <code>VM</code> subkey that contained some value <code>VMId</code>.</p>
 <p><code>File</code>. Full path to the executable.</p>
 <blockquote>
 <p>⚠️ Not present on my Windows 10 (Parallels VM).</p>
 </blockquote>
-<p><code>InventoryApplication</code>. Consists of folders/subkeys named by the program id. Each folder will contain the following important information: <code>OSVersionAtInstallTime</code>, <code>InstallDateMsi</code>, <code>InstallDate</code>, <code>InstallDateArpLastModified</code>, <code>InstallDateFromLinkFile</code>, <code>Name</code>, <code>Publisher</code>, <code>RegistryKeyPath</code> (may show user SID), <code>Source</code>, <code>UninstallString</code>, <code>ProgramID</code> (consistent accross systems).</p>
+<p><code>InventoryApplication</code>. Consists of folders/subkeys named by the program id. Each folder will contain the following important information: <code>OSVersionAtInstallTime</code>, <code>InstallDateMsi</code>, <code>InstallDate</code>, <code>InstallDateArpLastModified</code>, <code>InstallDateFromLinkFile</code>, <code>Name</code>, <code>Publisher</code>, <code>RegistryKeyPath</code> (may show user SID), <code>Source</code>, <code>UninstallString</code>, <code>ProgramID</code> (consistent across systems).</p>
 <blockquote>
-<p>⚠️ On my Parallels Windows 10/11 machine I noticed that here not only Windows, but also Mac executables are listed even though I have specifically set in preferences that I am not sharing Mac folders or disks with the VM.</p>
+<p>⚠️ On my Parallels Windows 10/11 machine, I noticed that Windows and Mac executables are listed here, even though I have explicitly set preferences that I am not sharing Mac folders or disks with the VM.</p>
 </blockquote>
-<p><code>InventoryApplicationFile</code>. Contains a fileid which is actually a SHA-1 hash, padded with 4 leading zeros and full path to the executable. Use a list of known good or VirusTotal.</p>
+<p><code>InventoryApplicationFile</code>. Contains a field, an SHA-1 hash, padded with 4 leading zeros and a full path to the executable. Use a list of known goods or VirusTotal.</p>
 <p><code>InventoryDeviceContainer</code>. Contains <code>ModelName</code> and <code>FriendlyName</code>. When devices get connected, they might install some software to be able to work correctly.</p>
 <p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
 <p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
@@ -249,7 +247,6 @@
     <summary>Expand&hellip;</summary>
     Something here
 </details>
-
   </div>
 </article>
 </div>

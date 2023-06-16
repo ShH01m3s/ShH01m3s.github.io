@@ -163,19 +163,9 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#ℹ-information-contained">ℹ️ Information Contained</a></li>
-            <li><a href="#-timestamps">⏰ Timestamps</a></li>
-            <li><a href="#-structure-and-analysis">🔎 Structure and Analysis</a></li>
-            <li><a href="#-caveats">🤨 Caveats</a></li>
-            <li><a href="#-tools">🛠 Tools</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
+    <li><a href="#-anatomy">☠️ Anatomy</a></li>
+    <li><a href="#-timestamps">⏰ Timestamps</a></li>
+    <li><a href="#-tools">🛠 Tools</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -211,25 +201,22 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>Prefetch is for the efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel for example). Improves startup time of applications. Each prefetch file name follows the pattern: <code>&lt;EXENAME&gt;-&lt;PATHHASHED+CMDARGS&gt;.pf</code>.</p>
-<h4 id="ℹ-information-contained">ℹ️ Information Contained</h4>
-<ul>
-<li>Filename</li>
-<li>Creation time</li>
-<li>Modified time</li>
-<li>File Size</li>
-<li>Process EXE</li>
-<li>Process Path</li>
-<li>Run Counter</li>
-<li>Last Run Time</li>
-<li>Missing Process + libraries and resources for each process.</li>
-<li>Forensics value - tracks the execution of programs. Central repository of what was run on the system. File size can be used to search for the same process with a different name on a different machine.</li>
-</ul>
-<h4 id="-timestamps">⏰ Timestamps</h4>
-<p><strong>Filesystem Timestamps</strong>. The first time the executable is run, a pf file is created. The last time it was run - a pf&rsquo;s file Modified date and time. However, consider a scenario when a program was run long time in the past, wasn&rsquo;t run for a while after that. Its pf file was overwritten (prefetch keeps 1024 entries). Some time after that the executable is run again and the pf file is created again. The FS timestamps will show that the file was first executed recently when it&rsquo;s not quite that straithforward.</p>
-<h4 id="-structure-and-analysis">🔎 Structure and Analysis</h4>
-<p>If collecting prefetch on a live system, run volatile collection tools before that and collect pf files to avoid overwriting oldest prefetch with prefetch for live response tools (or disable prefetch before collection).</p>
-<p><strong>Path</strong> to files: C:\Windows\Prefetch. All prefetch have a <strong>signature</strong> at offset 4th byte. MAM - compressed and SCCA - plain text.</p>
+    <p><em>Every day, the computer loads some programs and a lot of additional crap that comes with it. Every day the same routine over and over again. Being a diligent and responsible guy, it wondered how to improve this process. So, it decides to save the most recently loaded programs and whatever dlls and stuff these programs need so that everything is ready the next time the program is run. Where is this data stored? In Prefetch.</em></p>
+<p>Prefetch is for the efficiency of starting processes and their resources (movies for media players, spreadsheets for Excel, for example). Improves startup time of applications. The PC watches what an app requests and opens during its first 10 seconds of execution and only then creates or updates the corresponding <code>pf</code> file.</p>
+<h2 id="-anatomy">☠️ Anatomy</h2>
+<p>Each prefetch file name follows the pattern: <code>&lt;EXENAME&gt;-&lt;PATHHASHED+CMDARGS&gt;.pf</code>. If collecting prefetch on a live system, run volatile collection tools before that and collect <code>pf</code> files to avoid overwriting the oldest prefetch with prefetch for live response tools (or disable prefetch before collection). Prefetch tracks the execution of programs. A central repository of what was run on the system. File size can be used to search for the same process with a different name on a different machine.</p>
+<p><strong>📂 Path</strong>: <code>C:\Windows\Prefetch</code>.</p>
+<p>Prefetch contains the following information about the process (I&rsquo;ve marked the most forensically interesting fields with a 🔥):</p>
+<p>🐾 Filename 🔥
+🐾 Creation time 🔥
+🐾 Modified time 🔥
+🐾 File Size
+🐾 Process EXE
+🐾 Process Path 🔥
+🐾 Run Counter 🔥
+🐾 Last Run Time 🔥 (the same information is reflected in the file system modification timestamp)
+🐾 Missing Process + libraries and resources for each process.</p>
+<p>All prefetch have a <strong>signature</strong> at offset 4th byte. MAM - compressed and SCCA - plain text.</p>
 <table>
 <thead>
 <tr>
@@ -266,7 +253,7 @@
 </tr>
 </tbody>
 </table>
-<p>Prefetch can be disabled in registry <code>C:\Windows\System32\config\SYSTEM</code>, key 🔑: <code>HKLM\SYSTEM\CurrentControlSet\Control\SessionManager\MemoryManagement\PrefetchParameters\Enable Prefetcher</code>:</p>
+<p>Prefetch can be disabled in registry <code>SYSTEM</code> hive, key 🔑: <code>HKLM\SYSTEM\CurrentControlSet\Control\SessionManager\MemoryManagement\PrefetchParameters\Enable Prefetcher</code>:</p>
 <table>
 <thead>
 <tr>
@@ -293,20 +280,25 @@
 </tr>
 </tbody>
 </table>
-<p>You can check it with <code>rip.exe</code>:</p>
+<p>📘 You can check it with <code>rip.exe</code>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rip.exe -r SYSTEM -p prefetch <span class="c1"># to show whether prefetch is enabled</span>
-</span></span></code></pre></div><h4 id="-caveats">🤨 Caveats</h4>
-<p>On servers is usually turned off. And starting with Win10 - compressed. For systems with solid state drives it&rsquo;s also disabled. With Win8 - additional run times recorded. Also, there is latency issue - some apps are not closed upon clicking X, but remain running in background. Hence, the last time run might be different.</p>
-<blockquote>
-<p>If the app was deleted and then reinstalled? What the firtst run time will be?</p>
-<p>What if I rename an executable?</p>
-<p>If the exe is substitued?</p>
+</span></span></code></pre></div><blockquote>
+<p>⛔️ When live-response tools 🛠️ are run on the system, new <code>pf</code> files are created, and older ones might get deleted.
+⛔️ Prefetch is usually turned off on the servers and for the systems with SSD (which don&rsquo;t like write operations).
+⛔️  Starting from Windows 10 the prefetch is compressed.
+⛔️ Also, there is a latency issue - some apps are not closed upon clicking ❌, but remain running in the background. Hence, the last time run might be different.
+⛔️ The hash in the filename is derived from both the app path and command line arguments. That&rsquo;s why some legit processes have several <code>pf</code> files.</p>
 </blockquote>
-<p>If the same exe was run from different locations - different <code>.pf</code> files. If the application was deleted, the info remains in prefetch.</p>
+<p>Prefetch is an invaluable resource during the investigation. Although one should not solely rely on it, it gives a lot if insights.</p>
+<p>🏺 First, sometimes it so happens (especially with the malware running on the system) that two programs have the same name. Since they can&rsquo;t be in the same folder (Windows won&rsquo;t allow it), the path to the executable for both programs will be different. Since the <code>pf</code> filename is derived from the path hash and the exe name, if the same exe was run from different locations - different <code>.pf</code> files will be created. Now, imagine that you see two prefetch files for cmd, that&rsquo;s not something expected and is worth looking into.</p>
+<p>🏺 Another good thing about Prefetch is that even if an application was deleted, the info remains in Prefetch (at least, for some time).</p>
+<p>🏺Prefetch stores 8 execution times (one of them is the first time run, and the other - is the last time run). But don&rsquo;t forget about the file system timestamps! So, the date and time the <code>pf</code> file itself was created as yet another execution time.</p>
+<h2 id="-timestamps">⏰ Timestamps</h2>
+<p><strong>Filesystem Timestamps</strong>. The first time the executable is run, a <code>pf</code> file is created. The last time it was run - a pf&rsquo;s file Modified date and time. However, consider a scenario when a program was run a long time in the past and wasn&rsquo;t run for a while after that. Its <code>pf</code> file was overwritten (prefetch keeps <code>1024</code> entries, which used to be 128 in W7 and below). Sometime after that, the executable is run again, and the <code>pf</code> file is created again. The FS timestamps will show that the file was first executed recently when it&rsquo;s not straightforward.</p>
+<h2 id="-tools">🛠 Tools</h2>
 <blockquote>
-<p>Write a sctipt to determine deleted files</p>
+<p>💡 Write a script to determine deleted files</p>
 </blockquote>
-<h4 id="-tools">🛠 Tools</h4>
 <p><strong>WinPrefetchView</strong>. To view pretech files (decompressed as well) in GUI.</p>
 <p><strong>Fred</strong> - Forensic Registry Editor. To view exported hives.</p>
 <p><strong>FTK Imager Lite</strong>. Fairly heavy footprint - 15-16Mb.</p>
@@ -321,10 +313,16 @@
 <p><strong>PECmd</strong>. Eric Zimmerman&rsquo;s tool.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">pffile</span><span class="p">&gt;.</span><span class="n">pf</span>
 </span></span><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="n">-d</span> <span class="s2">&#34;Prefetch folder&#34;</span> <span class="p">-</span><span class="n">-csv</span> <span class="s2">&#34;outoutdir&#34;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="s2">&#34;outputfile&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">PECmd</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="s2">&#34;Prefetch_file.pf&#34;</span> <span class="p">-</span><span class="n">-json</span> <span class="s2">&#34;outoutdir&#34;</span> <span class="p">-</span><span class="n">-jsonpretty</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># -k  comma-separated keywords</span>
+</span></span><span class="line"><span class="cl"><span class="c"># -mp high precision timestamps</span>
+</span></span><span class="line"><span class="cl"><span class="c"># --local</span>
+</span></span><span class="line"><span class="cl"><span class="c"># vss  process Volume Shadow Copies as well</span>
 </span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <a href="https://forensics.wiki/">https://forensics.wiki/</a>
 </details>
   </div>
 </article>
