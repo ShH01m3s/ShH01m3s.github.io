@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Artefacts CheatSheet - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#how-do-i-find-programs-executed">How do I find programs executed?</a>
+      <ul>
+        <li><a href="#windows">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#where-do-i-look-for-ospc-info">Where do I look for OS/PC info?</a>
+      <ul>
+        <li><a href="#windows-1">Windows</a></li>
+        <li><a href="#macos">macOS</a></li>
+        <li><a href="#linux">Linux</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-see-who-logged-in-and-out">How to see who logged in and out?</a>
+      <ul>
+        <li><a href="#windows-2">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</a>
+      <ul>
+        <li><a href="#windows-3">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-do-i-find-out-injection-attempts">How do I find out injection attempts</a>
+      <ul>
+        <li><a href="#windows-4">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#remote-activity">Remote activity</a>
+      <ul>
+        <li><a href="#windows-5">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#usb-devices">USB Devices</a>
+      <ul>
+        <li><a href="#windows-6">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Artefacts CheatSheet</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 18.06.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This is about &hellip; .</em></p>
+<h2 id="how-do-i-find-programs-executed">How do I find programs executed?</h2>
+<h3 id="windows">Windows</h3>
+<p>You can use Prefetch which is the most reliable source. However, if the program is NOT there, it doesn&rsquo;t mean it wasn&rsquo;t executed.</p>
+<p>Another artefact of use is AmCache. What&rsquo;s great about it is that it stores hashes among all. Although it&rsquo;s not proof of the program being executed, it can show the PRESENCE of files (exe and drivers) on the system.</p>
+<p><strong>ShimCache</strong>.</p>
+<p>It is ok to collect artefacts like that manually, but it&rsquo;s better to do so at scale. Some tools were designed to process these artefacts and put everything in an SQL database.</p>
+<p>🛠️ <code>AppCompatProcessor.py</code> <a href="https://github.com/mbevilacqua/appcompatprocessor">GitHub</a> - parses both 🏺 <code>ShimCache</code> and 🏺 <code>AppCompatCache</code>. This tool has some modules to improve the investigation process (search using <code>regex</code>, <code>reconscan</code>, <code>filehitcount</code>, <code>stack</code> etc.). One of particular interest is <code>tcorr</code>, which performs temporal correlation of execution (files that are usually executed closer in time). <code>leven</code> finds files that are slightly different in names from known executables, and <code>rndsearch</code> - attempts to identify randomly named files.</p>
+<p><strong>Event Logs</strong>.</p>
+<h2 id="where-do-i-look-for-ospc-info">Where do I look for OS/PC info?</h2>
+<h3 id="windows-1">Windows</h3>
+<p>Registry, of course.</p>
+<p><strong>AmCache</strong>. You can see firmware, hardware and OS info there. Although the artefact has proved to be highly &ldquo;volatile&rdquo;, it might change from update to update.</p>
+<h3 id="macos">macOS</h3>
+<h3 id="linux">Linux</h3>
+<h2 id="how-to-see-who-logged-in-and-out">How to see who logged in and out?</h2>
+<h3 id="windows-2">Windows</h3>
+<p><strong>Event Logs</strong>. User authentication and logon from the Security trail. Event codes <code>4624</code>.</p>
+<h2 id="how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</h2>
+<h3 id="windows-3">Windows</h3>
+<p><strong>Event Logs</strong>. Attempted logons and account usage.
+4624 - successful logon. Successful login. Type 2 (console). Keep in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.
+4625 - failed logon
+4634/4647 - successful logout
+4648 - logon using explicit credentials (like when running 🛠️ <code>runas</code>) - 📚 <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">docs</a>.
+4672 - admin logon
+4720/4726 - account created/deleted
+4776 - Local account authentication, meaning not involving a DC. Authentication attempts other than those of local users are suspicious by default. You can filter by a portion of unique pc/domain identifiers to exclude all built-in accounts.</p>
+<h2 id="how-do-i-find-out-injection-attempts">How do I find out injection attempts</h2>
+<h3 id="windows-4">Windows</h3>
+<p>Sysmon logs, <code>25</code>.</p>
+<h2 id="remote-activity">Remote activity</h2>
+<h3 id="windows-5">Windows</h3>
+<p>4778 - Session reconnect event. RDP. Check for 4624 Type 10.</p>
+<h2 id="usb-devices">USB Devices</h2>
+<h3 id="windows-6">Windows</h3>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    <ol>
+<li>ShimCache and AmCache enterprise-wide hunting - SANS Threat Hunting Summit 2017
+<a href="https://www.youtube.com/watch?v=-0bYcD3_bBs">https://www.youtube.com/watch?v=-0bYcD3_bBs</a></li>
+</ol>
+
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

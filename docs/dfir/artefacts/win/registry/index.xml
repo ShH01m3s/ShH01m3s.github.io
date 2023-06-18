@@ -17,6 +17,86 @@
     </item>
     
     <item>
+      <title>Installed Apps</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/installed/</link>
+      <pubDate>Fri, 02 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/installed/</guid>
+      <description>Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore.</description>
+    </item>
+    
+    <item>
+      <title>Jumplist Data</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/jumplist/</link>
+      <pubDate>Fri, 02 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/jumplist/</guid>
+      <description>Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData.
+Shows applications accessed.
+References Expand&amp;hellip; Something here </description>
+    </item>
+    
+    <item>
+      <title>Recents</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/recentapps/</link>
+      <pubDate>Fri, 02 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/recentapps/</guid>
+      <description>*Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps.
+Similar to User Assist. It also shows files and applications that were used through this application.</description>
+    </item>
+    
+    <item>
+      <title>Uninstalled</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/uninstalled/</link>
+      <pubDate>Fri, 02 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/uninstalled/</guid>
+      <description>Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall
+References Expand&amp;hellip; Something here </description>
+    </item>
+    
+    <item>
+      <title>AmCache</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/amcache/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/amcache/</guid>
+      <description>&lt;p&gt;&lt;em&gt;And yet another place to check for program execution. It&amp;rsquo;s like a forensic treasure of program execution. You can see installed applications, drivers and unassociated progs. For each entry, you can see loads of metadata. You can even see the SHA1 hashes! How great is that? However, be careful; installed doesn&amp;rsquo;t mean executed!&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>BAM</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/bam/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/bam/</guid>
+      <description>Key 🔑: ControlSet001\Services\BAM.
+⚠️ Windows 10 only!
+Background Activity Monitor. Organised by user SID. Windows apps&amp;rsquo; names are not parsed very well here.</description>
+    </item>
+    
+    <item>
+      <title>ComDlg32</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/comdlg32/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/comdlg32/</guid>
+      <description>Key 🔑: NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32.
+CIDSizeMRU- Tracks applications globally. MRU start at zero. Timestamp for the most recent item only.</description>
+    </item>
+    
+    <item>
+      <title>MUICache</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/mui/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/mui/</guid>
+      <description>Key 🔑: Local Settings\Software\Microsoft\Windows\Shell\MuiCache.
+Installed and executed applications for that particular user. But no timestamps for this acts, only last write data and time for the key in registry.</description>
+    </item>
+    
+    <item>
       <title>ShellBag</title>
       <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/shell-bag/</link>
       <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
@@ -24,6 +104,25 @@
       <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/shell-bag/</guid>
       <description>Key 🔑 : UsrClass\Local Settings\Software\Microsoft\Windows\Shell\BagMRU . Values: MRUListEx, NodeSlot, Subkeys.
 Key 🔑 : UsrClass\Local Settings\Software\Microsoft\Windows\Shell\Bags. Values: Shell, will have folder&amp;rsquo;s GUID.</description>
+    </item>
+    
+    <item>
+      <title>ShimCache aka AppCompatCache</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/shimcache/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/shimcache/</guid>
+      <description>&lt;p&gt;&lt;em&gt;How often has the following happened to you? You want to run a program, but it&amp;rsquo;s not designed to run on this version of OS. Windows has a mechanism to run older programs on newer systems. Even when these &amp;ldquo;compatibility&amp;rdquo; adjustments are not required, Windows still logs the information for all the programs run.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>User Assist</title>
+      <link>https://bakerst221b.com/docs/dfir/artefacts/win/registry/userassist/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://bakerst221b.com/docs/dfir/artefacts/win/registry/userassist/</guid>
+      <description>Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist.
+List of progs and applets that can be quicly started from the Start menu for usability, the most often used items.</description>
     </item>
     
     <item>

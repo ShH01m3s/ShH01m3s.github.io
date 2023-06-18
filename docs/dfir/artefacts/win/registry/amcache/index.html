@@ -47,33 +47,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -118,33 +100,15 @@
       </a>
     </li>
     
-    <li class="menu-item-reverse 🔧">
-      <a href="/docs/reverse">
-        <span>Reverse 🔧</span>
-      </a>
-    </li>
-    
     <li class="menu-item-toolkit 🧰">
       <a href="/docs/toolkit">
         <span>Toolkit 🧰</span>
       </a>
     </li>
     
-    <li class="menu-item-threat hunting 🪤">
-      <a href="/docs/thunting">
-        <span>Threat Hunting 🪤</span>
-      </a>
-    </li>
-    
     <li class="menu-item-about me 🧝🏽‍♀️">
       <a href="/docs/about">
         <span>About me 🧝🏽‍♀️</span>
-      </a>
-    </li>
-    
-    <li class="menu-item-tech reference 📚">
-      <a href="/docs/reference">
-        <span>Tech Reference 📚</span>
       </a>
     </li>
     
@@ -199,17 +163,19 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#-anatomy">☠️ Anatomy</a>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#ℹ-information-contained">ℹ️ Information Contained</a></li>
-            <li><a href="#-timestamps">⏰ Timestamps</a></li>
-            <li><a href="#-tools">🛠 Tools</a></li>
-          </ul>
-        </li>
+        <li><a href="#devicecensus"><code>DeviceCensus</code></a></li>
+        <li><a href="#file"><code>File</code></a></li>
+        <li><a href="#inventoryapplication"><code>InventoryApplication</code></a></li>
+        <li><a href="#inventoryapplicationfile"><code>InventoryApplicationFile</code></a></li>
+        <li><a href="#inventorydevicecontainer"><code>InventoryDeviceContainer</code></a></li>
+        <li><a href="#inventorydevicepnp"><code>InventoryDevicePnp</code></a></li>
+        <li><a href="#programs"><code>Programs</code></a></li>
       </ul>
     </li>
+    <li><a href="#-timestamps">⏰ Timestamps</a></li>
+    <li><a href="#-tools">🛠 Tools</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -245,47 +211,81 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Path to file</strong> 🛣️: <code>C:\Windows\AppCompat\Programs</code>.</p>
-<p>Since Windows 8. Stored information about program execution, including those, that were run from a USB drive.</p>
-<h4 id="ℹ-information-contained">ℹ️ Information Contained</h4>
-<ul>
-<li>install date and time</li>
-<li>name</li>
-<li>version</li>
-<li>path to exe/dll</li>
-<li>source info</li>
-<li>path to uninstall</li>
-<li>publisher name</li>
-<li>volume GUIDs</li>
-<li>container ID of the device from which the program was run.</li>
-</ul>
-<p><code>DeviceCensus</code> - some information about the physical machine itself. For example, for my Parallels VM there was also a <code>VM</code> subkey that contained some value <code>VMId</code>.</p>
-<p><code>File</code>. Full path to the executable.</p>
+    <p><em>And yet another place to check for program execution. It&rsquo;s like a forensic treasure of program execution. You can see installed applications, drivers and unassociated progs. For each entry, you can see loads of metadata. You can even see the SHA1 hashes! How great is that? However, be careful; installed doesn&rsquo;t mean executed!</em></p>
 <blockquote>
-<p>⚠️ Not present on my Windows 10 (Parallels VM).</p>
+<p>✍🏻 It&rsquo;s not reliable evidence of execution. Use it as evidence of PRESENCE and for metadata collection, and use other artefacts (such as Prefetch) to prove execution.</p>
 </blockquote>
-<p><code>InventoryApplication</code>. Consists of folders/subkeys named by the program id. Each folder will contain the following important information: <code>OSVersionAtInstallTime</code>, <code>InstallDateMsi</code>, <code>InstallDate</code>, <code>InstallDateArpLastModified</code>, <code>InstallDateFromLinkFile</code>, <code>Name</code>, <code>Publisher</code>, <code>RegistryKeyPath</code> (may show user SID), <code>Source</code>, <code>UninstallString</code>, <code>ProgramID</code> (consistent accross systems).</p>
+<h2 id="-anatomy">☠️ Anatomy</h2>
+<p>It used to be called <code>RecentFileCache.bcf</code>. And then it was changed several times. You could see the first execution time on Win8.</p>
 <blockquote>
-<p>⚠️ On my Parallels Windows 10/11 machine I noticed that here not only Windows, but also Mac executables are listed even though I have specifically set in preferences that I am not sharing Mac folders or disks with the VM.</p>
+<p>⛔️ The format and info in this particular artefact are not driven by the OS but rather the DLL&rsquo;s version!</p>
 </blockquote>
-<p><code>InventoryApplicationFile</code>. Contains a fileid which is actually a SHA-1 hash, padded with 4 leading zeros and full path to the executable. Use a list of known good or VirusTotal.</p>
-<p><code>InventoryDeviceContainer</code>. Contains <code>ModelName</code> and <code>FriendlyName</code>. When devices get connected, they might install some software to be able to work correctly.</p>
-<p><code>InventoryDevicePnp</code>. Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
-<p><code>Programs</code>. Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also information path to the uninstaller in registry.</p>
-<h4 id="-timestamps">⏰ Timestamps</h4>
-<h4 id="-tools">🛠 Tools</h4>
+<p><strong>Path</strong> 📂 : <code>C:\Windows\AppCompat\Programs\Amcache.hve</code>.</p>
+<p>Win8+. This artefact stores information about program execution, including those executed from a USB drive, loaded drivers, programs executed, etc. It contains the following information:</p>
+<p>🐾 install date and time
+🐾 name
+🐾 version
+🐾 path to exe/dll
+🐾 source info
+🐾 path to uninstall
+🐾 publisher name
+🐾 volume GUIDs
+🐾 container ID of the device from which the program was run.
+🐾 SHA1 hash of a driver or exe</p>
+<p>Several types of processes are tracked here:</p>
+<ol>
+<li>Executed GUI</li>
+<li>Executables and dlls copies during app execution</li>
+<li>Executables in the folder scanned by Microsoft Compatibility Appraiser (scheduled task). Programs Files and Desktop.</li>
+</ol>
+<p>Here is what <code>Amcache</code> looks like in Registry Explorer (open <code>Amcache.hve</code> from the upper menu File -&gt; Open).</p>
+<p><img src="images/amcache_regexp1.png" alt="img"></p>
+<p>Let&rsquo;s understand each forensically valuable part one by one.</p>
+<h3 id="devicecensus"><code>DeviceCensus</code></h3>
+<p>This &ldquo;directory&rdquo; contains some information about the physical machine itself. For example, for my Parallels VM, there was also a <code>VM</code> subkey that contained some value <code>VMId</code>.</p>
+<p><img src="images/amcache_regexp2.png" alt="img"></p>
+<p><img src="images/amcache_regexp3.png" alt="img"></p>
+<p>I can see that this <code>hve</code> file belongs to a VM.</p>
+<p><img src="images/amcache_regexp4.png" alt="img"></p>
+<p>I can even see that it&rsquo;s a <code>Apple Silicon</code> by looking at the Processor key 🔑.</p>
+<p><img src="images/amcache_regexp5.png" alt="img"></p>
+<h3 id="file"><code>File</code></h3>
+<p>Full path to the executable.</p>
+<blockquote>
+<p>⚠️ Not present on my Windows 10 and Windows 11 (Parallels VM).</p>
+</blockquote>
+<h3 id="inventoryapplication"><code>InventoryApplication</code></h3>
+<p>Consists of folders/subkeys named by the program id. Each folder will contain the following important information: <code>OSVersionAtInstallTime</code>, <code>InstallDateMsi</code>, <code>InstallDate</code>, <code>InstallDateArpLastModified</code>, <code>InstallDateFromLinkFile</code>, <code>Name</code>, <code>Publisher</code>, <code>RegistryKeyPath</code> (may show user SID), <code>Source</code>, <code>UninstallString</code>, <code>ProgramID</code> (consistent across systems).</p>
+<blockquote>
+<p>👀 On my Parallels Windows 10 machine, I noticed that Windows and Mac executables are listed here, even though I have explicitly set preferences for not sharing Mac folders or disks with the VM.
+⛔️ No such key on my Windows 11 machine (VM, Parallels).</p>
+</blockquote>
+<h3 id="inventoryapplicationfile"><code>InventoryApplicationFile</code></h3>
+<p>App name + file hash (algo unknown). Contains a field, an SHA-1 hash (<code>FileID</code>), padded with 4 leading zeros, a full path to the executable (<code>LowerCaseLongPath</code>), file size (<code>Size</code>), and compilation time from PE header (<code>LinkDate</code>). Use a list of known goods or VirusTotal.</p>
+<p><img src="images/amcache_regexp6.png" alt="img"></p>
+<h3 id="inventorydevicecontainer"><code>InventoryDeviceContainer</code></h3>
+<p>Contains <code>ModelName</code> and <code>FriendlyName</code>. When devices get connected, they might install some software to be able to work correctly.</p>
+<h3 id="inventorydevicepnp"><code>InventoryDevicePnp</code></h3>
+<p>Contains <code>ContainerID</code>, <code>DriverID</code>, <code>Description</code>, <code>Manufacturer</code> and <code>Model</code>.</p>
+<h3 id="programs"><code>Programs</code></h3>
+<p>Where this program is located within the FS and the source (for example, <code>AddRemoveProgram</code>). And also the information path to the uninstaller in the registry.</p>
+<blockquote>
+<p>⛔️ Don&rsquo;t have it on my VM (Windows 11, Parallels)</p>
+</blockquote>
+<h2 id="-timestamps">⏰ Timestamps</h2>
+<h2 id="-tools">🛠 Tools</h2>
 <p>AmCacheParser.exe + Timeline Explorer.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 
 </span></span></code></pre></div><p>What are unassociated files? Those that are not associated with a known source. Good starting point when looking for bad files.</p>
 <blockquote>
 <p>⚠️ In my case on a macOS with Parallels and Windows 10 installed, this evidence also contained mac executables.</p>
 </blockquote>
+<p><img src="images/amcachehve1.png" alt="img"></p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    ssi.gouv.fr/uploads/2019/01/anssi-coriin_2019-analysis_amcache.pdf - different types of AmCache
 </details>
-
   </div>
 </article>
 </div>
