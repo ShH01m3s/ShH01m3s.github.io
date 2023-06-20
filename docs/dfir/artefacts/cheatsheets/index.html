@@ -255,14 +255,13 @@
 <p><strong>Event Logs</strong>. User authentication and logon from the Security trail. Event codes <code>4624</code>.</p>
 <h2 id="how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</h2>
 <h3 id="windows-3">Windows</h3>
-<p><strong>Event Logs</strong>. Attempted logons and account usage.
-4624 - successful logon. Successful login. Type 2 (console). Keep in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.
-4625 - failed logon
-4634/4647 - successful logout
-4648 - logon using explicit credentials (like when running 🛠️ <code>runas</code>) - 📚 <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">docs</a>.
-4672 - admin logon
-4720/4726 - account created/deleted
-4776 - Local account authentication, meaning not involving a DC. Authentication attempts other than those of local users are suspicious by default. You can filter by a portion of unique pc/domain identifiers to exclude all built-in accounts.</p>
+<p><strong>Event Logs</strong>. Attempted logons and account usage.</p>
+<p>🤷🏻‍♀️ - optional</p>
+<p><code>4720</code> 🤷🏻‍♀️ (account created) - <a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776"><code>4776</code></a> (validate creds) - <code>4625</code> 🤷🏻‍♀️ (failed login) - <code>4624</code> (normal successful login) - <code>4672</code> 🤷🏻‍♀️ (admin login) - <code>4648</code> 🤷🏻‍♀️ (explicit creds used, like when running 🛠️ <code>runas</code> 📚 <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">docs</a>) - <code>4647</code> (interactive logoff initiated) - <code>4634</code> 🤷🏻‍♀️ (logoff event, not always consistent) - <code>4726</code> 🤷🏻‍♀️ (account deleted).</p>
+<blockquote>
+<p>📝 <code>4624</code> - successful logon. Successful login. Type <code>2</code> (console). Keep in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.</p>
+</blockquote>
+<p>Using <code>Logon ID</code> you can link logon event to a logoff event and check the session duration.</p>
 <h2 id="how-do-i-find-out-injection-attempts">How do I find out injection attempts?</h2>
 <h3 id="windows-4">Windows</h3>
 <p>Sysmon logs, <code>25</code>.</p>
@@ -311,7 +310,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
