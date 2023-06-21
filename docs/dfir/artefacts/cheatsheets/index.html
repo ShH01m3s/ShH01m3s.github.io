@@ -192,12 +192,34 @@
     </li>
     <li><a href="#remote-activity">Remote activity</a>
       <ul>
-        <li><a href="#windows-5">Windows</a></li>
+        <li><a href="#windows-5">Windows</a>
+          <ul>
+            <li><a href="#event-logs">Event Logs</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#how-to-track-account-creation-activity">How to track account creation activity</a>
+      <ul>
+        <li><a href="#windows-6">Windows</a>
+          <ul>
+            <li><a href="#event-logs-1">Event logs</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#usb-devices">USB Devices</a>
       <ul>
-        <li><a href="#windows-6">Windows</a></li>
+        <li><a href="#windows-7">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#brute-force-activity">Brute-force activity</a>
+      <ul>
+        <li><a href="#windows-8">Windows</a>
+          <ul>
+            <li><a href="#event-logs-2">Event logs</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -256,10 +278,12 @@
 <h2 id="how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</h2>
 <h3 id="windows-3">Windows</h3>
 <p><strong>Event Logs</strong>. Attempted logons and account usage.</p>
+<p><img src="images/event-logon1.png" alt="img">
+The activity starts with <code>4624</code> (user logged in), optionally followed by <code>4801</code> (machine unlocked) and <code>4800</code> (unlocked) events until eventually it&rsquo;s the session is dissolved by the <code>4647</code> (user initiated logoff) or <code>4634</code> (successful logoff) events.</p>
 <p>🤷🏻‍♀️ - optional</p>
 <p><code>4720</code> 🤷🏻‍♀️ (account created) - <a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776"><code>4776</code></a> (validate creds) - <code>4625</code> 🤷🏻‍♀️ (failed login) - <code>4624</code> (normal successful login) - <code>4672</code> 🤷🏻‍♀️ (admin login) - <code>4648</code> 🤷🏻‍♀️ (explicit creds used, like when running 🛠️ <code>runas</code> 📚 <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">docs</a>) - <code>4647</code> (interactive logoff initiated) - <code>4634</code> 🤷🏻‍♀️ (logoff event, not always consistent) - <code>4726</code> 🤷🏻‍♀️ (account deleted).</p>
 <blockquote>
-<p>📝 <code>4624</code> - successful logon. Successful login. Type <code>2</code> (console). Keep in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.</p>
+<p>📝 <code>4624</code> - successful logon. Successful login. Type <code>2</code> (console). Bear in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.</p>
 </blockquote>
 <p>Using <code>Logon ID</code> you can link logon event to a logoff event and check the session duration.</p>
 <h2 id="how-do-i-find-out-injection-attempts">How do I find out injection attempts?</h2>
@@ -267,9 +291,71 @@
 <p>Sysmon logs, <code>25</code>.</p>
 <h2 id="remote-activity">Remote activity</h2>
 <h3 id="windows-5">Windows</h3>
-<p>4778 - Session reconnect event. RDP. Check for 4624 Type 10.</p>
-<h2 id="usb-devices">USB Devices</h2>
+<h4 id="event-logs">Event Logs</h4>
+<ol>
+<li>On <strong>source</strong> machine:
+<ol>
+<li><code>Security</code>🛡️ (<code>4648</code>)</li>
+<li><code>TerminalServices-RDPClient</code> 🌸 (<code>1024</code> and <code>1102</code>)</li>
+</ol>
+</li>
+<li>On the <strong>target</strong> machine:
+<ol>
+<li><code>Security</code> 🛡️ (<code>4624</code>, logon type <code>10</code>, <code>4778</code> and <code>4779</code>), see <code>Session name</code> to confirm it&rsquo;s an RDP.</li>
+<li><code>Remote Desktop Services-RDPCoreTs</code> 🍇 (<code>131</code>, <code>98</code>)</li>
+<li><code>TerminalServices-RemoteConnectionManager</code> 🍎 (<code>1149</code>)</li>
+<li><code>TerminalServices-LocalSessionManager</code> 🍏(<code>21</code>, <code>22</code>, <code>25</code>, <code>41</code>)</li>
+</ol>
+</li>
+</ol>
+<p>Some breakdown of the above-mentioned codes (even if already explained elsewhere). You might filter for <code>4624</code> event id with logon type <code>10</code> to see the RDP connections. However, bear in mind that this event only records the <strong>NEW</strong> connections, not RE-connects. 4624 type 7 is triggered when lock/unlock activity happens. You will see <code>4778</code> for reconnects and <code>4779</code> for disconnects. <code>Client name</code> in <code>4778</code> shows the original machine name of the actor, giving some clues about the attacker.</p>
+<blockquote>
+<p>❗️Logon IDs for 4624 and 4778 might differ even though they represent the same session. This happens because the earlier created logon ID is often used instead. Search for 4624 events preceded by 4647 to find the logon 4624 event with the same ID.</p>
+<p>❗️ Username in 4624 might NOT be the name of the original machine if some VPN or proxy is handling the connection.</p>
+<p>❗️ You might also see logon type 3 (4624). It&rsquo;s not commonly used instead of type 10 if NLA is on and authenticating the client before establishing the RDP session.</p>
+</blockquote>
+<p>Several event log trails can give some insight into RDP connection: 🛡️<code>Security</code>, <code>Remote Desktop Services-RDPCoreTs</code> 🍇, <code>TerminalServices-LocalSessionManager</code> 🍏,  <code>TerminalServices-RemoteConnectionManager</code> 🍎 <code>TerminalServices-RDPClient</code> 🌸:</p>
+<table>
+<thead>
+<tr>
+<th>🤦🏽‍♂️ Actor</th>
+<th>source ip and username (🍇🛡️🍎🍏)<!-- raw HTML omitted -->Hostname (🛡️)</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎯 Target</td>
+<td>Destination hostname and destination IP (🌸)</td>
+<td></td>
+</tr>
+<tr>
+<td>📝 Event Metadata</td>
+<td>Successful Connections, Attempts (🍇)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>❗️<code>TerminalServices-RDPClient</code> 🌸 is a rare beast; it records the RDP activity on the SOURCE and is rarely turned on. All other logs record activity on the REMOTE system (thus, they are present on the remote system only).</p>
+</blockquote>
+<h2 id="how-to-track-account-creation-activity">How to track account creation activity</h2>
 <h3 id="windows-6">Windows</h3>
+<h4 id="event-logs-1">Event logs</h4>
+<p><img src="images/acc_created1.png" alt="img"></p>
+<p>It starts with the event <code>4720</code> (account created) and multiple <code>4732</code> events (member added to some security-enabled group). This account must be enabled (<code>4722</code>) before it can be used. You might see 4738 (account was changed) or even <code>4724</code> (password reset attempt).</p>
+<blockquote>
+<p>✍🏻 <code>4728</code> - member was added to a security-enabled global group.</p>
+<p>✍🏻 <code>4732</code> - member was added to a security-enabled local group.</p>
+<p>✍🏻 <code>4756</code> - member was added to a security-enabled universal group.</p>
+</blockquote>
+<h2 id="usb-devices">USB Devices</h2>
+<h3 id="windows-7">Windows</h3>
+<h2 id="brute-force-activity">Brute-force activity</h2>
+<h3 id="windows-8">Windows</h3>
+<h4 id="event-logs-2">Event logs</h4>
+<p>There will no shortage of <code>4625</code> events (unsuccessful login) showing up in the logs. Since this attack is most likely happening over the network, the logon type will be <code>3</code> (often, SMB or RDP). Now, if you give those events a once-over, you will be able to figure out whether we&rsquo;re up against a rather pesky password spray attack or an attack on a single account.</p>
+<p>Should you spot those events trotting out <code>C0000064</code> error codes (user doesn&rsquo;t exist) along with <code>C000006A</code> (wrong password) - you can bet your bottom dollar 💵 that&rsquo;s a password spraying attack. However, should you see the same username popping up time and again offering only <code>C000006A</code> error code as a company, then, darling, you are in the midst of a targeted attack. Congrats! 🎉</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
@@ -310,7 +396,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   
