@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>⚙️ Active Directory - Analyst</title>
+  <title>🏺 Active Directory - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -163,7 +163,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#-ntdsdit">🏺 <code>NTDS.DIT</code></a>
       <ul>
         <li><a href="#attacks--investigation">Attacks &amp; Investigation</a></li>
         <li><a href="#default-accounts">Default accounts</a></li>
@@ -184,7 +184,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">⚙️ Active Directory</h1>
+<h1 class="title">🏺 Active Directory</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -236,6 +236,10 @@
 <p><strong>Forests</strong>. Share common schema, config partition, global catalog, trusts between domains in the forest, Enterprise Admins and Schema Admins groups.</p>
 <p><strong>OU</strong>. Organisational Units. Containers with users, groups, computers or other OUs.  Represent the org hierarchy and logically, manage objects in consistent way, delegate permissions and apply policies.</p>
 <p><strong>Trust</strong>. Directional (peer to peer) and Transitive (the friend of my friend is my friend).</p>
+<h2 id="-ntdsdit">🏺 <code>NTDS.DIT</code></h2>
+<p>🏺 <code>\%SystemRoot%\NTDS</code>. If the file is not here, check 🔑 <code>HKLM\SYSTEM\CurrecntControlSet\Services\NTDS\Parameters</code> to see where it&rsquo;s stored. To access this key, use <code>ntdsutil</code> or another tool to get raw access to the disk or get Volume Shadow copy with  🛠️ <code>VSSAdmin</code>.</p>
+<p>You need 👑 to load a drive to access the raw disk or use Volume Shadow copy. Active Directory database stored encrypted passwords for all the domain accounts along with the password history. <code>NTDS.DIT</code> is in ESE format.</p>
+<p>🛠️ <code>VSSAdmin</code> (to get Volume Shadow copy), 🛠️ <code>NTDSXtract</code>, 🛠️ <code>Metasploit</code>, 🛠️ <code>PowerShell</code>, 🛠️ <code>secretsdump.py</code> (<code>impacket</code>), 🛠️ <code>Bloodhound</code> (looks a lot like a threat modelling tool). 🛠️ <code>Bloodhound</code> uses LDAP and is quite stealthy. 🛠️ <code>GoFetch</code> uses Bloodhound to create a graph and then uses <code>Invoke-Mimikatz</code> and <code>Invoke-Psexec</code> and 🛠️ <code>DeathStar</code>, which uses 🛠️ <code>PowerShell Empire</code> to achieve pretty much the same result.</p>
 <h3 id="attacks--investigation">Attacks &amp; Investigation</h3>
 <p><strong>LLMNR Poisoning</strong>. NBT-NS (former name). Used when DNS screws up. Uses NTLMv2 hash and username. ⚔️ Disable LLMNR (Turn off multicast name resolution) and NBT-NS. If these are needed: require network access control, strong user passwords (14+ chars).</p>
 <p><strong>SMB Relay</strong>. Resend the stolen hashes to the machines that can use them instead of cracking them. Pass the hash? SMB must be disabled for the attack to work, relayed creds are admin for the machine. <code>nmap --script=smb2-security-mode.nse -p445 &lt;IP range&gt;</code> to check for SMB with signing <strong>off</strong>. Use the tool <code>ntlmrelayx.py tf targets.txt -smb2support -i</code> (<code>i</code> for Interactive shell) along with the responder (HTTP and SMB off). Use <code>nc &lt;IP&gt; &lt;port&gt;</code> to connect to the open connection. ⚔️ Enable SMB signing, disable NTLM auth over network, local admin restriction ()</p>
