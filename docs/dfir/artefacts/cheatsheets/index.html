@@ -165,7 +165,11 @@
   <ul>
     <li><a href="#how-do-i-find-programs-executed">How do I find programs executed?</a>
       <ul>
-        <li><a href="#windows">Windows</a></li>
+        <li><a href="#windows">Windows</a>
+          <ul>
+            <li><a href="#services">Services</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#where-do-i-look-for-ospc-info">Where do I look for OS/PC info?</a>
@@ -177,51 +181,77 @@
     </li>
     <li><a href="#how-to-see-who-logged-in-and-out">How to see who logged in and out?</a>
       <ul>
-        <li><a href="#windows-2">Windows</a></li>
-      </ul>
-    </li>
-    <li><a href="#how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</a>
-      <ul>
-        <li><a href="#windows-3">Windows</a></li>
-      </ul>
-    </li>
-    <li><a href="#how-do-i-find-out-injection-attempts">How do I find out injection attempts?</a>
-      <ul>
-        <li><a href="#windows-4">Windows</a></li>
-      </ul>
-    </li>
-    <li><a href="#remote-activity">Remote activity</a>
-      <ul>
-        <li><a href="#windows-5">Windows</a>
+        <li><a href="#windows-2">Windows</a>
           <ul>
             <li><a href="#event-logs">Event Logs</a></li>
           </ul>
         </li>
       </ul>
     </li>
-    <li><a href="#how-to-track-account-creation-activity">How to track account creation activity</a>
+    <li><a href="#how-do-i-spot-reconnaissance-activity">How do I spot reconnaissance activity?</a>
       <ul>
-        <li><a href="#windows-6">Windows</a>
+        <li><a href="#windows-3">Windows</a>
           <ul>
             <li><a href="#event-logs-1">Event logs</a></li>
           </ul>
         </li>
       </ul>
     </li>
-    <li><a href="#usb-devices">USB Devices</a>
+    <li><a href="#how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</a>
       <ul>
-        <li><a href="#windows-7">Windows</a></li>
+        <li><a href="#windows-4">Windows</a></li>
       </ul>
     </li>
-    <li><a href="#brute-force-activity">Brute-force activity</a>
+    <li><a href="#how-do-i-find-out-injection-attempts">How do I find out injection attempts?</a>
       <ul>
-        <li><a href="#windows-8">Windows</a>
+        <li><a href="#windows-5">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#remote-activity">Remote activity</a>
+      <ul>
+        <li><a href="#windows-6">Windows</a>
           <ul>
-            <li><a href="#event-logs-2">Event logs</a></li>
+            <li><a href="#event-logs-2">Event Logs</a></li>
           </ul>
         </li>
       </ul>
     </li>
+    <li><a href="#how-to-track-account-creation-activity">How to track account creation activity</a>
+      <ul>
+        <li><a href="#windows-7">Windows</a>
+          <ul>
+            <li><a href="#event-logs-3">Event logs</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#usb-devices">USB Devices</a>
+      <ul>
+        <li><a href="#windows-8">Windows</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-spot-scheduled-tasks">How to spot scheduled tasks?</a>
+      <ul>
+        <li><a href="#windows-9">Windows</a>
+          <ul>
+            <li><a href="#event-logs-4">Event logs</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#brute-force-activity">Brute-force activity</a>
+      <ul>
+        <li><a href="#windows-10">Windows</a>
+          <ul>
+            <li><a href="#event-logs-5">Event logs</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#how-to-spot-running-malicious-processes">How to spot RUNNING malicious processes?</a></li>
+    <li><a href="#how-to-spot-malicious-filesimages">How to spot malicious files/images?</a></li>
+    <li><a href="#how-to-find-passwords">How to find passwords?</a></li>
+    <li><a href="#how-to-check-if-the-logs-are-cleared">How to check if the logs are cleared?</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -266,6 +296,24 @@
 <p>It is ok to collect artefacts like that manually, but it&rsquo;s better to do so at scale. Some tools were designed to process these artefacts and put everything in an SQL database.</p>
 <p>🛠️ <code>AppCompatProcessor.py</code> <a href="https://github.com/mbevilacqua/appcompatprocessor">GitHub</a> - parses both 🏺 <code>ShimCache</code> and 🏺 <code>AppCompatCache</code>. This tool has some modules to improve the investigation process (search using <code>regex</code>, <code>reconscan</code>, <code>filehitcount</code>, <code>stack</code> etc.). One of particular interest is <code>tcorr</code>, which performs temporal correlation of execution (files that are usually executed closer in time). <code>leven</code> finds files that are slightly different in names from known executables, and <code>rndsearch</code> - attempts to identify randomly named files.</p>
 <p><strong>Event Logs</strong>.</p>
+<h4 id="services">Services</h4>
+<p>Services are managed by SCM (Service Control Manager). The same process triggers Security (4697) and System (7034, 7035, 7036, 7040 and 7045) events.</p>
+<ol>
+<li>🛡️ <code>Security</code> (<code>4697</code>) - service was installed</li>
+<li>⚙️ <code>System</code>
+<ol>
+<li><code>7034</code> - service crashed</li>
+<li><code>7035</code> - SCM has sent a start/stop request</li>
+<li><code>7036</code> - the service was started/stopped</li>
+<li><code>7040</code> - start type was changed for a service</li>
+<li><code>7045</code> - the service was installed</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>❗️PsExec process creates a new service when executed and deletes it afterwards, expect <code>4697</code> and <code>7045</code> EID.
+❗️Services are usually executing within a service account, user account running a service is something worth looking into.</p>
+</blockquote>
 <h2 id="where-do-i-look-for-ospc-info">Where do I look for OS/PC info?</h2>
 <h3 id="windows-1">Windows</h3>
 <p>Registry, of course.</p>
@@ -274,9 +322,51 @@
 <h3 id="linux">Linux</h3>
 <h2 id="how-to-see-who-logged-in-and-out">How to see who logged in and out?</h2>
 <h3 id="windows-2">Windows</h3>
-<p><strong>Event Logs</strong>. User authentication and logon from the Security trail. Event codes <code>4624</code>.</p>
-<h2 id="how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</h2>
+<h4 id="event-logs">Event Logs</h4>
+<p>There is a fine line between logon and <em>account</em> logon events, and that line is not just one word. The main idea is that logon is the event on the system that wants to chat, whilst account logon is the event on the server/remote system that our computer wants to talk to: user authentication and logon from the Security trail. Event codes <code>4624</code>.</p>
+<p>Most events are logged on the target machine, but you can also see these events on the source machine. That happens when the user authenticates locally with the credentials from the SAM database (NTLM protocol); you will see EID <code>4776</code> (NTLM creds used for logon) for both successful and failed logons.</p>
+<p>When the Kerberos protocol is in use, expect the following events in the logs:</p>
+<ol>
+<li><code>4768</code> (successful login)</li>
+<li><code>4771</code> (failed login)</li>
+<li><code>4769</code> (successful authentication to a resource server, aka service ticket granted)</li>
+<li><code>4776</code> - pass-the-hash. To block/unblock the ability to use this for sensitive accounts, <code>LocalAccountTokenFilterPolicy</code>.</li>
+</ol>
+<p>When the logon is failing, the following error codes are the most frequently used (NTLM 🗝️ and Kerberos 🐕‍🦺):</p>
+<ol>
+<li>🗝️ <code>C0000064</code> (🐕‍🦺 <code>0x6</code>) - the username provided is invalid (doesn&rsquo;t exist).</li>
+<li>🗝️ <code>C000006A</code> (🐕‍🦺 <code>0x18</code>) - the password provided is invalid.</li>
+<li>🗝️ <code>C0000070</code> (🐕‍🦺 <code>0xC</code>) - unauthorised workstation.</li>
+<li>🗝️ <code>C0000234</code> (🐕‍🦺 <code>0x12</code>) - account is locked.</li>
+<li>🗝️ <code>C0000071</code> (🐕‍🦺 <code>0x17</code>) - the password has expired.</li>
+<li>🐕‍🦺 <code>0x7</code> - server was not found.</li>
+<li>🐕‍🦺 <code>0x25</code> - the time difference between the machines is too big.</li>
+</ol>
+<p>👴🏼 XP: 672, 673, 675, 680, 529.</p>
+<p>Sometimes, the credentials are different for different resources. When those credentials are different from the creds in memory, the credentials are provided explicitly. That is when EID <code>4624</code> (logon type <code>9</code>) gets recorded. Most scripts and hacker tools REQUIRE explicit credentials, so that&rsquo;s a good lead. Also, keep in mind that the following three user categories are those that require switching accounts and using credentials explicitly the most often:</p>
+<ol>
+<li>Admins</li>
+<li>Attackers</li>
+<li>Services</li>
+</ol>
+<p>When UAC window pops up, it also triggers this event. RDP activity using different creds also generate event <code>4648</code> on both the originating and the target systems.</p>
+<p>🛠️ <code>CobalStrike</code> tool has two modules: <code>pth</code> and <code>make_token</code>, both using explicit credentials. Hence, it triggers <code>4624</code> type <code>9</code> logon EID and <code>4648</code> (explicit creds); the latter records both the source AND the target.</p>
+<h2 id="how-do-i-spot-reconnaissance-activity">How do I spot reconnaissance activity?</h2>
 <h3 id="windows-3">Windows</h3>
+<h4 id="event-logs-1">Event logs</h4>
+<p>Monitoring for these events will cause a lot of noise and false positives. You need to do it in a smart way:</p>
+<ol>
+<li>Filter for sensitive groups</li>
+<li>Whitelist those processes performing such activity legitimately: <code>mmc.exe</code>, <code>services.exe</code>, <code>taskhost.exe</code>, <code>explorer.exe</code>, <code>vsssvc.exe</code>. Presume everything else to be unusual.</li>
+<li>What accounts are NOT supposed to do recon?</li>
+<li>What group was queried? <code>Administrators</code> group (or other groups with higher privileges) is the most desirable piece of the pie.</li>
+</ol>
+<p><code>4798</code> - user&rsquo;s local group membership enum.
+<code>4799</code> - security-enabled local group membership enum.</p>
+<p>Group Policy -&gt; Advanced Auditing setting to set up Audit Security Group Management and User Account Management.</p>
+<p>🛠️ <code>PowerSploit</code> and 🛠️ <code>Empire</code> both use <code>PowerView</code> cmdlet set to perform recon activity for the Windows environment. 🛠️ <code>DeathStar</code> from 🛠️ <code>Empire</code> is a wrapper around it.</p>
+<h2 id="how-do-i-see-the-users-recent-activity">How do I see the user&rsquo;s recent activity?</h2>
+<h3 id="windows-4">Windows</h3>
 <p><strong>Event Logs</strong>. Attempted logons and account usage.</p>
 <p><img src="images/event-logon1.png" alt="img">
 The activity starts with <code>4624</code> (user logged in), optionally followed by <code>4801</code> (machine unlocked) and <code>4800</code> (unlocked) events until eventually it&rsquo;s the session is dissolved by the <code>4647</code> (user initiated logoff) or <code>4634</code> (successful logoff) events.</p>
@@ -287,11 +377,12 @@ The activity starts with <code>4624</code> (user logged in), optionally followed
 </blockquote>
 <p>Using <code>Logon ID</code> you can link logon event to a logoff event and check the session duration.</p>
 <h2 id="how-do-i-find-out-injection-attempts">How do I find out injection attempts?</h2>
-<h3 id="windows-4">Windows</h3>
+<h3 id="windows-5">Windows</h3>
 <p>Sysmon logs, <code>25</code>.</p>
 <h2 id="remote-activity">Remote activity</h2>
-<h3 id="windows-5">Windows</h3>
-<h4 id="event-logs">Event Logs</h4>
+<h3 id="windows-6">Windows</h3>
+<h4 id="event-logs-2">Event Logs</h4>
+<h5 id="rdp">RDP</h5>
 <ol>
 <li>On <strong>source</strong> machine:
 <ol>
@@ -324,11 +415,11 @@ The activity starts with <code>4624</code> (user logged in), optionally followed
 </thead>
 <tbody>
 <tr>
-<td>🎯 Target</td>
+<td>🎯 <strong>Target</strong></td>
 <td>Destination hostname 🌸 <code>1024</code> and destination IP 🌸 <code>1102</code></td>
 </tr>
 <tr>
-<td>📝 Event Metadata</td>
+<td>📝 <strong>Event Metadata</strong></td>
 <td>Successful Connections 🍇  <code>98</code>, Attempts 🍇 <code>131</code></td>
 </tr>
 </tbody>
@@ -338,11 +429,20 @@ The activity starts with <code>4624</code> (user logged in), optionally followed
 </blockquote>
 <blockquote>
 <p>✍🏻 <code>4648</code> - if NLA is enabled and alternate creds are used: username, alternate username, dest hostname, dest IP, process name</p>
-<p>✍🏻 <code>1149</code> - Blank username may indicate use of Sticky keys.</p>
+<p>✍🏻 <code>1149</code> - Blank username may indicate the use of Sticky keys.</p>
 </blockquote>
+<h5 id="network-shares">Network Shares</h5>
+<p>It&rsquo;s pretty noisy, so be smart. Also, to enable this logging, go to <code>Object Access -&gt; Audit File Share</code>.</p>
+<blockquote>
+<p>❗️No 👴🏼 XP logs.</p>
+</blockquote>
+<p><code>5140</code> - network share was accessed.
+<code>5142</code> - <code>5144</code> - share created, modified, deleted.
+<code>5145</code> - the shared object was accessed.</p>
+<p>If you see some <code>4624</code> followed by multiple <code>5140</code> events, it&rsquo;s probably an attempt to mount the share. The attackers will be most interested in the <code>ADMIN$</code> share. However, to use it, one needs to mount <code>IPC$</code> share first. That&rsquo;s good since it allows us to see the account name or SID, information not recorded for the <code>ADMIN$</code> share mount event.</p>
 <h2 id="how-to-track-account-creation-activity">How to track account creation activity</h2>
-<h3 id="windows-6">Windows</h3>
-<h4 id="event-logs-1">Event logs</h4>
+<h3 id="windows-7">Windows</h3>
+<h4 id="event-logs-3">Event logs</h4>
 <p><img src="images/acc_created1.png" alt="img"></p>
 <p>It starts with the event <code>4720</code> (account created) and multiple <code>4732</code> events (member added to some security-enabled group). This account must be enabled (<code>4722</code>) before it can be used. You might see 4738 (account was changed) or even <code>4724</code> (password reset attempt).</p>
 <blockquote>
@@ -351,12 +451,72 @@ The activity starts with <code>4624</code> (user logged in), optionally followed
 <p>✍🏻 <code>4756</code> - member was added to a security-enabled universal group.</p>
 </blockquote>
 <h2 id="usb-devices">USB Devices</h2>
-<h3 id="windows-7">Windows</h3>
-<h2 id="brute-force-activity">Brute-force activity</h2>
 <h3 id="windows-8">Windows</h3>
-<h4 id="event-logs-2">Event logs</h4>
-<p>There will no shortage of <code>4625</code> events (unsuccessful login) showing up in the logs. Since this attack is most likely happening over the network, the logon type will be <code>3</code> (often, SMB or RDP). Now, if you give those events a once-over, you will be able to figure out whether we&rsquo;re up against a rather pesky password spray attack or an attack on a single account.</p>
-<p>Should you spot those events trotting out <code>C0000064</code> error codes (user doesn&rsquo;t exist) along with <code>C000006A</code> (wrong password) - you can bet your bottom dollar 💵 that&rsquo;s a password spraying attack. However, should you see the same username popping up time and again offering only <code>C000006A</code> error code as a company, then, darling, you are in the midst of a targeted attack. Congrats! 🎉</p>
+<h2 id="how-to-spot-scheduled-tasks">How to spot scheduled tasks?</h2>
+<h3 id="windows-9">Windows</h3>
+<h4 id="event-logs-4">Event logs</h4>
+<p>Two trails are of use are <code>Microsoft-Windows-TaskScheduler/Operational</code> 🍇 (disabled by default on the newer systems) and <code>Security</code> 🛡️.</p>
+<table>
+<thead>
+<tr>
+<th>🍇</th>
+<th>🛡️</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>106</code></td>
+<td><code>4698</code></td>
+<td>Task created</td>
+</tr>
+<tr>
+<td><code>140</code></td>
+<td><code>4702</code></td>
+<td>updated</td>
+</tr>
+<tr>
+<td><code>141</code></td>
+<td><code>4699</code></td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>200/201</code></td>
+<td>-</td>
+<td>executed and completed</td>
+</tr>
+<tr>
+<td>-</td>
+<td><code>4700/4701</code></td>
+<td>enabled and disabled</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✍🏻 On older Win 👴🏼 it&rsquo;s <code>602</code> event. Also, config files are in bin format with <code>.job</code> extension and can be parsed by a <code>jobparser.py</code> script.</p>
+</blockquote>
+<p>Also, scheduled tasks create an XML (on newer) or bin (👴🏼) config files with helpful information like the account used, timestamps and activities scheduled. Simply go to <code>Windows\System32\Tasks</code> or <code>Windows\SysWoW64\Tasks</code> (for 32-bit) folders. Bot <code>at.exe</code> and <code>schtasks.exe</code> produce this artefact. If you know that&rsquo;s a malicious task, note the account used to create it, and you have a lead because it&rsquo;s likely compromised. Bingo!</p>
+<h2 id="brute-force-activity">Brute-force activity</h2>
+<h3 id="windows-10">Windows</h3>
+<h4 id="event-logs-5">Event logs</h4>
+<p>There will be no shortage of <code>4625</code> events (unsuccessful login) showing up in the logs. Since this attack is most likely happening over the network, the logon type will be <code>3</code> (often SMB or RDP). Now, if you give those events a once-over, you will be able to figure out whether we&rsquo;re up against a rather pesky password spray attack or an attack on a single account.</p>
+<p>Should you spot those events trotting out <code>C0000064</code> error codes (user doesn&rsquo;t exist) along with <code>C000006A</code> (wrong password) - you can bet your bottom dollar 💵 that&rsquo;s a password-spraying attack. However, should you see the same username popping up time and again, offering only <code>C000006A</code> error code as a company, then, darling, you are in the midst of a targeted attack. Congrats! 🎉</p>
+<h2 id="how-to-spot-running-malicious-processes">How to spot RUNNING malicious processes?</h2>
+<h2 id="how-to-spot-malicious-filesimages">How to spot malicious files/images?</h2>
+<h2 id="how-to-find-passwords">How to find passwords?</h2>
+<h2 id="how-to-check-if-the-logs-are-cleared">How to check if the logs are cleared?</h2>
+<blockquote>
+<p>❗️These techniques require admin or higher privileges.
+❗️Common with ransomware</p>
+</blockquote>
+<p>When the <code>Security</code> trail is deleted, <code>1102</code> is usually created afterwards. When all other trails are deleted, <code>104</code> EID is generated in the <code>System</code> trail.</p>
+<p>Event logs are NOT designed to be deleted selectively, all or none. However, some tools are capable of circumventing this and can actually partially clear the logs.</p>
+<ol>
+<li>🛠️ <code>Mimikatz</code> - 📕 <code>event::drop</code> can stop the event log process from writing <code>Security</code> events. It can&rsquo;t restart it through, so, obvious.</li>
+<li>🛠️ <code>DanderSprite</code> - (leaked by <code>ShadowBrokers</code>) change the pointers to the next events in the headers. So, the events are not deleted but are not visible either. Deep dive forensics to help here.</li>
+<li>🛠️ <code>Invoke-Phant0m</code> - kill the threads of event logs.</li>
+</ol>
+<p>One can also suspend the event log process or make changes in RAM. However, all of these actions require 👑.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

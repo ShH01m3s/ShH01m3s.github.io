@@ -180,30 +180,32 @@
     </li>
     <li><a href="#codes">Codes</a>
       <ul>
-        <li><a href="#unsorted">Unsorted</a>
+        <li><a href="#terminalservicesrdpclient">TerminalServicesRDPClient</a></li>
+        <li><a href="#security-1">Security</a>
           <ul>
+            <li><a href="#authentication-and-authorisation">Authentication and Authorisation</a></li>
             <li><a href="#4907">4907</a></li>
           </ul>
         </li>
-        <li><a href="#network">Network</a></li>
-        <li><a href="#lateral-movement">Lateral Movement</a>
+        <li><a href="#network">Network</a>
           <ul>
             <li><a href="#4697">4697</a></li>
             <li><a href="#5140">5140</a></li>
             <li><a href="#5141---5145">5141 - 5145</a></li>
+          </ul>
+        </li>
+        <li><a href="#system">System</a>
+          <ul>
             <li><a href="#7045">7045</a></li>
+            <li><a href="#104">104</a></li>
+            <li><a href="#6416">6416</a></li>
+            <li><a href="#20001">20001</a></li>
+            <li><a href="#20002">20002</a></li>
           </ul>
         </li>
         <li><a href="#anti-forensics">Anti-Forensics</a>
           <ul>
             <li><a href="#1102">1102</a></li>
-            <li><a href="#104">104</a></li>
-          </ul>
-        </li>
-        <li><a href="#usb">USB</a>
-          <ul>
-            <li><a href="#20001">20001</a></li>
-            <li><a href="#20002">20002</a></li>
           </ul>
         </li>
       </ul>
@@ -282,6 +284,9 @@
 <blockquote>
 <p>❗️If you don&rsquo;t see some event ids that you are supposed to, then try turning on all auditing policies using <code>secpol.msc</code> or going to <code>Start -&gt; Windows Administrative Tools -&gt; Local Security Policy</code>. In the opened window then go to <code>Local Policies</code> and choose <code>Audit Policy</code>. Either turn on each of them or turn on the ones that you think are responsible I was able to start capturing event 5156. I was using Vbox with Windows Server 2019 installed, and the machine was promoted to DC (Active Directory Feature installed).</p>
 </blockquote>
+<blockquote>
+<p>❗️ Most relevant events are recorded on the target system, but some are also present in the source system. We must combine those two to have a bigger picture, especially spotting lateral movement. Some events logged on the SOURCE system are Security <code>4648</code>, Security <code>4776</code> (👴🏼 <code>680</code>) and <code>Microsoft-Windows-TerminalServiceRDPClient</code> trail.</p>
+</blockquote>
 <h3 id="security">Security</h3>
 <p>It&rsquo;s the most important trail. It records the following event types: account logon (whoever authorised logon), management, directory service (attempted access to AD objects), logon events (on a local system), object access, policy change, privilege user, process tracking, system events (start, shutdown, actions affecting this trail).</p>
 <h2 id="-tools">🛠️ Tools</h2>
@@ -330,7 +335,39 @@
 <p><strong>Security Logs</strong>.</p>
 <p><strong>Application Logs</strong>. Not generally useful for IR.</p>
 <h2 id="codes">Codes</h2>
-<h3 id="unsorted">Unsorted</h3>
+<h3 id="terminalservicesrdpclient">TerminalServicesRDPClient</h3>
+<blockquote>
+<p>❗️ Records activity on the SOURCE system</p>
+</blockquote>
+<p>Event ID 21: Remote Desktop Services: Session logon succeeded.</p>
+<p>Event ID 23: Remote Desktop Services: Session logoff succeeded.</p>
+<p>Event ID 24: Remote Desktop Services: Session has been disconnected.</p>
+<p>Event ID 25: Remote Desktop Services: Session reconnection succeeded.</p>
+<p>Event ID 39: Session X has been disconnected by session Y.</p>
+<h3 id="security-1">Security</h3>
+<p>Event ID 4624: This event is generated when a logon session is created (i.e., a user successfully logs on).</p>
+<p>Event ID 4625: This event is generated when a logon request fails.</p>
+<p>Event ID 4648: This event is generated when a logon is attempted using explicit credentials, which often indicates a user is attempting to run a program as a different user.</p>
+<p>Event ID 4672: This event is generated when a user logs on with superuser (or admin) rights.</p>
+<p>Event ID 4700-4702: These events are related to scheduled tasks and can indicate when a task is triggered or finished.</p>
+<p>Event ID 4720: This event is generated when a user account is created.</p>
+<p>Event ID 4728: This event is generated when a user is added to a security-enabled global group.</p>
+<p>Event ID 4732: This event is generated when a user is added to a security-enabled local group.</p>
+<p>Event ID 4738: This event is generated when a user account is updated.</p>
+<p>Event ID 4768: A Kerberos authentication ticket (TGT) was requested.</p>
+<p>Event ID 4776: The domain controller attempted to validate the credentials for an account.</p>
+<p>Event ID 7045: A service was installed in the system.</p>
+<h4 id="authentication-and-authorisation">Authentication and Authorisation</h4>
+<p>When the logon is failing, the following error codes are the most frequently used (NTLM 🗝️ and Kerberos 🐕‍🦺):</p>
+<ol>
+<li>🗝️ <code>C0000064</code> (🐕‍🦺 <code>0x6</code>) - the username provided is invalid (doesn&rsquo;t exist).</li>
+<li>🗝️ <code>C000006A</code> (🐕‍🦺 <code>0x18</code>) - the password provided is invalid.</li>
+<li>🗝️ <code>C0000070</code> (🐕‍🦺 <code>0xC</code>) - unauthorised workstation.</li>
+<li>🗝️ <code>C0000234</code> (🐕‍🦺 <code>0x12</code>) - account is locked.</li>
+<li>🗝️ <code>C0000071</code> (🐕‍🦺 <code>0x17</code>) - the password has expired.</li>
+<li>🐕‍🦺 <code>0x7</code> - server was not found.</li>
+<li>🐕‍🦺 <code>0x25</code> - the time difference between the machines is too big.</li>
+</ol>
 <h4 id="4907">4907</h4>
 <p>Audit policy change.</p>
 <blockquote>
@@ -389,7 +426,6 @@ Event ID 1102 (The audit log was cleared): This event suggests that someone is t
 <p><strong>Frequency Analysis</strong>. How frequently is the host connecting to another machine? For how long? Maybe it is something legitimate. But if it&rsquo;s recent or/and not regular - it could be an indicator.</p>
 <p>Unusual. Unusual application names, paths, typos or poker hand ports (<code>44488</code> <code>12345</code> or like). Or may some gibberish names. Unusual protocols - <code>1</code> (ICMP) <code>6</code> (TCP) <code>70</code> (UDP). Look for the ports outside of these three.</p>
 <p>Use the Microsoft website for more info on specific events - 📚 <a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4624">https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4624</a>.</p>
-<h3 id="lateral-movement">Lateral Movement</h3>
 <h4 id="4697">4697</h4>
 <p>Security.</p>
 <p>New service installed.</p>
@@ -399,17 +435,18 @@ Event ID 1102 (The audit log was cleared): This event suggests that someone is t
 <h4 id="5141---5145">5141 - 5145</h4>
 <p>Security.</p>
 <p>SMB shares</p>
+<h3 id="system">System</h3>
 <h4 id="7045">7045</h4>
-<p>System. Service installed. Logged by default. Services started with user credentials are suspicious.</p>
+<p>Service installed. Logged by default. Services started with user credentials are suspicious.</p>
+<h4 id="104">104</h4>
+<p><strong>System</strong>. Logs what logs were cleared 🥶. Logs their SID.</p>
+<h4 id="6416">6416</h4>
+<p>USB</p>
+<h4 id="20001">20001</h4>
+<h4 id="20002">20002</h4>
 <h3 id="anti-forensics">Anti-Forensics</h3>
 <h4 id="1102">1102</h4>
 <p><strong>Security</strong>. Logs what user cleared the logs.</p>
-<h4 id="104">104</h4>
-<p><strong>System</strong>. Logs what logs were cleared 🥶. Logs their SID.</p>
-<h3 id="usb">USB</h3>
-<p>System 6416</p>
-<h4 id="20001">20001</h4>
-<h4 id="20002">20002</h4>
 <h2 id="exercise">Exercise</h2>
 <p>I&rsquo;ve set up my lab as vaguely described <a href="/docs/blog/2021/03/how-i-have-built-my-lab">here</a>. Then, I&rsquo;ve logged into the user <code>sherlock</code> account. Now, I want to see this even in the Event Viewer. Most probably, it&rsquo;s the Security of System logs. I have wrong time settings on the both machines, but I don&rsquo;t think it&rsquo;s a problem for now. I&rsquo;ve noticed some Logon of type 3 in the logs, but the user is not specified. I don&rsquo;t quite remember, which id the network logon type has. I think it&rsquo;s 4&hellip; .</p>
 <p>No, logon type 3 is the network logon. Weird. It happens very often.</p>
