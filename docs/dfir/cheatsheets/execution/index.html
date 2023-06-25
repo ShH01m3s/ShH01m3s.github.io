@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📜 Artefacts DB - Analyst</title>
+  <title>🤔 How do I check program execution? - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -72,7 +72,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -159,9 +158,23 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+   <a href="/docs/dfir/cheatsheets/"> 👈🏼 Back to </br> Artefacts CheatSheet </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#shimcache">ShimCache</a></li>
+        <li><a href="#event-logs">Event Logs</a></li>
+        <li><a href="#services">Services</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -169,53 +182,64 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">🤔 How do I check program execution?</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 24.06.2023
+    <br />
+
+    
+
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="windows">Windows</h2>
+<p>You can use Prefetch which is the most reliable source. However, if the program is NOT there, it doesn&rsquo;t mean it wasn&rsquo;t executed.</p>
+<p>Another artefact of use is AmCache. What&rsquo;s great about it is that it stores hashes among all. Although it&rsquo;s not proof of the program being executed, it can show the PRESENCE of files (exe and drivers) on the system.</p>
+<h3 id="shimcache">ShimCache</h3>
+<p>It is ok to collect artefacts like that manually, but it&rsquo;s better to do so at scale. Some tools were designed to process these artefacts and put everything in an SQL database.</p>
+<p>🛠️ <code>AppCompatProcessor.py</code> <a href="https://github.com/mbevilacqua/appcompatprocessor">GitHub</a> - parses both 🏺 <code>ShimCache</code> and 🏺 <code>AppCompatCache</code>. This tool has some modules to improve the investigation process (search using <code>regex</code>, <code>reconscan</code>, <code>filehitcount</code>, <code>stack</code> etc.). One of particular interest is <code>tcorr</code>, which performs temporal correlation of execution (files that are usually executed closer in time). <code>leven</code> finds files that are slightly different in names from known executables, and <code>rndsearch</code> - attempts to identify randomly named files.</p>
+<h3 id="event-logs">Event Logs</h3>
+<h3 id="services">Services</h3>
+<p>Services are managed by SCM (Service Control Manager). The same process triggers Security (4697) and System (7034, 7035, 7036, 7040 and 7045) events.</p>
+<ol>
+<li>🛡️ <code>Security</code> (<code>4697</code>) - service was installed</li>
+<li>⚙️ <code>System</code>
+<ol>
+<li><code>7034</code> - service crashed</li>
+<li><code>7035</code> - SCM has sent a start/stop request</li>
+<li><code>7036</code> - the service was started/stopped</li>
+<li><code>7040</code> - start type was changed for a service</li>
+<li><code>7045</code> - the service was installed</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>❗️PsExec process creates a new service when executed and deletes it afterwards, expect <code>4697</code> and <code>7045</code> EID.
+❗️Services are usually executing within a service account, user account running a service is something worth looking into.</p>
+</blockquote>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
 
- 
- <h1 class="title">📜 Artefacts DB</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/applications/"> 📲 Application Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/console/"> ⬛️ Console Activity Analysis</a></h2> 
-    <p> Remote vs local commands?
-Windows macOS Linux </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/"> 🪟 Windows Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/"> 🍏 🐧 UNIX Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/data-recovery/"> 🩻 Data Recovery</a></h2> 
-    <p> <p><em>In order to detect and response to incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/cloud/"> ☁️ Cloud Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/ios/"> 🍏 iOS Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/android/"> 🦾 Android Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/logs/"> Log Analysis</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/routers/"> 🛜 Network Devices</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/reverse/"> 🪛 Reverse Engineering</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/files/"> 📜 User Files</a></h2> 
-    <p> </p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
@@ -230,7 +254,6 @@ Windows macOS Linux </p>
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>

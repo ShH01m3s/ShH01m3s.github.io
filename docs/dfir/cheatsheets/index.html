@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📜 Artefacts DB - Analyst</title>
+  <title>Artefacts CheatSheet - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -72,7 +72,7 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
+    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/cheatsheets/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -173,45 +173,41 @@
 
 
  
- <h1 class="title">📜 Artefacts DB</h1> 
+ <h1 class="title">Artefacts CheatSheet</h1> 
  
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/applications/"> 📲 Application Artefacts</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/remote/"> 🤔 How do I check for remote connections?</a></h2> 
+    <p> Windows RDP Event Logs On source machine: Security🛡️ (4648) TerminalServices-RDPClient 🌸 (1024 and 1102) On the target machine: Security 🛡️ (4624, logon type 10, 4778 and 4779), see Session name to confirm it&rsquo;s an RDP.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/console/"> ⬛️ Console Activity Analysis</a></h2> 
-    <p> Remote vs local commands?
-Windows macOS Linux </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/clear/"> 🤔 How Do I Check For Logs Clearing?</a></h2> 
+    <p> Windows ❗️These techniques require admin or higher privileges. ❗️Common with ransomware
+When the Security trail is deleted, 1102 is usually created afterwards.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/"> 🪟 Windows Artefacts</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/tasks/"> 🤔 How Do I Check For Malicious Autostarts?</a></h2> 
+    <p> Windows Tasks Event logs Two trails are of use are Microsoft-Windows-TaskScheduler/Operational 🍇 (disabled by default on the newer systems) and Security 🛡️.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/"> 🍏 🐧 UNIX Artefacts</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/recon/"> 🤔 How Do I Check For Reconnaisance Activity?</a></h2> 
+    <p> Windows Event logs Monitoring for these events will cause a lot of noise and false positives.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/data-recovery/"> 🩻 Data Recovery</a></h2> 
-    <p> <p><em>In order to detect and response to incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/execution/"> 🤔 How do I check program execution?</a></h2> 
+    <p> Windows You can use Prefetch which is the most reliable source. However, if the program is NOT there, it doesn&rsquo;t mean it wasn&rsquo;t executed.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/cloud/"> ☁️ Cloud Artefacts</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/sysinfo/"> 🤔 How Do I Check System Information?</a></h2> 
+    <p> Windows Registry, of course.
+AmCache, Registry 🗄️ You can see firmware, hardware and OS info there.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/ios/"> 🍏 iOS Artefacts</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/account/"> 🤔 How Do I Find Malicious or Compromised Accounts?</a></h2> 
+    <p> Windows Event logs It starts with the event 4720 (account created) and multiple 4732 events (member added to some security-enabled group).</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/android/"> 🦾 Android Artefacts</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/logon/"> 🤔 How Do I investigate logon events?</a></h2> 
+    <p> Windows Event Logs There is a fine line between logon and account logon events, and that line is not just one word.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/logs/"> Log Analysis</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/bruteforce/"> 🤔 How Do I Spot Bruteforcing Activity?</a></h2> 
+    <p> Windows Event logs There will be no shortage of 4625 events (unsuccessful login) showing up in the logs.</p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/routers/"> 🛜 Network Devices</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/reverse/"> 🪛 Reverse Engineering</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/files/"> 📜 User Files</a></h2> 
-    <p> </p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/cheatsheets/injections/"> 🤔 How Do I Spot Injections?</a></h2> 
+    <p> Windows Sysmon logs, 25.
+References Expand&hellip; Something here </p>
 
 
 
@@ -230,7 +226,7 @@ Windows macOS Linux </p>
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
+            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/cheatsheets/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>

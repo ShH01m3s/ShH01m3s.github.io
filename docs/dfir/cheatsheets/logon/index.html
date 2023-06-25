@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>🤔 How Do I investigate logon events? - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-dfir 🔍">
+      <a href="/docs/dfir">
+        <span>DFIR 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-toolkit 🧰">
+      <a href="/docs/toolkit">
+        <span>Toolkit 🧰</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/dfir/cheatsheets/"> 👈🏼 Back to </br> Artefacts CheatSheet </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#event-logs">Event Logs</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">🤔 How Do I investigate logon events?</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 24.06.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="windows">Windows</h2>
+<h3 id="event-logs">Event Logs</h3>
+<p>There is a fine line between logon and <em>account</em> logon events, and that line is not just one word. The main idea is that logon is the event on the system that wants to chat, whilst account logon is the event on the server/remote system that our computer wants to talk to: user authentication and logon from the Security trail. Event codes <code>4624</code>.</p>
+<p>Most events are logged on the target machine, but you can also see these events on the source machine. That happens when the user authenticates locally with the credentials from the SAM database (NTLM protocol); you will see EID <code>4776</code> (NTLM creds used for logon) for both successful and failed logons.</p>
+<p>When the Kerberos protocol is in use, expect the following events in the logs:</p>
+<ol>
+<li><code>4768</code> (successful login)</li>
+<li><code>4771</code> (failed login)</li>
+<li><code>4769</code> (successful authentication to a resource server, aka service ticket granted)</li>
+<li><code>4776</code> - pass-the-hash. To block/unblock the ability to use this for sensitive accounts, <code>LocalAccountTokenFilterPolicy</code>.</li>
+</ol>
+<p>When the logon is failing, the following error codes are the most frequently used (NTLM 🗝️ and Kerberos 🐕‍🦺):</p>
+<ol>
+<li>🗝️ <code>C0000064</code> (🐕‍🦺 <code>0x6</code>) - the username provided is invalid (doesn&rsquo;t exist).</li>
+<li>🗝️ <code>C000006A</code> (🐕‍🦺 <code>0x18</code>) - the password provided is invalid.</li>
+<li>🗝️ <code>C0000070</code> (🐕‍🦺 <code>0xC</code>) - unauthorised workstation.</li>
+<li>🗝️ <code>C0000234</code> (🐕‍🦺 <code>0x12</code>) - account is locked.</li>
+<li>🗝️ <code>C0000071</code> (🐕‍🦺 <code>0x17</code>) - the password has expired.</li>
+<li>🐕‍🦺 <code>0x7</code> - server was not found.</li>
+<li>🐕‍🦺 <code>0x25</code> - the time difference between the machines is too big.</li>
+</ol>
+<p>👴🏼 XP: 672, 673, 675, 680, 529.</p>
+<p>Sometimes, the credentials are different for different resources. When those credentials are different from the creds in memory, the credentials are provided explicitly. That is when EID <code>4624</code> (logon type <code>9</code>) gets recorded. Most scripts and hacker tools REQUIRE explicit credentials, so that&rsquo;s a good lead. Also, keep in mind that the following three user categories are those that require switching accounts and using credentials explicitly the most often:</p>
+<ol>
+<li>Admins</li>
+<li>Attackers</li>
+<li>Services</li>
+</ol>
+<p>When UAC window pops up, it also triggers this event. RDP activity using different creds also generate event <code>4648</code> on both the originating and the target systems.</p>
+<p>🛠️ <code>CobalStrike</code> tool has two modules: <code>pth</code> and <code>make_token</code>, both using explicit credentials. Hence, it triggers <code>4624</code> type <code>9</code> logon EID and <code>4648</code> (explicit creds); the latter records both the source AND the target.</p>
+<p>Attempted logons and account usage.</p>
+<p><img src="images/event-logon1.png" alt="img">
+The activity starts with <code>4624</code> (user logged in), optionally followed by <code>4801</code> (machine unlocked) and <code>4800</code> (unlocked) events until eventually it&rsquo;s the session is dissolved by the <code>4647</code> (user initiated logoff) or <code>4634</code> (successful logoff) events.</p>
+<p>🤷🏻‍♀️ - optional</p>
+<p><code>4720</code> 🤷🏻‍♀️ (account created) - <a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776"><code>4776</code></a> (validate creds) - <code>4625</code> 🤷🏻‍♀️ (failed login) - <code>4624</code> (normal successful login) - <code>4672</code> 🤷🏻‍♀️ (admin login) - <code>4648</code> 🤷🏻‍♀️ (explicit creds used, like when running 🛠️ <code>runas</code> 📚 <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4648">docs</a>) - <code>4647</code> (interactive logoff initiated) - <code>4634</code> 🤷🏻‍♀️ (logoff event, not always consistent) - <code>4726</code> 🤷🏻‍♀️ (account deleted).</p>
+<blockquote>
+<p>📝 <code>4624</code> - successful logon. Successful login. Type <code>2</code> (console). Bear in mind that DWM (Desktop Win Manager) and UMFD (Font Driver Host) also use this Type 2 event. Filter it out (DWM|UMFD + RegEx + Exclude in Event Log Explorer filter). These are for domain accounts.</p>
+</blockquote>
+<p>Using <code>Logon ID</code> you can link logon event to a logoff event and check the session duration.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

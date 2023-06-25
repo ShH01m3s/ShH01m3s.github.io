@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>📜 Artefacts DB - Analyst</title>
+  <title>🤔 How Do I Check For Reconnaisance Activity? - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -72,7 +72,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -159,9 +158,21 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/"> 👈🏼 Back to </br> Incident Investigation 🔎 🥷 </a>
+   <a href="/docs/dfir/cheatsheets/"> 👈🏼 Back to </br> Artefacts CheatSheet </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#event-logs">Event logs</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -169,53 +180,52 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">🤔 How Do I Check For Reconnaisance Activity?</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 24.06.2023
+    <br />
+
+    
+
+  </header>
 
 
+  <div class="content" itemprop="articleBody">
+    <h2 id="windows">Windows</h2>
+<h3 id="event-logs">Event logs</h3>
+<p>Monitoring for these events will cause a lot of noise and false positives. You need to do it in a smart way:</p>
+<ol>
+<li>Filter for sensitive groups</li>
+<li>Whitelist those processes performing such activity legitimately: <code>mmc.exe</code>, <code>services.exe</code>, <code>taskhost.exe</code>, <code>explorer.exe</code>, <code>vsssvc.exe</code>. Presume everything else to be unusual.</li>
+<li>What accounts are NOT supposed to do recon?</li>
+<li>What group was queried? <code>Administrators</code> group (or other groups with higher privileges) is the most desirable piece of the pie.</li>
+</ol>
+<p><code>4798</code> - user&rsquo;s local group membership enum.
+<code>4799</code> - security-enabled local group membership enum.</p>
+<p>Group Policy -&gt; Advanced Auditing setting to set up Audit Security Group Management and User Account Management.</p>
+<p>🛠️ <code>PowerSploit</code> and 🛠️ <code>Empire</code> both use <code>PowerView</code> cmdlet set to perform recon activity for the Windows environment. 🛠️ <code>DeathStar</code> from 🛠️ <code>Empire</code> is a wrapper around it.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
 
- 
- <h1 class="title">📜 Artefacts DB</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/applications/"> 📲 Application Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/console/"> ⬛️ Console Activity Analysis</a></h2> 
-    <p> Remote vs local commands?
-Windows macOS Linux </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/"> 🪟 Windows Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/unix/"> 🍏 🐧 UNIX Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/data-recovery/"> 🩻 Data Recovery</a></h2> 
-    <p> <p><em>In order to detect and response to incidents in a short time, there are playbooks which are basically guidelines. Some IR frameworks have these included in order to ease the process.</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/cloud/"> ☁️ Cloud Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/ios/"> 🍏 iOS Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/android/"> 🦾 Android Artefacts</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/logs/"> Log Analysis</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/routers/"> 🛜 Network Devices</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/reverse/"> 🪛 Reverse Engineering</a></h2> 
-    <p> </p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/files/"> 📜 User Files</a></h2> 
-    <p> </p>
-
-
-
-
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
@@ -230,7 +240,6 @@ Windows macOS Linux </p>
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>
