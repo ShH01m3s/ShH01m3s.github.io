@@ -163,6 +163,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#tampering">Tampering</a></li>
     <li><a href="#time-formats-and-standards">Time Formats and Standards</a></li>
     <li><a href="#the-importance-of-timestamps">The Importance Of Timestamps</a></li>
     <li><a href="#file-systems-timestamps">File Systems Timestamps</a>
@@ -242,6 +243,14 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>As if investigations were not already complicated enough, we also have to contend with various timestamp formats. There is a wide range of time formats available, and it is crucial to understand the differences in order to create an accurate timeline.</em></p>
+<h2 id="tampering">Tampering</h2>
+<p>It&rsquo;s possible to tamper with some timestamps.</p>
+<blockquote>
+<p>🗒️ TODO: How?</p>
+</blockquote>
+<p><strong>Time Zone Changes or Daylight Saving Time</strong>: If a file is created and then modified in a different time zone, or if the time zone setting on the computer is changed, the modification time could appear to be earlier than the creation time. Similarly, switching between standard time and daylight saving time could cause a similar discrepancy.</p>
+<p><strong>Restoring Files</strong>: If a file is restored from a backup, the creation time might be the restoration time, but the modification time would be the last modification before the backup.</p>
+<p><strong>Files copied</strong>. Sometimes, if you copy a file to a different location, the new copy may have a new creation time (the time when the copy was made), but still retain the original file&rsquo;s earlier modification time.</p>
 <h2 id="time-formats-and-standards">Time Formats and Standards</h2>
 <p>GMT and UTC are the same and usually are used interchangeably. Although, there is some difference: <a href="https://www.timeanddate.com/time/gmt-utc-time.html">https://www.timeanddate.com/time/gmt-utc-time.html</a>.</p>
 <blockquote>

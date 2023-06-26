@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Jumplist Data - Analyst</title>
+  <title>🫱🏽‍🫲🏾 Shares - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -158,11 +158,14 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/dfir/artefacts/win/registry/"> 👈🏼 Back to </br> 🏺 Windows Registry </a>
+   <a href="/docs/dfir/artefacts/win/"> 👈🏼 Back to </br> 🪟 Windows Artefacts </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#admin">ADMIN$</a></li>
+    <li><a href="#c">C$</a></li>
+    <li><a href="#ipc">IPC$</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -175,7 +178,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Jumplist Data</h1>
+<h1 class="title">🫱🏽‍🫲🏾 Shares</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -189,7 +192,7 @@
       
     </div>
     
-    <b>Created:</b> 02.06.2023
+    <b>Created:</b> 26.06.2023
     <br />
 
     
@@ -198,11 +201,13 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>The Windows 7-10 task bar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily. This functionality cannot only include recent media files; it must also include recent tasks.</em></p>
-<p>🔑 <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData</code>.
-📂 <code>%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations</code>
-🛠️ Can be analysed with a LNK parser.</p>
-<p>Shows applications accessed.</p>
+    <p><em>Admins would get mad very quickly if they had to physically access every machine they needed to configure or patch. Admin shares are hidden folders to be accessed remotely, typically over SMB.</em></p>
+<h2 id="admin">ADMIN$</h2>
+<p>This share maps to 📂 <code>C:\Windows</code> (<code>%SystemRoot%</code>). It&rsquo;s typically used for remote administration and viewing the logs from another machine.</p>
+<h2 id="c">C$</h2>
+<p>It is a share of the root directory of the system drive (typically <code>C:</code>) and is used for administrative tasks.</p>
+<h2 id="ipc">IPC$</h2>
+<p>This one shares the named pipes necessary for network communication between programs and computers. <code>IPC</code> stands for InterProcess Communication. It is used during remote IPC (and can be empty). To access <code>ADMIN$</code>, one usually establishes the connection over <code>IPC$</code>.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

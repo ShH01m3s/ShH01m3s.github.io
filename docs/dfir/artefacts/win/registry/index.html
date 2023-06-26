@@ -186,9 +186,7 @@
     <p> Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/jumplist/"> Jumplist Data</a></h2> 
-    <p> Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData.
-Shows applications accessed.
-References Expand&hellip; Something here </p>
+    <p> <p><em>The Windows 7-10 task bar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily. This functionality cannot only include recent media files; it must also include recent tasks.</em></p></p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/recentapps/"> Recents</a></h2> 
     <p> *Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps.
@@ -201,10 +199,8 @@ References Expand&hellip; Something here </p>
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/amcache/"> AmCache</a></h2> 
     <p> <p><em>And yet another place to check for program execution. It&rsquo;s like a forensic treasure of program execution. You can see installed applications, drivers and unassociated progs. For each entry, you can see loads of metadata. You can even see the SHA1 hashes! How great is that? However, be careful; installed doesn&rsquo;t mean executed!</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/bam/"> BAM</a></h2> 
-    <p> Key 🔑: ControlSet001\Services\BAM.
-⚠️ Windows 10 only!
-Background Activity Monitor. Organised by user SID. Windows apps&rsquo; names are not parsed very well here.</p>
+    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/bam/"> BAM and DAM</a></h2> 
+    <p> <p><em>It provides a full path of the executable file run on the system and the last execution date/time. BAM stands for Background Activity Moderator, and DAM - Desktop Activity Moderator. BAM is a &ldquo;daemon master&rdquo; (controls the background services), whereas DAM moderates desktop services to save energy.</em></p></p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/comdlg32/"> ComDlg32</a></h2> 
     <p> Key 🔑: NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32.
@@ -215,8 +211,7 @@ CIDSizeMRU- Tracks applications globally. MRU start at zero. Timestamp for the m
 Installed and executed applications for that particular user. But no timestamps for this acts, only last write data and time for the key in registry.</p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/shell-bag/"> ShellBag</a></h2> 
-    <p> Key 🔑 : UsrClass\Local Settings\Software\Microsoft\Windows\Shell\BagMRU . Values: MRUListEx, NodeSlot, Subkeys.
-Key 🔑 : UsrClass\Local Settings\Software\Microsoft\Windows\Shell\Bags. Values: Shell, will have folder&rsquo;s GUID.</p>
+    <p> <p><em>To open a file, one needs to perform a delightful jaunt to a directory where those files reside. Now picture this: imagine if we could keep a journal of all the full paths of the folders visited; wouldn&rsquo;t that be splendid? It so happens that this nice functionality does exist on Windows machines and ShellBags they are called. Since these folders can be located on a remote machine, a USB drive or any other external media, this artefact can be used to make assumptions about remote connections and devices attached.</em></p></p>
 
     <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/win/registry/shimcache/"> ShimCache aka AppCompatCache</a></h2> 
     <p> <p><em>How often has the following happened to you? You want to run a program, but it&rsquo;s not designed to run on this version of OS. Windows has a mechanism to run older programs on newer systems. Even when these &ldquo;compatibility&rdquo; adjustments are not required, Windows still logs the information for all the programs run.</em></p></p>

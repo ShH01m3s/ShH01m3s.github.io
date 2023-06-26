@@ -280,7 +280,10 @@
 </span></span><span class="line"><span class="cl">USBDevicesLogs: Path: C: <span class="se">\W</span>indows<span class="se">\i</span>nf<span class="se">\s</span>etupapi.dev. log
 </span></span></code></pre></div><h3 id="mounted-devices">Mounted Devices</h3>
 <p><strong>Key</strong> 🔑: <code>NTUSER\MountPoints2</code>.</p>
-<p>If you connect volumes from a system-wide <code>MountPoints</code> (above) and <code>USBSTR</code>, we can connect a device to a specific user.</p>
+<p>If you link volumes from system-wide 🔑 <code>MountPoints</code> and 🔑 <code>USBSTR</code>, we can link a device to a specific user. This 🔑 also shows all systems connected by the current user (useful for RDP investigations).</p>
+<blockquote>
+<p>🗒️ TODO: How to link, screenshots.</p>
+</blockquote>
 <h3 id="managedbyapp">ManagedByApp</h3>
 <p><strong>Key</strong> 🔑: <code>Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.Windows.Photos_8wekyb3d8bbwe\PersistedStorageItemTable\ManagedByApp</code>.</p>
 <p>Tracks images opened with Microsoft application. Shows <em>volume GUID</em> (use other USB-related registry to assemble the picture), file path, data and time ⏰. <code>LastUpdateTime</code> shows when the files was &hellip; . This date and time is very close <code>LastInteracted</code> from ShellBags. Go to <code>MountedDevices</code> in <code>SOFTWARE</code> hive to find the device by the volume GUID and the to <code>SYSTEM</code>&rsquo;s <code>USBSTR</code> -&gt; <code>PartitionTableCache</code>.</p>

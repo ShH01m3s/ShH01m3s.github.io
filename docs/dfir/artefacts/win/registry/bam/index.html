@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>BAM - Analyst</title>
+  <title>BAM and DAM - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -175,7 +175,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">BAM</h1>
+<h1 class="title">BAM and DAM</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -198,17 +198,22 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Key</strong> 🔑: <code>ControlSet001\Services\BAM</code>.</p>
+    <p><em>It provides a full path of the executable file run on the system and the last execution date/time. BAM stands for Background Activity Moderator, and DAM - Desktop Activity Moderator. BAM is a &ldquo;daemon master&rdquo; (controls the background services), whereas DAM moderates desktop services to save energy.</em></p>
+<p>📂 <code>%SystemRoot%\system32\drivers\dam.sys</code></p>
+<p>🔑 <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\bam</code>
+🔑 <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\dam</code></p>
 <blockquote>
-<p>⚠️ Windows 10 only!</p>
+<p>⛔️ Windows 10 only!
+⛔️ DAM is only for phones and tablets!</p>
 </blockquote>
-<p>Background Activity Monitor. Organised by user SID. Windows apps&rsquo; names are not parsed very well here. Gives last executed time ⏰ , 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution, and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
+<p>Background Activity Monitor. Organised by user SID. Windows apps&rsquo; names could be parsed better here. Gives last executed time ⏰, 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution, and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <a href="http://revertservice.com/10/dam/">http://revertservice.com/10/dam/</a>
+<a href="https://cellebrite.com/en/analyzing-program-execution-windows-artifacts/">https://cellebrite.com/en/analyzing-program-execution-windows-artifacts/</a>
+<a href="https://andreafortuna.org/2018/05/23/forensic-artifacts-evidences-of-program-execution-on-windows-systems/">https://andreafortuna.org/2018/05/23/forensic-artifacts-evidences-of-program-execution-on-windows-systems/</a>
 </details>
-
   </div>
 </article>
 </div>

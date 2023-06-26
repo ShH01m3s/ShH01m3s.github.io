@@ -170,11 +170,18 @@
             <li><a href="#event-logs">Event Logs</a></li>
             <li><a href="#registry">Registry</a></li>
             <li><a href="#jumplist">JumpList</a></li>
-            <li><a href="#prefetch">Prefetch</a></li>
+            <li><a href="#prefetch-shimcache-amcache-bamdam">Prefetch, ShimCache, AmCache, BAM/DAM</a></li>
             <li><a href="#bitmapcache">BitmapCache</a></li>
           </ul>
         </li>
         <li><a href="#network-shares">Network Shares</a></li>
+        <li><a href="#psexec">PsExec</a>
+          <ul>
+            <li><a href="#event-logs-1">Event Logs</a></li>
+            <li><a href="#registry-1">Registry</a></li>
+            <li><a href="#prefetch">Prefetch</a></li>
+          </ul>
+        </li>
         <li><a href="#other-apps">Other Apps</a>
           <ul>
             <li><a href="#vnc">VNC</a></li>
@@ -218,7 +225,12 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="windows">Windows</h2>
+    <p><em>How to check if the system was accessed remotely? What sort of remote connections is the attacker likely to be using?</em></p>
+<p>When we give a system the old remote-access razzle-dazzle system, a wealth of juicy artefacts stand ready for exploration: logs stored locally and telling the story of the past deeds, file system events tucked away by the system with the care of a fussy librarian and the config guardian (for Windows, it&rsquo;s mostly the registry) pulling the strings behind the scenes.</p>
+<p><img src="images/footprints.png" alt="img">
+Depending on the attack stage (reconnaissance or discovery and lateral movements), we might have access to the DESTINATION machine. On that contraption, we&rsquo;ll find ourselves amidst the same breed of artefacts.  Depending on the activity, we might find a veritable feast or a mere smattering of evidence on the source or destination machines. And as a cherry on top, our workstations can siphon the logs into one neatly organised jar 🫙 (the SIEM).</p>
+<p>Sneaky attackers go through reconnaissance and initial access stages twice (poor things): when bombarding the infrastructure from the outside world and while poking the systems in an already infiltrated kingdom.</p>
+<h2 id="windows">Windows</h2>
 <h3 id="rdp">RDP</h3>
 <h4 id="event-logs">Event Logs</h4>
 <ol>
@@ -239,8 +251,8 @@
 </ol>
 <p>Some breakdown of the above-mentioned codes (even if already explained elsewhere). You might filter for <code>4624</code> event id with logon type <code>10</code> to see the RDP connections. However, bear in mind that this event only records the <strong>NEW</strong> connections, not RE-connects. 4624 type 7 is triggered when lock/unlock activity happens. You will see <code>4778</code> for reconnects and <code>4779</code> for disconnects. <code>Client name</code> in <code>4778</code> shows the original machine name of the actor, giving some clues about the attacker.</p>
 <blockquote>
-<p>❗️Logon IDs for 4624 and 4778 might differ even though they represent the same session. This happens because the earlier created logon ID is often used instead. Search for 4624 events preceded by 4647 to find the logon 4624 event with the same ID.</p>
-<p>❗️ Username in 4624 might NOT be the name of the original machine if some VPN or proxy is handling the connection.</p>
+<p>❗️Logon IDs for <code>4624</code> and <code>4778</code> might differ even though they represent the same session. This happens because the earlier created logon ID is often used instead. Search for <code>4624</code> events preceded by <code>4647</code> to find the logon <code>4624</code> event with the same ID.</p>
+<p>❗️ Username in <code>4624</code> might NOT be the name of the original machine if some VPN or proxy is handling the connection.</p>
 <p>❗️ You might also see logon type 3 (4624). It&rsquo;s not commonly used instead of type 10 if NLA is on and authenticating the client before establishing the RDP session.</p>
 </blockquote>
 <p>Several event log trails can give some insight into RDP connection: 🛡️<code>Security</code>, <code>Remote Desktop Services-RDPCoreTs</code> 🍇, <code>TerminalServices-LocalSessionManager</code> 🍏,  <code>TerminalServices-RemoteConnectionManager</code> 🍎 <code>TerminalServices-RDPClient</code> 🌸:</p>
@@ -274,12 +286,29 @@
 <p>🛠️ <code>RegRipper</code>&rsquo;s <code>rdphint</code> plugin can extract this information from the hive automatically.</p>
 <h4 id="jumplist">JumpList</h4>
 <p>📂 <code>C:\User\username\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations</code> with <code>{MSTSC_APPID}-automaticDestinations-ms</code> show target info and a timestamp.</p>
-<h4 id="prefetch">Prefetch</h4>
-<p>Look out for 📄 <code>mstsc.exe-[hash].pf</code>.</p>
+<h4 id="prefetch-shimcache-amcache-bamdam">Prefetch, ShimCache, AmCache, BAM/DAM</h4>
+<p>📂 <code>C:\Windows\Prefetch</code> (<code>[name]-[hash].pf</code></p>
+<p>📄 <code>C:\Windows\AppCompat\Programs\Amcache.hve</code> (first time executed) and the following registry keys 🔑 at <code>C:\Windows\System32\config\SYSTEM</code> hive:</p>
+<ol>
+<li>🔑 <code>ControlSet001\Services\BAM</code> and 🔑 <code>ControlSet001\Services\DAM</code>  (last time executed)</li>
+<li>🔑 <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code> (Vista+) and <code>CurrentControlSet\Control\Session Manager\AppCompatibility\AppCompatCache</code> (XP-)</li>
+</ol>
+<p>Find entries for the following executables:</p>
+<ol>
+<li>📄 <code>mstsc.exe</code></li>
+<li>📄 <code>rdpclip.exe</code></li>
+<li>📄 <code>tstheme.exe</code></li>
+</ol>
 <h4 id="bitmapcache">BitmapCache</h4>
-<p>📂 <code>C:\Users\username\AppData\Local\Microsoft\TerminalServerClient\Cache</code> contains <code>bcache##.bmc</code> and <code>cache#####.bin</code> files worth examining. During RDP connection, Windows collects parts of the image (those that change the least often) to save bandwidth. Sometimes you might see valuable information there, event VPN passwords.</p>
-<p>Some file <code>Default.rdf</code> in user profile, what is that?</p>
+<p>📂 <code>C:\Users\username\AppData\Local\Microsoft\TerminalServerClient\Cache</code> contains <code>bcache##.bmc</code> and <code>cache#####.bin</code> files worth examining. During an RDP connection, Windows collects parts of the image (those that change the least often) to save bandwidth. Sometimes you might see valuable information there, even VPN passwords.</p>
+<p>Some file <code>Default.rdf</code> in the user profile; what is that?</p>
 <h3 id="network-shares">Network Shares</h3>
+<p>👑 - admin (domain or RID500) rights are required to access those shares.</p>
+<p>📕 <strong>RTFM</strong>: <code>net use g: \\host\c$ /user:domain\uname [password]</code> will be likely used by the attacker to mount the share. The command tells roughly the following: <em>&ldquo;Mount <code>\\host\c$</code> share from the remote machine (which is the projection of <code>C</code> folder on that machine) as a G drive on the current machine. To succeed with this tiresome task, use username and passwords I EXPLICITLY provide&rdquo;</em>.</p>
+<blockquote>
+<p>❓Since the credentials are provided explicitly, we will likely see Security EID <code>4648</code>.</p>
+</blockquote>
+<p>🪵 <strong>Even log trails</strong>:🛡️ <code>Security</code> and 🍍 <code>Microsoft-Windows-SmbClient%Security</code>.</p>
 <p>It&rsquo;s pretty noisy, so be smart. Also, to enable this logging, go to <code>Object Access -&gt; Audit File Share</code>.</p>
 <blockquote>
 <p>❗️No 👴🏼 XP logs.</p>
@@ -287,7 +316,92 @@
 <p><code>5140</code> - network share was accessed.
 <code>5142</code> - <code>5144</code> - share created, modified, deleted.
 <code>5145</code> - the shared object was accessed.</p>
-<p>If you see some <code>4624</code> followed by multiple <code>5140</code> events, it&rsquo;s probably an attempt to mount the share. The attackers will be most interested in the <code>ADMIN$</code> share. However, to use it, one needs to mount <code>IPC$</code> share first. That&rsquo;s good since it allows us to see the account name or SID, information not recorded for the <code>ADMIN$</code> share mount event.</p>
+<p>If you see some <code>4624</code> followed by multiple <code>5140</code> events, it&rsquo;s probably an attempt to mount the share. The attackers will be most interested in the <code>ADMIN$</code> share. However, to use it, one needs to mount <code>IPC$</code> share first. That&rsquo;s good since it lets us see the account name, SID, and information not recorded for the <code>ADMIN$</code> share mount event.</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🛡️<code>4648</code> (alternate credentials): d_IP, d_host, p_name, c_user</td>
+<td>🛡️<code>4624</code> type <code>3</code> (network logon), <code>5140</code> (share access), <code>4672</code> (elevated privileges, uname), <code>4776</code> (Kerberos auth validation, s_host and name), <code>4768</code>, <code>4769</code>, <code>5145</code> - share audit log.</td>
+</tr>
+<tr>
+<td>🍍<code>31001</code> (failed logon to dest): d_host, uname, err_code</td>
+<td>🕸️ Network Forensics (if SMB connection was not encrypted)</td>
+</tr>
+<tr>
+<td>🗄️ Registry: <code>MountPoints2</code></td>
+<td></td>
+</tr>
+<tr>
+<td>💼 ShellBags: <code>USRClASS.DAT</code> (remote folders accessed)</td>
+<td></td>
+</tr>
+<tr>
+<td>⚙️ ShimCache, BAM/DAM, AmCache (look for <code>net.exe</code> and <code>net1.exe</code>)</td>
+<td></td>
+</tr>
+<tr>
+<td>📑 Prefetch and User Profile Artefacts (shortcuts and jumplists)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>📑 <strong>File Created and Modified</strong>:</p>
+<ol>
+<li>Suspicious files copied to the share.</li>
+<li>Modification timestamp &lt; creation timestamp -&gt; If you copy a file to a different location, the new copy of the file may have a new creation time (when the copy was made) but still retain the original file&rsquo;s earlier modification time.</li>
+<li>Created time is the time of the file copy.</li>
+</ol>
+<h3 id="psexec">PsExec</h3>
+<p>This application doesn&rsquo;t exist on the system by default. It requires one to engage in a veritable dance of dexterity to get this precious executable on the system of interest. But this Herculean labour doesn&rsquo;t go in vain: it also brings a mighty toolkit to further spread the damage.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">psexec</span><span class="p">.</span><span class="n">exe</span> <span class="p">\\</span><span class="n">host</span> <span class="n">-accepteula</span> <span class="n">-d</span> <span class="n">-c</span> <span class="n">C:</span><span class="p">\</span><span class="n">some</span><span class="p">\</span><span class="n">path</span><span class="p">\</span><span class="n">iamnotnefarious</span><span class="p">.</span><span class="n">exe</span>
+</span></span></code></pre></div><p>🛡️Security logs, ⚙️ System Logs</p>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>🚰 Source (psexec.exe)</th>
+<th>🎯 Target (psexesvc.exe), ❗️One can rename the executable with <code>-r</code> switch.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🪵 Event logs</td>
+<td>🛡️ <code>4648</code></td>
+<td>🛡️<code>4624</code> type <code>3</code> (if no <code>-u</code> switch), <code>4624</code> type <code>2</code> (<code>-u</code> switch), <code>4672</code>, <code>5140</code>, ⚙️ <code>7045</code> (service installed).</td>
+</tr>
+<tr>
+<td>🗄️ Registry</td>
+<td>ShimCache, BAM/DAM, AmCache</td>
+<td>🔑 <code>SYSTEM\CurrentControlSet\Services\PSEXESVC</code> (can get deleted on session closed)<!-- raw HTML omitted --> 🔑 <code>NTUSER.DAT</code> (when user profile is created, no <code>-e</code> switch)<!-- raw HTML omitted -->ShimCache and AmCache.</td>
+</tr>
+<tr>
+<td>📑 File system</td>
+<td>Prefetch</td>
+<td>Prefetch, user profile</td>
+</tr>
+<tr>
+<td>💭 RAM</td>
+<td></td>
+<td>With <code>4624</code> type <code>2</code> the token remains in the RAM<!-- raw HTML omitted -->Process handles <code>\\IP\name - shost - PID -stdin/stdout/stderr </code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>❗️Keep in mind that this executable consists of two parts: <code>psexec.exe</code> running on the source (<code>c</code> pehaps means <code>client</code>) while <code>psexesvc.exe</code> runs on the target system.</p>
+<p>❗️Also, <code>psexesvc.exe</code> creates a service each time it&rsquo;s executing and deletes that service afterwards.</p>
+</blockquote>
+<h4 id="event-logs-1">Event Logs</h4>
+<p>EID <code>4648</code> is of the most use here since it tracks the use of alternate credentials. It means that most of the time, the attacker needs to provide the credentials explicitly. Once this is done, this EID 4648 fires up and tells a tale of who (the current user), what (process id) and to whom (alternate credentials, destination IP and destination hostname) without even those thirty pieces of silver.</p>
+<h4 id="registry-1">Registry</h4>
+<p>The three piglet of the registry that give away the program execution are ShimCache, the two bafoons BAM/DAM (last time executed) and AmCache (first time executed).</p>
+<h4 id="prefetch">Prefetch</h4>
+<p>Of course, we would be lost without this little vigilant scoundrel. Ratting out almost any executable careless enough to be working under its unblinking gaze.</p>
 <h3 id="other-apps">Other Apps</h3>
 <p>Custom apps for remote desktop connection produce their own artefacts as well. For example, VNC and TeamViewer. Not many of them are allowed in the enterprise, but these two buddies might be.</p>
 <h4 id="vnc">VNC</h4>
@@ -303,7 +417,6 @@
 </ol>
 
 </details>
-
   </div>
 </article>
 </div>
