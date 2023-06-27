@@ -164,6 +164,10 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#kansa">Kansa</a></li>
+    <li><a href="#f-response">F-Response</a></li>
+    <li><a href="#kape">KAPE</a></li>
+    <li><a href="#velociraptor">Velociraptor</a></li>
+    <li><a href="#edr">EDR</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -201,12 +205,45 @@
   <div class="content" itemprop="articleBody">
     <p><em>There are numerous tools available for collecting and analysing artefacts and evidence. I will provide an overview, relevant links, or even comparison charts, depending on the tools.</em></p>
 <h2 id="kansa">Kansa</h2>
+<blockquote>
+<p>❗️Windows only
+❗️Not for forensic acquisition
+✍🏻 IR and TH</p>
+</blockquote>
 <p>This tool is used primarily for artefact collection. However, it was improved over the years and can also help with initial triage. Also, it&rsquo;s been improved to allow scaling (distributed Kansa).</p>
 <p>While Kansa heavily relies on PowerShell, its capabilities extend beyond PowerShell cmdlets. Kansa is a flexible and modular tool. <code>Modules</code> folder contains all the available modules that can be turned on and off in a <code>Modules.conf</code>.</p>
+<h2 id="f-response">F-Response</h2>
+<blockquote>
+<p>❗️Doesn&rsquo;t scale well
+✍🏻 Triage imaging, artefact post-processing</p>
+</blockquote>
+<p>Since it has access to raw data, file locking can be circumvented. People can work simultaneously. Supports Windows, Apple, some FreeBSD, Linux and even Android. The examiner needs to create an agent for the target system and deploy it. Then, connect to the machine via the forensics workstation.</p>
+<h2 id="kape">KAPE</h2>
+<blockquote>
+<p>❗️Windows only</p>
+</blockquote>
+<p>KAPE is cool (Eric Z.); it preserves all metadata and even keeps audit logs - super forensically sound. Shadow copies and ADS are also supported. Removes duplicates based on the hash. Sends data over SFTP. Customisable and portable.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">kape</span><span class="p">.</span><span class="n">exe</span> <span class="p">-</span><span class="n">-tsource</span> <span class="n">F</span> <span class="p">-</span><span class="n">-target</span> <span class="n">configfile</span> <span class="p">-</span><span class="n">-tdest</span> <span class="p">\</span><span class="n">output</span><span class="p">\</span><span class="n">path</span> <span class="c"># vss for shadow copies, vhdx and vhd for virtual hard drive</span>
+</span></span></code></pre></div><h2 id="velociraptor">Velociraptor</h2>
+<blockquote>
+<p>❗️Windows, macOS and Linux
+❗️Updated often
+✍🏻 Triage imaging, IR and TH</p>
+</blockquote>
+<p>It scales really well. You can run VQL queries. Deployment via WebUI, CLI or API. Can be used as a monitor or analysis tool. Consists of client and server parts. Velociraptor artefacts are preconfigured queries. Some examples of artefacts are Filesystem Timeline, MFT, $I30, Yara Scanning, Prefetch Timeline, Netstat, ARP, Processes, DLLs, Event logs, DNS queries. SRUM, BAM, UserAssist etc.</p>
+<p>Hunts (active queries) for threat hunting live for 7 days.</p>
+<h2 id="edr">EDR</h2>
+<blockquote>
+<p>❗️70% of breached originate on the endpoint.</p>
+</blockquote>
+<p>Threat Hunting (anomaly detection and manual) IR. Agents send data to a central repo. EDRs usually have direct access to RAM (like a rootkit).</p>
+<blockquote>
+<p>❗️One can circumvent the EDR when booting into safe mode.</p>
+</blockquote>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <a href="https://docs.velociraptor.app/">https://docs.velociraptor.app/</a>
 </details>
   </div>
 </article>
@@ -239,7 +276,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   

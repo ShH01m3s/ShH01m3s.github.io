@@ -209,7 +209,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo;. The same is with this. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</em></p>
+    <p><em>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo; - same story. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</em></p>
 <p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
 <p>There are several data types that can hold volatile data i.e. data about some state of RAM in time. Not all of them exist on every system:</p>
 <ul>
@@ -222,7 +222,7 @@
 <p>In general, things we are going to do are specific to the case type. It case of a malware infection we will be looking for rogue processes, rootkits and other such things, while in child exploitation or insider threat  - these are not top priority. In case of child exploitation we would be more interested in some <code>png</code> or <code>jpeg</code> still residing somewhere in memory.</p>
 <p>Why collect RAM?</p>
 <ul>
-<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Proove someone did something or used something. Common artifacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</li>
+<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Prove someone did something or used something. Common artefacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</li>
 <li><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</li>
 <li><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</li>
 </ul>
@@ -250,19 +250,19 @@
 </span></span></code></pre></div><p>How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. Purple square shows service pack version and the green one - the correct profile with the correct service pack. Other two suggested profiles have some service packs versions appened to the end.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
 </span></span><span class="line"><span class="cl">vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
-</span></span></code></pre></div><p>Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
+</span></span></code></pre></div><p>Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were suggested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
 <h3 id="triage-of-windows-core-processes">Triage of Windows Core Processes</h3>
 <p>Deviations = investigative leads. <strong>Core Processes</strong> - essential for Win, run on any Win system under examination.</p>
 <p><img src="images/standart-proc-win.png" alt="standart-proc-win"></p>
 <ul>
 <li>check names</li>
-<li>parent (for example, svchost.exe is started by services.exe)</li>
+<li>parent (for example, <code>svchost.exe</code> is started by <code>services.exe</code>)</li>
 <li>expected path</li>
 <li>Singleton?</li>
 <li>Account (local system, mane, users)</li>
 <li>start time (boot time, later)</li>
 </ul>
-<p><strong>svchost.exe</strong> - the most abused process. Check for above deviations in the result.</p>
+<p><code>svchost.exe</code> - the most abused process. Check for above deviations in the result.</p>
 <p>Check <strong>parent</strong> processes of core processes:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> pslist.txt &gt; pslist-all-core.txt
 </span></span><span class="line"><span class="cl">
@@ -276,7 +276,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|services|lsm)&#34;</span> psscan.txt &gt; psscan-all-singletons.txt
 </span></span></code></pre></div><p><img src="images/pslist-singletons.png" alt="pslist-singletons"></p>
-<p>In the example above there are two <code>lsass.exe</code> processes which is nonsence. Obviously, some investigative lead.</p>
+<p>In the example above there are two <code>lsass.exe</code> processes which is nonsense. Obviously, some investigative lead.</p>
 <p>Check <strong>bootimes</strong>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">grep -E -i &#34;(system|wininit|lsass|services|sms|lsm|csrss)&#34; pslist.txt &gt; pslist-all-boot.txt
 </span></span><span class="line"><span class="cl">
@@ -434,7 +434,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
