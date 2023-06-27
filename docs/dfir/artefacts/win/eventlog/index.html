@@ -175,6 +175,11 @@
         <li><a href="#evtxecmd">Evtxecmd</a></li>
         <li><a href="#chainsaw">Chainsaw</a></li>
         <li><a href="#kansa">Kansa</a></li>
+        <li><a href="#psloglist">PSLogList</a></li>
+        <li><a href="#f-response">F-Response</a></li>
+        <li><a href="#kape">Kape</a></li>
+        <li><a href="#velociraptor">Velociraptor</a></li>
+        <li><a href="#powershell">Powershell</a></li>
         <li><a href="#sysmon">Sysmon</a></li>
       </ul>
     </li>
@@ -313,7 +318,21 @@
 <p>Is a CUI tool that has some predefined rules to search for interesting events. Can digest a lot of event logs at a time and produce a single output. For a usage example refer to the Blog section (Cybercorp1, calendar 📅 Jan 2022).</p>
 <h3 id="kansa">Kansa</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="n">Modules</span><span class="p">\</span><span class="n">Log</span><span class="p">\</span><span class="nb">Get-LogWinEvent</span><span class="p">.</span><span class="n">ps1</span> <span class="n">security</span> <span class="p">|</span> <span class="nb">Out-GridView</span>
+</span></span></code></pre></div><h3 id="psloglist">PSLogList</h3>
+<p>SysInternals</p>
+<h3 id="f-response">F-Response</h3>
+<p>Access to raw data on disk.</p>
+<h3 id="kape">Kape</h3>
+<h3 id="velociraptor">Velociraptor</h3>
+<h3 id="powershell">Powershell</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="nb">Get-WinEvent</span> <span class="n">-LogName</span> <span class="n">Security</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="p">(</span><span class="nb">Get-WmiObject</span> <span class="n">-Class</span> <span class="n">Win32_NTEventLogFile</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="n">LogFileName</span> <span class="o">-eq</span> <span class="s1">&#39;System&#39;</span><span class="p">).</span><span class="n">BackupEventLog</span><span class="p">(</span><span class="s2">&#34;output\path&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="nb">Get-WinEvent</span> <span class="n">-ComputerName</span> <span class="n">blah</span> <span class="c"># remote</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="nb">Get-WinEvent</span> <span class="n">-LogName</span> <span class="n">blah</span> <span class="c"># local</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="nb">Get-WinEvent</span> <span class="n">-Path</span> <span class="n">blah</span> <span class="c"># archive</span>
 </span></span></code></pre></div><h3 id="sysmon">Sysmon</h3>
+<p>📑 <code>Microsoft-Windows-Sysmon/Operational</code> ( has prefiltering)</p>
+<p><code>1</code> - <code>mof</code> compiled, <code>20</code> - Consumer added</p>
 <p>Sysmon includes the following capabilities:</p>
 <ul>
 <li>Logs process creation with full command line for both current and parent processes.</li>

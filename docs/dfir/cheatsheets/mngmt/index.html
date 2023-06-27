@@ -284,15 +284,37 @@
 <h3 id="wmi">WMI</h3>
 <blockquote>
 <p>✍🏻 T1047 MITRE ATTACK</p>
+<p>✍🏻 Whitelisted Event Consumers: SCM Event Log, RmAssistEventFilter  , WSCEAA.exe, BVTFilter, TsLogonEvent.vbs, TsLogonFilter, RAevent.vbs, RmAssistEventFilter, NTEventLogConsumer and KernCap.vbs (?)</p>
 </blockquote>
 <p>This tool&rsquo;s artefacts usually reside mostly in RAM. Also, it uses WBEM protocol, and thus, it&rsquo;s tricky to eavesdrop on this connection. If no WinRM - network forensics is an option.</p>
 <blockquote>
 <p>✍🏻 CIM - common info model, shows object-relationships information.</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="p">/</span><span class="n">node</span><span class="err">:</span><span class="n">host</span> <span class="p">/</span><span class="n">user</span> <span class="n">uname</span> <span class="k">process</span> <span class="n">call</span> <span class="n">create</span> <span class="s2">&#34;path\to\exe&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Reconnaissance with WMI</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="n">useraccount</span> <span class="n">list</span> <span class="n">full</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="nb">group </span><span class="n">list</span> <span class="n">full</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="n">netuse</span> <span class="n">list</span> <span class="n">full</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="n">qfe</span> <span class="n">get</span> <span class="n">Caption</span><span class="p">,</span> <span class="n">Description</span><span class="p">,</span> <span class="n">HotFixID</span><span class="p">,</span> <span class="n">InstalledOn</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="n">startup</span> <span class="n">get</span> <span class="n">Caption</span><span class="p">,</span> <span class="n">Command</span><span class="p">,</span> <span class="n">Location</span><span class="p">,</span> <span class="n">User</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Escalation with WMI</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Show services that are set to autostart, have no quotes in the path and are NOT in Windows folder</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="n">service</span> <span class="n">get</span> <span class="n">name</span><span class="p">,</span> <span class="n">displayname</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">startmode</span> <span class="p">|</span> <span class="n">findstr</span> <span class="p">/</span><span class="err">:</span><span class="s2">&#34;Auto&#34;</span> <span class="p">|</span> <span class="n">findstr</span> <span class="p">/</span><span class="n">i</span> <span class="p">/</span><span class="n">v</span> <span class="s2">&#34;C:\Windows\\&#34;</span> <span class="p">|</span> <span class="n">findstr</span> <span class="p">/</span><span class="n">i</span> <span class="p">/</span><span class="n">v</span> <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2"># get the owners of the processes running in order to spot a high privileged user
+</span></span></span><span class="line"><span class="cl"><span class="s2">📕 $Owners = @{}
+</span></span></span><span class="line"><span class="cl"><span class="s2">Get-WmiObject -Class Win32_Process | Where-Object {$_} | For-Each {&amp;Owners[$_.handle] = $_.getowner().user}
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">📕 $VulnerableServives = Get-WmiObject -Class Win32_service | Where-Object {$_} | Where-Object {($_.pathname -ne $null) -and ($_.pathname.trim() -ne &#34;</span> <span class="s2">&#34;)} | Where-Object {-not $_.pathname.StartsWith(&#34;</span><span class="p">`&#34;)}</span> <span class="p">|</span> <span class="nb">Where-Object</span> <span class="p">{</span><span class="o">-not</span> <span class="nv">$_</span><span class="p">.</span><span class="n">pathmname</span><span class="p">.</span><span class="n">StartsWith</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># Lateral Movement</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">wmic</span> <span class="k">process</span> <span class="n">call</span> <span class="n">create</span> <span class="s2">&#34;path\to\rundll32.exe path\to\dll, #opcode&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># Alternative to wmic is good old PowerShell, Invoke-WmiMethod and Get-WmiObject</span>
 </span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="nb">Invoke-WmiMethod</span> <span class="n">-Computer</span> <span class="n">host</span> <span class="n">-Class</span> <span class="n">Win32_Process</span> <span class="n">-Name</span> <span class="n">create</span> <span class="n">-Argument</span> <span class="s2">&#34;better\be\a\good\argument.exe&#34;</span>
 </span></span></code></pre></div><p>Look out for the following executables <code>wmic</code> being invoked (on the source), along with <code>srccons</code>, <code>mofcomp</code>, <code>wmiprvse</code> and some custom names limited to the attacker&rsquo;s quirky whims (on the target).</p>
-<p>🛡️<code>Security</code>, 🍉 <code>Microsoft-Windows-WMI-Activity%4Operational</code></p>
+<p>🛡️<code>Security</code>, 🍉 <code>Microsoft-Windows-WMI-Activity%4Operational</code> (Win10+ enabled by default), 🍇 <code>Sysmon</code> (📑 <code>Microsoft-Windows-Sysmon/Operational</code>)</p>
 <table>
 <thead>
 <tr>
@@ -305,28 +327,32 @@
 <tr>
 <td>🪵 Event logs</td>
 <td>🛡️ <code>4648</code> (alternate creds)</td>
-<td>🛡️<code>4624</code> type <code>3</code>, <code>4672</code> (admin)</td>
+<td>🛡️<code>4624</code> type <code>3</code>, <code>4672</code> (admin), 4688, Sysmon and EDR can help track the processes created, 🍉 <code>5857</code> (start or stop, path to provider DLL), <code>5860</code>/<code>5861</code> (temp/permanent Event Consumer created), <code>5857</code>-<code>5861</code> (filter and consumer), <code>5858</code> - query error or insufficient permissions (host and uname), 5859 -find corresponding filter. <!-- raw HTML omitted --><!-- raw HTML omitted -->🍇 <code>1</code> - <code>mof</code> compiled, <code>20</code> - Consumer added</td>
 </tr>
 <tr>
 <td>🗄️ Registry</td>
 <td>ShimCache, BAM/DAM, AmCache</td>
-<td>🍉 <code>5857</code> (start or stop, path to provider DLL), <code>5860</code>/<code>5861</code> (temp/permanent Event Consumer created), ShimCache, AmCache, Prefetch</td>
+<td>ShimCache, AmCache</td>
 </tr>
 <tr>
 <td>📑 File System</td>
 <td>Prefetch</td>
-<td><code>mof</code> files, unauthorised changes to <code>C:\Windows\System32\wbem\Repository</code></td>
+<td>Prefetch<!-- raw HTML omitted --><code>mof</code> files, unauthorised changes to <code>C:\Windows\System32\wbem\Repository</code></td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>✍️ Suspicious strings: ps1, eval, vbs, ActiveXObject (when screens process is run)</p>
+</blockquote>
 <h3 id="powershell-remote">PowerShell Remote</h3>
 <blockquote>
 <p>✍️ Close to SSH, traffic is also encrypted.</p>
+<p>✍️ WSMan stands for &ldquo;Web Services for Management.&rdquo; It&rsquo;s a term used in the context of Microsoft&rsquo;s implementation of the WS-Management protocol, which is a standard Simple Object Access Protocol (SOAP)-based, firewall-friendly protocol that allows hardware and operating systems from different vendors to interoperate. WSMan provides a common way for systems to access and exchange management information across an IT infrastructure. It allows IT administrators to remotely manage the system settings of devices that support the WS-Management protocol, which can include desktops, servers, or any other devices that have embedded systems. In the context of PowerShell, the WS-Management service is used by the &ldquo;WinRM&rdquo; (Windows Remote Management) service to provide remote management capabilities. PowerShell uses WinRM and WS-Management to enable administrators to run management shell commands and scripts on remote computers. For example, you might use the <code>Enter-PSSession</code> cmdlet in PowerShell to start an interactive session with a remote computer, and this would be facilitated by WinRM and WS-Management. Or you might use the <code>Invoke-Command</code> cmdlet to run a command on a remote computer, and this would also be facilitated by WinRM and WS-Management. Remember, like any remote management tool, WinRM and WS-Management should be used securely to prevent unauthorized access or other security risks. Always follow best practices for authentication and encryption when using these tools.</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📕</span> <span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="n">host</span> <span class="n">-Credential</span> <span class="n">uname</span>
 </span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">host</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="nb">Start-Process</span> <span class="p">\</span><span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="k">process</span><span class="p">}</span>
-</span></span></code></pre></div><p>🪵 Logs: 🛡️ <code>Security</code>, 🍌 <code>Microsoft-Windows-PowerShell</code> and 🥝 <code>Microsoft-Windows-WinRM</code>.</p>
-<p>⚙️ Processes: <code>powershell.exe</code></p>
+</span></span></code></pre></div><p>🪵 Logs: 🛡️ <code>Security</code>, 🍌 <code>Microsoft-Windows-PowerShell%4Operational</code>, 🍒 <code>Windows-PowerShell.evtx</code> and 🥝 <code>Microsoft-Windows-WinRM</code>.</p>
+<p>⚙️ Processes: <code>powershell.exe</code> (source, dest), <code>wsmprovhost.exe</code> (dest)</p>
 <table>
 <thead>
 <tr>
@@ -338,21 +364,24 @@
 <tbody>
 <tr>
 <td>🪵 Event logs</td>
-<td>🛡️ <code>4648</code><!-- raw HTML omitted -->🥝 <code>6</code> -WSMan Session init (dhost, dIP, c_user, timestamp), 8, 15, 16, 33 - deinit<!-- raw HTML omitted --> 🍌 40691, 40692, 8193, 8194, 8197</td>
-<td></td>
+<td>🛡️ <code>4648</code><!-- raw HTML omitted -->🥝 <code>6</code> -WSMan Session init (dhost, dIP, c_user, timestamp), <code>8</code>, <code>15</code>, <code>16</code>, <code>33</code> - deinit<!-- raw HTML omitted --> 🍌 <code>40691</code>, <code>40692</code> (Records the local initiation of powershell.exe and associated user account), <code>8193</code>, <code>8194</code> (session created), <code>8197</code> (session closed)</td>
+<td>🛡️ 4624 type 3, 4672 | 🍌 4103 &amp; 4104 (script block logging, suspicious or all), 53504 (the auth-ing user) | 🍒 400/403 (start/end of remote session), 800 (contains partial script) | 🥝 91 (session created), 168 (auth-ing user)</td>
 </tr>
 <tr>
 <td>🗄️ Registry</td>
 <td>ShimCache, BAM/DAM, AmCache</td>
-<td></td>
+<td>ShimCache, <code>SOFTWARE</code> (🔑 <code>Microsoft\ PowerShell\1 \ShellIds\Microsoft. PowerShell \ExecutionPolicy</code> set to Bypass or less permissive)</td>
 </tr>
 <tr>
 <td>📑 File System</td>
-<td>Prefetch</td>
-<td></td>
+<td>Prefetch (will also show <code>*.ps1</code> files accessed during the first 10 seconds)<!-- raw HTML omitted -->Command history at <code>C:\Users\uname\AppData\Roaming\Microsoft\&lt;br /&gt;Windows\PowerShell\PSReadLine\ConsoleHost_history.txt</code><!-- raw HTML omitted --></td>
+<td>- files moved<!-- raw HTML omitted -->- Prefetch<!-- raw HTML omitted -->- User profile</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>❓EID 4096 is referenced in the poster, but no information on the Internet.</p>
+</blockquote>
 <h3 id="registry">Registry</h3>
 <blockquote>
 <p>❗️ Requires authentication.</p>
@@ -379,7 +408,7 @@
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <a href="https://share.ialab.dsu.edu/CAE_Workshops/2019/Incident%20Response/Supplementary%20Material/SANS_Poster_2018_Hunt_Evil_FINAL.pdf">https://share.ialab.dsu.edu/CAE_Workshops/2019/Incident%20Response/Supplementary%20Material/SANS_Poster_2018_Hunt_Evil_FINAL.pdf</a>
 </details>
   </div>
 </article>

