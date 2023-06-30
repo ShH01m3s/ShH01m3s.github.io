@@ -167,7 +167,12 @@
       <ul>
         <li><a href="#hibernation">hibernation</a></li>
         <li><a href="#swap">Swap</a></li>
-        <li><a href="#vmem">VMEM</a></li>
+        <li><a href="#vmem">VMEM</a>
+          <ul>
+            <li><a href="#parallels">Parallels</a></li>
+            <li><a href="#vmware">VMware</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="#linux">Linux</a>
@@ -212,6 +217,12 @@
   <div class="content" itemprop="articleBody">
     <p><em>This is about &hellip; .</em></p>
 <h2 id="macos">macOS</h2>
+<p><em>On the forensicswiki [<a href="https://forensicswiki.xyz/wiki/index.php?title=Tools:Memory_Imaging">1</a>], there is a list of tools to be used for RAM acquisition. I’ve tried several of them and realised that the current problem in the forensic community is that the tools get old much faster than the information gets updated… Sadly.</em></p>
+<p><code>OSXPmem</code></p>
+<p>It’s the part of <code>rekall</code>, <a href="https://code.google.com/archive/p/pmem/wikis/OSXPmem.wiki">download</a>. There are a few complications, though.</p>
+<blockquote>
+<p>⚠️ SIP needs to be disabled. Freeboot &gt; CMD+R &gt; Terminal &gt; csrutil disable &gt; reboot). Otherwise, you might run into this issue: dump_memory(833): Failed to load kext (No such process) ⚠️ USB &gt; Get Info &gt; unlock 🔒 &gt; Ignore ownership on this volume (check). Otherwise, you might run into this issue: Can’t load kext ./pmem.kext, as it is not owned by root: wheel. Just chowning didn’t work for me. When I unchecked it, replugged the USB, and decompressed the archive, I managed to get the dump without this error. ❗️ Restart the Terminal for changes to take place!</p>
+</blockquote>
 <blockquote>
 <p>&hellip; load a driver to virtually recreate the /dev/mem device found in other Unix-type hosts. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 161). BCS Learning &amp; Development Limited. Kindle Edition. ❗️ Requires <code>root</code>.</p>
 </blockquote>
@@ -238,8 +249,22 @@
 <p>Rather than a single file, macOS can generate up to 10 different swap files, depending on need. These swap files can be found in the ‘/private/var/vm’ directory. This directory also contains a ‘sleepimage’ file, which is used to dump a copy of the RAM contents if the computer is put to sleep: something to be aware of, since this could provide a source of otherwise volatile evidence.</p>
 </blockquote>
 <h3 id="vmem">VMEM</h3>
-<p>???</p>
-<p><code>python3 vol.py -f 1.vmem windows.vadinfo.VadInfo</code> to view Virtual Address Descriptors (<a href="https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/">VAD</a>).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">python3</span> <span class="n">vol</span><span class="p">.</span><span class="n">py</span> <span class="o">-f</span> <span class="n">1</span><span class="p">.</span><span class="n">vmem</span> <span class="n">windows</span><span class="p">.</span><span class="n">vadinfo</span><span class="p">.</span><span class="n">VadInfo</span> <span class="c"># to view Virtual Address Descriptors ([VAD](https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/)).</span>
+</span></span></code></pre></div><p><code>python3 vol.py -f 1.vmem windows.vadinfo.VadInfo</code> to view Virtual Address Descriptors (<a href="https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/">VAD</a>).</p>
+<h4 id="parallels">Parallels</h4>
+<blockquote>
+<p>❗️ Even when sharing with the host is off, sometimes there are host 👣 footprints in UserAssist and other artefacts.</p>
+</blockquote>
+<p>🐾 <code>.mem</code> - ram memory image.</p>
+<h4 id="vmware">VMware</h4>
+<blockquote>
+<p>❗️ Uses a more complex format that needs prior parsing, ESX.</p>
+</blockquote>
+<p>Each snapshot has a separate <code>.vmem</code> file. These are not raw memory dumps but contain everything that was in RAM then.</p>
+<p>🐾 <code>.vmem</code> - ram memory
+🐾 <code>.vmss</code> - VMware saved state
+🐾 <code>.vmsn</code> - VMware snapshot</p>
+<p>📂 <code>/Users/uname/Documents/VirtualMachines.localized/</code> (Fusion)</p>
 <h2 id="linux">Linux</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/dev/mem <span class="c1"># raw</span>
 </span></span><span class="line"><span class="cl">/proc/kcore <span class="c1"># debugging format</span>
@@ -287,7 +312,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   

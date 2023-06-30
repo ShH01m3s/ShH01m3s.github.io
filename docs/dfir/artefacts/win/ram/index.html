@@ -163,15 +163,30 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#ram">RAM</a>
+    <li><a href="#collection">Collection</a>
+      <ul>
+        <li><a href="#live">Live</a></li>
+        <li><a href="#dead">Dead</a></li>
+        <li><a href="#determine-the-correct-profile-vol2">Determine the correct profile (Vol2)</a></li>
+        <li><a href="#convert-to-raw">Convert To Raw</a></li>
+        <li><a href="#hyperfilsys"><code>hyperfil.sys</code></a></li>
+        <li><a href="#pagefilesys"><code>pagefile.sys</code></a></li>
+        <li><a href="#swapfilesys"><code>swapfile.sys</code></a></li>
+        <li><a href="#vmem">VMEM</a>
+          <ul>
+            <li><a href="#virtualbox">VirtualBox</a></li>
+            <li><a href="#vmware">VMware</a></li>
+            <li><a href="#hyper-v">Hyper-V</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#analysis">Analysis</a>
       <ul>
         <li><a href="#get-the-profile-info-vol2">Get the Profile Info (vol2)</a></li>
         <li><a href="#convert-to-raw-mem">Convert to raw mem</a></li>
         <li><a href="#triage-of-windows-core-processes">Triage of Windows Core Processes</a></li>
         <li><a href="#analysis-example">Analysis Example</a></li>
-        <li><a href="#hyperfilsys">hyperfil.sys</a></li>
-        <li><a href="#pagefilesys">pagefile.sys</a></li>
-        <li><a href="#vmem">VMEM</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -209,32 +224,179 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>Memory is the best evidence, although the hardest to preserve. If you recall Frozen II &ldquo;Water has memory&rdquo; - same story. Even if you delete all the evidence, memory is silently remembering all that. But it&rsquo;s so fragile&hellip;.</em></p>
-<p><img src="https://media.giphy.com/media/J6DlqPpKsXeof54aaP/giphy.gif" alt="img"></p>
-<p>There are several data types that can hold volatile data i.e. data about some state of RAM in time. Not all of them exist on every system:</p>
+    <p>*Memory is the best evidence, although the hardest to preserve. If you recall Frozen II, &ldquo;Water has memory&rdquo; - same story. Even if you delete all the evidence, memory silently remembers all that. But it&rsquo;s so fragile&hellip; ![[boiler-leaking-water-scaled.jpg]]</p>
+<p><strong>KPCR</strong> - (Kernel) Processor Control Region. It points to a <strong>KDBG</strong>, Kernel Debugging Data Block, a structure maintained by the Windows kernel for debugging purposes. KPCR&rsquo;s offset is fixed on Windows XP but differs in later versions. There are two ways to find KDBG: scan for its signature or find the KPCR and then follow the offset specified. Why do we even need this KDBG? It has a pointer <code>PsActiveProcessHead</code> which points to the list of processes (called <code>EPROCESS</code>) with all the information about those dudes.</p>
+<p><img src="images/win-mem.png" alt="img"></p>
+<p>Each <code>EPROCESS</code> has two essential structures: PEB (Process Environment Block) and VAD (Virtual Address Descriptors). PEB contains 🐾 path to the executable, 🐾 command line that spawned the process, 🐾 linked list of DLLs used. VAD is a balanced tree structure that keeps track of all pages allocated for this process (virtual addresses).</p>
+<h2 id="collection">Collection</h2>
+<p>Why even bother collecting RAM?</p>
 <ul>
-<li><strong>RAM image.</strong> Can be acquired for all PC, there are certain complications with a Mac. Also, for mobile devices you can collect RAM data for separate processes only. For virtual machines are usually stored in a separate file once the system is suspended.</li>
-<li><strong>Hibernation files</strong>. Exist on major OS (Windows, Mac, Linux). For Windows - <a href="/docs/dfir/host/reference/windows/windows-hibernation">hyberfil.sys</a>. It&rsquo;s a RAM capture made by OS itself when the PC is falling asleep 💤.</li>
-<li><strong>Page files</strong>.</li>
-<li><strong>Swap files</strong>.</li>
-<li><strong>Crash dumps</strong>.</li>
-</ul>
-<p>In general, things we are going to do are specific to the case type. It case of a malware infection we will be looking for rogue processes, rootkits and other such things, while in child exploitation or insider threat  - these are not top priority. In case of child exploitation we would be more interested in some <code>png</code> or <code>jpeg</code> still residing somewhere in memory.</p>
-<p>Why collect RAM?</p>
-<ul>
-<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Prove someone did something or used something. Common artefacts: Prefetch, Shimcache, Web browser, $MFT (master file table).</li>
-<li><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Common tools: hashcat, passware.</li>
+<li><strong>User Activity</strong> &ndash;&gt; File usage and knowledge. Prove someone did something or used something. Common artefacts: Prefetch, ShimCache, Web browser, $MFT (master file table).</li>
+<li><strong>Encryption</strong> &ndash;&gt;  Key files and passwords. Standard tools: <code>hashcat</code>, <code>passware</code>.</li>
 <li><strong>Host compromise</strong> &ndash;&gt; Processes, network activity, malware, rootkits, persistence.</li>
 </ul>
-<p>Hibernation files store the last state of RAM before &ldquo;falling asleep&rdquo; 💤 . These files are of a particular value when live acquisition is impossible.</p>
+<blockquote>
+<p>&hellip;force a crash and subsequently produce a memory dump as a mechanism for collecting volatile data. Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 165). BCS Learning &amp; Development Limited. Kindle Edition.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">dd</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">PhysicalMemory</span> <span class="n">of</span><span class="p">=</span><span class="n">memory</span><span class="p">.</span><span class="n">img</span> <span class="n">conv</span><span class="p">=</span><span class="n">noerror</span> <span class="c"># requires elevated privileges.</span>
+</span></span><span class="line"><span class="cl"><span class="c"># ‘\\.\PhysicalMemory’; a second device, ‘\\.\DebugMemory’</span>
+</span></span></code></pre></div><blockquote>
+<p>❗️ All loaded device drivers on modern systems must be digitally signed.
+❗️To be loaded on servers, drivers now must pass the Windows Hardware Quality Labs certification. The forensic workaround is not yet clear.</p>
+</blockquote>
+<h3 id="live">Live</h3>
+<p>🐾 <strong>RAM image</strong> (bit-by-bit copy of RAM). It can be acquired for all PC, there are certain complications with a Mac. Also, you can collect RAM data for mobile devices for separate processes only. Virtual machines are usually stored in a separate file once the system is suspended.
+🐾 <strong>Network</strong> connections, ARP cache
+🐾 Process tree</p>
+<p>🛠️ WinPMEM, 🛠️ DumpIt, 🛠️ F-Response and SIFT, 🛠️ Belkasoft Live RAM Capturer, 🛠️ MagnetForensics Ram Capture</p>
+<h3 id="dead">Dead</h3>
+<p>🐾 <strong>Hibernation files</strong>. Exist on major OS (Windows, Mac, Linux). For Windows - <a href="/docs/dfir/host/reference/windows/windows-hibernation">hyberfil.sys</a>. It&rsquo;s a RAM capture made by OS when the PC falls asleep 💤. 📂 <code>%SystemDrive%\hyberfil.sys</code>
+🐾 <strong>Page files</strong>. 📂 <code>%SystemDrive%\pagefile.sys</code>. Partial RAM.
+🐾 <strong>Swap files</strong>. 📂 <code>%SystemDrive%\swapfile.sys</code> (Win8+ and 2012+). Partial RAM, suspended modern applications swapped to disk.
+🐾 <strong>Crash dumps</strong>. 📂 <code>%WINDIR%\MEMORY.DMP</code>, it&rsquo;s a full RAM copy.</p>
+<blockquote>
 <p>🛠 Belkasoft RAM Capturer. ~4Mb footprint in RAM, slow. Magnet RAM Capturer - huge footprint, fast. Dumpit - the fastest, the smallest footprint (didn&rsquo;t work on Win10 on a VM Parallels on macOS). All of the aforementioned tools run in kernel mode! FTK Imager - big footprint, <strong>user mode</strong>, doesn&rsquo;t work on VM (in my case). Benchmark the tools yourself from time to time. Redline, Fast Dump (<code>fdpro.exe</code>). Sumuri&rsquo;s Interception (included with Paladin). Exploits some memory bug on some OS for machines that have either Thunderbolt or a Firewire to overwrite the admin&rsquo;s password in memory.</p>
+</blockquote>
 <p><strong>Malfind</strong>. <a href="https://www.linkedin.com/pulse/process-injection-detection-malfind-britton-manahan/">https://www.linkedin.com/pulse/process-injection-detection-malfind-britton-manahan/</a></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">‘<span class="se">\\</span>.<span class="se">\P</span>hysicalMemory’<span class="p">;</span> a second device, ‘<span class="se">\\</span>.<span class="se">\D</span>ebugMemory’
-</span></span><span class="line"><span class="cl">C:<span class="se">\h</span>iberfil.sys
-</span></span><span class="line"><span class="cl">C: <span class="se">\p</span>agefile.sys
-</span></span><span class="line"><span class="cl">C:<span class="p">|</span> swapfile. sys
-</span></span><span class="line"><span class="cl">C: Windows<span class="se">\ </span>memory.dmp
-</span></span></code></pre></div><h2 id="ram">RAM</h2>
+<h3 id="determine-the-correct-profile-vol2">Determine the correct profile (Vol2)</h3>
+<p>Volatility 3 deduces the profile itself. With <code>vol2</code>, you need to do that manually. Two plugins are available for that: <code>kdbgscan</code> and <code>imageinfo</code>.</p>
+<blockquote>
+<p>✍️ A useful note, use 📘 <code>export VOLATILITY_LOCATION</code> and 📘 <code>export VOLATILITY_PROFILE</code> so that you won&rsquo;t have to specify <code>--profile</code> and <code>-f</code> options every time.</p>
+</blockquote>
+<p><code>kdbgscan</code> is very slow since it has to scan the image to find the KDBG. The latest OS versions encrypt KDBG; thus, volatility needs to find <code>KdCopyDataBlock</code> to decrypt it, making it work even slower. So, once you get the offset (virtual offset of KDBG on Vista- and <code>KdCopyDataBlock</code> on Win8+), use <code>-g</code> or <code>--kdbg</code> option with other plugins to speed up the analysis since some modules will try to find this structure on their own (<code>pslist</code>, for instance).</p>
+<p><code>kdbgscan</code> will spill out several possible guesses, and you must choose the right one. Of course, it helps if you know the OS and the patch version and can explicitly provide it. But when it&rsquo;s not an option, try several options to see which one yields any good-looking results (<code>Kernal Base</code> <code>Matches MZ</code> set to <code>True</code>, <code>PsActiveProcessHead</code> and <code>PsLoadedModuleList</code> showing the reasonable number for a live system, KPCR address is provided).</p>
+<p><code>imagescan</code> can give you additional info that&rsquo;s useful for the investigation: 🐾 capture time (system time) and DTB (directory table base).</p>
+<p>How to determine if the profile is correct?</p>
+<h3 id="convert-to-raw">Convert To Raw</h3>
+<p>Several other formats can contain RAM residues: crash dumps, hibernation and swap files, virtual machine RAM, and live firewire sessions. To normalise the data so that volatility can feast on it, use <code>imagecopy</code> plugin.</p>
+<h3 id="hyperfilsys"><code>hyperfil.sys</code></h3>
+<p>📂 <code>%SystemDrive%\hiberfil.sys</code></p>
+<p>Compressed RAM dump at the moment of hibernation. On Win8+ - new format and greater frequency.</p>
+<blockquote>
+<p>❗️Doesn&rsquo;t work on VMs.</p>
+</blockquote>
+<p>On Win8+ the file is zeroed out (leaving only 4K at the beginning), hence the new artefact is smaller. Also, Fast Startup is now taking over, which means it logs the user out before creating a hibernation file. Hence, the file is even smaller.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">powercfg</span><span class="p">.</span><span class="n">exe</span> <span class="c"># to see the hibernation settings</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">powercfg</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">hibernate</span> <span class="n">on</span> <span class="c"># turn hibernation on</span>
+</span></span></code></pre></div><p><strong>Decompression</strong> tools 🛠️: Volatility, <code>imagecopy</code>, <code>hibr2bin.exe</code>, Hibernation Recon.
+<strong>Analysis</strong> tools 🛠️: BulkExtractor, Magnet AXIOM, Volatility, Passware.</p>
+<p><strong>Structure</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>PO_MEMORY_IMAGE structure</td>
+</tr>
+<tr>
+<td>Page list</td>
+<td>An array of physical page</td>
+</tr>
+<tr>
+<td>Processor State</td>
+<td>CONTEXT + KSPECIAL_REGISTERS</td>
+</tr>
+<tr>
+<td>Memory Range Array n</td>
+<td>Header: NextTable page, Number of entries. Entries: Destination page + Checksum.</td>
+</tr>
+<tr>
+<td>Xpress compressed block p</td>
+<td>Magic \x81\x81xpress (&gt;Win2K). Compressed data</td>
+</tr>
+<tr>
+<td>Xpress compressed block p+1</td>
+<td></td>
+</tr>
+<tr>
+<td>Memory Range Array n+1</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Win8+ - new file format.</p>
+<p>Not as common, but just as good. <code>imagecopy</code> plugin converts different formats into raw format to speed up. Hiberfile - compressed. Determine the OS profile and run the plugin.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
+</span></span><span class="line"><span class="cl">vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
+</span></span></code></pre></div><p>C:\hiberfil.sys</p>
+<p>C:\Memory.dmp</p>
+<p>What is <a href="https://www.howtogeek.com/howto/15140/what-is-hiberfil.sys-and-how-do-i-delete-it/">hyberfil.sys</a>. Two types of compression.</p>
+<p><code>imageinfo</code> - to identify the profile for memory image. Running <code>vol.py imageinfo -f hiberfil.sys</code> is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
+<h3 id="pagefilesys"><code>pagefile.sys</code></h3>
+<p>📂 <code>%SystemDrive%\pagefile.sys</code></p>
+<p>When Windows system runs out of RAM, it uses HDD space to temporarily store the data from RAM. To acquire it from a live system: use <a href="https://ericzimmerman.github.io/#!index.md">https://ericzimmerman.github.io/#!index.md</a> or FTK Imager. Get separate files using <a href="https://www.cgsecurity.org/wiki/PhotoRec">PhotoRec</a> or using a Hex redactor (for example, <a href="https://www.sweetscape.com/010editor/">101 Editor</a>). This file is deleted on reboot.</p>
+<p><strong>Properties</strong>:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Hidden</strong></th>
+<th>True</th>
+<th><strong>Owner SID</strong></th>
+<th>S-1-5-32-544</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>System</strong></td>
+<td>True</td>
+<td><strong>Owner Name</strong></td>
+<td>Администраторы</td>
+</tr>
+<tr>
+<td><strong>Read Only</strong></td>
+<td>False</td>
+<td><strong>Group SID</strong></td>
+<td>S-1-5-18</td>
+</tr>
+<tr>
+<td><strong>Archive</strong></td>
+<td>True</td>
+<td><strong>Group Name</strong></td>
+<td>SYSTEM</td>
+</tr>
+</tbody>
+</table>
+<p>To copy this file use <code>RawCopy64.exe /FileNamePath:c:\pagefile.sys</code>.</p>
+<p>To parse this file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> egrep <span class="s2">&#34;^https?://&#34;</span> <span class="c1"># show URLs found in memory</span>
+</span></span><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-z]:\\\\&#34;</span> <span class="c1"># file paths used are shown</span>
+</span></span><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-zA-Z09_]*=.*&#34;</span> <span class="c1"># env vars</span>
+</span></span></code></pre></div><p>Apply <a href="https://github.com/matonis/page_brute">yarn rules</a> against <code>pagefile</code>.</p>
+<h3 id="swapfilesys"><code>swapfile.sys</code></h3>
+<p>📂 <code>%SystemDrive%\swapfile.sys</code></p>
+<h3 id="vmem">VMEM</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">python3</span> <span class="n">vol</span><span class="p">.</span><span class="n">py</span> <span class="o">-f</span> <span class="n">1</span><span class="p">.</span><span class="n">vmem</span> <span class="n">windows</span><span class="p">.</span><span class="n">vadinfo</span><span class="p">.</span><span class="n">VadInfo</span> <span class="c"># to view Virtual Address Descriptors ([VAD](https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/)).</span>
+</span></span></code></pre></div><h4 id="virtualbox">VirtualBox</h4>
+<p>When the VM is suspended, NOT full memory dump is saved. So, it&rsquo;s tricky to parse and analyse it. Either collect RAM from within the VM itself or use volatility for some formats.</p>
+<p>🐾 <code>.sav</code> - partial memory image</p>
+<p>📂 <code>.VirtualBox/Machines/vmname/Snapshots</code></p>
+<h4 id="vmware">VMware</h4>
+<blockquote>
+<p>❗️ Uses a more complex format that needs prior parsing, ESX.</p>
+</blockquote>
+<p>Each snapshot has a separate <code>.vmem</code> file. These are not raw memory dumps but contain everything that was in RAM then.</p>
+<p>🐾 <code>.vmem</code> - ram memory
+🐾 <code>.vmss</code> - VMware saved state
+🐾 <code>.vmsn</code> - VMware snapshot</p>
+<p>📂 <code>C:\XXX\My Virtual Machines\vmname</code> (VMware workstation)
+📂 <code>dcname\dsname\dirname\vmname\</code> (ESX)</p>
+<h4 id="hyper-v">Hyper-V</h4>
+<blockquote>
+<p>❗️ Uses a more complex format that needs prior parsing, Hyper-V.</p>
+</blockquote>
+<p>🐾 <code>.bin</code> - memory image, <code>.vsv</code> - save state.</p>
+<p>📂 <code>C:\XXX\vmname\Virtual Machines\GUID</code></p>
+<h2 id="analysis">Analysis</h2>
+<p>First, you need to understand that data in RAM is not scattered willy-nilly. Weren&rsquo;t that the case, we would eventually find ourselves up a creek without a paddle.</p>
 <h3 id="get-the-profile-info-vol2">Get the Profile Info (vol2)</h3>
 <p><img src="images/vol_py_imageinfo_mem_udemy%201.png" alt="vol_py_imageinfo_mem_udemy"></p>
 <p>Purple square - Service pack. Green - correct profile with the correct service pack.</p>
@@ -296,104 +458,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i -v 2019-01-20 <span class="s1">&#39;pslist.txt&#39;</span> &gt; pslist_not_boottime.txt
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">grep -E -i -v 2019-01-20 <span class="s1">&#39;psscan.txt&#39;</span> &gt; psscan_not_boottime.txt
-</span></span></code></pre></div><h3 id="hyperfilsys">hyperfil.sys</h3>
-<p>RAM dump at the moment of hypernation. To turn it on: <code>powercfg.exe /hibernate on</code>. Doesn&rsquo;t work on VMs. When the laptop turns back on, these files are filled with 0s (leaving 4K at the beginning only). The only way to get this file - get the HDD.</p>
-<blockquote>
-<p>💡 So, before performing the live acquisition, think twice: what would be more valuable for you&hellip;?</p>
-</blockquote>
-<p><strong>Structure</strong>:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Content</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Header</td>
-<td>PO_MEMORY_IMAGE structure</td>
-</tr>
-<tr>
-<td>Page list</td>
-<td>An array of physical page</td>
-</tr>
-<tr>
-<td>Processor State</td>
-<td>CONTEXT + KSPECIAL_REGISTERS</td>
-</tr>
-<tr>
-<td>Memory Range Array n</td>
-<td>Header: NextTable page, Number of entries. Entries: Destination page + Checksum.</td>
-</tr>
-<tr>
-<td>Xpress compressed block p</td>
-<td>Magic \x81\x81xpress (&gt;Win2K). Compressed data</td>
-</tr>
-<tr>
-<td>Xpress compressed block p+1</td>
-<td></td>
-</tr>
-<tr>
-<td>Memory Range Array n+1</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>Win8+ - new file format.</p>
-<p>Not as common, but just as good. <code>imagecopy</code> plugin converts different formats into raw format to speed up. Hiberfile - compressed. Determine the OS profile and run the plugin.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
-</span></span><span class="line"><span class="cl">vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
-</span></span></code></pre></div><p>C:\hiberfil.sys</p>
-<p>C:\Memory.dmp</p>
-<p>What is <a href="https://www.howtogeek.com/howto/15140/what-is-hiberfil.sys-and-how-do-i-delete-it/">hyberfil.sys</a>. Two types of compression.</p>
-<p><code>imageinfo</code> - to identify the profile for memory image. Running <code>vol.py imageinfo -f hiberfil.sys</code> is slow and inefficient. No profiles were sugested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
-<h3 id="pagefilesys">pagefile.sys</h3>
-<p>When Windows system runs out of RAM, it uses HDD space to temporarily store the data from RAM. To acquire it from a live system: use <a href="https://ericzimmerman.github.io/#!index.md">https://ericzimmerman.github.io/#!index.md</a> or FTK Imager. Get separate files using <a href="https://www.cgsecurity.org/wiki/PhotoRec">PhotoRec</a> or using a Hex redactor (for example, <a href="https://www.sweetscape.com/010editor/">101 Editor</a>). This file is deleted on reboot.</p>
-<p><strong>Properties</strong>:</p>
-<table>
-<thead>
-<tr>
-<th><strong>Hidden</strong></th>
-<th>True</th>
-<th><strong>Owner SID</strong></th>
-<th>S-1-5-32-544</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>System</strong></td>
-<td>True</td>
-<td><strong>Owner Name</strong></td>
-<td>Администраторы</td>
-</tr>
-<tr>
-<td><strong>Read Only</strong></td>
-<td>False</td>
-<td><strong>Group SID</strong></td>
-<td>S-1-5-18</td>
-</tr>
-<tr>
-<td><strong>Archive</strong></td>
-<td>True</td>
-<td><strong>Group Name</strong></td>
-<td>SYSTEM</td>
-</tr>
-</tbody>
-</table>
-<p>To copy this file use <code>RawCopy64.exe /FileNamePath:c:\pagefile.sys</code>.</p>
-<p>To parse this file:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> egrep <span class="s2">&#34;^https?://&#34;</span> <span class="c1"># show URLs found in memory</span>
-</span></span><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-z]:\\\\&#34;</span> <span class="c1"># file paths used are shown</span>
-</span></span><span class="line"><span class="cl">strings pagefile.sys <span class="p">|</span> grep -i <span class="s2">&#34;^[a-zA-Z09_]*=.*&#34;</span> <span class="c1"># env vars</span>
-</span></span></code></pre></div><p>Apply <a href="https://github.com/matonis/page_brute">yarn rules</a> against <code>pagefile</code>.</p>
-<h3 id="vmem">VMEM</h3>
-<p><code>python3 vol.py -f 1.vmem windows.vadinfo.VadInfo</code> to view Virtual Address Descriptors (<a href="https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/">VAD</a>).</p>
-<h2 id="references">References</h2>
+</span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     <p>[<a href="">1</a>] Magnet</p>
@@ -401,6 +466,10 @@
 <p>[<a href="https://habr.com/ru/company/group-ib/blog/512728/">1</a>] Тайны файла подкачки pagefile.sys: полезные артефакты для компьютерного криминалиста</p>
 <p>[<a href="https://www.blackhat.com/presentations/bh-usa-08/Suiche/BH_US_08_Suiche_Windows_hibernation.pdf">2</a>] About hybernation files</p>
 <p>[<a href="https://www.researchgate.net/publication/311849840_Modern_windows_hibernation_file_analysis">3</a>] About new hybernation file format</p>
+<p><a href="https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/">https://resources.infosecinstitute.com/topic/finding-enumerating-processes-within-memory-part-2/</a></p>
+<p><a href="https://imphash.medium.com/windows-process-internals-a-few-concepts-to-know-before-jumping-on-memory-forensics-part-5-a-2368187685e">https://imphash.medium.com/windows-process-internals-a-few-concepts-to-know-before-jumping-on-memory-forensics-part-5-a-2368187685e</a></p>
+<p><a href="https://eforensicsmag.com/windows-process-internals-a-few-concepts-to-know-before-jumping-on-memory-forensics-by-kirtar-oza/">https://eforensicsmag.com/windows-process-internals-a-few-concepts-to-know-before-jumping-on-memory-forensics-by-kirtar-oza/</a></p>
+<p><a href="https://eforensicsmag.com/85384-2/">https://eforensicsmag.com/85384-2/</a></p>
 
 </details>
   </div>
@@ -434,7 +503,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
   
 
   
