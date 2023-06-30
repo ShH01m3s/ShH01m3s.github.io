@@ -224,7 +224,8 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p>*Memory is the best evidence, although the hardest to preserve. If you recall Frozen II, &ldquo;Water has memory&rdquo; - same story. Even if you delete all the evidence, memory silently remembers all that. But it&rsquo;s so fragile&hellip; ![[boiler-leaking-water-scaled.jpg]]</p>
+    <p>*Memory is the best evidence, although the hardest to preserve. If you recall Frozen II, &ldquo;Water has memory&rdquo; - same story. Even if you delete all the evidence, memory silently remembers all that. But it&rsquo;s so fragile&hellip;
+<img src="images/boiler-leaking-water-scaled.jpg" alt="img"></p>
 <p><strong>KPCR</strong> - (Kernel) Processor Control Region. It points to a <strong>KDBG</strong>, Kernel Debugging Data Block, a structure maintained by the Windows kernel for debugging purposes. KPCR&rsquo;s offset is fixed on Windows XP but differs in later versions. There are two ways to find KDBG: scan for its signature or find the KPCR and then follow the offset specified. Why do we even need this KDBG? It has a pointer <code>PsActiveProcessHead</code> which points to the list of processes (called <code>EPROCESS</code>) with all the information about those dudes.</p>
 <p><img src="images/win-mem.png" alt="img"></p>
 <p>Each <code>EPROCESS</code> has two essential structures: PEB (Process Environment Block) and VAD (Virtual Address Descriptors). PEB contains 🐾 path to the executable, 🐾 command line that spawned the process, 🐾 linked list of DLLs used. VAD is a balanced tree structure that keeps track of all pages allocated for this process (virtual addresses).</p>
