@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Processes - Analyst</title>
+  <title>plist - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -18,7 +18,7 @@
 
 </head>
 
-<body class='page page-default-list'>
+<body class='page page-default-single'>
   <div id="main-menu-mobile" class="main-menu-mobile">
   <ul>
     
@@ -72,7 +72,6 @@
     </div>
     
 
-    <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/ios/processes/index.xml" title="Analyst" />
     <div id="main-menu" class="main-menu">
   <ul>
     
@@ -159,9 +158,17 @@
             
 <div class="docs-menu">
   <p>
-    <a href="/docs/dfir/artefacts/ios/"> 👈🏼 Back to </br> 🍏 iOS Artefacts </a>
+   <a href="/docs/dfir/artefacts/files/"> 👈🏼 Back to </br> 📜 User Files </a>
   </p>
-</div> 
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#heading"></a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
 
 
 
@@ -169,28 +176,46 @@
         </div>
         <div class="col-12 col-md-9">
           
+<h1 class="title">plist</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 03.07.2023
+    <br />
+
+    
+
+  </header>
 
 
-
- 
- <h1 class="title">Processes</h1> 
- 
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/ios/processes/core/"> Core</a></h2> 
-    <p> <p><em>This is about &hellip; .</em></p></p>
-
-    <h2><a href="https://bakerst221b.com/docs/dfir/artefacts/ios/processes/installed/"> Installed</a></h2> 
-    <p> • HomeDomain-Library/FrontBoard/applicationState.db
-• Info.plist
-• Manifest.plist
-• /private/var/mobile/Library/FrontBoard/applicationState.db
-Application Permissions: • HomeDomain-Library/TCC/TCC.db
-• /private/var/mobile/Library/TCC/TCC.db
-References Expand&hellip; Something here </p>
-
-
-
-
+  <div class="content" itemprop="articleBody">
+    <p><em><code>plist</code> files are Apple config proprietary file format. It serves a similar purpose as the registry on Windows, but the files are scattered across the file system instead.</em></p>
+<p><strong>Magic</strong> 🪄: <code>bplist00</code></p>
+<p>Since <code>plist</code> files are binary, one needs a tool to convert them to something more readable.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 plutil -convert xml1 Info.plist <span class="c1"># turns .plist file into an xml one.</span>
+</span></span></code></pre></div><h2 id="heading"></h2>
+<blockquote>
+<p>💡 Write or find a tool that collects all the <code>plist</code> files and presents them in a similar to <code>reg.exe</code> way.</p>
+</blockquote>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    <em>Analysing Mobile iOS Apps with VirusTotal Enterprise Online and macOS Ventura Locally</em> by Israel Torres, eForensics Magazine, Mastering iOS Forensics, 📆 <code>Feb 2023</code>
+</details>
+  </div>
+</article>
+</div>
+</div>
 
         </div>
       </div>
@@ -205,7 +230,6 @@ References Expand&hellip; Something here </p>
         <div class="sub-footer-inner">
           <ul>
             <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
-            <link rel="alternate" type="application/rss+xml" href="https://bakerst221b.com/docs/dfir/artefacts/ios/processes/index.xml" title="Analyst" />
             </ul>
         </div>
       </div>
