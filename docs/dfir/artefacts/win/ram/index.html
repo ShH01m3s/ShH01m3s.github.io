@@ -184,9 +184,7 @@
     <li><a href="#analysis">Analysis</a>
       <ul>
         <li><a href="#get-the-profile-info-vol2">Get the Profile Info (vol2)</a></li>
-        <li><a href="#convert-to-raw-mem">Convert to raw mem</a></li>
-        <li><a href="#triage-of-windows-core-processes">Triage of Windows Core Processes</a></li>
-        <li><a href="#analysis-example">Analysis Example</a></li>
+        <li><a href="#convert-to-raw-1">Convert to raw</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -399,67 +397,21 @@
 <h2 id="analysis">Analysis</h2>
 <p>First, you need to understand that data in RAM is not scattered willy-nilly. Weren&rsquo;t that the case, we would eventually find ourselves up a creek without a paddle.</p>
 <h3 id="get-the-profile-info-vol2">Get the Profile Info (vol2)</h3>
+<p><code>imagecopy</code> plugin is used to convert some file types into raw format. It decreases the time, needed to analyse the file. How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. The purple square shows the service pack version and the green one - the correct profile with the correct service pack. The other two suggested profiles have some service pack versions appended to the end.</p>
 <p><img src="images/vol_py_imageinfo_mem_udemy%201.png" alt="vol_py_imageinfo_mem_udemy"></p>
-<p>Purple square - Service pack. Green - correct profile with the correct service pack.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
-</span></span></code></pre></div><p>Then validate the file by listing processes that were run:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f hiberfil.raw pslist --profile<span class="o">=</span>Win7SP0x86
-</span></span></code></pre></div><p>Size up to 75% of memory size.</p>
+<p>Then validate the file by listing processes that were run:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 vol.py -f hiberfil.raw pslist --profile<span class="o">=</span>Win7SP0x86
+</span></span></code></pre></div><p>If the output makes sense (like the one one in the picture below), the profile is correct.</p>
 <p><img src="images/vol_py_pslist_udemy%201.png" alt="vol_py_pslist_udemy"></p>
-<p>imagecopy plugin is used to convert some file type into .raw. It decreases the time, needed to analyse the file.</p>
-<h3 id="convert-to-raw-mem">Convert to raw mem</h3>
-<p><code>hiberfil</code> files are not as common, but just as good. <code>imagecopy</code> plugin converts different formats into <code>raw</code> format to speed up. Also saves up to 75% of memory size, therefore decreases the time for analysis.  First, determine the OS profile (for vol2) and run the plugin. Example:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
-</span></span></code></pre></div><p>How to get the correct profile since <code>imageinfo</code> gives you several options and <code>kdbscan</code> gives even more? Below is the output from <code>imageinfo</code>. Purple square shows service pack version and the green one - the correct profile with the correct service pack. Other two suggested profiles have some service packs versions appened to the end.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
-</span></span><span class="line"><span class="cl">vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
-</span></span></code></pre></div><p>Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were suggested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
-<h3 id="triage-of-windows-core-processes">Triage of Windows Core Processes</h3>
-<p>Deviations = investigative leads. <strong>Core Processes</strong> - essential for Win, run on any Win system under examination.</p>
-<p><img src="images/standart-proc-win.png" alt="standart-proc-win"></p>
-<ul>
-<li>check names</li>
-<li>parent (for example, <code>svchost.exe</code> is started by <code>services.exe</code>)</li>
-<li>expected path</li>
-<li>Singleton?</li>
-<li>Account (local system, mane, users)</li>
-<li>start time (boot time, later)</li>
-</ul>
-<p><code>svchost.exe</code> - the most abused process. Check for above deviations in the result.</p>
-<p>Check <strong>parent</strong> processes of core processes:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> pslist.txt &gt; pslist-all-core.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span> psscan.txt &gt; psscan-all-core.txt
-</span></span></code></pre></div><p>Check <strong>names</strong> of non-win processes:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i -v <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span>  pslist.txt &gt; pslist-all-non-wincore.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">grep -E -i -v <span class="s2">&#34;(system|wininit|lsass|lsm|services|sms|taskhost|winlogon|iexplore|explorer|svchost|csrss)&#34;</span>  psscan.txt &gt; psscan-all-non-wincore.txt
-</span></span></code></pre></div><p>Check known <strong>singletons</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|services|lsm)&#34;</span> pslist.txt &gt; pslist-all-singletons.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">grep -E -i <span class="s2">&#34;(system|wininit|lsass|services|lsm)&#34;</span> psscan.txt &gt; psscan-all-singletons.txt
-</span></span></code></pre></div><p><img src="images/pslist-singletons.png" alt="pslist-singletons"></p>
-<p>In the example above there are two <code>lsass.exe</code> processes which is nonsense. Obviously, some investigative lead.</p>
-<p>Check <strong>bootimes</strong>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">grep -E -i &#34;(system|wininit|lsass|services|sms|lsm|csrss)&#34; pslist.txt &gt; pslist-all-boot.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">grep -E -i &#34;(system|wininit|lsass|services|sms|lsm|csrss)&#34; psscan.txt &gt; psscan-all-boot.txt
-</span></span></code></pre></div><p><code>System</code> is a pivot point. Other processes that should start at boot, should have approximately the same starting date and time.</p>
-<p><code>pslist</code> is pulling the information of a doubly-linked list (like a Task Manager). <code>psscan</code> - unallocated space (processes terminated or unlinked from this double-linked list).</p>
-<h3 id="analysis-example">Analysis Example</h3>
-<p>We have the result of <code>pslist</code>:</p>
-<p><img src="images/pslist-results.png" alt="pslist-results"></p>
-<p>We have several suspicious processes here: <code>scvhost.exe</code> (misspelled <code>svchost.exe</code>), some <code>xminer.exe</code> and a process with an intriguing name <code>3.exe</code>. But these are the processes that we could have seen, should we use a Task Manager on a live system. What about terminated or unlinked processes?</p>
-<p>To answer that we run <code>psscan</code>:</p>
-<p><img src="images/psscan-results.png" alt="psscan-results"></p>
-<p>We seen the same <code>3.exe</code> in the list. But also we see <code>q.exe</code> which was run for about a minute and during that time another processes was spawned - <code>xmcminer.exe</code>. <code>q.exe</code> was terminated that&rsquo;s why we don&rsquo;t see it in <code>pslist</code> results. But <code>xmcminer.exe</code> was not terminated but we still don&rsquo;t see it in <code>pslist</code>. That means that the process was unlinked from double-list of processes in memory (aka hidden).</p>
-<p>Take unique process names, sort and count:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cut -d <span class="s2">&#34; &#34;</span> -f <span class="m">2</span> <span class="s1">&#39;psscan.txt&#39;</span> <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> sort &gt; <span class="s1">&#39;psscan_proc_sorted.txt&#39;</span>
-</span></span></code></pre></div><p>Also, get all processes that did not start at boot time:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">grep -E -i -v 2019-01-20 <span class="s1">&#39;pslist.txt&#39;</span> &gt; pslist_not_boottime.txt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">grep -E -i -v 2019-01-20 <span class="s1">&#39;psscan.txt&#39;</span> &gt; psscan_not_boottime.txt
-</span></span></code></pre></div><h2 id="references">References</h2>
+<h3 id="convert-to-raw-1">Convert to raw</h3>
+<p><code>hiberfil</code> files are not as common, but just as good. <code>imagecopy</code> plugin converts different formats into <code>raw</code> format to speed up. Also saves up to 75% of memory size, therefore decreasing the time for analysis.  First, determine the OS profile (for vol2) and run the plugin.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 vol.py -f hiberfil.sys --profile<span class="o">=</span>Win7SP0x86 imagecopy -O hyber.raw
+</span></span><span class="line"><span class="cl">📘 vol.py -f crash.dmp --profile<span class="o">=</span>Win7SP2x64 imagecopy -O crash2mem.raw
+</span></span><span class="line"><span class="cl">📘 vol.py -f hyberfil.sys --profile<span class="o">=</span>Win7SP2x64 imagecopy -O hibir2mem.raw
+</span></span></code></pre></div><blockquote>
+<p>Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were suggested. But when we have a live capture of a system, we can use this dump to determine the profile to perfom actions with the right profile on <code>hyberfil.sys</code>.</p>
+</blockquote>
+<h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     <p>[<a href="">1</a>] Magnet</p>
@@ -504,7 +456,7 @@
   
 
   
-  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  <script type="text/javascript" src="/js/scripts.min.bafc052229b4b40bf03c477d31c5cdd9352ece8afbadf35ab97ed14495098fc9.js"></script>
   
 
   
