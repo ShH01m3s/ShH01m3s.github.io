@@ -185,10 +185,7 @@
       <ul>
         <li><a href="#get-the-profile-info-vol2">Get the Profile Info (vol2)</a></li>
         <li><a href="#convert-to-raw-1">Convert to raw</a></li>
-        <li><a href="#processes">Processes</a></li>
-        <li><a href="#dlls">DLLs</a></li>
-        <li><a href="#handles">Handles</a></li>
-        <li><a href="#network">Network</a></li>
+        <li><a href="#compression">Compression</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -231,6 +228,10 @@
 <p><strong>KPCR</strong> - (Kernel) Processor Control Region. It points to a <strong>KDBG</strong>, Kernel Debugging Data Block, a structure maintained by the Windows kernel for debugging purposes. KPCR&rsquo;s offset is fixed on Windows XP but differs in later versions. There are two ways to find KDBG: scan for its signature or find the KPCR and then follow the offset specified. Why do we even need this KDBG? It has a pointer <code>PsActiveProcessHead</code> which points to the list of processes (called <code>EPROCESS</code>) with all the information about those dudes.</p>
 <p><img src="images/win-mem.png" alt="img"></p>
 <p>Each <code>EPROCESS</code> has two essential structures: PEB (Process Environment Block) and VAD (Virtual Address Descriptors). PEB contains 🐾 path to the executable, 🐾 command line that spawned the process, 🐾 linked list of DLLs used. VAD is a balanced tree structure that keeps track of all pages allocated for this process (virtual addresses).</p>
+<p>PEB contains several doubly-linked lists that can be helpful when spotting hiding malware:
+🐾 <code>InLoadOrderModule</code> list (<code>InLoad</code>) - doubly-linked list
+🐾 <code>InInitializationOrderModule</code> list (<code>InInit</code>) - doubly-linked list
+🐾 <code>InMemoryOrderModule</code> list (<code>InMem</code>) - doubly-linked list</p>
 <h2 id="collection">Collection</h2>
 <p>Why even bother collecting RAM?</p>
 <ul>
@@ -415,63 +416,9 @@
 </span></span></code></pre></div><blockquote>
 <p>Running <code>vol.py imageinfo -f hiberfil.sys</code>, for example, is slow and inefficient. No profiles were suggested. But when we have a live system capture, we can use this dump to determine the profile to perform actions with the right profile on <code>hyberfil.sys</code>.</p>
 </blockquote>
-<h3 id="processes">Processes</h3>
-<p>Processes consist of the following elements that reside in RAM:</p>
-<p>🏺 dlls and command line information 🛠️ <code>dlllist</code> 🛠️ <code>dlldump</code> 🛠️ <code>ldrmodules</code>
-🏺 handles (files, directories, registry keys, mutants, semaphores, events such as threat notifications) 🛠️ <code>handles</code> 🛠️ <code>mutantscan</code> (gives more information than handles).
-🏺 threads
-🏺 memory sections 🛠️ <code>getsids</code>
-🏺 sockets (ports and connections)
-🏺 command line arguments and output</p>
-<blockquote>
-<p>❗️<code>EPROCESS</code> structure only allows 16 bytes for the name. So, to see the full path and name see <code>PEB</code>.</p>
-</blockquote>
-<h3 id="dlls">DLLs</h3>
-<p><code>dlllist</code> relies heavily on PEB and shows the following data:</p>
-<p>🐾 Base offset (used to dump the DLL with 🛠️  <code>dlldump</code> later)
-🐾 DLL size
-🐾 Load count (statically or dynamically loaded)
-🐾 Load time (you can spot if the DLL was loaded after runtime giving out possible injection)
-🐾 DLL file path (useful to spot deviations)
-🐾 Command line</p>
-<blockquote>
-<p>❗️There can be lots of DLLs loaded into the processes, better run with the <code>-p</code> switch.</p>
-</blockquote>
-<h3 id="handles">Handles</h3>
-<p>There are many handles, and it would be nearly impossible to analyse them ALL in time. To ease up your investigation, keep in mind that there are several types of handles that can be passed to the <code>handles</code> volatility plugin as a <code>-t</code> switch value:</p>
-<p>🫳🏼 process
-🫳🏼 file
-🫳🏼 thread
-🫳🏼 event
-🫳🏼 key
-🫳🏼 port
-🫳🏼 wmiguid
-🫳🏼 timer
-🫳🏼 iocompletion
-🫳🏼 windowstation
-🫳🏼 directory
-🫳🏼 token
-🫳🏼 semaphore
-🫳🏼 mutant</p>
-<p><code>filescan</code> (scan for <code>FILE_OBJECTS</code>) and <code>mutantscan</code> (scan for <code>_KMUTANT</code>) plugins can scan the entire image for different handle types, which is useful when finding unallocated data.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 vol.py -f image --profile<span class="o">=</span>prof -t File
-</span></span></code></pre></div><h3 id="network">Network</h3>
-<p>There are three main data to look out for when analysing network artefacts:</p>
-<p>🏺 ports. Look out for non-browser processes listening on <code>443</code>, <code>80</code>, <code>8080</code> or browsers listening on anything other than that. RDP (<code>3389</code>) is something to look closer at if this type of connection is uncommon for this machine. PowerShell remoting - <code>5985</code>.
-🏺 connections. Check the IP for nefariousness. DNS requests to unusual domains or TXT records. Workstation-to-workstation connections are not usually common and often show lateral movement. RDP to the local host is especially suspicious (VPN?).<br>
-🏺 processes (those responsible for that network connection)</p>
-<blockquote>
-<p>❗️ Network sockets have creation times, and terminated processes can be recovered.</p>
-</blockquote>
-<p>Volatility plugins follow the single-linked list (for older machines): 🛠️ <code>connections</code> (active, open), 🛠️ <code>sockets</code> (active). Volatility plugins scan the image for known structures (for older machines): 🛠️ <code>connscan</code>, 🛠️ <code>sockscan</code> (<code>_ADDRESS_OBJECT</code>).</p>
-<p>🛠️ <code>netscan</code> combines the functionality of the above plugins and can be used against Vista+. Shows the following data:</p>
-<p>🐾 memory offset
-🐾 protocol
-🐾 local IP
-🐾 state (for TCP)
-🐾 PID
-🐾 process owner name
-🐾 creation time</p>
+<h3 id="compression">Compression</h3>
+<p>Win8.1+ is now compressing some memory regions.</p>
+<p>🛠️ <code>winmem_decompress.py</code>. The output can&rsquo;t be analysed with volatility, it&rsquo;s slow. 🛠️ <code>win10memcompression.py</code></p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
