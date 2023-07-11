@@ -242,6 +242,9 @@
 <h2 id="-anatomy">☠️ Anatomy</h2>
 <p>It used to be called <code>RecentFileCache.bcf</code>. And then it was changed several times. You could see the first execution time on Win8.</p>
 <blockquote>
+<p>❗️ The GUID indicates the volume GUID, not the user GUID!</p>
+</blockquote>
+<blockquote>
 <p>⛔️ The format and info in this particular artefact are not driven by the OS but rather the DLL&rsquo;s version!</p>
 </blockquote>
 <p><strong>Path</strong> 📂 : <code>C:\Windows\AppCompat\Programs\Amcache.hve</code>.</p>
@@ -297,6 +300,7 @@
 <p>⛔️ Don&rsquo;t have it on my VM (Windows 11, Parallels)</p>
 </blockquote>
 <h2 id="-timestamps">⏰ Timestamps</h2>
+<p>The key&rsquo;s last write time of the key itself indicates the first time the application was executed.</p>
 <h2 id="-tools">🛠 Tools</h2>
 <p>AmCacheParser.exe + Timeline Explorer.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">AmcacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">&lt;</span><span class="n">path_to_AmCache</span><span class="p">.</span><span class="n">hve</span><span class="p">&gt;</span> <span class="n">-i</span> <span class="n">on</span> <span class="p">-</span><span class="n">-csv</span> <span class="p">&lt;</span><span class="n">export_to_folder_no_quotes</span><span class="p">&gt;</span> <span class="p">-</span><span class="n">-csvf</span> <span class="p">&lt;</span><span class="n">desired_filename</span><span class="p">&gt;</span> 

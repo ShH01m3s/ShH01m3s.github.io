@@ -188,6 +188,7 @@
    <nav id="TableOfContents">
   <ul>
     <li><a href="#-anatomy">☠️ Anatomy</a></li>
+    <li><a href="#-timestamps">⏰ Timestamps</a></li>
     <li><a href="#-tools">🛠️ Tools</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -227,8 +228,8 @@
     <p><em>How often has the following happened to you? You want to run a program, but it&rsquo;s not designed to run on this version of OS. Windows has a mechanism to run older programs on newer systems. Even when these &ldquo;compatibility&rdquo; adjustments are not required, Windows still logs the information for all the programs run.</em></p>
 <h2 id="-anatomy">☠️ Anatomy</h2>
 <p>📂 <strong>Path</strong>: <code>SYSTEM</code> hive</p>
-<p>🔑 <strong>Key</strong>: <code>CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code> (Windows Vista +).
-🔑 <strong>Key</strong>: <code>CurrentControlSet\Control\Session Manager\AppCompatibility\AppCompatCache</code> (Windows XP) - 93 entries only.</p>
+<p>🔑 <code>SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code> (Windows Vista +)
+🔑 <code>SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatibility\AppCompatCache</code> (Windows XP) - 96 entries only.</p>
 <p>🛠 <strong>Tools</strong>: <code>ShimCacheParser.py</code> (requires Python2), <code>AppCompatCacheParser</code></p>
 <p>Windows 7+ 1024 entries, Server 2003 - 512 only 😔. ⛔️ No execution flag for Windows 10!</p>
 <p>Originally was used to identify compatibility issues between 32 and 64-bit progs. It might not be reliable evidence that the program was executed or even installed, but if it was installed and deleted - it won&rsquo;t be deleted from here. ShimCache is another name for this artefact. Uses file system timestamps. A new entry will be created if the executable is modified or renamed, but the modified date and time will be the same for both files even after these actions occur. <code>\$UsnJrnl</code> is another place to make sure that is what happened <code>\$Logfile</code>.</p>
@@ -250,10 +251,12 @@
 ⛔️ On Vista+, ShimCache is not evidence of execution. Vista, W7 and W8 had <code>InsertFlag</code> that, when set to true, indicated that the program was run.
 ⛔️ Several ShimCache for each ControlSet (the most recent info is in 🔑 <code>SYSTEM\CurrentControlSet</code>)</p>
 </blockquote>
+<h2 id="-timestamps">⏰ Timestamps</h2>
+<p>Last time of execution or activity, based on the interpretation of the time-based data. <code>LastUpdateTime</code> is updated when the files are executed on Win XP. <code>LastUpdateTime</code> does not exist on Win7- 10 systems.</p>
 <h2 id="-tools">🛠️ Tools</h2>
 <p>🛠️ <code>AppCompatCacheParser</code> (Eric Zimmerman, Win7+) and 🛠️ <code>ShimCacheParser.py</code> (Mandiant).</p>
-<p>📘 Parsing the ShimCache:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">.\</span><span class="n">AppCompatCacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">SYSTEM</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">C:</span><span class="p">\</span><span class="n">temp</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="p">.\</span><span class="n">AppCompatCacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">SYSTEM</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">C:</span><span class="p">\</span><span class="n">temp</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">ShimCacheParser</span> <span class="c"># MANDIANT</span>
 </span></span></code></pre></div><blockquote>
 <p>✍🏻 Note that <code>ShimCacheParser.py</code> can also parse <code>.reg</code> files (good for scaling).</p>
 </blockquote>

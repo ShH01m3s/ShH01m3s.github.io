@@ -204,11 +204,7 @@
     </li>
     <li><a href="#android">Android</a></li>
     <li><a href="#ios">iOS</a></li>
-    <li><a href="#references">References</a>
-      <ul>
-        <li><a href="#1">1</a></li>
-      </ul>
-    </li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
  </aside>
@@ -268,6 +264,10 @@
     <p>Many browsers are based on Chromium engine, that’s why they will have similar artifacts: Chrome, Opera, new Edge, Brave, Vivaldi. Also, there are lots of Electron applications that share some artifacts with them. Chrome is the point of convergence for all these application. On Magnet Summit it was suggested to explore and learn Chrome and it’s artifacts as well as OS common artifacts due to its popularity and reusing some of its components. Electron is a framework that is available for building applications, cross-platform. You’re creating a web-application that can be used as a desktop one (implementing both back- and frontend). Backend - node.js, and frontend - Chrome. So, a lot of artifacts can be shared with Chrome and buddies. It’s in wide use. For example, ⚠️ WhatsApp and Skype use it.</p>
 <p>On Windows <code>hiberfil.sys</code>, <code>pagefile.sys</code> and <code>swapfile.sys</code> can also be used to retrieve this evidence from &ldquo;RAM-on-disk&rdquo;. Belkasoft EC can parse these files for browser artifacts.</p>
 <h3 id="firefox">Firefox</h3>
+<p>📂 IE <code>%userprofile%\Application Data\Mozilla\ Firefox\Profiles\&lt;random text&gt;.default\downloads.sqlite</code>
+📂 Win7- 10 <code>%userprofde%\AppData\Roaming\Mozilla\ Firefox\Profiles\&lt;random text&gt;.default\downloads.sqlite</code></p>
+<p>📂 IE <code>%userprofile%\Application Data\Mozilla\ Firefox\Profiles\&lt;random text&gt;.default\places.sqlite</code>
+📂  Win7- 10 <code>%userprofde%\AppData\Roaming\Mozilla\ Firefox\Profdes\&lt;random text&gt;.default\places.sqlite</code></p>
 <p>🛠 <strong>Tools</strong>: Web Historian (<code>dat</code>, cookies and tmp), Firefox Forensics (cookies, download list and history), NetAnalysis 💰 (history), CacheBack (cookies and history), Encase 💰 (cookies, history and bookmarks), FTK 💰(cookies, history and bookmarks), Autopsy (cookies, history and bookmarks).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Path: C: <span class="se">\U</span>sers<span class="se">\\</span>*<span class="se">\A</span>ppData<span class="se">\ </span>Roaming<span class="se">\M</span>ozilla<span class="se">\F</span>irefox<span class="se">\P</span>rofiles<span class="se">\\</span>*.default<span class="se">\p</span>laces.sqlite<span class="se">\*</span>
 </span></span><span class="line"><span class="cl">Path: C: <span class="se">\U</span>sers<span class="se">\|</span>*<span class="se">\A</span>ppData<span class="se">\ </span>Roaming<span class="se">\M</span>ozilla<span class="se">\F</span>irefox<span class="se">\P</span>rofiles<span class="se">\\</span>*. default<span class="se">\d</span>ownloads. sqlite<span class="p">|</span>*
@@ -282,7 +282,7 @@
 <table>
 <thead>
 <tr>
-<th>artifact</th>
+<th>Artifact</th>
 <th>Information</th>
 </tr>
 </thead>
@@ -296,32 +296,12 @@
 <td>I think, the file name speaks for itself. It contains all the data for installed addons.</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td><code>Downloads.sqlite</code></td>
+<td>Firefox has a built-in download manager application that keeps a history of every file downloaded by the user. Contains the following data: 🐾 f_name, 🐾 size, 🐾 type, 🐾 download from and referring, 🐾 save location, 🐾 app used to open it, 🐾 start and end times of the download.</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
+<td><code>Index.dat/ Places.sqlite</code></td>
+<td>Many sites in history will list the files opened from remote sites and downloaded to the local system. History will record the access to the file on the site that was accessed via a link.</td>
 </tr>
 </tbody>
 </table>
@@ -346,6 +326,30 @@
 <h3 id="edge">Edge</h3>
 <p><strong>Tools</strong> 🛠: Belkasoft Evidence Center 💰</p>
 <h3 id="ie">IE</h3>
+<p>📂 XP <code>%userprofile%\Local Settings\History\ Flistory.IE5</code>
+📂 Win7- 10 <code>%userprofde%\AppData\Local\Microsoft\Windows\History\History.IE5</code>
+📂 Win7- 10 <code>%userprofile%\AppData\Local\Microsoft\Windows\History\Low\History.IE5</code></p>
+<table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Index.dat/ Places.sqlite</td>
+<td>Records number of times visited (frequency).  Many websites list the files opened from remote sites and downloaded to the local system. History will record the access to the file on the site that was accessed via a link.</td>
+</tr>
+<tr>
+<td>Index.dat file://</td>
+<td>Stored in index.dat as: file:///C:/directory/filename.ext</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✍️ A little-known fact about the IE History is that the information stored in the history files is not just related to internet browsing. The history also records local and remote (via network shares) file access, giving us an excellent means for determining which files and applications were accessed on the system, day by day.</p>
+</blockquote>
 <blockquote>
 <p>Microsoft Internet Explorer uses a database file called ‘index.dat’ to store web history information in a format known as MS IE Cache File Format. These database files can be examined with specialised tools. <a href="#1">1</a></p>
 </blockquote>
@@ -497,7 +501,6 @@
 </li>
 </ul>
 <h2 id="references">References</h2>
-<h3 id="1">1</h3>
 <p>Sheward, Mike. Hands-on Incident Response and Digital Forensics (p. 144). BCS Learning &amp; Development Limited. Kindle Edition.</p>
 
   </div>

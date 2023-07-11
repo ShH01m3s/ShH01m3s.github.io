@@ -187,6 +187,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
+    <li><a href="#-timestamps">⏰ Timestamps</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -222,15 +223,18 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>The Windows 7-10 task bar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily. This functionality cannot only include recent media files; it must also include recent tasks.</em></p>
+    <p><em>The Windows 7-10 taskbar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily. This functionality not only includes recent media files; it must also include recent tasks. The data stored in the AutomaticDestinations folder will each have a unique file prepended with the AppID of the associated application.</em></p>
 <p>🔑 <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\JumplistData</code>.
-📂 <code>%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations</code>
-🛠️ Can be analysed with a LNK parser.</p>
+📂 <code>%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations</code></p>
+<h2 id="-timestamps">⏰ Timestamps</h2>
+<p>First time of execution of application: Creation Time = the first time the item was added to the AppID file.
+Last time of execution of application w/file open: Modification Time = the last time the item was added to the AppID file.</p>
+<p>🛠️ Can be analysed with a LNK parser.</p>
 <p>Shows applications accessed.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
-    Something here
+    Jumplist IDs: <a href="http://www.forensicswiki.org/wiki/List_of_Jump_List_IDs">http://www.forensicswiki.org/wiki/List_of_Jump_List_IDs</a>.
 </details>
   </div>
 </article>

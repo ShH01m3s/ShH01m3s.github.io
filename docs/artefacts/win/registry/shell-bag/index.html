@@ -223,7 +223,19 @@
 
   <div class="content" itemprop="articleBody">
     <p><em>To open a file, one needs to perform a delightful jaunt to a directory where those files reside. Now picture this: imagine if we could keep a journal of all the full paths of the folders visited; wouldn&rsquo;t that be splendid? It so happens that this nice functionality does exist on Windows machines and ShellBags they are called. Since these folders can be located on a remote machine, a USB drive or any other external media, this artefact can be used to make assumptions about remote connections and devices attached.</em></p>
-<p>📑 <code>USRCLASS.DAT</code>,  🔑 <code>\Local Settings\Software\Microsoft\Windows\Shell\BagMRU</code>, subkeys: <code>MRUListEx</code>, <code>NodeSlot</code>, <code>Subkeys</code> and 🔑 Local Settings\Software\Microsoft\Windows\Shell\Bags, subkeys: <code>Shell</code>, will have folder&rsquo;s GUID.</p>
+<p><strong>XP</strong>:
+🔑 <code>NTUSER.DAT\Software\Microsoft\Windows\Shell\Bags</code>
+🔑 <code>NTUSER.DAT\Software\Microsoft\Windows\Shell\BagMRU</code>
+🔑 <code>NTUSER.DAT\Software\Microsoft\Windows\ShellNoRoam\Bags</code>
+🔑 <code>NTUSER.DAT\Software\Microsoft\Windows\ShellNoRoam\BagMRU</code></p>
+<p><strong>Win7- 10</strong>:
+🔑 <code>USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\Bags</code>
+🔑 <code>USRCLASS.DATYLocal Settings\Software\Microsoft\Windows\Shell\BagMRU</code>
+🔑 <code>NTUSER.DAT\Software\Microsoft\Windows\Shell\BagMRU</code>
+🔑 <code>NTUSER.DAT\Software\Microsoft\Windows\Shell\Bags</code></p>
+<blockquote>
+<p>Can track user window viewing preferences to Windows Explorer, can tell if the activity occurred in a folder and in some cases, you can see the files from a specific folder.</p>
+</blockquote>
 <p><code>volatility.exe -f memory.dmp --profile=Win7SP1x64 shellbags</code></p>
 <p><code>Created On</code>: when the folder was created/moved/renamed. The last accessed and created timestamps are sometimes the same. The last modified timestamp is when the preferences were last changed (window resized, view options changed). Mind if it’s UTC or GMT. Also, this data might be updated with a little lag. <code>Last key write time</code> is the ShellBag&rsquo;s timestamp.</p>
 <blockquote>

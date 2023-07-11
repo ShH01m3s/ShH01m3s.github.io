@@ -222,7 +222,11 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist</code>.</p>
+    <p><em>GUI-based programs launched from the desktop are tracked in the launcher on a Windows system.</em></p>
+<p><strong>Key</strong> 🔑: <code>NTUSER.DAT\Software\Microsoft\Windows\Currentversion\Explorer\UserAssist\{GUID}\Count</code>.</p>
+<blockquote>
+<p>❗️All values are ROT13 encoded.</p>
+</blockquote>
 <p>List of progs and applets that can be quicly started from the Start menu for usability, the most often used items. Shows a <code>focus count</code> for each entry. It means, how many time was the window switched to (that doesn&rsquo;t include the time when the program is first run). Shows the last time that the program was executed, focus time, run count.</p>
 <p>At the start of each entry between <code>{}</code> is the code for a location within file system. Registry Explorer will substitute these automatically, since these GUIDs are predefined.</p>
 <p>This what a full filled User Assist key looks like. <code>{CEBFF5CD-ACE2-4F4F-9178-9926F41749EA}</code> is for programs that were lauched using their image files directly. <code>{F4E57C4B-2036-45F0-A9AB-443BCFE33D9F}</code> is for those, started with a shortcut.</p>
@@ -237,12 +241,30 @@
 <p>⚠️ 🔎 I could not find this key on my Win10 VM.</p>
 <p>⚠️ When the program was started via <code>lnk</code> file, the focus count will be <code>0</code>.</p>
 </blockquote>
+<p>GUIDs to note:</p>
+<p>GUID for XP</p>
+<ol>
+<li>75048700 Active Desktop
+GUID for Win7-10</li>
+<li>CEBFF5CD Executable File Execution</li>
+<li>F4E57C4B Shortcut File Execution</li>
+</ol>
+<p>Program Locations for Win7- 10 UserAssist</p>
+<ol>
+<li>ProgramFilesX64 6D809377-&hellip;</li>
+<li>ProgramFilesX86 7C5A40EF- . . .</li>
+<li>System 1AC14E77-&hellip;</li>
+<li>SystemX86 D65231BO-&hellip;</li>
+<li>Desktop B4BFCC3A-&hellip;</li>
+<li>Documents FDD39ADO-&hellip;</li>
+<li>Downloads 374DE290-&hellip;</li>
+<li>UserProfiles 0762D272-&hellip;</li>
+</ol>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     Something here
 </details>
-
   </div>
 </article>
 </div>

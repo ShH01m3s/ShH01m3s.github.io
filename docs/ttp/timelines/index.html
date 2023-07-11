@@ -190,7 +190,8 @@
     <li><a href="#tampering">Tampering</a></li>
     <li><a href="#time-formats-and-standards">Time Formats and Standards</a></li>
     <li><a href="#the-importance-of-timestamps">The Importance Of Timestamps</a></li>
-    <li><a href="#file-systems-timestamps">File Systems Timestamps</a>
+    <li><a href="#file-systems-timestamps">File Systems Timestamps</a></li>
+    <li><a href="#windows">Windows</a>
       <ul>
         <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
       </ul>
@@ -265,11 +266,12 @@
 
 
   <div class="content" itemprop="articleBody">
-    <p><em>As if investigations were not already complicated enough, we also have to contend with various timestamp formats. There is a wide range of time formats available, and it is crucial to understand the differences in order to create an accurate timeline.</em></p>
+    <p><em>As if investigations needed to be simplified, we must contend with various timestamp formats. There is a wide range of time formats available, and it is crucial to understand the differences to create an accurate timeline.</em></p>
+<p>SANS Windows Forensic Analysis poster - <a href="https://www.sans.org/posters/windows-forensic-analysis/">https://www.sans.org/posters/windows-forensic-analysis/</a>. It contains Windows Time Rules showing how different activities like file renaming or copying can change the timestamps.</p>
 <h2 id="tampering">Tampering</h2>
 <p>It&rsquo;s possible to tamper with some timestamps.</p>
 <blockquote>
-<p>🗒️ TODO: How? On Windows, some API call. Which one?</p>
+<p>🗒️ TODO: How? On Windows, some API calls. Which one?</p>
 </blockquote>
 <p><strong>Time Zone Changes or Daylight Saving Time</strong>: If a file is created and then modified in a different time zone, or if the time zone setting on the computer is changed, the modification time could appear to be earlier than the creation time. Similarly, switching between standard time and daylight saving time could cause a similar discrepancy.</p>
 <p><strong>Restoring Files</strong>: If a file is restored from a backup, the creation time might be the restoration time, but the modification time would be the last modification before the backup.</p>
@@ -284,11 +286,8 @@
 <p>🛠️ Convert from UTC to local time <a href="https://support.microsoft.com/en-us/topic/how-to-convert-utc-time-to-local-time-0569c45d-5fb8-a516-814c-75374b44830a">here</a>.</p>
 </blockquote>
 <p>Since then, GMT is no longer a time standard. Today, Greenwich Mean Time (GMT) is only the name of a time zone used by a few countries in Africa and Western Europe, including the UK during winter and all year in Iceland.</p>
-<p>⚔️</p>
 <blockquote>
 <p>🧐 Let&rsquo;s consider a local timestamp with a timezone like this: <code>2023-11-05T08:15:30-05:00</code>. The <code>-5:00</code> at the end represents the offset, indicating the number of hours the timezone is ahead or behind UTC. Regardless of the specific timezone, our example is 5 hours behind UTC. Therefore, to obtain the UTC timestamp, we subtract 5 hours from it. Consequently, we would have <code>2023-11-05T13:15:30 UTC</code>.</p>
-</blockquote>
-<blockquote>
 <p>🧐 Let&rsquo;s take a look at another example. Imagine, if you will, it&rsquo;s a frosty morning on January 27th, 2020 at precisely 6:00 AM, and we find ourselves in the heart of London. Since the UK uses GMT during winter, the timestamp is the same as in UTC. But what of distant México City and bustling Beijing? México City is 6 hours behind UTC, so we must subtract 6 hours from our UTC timestamp, and we will get <code>2020–01–27T00:00:00</code> in Mexico City. On the other hand, to leap forward to Beijing, which is 8 hours ahead, we add 8 hours to the UTC timestamp and get <code>2020–01–27T14:00:00</code> the local timestamp.</p>
 <p>❗️So, when converting from local to UTC, we look at the offset and reverse the operation. If it shows <code>-5:00</code>, we add 5 hours; if it shows <code>+5:00</code> we subtract. However, when we convert from UTC to local timestamp, we do vice versa: subtract when it&rsquo;s <code>-5:00</code> and add when it&rsquo;s <code>+5:00</code>.</p>
 </blockquote>
@@ -311,6 +310,11 @@
 <li>File metadata</li>
 </ul>
 <h2 id="file-systems-timestamps">File Systems Timestamps</h2>
+<h2 id="windows">Windows</h2>
+<p>Registry key 🔑 <code>SYSTEM\CurrentControlSet\Control\TimeZoneInformation</code> contains timezone info.</p>
+<blockquote>
+<p>❗️ Internal log files and date/timestamps will be based on the system time zone information.</p>
+</blockquote>
 <h3 id="ntfs-vs-apfs">NTFS vs APFS</h3>
 <p>Mind that APFS <a href="/docs/dfir/host/apple/mac-artifacts">timestamps</a> and NTFS <a href="/docs/dfir/host/windows/win-artifacts">timestamps</a> are different! When you add a file to the system (for example, copy it from a USB drive), the MAC times are changed with NTFS. However, the APFS Added attribute is added, providing you with more information.</p>
 <blockquote>

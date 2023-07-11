@@ -182,7 +182,7 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/ttp/cheatsheets/"> 👈🏼 Back to </br> Artefacts CheatSheet </a>
+   <a href="/docs/ttp/cheatsheets/"> 👈🏼 Back to </br> 🤔 Analysis Tips and Cheatsheets </a>
   </p>
   <aside>
    <nav id="TableOfContents">
@@ -190,6 +190,7 @@
     <li><a href="#windows">Windows</a>
       <ul>
         <li><a href="#event-logs">Event logs</a></li>
+        <li><a href="#-registry">🔑 Registry</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -229,12 +230,22 @@
   <div class="content" itemprop="articleBody">
     <h2 id="windows">Windows</h2>
 <h3 id="event-logs">Event logs</h3>
+<p>📂 <code>%system root%\System32\config\SecEvent.evt</code>
+📂 <code>%system root%\System32\winevt\logs\Security.evtx</code></p>
 <p><img src="images/acc_created1.png" alt="img"></p>
 <p>It starts with the event <code>4720</code> (account created) and multiple <code>4732</code> events (member added to some security-enabled group). This account must be enabled (<code>4722</code>) before it can be used. You might see 4738 (account was changed) or even <code>4724</code> (password reset attempt).</p>
 <blockquote>
 <p>✍🏻 <code>4728</code> - member was added to a security-enabled global group.</p>
 <p>✍🏻 <code>4732</code> - member was added to a security-enabled local group.</p>
 <p>✍🏻 <code>4756</code> - member was added to a security-enabled universal group.</p>
+</blockquote>
+<h3 id="-registry">🔑 Registry</h3>
+<p>📂 <code>C:\windows\system32\config\SAM</code>
+📂 <code>SAM\Domains\Account\Users</code></p>
+<p>🐾 account usage
+🐾 last time the password was changed</p>
+<blockquote>
+<p>⏰  Only the last login time will be stored in the registry key.</p>
 </blockquote>
 <h2 id="references">References</h2>
 <details>

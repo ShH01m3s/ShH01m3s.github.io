@@ -187,7 +187,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a>
+    <li>
       <ul>
         <li><a href="#attached-devices">Attached devices</a></li>
         <li><a href="#usbs">USBs</a>
@@ -200,24 +200,6 @@
         <li><a href="#shellbags">ShellBags</a></li>
         <li><a href="#event-logs">Event Logs</a></li>
         <li><a href="#plugnplay">Plug&rsquo;n&rsquo;Play</a></li>
-      </ul>
-    </li>
-    <li><a href="#macos">macOS</a>
-      <ul>
-        <li><a href="#usb">USB</a></li>
-        <li><a href="#usbmuxdplist">usbmuxd.plist</a>
-          <ul>
-            <li><a href="#0x5ac"><code>0x5ac</code></a></li>
-            <li><a href="#tracev3"><code>tracev3</code></a></li>
-            <li><a href="#systemlog"><code>system.log</code></a></li>
-            <li><a href="#comapplefinderplist"><code>com.apple.finder.plist</code></a></li>
-            <li><a href="#fsevents">FSEvents</a></li>
-            <li><a href="#dailyout-log">Daily.Out log</a></li>
-            <li><a href="#unified-log">Unified Log</a></li>
-          </ul>
-        </li>
-        <li><a href="#lockdown-folder">Lockdown folder</a></li>
-        <li><a href="#airdrop">AirDrop</a></li>
       </ul>
     </li>
   </ul>
@@ -268,8 +250,7 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="windows">Windows</h2>
-<p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
+    <p>Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p>
 <blockquote>
 <p>⚠️ On Windows, USB timestamps in registry will be updated when the registry itself gets update with a Windows update. Use Event Manager logs in these cases.</p>
 </blockquote>
@@ -315,25 +296,7 @@
 <h3 id="shellbags">ShellBags</h3>
 <p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\BagMRU </code>. Values: <code>MRUListEx</code>, <code>NodeSlot</code>, <code>Subkeys</code>.</p>
 <p><strong>Key</strong> 🔑 : <code>Local Settings\Software\Microsoft\Windows\Shell\Bags</code>. Values: <code>Shell</code>, will have folder&rsquo;s GUID.</p>
-<p><code>Created On</code>: when the folder was created/moved/renamed. Last accessed and created are sometimes the same. Last modified is when the preferences were last changed (window resized, view options changed). Mind if it’s utc or gmt. Also, this data might be updated with a little lag. <code>Last key write time</code> is the ShellBag&rsquo;s timestamp.</p>
-<blockquote>
-<p>⚠️ Shortcuts MAC times are not updated!</p>
-<p>⚠️ Fat16 only records date. No time. So the <code>Last accessed</code> time for a fat16 formatted folder will be <code>00:00:00.000</code>. It&rsquo;s more usual for a USB removable media.</p>
-</blockquote>
-<p><code>Created On</code>, <code>Modified On</code> and <code>Last accessed on</code> are all FS timestamps ❗️❗️❗️ However, <code>Registry last write time</code> is its own timestamp and it seems to be updated even when no preferences were changed.</p>
-<p>Track Windows folder settings (how the view is set), track zip files, folder access, even if information was deleted. Can also show folders on removable media. This data is a little bit confusing at first, but can be digested in a couple of minutes. One important thing to note is that both keys are interconnected. I&rsquo;ve used arrows, squares and circles to mark data corresponding to each for better visualization on the picture below. Sometimes, additional info for NTFS filesystem will be available (MFT record number) and file system type as well, not always however.</p>
-<blockquote>
-<p>⚠️ Proves that the user interacted with these folders if they are found in ShellBags but not on the system.</p>
-<p>❓ How about when being hacked? A hacker might delete the folder.</p>
-</blockquote>
-<p>Right under <code>BagMRU</code> subkey, there is only one subkey (in this case, in case of shell bags, a folder): <code>0</code>.  <code>MRUListEx</code> contains a list of folders inside this one identified by sequence numbers. In our example there are only three subfolders (and, hence, values in the list) in this folder: <code>00 00 00 00</code>, just <code>0</code> in little-endian (green), <code>01 00 00 00</code>, just <code>1</code> in little-endian (orange) and <code>02 00 00 00</code>, just <code>2</code> in little-endian (purple). Above the <code>MRUListEx</code> there are three values in our case, each corresponding to the subfolder and containing a folder path and name. In the example below the <code>0</code> subfolder&rsquo;s value is expanded and marked with a green circle.</p>
-<p>Each of these folders in the list will have a corresponding subkey inside our <code>0</code> subkey/folder (marked with arrows on the left).</p>
-<p><img src="images/shell-bag.png" alt="shell-bag"></p>
-<p>So, we have a parent folder info, what folders it contains and the paths to them. Now, since ShellBags store folder settings, where are they? Under the second subkey, <code>Bags</code>. But since sequence numbers are used here as well, how do we find the folder we need? Are these sequence number the same as on the picture above? The answer is <em>no</em>. On the picture above numbering restarts from <code>0</code> for each folder&rsquo;s subfolders, so that each folder that has at least one subfolder, will have at least <code>0</code> value and a <code>0</code> subkey. However, the <code>Bags</code> subkeys numbers folders sequencially. Each subkey representing a folder in a <code>BagMRU</code> subkey we&rsquo;ve seen above, will have a value <code>NodeSlot</code>. This is a number it&rsquo;s identified by withing <code>Bags</code> subkey. See the below example for the folder <code>0</code>.</p>
-<p><img src="images/shell-bag2.png" alt="shell-bag2"></p>
-<p>🛠 ShellBagsExplorer (E. Zimmerman) is a tools that helps automating this process which is useful for larger amount of data.</p>
-<p><img src="images/shell-bag3.png" alt="shell-bag3"></p>
-<p>The above is an example of the ShellBagsExplorer for my Windows 10 Parallels VM. Pretty user-friendly representation and lot&rsquo;s of valuable information. Note the folders on the very top: <code>\\Mac\vm</code>, <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code>. Someone who is using Paralells Windows 10 on Mac might note this at once, that this is a VM running on a Mac. Also, both <code>\\Mac\Home</code> and <code>\\Mac\AllFiles</code> are no longer available for Windows 10, but they were not deleted from the registry as you may see. That&rsquo;s because when folders are deleted, they are not deleted from here, at least not soon.</p>
+<p>For more info refer to the Shellbags article.</p>
 <h3 id="event-logs">Event Logs</h3>
 <p>Security 6416: A new external device was recognized by the system</p>
 <p>Event ID 219 is logged when a device is plugged into a Windows-based system</p>
@@ -342,91 +305,6 @@
 <p>By default, the SetupAPI text logs are located in the<code> %SystemRoot%\Inf</code> directory.</p>
 <p>To enable event categories for the SetupAPI logs, create (or modify) the following <a href="https://docs.microsoft.com/en-us/windows/desktop/SysInfo/registry-value-types">REG_DWORD</a> registry value:
 <code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Setup\LogMask</code>. More <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/install/enabling-event-categories-for-a-text-log">here</a>.</p>
-<h2 id="macos">macOS</h2>
-<h3 id="usb">USB</h3>
-<p>On a macOS - tracev3 log file contains this information. On macOS remember about <code>0x5ac</code> Vendor ID! Check for the USB info using its GUIDs: <a href="https://the-sz.com/products/usbid/">https://the-sz.com/products/usbid/</a>.</p>
-<blockquote>
-<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
-</blockquote>
-<p>Also, FSEvents can give you a lot of information. <strong>Tools</strong> 🛠: FSEventsParser.</p>
-<p>Lots of devices that are in fact built-in into the Mac, are considered as external connection by tracev3 log files. So, if you see the <code>0x5ac</code> vendor id in the logs, it might be the keyboard or trackpad.
-To read:  <a href="https://medium.com/@kieczkowska/usb-forensics-101-444faf737c4c">https://medium.com/@kieczkowska/usb-forensics-101-444faf737c4c</a></p>
-<h3 id="usbmuxdplist">usbmuxd.plist</h3>
-<p>Also gives the uid of the user and group responsible for USB mount.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">plutil -p <span class="s2">&#34;./Volume 0/root/private/var/db/dslocal/nodes/Default/users/_usbmuxd.plist&#34;</span>
-</span></span><span class="line"><span class="cl">plutil -p <span class="s2">&#34;./Volume 0/root/private/var/db/dslocal/nodes/Default/groups/usbmuxd.plist&#34;</span>
-</span></span></code></pre></div><p>``<br>
-The file structure:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>  
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;generateduid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;FFFFEEEE-DDDD-CCCC-BBBB-AAAA000000D5&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;gid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;213&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;home&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;/var/db/lockdown&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;name&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;_usbmuxd&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;passwd&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;*&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;realname&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;iPhone OS Device Helper&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;shell&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;/usr/bin/false&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;uid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;213&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">{</span>  
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;generateduid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;ABCDEFAB-CDEF-ABCD-EFAB-CDEF000000D5&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;gid&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;213&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;name&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;_usbmuxd&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;passwd&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;*&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;realname&#34;</span> <span class="err">=&gt;</span> <span class="p">[</span>  
-</span></span><span class="line"><span class="cl">    <span class="mi">0</span> <span class="err">=&gt;</span> <span class="s2">&#34;iPhone OS Device Helper&#34;</span>  
-</span></span><span class="line"><span class="cl">  <span class="p">]</span>  
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>Then, cd here <code>/private/var/db/dslocal/nodes/Default/users</code> and <code>/private/var/db/dslocal/nodes/Default/groups</code> run <code>grep -r</code> for either gid or uid mentioned above and get the user/group.</p>
-<h4 id="0x5ac"><code>0x5ac</code></h4>
-<p>Apple&rsquo;s vendor ID.</p>
-<h4 id="tracev3"><code>tracev3</code></h4>
-<p><code>/private/var/db/diagnostics/Persist/*****.tracev3</code> binary log file. See the eForensics magazine for more information. For example, <code>000000000000057b.tracev3</code>. Contains connection start times, vendor ID, product ID.</p>
-<h4 id="systemlog"><code>system.log</code></h4>
-<p>Another place to look for USB connections. Use <code>grep -r usbmsc</code>.</p>
-<blockquote>
-<p>⚠️ Keep in mind that a lot of cheap USB drives might have the SAME serial number!!!</p>
-</blockquote>
-<h4 id="comapplefinderplist"><code>com.apple.finder.plist</code></h4>
-<p>Full path to the artifact: <code>/Users/&lt;username&gt;/Library/Preferences/com.apple.finder.plist</code>.</p>
-<blockquote>
-<p>🔍 Not on my Mac!</p>
-</blockquote>
-<h4 id="fsevents">FSEvents</h4>
-<p>Mount, Unmount, Volume. See <a href="/docs/dfir/host/apple/apple-fsevents">here</a> to know more about this artefact.</p>
-<h4 id="dailyout-log">Daily.Out log</h4>
-<p><code>/private/var/log.daily.log</code>.</p>
-<h4 id="unified-log">Unified Log</h4>
-<p><strong>Keywords</strong>: <code>USBMC</code>, <code>Manufacturer</code>.</p>
-<h3 id="lockdown-folder">Lockdown folder</h3>
-<p>Cryptogrphic keys to connect to pair other devices (<a href="https://blog.elcomsoft.com/2018/07/accessing-lockdown-files-on-macos/)">https://blog.elcomsoft.com/2018/07/accessing-lockdown-files-on-macos/)</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/private/var/db/lockdown/
-</span></span></code></pre></div><h3 id="airdrop">AirDrop</h3>
-<p>Since OX Lion (10.7) and iOS 7.</p>
 
   </div>
 </article>

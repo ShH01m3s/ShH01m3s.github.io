@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Artefacts CheatSheet - Analyst</title>
+  <title>🤔 Analysis Tips and Cheatsheets - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -197,11 +197,14 @@
 
 
  
- <h1 class="title">Artefacts CheatSheet</h1> 
+ <h1 class="title">🤔 Analysis Tips and Cheatsheets</h1> 
  
 
     <h2><a href="https://bakerst221b.com/docs/ttp/cheatsheets/remote/"> 🤔 How do I check for remote connections?</a></h2> 
     <p> <p><em>How to check if the system was accessed remotely? What sort of remote connections is the attacker likely to be using?</em></p></p>
+
+    <h2><a href="https://bakerst221b.com/docs/ttp/cheatsheets/devices/"> Devices Attached</a></h2> 
+    <p> <p>*Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧? As for the timestamps, you&rsquo;ll usually have <strong>first</strong> (setupapi log) and <strong>last</strong> connected. There are also OS specific timestamps, like first or last install, first connect since reboot etc. <a href="/docs/dfir/host/windows/windows-artifacts#usb-devices">Windows</a> USB artifacts, <a href="/docs/dfir/host/apple/mac-artifacts#usb-devices">macOS</a>. See Event Manager&rsquo;s codes <a href="docs/dfir/host/windows/event-manager#20001">20001</a> and <a href="docs/dfir/host/windows/event-manager#20002">20002</a> for USB events for verification or if the registry was updated. Look at <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\DeviceClasses\</code> and <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\&lt;hardware id&gt;\&lt;instance id&gt;\Device Parameters</code>. <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-device-specific-registry-settings">More</a>.</p></p>
 
     <h2><a href="https://bakerst221b.com/docs/ttp/cheatsheets/mngmt/"> 🤔 How Do I Audit Management Tools?</a></h2> 
     <p> <p><em>Admins on payroll and those &ldquo;magnanimous volunteers&rdquo; often tread the very same path, albeit guided by different compasses of motivation. Once our cunning adversary ascends to the lofty heights of respect usually reserved for the admin on payroll, the misuse of these management tools becomes bound only by the limits of their mischievous imagination.</em></p></p>
@@ -227,7 +230,8 @@ When the Security trail is deleted, 1102 is usually created afterwards.</p>
 AmCache, Registry 🗄️ You can see firmware, hardware and OS info there.</p>
 
     <h2><a href="https://bakerst221b.com/docs/ttp/cheatsheets/account/"> 🤔 How Do I Find Malicious or Compromised Accounts?</a></h2> 
-    <p> Windows Event logs It starts with the event 4720 (account created) and multiple 4732 events (member added to some security-enabled group).</p>
+    <p> Windows Event logs 📂 %system root%\System32\config\SecEvent.evt 📂 %system root%\System32\winevt\logs\Security.evtx
+It starts with the event 4720 (account created) and multiple 4732 events (member added to some security-enabled group).</p>
 
     <h2><a href="https://bakerst221b.com/docs/ttp/cheatsheets/logon/"> 🤔 How Do I investigate logon events?</a></h2> 
     <p> Windows Event Logs There is a fine line between logon and account logon events, and that line is not just one word.</p>

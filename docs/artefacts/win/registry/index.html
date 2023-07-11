@@ -201,7 +201,15 @@
  
 
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/devices/"> 🖱 Devices Attached</a></h2> 
-    <p> Windows Are we looking for USB storage media activity or all USB devices? Like, cameras 📸?</p>
+    <p> Are we looking for USB storage media activity or all USB devices? Like, cameras 📸? Headphones 🎧?</p>
+
+    <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/network/"> Network History</a></h2> 
+    <p> 🔑 SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged 🔑 SOFTWARE\Microsoft\WindowsNT\CurrentVersion\NetworkList\Signatures\Managed 🔑 SOFTWARE\Microsoft\WindowsNT\CurrentVersion\NetworkList\Nla\Cache
+Can be used to get the following data:</p>
+
+    <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/search/"> Search History</a></h2> 
+    <p> ACMRU “Search History” on the Windows system (via Search Assistant)
+🔑 NTUSER.DAT\Software\Microsoft\SearchAssistant\ACMru\XXXX. Possible values of XXXX:</p>
 
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/sam/"> 🏺 SAM</a></h2> 
     <p> <p><em>This is about &hellip; .</em></p></p>
@@ -210,11 +218,11 @@
     <p> Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall. There can be some data for programs that do not exist on the system anymore.</p>
 
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/jumplist/"> Jumplist Data</a></h2> 
-    <p> <p><em>The Windows 7-10 task bar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily. This functionality cannot only include recent media files; it must also include recent tasks.</em></p></p>
+    <p> <p><em>The Windows 7-10 taskbar (Jump List) is engineered to allow users to “jump” or access items they have frequently or recently used quickly and easily. This functionality not only includes recent media files; it must also include recent tasks. The data stored in the AutomaticDestinations folder will each have a unique file prepended with the AppID of the associated application.</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/recentapps/"> Recents</a></h2> 
-    <p> *Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Search\RecentApps.
-Similar to User Assist. It also shows files and applications that were used through this application.</p>
+    <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/recents/"> Recents</a></h2> 
+    <p> RecentDocs 🔑 NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs
+This key will track the order of the last 150 files or folders opened, keeping track of the temporal order in which each file/folder was opened.</p>
 
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/uninstalled/"> Uninstalled</a></h2> 
     <p> Key 🔑: Microsoft\Windows\CurrentVersion\Uninstall
@@ -226,14 +234,6 @@ References Expand&hellip; Something here </p>
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/bam/"> BAM and DAM</a></h2> 
     <p> <p><em>It provides a full path of the executable file run on the system and the last execution date/time. BAM stands for Background Activity Moderator, and DAM - Desktop Activity Moderator. BAM is a &ldquo;daemon master&rdquo; (controls the background services), whereas DAM moderates desktop services to save energy.</em></p></p>
 
-    <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/comdlg32/"> ComDlg32</a></h2> 
-    <p> Key 🔑: NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32.
-CIDSizeMRU- Tracks applications globally. MRU start at zero. Timestamp for the most recent item only.</p>
-
-    <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/mui/"> MUICache</a></h2> 
-    <p> Key 🔑: Local Settings\Software\Microsoft\Windows\Shell\MuiCache.
-Installed and executed applications for that particular user. But no timestamps for this acts, only last write data and time for the key in registry.</p>
-
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/shell-bag/"> ShellBag</a></h2> 
     <p> <p><em>To open a file, one needs to perform a delightful jaunt to a directory where those files reside. Now picture this: imagine if we could keep a journal of all the full paths of the folders visited; wouldn&rsquo;t that be splendid? It so happens that this nice functionality does exist on Windows machines and ShellBags they are called. Since these folders can be located on a remote machine, a USB drive or any other external media, this artefact can be used to make assumptions about remote connections and devices attached.</em></p></p>
 
@@ -241,8 +241,7 @@ Installed and executed applications for that particular user. But no timestamps 
     <p> <p><em>How often has the following happened to you? You want to run a program, but it&rsquo;s not designed to run on this version of OS. Windows has a mechanism to run older programs on newer systems. Even when these &ldquo;compatibility&rdquo; adjustments are not required, Windows still logs the information for all the programs run.</em></p></p>
 
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/userassist/"> User Assist</a></h2> 
-    <p> Key 🔑: NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Assist.
-List of progs and applets that can be quicly started from the Start menu for usability, the most often used items.</p>
+    <p> <p><em>GUI-based programs launched from the desktop are tracked in the launcher on a Windows system.</em></p></p>
 
     <h2><a href="https://bakerst221b.com/docs/artefacts/win/registry/anatomy/"> ⚙️ Windows Registry</a></h2> 
     <p> Hives:
