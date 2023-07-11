@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>📚 OSINT Techniques - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/todo/old/"> 👈🏼 Back to </br> Old </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#domains">Domains</a></li>
+    <li><a href="#search-engines">Search Engines</a>
+      <ul>
+        <li><a href="#google">Google</a>
+          <ul>
+            <li><a href="#-rtfm">📕 RTFM</a></li>
+          </ul>
+        </li>
+        <li><a href="#yandex">Yandex</a></li>
+        <li><a href="#baidu">Baidu</a></li>
+      </ul>
+    </li>
+    <li><a href="#some-other-tools-to-try">Some other tools to try</a></li>
+    <li><a href="#languages">Languages</a></li>
+    <li><a href="#social">Social</a>
+      <ul>
+        <li><a href="#google-groups">Google Groups</a></li>
+        <li><a href="#yahoo-groups">Yahoo Groups</a>
+          <ul>
+            <li><a href="#-btfm">📘 BTFM</a></li>
+          </ul>
+        </li>
+        <li><a href="#twitter">Twitter</a></li>
+      </ul>
+    </li>
+    <li><a href="#news">News</a>
+      <ul>
+        <li><a href="#google-news">Google News</a></li>
+      </ul>
+    </li>
+    <li><a href="#-tools">🛠 Tools</a>
+      <ul>
+        <li><a href="#-seon">💰 SEON</a></li>
+        <li><a href="#osintgram">Osintgram</a></li>
+        <li><a href="#-peoplelooker">💰 PeopleLooker</a></li>
+        <li><a href="#-beenverified">💰 BeenVerified</a></li>
+        <li><a href="#orbitly">Orbitly</a></li>
+        <li><a href="#webpreserver">💰WebPreserver</a></li>
+        <li><a href="#tweetbeaver">TweetBeaver</a></li>
+        <li><a href="#maltego">Maltego</a></li>
+        <li><a href="#cellebrite">💰Cellebrite</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">📚 OSINT Techniques</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 28.07.2022
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>This all about searching for the information publicly available.</em></p>
+<h2 id="domains">Domains</h2>
+<p>To check website/IP address for nefaciousness: <a href="https://zeltser.com/lookup-malicious-websites/">https://zeltser.com/lookup-malicious-websites/</a>.
+<code>wtfis</code> - tool (collects info from VT, Shodan, Passivetotal).</p>
+<h2 id="search-engines">Search Engines</h2>
+<p>In order to find which search engine is used in a specific country, use <a href="https://www.searchenginecolossus.com/">https://www.searchenginecolossus.com/</a>.</p>
+<h3 id="google">Google</h3>
+<p>Respects the demand of a web resource not to index it. You can limit by geo, time/date.</p>
+<h4 id="-rtfm">📕 RTFM</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">site:bakerst221b.com
+</span></span><span class="line"><span class="cl">ext:pdf intext:michael inurl:forensics
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">intitle: <span class="s2">&#34;cv&#34;</span> <span class="s2">&#34;phone * * *&#34;</span> <span class="s2">&#34;address *&#34;</span> <span class="s2">&#34;e-mail&#34;</span>
+</span></span><span class="line"><span class="cl">intitle:<span class="s2">&#34;curriculum vitae&#34;</span> <span class="s2">&#34;phone * * *&#34;</span> <span class="s2">&#34;address *&#34;</span> <span class="s2">&#34;e-mail&#34;</span> 
+</span></span><span class="line"><span class="cl">filetype: xls inurl:<span class="s2">&#34;email.xls&#34;</span>
+</span></span><span class="line"><span class="cl">intitle: index.of finances.xls
+</span></span></code></pre></div><h3 id="yandex">Yandex</h3>
+<p>Ignores the demand of a web resource not to index it. You can find something here, what you won&rsquo;t find with Google. Also, here you&rsquo;ll find a lot more pirated stuff than in Google.</p>
+<h3 id="baidu">Baidu</h3>
+<p>Ignores the demand of a web resource not to index it.</p>
+<h2 id="some-other-tools-to-try">Some other tools to try</h2>
+<p><img src="images/pentest-osint-tools.png" alt="img"></p>
+<h2 id="languages">Languages</h2>
+<p>You can use Google extension to translate pages to your language.</p>
+<p>Also, you can use <a href="https://2lingual.com/">https://2lingual.com/</a> to look for pages within different regions simultaneously.</p>
+<h2 id="social">Social</h2>
+<h3 id="google-groups">Google Groups</h3>
+<p>Won&rsquo;t be able to search for email addresses due to the crawlers protection. Remove <code>@</code> and add spaced instead of <code>.</code>. You can also search for something within the group of choice.</p>
+<p>Although you won&rsquo;t see email address by the username, if someone has replied to the message and quoted it, you&rsquo;ll get a masked email.</p>
+<h3 id="yahoo-groups">Yahoo Groups</h3>
+<h4 id="-btfm">📘 BTFM</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># though Google (since Yahoo&#39;s search is no good)</span>
+</span></span><span class="line"><span class="cl">site:groups.yahoo.com <span class="s2">&#34;something&#34;</span>
+</span></span></code></pre></div><h3 id="twitter">Twitter</h3>
+<p>Allows using all range of Google advanced search operators.</p>
+<h2 id="news">News</h2>
+<h3 id="google-news">Google News</h3>
+<p><code>news.google.com</code> searches for Google News archives. Not the same as Google -&gt; News tab in the search engine which searches through web and then filters for what it believes to be news.</p>
+<h2 id="-tools">🛠 Tools</h2>
+<h3 id="-seon">💰 SEON</h3>
+<p><a href="https://learn.seon.io/enterprise-fraud-management?utm_term=%2Bseon&amp;utm_campaign=%5BS%5D%20Brand%20SEON%20%5BEMEA%5D&amp;utm_source=google&amp;utm_medium=cpc&amp;hsa_acc=9367189488&amp;hsa_cam=12655821531&amp;hsa_grp=121524721138&amp;hsa_ad=614550808794&amp;hsa_src=g&amp;hsa_tgt=kwd-330252594903&amp;hsa_kw=%2Bseon&amp;hsa_mt=b&amp;hsa_net=adwords&amp;hsa_ver=3&amp;gclid=Cj0KCQiAm5ycBhCXARIsAPldzoWTCDKZuHoVKsXS_dtSymkjuBt-MZnvsoNDx6gJu3RTYb_etHUf8b8aApeNEALw_wcB">https://learn.seon.io/enterprise-fraud-management?utm_term=%2Bseon&amp;utm_campaign=%5BS%5D%20Brand%20SEON%20%5BEMEA%5D&amp;utm_source=google&amp;utm_medium=cpc&amp;hsa_acc=9367189488&amp;hsa_cam=12655821531&amp;hsa_grp=121524721138&amp;hsa_ad=614550808794&amp;hsa_src=g&amp;hsa_tgt=kwd-330252594903&amp;hsa_kw=%2Bseon&amp;hsa_mt=b&amp;hsa_net=adwords&amp;hsa_ver=3&amp;gclid=Cj0KCQiAm5ycBhCXARIsAPldzoWTCDKZuHoVKsXS_dtSymkjuBt-MZnvsoNDx6gJu3RTYb_etHUf8b8aApeNEALw_wcB</a></p>
+<h3 id="osintgram">Osintgram</h3>
+<p><a href="https://github.com/Datalux/Osintgram">https://github.com/Datalux/Osintgram</a>
+For Instagram.</p>
+<h3 id="-peoplelooker">💰 PeopleLooker</h3>
+<p><a href="https://www.peoplelooker.com/">https://www.peoplelooker.com/</a>
+Looks like it&rsquo;s only about US people.</p>
+<p><img src="images/people-looker.png" alt="ing"></p>
+<blockquote>
+<p>&hellip; also looks at court records, B2B and unclaimed money databases.</p>
+</blockquote>
+<h3 id="-beenverified">💰 BeenVerified</h3>
+<blockquote>
+<p>&hellip; lookups for people, vehicles and properties. Social media isn’t its primary focus, but it does include a particularly handy “username search” feature.</p>
+</blockquote>
+<p><img src="images/BeenVerified.png" alt="img"></p>
+<h3 id="orbitly">Orbitly</h3>
+<p>Free sign-up, but I don&rsquo;t get how to use it. I used my own LinkedIn as a test, and nothing showed up. I tried a couple of other profiles and several emails - nothing.</p>
+<h3 id="webpreserver">💰WebPreserver</h3>
+<p><a href="https://www.pagefreezer.com/webpreserver/">https://www.pagefreezer.com/webpreserver/</a></p>
+<h3 id="tweetbeaver">TweetBeaver</h3>
+<p><a href="https://tweetbeaver.com/">https://tweetbeaver.com/</a></p>
+<h3 id="maltego">Maltego</h3>
+<p>It can be used for free to some limited extent. I could not launch it on M1 Mac.</p>
+<h3 id="cellebrite">💰Cellebrite</h3>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand &hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

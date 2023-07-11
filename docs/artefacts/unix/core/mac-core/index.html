@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>MacOS Core Processes - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/artefacts/unix/core/"> 👈🏼 Back to </br> UNIX Core </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#main-processes">Main Processes</a></li>
+    <li><a href="#the-process-tree">The process tree</a>
+      <ul>
+        <li><a href="#launchd">launchd</a></li>
+      </ul>
+    </li>
+    <li><a href="#quick-check-list">Quick Check List</a>
+      <ul>
+        <li><a href="#singletons-vs-cloners">Singletons vs Cloners</a></li>
+        <li><a href="#boot-vs-varies">Boot vs Varies</a></li>
+        <li><a href="#system32-vs-other">System32 vs Other</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">MacOS Core Processes</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      <div class="article-category">
+          
+            
+            
+            
+              <i class="fab fa-apple"></i>
+            
+            
+            
+            
+          
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 29.11.2020
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>There are two broad categories of core processes. Processes that initialize system environment and those that initialize the user environment. Whatever is the category, you need to know them well in order to detect abnormal things.</em></p>
+<h2 id="main-processes">Main Processes</h2>
+<p>There are several core process that are important to examine since malware often drool 🤤 over them.  <strong>Singleton</strong> - one instance running only. If any of these having more than 1 process should be the object of further investigation.</p>
+<h2 id="the-process-tree">The process tree</h2>
+<ul>
+<li>BootROM
+<ul>
+<li>POST - Power On Self Test, if all&rsquo;s ok with hardware - beep.</li>
+<li>EFI - Extensible Firmware Interface, choose bootable partition and OS.</li>
+<li>Boot Loader. Either boot.efi or BootX. <code>System/Library/CoreServices/Boot.efi</code> - Apple logo” on the screen. Load kext files (kernel extensions) into RAM from <code>/System/Library/Caches/com.apple.kext.caches/Startup/kernelcache</code>. If this cache is damaged, <code>/System/Library/Extensions</code> is used, each driver enumerated to determine if it&rsquo;s needed for booting. If FV is enabled, enter password first.
+<ul>
+<li><strong>Kernel</strong>. <code>mach_init</code>. Kernel initialization - Additional drivers, <strong>core BSD</strong> Unix system, I/O Kit. Dark gray spinning gear right below the Apple logo. Find the root device - Mount system partition as root.
+<ul>
+<li><strong>Launchd</strong>. <code>/sbin/launchd</code>. System Initialization - The login window or the user’s desktop background if the auto login is enabled. The first non-kernel root process.
+<ul>
+<li><strong>loginwindow</strong></li>
+<li><strong>SystemStarter</strong></li>
+<li><strong>user launchd</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Main files: mkextcache, launchd, loginwindow, /System/Library/CoreServices.</p>
+<h3 id="launchd">launchd</h3>
+<p><strong>Parent</strong> 🤱: kernel</p>
+<p><strong>Children</strong> 👧 :</p>
+<p><strong>Singleton</strong> ☝️: Yes</p>
+<p><strong>Path to file</strong> 🛣: <code>/sbin/launchd</code></p>
+<p><strong>Account</strong>:</p>
+<p><strong>Start time</strong>: Boot</p>
+<p>PID 1. The first daemon launched. Started up by kernel. Spawns other demons and processes.</p>
+<p>WindowServer	
+TouchBarServer</p>
+<p>kernel_task
+UserEventAgent
+Wi-Fi
+bluetoothd
+gamecontrollerd
+UIKitSystem
+routined
+locationd</p>
+<p>opendirectoryd
+launchd
+cfprefsd	- not singleton
+PerfPowerServices	
+Dock
+runningboardd
+analyticsd
+sysmond
+powerd	
+Control Centre
+logd
+ContextStoreAgent
+fseventsd
+sharingd
+mds
+airportd
+launchservicesd
+iconservicesagent
+mds_stores
+corebrightnessd
+com.apple.WebKit.WebContent
+contextstored
+mdworker_shared</p>
+<h2 id="quick-check-list">Quick Check List</h2>
+<h3 id="singletons-vs-cloners">Singletons vs Cloners</h3>
+<p><strong>Singletons</strong>:</p>
+<p><strong>Cloners</strong>:</p>
+<h3 id="boot-vs-varies">Boot vs Varies</h3>
+<p><strong>Boot</strong>:</p>
+<p><strong>Varies</strong>:</p>
+<h3 id="system32-vs-other">System32 vs Other</h3>
+<p><strong>System32</strong>:</p>
+<p><strong>Other</strong>:</p>
+<h2 id="references">References</h2>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>🔎 Detection and Investigation Techniques - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/ttp/"> 👈🏼 Back to </br> 🔎 Investigation Tactics Techniques and Procedures </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#artefacts-vs-evidence">Artefacts vs Evidence</a>
+      <ul>
+        <li><a href="#-types-of-evidence-">🐾 Types of Evidence 👣</a></li>
+        <li><a href="#circumstantial">Circumstantial</a></li>
+        <li><a href="#incontrovertible">Incontrovertible</a></li>
+        <li><a href="#corroborating">Corroborating</a></li>
+        <li><a href="#common-activity-artefacts">🏺Common Activity Artefacts</a>
+          <ul>
+            <li><a href="#secondary-artefacts">Secondary artefacts</a></li>
+            <li><a href="#primary-artefacts">Primary Artefacts</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#detection-types">Detection Types</a>
+      <ul>
+        <li><a href="#-automated">🖲️ Automated</a></li>
+        <li><a href="#-semi-automated-and-manual-examination">⛏️ Semi-automated and Manual Examination</a></li>
+        <li><a href="#-deeper-look">🔬 Deeper Look</a></li>
+      </ul>
+    </li>
+    <li><a href="#detection-techniques">Detection Techniques</a>
+      <ul>
+        <li><a href="#find-evil">Find Evil</a>
+          <ul>
+            <li><a href="#known-good">Known Good</a></li>
+          </ul>
+        </li>
+        <li><a href="#behavioural-analysis">Behavioural Analysis</a></li>
+        <li><a href="#frequency-analysis">Frequency Analysis</a></li>
+        <li><a href="#pattern-based-analysis">Pattern-based Analysis</a></li>
+        <li><a href="#ttps-and-attck-mitre">TTPs and ATT&amp;CK MITRE</a></li>
+      </ul>
+    </li>
+    <li><a href="#collection-techniques">Collection Techniques</a></li>
+    <li><a href="#analysis-techniques">Analysis Techniques</a>
+      <ul>
+        <li><a href="#stacking">Stacking</a></li>
+        <li><a href="#prioritise-and-pivot">Prioritise And Pivot</a></li>
+        <li><a href="#divide-and-conquer">Divide And Conquer</a></li>
+        <li><a href="#pivot-tables">Pivot tables</a></li>
+      </ul>
+    </li>
+    <li><a href="#types-of-users">Types of Users</a></li>
+    <li><a href="#observations">Observations</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">🔎 Detection and Investigation Techniques</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 26.05.2023
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><em>One can detect something automatically or look for it. So, the investigation (incident response and digital forensics) can either start from a security alert or threat-hunting. What are artefacts, and how are they different from evidence? What types of artefacts are there, and how to look them out? Let&rsquo;s dive deeper into what techniques are used to spot the attacker.</em></p>
+<p>Everything happening on the computer 🖥️ or a mobile device 📱 (a little computer itself) is driven by a <em>process</em>. Which one? This is what we are answering during our investigation. Like when we say that everything is made of atoms or a file on a PC - it&rsquo;s a simplification, but it allows us to break the problem down into a manageable set of smaller problems.</p>
+<p>When in the morning, while coffee ☕️ is still too hot to drink, you open your mail ✉️ client to see what&rsquo;s new, you are running a mail <em>process</em> that allows you to do that. You see than an email about your project and the attachment. You then save it to disk (your mail <em>process</em> ✉️ does that), then open it with some text editor 📝 <em>process</em>. You then see a notification about an upcoming meeting (the calendar 📆  <em>process</em> sends it to you), you log in to some video conference tool (yet another <em>process</em>) and talk to your colleagues. Behind the scenes, your PC uses a microphone, video drivers, and <em>processes</em>. So, everything on a system is a file, while a process creates everything created. That&rsquo;s why it is so difficult to prove intent - <em>processes</em> create traces, not the users directly. We know that behind every process is a user (legit or not) or a system (basically another process!).</p>
+<p>Below is a roadmap diagram for the artefacts and how these are connected.</p>
+<p><img src="images/artefacts-all.png" alt="img"></p>
+<p>Let&rsquo;s start from the top. As we have already discovered, any trace on the system is left by a process 🚑. Information can reside either on disk 💿 or in RAM 💬. Now, not always, and not all processes are in RAM 💬 and on disk 💿. The process can be found in RAM 💬 only when executing and a while after that.</p>
+<p>What the process looks like when executing and residing on disk (image file, we call it) - are sometimes two different things (in the case of polymorphic files, packed or encrypted). That&rsquo;s why I have marked the executed rectangle with RAM 💬 only.</p>
+<p>Also, if the attacker attacks the environment, it&rsquo;s another story. While gaining remote access through some vulnerability or misconfiguration, no artefact on disk might show that. However, if this processes changes configuration, if the activity is logged on the system, or if the process creates files, we will see some on-disk artefacts.</p>
+<p><img src="images/artefacts-overview.png" alt="img"></p>
+<p>Now, let&rsquo;s focus on the lower part of the image. When a process is running, it inevitably makes some changes. Technically speaking, configurations and logs are also considered files, so I have included them within the files section. However, given their distinct natures, they are visually distinguished by different colours.</p>
+<p>Everything is created and modified by a process (unless the user takes a hammer 🔨 and smashes the computer 🖥️). And there are only two states for a process: saved on disk 💿 or executing (i.e. residing in RAM 💬). When executing, it intentionally or inadvertently creates, changes or deletes some files (including configs and logs). Whatever the process is doing, it goes through RAM first. So, until this memory space is overwritten, it might contain strings, files, and even other processes.</p>
+<p>There are two process types: core 🫀 (preinstalled programs required for the OS to run) and other. So, it is reasonable to assume that the user never saves these core processes on disk; they are supposed to be there. The only way they are changing is through OS updates.</p>
+<h2 id="artefacts-vs-evidence">Artefacts vs Evidence</h2>
+<p>Now, what&rsquo;s an artefact, and what&rsquo;s the evidence? When something happens on the machine, it leaves a trace. There are different locations these traces can be found; they are called <strong>artefacts</strong>. Artefacts include Windows registry, macOS <code>plist</code> files, file metadata, logs, etc. I have dedicated the whole section to various artefacts, their specifics and analysis tips. Those artefacts might have information valuable for the investigation and that we call <strong>evidence</strong>. Some examples of evidence are paths to malicious executables in the registry, executable names and passed arguments in the logs, malicious scripts, some strings found in a file etc. One can think of artefacts as roads 🛣️ and evidence as footprints on those roads 👣 and 🐾. The road remains the same, but there are multiple footprints of different types, and some indicate malicious activity. However, it&rsquo;s not always easy or possible to tell who left the footprint and whether or not it was forged.</p>
+<p>Both legitimate users and attackers produce the evidence by intentionally or inadvertently altering the artefacts. Intentional altering of artefacts is complex and only sometimes possible. There are several ways the attacker can perform activity on a system; let&rsquo;s see what these are.</p>
+<p><img src="images/attacker-artefacts.png" alt="img"></p>
+<p>The attacker needs to do his job. So, the attacker needs to use some tools, and whatever he or she uses will leave a trace. Even wiping the traces leaves some traces. Although finding those traces is only sometimes straightforward, it&rsquo;s usually possible. There are two options for the attacker:</p>
+<ol>
+<li><strong>Physical access</strong>. One can steal a laptop or use the unlocked machine while the employee is having lunch.</li>
+<li><strong>Remote access</strong>. Most of the time, the attacker doesn&rsquo;t have physical access and needs to do some research and crafting to get the &ldquo;treasure&rdquo;.</li>
+</ol>
+<p>There are various ways to get initial access, and those techniques are well covered on the <a href="https://attack.mitre.org/tactics/TA0001/">MITRE website</a>. Once this access is acquired, the attacker has limited options to go forward with. One of them and frequently used by the attacker, is using some malware 🦠. Of course, he needs to deliver this malware to the system and run it. Running malware leaves traces 🐾. Sometimes (quite often), the attacker will try to use the legitimate tools already preinstalled on the target machine. And guess what? These tools also leave traces 👣! The trick here is to investigate WHO ran this tool 🤔.</p>
+<p>Another option the attacker 🍒 has is social engineering vector, including various phishing attacks, tailgating etc. But eventually, this also comes to running something on a machine, be it a legit program or not so much.</p>
+<p><img src="images/user-artefacts.png" alt="img"></p>
+<p>Let&rsquo;s imagine a legitimate ordinary user with no malicious intent or malware installed. What would their daily activity look like? Also, running some programs which, of course, leave some traces.</p>
+<p>But how do we distinguish between a legitimate user 🥦 and an attacker 🍒? When we find malware, and we see its traces 🐾 on the system, it&rsquo;s one story. But what if the attacker got remote access to the system and used a legit tool on the user&rsquo;s 🥦 behalf? What if the attacker 🍒 has tricked the user 🥦 into running something evil? How do we know it&rsquo;s 👣 and not 🐾? Sometimes we don&rsquo;t.</p>
+<p><img src="images/both-artefacts.png" alt="img"></p>
+<h3 id="-types-of-evidence-">🐾 Types of Evidence 👣</h3>
+<h3 id="circumstantial">Circumstantial</h3>
+<blockquote>
+<p>Circumstantial evidence refers to the collection of facts that, when considered together, can be used to infer a conclusion about malicious activity or a person involved. This type of evidence does not directly prove the fact in question but allows for the possibility of drawing inferences to establish the fact indirectly. Circumstantial evidence is often used in digital forensics and incident investigations when direct evidence is not available. Let&rsquo;s consider a scenario in which an organization suspects a data breach has occurred. They are trying to determine if an employee, John, is responsible for the breach. Direct evidence would be something like a security video showing John copying sensitive files onto a USB drive or an email sent by John admitting to the breach. Circumstantial evidence, on the other hand, would involve facts that indirectly suggest John&rsquo;s involvement. For example: Log files showing that John&rsquo;s user account accessed the sensitive files just before the data breach occurred. Records indicating that John&rsquo;s computer was connected to a USB drive around the same time the files were accessed. The breached files were found on a dark web marketplace, and the seller&rsquo;s account was linked to an email address similar to one John used for personal purposes. John had recently expressed dissatisfaction with the company and was looking for a new job. None of these individual facts directly prove that John is responsible for the data breach. However, when considered together, they create a strong circumstantial case suggesting John&rsquo;s involvement in the malicious activity. ChatGPT</p>
+</blockquote>
+<h3 id="incontrovertible">Incontrovertible</h3>
+<blockquote>
+<p>Incontrovertible evidence refers to evidence that is indisputable, irrefutable, or impossible to deny. It is so strong and compelling that it leaves no room for doubt or argument. In digital forensics, incontrovertible evidence may include things like unaltered log files, digital signatures, or cryptographic hashes that prove the integrity and authenticity of data. However, it is essential to note that it can be challenging to obtain incontrovertible evidence in digital forensics due to the potential for data manipulation or tampering.</p>
+</blockquote>
+<h3 id="corroborating">Corroborating</h3>
+<blockquote>
+<p>Corroborating evidence is additional evidence that supports or confirms the initial evidence or a fact in question. Corroborating evidence helps to strengthen the overall case by providing independent confirmation of the facts or findings. In digital forensics, corroborating evidence may include things like additional log files from different systems, witness statements, or even physical evidence that supports the digital evidence. The use of corroborating evidence is particularly important in digital forensics because it can help to establish the reliability and credibility of the findings and minimize the chances of false positives or inaccurate conclusions.</p>
+</blockquote>
+<h3 id="common-activity-artefacts">🏺Common Activity Artefacts</h3>
+<p>Below is the list of the most common artefacts that could be used to determine user activity. Some of them are mobile specific.</p>
+<p>I&rsquo;ve devided them into two main groups: primary and secondary. Primary artefacts are those that are specifically designed to provide this information. For example, you can view contacts via address book or read SMS messages.</p>
+<p>Secondary artefacts are like data lakes: they aggreagate lots sort of information that might or might not contain something relevant. In requires wits and analysis in order to retrieve something useful from there if anything is there. For example, to determine if a person knows another person, you could see their contact list (which is the easiest way). However, not all connections are added there. So, you&rsquo;d probably refer to mailing activity as well. The last resort would be to see photos and videos in order to find a familiar face. There is small chance to also find this information in some notes. For example, &ldquo;I met Julia Roberts yesterday on the tube! Imagine that!&rdquo; Some artefacts are listed both under secondary and primary sections since for some purposes they might be secondary. For example, social media is basically a very sophisticated address book + messages system. However, there are feeds there as well and as with all messages in general you sometime find something relevant there. For instance, if you are not sure if the person did work this day and check their social media page where there was a photo from a bar posted at 2pm on Thursday (too early, ey!), you might be relatively sure that no, the person was no at work that time.</p>
+<h4 id="secondary-artefacts">Secondary artefacts</h4>
+<ul>
+<li>Notes</li>
+<li>Voice assistant&rsquo;s logs</li>
+<li>Browser activity</li>
+<li>Photos, videos (local, online)</li>
+<li>Screen or voice recordings</li>
+<li>Calendar events</li>
+<li>Music</li>
+<li>Gaming</li>
+<li>Social media</li>
+</ul>
+<h4 id="primary-artefacts">Primary Artefacts</h4>
+<details>
+    <summary>See all&hellip;</summary>
+    <ul>
+<li>👥 Contacts and Connections
+<ul>
+<li>📖 Address book</li>
+<li>💬 Messangers</li>
+<li>💬 Social media</li>
+<li>✉️ Mail</li>
+<li>SMS/MMS</li>
+<li>☎️ Call history (video, phone)</li>
+</ul>
+</li>
+<li>🗺 Geo posisition
+<ul>
+<li>Device IP</li>
+<li>Traffic (if logged)</li>
+<li>Social communications metadata</li>
+<li>Maps applications</li>
+<li>VPNs used (logs if any)</li>
+<li>Photos and videos</li>
+<li>Documents saved/downloaded/deleted/modified</li>
+<li>Calendar events</li>
+<li>Web browsing</li>
+<li>Screen or voice recordings</li>
+</ul>
+</li>
+<li>Computer Activity
+<ul>
+<li>System logs (logs, prefetch, events etc)</li>
+<li>Documents saved/downloaded/deleted/modified/renamed/copied</li>
+<li>Folders traversed</li>
+<li>USB and other external media attached</li>
+<li>Processes running/terminated/spawned</li>
+<li>Encryption/wiping software usage</li>
+<li>Shortcuts, symbolic links and links</li>
+<li>Configuration files (etc, plist, registry)</li>
+<li>Network connections opened/closed</li>
+</ul>
+</li>
+</ul>
+
+</details>
+<h2 id="detection-types">Detection Types</h2>
+<p>Unless we protect a small company with 2-3 computers, we can&rsquo;t afford to repeatedly spend days on a single machine to ensure everything is in order. And even if we had that much time, it could be more practical. In the ideal scenario, we would want to automatically detect as much as possible and then manually examine only systems that were likely compromised.</p>
+<p>Unless the attacker has physical access to the machine, tricked the legit user into doing bad things or has some RDP or similar access due to misconfiguration, they need to run some process (usually malware) to hook and achieve their goals. So, there are three types of processes traces of which we need to look out for:</p>
+<ol>
+<li>🥸 Active malware</li>
+<li>😴 Dorman malware (will run eventually and become 🥸)</li>
+<li>🤪 Living Off the Land (LOL)</li>
+</ol>
+<p>I will use these emojis for detection and threat-hunting techniques suitable for this process type.</p>
+<h3 id="-automated">🖲️ Automated</h3>
+<p>We can leverage the following data to write and tune our threat-hunting rules:</p>
+<ol>
+<li>✍🏻 Antivirus and signatures 🥸 and 😴</li>
+<li>👣 IoCs 🥸 , 😴 and 🤪 (LOL is trickier)</li>
+<li>🤨 Anomalies (Legit Automated Process and Malware) 🥸 and 😴</li>
+</ol>
+<p>Now, these only sometimes work and fire. First, signatures are useless if it&rsquo;s a new malware or a modified or polymorphic one. Besides, signature databases grow more extensive and are harder to manage. Besides, think about it, humans sometimes create signatures, and humans make mistakes. Even if you have some perfect Yara rule, it takes time to scan the system, and you can&rsquo;t possibly have a perfect rule for every single malware out there. Besides, attackers do not always use malware; sometimes, they use what&rsquo;s already on the system and is legit.</p>
+<p>Secondly, there will be no IoC (Indicators of Compromise) if it&rsquo;s a new campaign. Also, some IoCs become irrelevant very quickly. For example, it&rsquo;s fairly easy for the attacker to change an IP address, domain name, file hash or name.</p>
+<p>Anomalies are more reliable and long-living, but there is still a good chance of missing something that is not seen as an anomaly. For example, the attacker stole the admin creds and used the admin tools from the admin machine during working hours. What&rsquo;s anomalous about that?</p>
+<p><strong>Pattern-based</strong> and <strong>behavioural deviations</strong> are good techniques to use here.</p>
+<h3 id="-semi-automated-and-manual-examination">⛏️ Semi-automated and Manual Examination</h3>
+<p>We know some things about the attackers that are usually the same across different actors: they need to achieve their goals (usually, they are after the information), they need to stay persistent, and usually, they need to hop from one machine to another. We can assume the attacker would target specific locations and settings if they sneak through our detection mechanisms. The persistence techniques are limited, as are those for lateral movement.</p>
+<ol>
+<li>Persistence mechanisms. For example, checking a Windows machine&rsquo;s <code>Run</code> and <code>RunOnce</code> keys can sometimes reveal something suspicious.</li>
+<li>Artefacts and logs collected across multiple machines.</li>
+<li>Timeline analysis</li>
+<li>RAM</li>
+</ol>
+<p><strong>Stacking</strong> and <strong>frequency analysis</strong> is very good approaches here.</p>
+<h3 id="-deeper-look">🔬 Deeper Look</h3>
+<p>This only makes sense when we have a limited list of machines to examine. We could look at the same artefacts as in the previous step. Forensic acquisition and analysis are exactly what this step is about. RAM analysis is usually performed in this step (not always necessary or possible). We would check for filesystem metadata (like MFT on NTFS) and analyse unallocated or slack space. Of course, attackers want to avoid being easily found, so they employ evasion techniques. We would also look out for possible anti-detection and anti-forensics techniques.</p>
+<p>This step is the best and sometimes the only bet for finding dormant 😴 malware and LOLs 🤪. Also, don&rsquo;t forget that sometimes it&rsquo;s as &ldquo;simple&rdquo; as an insider threat (not actually that simple), so, a deeper look to prove intent could be due.</p>
+<p><strong>Pattern-based analysis</strong>, <strong>behavioural analysis</strong>, <strong>stacking</strong>, <strong>frequency analysis</strong>, and <strong>finding evil</strong> are excellent techniques for this step.</p>
+<h2 id="detection-techniques">Detection Techniques</h2>
+<h3 id="find-evil">Find Evil</h3>
+<p>One of them is called &ldquo;<strong>Find Evil</strong>&rdquo; 👿. For this method, you need to know a baseline. It helps to run some collection for a clean system to see the baseline for this OS/setup if you are unsure. Otherwise, looking at the data, you might notice something standing out, like a Windows core process spawned from the wrong direction or an HTTP traffic flowing back and forth from a <code>java.exe</code>. Another example: suddenly increased server requests could indicate nefarious activity. Again, you need to know the baseline to tell if something is wrong.</p>
+<p>🛠 Typically, this kind of stuff (spikes) is picked up by the IDS/IPS/WAF systems quite neatly.
+🗒 TODO: <a href="https://www.open-scap.org/security-policies/scap-security-guide/">https://www.open-scap.org/security-policies/scap-security-guide/</a>.</p>
+<h4 id="known-good">Known Good</h4>
+<p>Of course, to find evil, one needs to know what&rsquo;s NOT. Only some of the files are worth considering. However, it takes a lot of work to keep all of them in mind. I&rsquo;ve made several database files that contain information on files on a clean installed system. There will be some divisions, but I hope it will also help eliminate a massive pack of files.</p>
+<p>When reviewing processes and artefacts for potential maliciousness, I use the following list, where items are ordered by their likelihood of being malicious.</p>
+<ol>
+<li>Outstanding <code>exe</code> or bat <code>files</code> named with one digit or letter like <code>a.ps1</code>, <code>1.bat</code>. <code>a.exe</code> etc.</li>
+<li>Drivers that were installed recently or that I need to recognise.</li>
+<li>Unfamiliar program names (google or ask ChatGPT to know more about such programs)</li>
+<li>Familiar programs in unusual places</li>
+<li>Programs that seem legit are in the expected folders (last resort).</li>
+</ol>
+<h3 id="behavioural-analysis">Behavioural Analysis</h3>
+<p>A little more sophisticated &ldquo;Find Evil&rdquo; technique is what I call <strong>behavioural analysis</strong>. For this method, you must think like an attacker and a regular user. For example, for everyday use, the failed login process would look something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Reset password</li>
+<li>Login</li>
+</ul>
+<p>For a malicious user, it would be something like (brute-forcing):</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>N-login attempt - account blocked</li>
+<li>Sleep for N minutes</li>
+<li>M-login attempt - error</li>
+<li>etc</li>
+</ul>
+<p>For a malicious user attempting password spraying attack (when one password is used for different accounts), you are likely to do something like the following:</p>
+<ul>
+<li>First login attempt - error</li>
+<li>Second login attempt - error</li>
+<li>Third login attempt - error</li>
+<li>Stop (no successful login or password reset)</li>
+</ul>
+<h3 id="frequency-analysis">Frequency Analysis</h3>
+<p>Another technique is called <strong>frequency analysis</strong> 📊. Depending on the system, you&rsquo;d look for something more or less frequent. Covering all the cases is hard, but some examples may do the trick. For example, you have a web server. Most of the time, with regular traffic and no malicious activity, there would be 200 status codes returned by the server. However, if an attacker performs a brute force attack against user accounts or IDOR probing, you would see a spike in the 403 (access denied) HTTP status code. If the attacker were to perform some directory busting, you would probably see a point in 404.</p>
+<p>🛠 SIEM/IDS + ML (machine learning engine) could help identify those &ldquo;unusual things&rdquo;. Some SIEM would allow making rules based on different log fields. So, for example, in the above scenario, one could create a rule to alert the CSIRT if a 100 threshold for 404 HTTP status code returned is hit in 1 minute.</p>
+<h3 id="pattern-based-analysis">Pattern-based Analysis</h3>
+<p>One more technique that I have been using I call <strong>pattern analysis</strong>. This one needs to be VERY knowledgeable about red teaming activities and current vulnerabilities. Refrain from overwhelming yourself with the openness and exploits out there, and filter the news and feeds only to show those relevant to your environment. For example, see only Apache Tomcat stuff, PHP and nginx + common web application vulnerabilities. Patterns for each vulnerability exploited would be different, of course. For example, for an SQLi, it&rsquo;s something like a single quote (<code>'</code>) or <code>sleep</code> keyword (also could indicate command-line injection) or some other pattern like <code>'or%201=1--</code> or anything from <a href="https://github.com/payloadbox/sql-injection-payload-list">list</a> and even more. You can find the list of payloads (designs) for common vulnerabilities online to get a general idea.</p>
+<p>🛠 For post-incident analyses, I find it helpful to use Excel/Numbers due to their advanced pivoting and filtering functionality. It&rsquo;s useful for both frequency and pattern analysis. This, however, will only work for offline analysis and only on data that&rsquo;s not too overwhelming. If you are familiar with the querying language, SIEM tools can also be convenient for visualisation and filtering.</p>
+<p>So, knowing the red team operations, possible attacks on your infrastructure, and standard user behaviour is helpful.</p>
+<h3 id="ttps-and-attck-mitre">TTPs and ATT&amp;CK MITRE</h3>
+<p><strong>Cyber Analytics Repository</strong> - <a href="https://car.mitre.org/">https://car.mitre.org/</a>. That&rsquo;s basically what I was planning to write here, but it&rsquo;s already implemented and in a very neat way. Each tactic is described here, with a short description, categorisation, Splunk queries, and available tools. As I said, need.</p>
+<p><strong>Matrices</strong> are another way to categorise attackers&rsquo; tactics and techniques. It&rsquo;s a table (<a href="https://attack.mitre.org/techniques/enterprise/">enterprise</a> and <a href="https://attack.mitre.org/techniques/mobile/">mobile</a>). In these tables, attacking techniques are categorised by type and by attack stage. Clicking on any technique will bring you to its description, mitigation and detection tips.</p>
+<p>What can I add to this? I don&rsquo;t know right now. I am relieved that I don&rsquo;t have to do it myself and, at the same time, disappointed I don&rsquo;t get to research and analyse this information myself. I could add some examples from my own experience&hellip;., or additional tips&hellip; That&rsquo;s some food 🍱 for thought. Here is a <a href="https://attack.mitre.org/resources/contribute/">link</a> to contribute.  It looks like they are looking for more macOS and Cloud tactics, and since I am particularly interested in these, it might be my niche.</p>
+<p>One additional thing I could do here is to develop a learning plan. And use it as a sketch to sort other content on this website accordingly.</p>
+<p>The interesting part is that if you look at MITRE, you will notice that lateral movement and initial access both have the least number of techniques.</p>
+<p><img src="images/mitre-two-techniques.png" alt="img"></p>
+<p>What does it mean? It means that you have more chances to tune the detection mechanisms for these stages and then deduce and validate the hypothesis for other stages.</p>
+<h2 id="collection-techniques">Collection Techniques</h2>
+<p>Remote access agent 🍇 vs remote analysis agent 🥝. Both might give raw access to data. However, 🍇 requires a good bandwidth to send the data over, while 🥝 does some analysis and filtering on the machine and then sends only the results.</p>
+<h2 id="analysis-techniques">Analysis Techniques</h2>
+<p>When we have a lot of data, we need to eliminate all the noise to make the above techniques easier to use. One way is to combine all the data of the same type from all the machines and apply the above techniques to the data set. Think of it as a huge database of data (SIEM, if you will). Another way is to use each artefact to pivot around it to look for other related artefacts.</p>
+<h3 id="stacking">Stacking</h3>
+<p>It&rsquo;s not a distinct technique per se, but rather a method that helps identify leads to pursue. We gather data from multiple systems and utilize either of the aforementioned techniques to detect malicious activity. Typically, frequency analysis is the initial approach. Wondering why? Have you ever come across the law of large numbers (a concept from probability theory and statistics)? As the sample size increases, the sample mean or any other sample statistic approaches the true mean or parameter. To put it in simpler terms, as you collect more data from various machines, the average will converge towards the true average.</p>
+<p>Let&rsquo;s consider an example: we have 10 machines, with <code>tool.exe</code> installed on 6 of them and absent on the remaining 4. Is this a deviation? Now, let&rsquo;s examine 100 machines. We observe that <code>tool.exe</code> is installed on 90 machines. Therefore, it could either be a legitimate tool or a major breach 😱. Consequently, when the dataset is small, it becomes more challenging to determine through frequency analysis if something is amiss. However, with a larger dataset, the discrepancies in frequency become more apparent.</p>
+<h3 id="prioritise-and-pivot">Prioritise And Pivot</h3>
+<p>One single action on a system can leave multiple traces simultaneously. Furthermore, within a single campaign, several traces can be linked to the same activity. Often, systems are inundated with data, and not all of it is pertinent. Even when the data is valuable, it requires additional information to substantiate a claim. Using stacking and frequency analysis, we have inferred that two machines are likely compromised and possess noteworthy artefacts. The question then arises: How do we proceed? 🤔</p>
+<p>That&rsquo;s when pivoting comes into play. We use single evidence of some suspicious action and look for related evidence. For example, we have determined that some <code>malicious.exe</code> was launched from the command line. Let&rsquo;s pivot around it to find new evidence. What we might want to know is if <code>malicious.exe</code> was injecting into another process or creating files. Let&rsquo;s imagine that it created a child process <code>malchild.exe</code>. What did it do? It created a file <code>open.docx</code>. Oh, there is a template in the doc document with a link to a remote machine. What&rsquo;s the domain name? What&rsquo;s the IP? Ok, looks like we have exhausted this lead.</p>
+<p>When we found <code>malicious.exe</code>, it was not the only lead we had. We also found a new user on the system - <code>iamgood</code>. What level of access did it have? What activity was performed by this user? It&rsquo;s another lead, and now we are pivoting around <code>iamgood</code> user.</p>
+<p>Here is another example of pivoting. Say, we know that the machine must contain a malicious downloader script. Stop looking for other malware and focus on that one. Once it&rsquo;s found, using different other artefacts, answer the following questions.</p>
+<ol>
+<li>What happened before and after?</li>
+<li>What else is in the same folder?</li>
+<li>What does it do?</li>
+</ol>
+<p>But what if we need to figure out where to start and what to look out for? For starters, the initial triage and stacking must give some clues. But if there is nothing at all, try a little speculation using the MITRE matrix. &ldquo;But there are so many techniques there! Where to start?&rdquo; - you might ask. Prioritise or brute force! Start with the CERTAINLY compromised machines, leaving those likely compromised for later.</p>
+<p><strong>Prioritise (Manual)</strong>. It would be best if you always had an assumption about the evidence location. Although the attacker uses many different techniques, it&rsquo;s not an endless list. Remember the MITRE matrix? Initial access and lateral movement have the least number of techniques. When you have a least of ideas, start prioritising by answering the following questions:</p>
+<ol>
+<li>Possible impact on the investigation result.</li>
+<li>The likelihood of finding anything.</li>
+<li>Could it be a false positive?</li>
+<li>How much time do you need to follow this lead?</li>
+</ol>
+<p>Also, depending on the case, you&rsquo;d look for different things in different locations. Here are several examples:</p>
+<ol>
+<li>Search videos and pictures if it&rsquo;s a child exploitation case.</li>
+<li>If it&rsquo;s a data exfiltration case, try starting with audit logs for the service that contains that data.</li>
+</ol>
+<p><strong>Brute force (Automated)</strong>. Let tools and software find evidence. Just let it check the most likely evidence locations for anything suspicious. One of the tools capable of it is 🛠️ Cyber Triage.</p>
+<h3 id="divide-and-conquer">Divide And Conquer</h3>
+<p>You can use the following roadmap to follow the divide-and-conquer approach.</p>
+<p><img src="images/divide-and-conquer.png" alt="img"></p>
+<p><strong>Recursive.</strong> When you have a big and ambiguous problem, it always takes time to see where to start. The best approach here would be to recursively break a problem into minor issues until one becomes solvable. This helps us to come up with a list of questions to answer.</p>
+<p><strong>Artefact-driven</strong>. Now that you have the list of questions  ❓, answer them with artefact ⛏️ categories.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">break_down</span><span class="p">(</span><span class="n">problem</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">questions</span> <span class="o">=</span> <span class="n">break_down</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">questions</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">find_artefacts</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">artefacts</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">questions</span> <span class="o">=</span> <span class="n">break_down</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">find_artefacts</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	
+</span></span></code></pre></div><h3 id="pivot-tables">Pivot tables</h3>
+<p>One of the tools that might be useful for pivoting is Excel or Numbers, or any similar tool. You can create a pivot table when you have a large set of data of the same structure, for example, logs. Using a sample log file, I will show how this can be useful to spot something out of the ordinary in a large data set.</p>
+<p>You can perform pivoting with other tools like the following:</p>
+<ul>
+<li>some dedicated framework</li>
+<li>LogParser</li>
+<li>Script</li>
+<li>SIEM (some of them)</li>
+</ul>
+<p>I will show the process for smaller datasets with Numbers or Excel.</p>
+<p>In Excel, choose <code>Import</code> -&gt; <code>csv</code> from the menu. Choose your delimiter. If some columns are sticking together, use <code>Data -&gt; Text to Column</code> to separate them with another delimiter. Select the table that contains the data and choose <code>Data</code> -&gt; <code>Summarise with Pivot table</code>. Also, you can add filters to each column for further aid. On macOS using Numbers, open the <code>csv</code> and choose <code>Pivot table</code> on the top.</p>
+<p>Imagine we have accesslogs.csv that contains HTTP logs to the server. Something like the following:</p>
+<p><img src="images/excel-dataset.png" alt="img"></p>
+<p>Creating a pivot table helps to answer questions like these:</p>
+<ol>
+<li>How many requests returned 200 status codes on average?</li>
+<li>Which IP address received the largest number of 404?</li>
+<li>Which page was the most frequently used?</li>
+</ol>
+<p>And many more. Here is an example of a pivot table created in Excel. You can choose what data to use as columns, rows and values. Most of the time, by default, I guess, both Numbers and Excel suggest calculating the sum for the values. However, in this case, we don&rsquo;t need to get the sum of status codes (that doesn&rsquo;t make any sense). We better see the number (count). Just right-click the value in the <code>Values</code> section in settings and choose <code>count</code> instead of <code>sum</code>.</p>
+<p><img src="images/excel-pivot-table.png" alt="img"></p>
+<p>And here is what pivot tables look like in Numbers.</p>
+<p><img src="images/numbers-pivot-table.png" alt="img"></p>
+<p>My table above clearly shows which IP addresses made the most requests and which IP address had the largest number of <code>404</code>. Might this be an attacker brute-forcing or trying to exploit an IDOR? Hm&hellip; 🤔. Let&rsquo;s filter by this IP and see the pages visited by <code>192.168.1.103</code>. Here is a new pivot table:</p>
+<p><img src="images/numbers-pivot-table-2.png" alt="img"></p>
+<p>Interesting. So, the attacker seemed to have a specific interest in <code>page3.html</code>. Let&rsquo;s find out how many times this IP received a <code>200</code> or <code>404</code> response for that page.</p>
+<p><img src="images/numbers-pivot-table-3.png" alt="img"></p>
+<p>As we can see, this IP (our presumed attacker) only received 200 when requesting this page). It seems like this was something other than a brute-force attempt. It&rsquo;s a lame example, of course. I promise I will try to come up with something better in the future.</p>
+<blockquote>
+<p>💡 Generate pivot tables each day during the month for statistical analysis. Later deviations might highlight suspicious traffic.</p>
+</blockquote>
+<p>When reviewing this type of data, common sense is crucial. For example, it is unreasonable to expect a high volume of requests to your admin page from various IP addresses returning <code>404</code> or <code>500</code>. However, it is expected for other pages to receive a significant number of requests. The predominant response code should also be 200, so a sudden increase in 404 responses could indicate a potential technical or security issue.</p>
+<p>Another good way to quickly filter out the logs is the <code>fzf</code> <a href="https://github.com/junegunn/fzf">utility</a>. It works both on macOS and Linux. I don&rsquo;t know about Windows, but you could always use WSL there. Here is a <a href="https://www.youtube.com/watch?v=tB-AgxzBmH8">video</a> of how one can dive into this utility and use it to speed up the search. Below is an example of how one can filter using a combination of <code>jq</code> and <code>fzf</code> tools (for <code>json</code> logs).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws logs filter-log-events --log-group-name /something/anything --profile prodserver <span class="p">|</span> jq -c <span class="s1">&#39;.events[]&#39;</span> <span class="p">|</span> fzf --multi --cycle --reverse --preview-window<span class="o">=</span>right:80%:wrap --preview <span class="s1">&#39;cat {}&#39;</span>
+</span></span></code></pre></div><h2 id="types-of-users">Types of Users</h2>
+<p>Actually, as I read further and further, it seems that everything is about a user. But!</p>
+<p>A user can be of several categories. I&rsquo;ll name each one as short as I can to refer to them in future. But I will describe them in more detail below.</p>
+<p><strong>Legitimate user, who has done something bad by accident</strong>. Let&rsquo;s call him a <strong>dummy</strong> 😬. I&rsquo;ve been there, I once changed permissions to <code>Deny</code> for my admin account to disk <code>C</code> on Windows and could do nothing about it later. How stupid was it 🙈? My excuse is that I only started with PCs&hellip; .</p>
+<p><strong>Legitimate user, who has done something bad by intent.</strong> Let&rsquo;s call this one a <strong>poopy</strong> 💩. Say, he or she feels highly underpaid and sells the company&rsquo;s kitty plans to some evil dog hackers.</p>
+<p><strong>A user created and used by a hacker.</strong> This one I will call a <strong>sheep</strong> 🐑  as in <em>A wolf in sheep&rsquo;s clothing</em> since the attacker is trying to mask itself as something good.  This one is not unusual, but I guess, easily determined by the sysadmin. However, there are some cases, when an attacker can change view permissions for his/her account on AD so that no one will see this user.</p>
+<p><strong>A user created legitimately, but compromised by a hacker and doing something by intent.</strong> This one will be a <strong>donkey</strong> 🦓, as the attacker is using another account for his ride. I guess it&rsquo;s the most common when the hackers are in the picture.</p>
+<p>And here are the questions we will have to answer during investigations, that can help in distinguishing between these types.</p>
+<h2 id="observations">Observations</h2>
+<ul>
+<li>I&rsquo;ve noticed that people who favour Linux and, for some reason, use either Windows or macOS prefer their dock at the left (mostly) side rather than at the bottom of the screen.</li>
+</ul>
+<h2 id="references">References</h2>
+<details>
+    <summary>Expand&hellip;</summary>
+    Something here
+</details>
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>

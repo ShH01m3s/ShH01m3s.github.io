@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>📘 SIFT BTFM - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/tools">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/tools">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/tools/field-manuals/"> 👈🏼 Back to </br> 📘 📕 Field Manuals </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#shadow-timeline-creation">Shadow Timeline Creation</a></li>
+    <li><a href="#memory-analysis">Memory Analysis</a></li>
+    <li><a href="#sleuthkit">SleuthKit</a>
+      <ul>
+        <li><a href="#fsstat"><code>fsstat</code></a></li>
+        <li><a href="#data-layer-tools-block-or-cluster"><strong>Data Layer Tools (Block or Cluster)</strong></a></li>
+        <li><a href="#blkcat"><code>blkcat</code></a></li>
+        <li><a href="#blkls"><code>blkls</code></a></li>
+        <li><a href="#blkcalc"><code>blkcalc</code></a></li>
+        <li><a href="#blkstat"><code>blkstat</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#metadata-layer-tools-inode-mft-or-directry-entry">MetaData Layer Tools (Inode, MFT, or Directry Entry)</a>
+      <ul>
+        <li><a href="#ils"><code>ils</code></a></li>
+        <li><a href="#istat"><code>istat</code></a></li>
+        <li><a href="#icat"><code>icat</code></a></li>
+        <li><a href="#ifind"><code>ifind</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#filename-layer-tools">Filename Layer Tools</a>
+      <ul>
+        <li><a href="#fls"><code>fls</code></a></li>
+        <li><a href="#ffind"><code>ffind</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#mouting-dd-images">Mouting <code>dd</code> images</a></li>
+    <li><a href="#mouting-e01-images">Mouting <code>E01</code> images</a></li>
+    <li><a href="#mounting-volume-shadow-copies">Mounting Volume Shadow Copies</a></li>
+    <li><a href="#recovering-data">Recovering Data</a>
+      <ul>
+        <li><a href="#foremost"><code>foremost</code></a></li>
+        <li><a href="#sigfind"><code>sigfind</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#stream-extraction">Stream Extraction</a>
+      <ul>
+        <li><a href="#bulk_extractor"><code>bulk_extractor</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#creating-super-timelines">Creating Super Timelines</a></li>
+    <li><a href="#registry-parsing-regripper">Registry Parsing (RegRipper)</a></li>
+    <li><a href="#recover-deleted-registry-keys">Recover Deleted Registry Keys</a></li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">📘 SIFT BTFM</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+      <div class="article-category">
+          
+            
+            
+              <i class="fab fa-linux"></i>
+            
+            
+            
+            
+            
+          
+          
+      </div> <br />
+      
+
+      
+      
+
+      
+    </div>
+    
+    <b>Created:</b> 23.09.2020
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p><a href="https://sansorg.egnyte.com/dl/rcC7AFiUr0/?">Here</a> is the official cheatsheet from SANS. I&rsquo;ve copied it here for convenience. I will comment some of them after I try each command in the list.</p>
+<h2 id="shadow-timeline-creation">Shadow Timeline Creation</h2>
+<p><strong>Step 1 – Attach Local or Remote System Drive</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ewfmount system-name.E01 /mnt/ewf
+</span></span></code></pre></div><p><strong>Step 2 – Mount VSS Volume</strong></p>
+<p>VSS - Windows NT Volume Shadow Snapshot.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/ewf
+</span></span><span class="line"><span class="cl">vshadowmount ewf1 /mnt/vss
+</span></span></code></pre></div><p><strong>Step 3 – Run <code>fls</code> across <code>ewf1</code> mounted image</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/ewf
+</span></span><span class="line"><span class="cl">fls –r –m C: ewf1 &gt;&gt; /cases/vss-
+</span></span><span class="line"><span class="cl">bodyfile
+</span></span></code></pre></div><p><strong>Step 4 – Run fls Across All Snapshot Images</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/vss
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> fls -r –m C: <span class="nv">$i</span> &gt;&gt; /cases/vss-bodyfile<span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><p><strong>Step 5 – De-Duplicate Bodyfile using sort and uniq</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sort /cases/vss-bodyfile <span class="p">|</span> uniq &gt; /cases/vss-dedupe-bodyfile
+</span></span></code></pre></div><p><strong>Step 6 – Run mactime Against De-Duplicated Bodyfile</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mactime –d –b /cases/vss-dedupe-bodyfile –z EST5EDT MM-DD-YYYY..MM-DD-YYYY &gt; /cases/vss-timeline.csv
+</span></span></code></pre></div><h2 id="memory-analysis">Memory Analysis</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vol.py <span class="nb">command</span> –f /path/to/windows_xp_memory.img  --profile<span class="o">=</span>WinXPSP3x86
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>Commands</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>connscan</code></td>
+<td>Scan for connection objects</td>
+</tr>
+<tr>
+<td><code>files</code></td>
+<td>list of open files process</td>
+</tr>
+<tr>
+<td><code>imagecopy</code></td>
+<td>Convert hibernation file</td>
+</tr>
+<tr>
+<td><code>procdump</code></td>
+<td>Dump process</td>
+</tr>
+<tr>
+<td><code>pslist</code></td>
+<td>list of running processes</td>
+</tr>
+<tr>
+<td><code>sockscan</code></td>
+<td>Scan for socket objects</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sleuthkit">SleuthKit</h2>
+<h3 id="fsstat"><code>fsstat</code></h3>
+<p><em>Displays details about the file system</em></p>
+<p><code>fsstat imagefile.dd</code></p>
+<h3 id="data-layer-tools-block-or-cluster"><strong>Data Layer Tools (Block or Cluster)</strong></h3>
+<h3 id="blkcat"><code>blkcat</code></h3>
+<p><em>Displays the contents of a disk block.</em></p>
+<p><code>blkcat imagefile.dd block_num</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># cd /mnt/ewf
+</span></span><span class="line"><span class="cl"># fls –r –m C: ewf1 &gt;&gt; /cases/vss-
+</span></span><span class="line"><span class="cl">bodyfile
+</span></span></code></pre></div><h3 id="blkls"><code>blkls</code></h3>
+<p><em>Lists contents of deleted disk blocks.</em></p>
+<p><code>blkls imagefile.dd &gt; imagefile.blkls</code></p>
+<h3 id="blkcalc"><code>blkcalc</code></h3>
+<p><em>Maps between dd images and blkls results.</em></p>
+<p><code>blkcalc imagefile.dd -u blkls_num</code></p>
+<h3 id="blkstat"><code>blkstat</code></h3>
+<p><em>Display allocation status of block.</em></p>
+<p><code>blkstat imagefile.dd cluster_number</code></p>
+<h2 id="metadata-layer-tools-inode-mft-or-directry-entry">MetaData Layer Tools (Inode, MFT, or Directry Entry)</h2>
+<h3 id="ils"><code>ils</code></h3>
+<p><em>Displays inode details</em>.</p>
+<p><code>ils imagefile.dd</code></p>
+<h3 id="istat"><code>istat</code></h3>
+<p><em>Displays information about a specific inode</em></p>
+<p><code>istat imagefile.dd inode_num</code></p>
+<h3 id="icat"><code>icat</code></h3>
+<p><em>Displays contents of blocks allocated to an inode</em></p>
+<p><code>icat imagefile.dd inode_num</code></p>
+<h3 id="ifind"><code>ifind</code></h3>
+<p><em>Determine which inode contains a specific block</em></p>
+<p><code>ifind imagefile.dd –d block_num</code></p>
+<h2 id="filename-layer-tools">Filename Layer Tools</h2>
+<h3 id="fls"><code>fls</code></h3>
+<p><em>Displays deleted file entries in a directory inode</em></p>
+<p><code>fls -rpd imagefile.dd</code></p>
+<h3 id="ffind"><code>ffind</code></h3>
+<p><em>Find the filename that using the inode</em></p>
+<p><code>ffind imagefile.dd inode_num</code></p>
+<h2 id="mouting-dd-images">Mouting <code>dd</code> images</h2>
+<p><code>mount -t fstype [options] image mountpoint</code></p>
+<table>
+<thead>
+<tr>
+<th>Commands</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ro</td>
+<td>mount as read only</td>
+</tr>
+<tr>
+<td>loop</td>
+<td>mount on a loop device</td>
+</tr>
+<tr>
+<td>noexec</td>
+<td>do not execute files</td>
+</tr>
+<tr>
+<td>offset=<!-- raw HTML omitted --></td>
+<td>logical drive mount</td>
+</tr>
+<tr>
+<td>show_sys_files</td>
+<td>show ntfs metafiles</td>
+</tr>
+<tr>
+<td>streams_interface=windows</td>
+<td>use ADS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>: <code>mount –o loop,ro,show_sys_files,streams_interface=windows imagefile.dd /mnt/windows_mount</code>. Mounts an image file at specific location.</p>
+<h2 id="mouting-e01-images">Mouting <code>E01</code> images</h2>
+<p><code>ewfmount image.E01 mountpoint</code></p>
+<p><strong>Example</strong>: <code>mount –o loop,ro,show_sys_files,streams_interface=windows /mnt/ewf/ewf1 /mnt/windows_mount</code>.</p>
+<h2 id="mounting-volume-shadow-copies">Mounting Volume Shadow Copies</h2>
+<p><strong>Stage 1 – Attach local or remote system drive</strong></p>
+<p><code>ewfmount system-name.E01 /mnt/ewf</code></p>
+<p><strong>Stage 2 – Mount raw image VSS</strong></p>
+<p><code>vshadowmount ewf1 /mnt/vss/</code></p>
+<p><strong>Stage 3 – Mount all logical filesystem of snapshot</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/vss
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> mount -o ro,loop,show_sys_files,streams_interface<span class="o">=</span>windows <span class="nv">$i</span> /mnt/shadow_mount/<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><h2 id="recovering-data">Recovering Data</h2>
+<p><code>blkls</code></p>
+<p><em>Create Unallocated Image (deleted data)</em></p>
+<p><strong>Example</strong>: <code>blkls imagefile.dd &gt; mount –o loop,ro,show_sys_files,streams_interface=windows /mnt/ewf/ewf1 /mnt/windows_mount</code></p>
+<p><em>Create Slack Image Using dls (for FAT and NTFS)</em></p>
+<p><strong>Example</strong>: <code>blkls –s imagefile.dd &gt; imagefile.slack</code></p>
+<h3 id="foremost"><code>foremost</code></h3>
+<p><em>Carves out files based on headers and footers</em></p>
+<p><code>data_file.img</code> = raw data, slack space, memory, unallocated space. <strong>Example</strong>: <code>foremost –o outputdir –c /path/to/foremost.conf data_file.img</code>.</p>
+<h3 id="sigfind"><code>sigfind</code></h3>
+<p><em>Search for a binary value at a given offset (<code>-o</code>)</em>.</p>
+<p><strong>Template</strong>: <code>sigfind &lt;hexvalue&gt; -o &lt;offset&gt;</code>.</p>
+<h2 id="stream-extraction">Stream Extraction</h2>
+<h3 id="bulk_extractor"><code>bulk_extractor</code></h3>
+<p><strong>Template</strong>: <code>bulk_extractor &lt;options&gt; –o output_dir image</code>.</p>
+<p><strong>Example</strong>: <code>bulk_extractor -F keywords.txt –e net -e aes -e wordlist -o /cases/bulk- extractor-memory-output /cases/ memory-raw.001</code></p>
+<p><strong>Options</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-o outdir
+</span></span><span class="line"><span class="cl">-f &lt;regex&gt;
+</span></span><span class="line"><span class="cl">-F &lt;rfile&gt;
+</span></span><span class="line"><span class="cl">-Wn1:n2
+</span></span><span class="line"><span class="cl">-q nn
+</span></span><span class="line"><span class="cl">-e scanner
+</span></span><span class="line"><span class="cl">-e wordlist
+</span></span><span class="line"><span class="cl">-e aes
+</span></span><span class="line"><span class="cl">-e net
+</span></span></code></pre></div><h2 id="creating-super-timelines">Creating Super Timelines</h2>
+<p><strong>Template</strong>: <code>log2timeline –r –p –z &lt;system-timezone&gt; –f &lt;type-input&gt; /mnt/windows_mount –w timeline.csv</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mount –o loop,ro,show_sys_files,streams_interface<span class="o">=</span>windows imagefile.dd /mnt/windows_mount <span class="c1"># mount the image file</span>
+</span></span><span class="line"><span class="cl">log2timeline –z EST5EDT –p –r -f win7 /mnt/windows_mount -w /cases/bodyfile.txt <span class="c1"># write logs on timeline</span>
+</span></span><span class="line"><span class="cl">l2t_process –b /cases/bodyfile.txt –w whitelist.txt 04-02-2012 &gt; timeline.csv <span class="c1"># get specific timeframe?</span>
+</span></span></code></pre></div><h2 id="registry-parsing-regripper">Registry Parsing (RegRipper)</h2>
+<p><strong>Template</strong>: <code>rip.pl –r &lt;HIVEFILE&gt; –f &lt;HIVETYPE&gt;</code>.</p>
+<p><strong>Options</strong>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-r <span class="c1"># Registry hive file to parse &lt;HIVEFILE&gt;</span>
+</span></span><span class="line"><span class="cl">-f <span class="c1">#  Use &lt;HIVETYPE&gt; (e.g. sam, security, software, system, ntuser)</span>
+</span></span><span class="line"><span class="cl">-l <span class="c1"># list all plugins</span>
+</span></span></code></pre></div><p><strong>Example</strong>: <code>rip.pl –r /mnt/windows_mount/Windows/System32/config/SAM –f sam &gt; /cases/windowsforensics/SAM.txt</code></p>
+<h2 id="recover-deleted-registry-keys">Recover Deleted Registry Keys</h2>
+<p><strong>Template</strong>: <code>deleted.pl &lt;HIVEFILE&gt;</code></p>
+<p><strong>Example</strong>: <code>deleted.pl /mnt/windows_mount/Windows/System32/config/SAM &gt; /cases/windowsforensics/SAM_DELETED.txt</code></p>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
