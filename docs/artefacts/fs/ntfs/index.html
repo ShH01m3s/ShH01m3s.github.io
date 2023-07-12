@@ -495,16 +495,53 @@
 </span></span><span class="line"><span class="cl">&gt; MFT entry number 
 </span></span><span class="line"><span class="cl">&gt; <span class="nv">$LogFile</span> sequence number
 </span></span><span class="line"><span class="cl">&gt; <span class="nv">$Standard_Information</span> attribute <span class="o">(</span>flags, security info, <span class="nv">$UsnJrnl</span> number, MACB timestamps<span class="o">)</span>
-</span></span></code></pre></div><p>Following the header, there are four attributes (each consists of a header and contents):</p>
-<p><strong>Standard attribute</strong>. Starts with <code>0x10</code>. Standard attribute (file permissions, timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps: file created/modified, record changed and last access time. ⚠️ All UTC.</p>
+</span></span></code></pre></div><p>At the offset 0x10 you can see aa sequence number that gets incremented when the file is deleted. When the MFT entry was created for the first time, the value is set to <code>1</code>. When the file is deleted, the value is incremented by <code>1</code>. Then, when this entry is reused, the sequence number remains the same and only gets incremented when the file is deleted, and the entry gets unallocated again.</p>
+<p>Hard Link count at offset <code>0x12</code> specified how many <code>$FILE_NAME</code> attributes this file has. This includes both long and short names as well as real hard links.</p>
+<p>At offset 0x16 we can see a flag which can have either of the following values:</p>
+<p>🇬🇧 <code>0x00</code> <code>0000</code> Not in use</p>
+<p>🇬🇧 <code>0x01</code> <code>0001</code> file in use</p>
+<p>🇬🇧 <code>0x02</code> <code>0010</code> dir deleted</p>
+<p>🇬🇧 <code>0x03</code> <code>0011</code> dir in use</p>
+<p>When the file is deleted, the flag is set to <code>0x0</code>, but the rest of the MFT entry remains intact until it&rsquo;s reused by another file.</p>
+<p>Data at <code>0x18</code> and <code>0x1C</code> show the real and allocated (including slack) space for this FILE record. At <code>0x20</code> we can see the File Reference to Base Record which can be something other than 0 sometimes when there are too many attributes for the given file to fit in 1024 bytes.</p>
+<p>At the offset <code>0x28</code> we will see the Next available attribute ID. Each will have a unique ID that starts at 0.</p>
+<p>At the offset <code>0x2C</code> we have the inode (MFT entry ID) number. This data was added to the newer NTFS versions, changing the length of the data. So, the pointer to the fix-up array at the beginning (offset <code>0x4</code>) used to be <code>0x2A</code> (<code>*</code> in ASCII) on older versions is now <code>0x30</code> (<code>0</code> in ASCII). Keep that in mind when carving for <code>FILE</code> records.</p>
+<p>Finally, we have fix-up information at the <code>0x30</code> offset. <a href="https://dtidatarecovery.com/ntfs-master-file-table-fixup/">Here</a> is how the fix-up works:</p>
+<ol>
+<li>Read the records two sectors from the MFT.</li>
+<li>Read the two byte offset of the Update Sequence Array located right after the four byte record magic value</li>
+<li>Compare the first number in the array to the number at offset 510 in sector 1</li>
+<li>If the values do not match indicate and error. This is when ‘chkdsk’ could be run</li>
+<li>Repeat steps 3 and 4 for sector 2</li>
+<li>Take the next value in the Update Sequence Array and write it at offset 510 in sector 1</li>
+<li>Repeat step 6 for sector 2</li>
+</ol>
+<p>Following the header, there are four attributes (each consists of a header and contents):</p>
+<p><strong>Standard attribute</strong>. Starts with <code>0x10</code>. Standard attribute (file permissions, ⏰ timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps at <code>0x18</code>: file created/modified, record changed and last access time. ❗️ All UTC.</p>
 <p><img src="images/ntfs-attr-10.png" alt="img"></p>
-<p>Possible flag values:</p>
-<p>🇬🇧 0x00 0000 Not in use
-🇬🇧 0x01 0001 file in use
-🇬🇧 0x02 0010 dir deleted
-🇬🇧 0x03 0011 dir in use</p>
-<p><strong>File name</strong>. Starts with <code>0x30</code>. Also has timestamps, but for the filename. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file relevant timestamps see the atrribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT itself (see below marked with a yellow rectangle). If the file is too big, there will be a <code>data run</code> instead (❓).</p>
+<p>At offset <code>0x38</code> we have flags, showing the file attributes. Possible values are:</p>
+<p>🇬🇧 <code>10 00 00 00</code> Directory</p>
+<p>🇬🇧 <code>20 00 00 00</code> Archive</p>
+<p>🇬🇧 <code>40 00 00 00</code> Device</p>
+<p>🇬🇧 <code>30 00 00 00</code> Normal</p>
+<p>🇬🇧 <code>01 00 00 00</code> Read Only</p>
+<p>🇬🇧 <code>02 00 00 00</code> Hidden</p>
+<p>🇬🇧 <code>04 00 00 00</code> System</p>
+<p>🇬🇧 <code>00 10 00 00</code> Offline</p>
+<p>🇬🇧 <code>00 20 00 00</code> Not Indexed</p>
+<p>🇬🇧 <code>00 40 00 00</code> Encrypted</p>
+<p>🇬🇧 <code>00 0100 00</code> Temporary</p>
+<p>🇬🇧 <code>00 02 00 00</code> Sparse File</p>
+<p>🇬🇧 <code>00 04 00 00</code> Reparse Point</p>
+<p>🇬🇧 <code>00 08 00 00</code> Compressed</p>
+<p>Note that each flag has only one specific bit at a fixed offset set. When there are multiple flags for one file, their values are combined. For example, to calculate the final flag value for a file which is an archive (🇬🇧 <code>20 00 00 00</code>) and is both a hidden (🇬🇧 <code>02 00 00 00</code>) and a system file (🇬🇧 <code>04 00 00 00</code>) we would have <code>20</code> as the first byte and <code>0x02</code> + <code>0x04</code> <code>as</code> the second, resulting in the flag value being set to <code>0x26</code>. If this file were also encrypted, we would have <code>0x2640</code>.</p>
+<p><strong>File name</strong>. Starts with <code>0x30</code>. It also has ⏰ timestamps, but for the <strong>filename</strong>. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file timestamps, see the attribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT. If the file is too big, there will be a <code>data run</code> instead (❓).</p>
 <p><img src="images/ntfs-attr-30.png" alt="img"></p>
+<p>Contains 🐾 objects name, 🐾 parent folder and ⏰ filename timestamps which are not natively shown by Windows. It also includes 🐾 file properties like if it&rsquo;s an archive or a hidden file.</p>
+<p>At the offset <code>0x18</code> we have the parent directory reference specified. The first 6 bytes are the MFT entry number of the directory, and the remaining 2 represent the sequence number for this MFT record.</p>
+<p>Another set of ⏰ timestamps begins at the offset <code>0x20</code>.</p>
+<p>The flags at the offset <code>0x50</code> are the same as in <code>$STANDARD_INFORMATION</code>.</p>
+<p>At the offset <code>0x58</code> we have the number of Unicode characters that the filename consists of. Since Unicode characters are two bytes long, we need to double this number to get the exact number of bytes to read. Since this value is only one byte long, the max value it can have is <code>0xFF</code> which is <code>255</code> in decimal. That&rsquo;s why you can&rsquo;t have a filename longer than <code>255</code> characters. And then, at the offset <code>0x59</code> we have a namespace type which can be either of the following: <code>0x00</code> for POSIX (different case - different name), <code>0x01</code> for Win32 (case-sensitive long name), <code>0x02</code> for DOS (DOS-compatible short name) and <code>0x03</code> for Win32/DOS (the name is short enough to only have one <code>$FILE_NAME</code>, DOS-compatible). If the file name is long enough, the second <code>$FILE_NAME</code> attribute is created which preserves the case.</p>
 <p><strong>Data attribute</strong>. ⚠️ Yes, data is considered an attribute in NTFS. Starts with <code>0x80</code>.  Contains data itself or the pointer to its location (depending on the file size). If the file is small enough, its contents will be here (below, green area). In this case the file is called <em>resident</em> file. Whether it&rsquo;s a resident file or not, you can determine by the <em>non-resident</em> byte (marked with a red rectangle in the picture below). In the picture below it&rsquo;s <code>0x00</code>, which means the file <em>is</em> resident and its contents is in the MFT record (right below). Marked with a green rectangle it&rsquo;s the offset to the data, for resident files it&rsquo;s always <code>0x0018</code> (little-endian), since the start of the data section is in the attribute itself at the fixed place.</p>
 <p><img src="images/ntfs-attr-80.png" alt="img"></p>
 <p>In the picture below there is an example of a record for a bigger file. Its non-resident flag is set to <code>0x01</code> (marked with a purple rectangle), meaning the contents is somewhere else on disk. In order to find the file contents location we need to perform the following steps:</p>
@@ -550,7 +587,7 @@
 <h2 id="-timestamps">⏰ Timestamps</h2>
 <p>📆 <code>Jan 1, 1601</code>. UTC?</p>
 <p>Modified, Accessed, Created, MFT Modified.</p>
-<p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code>, <code>$I30_Index</code>.</p>
+<p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code> (if the file name is long enough, there will be two <code>$FILE_NAME</code> attributes, each with its own <code>MACB</code> timestamps set, <code>$I30_Index</code>.</p>
 <p><strong>Modified</strong></p>
 <p><strong>Created</strong></p>
 <p><strong>Accessed</strong></p>
