@@ -42,13 +42,13 @@
     </li>
     
     <li class="menu-item-artefacts db 🏺">
-      <a href="/docs/tools">
+      <a href="/docs/artefacts">
         <span>Artefacts DB 🏺</span>
       </a>
     </li>
     
     <li class="menu-item-attacks db ⚔️">
-      <a href="/docs/tools">
+      <a href="/docs/attacks">
         <span>Attacks DB ⚔️</span>
       </a>
     </li>
@@ -107,13 +107,13 @@
     </li>
     
     <li class="menu-item-artefacts db 🏺">
-      <a href="/docs/tools">
+      <a href="/docs/artefacts">
         <span>Artefacts DB 🏺</span>
       </a>
     </li>
     
     <li class="menu-item-attacks db ⚔️">
-      <a href="/docs/tools">
+      <a href="/docs/attacks">
         <span>Attacks DB ⚔️</span>
       </a>
     </li>
@@ -182,7 +182,7 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/artefacts/"> 👈🏼 Back to </br> 📜 Artefacts DB </a>
+   <a href="/docs/artefacts/fs/"> 👈🏼 Back to </br> File Systems </a>
   </p>
   <aside>
    <nav id="TableOfContents">
@@ -195,27 +195,22 @@
             <li><a href="#v12">V1.2</a></li>
           </ul>
         </li>
-        <li><a href="#structure">Structure</a>
-          <ul>
-            <li><a href="#volume-boot-record">Volume Boot Record</a></li>
-            <li><a href="#mft">MFT</a></li>
-          </ul>
-        </li>
-        <li><a href="#file-creation-and-deletion">File Creation and Deletion</a>
-          <ul>
-            <li><a href="#creating-files">Creating Files</a></li>
-            <li><a href="#deleting-files">Deleting Files</a></li>
-          </ul>
-        </li>
-        <li><a href="#timestamps">Timestamps</a></li>
-        <li><a href="#ntfs-metadata">NTFS Metadata</a>
-          <ul>
-            <li><a href="#extendusnjrnl"><code>\$Extend\$UsnJrnl</code></a></li>
-            <li><a href="#logfile"><code>$LogFile</code></a></li>
-          </ul>
-        </li>
       </ul>
     </li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#-anatomy">💀 Anatomy</a>
+      <ul>
+        <li><a href="#volume-boot-record">Volume Boot Record</a></li>
+        <li><a href="#mft">MFT</a></li>
+      </ul>
+    </li>
+    <li><a href="#file-creation-and-deletion">File Creation and Deletion</a>
+      <ul>
+        <li><a href="#creating-files">Creating Files</a></li>
+        <li><a href="#deleting-files">Deleting Files</a></li>
+      </ul>
+    </li>
+    <li><a href="#-timestamps">⏰ Timestamps</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -283,7 +278,7 @@
 <p>In a Microsoft NT File System (NTFS), hot fixing of disk sectors <strong>prevents data from being stored in a bad sector or cluster</strong>.</p>
 <p>The NTFS (New Technology File System) file system provides file-level security:</p>
 <ol>
-<li>NTFS permissions allow you to set specific access rights for individual users or groups on a file or folder. These permissions include read, write, execute, and delete access, as well as more advanced permissions like modify, full control, and take ownership.</li>
+<li>NTFS permissions allow you to set specific access rights for individual users or groups on a file or folder. These permissions include read, write, execute, and delete access and more advanced permissions like modify, full control, and take ownership.</li>
 <li>You can also set permissions to allow or deny access to specific types of users or groups, such as administrators, authenticated users, or specific user accounts.</li>
 <li>NTFS uses ACLs to define more complex access control policies. ACLs allow you to define sets of permissions for multiple users or groups, and can be used to define more fine-grained access control policies. For example, you can create an ACL that allows members of a certain group to read and modify files in a particular folder, but denies access to other users.</li>
 <li>NTFS also provides other security features, such as file and folder encryption using BitLocker, and auditing to track access and modifications to files and folders. Overall, NTFS is a robust file system that provides a wide range of security features to help you protect your files and data.</li>
@@ -298,12 +293,27 @@
 <p>Windows NT 3.51, included admin controls, compressed files and User Access Control (recycle bin for each user and own account).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\$</span>Recycle.Bin<span class="se">\ </span><span class="o">(</span><span class="nv">$R</span><span class="p">&amp;</span><span class="nv">$I</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="se">\R</span>ECYCLER
-</span></span></code></pre></div><h3 id="structure">Structure</h3>
-<h4 id="volume-boot-record">Volume Boot Record</h4>
+</span></span></code></pre></div><h2 id="features">Features</h2>
+<p>🪶 Journaling, aka transaction logging. Records change to the metadata of FS.
+🪶 ACL
+🪶 Compression
+🪶 Change tracking
+🪶 Disk usage quotas. So that one user won&rsquo;t eat up the entire volume.
+🪶 VSC
+🪶 Hard and Soft links (required to be POSIX compliant). One file has several names - hard links. Several pointers to the same file - soft links.
+🪶 Reparse points. Different file usage types.
+🪶 ADS
+🪶 Distributed link tracking. Some files have an object ID to track them across the system (when the file was renamed, how many times, where it was moved, etc).
+🪶 Volume mount points
+🪶 Sparse file support
+🪶 Encryption
+🪶 Single instance storage. Similar to soft links. How is it different?</p>
+<h2 id="-anatomy">💀 Anatomy</h2>
+<h3 id="volume-boot-record">Volume Boot Record</h3>
 <p>In the <code>$MFT</code> is represented as <code>$Boot</code>. It&rsquo;s located at the sector <code>0</code> of the volume (not physical disk!). Below is the VBR structure for NTFS. The most important entries for forensic purposes are highlighted.</p>
 <p><img src="images/ntfs-boot-record-struct.png" alt="img"></p>
-<h4 id="mft">MFT</h4>
-<p>The heart ♥️ of NTFS. Created once the disk/volume is formatted with NTFS. It&rsquo;s an index of every single file on disk (at least 1 entry of a file), including  NTFS metadata files (those that start with <code>$</code>). The first 26 records are for the system meta data files. Records 12-23 are reserved. Records 24-26 transaction log and error recovery. The first user-created file is usually at index 35.</p>
+<h3 id="mft">MFT</h3>
+<p>The heart ♥️ of NTFS. Created once the disk/volume is formatted with NTFS. It&rsquo;s an index of every single file on disk (at least 1 entry of a file), including  NTFS metadata files (those that start with <code>$</code>). The first 26 records are for the system metadata files. Records 12-23 are reserved. Records 24-26 transaction log and error recovery. The first user-created file is usually at index 35.</p>
 <p>Below is the full table of the files [<a href="https://flatcap.org/linux-ntfs/ntfs/files/index.html">6</a>].</p>
 <table>
 <thead>
@@ -319,13 +329,13 @@
 <td style="text-align:right">0</td>
 <td style="text-align:left"><a href="https://flatcap.org/linux-ntfs/ntfs/files/mft.html">$MFT</a></td>
 <td style="text-align:left"></td>
-<td style="text-align:left">Master File Table - An index of every file</td>
+<td style="text-align:left">Master File Table - An index of every file. It describes the MFT itself.</td>
 </tr>
 <tr>
 <td style="text-align:right">1</td>
 <td style="text-align:left"><a href="https://flatcap.org/linux-ntfs/ntfs/files/mftmirr.html">$MFTMirr</a></td>
 <td style="text-align:left"></td>
-<td style="text-align:left">A <strong>backup copy</strong> of the first 4 records of the MFT</td>
+<td style="text-align:left">A <strong>backup copy</strong> of the first 4 records of the MFT that is required in case MFT gets damaged.</td>
 </tr>
 <tr>
 <td style="text-align:right">2</td>
@@ -343,7 +353,7 @@
 <td style="text-align:right">4</td>
 <td style="text-align:left"><a href="https://flatcap.org/linux-ntfs/ntfs/files/attrdef.html">$AttrDef</a></td>
 <td style="text-align:left"></td>
-<td style="text-align:left">Attribute definitions</td>
+<td style="text-align:left">Attribute definitions.</td>
 </tr>
 <tr>
 <td style="text-align:right">5</td>
@@ -427,22 +437,72 @@
 <td style="text-align:right">Any</td>
 <td style="text-align:left"><a href="https://flatcap.org/linux-ntfs/ntfs/files/usnjrnl.html">$UsnJrnl</a></td>
 <td style="text-align:left">2K</td>
-<td style="text-align:left">Journalling of Encryption (usually at <code>/$Extend</code> directory, see above)</td>
+<td style="text-align:left">Journalling of Encryption (usually at <code>/$Extend</code> directory, see above). Known as a Change Journal.</td>
 </tr>
 </tbody>
 </table>
-<p>A MFT record contains the following info:</p>
+<p>These files cannot be opened from the user space, it&rsquo;s maintained by NTFS driver. So, even if shown by Directory Snoop, you can&rsquo;t open it on a live system. You can view the hex data though in DS-NTFS. Another option would be to make a disk image and carve the files. View some more information here [<a href="http://blog.opensecurityresearch.com/2011/10/how-to-acquire-locked-files-from.html">3</a>].</p>
+<p><strong><code>\$Extend\$UsnJrnl</code></strong>. Journal change log for NTFS system. EVERYTHING! File and directory deletion, creation, and encryption.</p>
+<p><strong><code>$LogFile</code></strong>. It&rsquo;s a transaction journal of $MFT. Very similar to <code>$UsnJrnl</code>, but lives less. Tracks file creation, modification, renaming and deletion. May not exist, but since Windows Vista <code>$UsnJrnl</code> is there <strong>by default</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 istat <span class="o">[</span>options<span class="o">]</span> image inode -z timezone <span class="c1"># parses the information in the MFT entries. </span>
+</span></span></code></pre></div><p>A MFT record contains the following info and is usually 1024 bytes long:</p>
 <ul>
 <li>file allocation status</li>
 <li>file dates</li>
 <li>file name</li>
 <li>location</li>
 </ul>
-<p>Records start at index <code>0</code> (for the MFT record itself) and the rest are numbered sequencially. Each record is usually 1024 bytes. New records are created on a first-available basis, i.e. if a record was deleted (deallocated) it get overwritten once new one is created and the deallocated one is the first free index in the table.</p>
-<p>A file record begins with a header (ASCII <code>FILE</code> or <code>BAAD</code> if it was corrupted). It contains info about the file. It&rsquo;s made up of attributes. Each of them contains specific information about the file record entry. Each record ends with a <code>0xFF FF FF FF</code>. It has a sequence numbere at offset <code>0x10</code> 2 bytes long, that&rsquo;s incremented each time the file is deleted (not allocated ❗️). At offset <code>0x16</code> there is an allocation status flags: <code>0x00</code> for deleted file, <code>0x01</code> for allocated one, <code>0x02</code> for deleted dir, <code>0x03</code> for allocated dir.</p>
-<p>Following the header, there are four attributes (each consists of a header and contents):</p>
+<p>Every object gets an entry with attributes to describe it.</p>
+<p><img src="images/ntfs-attr-overview.png" alt="img"></p>
+<table>
+<thead>
+<tr>
+<th>🗒️ FILES</th>
+<th>📂 DIRECTORIES</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x10</code> <code>$STANDARD_INFORMATION</code></td>
+<td><code>0x10</code> <code>$STANDARD_INFORMATION</code></td>
+</tr>
+<tr>
+<td><code>0x30</code> <code>$FILE_NAME</code> (long)</td>
+<td><code>0x30</code> <code>$FILE_NAME</code> (long)</td>
+</tr>
+<tr>
+<td><code>0x30</code> <code>$FILE_NAME</code> (short, sometimes)</td>
+<td><code>0x30</code> <code>$FILE_NAME</code> (short, sometimes)</td>
+</tr>
+<tr>
+<td><strong><code>0x80</code> <code>$DATA</code></strong></td>
+<td><strong><code>0x90</code> <code>$INDEX_ROOT</code></strong></td>
+</tr>
+<tr>
+<td><strong><code>0x80</code> <code>$DATA</code> (ADS, sometimes)</strong></td>
+<td><strong><code>0xA0</code> <code>$INDEX_ALLOCATION</code> (sometimes)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Volume <strong>name</strong> also gets an entry (always <code>#3</code> for the <code>$VOLUME</code> system file).</p>
+<p>Records start at index <code>0</code> (for the MFT record itself) and are numbered sequentially. Each record is usually 1024 bytes. New records are created on a first-available basis, i.e. if a record was deleted (deallocated), it gets overwritten once a new one is created, and the deallocated one is the first free index in the table.</p>
+<p>A file record begins with a header (ASCII <code>FILE</code> or <code>BAAD</code> if corrupted). It contains info about the file. It&rsquo;s made up of attributes. Each of them contains specific information about the file record entry. Each record ends with a <code>0xFF FF FF FF</code>. It has a sequence number at offset <code>0x10</code> 2 bytes long, incremented each time the file is deleted (not allocated ❗️). At offset <code>0x16</code> there is an allocation status flags: <code>0x00</code> for deleted file, <code>0x01</code> for allocated one, <code>0x02</code> for deleted dir, <code>0x03</code> for allocated dir.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># if you have an MFT record number, you can pass to istat</span>
+</span></span><span class="line"><span class="cl">📘 istat imagefile MFT_record_number
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># output:</span>
+</span></span><span class="line"><span class="cl">&gt; allocation status
+</span></span><span class="line"><span class="cl">&gt; MFT entry number 
+</span></span><span class="line"><span class="cl">&gt; <span class="nv">$LogFile</span> sequence number
+</span></span><span class="line"><span class="cl">&gt; <span class="nv">$Standard_Information</span> attribute <span class="o">(</span>flags, security info, <span class="nv">$UsnJrnl</span> number, MACB timestamps<span class="o">)</span>
+</span></span></code></pre></div><p>Following the header, there are four attributes (each consists of a header and contents):</p>
 <p><strong>Standard attribute</strong>. Starts with <code>0x10</code>. Standard attribute (file permissions, timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps: file created/modified, record changed and last access time. ⚠️ All UTC.</p>
 <p><img src="images/ntfs-attr-10.png" alt="img"></p>
+<p>Possible flag values:</p>
+<p>🇬🇧 0x00 0000 Not in use
+🇬🇧 0x01 0001 file in use
+🇬🇧 0x02 0010 dir deleted
+🇬🇧 0x03 0011 dir in use</p>
 <p><strong>File name</strong>. Starts with <code>0x30</code>. Also has timestamps, but for the filename. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file relevant timestamps see the atrribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT itself (see below marked with a yellow rectangle). If the file is too big, there will be a <code>data run</code> instead (❓).</p>
 <p><img src="images/ntfs-attr-30.png" alt="img"></p>
 <p><strong>Data attribute</strong>. ⚠️ Yes, data is considered an attribute in NTFS. Starts with <code>0x80</code>.  Contains data itself or the pointer to its location (depending on the file size). If the file is small enough, its contents will be here (below, green area). In this case the file is called <em>resident</em> file. Whether it&rsquo;s a resident file or not, you can determine by the <em>non-resident</em> byte (marked with a red rectangle in the picture below). In the picture below it&rsquo;s <code>0x00</code>, which means the file <em>is</em> resident and its contents is in the MFT record (right below). Marked with a green rectangle it&rsquo;s the offset to the data, for resident files it&rsquo;s always <code>0x0018</code> (little-endian), since the start of the data section is in the attribute itself at the fixed place.</p>
@@ -463,8 +523,12 @@
 <p><strong>Object ID attribute</strong>. Starts with <code>0x40</code>. This attribute contains a GUID of a file.</p>
 <p><img src="images/ntfs-attr-40.png" alt="img"></p>
 <p><strong>Bitmap attribute</strong>. Starts with <code>0xE0</code>?<code>0xB0</code>?. ⁉️</p>
-<h3 id="file-creation-and-deletion">File Creation and Deletion</h3>
-<h4 id="creating-files">Creating Files</h4>
+<p>Each MFT entry needs to be allocated and can get unallocated. When the MFT is allocated, it points to a cluster the file contents reside (if non-resident, of course). However, if the entry was unallocated (the file was deleted), the metadata may or may not be filled out. Keep in mind that in that case, the clusters that were used by that data could be reused.</p>
+<blockquote>
+<p>✍️ MFT records often come in bunches if created in close proximity to each other. This doesn&rsquo;t happen all the time, but it can sometimes be used to see if the timestomping took place. For example, the file claims to be created a month ago, but it has the same ids as files that were created yesterday. When executables were saved to disk and then run shortly afterwards, expect to see MFT records corresponding to exe itself and its respective prefetch files to have similar ID values.</p>
+</blockquote>
+<h2 id="file-creation-and-deletion">File Creation and Deletion</h2>
+<h3 id="creating-files">Creating Files</h3>
 <p>Steps to create a file:</p>
 <ul>
 <li><input disabled="" type="checkbox"> A file record (<code>FILE</code>) is created in <code>$MFT</code></li>
@@ -475,7 +539,7 @@
 </ul>
 <p>Go to &ldquo;Browse File Records&rdquo; on the top pane, choose the newly created file and see its attributes. The most important are sequence number and flags. I&rsquo;ve noticed that when I create and delete files several times, the MFT file record remains the same, the sequence number just gets incremented. That&rsquo;s because NTFS uses the first free record when the file is created. If you know at which sector a resident file was located before deletion, you can view its contents before it gets overwritten. The sector number is shown on the very rightmost bottom pane in Active@Disk Editor:</p>
 <p><img src="images/ntfs-activediskedit-sector-createdfile.png" alt="img"></p>
-<h4 id="deleting-files">Deleting Files</h4>
+<h3 id="deleting-files">Deleting Files</h3>
 <p>Steps taken:</p>
 <ul>
 <li><input disabled="" type="checkbox"> The record header sequence number (see above) is incremented</li>
@@ -483,7 +547,7 @@
 <li><input disabled="" type="checkbox"> The bitmap for the MFT is changed to show this file/dir is unallocated</li>
 <li><input disabled="" type="checkbox"> If the data is non-resident, the $BitMap file is updated to indicate the clusters are unallocated</li>
 </ul>
-<h3 id="timestamps">Timestamps</h3>
+<h2 id="-timestamps">⏰ Timestamps</h2>
 <p>📆 <code>Jan 1, 1601</code>. UTC?</p>
 <p>Modified, Accessed, Created, MFT Modified.</p>
 <p>Sources: <code>$Standart_Information</code>,  <code>$Filename</code>, <code>$I30_Index</code>.</p>
@@ -520,13 +584,6 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Changed</strong></p>
-<h3 id="ntfs-metadata">NTFS Metadata</h3>
-<p>These files cannot be opened from the user space, it&rsquo;s maintained by NTFS driver. So, even if shown by Directory Snoop, you can&rsquo;t open it on a live system. You can view the hex data though in DS-NTFS. Another option would be to make a disk image and carve the files. View some more information here [<a href="http://blog.opensecurityresearch.com/2011/10/how-to-acquire-locked-files-from.html">3</a>].</p>
-<h4 id="extendusnjrnl"><code>\$Extend\$UsnJrnl</code></h4>
-<p>Journal change log for NTFS system. EVERYTHING! File and directory deletion, creation, encryption.</p>
-<h4 id="logfile"><code>$LogFile</code></h4>
-<p>It&rsquo;s a transaction journal of $MFT. Very similar to <code>$UsnJrnl</code>, but lives less. Tracks file creation, modification, renaming and deletion. May not exist, but since Windows Vista <code>$UsnJrnl</code> is there <strong>by default</strong>.</p>
 <h2 id="references">References</h2>
 <p>[<a href="">1</a>] Windows OS file system for 27 years</p>
 <p>[<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">2</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison, Magnet Webinar</p>
