@@ -210,7 +210,7 @@
             <li><a href="#bitmap-attribute">Bitmap attribute</a></li>
           </ul>
         </li>
-        <li><a href="#logfile">$LogFile</a></li>
+        <li><a href="#logfile-and-usnjrnl"><code>$LogFile</code> And <code>$UsnJrnl</code></a></li>
       </ul>
     </li>
     <li><a href="#file-creation-and-deletion">File Creation and Deletion</a>
@@ -615,8 +615,80 @@ encrypted, we would have <code>0x2640</code>.</p>
 <blockquote>
 <p>✍️ MFT records often come in bunches if created in close proximity to each other. This doesn&rsquo;t happen all the time, but it can sometimes be used to see if the timestomping took place. For example, the file claims to be created a month ago, but it has the same ids as files that were created yesterday. When executables were saved to disk and then run shortly afterwards, expect to see MFT records corresponding to exe itself and its respective prefetch files to have similar ID values.</p>
 </blockquote>
-<h3 id="logfile">$LogFile</h3>
-<p>This artefact is related to the journaling functionality of the NTFS system.</p>
+<h3 id="logfile-and-usnjrnl"><code>$LogFile</code> And <code>$UsnJrnl</code></h3>
+<p>Both are parts of the journaling (transactional logging) capability of the NTFS. <code>$LogFile</code> tracks file system changes, <code>$UsnJrnl</code> however, is different.</p>
+<p><code>$LogFile</code> records data that needs to be inserted into <code>$MFT</code>, <code>$I30</code> Indexes, <code>$UsnJrnl</code> etc. One simple file creation event can spawn numerous logs in <code>$LogFile</code>. It&rsquo;s default size is 64MB (that&rsquo;s usually around 4 hours worth of events on an active system).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">chkdsk</span> <span class="n">volume</span> <span class="p">/</span><span class="n">L</span> <span class="c"># get the current size</span>
+</span></span><span class="line"><span class="cl"><span class="err">📘</span> <span class="n">chkdsk</span> <span class="n">volume</span> <span class="p">/</span><span class="n">L:size</span> <span class="c"># change the size</span>
+</span></span></code></pre></div><blockquote>
+<p>❗️ So, if the file is resident, it gets recorded. If not - the file content will not be recorded. Only the data changed or inserted will be logged in the payload. When the file is not resident, data run clusters can be recorded, which can help retrieve deleted data if it is not overwritten.</p>
+</blockquote>
+<p>🐾 operation
+🐾 f_name
+🐾 current attribute
+🐾 ⏰ timestamps (when changed)
+🐾 payload</p>
+<blockquote>
+<p>❗️<code>$LogFile</code> does not include timestamps for each event! Log Sequence Number is used instead. Timestamps in the <code>$LogFile</code> are only recorded when changed in the <code>$MFT</code>. However, <code>$LogFile</code> logs changed made to <code>$UsnJrnl</code> which contains the timestamps of the change.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 LogFileParser /ReconstructDataruns <span class="c1"># to retrieve clusters for deleted files.</span>
+</span></span></code></pre></div><p>Two tools can be used 🛠️ <code>LogFileParser</code> (freeware) and 🛠️ TZWork&rsquo;s <code>mala</code> (💰 commercial).</p>
+<p>See <a href="https://dfir.ru/2019/02/16/how-the-logfile-works/">here</a> and <a href="http://forensicinsight.org/wp-content/uploads/2013/06/F-INSIGHT-NTFS-Log-TrackerEnglish.pdf">here</a> for more info about this artefact. When reviewing the $LogFile you can filter by parent directory to only include relevant events (for example, System32 folder or by extension). You can also sort or filter by Parent Entry Number if you know the folder used by the attacker. Use 🛠️ <code>LogFileParser</code> to process the file and output LogFile.csv (summary file), where some entries point to corresponding supplementary files for more info (for example, <code>LogFile_INDX_I30.csv</code>). LogFileNames.csv will list all file names present in the <code>$LogFile</code>.</p>
+<p><code>$UsnJrnl</code> provides a high-level summary of the changes made to files and directories. The logs usually contain a few days or several weeks&rsquo; worth of data. Each event type has a corresponding code. Backup and scanning software might use this file to check the latest changes to be updated with. There will be fewer events in this file, unlike <code>$LogFile</code>. It can, for example, track <code>FileCreate</code> events.</p>
+<blockquote>
+<p>❓Does 🛠️ ProcessMonitor use this file to find <code>FileCreate</code> events?</p>
+</blockquote>
+<p>🐾 f_name
+🐾 MFT number
+🐾 parent dir&rsquo;s MFT number
+🐾 ⏰ timestamp of the change
+🐾 reason code
+🐾 file size
+🐾 attributes (hidden, archived etc)</p>
+<p>The data recorded is stored in the <code>$J</code> ADS of <code>$UsnJrnl</code>. <code>$J</code> is a very large sparse data stream (much of it are zeroes). It has a lot of unallocated data. Another ADS <code>$Max</code> (32 bytes) contains metadata about the <code>$UsnJrnl</code> itself. For USN reason codes, see <a href="https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-usn_record_v2">this</a> Microsoft documentation.</p>
+<blockquote>
+<p>❗️Records are not numbered and tracked based on their offset within this file. Each file and directory in <code>$MFT</code> had an Update Sequence Number pointing to the specific offset within <code>$UsnJrnl</code>:<code>$J</code> file.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 fsutil usn queryJournal <span class="c1"># check the size of UsnJrnl</span>
+</span></span><span class="line"><span class="cl">📘 mftecmd.exe -f F:<span class="se">\C\$</span>Extent<span class="se">\$</span>J --csv pathtooutput --csvf results.csv <span class="c1"># if this is a KAPE triage image was mounted as F drive, point to the $J file directly </span>
+</span></span><span class="line"><span class="cl">📘 mftecmd.exe -f F:<span class="se">\C\$</span>Extent<span class="se">\$</span>UsrJrnl<span class="se">\$</span>J --csv pathtooutput --csvf results.csv <span class="c1"># IF the full disk image was mounted as F:, point it to the $J file. </span>
+</span></span></code></pre></div><p>Another tool to parse <code>$UsnJrnl</code> is TZWork&rsquo;s 🛠️ <code>jp</code>.</p>
+<table>
+<thead>
+<tr>
+<th>action</th>
+<th>$LogFile</th>
+<th>$UsnJrnl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F/D created</td>
+<td><code>AddIndexEntryAllocation</code>, <code>InitializeFileRecordSegment</code></td>
+<td><code>FileCreate</code></td>
+</tr>
+<tr>
+<td>F/D deleted</td>
+<td><code>DeletelndexEntryAllocation</code>, <code>DeallocateFileRecordSegment</code></td>
+<td><code>FileCreate</code></td>
+</tr>
+<tr>
+<td>F/D renamed or moved</td>
+<td><code>DeletelndexEntryAllocation</code>, <code>AddlndexEntryAllocation</code></td>
+<td><code>RenameOldName</code> and <code>RenameNewName</code></td>
+</tr>
+<tr>
+<td>ADS created</td>
+<td><code>CreateAttribute</code> with a name ending in <code>: ADS</code></td>
+<td><code>StreamChange</code> and <code>NamedDataExtend</code></td>
+</tr>
+<tr>
+<td>File meta modified</td>
+<td>* Op codes for $LogFile often are not sufficient to determine file modification</td>
+<td><code>DataOverwrite</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="file-creation-and-deletion">File Creation and Deletion</h2>
 <h3 id="creating-files">Creating Files</h3>
 <p>Steps to create a file:</p>
@@ -632,11 +704,18 @@ encrypted, we would have <code>0x2640</code>.</p>
 <h3 id="deleting-files">Deleting Files</h3>
 <p>Steps taken:</p>
 <ul>
-<li><input disabled="" type="checkbox"> The record header sequence number (see above) is incremented</li>
-<li><input disabled="" type="checkbox"> The record header allocation flag indicates a deleted file or dir</li>
-<li><input disabled="" type="checkbox"> The bitmap for the MFT is changed to show this file/dir is unallocated</li>
-<li><input disabled="" type="checkbox"> If the data is non-resident, the $BitMap file is updated to indicate the clusters are unallocated</li>
+<li><input disabled="" type="checkbox"> In the <code>$MFT</code> the record header sequence number (see above) is incremented (allocation flag)</li>
+<li><input disabled="" type="checkbox"> <code>$MFT</code> record is marked as available but not overwritten.</li>
+<li><input disabled="" type="checkbox"> <code>$Bitmap</code> file marks clusters as free, but the data at those clusters is not yet touched. If the data is non-resident, the $BitMap file is updated to indicate the clusters are unallocated.</li>
+<li><input disabled="" type="checkbox"> The parent directory marks this entry as available, possibly triggering rebalancing (may or may not overwrite the index entry).</li>
+<li><input disabled="" type="checkbox"> <code>$LogFile</code> updated.</li>
+<li><input disabled="" type="checkbox"> <code>$Secure</code>, <code>$ObjID</code> and <code>$Quota</code> are updated.</li>
+<li><input disabled="" type="checkbox"> <code>$UsnJrnl</code> updated.</li>
 </ul>
+<blockquote>
+<p>❗️<code>$FILE_NAME</code> is not changed until the <code>$MFT</code> entry is reused.</p>
+<p>❗️<code>$I30</code> maybe preserved.</p>
+</blockquote>
 <h2 id="-timestamps">⏰ Timestamps</h2>
 <p>📆 <code>Jan 1, 1601</code>. UTC?</p>
 <p>Modified, Accessed, Created, MFT Modified.</p>

@@ -244,6 +244,42 @@
 <p>Check <code>$I30 </code>as well.</p>
 <p>Check MFT for records with the similar entry numbers.</p>
 <h2 id="file-deletewiping">File Delete/Wiping</h2>
+<p>🛠️ <code>sdelete</code> (more about the forensic footprint of the tool <a href="https://www.inversecos.com/2022/09/forensic-detection-of-files-deleted-via.html">here</a>). Wipes files, directories and free space.  This is what this tool&rsquo;s activity looks like:</p>
+<p><img src="images/sdelete.png" alt="img"></p>
+<p>As you can see, files are renamed with a peculiar pattern first. Each new file is renamed to the subsequent letter so that the first file is renamed with <code>A</code>s, the second with <code>B</code>s etc.</p>
+<p>🛠️ <code>bcwipe</code> 💰 (commercial). Clears <code>$I30</code> slack and MFT records. Renames files once with a random name equal in size to the original. Check <code>$UsnJrnl</code>, <code>$LogFile</code>, and 🏺 execution artefacts. 📂 <code>C:\ProgramData\Microsoft\Search\Data\Applications\Windows\GatherLogs\SystemIndex</code> contains 🏺 <code>.gthr</code> gather log that&rsquo;s used to index files for better search performance (used by Windows Search index). Windows Search index uses <code>$UsrJrnl</code> to track changes made to the system. Even when files were deleted and wiped, <code>.gthr</code> log, <code>$UsrJrnl</code>, <code>$I30</code> can be used to confirm, at least, that the file existed and even recover some data from it. Also, 🏺 Prefetch file for <code>sdelete</code> or any other wiping tool could indicate that some wiping occurred.</p>
+<p>🛠️ Eraser (open-source).  Renamed MFT records (with ADS, if present), $130 slack, $UsnJrnl, $LogFile, and “Evidence of Execution” artefacts persist</p>
+<p>🛠️ Cipher (built-in on Windows). Includes a feature to overwrite free space (not individual files). ❗️Creates a persistent directory named <code>EFSTMPWP</code> at the volume root and adds temp files to fill free space. Also,  <code>LOL.bin</code> is sometimes used for cleanup.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 cipher.exe /w:&lt;drive&gt;
+</span></span></code></pre></div><p>🛠️ CCleaner</p>
+<p>For Windows Registry recovery, use 🛠️ <code>Registry Explorer</code>. It can process unallocated space for deleted keys. It can also spot anomalies to spot fileless malware hiding the registry. It can detect both large values and base64 encoded strings.</p>
+<p>One can also use carving to look for specific data across various artefacts. It&rsquo;s useful when the metadata is reused and no longer exists for the file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 icat -r image inode <span class="c1"># recover with metadata method</span>
+</span></span><span class="line"><span class="cl">📘 tsk_recover image outputdir
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Carving methods</span>
+</span></span><span class="line"><span class="cl">📘 photorec <span class="c1"># win, lin, mac, 300+ file signatures. Uses metadata from the carved files.</span>
+</span></span><span class="line"><span class="cl">📘 
+</span></span></code></pre></div><p>You can also utilise Volume Shadow Copies to restore deleted files. 🛠️ <code>vss_carver.py</code> can be used for that.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 vss_carver -t RAW -i /nrnt/ewf_mount/ewf1 -o <span class="m">0</span> -c -/vsscarve-basefile/catalog -s -/vsscarve-basefile/store
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 vss_catalog_manipulator list -/vsscarve-basefile/catalog
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 vshadoranount -o <span class="m">0</span> -c -/vsscarve-basefile/catalog -s -/vsscarve-basefile/store
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 <span class="nb">cd</span> /mnt/vsscarveJaasefile/ _
+</span></span><span class="line"><span class="cl">📘 <span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> rrountwin <span class="nv">$i</span> /mnt/shadowcarve basefile/<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><p>Yet another way to recover files is to use 🛠️ <code>bulk_extractor-rec</code> to carve for Event logs.</p>
+<ul>
+<li><code>evtx</code> - <code>EVTX</code> file and <code>EVTX</code> chunks (with generated file header)</li>
+<li><code>ntfsindx</code> - <code>INDX</code> records of <code>SINDEXALLOCATION</code> attribute</li>
+<li><code>ntfslogfile</code> - RSTR/RCRD records of SLogFile</li>
+<li><code>ntfsmft</code> - <code>FILE</code> records of <code>$MFT</code></li>
+<li><code>ntfsusn</code> - <code>USNRECORD</code> structure of <code>$UsnJml:$J</code></li>
+<li><code>utmp</code> - <code>utmp</code> structure records</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 blkls <span class="o">[</span>options<span class="o">]</span> image &gt; image.unallocated
+</span></span></code></pre></div><p>The last carving resort - <code>strings</code>, <code>bstrings</code> (Windows) and <code>grep</code>.</p>
 <h2 id="encryption">Encryption</h2>
 <h2 id="fileless-malware">Fileless Malware</h2>
 <p>Malware of that type is still not 100% fileless. What it means is that the main code is not written to disk, but the loader still needs to be present on the disk. most often it&rsquo;s a PowerShell script or WMI on Windows machines.</p>
