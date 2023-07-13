@@ -201,7 +201,16 @@
     <li><a href="#-anatomy">💀 Anatomy</a>
       <ul>
         <li><a href="#volume-boot-record">Volume Boot Record</a></li>
-        <li><a href="#mft">MFT</a></li>
+        <li><a href="#mft">MFT</a>
+          <ul>
+            <li><a href="#standard-attribute">Standard attribute</a></li>
+            <li><a href="#file-name">File name</a></li>
+            <li><a href="#data-attribute">Data attribute</a></li>
+            <li><a href="#object-id-attribute">Object ID attribute</a></li>
+            <li><a href="#bitmap-attribute">Bitmap attribute</a></li>
+          </ul>
+        </li>
+        <li><a href="#logfile">$LogFile</a></li>
       </ul>
     </li>
     <li><a href="#file-creation-and-deletion">File Creation and Deletion</a>
@@ -270,11 +279,11 @@
   <div class="content" itemprop="articleBody">
     <p>Developed in collaboration with IBM. POSIX compliant. Official docs for NTFS <a href="http://ntfs.com/ntfs-mft.htm">here</a>.</p>
 <blockquote>
-<p>⚠️ Everything is a file!</p>
-<p>⚠️ All offsets are relative to the start of the data structures.</p>
-<p>⚠️ Apple macOS machines can read NTFS devices, but do not support writing to them by default.</p>
+<p>❗️ Everything is a file!
+❗️ All offsets are relative to the start of the data structures.
+❗️ Apple macOS machines can read NTFS devices but do not support writing to them by default.</p>
 </blockquote>
-<p>Entire logical volume is a data erea (in contrast to FAT where there is a system area as well ❓).</p>
+<p>The entire logical volume is a data area (in contrast to FAT where there is a system area as well ❓).</p>
 <p>In a Microsoft NT File System (NTFS), hot fixing of disk sectors <strong>prevents data from being stored in a bad sector or cluster</strong>.</p>
 <p>The NTFS (New Technology File System) file system provides file-level security:</p>
 <ol>
@@ -517,7 +526,17 @@
 <li>Repeat step 6 for sector 2</li>
 </ol>
 <p>Following the header, there are four attributes (each consists of a header and contents):</p>
-<p><strong>Standard attribute</strong>. Starts with <code>0x10</code>. Standard attribute (file permissions, ⏰ timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps at <code>0x18</code>: file created/modified, record changed and last access time. ❗️ All UTC.</p>
+<p><strong>Directories</strong>. A directory is almost a file, but instead of data, it contains references to other files. Sometimes, even unallocated <code>$INDEX_ALLOCATION</code> has a list of files&rsquo; <code>$FILE_NAME</code> values. <code>$INDEX_ROOT</code> is always present, and <code>$INDEX_ALLOCATION</code> is only needed when there are more entries. The latter looks pretty much like <code>$DATA</code> for files. <code>$INDEX_ROOT</code> + <code>$INDEX_ALLOCATIONS</code> (optional) = <code>$I30</code>.</p>
+<p><code>$INDEX_ALLOCATION</code>/<code>$INDEX_ROOT</code> header starts with an <code>INDX</code> magic number (<code>0x49 0x4E 0x44 0x58</code>). At the offset 0x20 allocated size of entries is specified, and the offset 0x1C holds the real size of the entries. Given these two values, we can calculate the slack space which might contain some residual data from previously deleted/deallocated entries. The header takes 0x40 bytes.</p>
+<p>At the offset <code>0x40</code> the <code>$I30</code> index entry starts. The first 8 bytes are MFT number. It points to the MFT entry that holds all the metadata about the file. Some info like ⏰ timestamps (<code>$STANDARD_INFORMATION</code>) and filenames are copies from the MFT entry to improve performance. Each folder and file has its entry here. Each entry has a 16-byte long header. At the offset <code>0x60</code> we have four (<code>bmca</code>) ⏰ timestamps 8-byte in size. At the offset <code>0x90</code> we have name length (2 bytes) and type followed by the file name itself.</p>
+<p>This index is a B-tree that needs to be rebalanced from time to time, leaving some interesting data in the slack space during this process.</p>
+<p>User 🛠️ <code>indx2csv</code> and 🛠️ <code>Velociraptor</code> can be both used to parse this artefact. Also, 🛠️ <code>INDXparse.py</code> parses individual <code>$I30</code> only. Also, 🛠️ <code>icat</code> can be used to extract the index from the image.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 icat image MFT_num-160-attr_id &gt; <span class="nv">$I30</span> <span class="c1"># extract the index from the disk image</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 indx2csv /IndxFile:G:<span class="se">\c</span>ases<span class="se">\$</span>I30 /OutputPath:G:<span class="se">\c</span>ases
+</span></span><span class="line"><span class="cl">📘 Velociraptor artifacts collect Windows.NTFS.I30 --args <span class="nv">DerectoryGlobs</span><span class="o">=</span><span class="s2">&#34;F:\\Windows\\Temp\\Permon&#34;</span> --format<span class="o">=</span>csv
+</span></span></code></pre></div><h4 id="standard-attribute">Standard attribute</h4>
+<p>Starts with <code>0x10</code>. Standard attribute (file permissions, ⏰ timestamps, security and admin info). Below is the attribute highlighted. Note, that there are very useful timestamps at <code>0x18</code>: file created/modified, record changed and last access time. ❗️ All UTC.</p>
 <p><img src="images/ntfs-attr-10.png" alt="img"></p>
 <p>At offset <code>0x38</code> we have flags, showing the file attributes. Possible values are:</p>
 <p>🇬🇧 <code>10 00 00 00</code> Directory</p>
@@ -534,19 +553,22 @@
 <p>🇬🇧 <code>00 02 00 00</code> Sparse File</p>
 <p>🇬🇧 <code>00 04 00 00</code> Reparse Point</p>
 <p>🇬🇧 <code>00 08 00 00</code> Compressed</p>
-<p>Note that each flag has only one specific bit at a fixed offset set. When there are multiple flags for one file, their values are combined. For example, to calculate the final flag value for a file which is an archive (🇬🇧 <code>20 00 00 00</code>) and is both a hidden (🇬🇧 <code>02 00 00 00</code>) and a system file (🇬🇧 <code>04 00 00 00</code>) we would have <code>20</code> as the first byte and <code>0x02</code> + <code>0x04</code> <code>as</code> the second, resulting in the flag value being set to <code>0x26</code>. If this file were also encrypted, we would have <code>0x2640</code>.</p>
-<p><strong>File name</strong>. Starts with <code>0x30</code>. It also has ⏰ timestamps, but for the <strong>filename</strong>. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file timestamps, see the attribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT. If the file is too big, there will be a <code>data run</code> instead (❓).</p>
+<p>Note that each flag has only one specific bit at a fixed offset set. When there are multiple flags for one file, their values are combined. For example, to calculate the final flag value for a file which is an archive (🇬🇧 <code>20 00 00 00</code>) and is both a hidden (🇬🇧 <code>02 00 00 00</code>) and a system file (🇬🇧 <code>04 00 00 00</code>) we would have <code>20</code> as the first byte and <code>0x02</code> + <code>0x04</code> <code>as</code> the second, resulting in the flag value being set to <code>0x26</code>. If this file were also
+encrypted, we would have <code>0x2640</code>.</p>
+<h4 id="file-name">File name</h4>
+<p>Starts with <code>0x30</code>. It also has ⏰ timestamps, but for the <strong>filename</strong>. The first 6 bytes are for the parent directory&rsquo;s MFT record (it&rsquo;s not a cluster number like in FAT). The timestamps below are for the filename changes, not the changes for the file itself. For the file timestamps, see the attribute <code>0x10</code> (above). If the file is resident, its contents will be contained in the MFT. If the file is too big, there will be a <code>data run</code> instead (❓).</p>
 <p><img src="images/ntfs-attr-30.png" alt="img"></p>
 <p>Contains 🐾 objects name, 🐾 parent folder and ⏰ filename timestamps which are not natively shown by Windows. It also includes 🐾 file properties like if it&rsquo;s an archive or a hidden file.</p>
 <p>At the offset <code>0x18</code> we have the parent directory reference specified. The first 6 bytes are the MFT entry number of the directory, and the remaining 2 represent the sequence number for this MFT record.</p>
 <p>Another set of ⏰ timestamps begins at the offset <code>0x20</code>.</p>
 <p>The flags at the offset <code>0x50</code> are the same as in <code>$STANDARD_INFORMATION</code>.</p>
 <p>At the offset <code>0x58</code> we have the number of Unicode characters that the filename consists of. Since Unicode characters are two bytes long, we need to double this number to get the exact number of bytes to read. Since this value is only one byte long, the max value it can have is <code>0xFF</code> which is <code>255</code> in decimal. That&rsquo;s why you can&rsquo;t have a filename longer than <code>255</code> characters. And then, at the offset <code>0x59</code> we have a namespace type which can be either of the following: <code>0x00</code> for POSIX (different case - different name), <code>0x01</code> for Win32 (case-sensitive long name), <code>0x02</code> for DOS (DOS-compatible short name) and <code>0x03</code> for Win32/DOS (the name is short enough to only have one <code>$FILE_NAME</code>, DOS-compatible). If the file name is long enough, the second <code>$FILE_NAME</code> attribute is created which preserves the case.</p>
-<p><strong>Data attribute</strong>. ⚠️ Yes, data is considered an attribute in NTFS. Starts with <code>0x80</code>.  Contains data itself or the pointer to its location (depending on the file size). If the file is small enough, its contents will be here (below, green area). In this case the file is called <em>resident</em> file. Whether it&rsquo;s a resident file or not, you can determine by the <em>non-resident</em> byte (marked with a red rectangle in the picture below). In the picture below it&rsquo;s <code>0x00</code>, which means the file <em>is</em> resident and its contents is in the MFT record (right below). Marked with a green rectangle it&rsquo;s the offset to the data, for resident files it&rsquo;s always <code>0x0018</code> (little-endian), since the start of the data section is in the attribute itself at the fixed place.</p>
+<h4 id="data-attribute">Data attribute</h4>
+<p>⚠️ Yes, data is considered an attribute in NTFS. Starts with <code>0x80</code>.  Contains data itself or the pointer to its location (depending on the file size). If the file is small enough, its contents will be here (below, green area). In this case the file is called <em>resident</em> file. Whether it&rsquo;s a resident file or not, you can determine by the <em>non-resident</em> byte (marked with a red rectangle in the picture below). In the picture below it&rsquo;s <code>0x00</code>, which means the file <em>is</em> resident and its contents is in the MFT record (right below). Marked with a green rectangle it&rsquo;s the offset to the data, for resident files it&rsquo;s always <code>0x0018</code> (little-endian), since the start of the data section is in the attribute itself at the fixed place.</p>
 <p><img src="images/ntfs-attr-80.png" alt="img"></p>
-<p>In the picture below there is an example of a record for a bigger file. Its non-resident flag is set to <code>0x01</code> (marked with a purple rectangle), meaning the contents is somewhere else on disk. In order to find the file contents location we need to perform the following steps:</p>
+<p>In the picture below there is an example of a record for a bigger file. Its non-resident flag is set to <code>0x01</code> (marked with a purple rectangle), meaning the contents is somewhere else on the disk. In order to find the file contents location, we need to perform the following steps:</p>
 <ul>
-<li><input disabled="" type="checkbox"> get the offset to data runs, which contain directions to the contents location (pointer). In the picture below it&rsquo;s <code>0x0040</code> (little-endian). This offset is relative to the attribute start. So, we count <code>0x40</code> from the attribute start and get to the location marked with a dark-red rectangle: <code>21 10 89 09 00 00 00 00</code> (run list).</li>
+<li><input disabled="" type="checkbox"> get the offset to data runs, which contain directions to the location of the content (pointer). In the picture below it&rsquo;s <code>0x0040</code> (little-endian). This offset is relative to the attribute start. So, we count <code>0x40</code> from the attribute start and get to the location marked with a dark-red rectangle: <code>21 10 89 09 00 00 00 00</code> (run list).</li>
 <li><input disabled="" type="checkbox"> read the run list.</li>
 </ul>
 <p><img src="images/ntfs-nonresident-set.png" alt="img"></p>
@@ -557,13 +579,44 @@
 <p>⚠️ To interpret the run header, split the byte into two nibbles and add them together: <code>2</code> + <code>1</code> = <code>3</code>, meaning, in the example above the run list length is 3 bytes. The first nibble (<code>2</code>  in this example) tells that the size of the first cluster field is 2 bytes. The second nibble tells that the size of the cluster count field of 1 byte (<code>1</code>). Together combined it&rsquo;s 3. meaning that both cluster count and first cluster fields are 3 bytes long.</p>
 </blockquote>
 <p>If the file is fragmented, there will be more than 1 data run. If there are more than 1 data run, then each next first cluster field is relative to the previous one. For example, if the first cluster for the first fragment in the first data run was <code>0x42A9</code> (17065 in decimal), and the next first cluster for the next fragment in the next data run is <code>0xBFBF</code> (-16449 decimal) then in order to get the first cluster for the second fragment, we would substitute 16449 from 17065 which would give us 616 decimal value, which would be the first cluster of the second fragment [<a href="https://www.coursera.org/learn/windows-os-forensics/home/welcome">5</a>]. So, each value is relevant to the last piece. To get the first cluster of the next fragment you&rsquo;d add it&rsquo;s value to 616 and so on and so forth. Active@Disk Editor does that automatically.</p>
-<p><strong>Object ID attribute</strong>. Starts with <code>0x40</code>. This attribute contains a GUID of a file.</p>
+<h5 id="ads">ADS</h5>
+<p>On Windows machines (NTFS file system), it’s possible to “append” a file to another file in such a way that this file is not visible with standard tools. This notion is called an alternate data stream. A few things to note:</p>
+<ol>
+<li>The host file’s hash is not changed, because, technically, it is not a part of this file. To check use 🛠️ <code>fciv</code></li>
+<li>The host file’s size is not changed, again, because technically, it is not a part of this file.</li>
+<li>These files are not visible for the file system and therefore, such tools as cmd, PowerShell, Explorer or others won’t see them if don’t know the magic 🪄 word. Even if you run <code>📘 type filewithlitter.txt</code> you won’t see the stream file’s contents, only the main one.</li>
+<li>When you copy files from and to a FAT partition - all residual files will be deleted.</li>
+</ol>
+<p>Now, if there are several streams for one MFT entry, the first one doesn&rsquo;t have a name specified and inherits it from the <code>$FILE_NAME</code> attribute. All other <code>$DATA</code> streams need to have a name and can all be either resident or not.</p>
+<p>To extract the data from the $DATA stream:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 icat <span class="o">[</span>options<span class="o">]</span> imagefile inode &gt; data.data <span class="c1"># -r recovers deleted files, -s displays slack space. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># To extract ADS</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># You can also pipe this output through xxd to review the data in hex</span>
+</span></span><span class="line"><span class="cl">📘 icat <span class="o">[</span>options<span class="o">]</span> imagefile inode-attributetype-id &gt; data.data <span class="c1"># where attribute type is also a number</span>
+</span></span></code></pre></div><p><strong>Zone.Identifier</strong>. One of the ADS that can be of use and is present for some files is called <code>Zone.Identifier</code>. When a file is downloaded from the Internet using IE or Edge (or some other apps), an ADS is added to the file on an NTFS file system. This <code>Zone.Identifier</code> stream contains metadata about where the file came from. Here are possible values for this metadata:</p>
+<p><code>ZoneId=0</code> for the Local Machine zone</p>
+<p><code>ZoneId=1</code> for the Local Intranet zone</p>
+<p><code>ZoneId=2</code> for the Trusted Sites zone</p>
+<p><code>ZoneId=3</code> for the Internet zone. This is of particular interest for the investigation. What files are ok to be downloaded from the Internet? Would you expect <code>svchost.exe</code> to be downloaded?</p>
+<p><code>ZoneId=4</code> for the Restricted Sites zone</p>
+<p><strong>Custom</strong>. To ensure compatibility between NTFS and HFS. Allows hiding files.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 C:<span class="se">\t</span>ype C:<span class="se">\m</span>al.exe &gt; C:<span class="se">\r</span>eadme.txt:naughty.exe
+</span></span><span class="line"><span class="cl">📘 start readme.txt:naughty.exe
+</span></span><span class="line"><span class="cl">📘 C:<span class="se">\m</span>klink innocent.exe readme.txt:naughty.exe
+</span></span><span class="line"><span class="cl">📘  dir /r <span class="c1"># displays all streams</span>
+</span></span></code></pre></div><p>🛠️ <code>lns</code> and 🛠️ <code>sfind</code> will hunt down such files.</p>
+<h4 id="object-id-attribute">Object ID attribute</h4>
+<p>Starts with <code>0x40</code>. This attribute contains a GUID of a file.</p>
 <p><img src="images/ntfs-attr-40.png" alt="img"></p>
-<p><strong>Bitmap attribute</strong>. Starts with <code>0xE0</code>?<code>0xB0</code>?. ⁉️</p>
+<h4 id="bitmap-attribute">Bitmap attribute</h4>
+<p>Starts with <code>0xE0</code>?<code>0xB0</code>?. ⁉️</p>
 <p>Each MFT entry needs to be allocated and can get unallocated. When the MFT is allocated, it points to a cluster the file contents reside (if non-resident, of course). However, if the entry was unallocated (the file was deleted), the metadata may or may not be filled out. Keep in mind that in that case, the clusters that were used by that data could be reused.</p>
 <blockquote>
 <p>✍️ MFT records often come in bunches if created in close proximity to each other. This doesn&rsquo;t happen all the time, but it can sometimes be used to see if the timestomping took place. For example, the file claims to be created a month ago, but it has the same ids as files that were created yesterday. When executables were saved to disk and then run shortly afterwards, expect to see MFT records corresponding to exe itself and its respective prefetch files to have similar ID values.</p>
 </blockquote>
+<h3 id="logfile">$LogFile</h3>
+<p>This artefact is related to the journaling functionality of the NTFS system.</p>
 <h2 id="file-creation-and-deletion">File Creation and Deletion</h2>
 <h3 id="creating-files">Creating Files</h3>
 <p>Steps to create a file:</p>

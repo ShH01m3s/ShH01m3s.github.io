@@ -187,7 +187,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#timestomping">Timestomping</a></li>
+    <li><a href="#timestomping">Timestomping</a>
+      <ul>
+        <li><a href="#-how-to-detect-timestomping-techniques">🤔 How to detect timestomping techniques?</a></li>
+      </ul>
+    </li>
     <li><a href="#file-deletewiping">File Delete/Wiping</a></li>
     <li><a href="#encryption">Encryption</a></li>
     <li><a href="#fileless-malware">Fileless Malware</a></li>
@@ -231,7 +235,14 @@
   <div class="content" itemprop="articleBody">
     <p><em>This article is an overview of possible anti-forensics.</em></p>
 <h2 id="timestomping">Timestomping</h2>
-<p>On NTFS, discrepancies between <code>$STANDARD_INFORMATION</code> and one or two <code>$FILE_NAME</code> attributes&rsquo; MACB timestamps could be an indication of timestomping.</p>
+<p>On NTFS, discrepancies between <code>$STANDARD_INFORMATION</code> and one or two <code>$FILE_NAME</code> attributes&rsquo; MACB timestamps could indicate timestomping.</p>
+<h3 id="-how-to-detect-timestomping-techniques">🤔 How to detect timestomping techniques?</h3>
+<p><code>$FILE_NAME</code> ⏰ vs <code>$STANDARD_INFORMATION</code> ⏰. Can be detected with 🛠️ <code>mftecmf</code>, 🛠️ <code>fls</code>, 🛠️ <code>istat</code> and 🛠️ <code>FTK imager</code>.</p>
+<p>NTFS timestamps are very precise and have fractional seconds as well. Typically, you&rsquo;d expect them to be something other than all zeroes. 🛠️ <code>mftecmf</code> and 🛠️ <code>istat</code>.</p>
+<p>If 🏺 ShimCache timestamp &gt; <code>$STANDARD_INFORMATION</code> modified timestamp. 🛠️ <code>mftecmf</code>, 🛠️ <code>fls</code>, 🛠️ <code>istat</code> and 🛠️ <code>FTK imager</code> for the <code>$STANDARD_INFORMATION</code> and  🛠️ <code>ShimCacheParser.py</code> or 🛠️ <code>AppCompatCacheParser.py</code>.</p>
+<p>Check if compile time ⏰ &gt; <code>$STANDARD_INFORMATION</code>. 🛠️ <code>sigcheck</code> and 🛠️ <code>ExifTool</code>.</p>
+<p>Check <code>$I30 </code>as well.</p>
+<p>Check MFT for records with the similar entry numbers.</p>
 <h2 id="file-deletewiping">File Delete/Wiping</h2>
 <h2 id="encryption">Encryption</h2>
 <h2 id="fileless-malware">Fileless Malware</h2>
