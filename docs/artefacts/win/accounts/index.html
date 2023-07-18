@@ -191,6 +191,9 @@
     <li><a href="#accounts">Accounts</a>
       <ul>
         <li><a href="#built-in-admin-rid-500">Built-in Admin (RID <code>500</code>)</a></li>
+        <li><a href="#guest-rid-501">Guest (RID <code>501</code>)</a></li>
+        <li><a href="#domain-admin-rid-512">Domain Admin (RID <code>512</code>)</a></li>
+        <li><a href="#domain-user-rid-513">Domain User (RID <code>513</code>)</a></li>
         <li><a href="#local-admin-rid-not-500">Local Admin (RID NOT <code>500</code>)</a></li>
         <li><a href="#local-user-accounts">Local User Accounts</a></li>
         <li><a href="#microsoft-accounts">Microsoft Accounts</a>
@@ -290,6 +293,24 @@ RID 200+ -&gt; local users</p>
 <li>Anonymous (no creds, limited privileges). Usually used by some shared resources like a printer.</li>
 </ol>
 <h3 id="built-in-admin-rid-500">Built-in Admin (RID <code>500</code>)</h3>
+<p>They have the privilege of writing to <code>C$</code> and <code>Admin$</code> shares.</p>
+<h3 id="guest-rid-501">Guest (RID <code>501</code>)</h3>
+<h3 id="domain-admin-rid-512">Domain Admin (RID <code>512</code>)</h3>
+<p>Members of the Domain Admins group have full control over all domain controllers and all directories and files that are stored on the domain controllers. They can also make changes to all accounts and groups in the domain. This includes the ability to:</p>
+<ul>
+<li>Create, modify and delete user accounts and groups within the domain.</li>
+<li>Modify the domain&rsquo;s security policies.</li>
+<li>Install, update or remove software on any computer in the domain.</li>
+<li>Access any file on any computer in the domain.</li>
+<li>Perform administrative tasks on any computer in the domain.</li>
+</ul>
+<h3 id="domain-user-rid-513">Domain User (RID <code>513</code>)</h3>
+<p>Members of the Domain Users group, on the other hand, have much more limited permissions. By default, Domain Users have permission to do the following:</p>
+<ul>
+<li>Log on to any computer in the domain, unless logon rights have been specifically denied.</li>
+<li>Create, modify, or delete their own files and directories in their user profile or shared directories.</li>
+<li>Run applications that have been installed on computers in the domain.</li>
+</ul>
 <h3 id="local-admin-rid-not-500">Local Admin (RID NOT <code>500</code>)</h3>
 <blockquote>
 <p>❗️This is not the same as the built-in admin account on every Windows system with RID <code>500</code>.</p>

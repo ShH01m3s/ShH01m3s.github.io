@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>🏺 Backups - Analyst</title>
+  <title>Windows Backups - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -42,13 +42,13 @@
     </li>
     
     <li class="menu-item-artefacts db 🏺">
-      <a href="/docs/tools">
+      <a href="/docs/artefacts">
         <span>Artefacts DB 🏺</span>
       </a>
     </li>
     
     <li class="menu-item-attacks db ⚔️">
-      <a href="/docs/tools">
+      <a href="/docs/attacks">
         <span>Attacks DB ⚔️</span>
       </a>
     </li>
@@ -107,13 +107,13 @@
     </li>
     
     <li class="menu-item-artefacts db 🏺">
-      <a href="/docs/tools">
+      <a href="/docs/artefacts">
         <span>Artefacts DB 🏺</span>
       </a>
     </li>
     
     <li class="menu-item-attacks db ⚔️">
-      <a href="/docs/tools">
+      <a href="/docs/attacks">
         <span>Attacks DB ⚔️</span>
       </a>
     </li>
@@ -187,15 +187,7 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#collection">Collection</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
+    <li><a href="#-tools">🛠️ Tools</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -208,7 +200,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">🏺 Backups</h1>
+<h1 class="title">Windows Backups</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -222,7 +214,7 @@
       
     </div>
     
-    <b>Created:</b> 01.06.2023
+    <b>Created:</b> 18.07.2023
     <br />
 
     
@@ -231,32 +223,57 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="volume-shadow-copies-and-restore">Volume Shadow Copies and Restore</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="se">\S</span>ystem Volume Information<span class="se">\
-</span></span></span></code></pre></div><p><em>Shadow Copies are exactly those pieces of data that get saved on disk when system restore option is enabled. Once it&rsquo;s actually triggered, these files are used to restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is going on. However, not only ordinary people find this feature useful. Some bad guys might try cover their tracks which can sometimes be undone with this feature.</em></p>
+    <p><em>Shadow Copies are exactly those pieces of data that get saved on disk when the system restore option is enabled. Once triggered, these files restore the system to the previous state. It&rsquo;s very useful when you are not an expert in PC and something weird is happening. However, not only ordinary people find this feature useful. Some bad guys might try to cover their tracks which can sometimes be undone with this feature.</em></p>
+<p>📂 <code>\System Volume Information\</code></p>
+<p><strong>Volume Shadow Copy</strong> is the back-end technology for features such as System Restore, allowing it to revert system files to a previous state (system files and settings), and Previous Versions, which can recover older versions of individual files. The service monitors changes made to the system and copies the block before writing new data to it. These backup blocks are 16K chunks of data saved in the 📂 <code>\System Volume Information\</code> at the root of a volume. This folder contains a file (called catalogue) that tracks all volume shadow copies along with their ID and timestamp created. For each active volume shadow copy, there is a store file that keeps all the backed-up 16K chunks.</p>
 <blockquote>
-<p>⚠️ This option is turned on by default! However, in case of my Windows 10 VM on Parallels (Windows Insider program for ARM) this option was disabled resulting in the following line: <code>No items found that satisfy the query. </code> For my Dell notebook running Windows 10, build 18362 (value from registry, <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion</code>, value <code>CurrentBuild</code>). I had to create the point of restore myself as well, since I didn&rsquo;t find where I could make it happen on a regular basis.</p>
-<p>🧪 May be it&rsquo;s something else?</p>
-<p>✍️ After the above steps were followed, PowerShell relaunched, I could finally see the valid output from <code>vssadmin.exe /for=c:</code>.</p>
+<p>❗️Win8+ came with a new feature, ScopeSnapshots. It&rsquo;s enabled by default on the clients and significantly reduces the amount of data backed up, decreasing the forensic usefulness of that artefact as a data recovery mechanism. This feature is, however, off on the servers. Also, one can use 🔑 <code>HKLM\Software\Microsoft\Windows NT\CurrentVersion\SystemRestore</code>, create a <code>DWORD</code> <code>ScopeSnapshots</code> and set it to <code>0</code>.</p>
 </blockquote>
-<p>For Windows 7 (3-5%) and for Vista - 15%. For Windows 10 you can adjust this space when turning this feature on. To turn on: <code>Control Panel -&gt; All Control Panel Items -&gt; Recovery</code> or simply type Recovery in the Start menu search box.</p>
-<p>User can set the regularity with which these copies are made: daily/weekly, on every new hardware attached, new installations, manual. There is rollover process for these files to save space. Sometimes these files are kept for years and sometimes deleted soon, first in, first out priority. Some OS versions don&rsquo;t allow to access previously created points, but still keeps them. Once you have an OS that allow access to these files, you can view them.</p>
-<p>From a forensic point of view, these files allow to view the previous versions of OS, recover files (find remnant metadata that can&rsquo;t be recovered), examine user activity in different time points. Since shadow copies are system files, these are not accessed by wiping software.</p>
+<p>🔑 <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot</code> will list the files not included in a backup copy. Although <code>hiberfil.sys</code> and <code>pagefile.sys</code> are not in the list, they are often not included when the snapshot is made.</p>
+<blockquote>
+<p>🧪 This option is turned on by default! However, in the case of my Windows 10 VM on Parallels (Windows Insider program for ARM) this option was disabled, resulting in the following line: <code>No items found that satisfy the query. </code> For my Dell notebook running Windows 10, build 18362 (value from registry, <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion</code>, value <code>CurrentBuild</code>). I had to create the point of restoration myself as well since I didn&rsquo;t find where I could make it happen regularly.</p>
+<p>✍️ After the above steps were followed, PowerShell was relaunched, and I could finally see the valid output with <code>vssadmin.exe /for=c:</code>.</p>
+</blockquote>
+<p>For Windows 7 (3-5%) and for Vista - 15%. For Windows 10 you can adjust this space when turning this feature on.</p>
+<p>⚙️ To turn on: <code>Control Panel -&gt; All Control Panel Items -&gt; Recovery</code> or type <code>Recovery</code> in the Start menu search box.</p>
+<p>Users can set the regularity with which these copies are made: daily/weekly, on every new hardware attached, new installations, and manual. There is a rollover process for these files to save space. Sometimes these files are kept for years and sometimes deleted soon, first in, first out priority. Some OS versions don&rsquo;t allow access to previously created points but still keep them. Once you have an OS that allows access to these files, you can view them.</p>
+<p>From a forensic point of view, these files allow one to view the previous versions of the OS, recover files (find remnant metadata that can&rsquo;t be recovered), and examine user activity at different time points. Since shadow copies are system files, wiping software does not access these.</p>
 <p><strong>Tools</strong> 🛠: <a href="https://coptr.digipres.org/index.php/Forensic_Acquisition_Utilities">https://coptr.digipres.org/index.php/Forensic_Acquisition_Utilities</a></p>
-<h4 id="collection">Collection</h4>
-<p><a href="http://www.chrysocome.net/downloads/ddrelease64.exe">dd.exe</a> for Windows. There used to be some FAU (Forensic Acquisition Utilities) package, containing <code>dd</code>, but I could not find it, so I downloaded <code>dd.exe</code> separately.</p>
+<h2 id="-tools">🛠️ Tools</h2>
+<p>🛠️ <code>KAPE</code> (removes duplicates) and 🛠️ <code>Velociraptor</code> (scalable) can capture the VSC on a live system. 🛠️ <code>Arsenal Image Mounter</code>, 🛠️ <code>F-Response</code> and 🛠️ <code>vshadowmount</code> can be used for a full-volume analysis.</p>
+<p><a href="http://www.chrysocome.net/downloads/ddrelease64.exe"><code>dd.exe</code></a> for Windows. There used to be some FAU (Forensic Acquisition Utilities) package containing <code>dd</code>, but I could not find it, so I downloaded <code>dd.exe</code> separately.</p>
 <p>To get the list of shadow copies from a PC, run the following built-in utility:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">vssadmin</span> <span class="n">list</span> <span class="n">shadows</span> <span class="p">/</span><span class="k">for</span><span class="p">=&lt;</span><span class="n">path_to_drive</span><span class="p">&gt;</span> <span class="c"># /for=c: for a logial drive</span>
 </span></span></code></pre></div><p>Now, to collect the image with a <code>dd</code>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">dd</span><span class="p">.</span><span class="n">exe</span> <span class="k">if</span><span class="p">=\\.\</span><span class="n">HardDiskVolumeShadowCopy1</span> <span class="n">of</span><span class="p">=</span><span class="n">g:</span><span class="p">\</span><span class="n">shadow</span><span class="p">.</span><span class="n">img</span> <span class="c"># for Windows, using the above mentioned version of dd, we type `if` and `of` instead of `-if` and `-of`.</span>
 </span></span><span class="line"><span class="cl"><span class="c"># what&#39;s --localwrt</span>
-</span></span></code></pre></div><p>Better go and have a cup of coffee ☕️ since it takes decent amount of time 🕰, tick-tock!</p>
-<h2 id="references">References</h2>
+</span></span></code></pre></div><p>Better go and have a cup of coffee ☕️ since it takes a decent amount of time 🕰, tick-tock!</p>
+<p>🛠️ <code>libvshadow</code> is a library that can be used to process VSC, its components 🛠️ <code>vshadowinfo</code> and 🛠️ <code>vshadowmount</code> to help.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">📘 vshadowinfo <span class="o">[</span>-o NTFS_volume_offset<span class="o">]</span> image_or_volume <span class="c1"># -o is optional, and only use when analysing a phisical drive, not a logical volume. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># If you have a E01 instead of a raw image file, use ewfmount utility first</span>
+</span></span><span class="line"><span class="cl">📘 ewfmount image.E01 /mnt/mountname <span class="c1"># make the system see E01 as a raw disk</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 vshadowmount /mnt/mountname/submountname1 /mnt/vss <span class="c1"># mount all VSC at /mnt/vss</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 <span class="nb">cd</span> /mnt/vss <span class="o">&amp;&amp;</span> ls <span class="c1"># list all available VSC</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 mount -o ro, loop, show_sys_files,streams_interface<span class="o">=</span>windows vss2 /mnt/shadow_m/vss2 <span class="c1"># mount specific VSC. SIFT workstations now have an alias for this command: mountwin. ro - read-only. loop - This option is used when you&#39;re mounting a file that contains a file system, rather than a physical device. For example, this option is commonly used when mounting an ISO file. show_sys_files enables display of system files, which are normally hidden. The last option changes how NTFS Alternate Data Streams (ADS) are accessed, making it more like how they are accessed on a Windows system.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># you can automatically mount all the VSC availble with a loop</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in vss*<span class="p">;</span> <span class="k">do</span> mountwin <span class="nv">$i</span> /mnt/shadow_m/<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># run a timeline tool agains a VSC retrieved</span>
+</span></span><span class="line"><span class="cl">📘 log2timeline.py plaso.dump imagefile
+</span></span><span class="line"><span class="cl">📘 psort plaso.dump <span class="c1"># remove duplicates</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">📘 fls -r -m C: <span class="se">\\</span>.<span class="se">\H</span>arddiskVolumeShadowCopy12 &gt;&gt; bodyfile <span class="c1"># can be used to analyse VSC, it&#39;s faster since it processes metadata only. </span>
+</span></span><span class="line"><span class="cl">📘 log2timeline.pl -f mactime -w timeline.csv -Z UTC bodyfile <span class="c1"># convert </span>
+</span></span></code></pre></div><h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
     Something here
 </details>
-
   </div>
 </article>
 </div>

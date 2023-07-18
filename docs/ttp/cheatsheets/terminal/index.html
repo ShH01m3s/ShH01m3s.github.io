@@ -187,7 +187,11 @@
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows">Windows</a></li>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#-event-logs">🪵 Event Logs</a></li>
+      </ul>
+    </li>
     <li><a href="#macos">macOS</a></li>
     <li><a href="#references">References</a></li>
   </ul>
@@ -226,6 +230,7 @@
   <div class="content" itemprop="articleBody">
     <p><em>Think of the terminal as a magic wand 🪄 of the attacker. The beauty for them is that they can do all sorts of nasty things remotely, but their beauty also lies with their forensics perks: one can review the history of this activity.</em></p>
 <h2 id="windows">Windows</h2>
+<h3 id="-event-logs">🪵 Event Logs</h3>
 <p>It&rsquo;s possible to track terminal activity starting from Windows Server 2012R2, but it needs to be enabled by default (too noisy). To enable it: Computer Configuration -&gt; Policies -&gt; Admin Templates -&gt; System -&gt; Audit Process Creation. Once enabled, <code>4688</code> (process created, arguments logged) and <code>4689</code> (process exited) can show some of this activity. However, even if not enabled explicitly, some events will be logged anyway (suspicious scripts).</p>
 <blockquote>
 <p>👵🏽 Windows XP, <code>592</code> - tracks process activity but no cmd arguments.</p>
@@ -279,7 +284,9 @@
 </span></span></code></pre></div><blockquote>
 <p>✍️ Bad strings: download, IEX, rundll32.exe, http, StartProcess, InvokeExpression, Invoke-Command, syswow64, FromBase64String, powershell -Version, Invoke-WMIMethod, Invoke-CIMMethod, Reflection, WebClient, bitstransfer.</p>
 </blockquote>
-<h2 id="macos">macOS</h2>
+<p>The attacker could also abuse <code>%COMSPEC%</code> (used to run <code>cmd.exe</code>) like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">%COMSPEC% /C start malicious_script.bat
+</span></span></code></pre></div><h2 id="macos">macOS</h2>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

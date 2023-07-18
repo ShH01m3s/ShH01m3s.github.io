@@ -227,6 +227,7 @@
   <div class="content" itemprop="articleBody">
     <p><em>How often has the following happened to you? You want to run a program, but it&rsquo;s not designed to run on this version of OS. Windows has a mechanism to run older programs on newer systems. Even when these &ldquo;compatibility&rdquo; adjustments are not required, Windows still logs the information for all the programs run.</em></p>
 <h2 id="-anatomy">☠️ Anatomy</h2>
+<p>Shows the date and time that an executable was last modified.</p>
 <p>📂 <strong>Path</strong>: <code>SYSTEM</code> hive</p>
 <p>🔑 <code>SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache\AppCompatCache</code> (Windows Vista +)
 🔑 <code>SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatibility\AppCompatCache</code> (Windows XP) - 96 entries only.</p>
@@ -252,7 +253,7 @@
 ⛔️ Several ShimCache for each ControlSet (the most recent info is in 🔑 <code>SYSTEM\CurrentControlSet</code>)</p>
 </blockquote>
 <h2 id="-timestamps">⏰ Timestamps</h2>
-<p>Last time of execution or activity, based on the interpretation of the time-based data. <code>LastUpdateTime</code> is updated when the files are executed on Win XP. <code>LastUpdateTime</code> does not exist on Win7- 10 systems.</p>
+<p>Shows the date and time that an executable was last modified. Last time of execution or activity, based on the interpretation of the time-based data. <code>LastUpdateTime</code> is updated when the files are executed on Win XP. <code>LastUpdateTime</code> does not exist on Win7- 10 systems.</p>
 <h2 id="-tools">🛠️ Tools</h2>
 <p>🛠️ <code>AppCompatCacheParser</code> (Eric Zimmerman, Win7+) and 🛠️ <code>ShimCacheParser.py</code> (Mandiant).</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="err">📘</span> <span class="p">.\</span><span class="n">AppCompatCacheParser</span><span class="p">.</span><span class="n">exe</span> <span class="o">-f</span> <span class="p">.\</span><span class="n">SYSTEM</span> <span class="p">-</span><span class="n">-csv</span> <span class="n">C:</span><span class="p">\</span><span class="n">temp</span>

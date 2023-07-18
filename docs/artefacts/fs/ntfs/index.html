@@ -753,6 +753,23 @@ encrypted, we would have <code>0x2640</code>.</p>
 </tr>
 </tbody>
 </table>
+<p>Use the poster to help. It will show how different file system timestamps change depending on the activity performed with the file. There are 4 timestamps used on NTFS: <code>M</code> (modification 🍉), <code>A</code> (access 🍏), <code>C</code> (Metadata change 🍒) and <code>B</code> (file created/born 🍌).</p>
+<ol>
+<li>File Renamed: <code>$Standard_Information</code> 🍒, <code>$Filename</code> - none</li>
+<li>Local file move: <code>$Standard_Information</code> 🍒, <code>$Filename</code> - 🍉🍒</li>
+<li>Volume file move: <code>$Standard_Information</code> 🍏🍒, <code>$Filename</code> - 🍉🍏🍌 🍒</li>
+<li>File copy: <code>$Standard_Information</code> 🍏🍌🍒 , <code>$Filename</code> - 🍉🍏🍌 🍒</li>
+<li>File Access: <code>$Standard_Information</code> 🍏 (old Win) , <code>$Filename</code> - none</li>
+<li>File Modify: <code>$Standard_Information</code> 🍉 🍏 🍒 , <code>$Filename</code> - 🍉 🍏 🍒</li>
+<li>File Creation: <code>$Standard_Information</code> 🍉🍏🍌 🍒, <code>$Filename</code> - 🍉🍏🍌 🍒</li>
+<li>File Deletion: <code>$Standard_Information</code> none, <code>$Filename</code> - none</li>
+</ol>
+<blockquote>
+<p>✍️ If you see that a file was created 🍌 AFTER it was modified 🍉, it is indicative of a file copy, even when the file was copied from another system. It can sometimes highlight the lateral movement event.</p>
+</blockquote>
+<blockquote>
+<p>❗️Each file and directory will have <code>$STANDARD_INFORMATION</code> (4 timestamps) and at least one <code>$FILE_NAME</code> (another 4 timestamps). If the filename is long enough, the second $FILE_NAME attribute will have the additional 4 timestamps.</p>
+</blockquote>
 <h2 id="references">References</h2>
 <p>[<a href="">1</a>] Windows OS file system for 27 years</p>
 <p>[<a href="https://www.magnetforensics.com/resources/demystifying-mac-investigations-mac-vs-windows-artifacts-comparison/?submission=https://go.magnetforensics.com/l/52162/2020-08-25/kqxr57">2</a>] Demystifying Mac Investigations: Mac vs. Windows Artifacts Comparison, Magnet Webinar</p>

@@ -242,7 +242,10 @@
 <p>If 🏺 ShimCache timestamp &gt; <code>$STANDARD_INFORMATION</code> modified timestamp. 🛠️ <code>mftecmf</code>, 🛠️ <code>fls</code>, 🛠️ <code>istat</code> and 🛠️ <code>FTK imager</code> for the <code>$STANDARD_INFORMATION</code> and  🛠️ <code>ShimCacheParser.py</code> or 🛠️ <code>AppCompatCacheParser.py</code>.</p>
 <p>Check if compile time ⏰ &gt; <code>$STANDARD_INFORMATION</code>. 🛠️ <code>sigcheck</code> and 🛠️ <code>ExifTool</code>.</p>
 <p>Check <code>$I30 </code>as well.</p>
-<p>Check MFT for records with the similar entry numbers.</p>
+<p>Check MFT for records with similar entry numbers. NTFS tends to assign subsequent MFT records within a short period of time.</p>
+<blockquote>
+<p>🤔 Imagine you have several files, and one of them was likely been tampered with. How do you decide which one? Look at the groups of files created roughly within the same time and look at the MFT numbers. If they are too different, it&rsquo;s something to look into more. For example, a file has timestamps like most of the files created at the same time, but the MFT number is very low. Also, <code>$STANDARD_INFORMATION</code> timestamps (NTFS) and <code>$FILE_NAME</code> timestamps usually match and the milliseconds fraction should not be all zeroes.</p>
+</blockquote>
 <h2 id="file-deletewiping">File Delete/Wiping</h2>
 <p>🛠️ <code>sdelete</code> (more about the forensic footprint of the tool <a href="https://www.inversecos.com/2022/09/forensic-detection-of-files-deleted-via.html">here</a>). Wipes files, directories and free space.  This is what this tool&rsquo;s activity looks like:</p>
 <p><img src="images/sdelete.png" alt="img"></p>

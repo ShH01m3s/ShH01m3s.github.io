@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Passwords Cracking - Analyst</title>
+  <title>🤔 How Do I Check For Malicious Autostarts? - Analyst</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="icon" href="https://bakerst221b.com/favicon.png">
@@ -182,18 +182,19 @@
             
 <div class="docs-menu">
   <p>
-   <a href="/docs/ttp/data-recovery/"> 👈🏼 Back to </br> 🩻 Data Recovery </a>
+   <a href="/docs/ttp/cheatsheets/"> 👈🏼 Back to </br> 🤔 Analysis Tips and Cheatsheets </a>
   </p>
   <aside>
    <nav id="TableOfContents">
   <ul>
-    <li><a href="#mem">mem</a></li>
-    <li><a href="#zip">zip</a></li>
-    <li><a href="#-tools">🛠 Tools</a>
+    <li><a href="#windows">Windows</a>
       <ul>
-        <li><a href="#wordlists">Wordlists</a></li>
-        <li><a href="#john-the-ripper-password-cracker">John the Ripper password cracker</a></li>
-        <li><a href="#hashcat">hashcat</a></li>
+        <li><a href="#tasks">Tasks</a>
+          <ul>
+            <li><a href="#event-logs">Event logs</a></li>
+          </ul>
+        </li>
+        <li><a href="#services">Services</a></li>
       </ul>
     </li>
     <li><a href="#references">References</a></li>
@@ -208,7 +209,7 @@
         </div>
         <div class="col-12 col-md-9">
           
-<h1 class="title">Passwords Cracking</h1>
+<h1 class="title">🤔 How Do I Check For Malicious Autostarts?</h1>
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -222,7 +223,7 @@
       
     </div>
     
-    <b>Created:</b> 28.07.2022
+    <b>Created:</b> 24.06.2023
     <br />
 
     
@@ -231,39 +232,52 @@
 
 
   <div class="content" itemprop="articleBody">
-    <h2 id="mem">mem</h2>
-<p>Such files as <code>hiberfil.sys</code> or a memory image can grepped for passwords.</p>
-<h2 id="zip">zip</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install john
-</span></span><span class="line"><span class="cl">brew install hashcat
-</span></span><span class="line"><span class="cl">brew install maczip <span class="c1"># to create test 7z on macOS</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">./7z2john /path/to/zip/file.7z &gt; /path/to/output/file.hash
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">hashcat -h <span class="p">|</span> grep -i zip                                                                                             
-</span></span><span class="line"><span class="cl">  <span class="m">11600</span> <span class="p">|</span> 7-Zip                                                      <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">17220</span> <span class="p">|</span> PKZIP <span class="o">(</span>Compressed Multi-File<span class="o">)</span>                              <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">17200</span> <span class="p">|</span> PKZIP <span class="o">(</span>Compressed<span class="o">)</span>                                         <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">17225</span> <span class="p">|</span> PKZIP <span class="o">(</span>Mixed Multi-File<span class="o">)</span>                                   <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">17230</span> <span class="p">|</span> PKZIP <span class="o">(</span>Mixed Multi-File Checksum-Only<span class="o">)</span>                     <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">17210</span> <span class="p">|</span> PKZIP <span class="o">(</span>Uncompressed<span class="o">)</span>                                       <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">20500</span> <span class="p">|</span> PKZIP Master Key                                           <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">20510</span> <span class="p">|</span> PKZIP Master Key <span class="o">(</span><span class="m">6</span> byte optimization<span class="o">)</span>                     <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">23001</span> <span class="p">|</span> SecureZIP AES-128                                          <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">23002</span> <span class="p">|</span> SecureZIP AES-192                                          <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">23003</span> <span class="p">|</span> SecureZIP AES-256                                          <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">  <span class="m">13600</span> <span class="p">|</span> WinZip                                                     <span class="p">|</span> Archive
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">hashcat -m <span class="m">11600</span> hash.hash toolkit/wordlists/rockyou.txt
-</span></span></code></pre></div><p>And the result is the following. For rockyou.txt file the estimated time was about 16-18 hours. So, for the testing purposes I created a simple wordlist with just 3 words.</p>
-<p><img src="images/hashcat.png" alt="mg"></p>
-<h2 id="-tools">🛠 Tools</h2>
-<p>Installation steps and troubleshooting are listed in the Toolkit section (Forensic lab setup) of this website.</p>
-<h3 id="wordlists">Wordlists</h3>
-<p><a href="https://github.com/openethereum/wordlist/blob/master/res/wordlist.txt">https://github.com/openethereum/wordlist/blob/master/res/wordlist.txt</a>
-<a href="https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt">https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt</a></p>
-<h3 id="john-the-ripper-password-cracker">John the Ripper password cracker</h3>
-<h3 id="hashcat">hashcat</h3>
+    <h2 id="windows">Windows</h2>
+<h3 id="tasks">Tasks</h3>
+<h4 id="event-logs">Event logs</h4>
+<p>Two trails are of use are <code>Microsoft-Windows-TaskScheduler/Operational</code> 🍇 (disabled by default on the newer systems) and <code>Security</code> 🛡️.</p>
+<table>
+<thead>
+<tr>
+<th>🍇</th>
+<th>🛡️</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>106</code></td>
+<td><code>4698</code></td>
+<td>Task created</td>
+</tr>
+<tr>
+<td><code>140</code></td>
+<td><code>4702</code></td>
+<td>updated</td>
+</tr>
+<tr>
+<td><code>141</code></td>
+<td><code>4699</code></td>
+<td>Deleted</td>
+</tr>
+<tr>
+<td><code>200/201</code></td>
+<td>-</td>
+<td>executed and completed</td>
+</tr>
+<tr>
+<td>-</td>
+<td><code>4700/4701</code></td>
+<td>enabled and disabled</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✍🏻 On older Win 👴🏼 it&rsquo;s <code>602</code> event. Also, config files are in bin format with <code>.job</code> extension and can be parsed by a <code>jobparser.py</code> script.</p>
+</blockquote>
+<p>Also, scheduled tasks create an XML (on newer) or bin (👴🏼) config files with helpful information like the account used, timestamps and activities scheduled. Simply go to <code>Windows\System32\Tasks</code> or <code>Windows\SysWoW64\Tasks</code> (for 32-bit) folders. Bot <code>at.exe</code> and <code>schtasks.exe</code> produce this artefact. If you know that&rsquo;s a malicious task, note the account used to create it, and you have a lead because it&rsquo;s likely compromised. Bingo!</p>
+<h3 id="services">Services</h3>
+<p>Even when the key at 🔑 <code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce</code> is cleared, if 🔑 <code>HKLM\SYSTEM\CurrentControlSet\Services</code> can be leveraged to run processes at every without user interaction. If some helper file is specified here, or even the malware itself, it can monitor different folders and registry settings to remain persistent.</p>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>

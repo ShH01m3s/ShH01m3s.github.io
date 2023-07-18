@@ -196,7 +196,6 @@
     <li><a href="#the-importance-of-timestamps">The Importance Of Timestamps</a></li>
     <li><a href="#file-systems-timestamps">File Systems Timestamps</a>
       <ul>
-        <li><a href="#-notes">✍️ Notes</a></li>
         <li><a href="#ntfs">NTFS</a></li>
         <li><a href="#ntfs-vs-apfs">NTFS vs APFS</a></li>
       </ul>
@@ -326,9 +325,9 @@
 </ul>
 <h2 id="file-systems-timestamps">File Systems Timestamps</h2>
 <p>Timestamps vary between different file systems. Usually, they include creation, modification, access times and sometimes metadata change times as well. By reviewing which of these are equal or how they differ, one can infer what happened to the file.</p>
-<h3 id="-notes">✍️ Notes</h3>
 <blockquote>
-<p>❗️Office apps update access times 🍏 even when these are disabled through the registry.
+<p>✍️ Notes
+❗️Office apps update access times 🍏 even when these are disabled through the registry.
 ❗️API calls can be leveraged to tamper with the timestamps.
 ❗️Most compression tools backdate the modification times of the unzipped files to the time when the archive was created, making it look like a file copy.
 ❗️Some scanners, including AV update timestamps on each scan.</p>
@@ -364,7 +363,10 @@
 80000003 (hex) = System Managed, Last Access Updates Disabled</p>
 <h2 id="application-specific-timestamps">Application Specific Timestamps</h2>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe pod podname <span class="c1"># to see the pod description, MAC times and settings</span>
-</span></span></code></pre></div><h2 id="building-timelines">Building Timelines</h2>
+</span></span></code></pre></div><blockquote>
+<p>❗️ Date stamps reflect the time that they were before the archive was created.</p>
+</blockquote>
+<h2 id="building-timelines">Building Timelines</h2>
 <blockquote>
 <p>TODO: Diagram</p>
 </blockquote>
@@ -387,6 +389,9 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># ===============================================================</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># create a timeline with Plaso</span>
 </span></span><span class="line"><span class="cl">📘 log2timeline --parsers <span class="s2">&#34;webhist,!binary_cookies&#34;</span> outputfile imagefile -z timezone <span class="c1"># this command will process imagefile with all webhist parsers excluding binary_cookies and output the result in an outputfile. </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># another filter to find all NTUSER.DAT files: /Users/AppData/Roaming/.+/NNTUSER[.].DAT</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">📘 log2timeline --file_filter filter_custom.txt outputfile imagefile <span class="c1"># either use txt filter files or yaml. The latter support the &#34;exclude&#34; operator.</span>
 </span></span><span class="line"><span class="cl">📘 pinfo.py -v outputfile <span class="p">|</span> more
 </span></span><span class="line"><span class="cl">📘 pinfo.py -v outputfile <span class="p">|</span> less

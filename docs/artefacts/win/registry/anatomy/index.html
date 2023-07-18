@@ -546,8 +546,11 @@
 </blockquote>
 <p>Background Activity Monitor. Organaized by user SID. Windows apps&rsquo; names are not parsed very well here. Gives last executed time ⏰ , 64-bit little-endian (first 8 bytes of the value). It <strong>does</strong> prove program execution and it ties it to the specific user. May use the same technique for core processes analysis and identifying rogue processes like in RAM.</p>
 <h2 id="nt-user">NT User</h2>
-<p><strong>Path to file</strong> 🛣️: <code>C:\Users\%Username%\NTUser.dat</code>.</p>
+<p>📂  <code>C:\Users\%Username%\NTUser.dat</code>.</p>
 <p>Key interesting for a forensic examiner are listed below.</p>
+<blockquote>
+<p>❗️The file NTUSER.DAT file for every system will be updated upon system shutdown.</p>
+</blockquote>
 <h3 id="recent-documents">Recent documents</h3>
 <p><strong>Key</strong> 🔑: <code>NTUSER.DAT\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></p>
 <p>Contains the list of all recent documents as a bunch and also the same data sorted by extension. <code>MRUListEx</code> is list. It has a number of 4 byte values, each noting the sequence number of a document. It starts from the document&rsquo;s number that was accessed some time age (first in the list) and ends with the most recently used one. This key also has a list of recently accessed folders.</p>
