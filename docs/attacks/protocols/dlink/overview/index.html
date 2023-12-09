@@ -286,9 +286,9 @@
 <p><em>How can it achieve that?</em></p>
 <p>The first option is to to ask every machine in the neighbourhood until it finally finds its fellow, using, for example, something like ARP protocol but for Data Link layer. But this would take <code>O(n)</code> time for <code>n</code> machines. The more machines are in the district, the more time is needed to asks everyone. The worst case is when the machine needed is the last asked (that&rsquo;s why <code>O(n)</code>).</p>
 <p>The second option is the one actually being used. The switch 🧑‍💼sends this frame from PC1 to <strong>every</strong>  machine in the neighbourhood (yes, it&rsquo;s a violation of confidentiality&hellip;). It&rsquo;s called <em>broadcasting</em>. Whoever responds - is PC6.</p>
-<p><img src="images/1.png" alt="img"></p>
+<p><img src="attacks/protocols/dlink/overview/images/1.png" alt="img"></p>
 <p>The switch 🧑‍💼now puts down its MAC (<code>bb:bb:bb:bb:bb:bb</code>) and assigns it to the cubilcle #<code>4</code> .</p>
-<p><img src="images/2.png" alt="img"></p>
+<p><img src="attacks/protocols/dlink/overview/images/2.png" alt="img"></p>
 <p>PC6 🖥 goes to the cubicle <code>4</code>, reads the frame from PC1 and sends a response. Now the switch checks against his doodle (which indicate that PC1 is in the cubicle <code>1</code>) and delievers the response to the cubicle <code>1</code> where PC1 is still waiting 🖥  (and <del>not</del> picking up his nose ❓).</p>
 <p><img src="https://media.giphy.com/media/xT0xeuS2LbEKg71qfe/giphy.gif" alt="img"></p>
 <p>From now on all frames between PC1 and PC6 will be forwarded without prior flooding and violating the confidentiality.</p>

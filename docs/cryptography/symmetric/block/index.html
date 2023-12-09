@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Block Ciphers - Analyst</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" href="https://bakerst221b.com/favicon.png">
+  <link href="/css/style-classic.css"></link>
+  
+  
+  <link rel="stylesheet" href="/css/style.min.564b5f4faf3af87992cb8ab298314448914c22dbdb3f2f9c584546b21b8d407c.css">
+  
+
+  
+
+</head>
+
+<body class='page page-default-single'>
+  <div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/artefacts">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/attacks">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+  <div class="wrapper">
+    <div class='header'>
+  <div class="container">
+    <div class="logo">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo.png" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="https://bakerst221b.com"><img alt="Logo" src="/images/logo-mobile.svg" /></a>
+    </div>
+    
+
+    <div id="main-menu" class="main-menu">
+  <ul>
+    
+    
+    <li class="menu-item-home 🏡">
+      <a href="/">
+        <span>Home 🏡</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-blog ✍️">
+      <a href="/docs/blog">
+        <span>Blog ✍️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-ttp 🔍">
+      <a href="/docs/ttp">
+        <span>TTP 🔍</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-artefacts db 🏺">
+      <a href="/docs/artefacts">
+        <span>Artefacts DB 🏺</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-attacks db ⚔️">
+      <a href="/docs/attacks">
+        <span>Attacks DB ⚔️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-tools db 🛠️">
+      <a href="/docs/tools">
+        <span>Tools DB 🛠️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-crypto 🗝️">
+      <a href="/docs/cryptography">
+        <span>Crypto 🗝️</span>
+      </a>
+    </li>
+    
+    <li class="menu-item-about me 🧝🏽‍♀️">
+      <a href="/docs/about">
+        <span>About me 🧝🏽‍♀️</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+    
+    <button id="toggle-main-menu-mobile" class="hamburger hamburger--slider" type="button">
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>
+    
+    <div style="margin-left: 20pt;">
+      <a href="/index.xml" type="application/rss+xml">
+        <img src="/images/rss.png" alt="RSS Feed">
+      </a>
+    </div>
+    
+    <style>
+      a[href="/index.xml"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    
+      a[href="/index.xml"] img {
+        height: 30px;
+      }
+    </style>
+    
+  </div>
+</div>
+
+
+    
+    
+    
+    
+    
+    
+
+    
+    <div class="container pt-2 pt-md-6 pb-3 pb-md-6">
+      <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+          <div class="sidebar">
+            
+<div class="docs-menu">
+  <p>
+   <a href="/docs/cryptography/symmetric/"> 👈🏼 Back to </br> Symmetric Algorithms </a>
+  </p>
+  <aside>
+   <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cbc">CBC</a></li>
+    <li><a href="#ecb">ECB</a></li>
+    <li><a href="#ctr">CTR</a>
+      <ul>
+        <li><a href="#cracking">Cracking</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+ </aside>
+</div>
+
+
+
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          
+<h1 class="title">Block Ciphers</h1>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    <div class="meta">
+      
+      
+
+      
+      
+
+      
+      <div class="article-tag">
+          <i class="fas fa-tag"></i>
+          
+          
+          <a class="tag-link" href="/tags/crypto" rel="tag">crypto</a>
+          
+      </div> 
+      
+    </div>
+    
+    <b>Created:</b> 06.10.2020
+    <br />
+
+    
+
+  </header>
+
+
+  <div class="content" itemprop="articleBody">
+    <p>This is the next generation. 128-bit blocks, 128,192, 256 keys. It takes too much time to brute force. However, there are some situations when this could be cracked. And not only ECB but CBC as well.</p>
+<p>One block of plaintext results in a 2-block cypher (random string + cypher text) for some modes. That&rsquo;s why different modes exist.</p>
+<ul>
+<li>Stream
+<ul>
+<li>synchronised</li>
+<li>unsynchronised</li>
+</ul>
+</li>
+<li>Block
+<ul>
+<li>CTR</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>Encryption steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Choose some random string of length N (call it a 🐊)</li>
+<li><input disabled="" type="checkbox"> Do something with the string to get a key 🗝 from 🐊</li>
+<li><input disabled="" type="checkbox"> XOR your message 🍆 with a key 🗝</li>
+<li><input disabled="" type="checkbox"> Cypher text 🫐 = 🐊, 🍆 XOR 🗝</li>
+</ul>
+<p>Decryption steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> c2 XOR Fk(c1)</li>
+</ul>
+<h2 id="cbc">CBC</h2>
+<p>Let&rsquo;s start with an example. Let&rsquo;s say we want to encrypt the message: <code>explore</code>. If it&rsquo;s ASCII, it&rsquo;s 7 bytes long. Let&rsquo;s translate this into char: <code>65 78 70 6C 6F 72 65</code>. Since the message needs to be padded to become 8 bytes long and we only have one character to add, we add <code>01</code> (see PKCS#5 padding).</p>
+<table>
+<thead>
+<tr>
+<th>65</th>
+<th>78</th>
+<th>70</th>
+<th>6C</th>
+<th>6F</th>
+<th>72</th>
+<th>65</th>
+<th>01</th>
+</tr>
+</thead>
+</table>
+<p>Now, we pick an array of random numbers of the same length to make an <code>IV</code> (initialisation vector):</p>
+<table>
+<thead>
+<tr>
+<th>89</th>
+<th>03</th>
+<th>42</th>
+<th>12</th>
+<th>01</th>
+<th>00</th>
+<th>98</th>
+<th>54</th>
+</tr>
+</thead>
+</table>
+<p>We first XOR IV with the message to get the following result:</p>
+<table>
+<thead>
+<tr>
+<th>EC</th>
+<th>7B</th>
+<th>32</th>
+<th>7E</th>
+<th>6E</th>
+<th>72</th>
+<th>FD</th>
+<th>55</th>
+</tr>
+</thead>
+</table>
+<p>Then we encrypt this newly acquired array with AES (a series of shifting, meddling and xoring).</p>
+<p>In the end, we have the following output:</p>
+<table>
+<thead>
+<tr>
+<th>89</th>
+<th>03</th>
+<th>42</th>
+<th>12</th>
+<th>01</th>
+<th>00</th>
+<th>98</th>
+<th>54</th>
+<th>EC</th>
+<th>7B</th>
+<th>32</th>
+<th>7E</th>
+<th>6E</th>
+<th>72</th>
+<th>FD</th>
+<th>55</th>
+</tr>
+</thead>
+</table>
+<p>The first 8 bytes are the IV, and the last 8 are the encrypted message. How do we find out what the plaintext has access to the IV and be able to modify it and observe the server response?</p>
+<h2 id="ecb">ECB</h2>
+<p>Why is ECB considered insecure? To answer that we could go back to one-time pad and answer the question &ldquo;why is one-time pad insecure when the same key is used more than once?&rdquo; We already know why it&rsquo;s not good. If you need to refresh it, go to the article about one-time pad to find more information.</p>
+<p>Here is a picture I found online that shows how ECB works.</p>
+<p>Let&rsquo;s keep things simple. If the encryption algorithm 🔏 is basically adding number three 3 to each block, then the resulting blocks would retain the same difference as they had in the plaintext. All of the blocks become <code>+3</code>.</p>
+<p>1 1 1 0 1 0 1 0 1 1 0 0</p>
+<p>OR</p>
+<p>1 1 1 1 1 1 1 1 1 1 1 1</p>
+<p>1 1 1 1 1 1</p>
+<h2 id="ctr">CTR</h2>
+<p>Encryption steps:</p>
+<ul>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">some_function</span><span class="p">(</span><span class="n">ctr</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="o">...</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">ctr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">key_length</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">number_of_blocks</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">ctr</span> <span class="o">=</span> <span class="n">random</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">key_length</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">message</span> <span class="o">=</span> <span class="p">[</span><span class="n">number_of_blocks</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">cypher_text</span> <span class="o">=</span> <span class="n">ctr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">number_of_blocks</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cypher_text</span> <span class="o">+=</span> <span class="n">message</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">ctr</span>
+</span></span><span class="line"><span class="cl">	<span class="n">some_function</span><span class="p">(</span><span class="n">ctr</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></div><p>Decryption steps:</p>
+<h3 id="cracking">Cracking</h3>
+
+  </div>
+</article>
+</div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <ul>
+            <li class="zerostatic"><a href="https://www.zerostatic.io">www.zerostatic.io</a></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/scripts.min.302a6fc365d5139fb98cf60bdb8f715d96257ea189161d36c190ccfa8182e569.js"></script>
+  
+
+  
+  
+  
+    
+  
+
+
+</body>
+
+</html>
