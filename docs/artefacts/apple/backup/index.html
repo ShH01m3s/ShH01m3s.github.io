@@ -227,8 +227,26 @@
     <h2 id="macos">macOS</h2>
 <p><code>/Users/%username%/Library/Application Support/MobileSync/Backup/</code></p>
 <h2 id="ios">iOS</h2>
-<p>The backups are not encrypted by default, but can be if this option was on during the backup process. If it was encrypted, you&rsquo;ll need device PIN to unlock it. These backups can be stored in the cloud or locally on the user&rsquo;s PC.</p>
+<p>The backups are not encrypted by default but can be if this option is on during the backup process. If it was encrypted, you&rsquo;ll need a device PIN to unlock it. These backups can be stored in the cloud or locally on the user&rsquo;s PC.</p>
 <p>🛠 <strong>iBackupViewer</strong>. It&rsquo;s free to some extent.</p>
+<p>Find iOS backups on macOS here 📂 <code>Users/username/Library/Application\ Support/MobileSync/Backup</code>. Each backup is named with its unique UDID (not the same as the device UID). Each backup contains three <code>plist</code>s: 🏺 <code>Info</code>, 🏺 <code>Manifest</code> and 🏺 <code>Status</code>.</p>
+<ul>
+<li>🏺 <code>Info</code> - about the device.
+<ul>
+<li>Device name and model</li>
+<li>Phone number</li>
+<li>⏰ Backup timestamps (last backup)</li>
+</ul>
+</li>
+<li>🏺 <code>Status</code> - describes the backup.</li>
+<li>🏺 <code>Manifest</code> - instructions on how to deal with the backup
+<ul>
+<li>Is it encrypted?</li>
+<li>⏰ Backup timestamps</li>
+<li>Is it passcode-protected?</li>
+</ul>
+</li>
+</ul>
 <h2 id="references">References</h2>
 <details>
     <summary>Expand&hellip;</summary>
