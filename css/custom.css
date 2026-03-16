@@ -1,0 +1,264 @@
+/* Banner custom layout — text left, 4 scattered circular photos right */
+/* With combined entrance + continuous float animations */
+
+/* ── Keyframes ── */
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(var(--float-y, -5px)); }
+}
+
+/* ── Layout ── */
+
+.banner-custom {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 3rem;
+}
+
+.banner-custom-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 72rem;
+  width: 100%;
+  gap: 3rem;
+}
+
+/* Text content — left side */
+.banner-custom-content {
+  flex: 1 1 50%;
+  max-width: 36rem;
+  text-align: left;
+  opacity: 0;
+  animation: slideInLeft 0.7s ease-out forwards;
+}
+
+.banner-custom-content h1 {
+  margin-bottom: 1rem;
+}
+
+.banner-custom-content .major {
+  margin-bottom: 1.5rem;
+}
+
+/* Photos — right side, asymmetric scatter, scaled up ~25% */
+.banner-custom-photos {
+  flex: 0 0 auto;
+  position: relative;
+  width: 32rem;
+  height: 28rem;
+}
+
+.banner-photo {
+  position: absolute;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+}
+
+/* Photo 7 (hero): bottom-left, largest — therapist at work */
+.banner-photo-hero {
+  --float-y: -6px;
+  width: 17rem;
+  height: 17rem;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  animation:
+    fadeScaleIn 0.6s ease-out 0.4s forwards,
+    float 6s ease-in-out 2s infinite;
+}
+
+/* Photo 1: top-centre-left — books & plant */
+.banner-photo-1 {
+  --float-y: -4px;
+  width: 11rem;
+  height: 11rem;
+  top: 0;
+  left: 8rem;
+  animation:
+    fadeIn 0.5s ease-out 0.7s forwards,
+    float 5s ease-in-out 2s infinite;
+}
+
+/* Photo 2: top-right, smaller — plants & notebook */
+.banner-photo-2 {
+  --float-y: -5px;
+  width: 8.5rem;
+  height: 8.5rem;
+  top: 1.5rem;
+  right: 0;
+  animation:
+    fadeIn 0.5s ease-out 1.0s forwards,
+    float 4s ease-in-out 2s infinite;
+}
+
+/* Photo 3: mid-right — journal & greenery */
+.banner-photo-3 {
+  --float-y: -3px;
+  width: 10rem;
+  height: 10rem;
+  bottom: 2rem;
+  right: 1rem;
+  animation:
+    fadeIn 0.5s ease-out 1.3s forwards,
+    float 5.5s ease-in-out 2s infinite;
+}
+
+/* ── Tablet (<=980px) ── */
+@media screen and (max-width: 980px) {
+  .banner-custom {
+    padding: 3rem 2rem;
+  }
+
+  .banner-custom-inner {
+    gap: 2rem;
+  }
+
+  .banner-custom-photos {
+    width: 24rem;
+    height: 22rem;
+  }
+
+  .banner-photo-hero {
+    width: 13rem;
+    height: 13rem;
+  }
+
+  .banner-photo-1 {
+    width: 8.5rem;
+    height: 8.5rem;
+    left: 6rem;
+  }
+
+  .banner-photo-2 {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+
+  .banner-photo-3 {
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+}
+
+/* ── Mobile (<=736px) — stack vertically ── */
+@media screen and (max-width: 736px) {
+  .banner-custom {
+    padding: 3rem 1.5rem;
+    min-height: auto;
+  }
+
+  .banner-custom-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .banner-custom-content {
+    text-align: center;
+    max-width: 100%;
+    flex-basis: auto;
+  }
+
+  .banner-custom-photos {
+    width: 100%;
+    height: 14rem;
+  }
+
+  /* Reset all absolute positions, then set per-photo */
+  .banner-photo {
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+
+  .banner-photo-hero {
+    width: 8rem;
+    height: 8rem;
+    bottom: 0;
+    left: 8%;
+    z-index: 2;
+  }
+
+  .banner-photo-1 {
+    width: 6rem;
+    height: 6rem;
+    top: 0;
+    left: 32%;
+  }
+
+  .banner-photo-2 {
+    width: 4.5rem;
+    height: 4.5rem;
+    top: 0.5rem;
+    right: 8%;
+  }
+
+  .banner-photo-3 {
+    width: 5.5rem;
+    height: 5.5rem;
+    bottom: 0.5rem;
+    right: 12%;
+  }
+
+  /* Disable continuous float on mobile — preserve battery */
+  .banner-photo-hero {
+    animation: fadeScaleIn 0.6s ease-out 0.4s forwards;
+  }
+
+  .banner-photo-1 {
+    animation: fadeIn 0.5s ease-out 0.7s forwards;
+  }
+
+  .banner-photo-2 {
+    animation: fadeIn 0.5s ease-out 1.0s forwards;
+  }
+
+  .banner-photo-3 {
+    animation: fadeIn 0.5s ease-out 1.3s forwards;
+  }
+}
+
+/* ── Accessibility: respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .banner-custom-content,
+  .banner-photo-hero,
+  .banner-photo-1,
+  .banner-photo-2,
+  .banner-photo-3 {
+    animation: none;
+    opacity: 1;
+  }
+}
