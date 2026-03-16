@@ -1,3 +1,326 @@
+/* ── Sticky navigation ── */
+
+.sticky-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  background: rgba(250, 249, 246, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.sticky-nav.hidden {
+  transform: translateY(-100%);
+}
+
+.sticky-nav-inner {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sticky-nav-links {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.sticky-nav-links a {
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.sticky-nav-links a:hover {
+  color: var(--color-brand);
+}
+
+.sticky-nav-cta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.sticky-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.sticky-nav-btn:first-child {
+  background: var(--color-brand);
+  color: var(--color-ivory);
+  padding: 0.5rem 1.25rem;
+  border-radius: 2rem;
+}
+
+.sticky-nav-btn:first-child:hover {
+  background: #636b33;
+  color: var(--color-ivory);
+}
+
+.sticky-nav-btn-secondary {
+  background: transparent;
+  color: var(--color-brand);
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--color-brand);
+  border-radius: 2rem;
+}
+
+.sticky-nav-btn-secondary:hover {
+  background: var(--color-brand);
+  color: var(--color-ivory) !important;
+}
+
+/* Mobile nav */
+@media screen and (max-width: 736px) {
+  .sticky-nav-inner {
+    padding: 0.5rem 1rem;
+  }
+
+  .sticky-nav-links {
+    gap: 1rem;
+  }
+
+  .sticky-nav-links a {
+    font-size: 0.7rem;
+  }
+
+  .sticky-nav-btn {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.75rem;
+  }
+}
+
+/* ── Floating action buttons ── */
+
+.floating-buttons {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.floating-buttons.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.floating-phone {
+  width: 3.25rem;
+  height: 3.25rem;
+  background: var(--color-brand);
+  color: var(--color-ivory);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.floating-phone:hover {
+  background: #636b33;
+  color: var(--color-ivory);
+  transform: scale(1.1);
+}
+
+.floating-calendar {
+  width: 3.25rem;
+  height: 3.25rem;
+  background: var(--color-ivory);
+  color: var(--color-brand);
+  border: 1px solid var(--color-brand);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.floating-calendar:hover {
+  background: var(--color-brand);
+  color: var(--color-ivory);
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 736px) {
+  .floating-buttons {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    gap: 0.5rem;
+  }
+
+  .floating-phone,
+  .floating-calendar {
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1rem;
+  }
+}
+
+/* ── Global overrides: typography, background ── */
+
+:root {
+  --color-ivory: #FAF9F6;
+  --color-ivory-dark: #f0efe9;
+  --color-ivory-warm: #f2f1eb;
+  --color-brand: #77803e;
+}
+
+/* ── Hover: brand color on clickable items ── */
+a:hover,
+button:hover,
+input[type="submit"]:hover {
+  color: var(--color-brand);
+}
+
+/* On brand-colored backgrounds, hover to ivory instead */
+.color7 a:hover,
+.color7 button:hover,
+#promo.spotlight a:hover {
+  color: var(--color-ivory);
+  opacity: 1;
+}
+
+/* Buttons: border + background shift on hover */
+.button:hover,
+input[type="submit"]:hover {
+  border-color: var(--color-brand);
+  background-color: var(--color-brand);
+  color: var(--color-ivory);
+}
+
+/* On brand backgrounds, invert button hover */
+.color7 .button:hover,
+.color7 input[type="submit"]:hover {
+  background-color: var(--color-ivory);
+  color: var(--color-brand);
+  border-color: var(--color-ivory);
+}
+
+body {
+  background-color: var(--color-ivory);
+}
+
+/* Override theme white backgrounds to match ivory */
+.wrapper.style1 {
+  background-color: var(--color-ivory);
+}
+
+.wrapper.style2 {
+  background-color: var(--color-ivory-dark);
+}
+
+.wrapper.style2 > .inner {
+  background-color: var(--color-ivory);
+}
+
+/* Catch-all: override any remaining theme #fff backgrounds */
+input, select, textarea {
+  background-color: var(--color-ivory);
+}
+
+/* About me block — remove card, ivory text on sage green */
+#promo.spotlight .content {
+  background: transparent;
+  color: var(--color-ivory);
+}
+
+#promo.spotlight .content h2 {
+  color: var(--color-ivory);
+}
+
+#promo.spotlight .content p {
+  color: rgba(250, 249, 246, 0.9);
+}
+
+#promo.spotlight .content a:not(.button) {
+  color: var(--color-ivory);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+#promo.spotlight .content .button {
+  color: var(--color-ivory) !important;
+  border-color: rgba(250, 249, 246, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(250, 249, 246, 0.5);
+}
+
+#promo.spotlight .content .button:hover {
+  background-color: var(--color-ivory);
+  color: var(--color-brand) !important;
+  border-color: var(--color-ivory);
+  box-shadow: inset 0 0 0 1px var(--color-ivory);
+}
+
+/* ── Item icons: clickable, brand hover ── */
+.item-icon-link {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.item-icon-link:hover .icon {
+  color: var(--color-brand);
+}
+
+.item-icon-link .icon {
+  transition: color 0.2s;
+}
+
+/* ── Form inputs: brand border on hover/focus ── */
+.reachout-form input:hover,
+.reachout-form select:hover,
+.reachout-form textarea:hover {
+  border-color: var(--color-brand);
+}
+
+.reachout-form input:focus,
+.reachout-form select:focus,
+.reachout-form textarea:focus {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 1px var(--color-brand);
+  outline: none;
+}
+
+/* Heading font: Lora (serif) for warmth and authority */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lora', Georgia, serif;
+}
+
 /* Banner custom layout — text left, 4 scattered circular photos right */
 /* With combined entrance + continuous float animations */
 
@@ -42,7 +365,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem 3rem;
+  padding: 6rem 3rem 4rem;
 }
 
 .banner-custom-inner {
@@ -75,37 +398,59 @@
 .banner-line {
   margin: 0 0 0.35rem 0;
   line-height: 1.4;
+  transition: transform 0.3s ease, letter-spacing 0.3s ease;
+  transform-origin: left center;
+  cursor: default;
 }
 
-.banner-line-lg {
-  font-size: 1.35rem;
+.banner-line:hover {
+  transform: scale(1.05);
+  letter-spacing: 0.01em;
+}
+
+/* Banner body: Source Sans Pro (body font), clean hierarchy */
+.banner-body {
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+}
+
+.banner-line-1 {
+  font-size: 1.2rem;
   font-weight: 300;
 }
 
-.banner-line-md {
-  font-size: 1.15rem;
+.banner-line-2 {
+  font-size: 1.1rem;
   font-weight: 300;
   font-style: italic;
 }
 
-.banner-line-sm {
-  font-size: 1.65rem;
+.banner-line-3 {
+  font-size: 1rem;
   font-weight: 300;
   margin-top: 0.6rem;
-  line-height: 1.3;
+}
+
+.banner-line-4 {
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+  letter-spacing: 0.01em;
 }
 
 /* Credentials — tighter spacing, slightly larger */
 .banner-creds {
   margin-bottom: 1.75rem;
+  font-family: 'Source Sans Pro', Helvetica, sans-serif;
 }
 
 .banner-creds p {
   margin: 0;
-  font-size: 0.95rem;
-  font-style: italic;
-  line-height: 1.6;
-  opacity: 0.85;
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.7;
+  opacity: 0.75;
+  letter-spacing: 0.02em;
 }
 
 /* Photos — right side, asymmetric scatter, scaled up ~25% */
@@ -314,18 +659,20 @@
 /* ── Scroll snap — sections land neatly ── */
 
 html {
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
 
 /* All major sections snap to viewport top */
 .banner-custom,
 .spotlight,
-.wrapper.style1 {
+.wrapper.style1,
+.reachout-section,
+.footer-custom {
   scroll-snap-align: start;
 }
 
-/* Only spotlights and banner get full-height — they have enough content */
+/* Sections should fill at least viewport for clean snapping */
 .banner-custom,
 .spotlight {
   min-height: 100vh;
@@ -375,5 +722,240 @@ html {
   .spotlight.style2 .image {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* ── Reach Out section — compact split layout ── */
+
+.reachout-section {
+  background-color: var(--color-ivory-warm) !important;
+  min-height: auto !important;
+  scroll-snap-align: start;
+}
+
+.reachout-section > .inner {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.reachout-split {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.reachout-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.reachout-form .fields {
+  gap: 0.75rem;
+}
+
+.reachout-form input[type="text"],
+.reachout-form input[type="email"],
+.reachout-form textarea {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.reachout-form textarea {
+  min-height: auto;
+}
+
+.reachout-form .actions {
+  margin-top: 0.75rem;
+}
+
+.reachout-privacy-note {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  font-style: italic;
+  margin-top: 0.75rem;
+}
+
+.reachout-details {
+  padding-top: 0.5rem;
+}
+
+.reachout-details h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.reachout-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.reachout-links li {
+  margin-bottom: 0.6rem;
+}
+
+.reachout-links li a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+.reachout-links li a i {
+  width: 1.25em;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.reachout-sessions-note {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  font-style: italic;
+  margin: 0;
+}
+
+.reachout-photo {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.reachout-photo img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Reach out mobile — stack */
+@media screen and (max-width: 736px) {
+  .reachout-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .reachout-photo {
+    display: none;
+  }
+}
+
+/* ── Footer — multi-column layout ── */
+
+.footer-custom {
+  text-align: left;
+  color: var(--color-ivory);
+}
+
+.footer-col h3 {
+  color: var(--color-ivory);
+}
+
+.footer-col p,
+.footer-col ul li a {
+  color: rgba(250, 249, 246, 0.85);
+}
+
+.footer-col ul li a:hover {
+  color: var(--color-ivory);
+}
+
+.footer-bottom p {
+  color: rgba(250, 249, 246, 0.7);
+}
+
+.footer-custom .inner {
+  max-width: 64rem;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.footer-col h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.footer-col p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 0.35rem;
+}
+
+.footer-col ul li a {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.footer-col ul li a:hover {
+  opacity: 1;
+}
+
+.footer-col ul li a i {
+  width: 1.25em;
+  margin-right: 0.25rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin: 0 0 0.25rem 0;
+}
+
+.footer-credits {
+  font-size: 0.7rem;
+  opacity: 0.4;
+}
+
+/* ── Footer tablet (<=980px) — 2x2 grid ── */
+@media screen and (max-width: 980px) {
+  .footer-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* ── Footer mobile (<=736px) — single column ── */
+@media screen and (max-width: 736px) {
+  .footer-custom {
+    text-align: center;
+  }
+
+  .footer-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-col ul li a i {
+    display: none;
   }
 }
