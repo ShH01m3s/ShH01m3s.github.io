@@ -288,13 +288,91 @@
   }
 }
 
+/* ── Spotlight circle float — same gentle bob as banner photos ── */
+
+.spotlight.style2 .image {
+  --float-y: -5px;
+  animation: float 5.5s ease-in-out infinite;
+}
+
+/* Vary speed per spotlight for organic feel */
+#first.spotlight.style2 .image {
+  --float-y: -6px;
+  animation-duration: 6s;
+}
+
+#second.spotlight.style2 .image {
+  --float-y: -4px;
+  animation-duration: 5s;
+}
+
+#promo.spotlight.style2 .image {
+  --float-y: -5px;
+  animation-duration: 5.5s;
+}
+
+/* ── Scroll snap — sections land neatly ── */
+
+html {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+/* All major sections snap to viewport top */
+.banner-custom,
+.spotlight,
+.wrapper.style1 {
+  scroll-snap-align: start;
+}
+
+/* Only spotlights and banner get full-height — they have enough content */
+.banner-custom,
+.spotlight {
+  min-height: 100vh;
+}
+
+/* Spotlights need their own flex layout preserved */
+.spotlight.style2 {
+  display: flex;
+  align-items: center;
+}
+
+/* Wrapper sections — tighter vertical padding */
+.wrapper.style1 > .inner {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* ── Mobile: disable snap (sections too tall to snap cleanly) ── */
+@media screen and (max-width: 736px) {
+  html {
+    scroll-snap-type: none;
+  }
+
+  .spotlight,
+  .wrapper.style1 {
+    min-height: auto;
+  }
+
+  /* Disable spotlight float on mobile — battery */
+  .spotlight.style2 .image {
+    animation: none;
+  }
+}
+
 /* ── Accessibility: respect reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
   .banner-custom-content,
   .banner-photo-hero,
   .banner-photo-1,
   .banner-photo-2,
-  .banner-photo-3 {
+  .banner-photo-3,
+  .spotlight.style2 .image {
     animation: none;
     opacity: 1;
   }
