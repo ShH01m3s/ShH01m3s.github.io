@@ -117,6 +117,39 @@
 		</div>
 		
 		
+		<a href="https://calendar.app.google/w2o7GhNkZqAY4gWf8" id="sticky-book" style="
+			position: fixed;
+			bottom: 2rem;
+			right: 2rem;
+			background: #77803e;
+			color: #fff;
+			padding: 0.8rem 1.5rem;
+			border-radius: 2rem;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: 0.9rem;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+			z-index: 9999;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			pointer-events: none;
+		">Book a free intro call</a>
+		<script>
+			(function() {
+				var btn = document.getElementById('sticky-book');
+				window.addEventListener('scroll', function() {
+					if (window.scrollY > window.innerHeight * 0.6) {
+						btn.style.opacity = '1';
+						btn.style.pointerEvents = 'auto';
+					} else {
+						btn.style.opacity = '0';
+						btn.style.pointerEvents = 'none';
+					}
+				});
+			})();
+		</script>
+
+		
 		
 
 
