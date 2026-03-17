@@ -65,6 +65,10 @@
   transition: all 0.3s ease;
 }
 
+.sticky-nav-btn .btn-icon {
+  display: none;
+}
+
 .sticky-nav-btn:first-child {
   background: var(--color-brand);
   color: var(--color-ivory);
@@ -105,8 +109,38 @@
   }
 
   .sticky-nav-btn {
-    font-size: 0.65rem;
-    padding: 0.4rem 0.75rem;
+    padding: 0;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .sticky-nav-btn:first-child {
+    padding: 0;
+  }
+
+  .sticky-nav-btn .btn-label {
+    display: none;
+  }
+
+  .sticky-nav-btn .btn-icon {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Keep banner CTA centered on mobile */
+  .banner-custom-content .actions {
+    justify-content: center;
+  }
+
+  .banner-custom-content .actions li {
+    flex-grow: 0;
+    width: auto;
+  }
+
+  .banner-custom-content .actions li .button {
+    width: auto;
   }
 }
 
@@ -558,7 +592,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Mobile (<=736px) — stack vertically ── */
 @media screen and (max-width: 736px) {
   .banner-custom {
-    padding: 3rem 1.5rem;
+    padding: 5rem 1.5rem 3rem;
     min-height: auto;
   }
 
