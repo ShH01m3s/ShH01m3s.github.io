@@ -1012,9 +1012,32 @@ html {
   border-bottom-color: var(--color-brand);
 }
 
-/* Article body: bold text in brand color (not headings) */
+/* ── Article pages ── */
+
+.article-image {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.article-image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.article-body {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
 .article-body p strong,
 .article-body li strong,
 .article-body blockquote strong {
   color: var(--color-brand);
+}
+
+@media screen and (max-width: 736px) {
+  .article-image,
+  .article-body {
+    max-width: 100%;
+  }
 }
