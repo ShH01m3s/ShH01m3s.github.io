@@ -100,6 +100,46 @@
   margin-left: 0.4em;
 }
 
+/* Hallmark · component: informational note · genre: editorial · theme: existing
+ * contrast: pass · responsive: 320 / 375 / 414 / 768
+ * pre-emit critique: P5 H4 E5 S5 R5 V4
+ */
+.intro-rate-note {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.7fr) minmax(0, 1.8fr);
+  gap: var(--space-note-sm) var(--space-note-xl);
+  max-width: 48rem;
+  margin: var(--space-note-2xl) auto 0;
+  padding: var(--space-note-md) 0 0;
+  border-top: var(--rule-note) solid var(--color-brand);
+  text-align: left;
+}
+
+.intro-rate-note strong {
+  color: var(--color-brand);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.intro-rate-note p {
+  max-width: 65ch;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  opacity: 0.78;
+}
+
+@media screen and (max-width: 736px) {
+  .intro-rate-note {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-note-xs);
+    margin-top: var(--space-note-xl);
+    padding-top: var(--space-note-sm);
+  }
+}
+
 /* ── Logo in nav ── */
 
 .sticky-nav-logo {
@@ -350,6 +390,32 @@
   --color-ivory-dark: #f0efe9;
   --color-ivory-warm: #f2f1eb;
   --color-brand: #636b33;
+  --color-banner-rule: color-mix(in srgb, var(--color-ivory) 34%, transparent);
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Source Sans Pro', Helvetica, sans-serif;
+  --space-banner-xs: 0.5rem;
+  --space-banner-sm: 0.75rem;
+  --space-banner-md: 1rem;
+  --space-banner-lg: 1.5rem;
+  --space-banner-xl: 2.5rem;
+  --space-banner-2xl: 4rem;
+  --space-banner-3xl: 6rem;
+  --radius-banner-round: 50%;
+  --rule-banner: 1px;
+  --rule-banner-focus: 2px;
+  --offset-banner-focus: 0.25rem;
+  --distance-banner-float: -0.3rem;
+  --dur-banner-micro: 120ms;
+  --dur-banner-long: 420ms;
+  --dur-banner-float: 6s;
+  --ease-banner-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-banner-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --space-note-xs: 0.5rem;
+  --space-note-sm: 1rem;
+  --space-note-md: 1.25rem;
+  --space-note-xl: 2rem;
+  --space-note-2xl: 2.25rem;
+  --rule-note: 2px;
 }
 
 /* ── Hover: brand color on clickable items ── */
@@ -492,318 +558,246 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lora', Georgia, serif;
 }
 
-/* Banner custom layout — text left, 4 scattered circular photos right */
-/* With combined entrance + continuous float animations */
+/* ── Banner: quiet editorial split ── */
 
-/* ── Keyframes ── */
+/* Hallmark · component: banner · genre: editorial · theme: existing
+ * motion: one-time portrait reveal + requested gentle float · mobile: 320 / 375 / 414 / 768
+ * states: default · hover · focus · active
+ * pre-emit critique: P5 H5 E5 S5 R5 V4
+ */
 
-@keyframes slideInLeft {
+@keyframes bannerPortraitReveal {
   from {
     opacity: 0;
-    transform: translateX(-2rem);
+    transform: translateY(var(--space-banner-sm));
   }
+
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-@keyframes fadeScaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
+@keyframes bannerPortraitFloat {
+  0%, 100% {
+    transform: translateY(0);
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  50% {
+    transform: translateY(var(--distance-banner-float));
   }
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(var(--float-y, -5px)); }
-}
-
-/* ── Layout ── */
 
 .banner-custom {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 3rem 4rem;
+  display: block;
+  min-height: auto;
+  padding: var(--space-banner-3xl) var(--space-banner-xl) var(--space-banner-xl);
+}
+
+.banner-custom-shell {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
 }
 
 .banner-custom-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
-  justify-content: space-between;
-  max-width: 72rem;
-  width: 100%;
-  gap: 3rem;
+  gap: var(--space-banner-xl);
 }
 
-/* Text content — left side */
 .banner-custom-content {
-  flex: 1 1 50%;
-  max-width: 36rem;
+  min-width: 0;
+  max-width: 42rem;
   text-align: left;
-  opacity: 0;
-  animation: slideInLeft 0.7s ease-out forwards;
 }
 
 .banner-custom-content h1 {
-  margin-bottom: 1.25rem;
+  max-width: 12ch;
+  min-width: 0;
+  margin-bottom: var(--space-banner-lg);
+  line-height: 1.08;
+  overflow-wrap: anywhere;
 }
 
-/* Banner body — each line on its own, varying sizes */
 .banner-body {
-  margin-bottom: 1.25rem;
+  display: grid;
+  gap: var(--space-banner-xs);
+  max-width: 65ch;
+  margin-bottom: var(--space-banner-lg);
+  font-family: var(--font-body);
 }
 
 .banner-line {
-  margin: 0 0 0.35rem 0;
-  line-height: 1.4;
-  transition: transform 0.3s ease, letter-spacing 0.3s ease;
-  transform-origin: left center;
-  cursor: default;
-}
-
-.banner-line:hover {
-  transform: scale(1.05);
-  letter-spacing: 0.01em;
-}
-
-/* Banner body: Source Sans Pro (body font), clean hierarchy */
-.banner-body {
-  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+  margin: 0;
+  line-height: 1.55;
 }
 
 .banner-line-1 {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 300;
-}
-
-.banner-line-2 {
-  font-size: 0.85rem;
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.5;
-  margin: 0.1rem 0;
-}
-
-.banner-line-3 {
-  font-size: 1rem;
-  font-weight: 300;
-  margin-top: 0.6rem;
 }
 
 .banner-line-4 {
   font-size: 1.35rem;
   font-weight: 400;
-  margin-top: 0.5rem;
   letter-spacing: 0.01em;
 }
 
-/* Credentials — tighter spacing, slightly larger */
-.banner-creds {
-  margin-bottom: 1.75rem;
-  font-family: 'Source Sans Pro', Helvetica, sans-serif;
+.banner-custom-content .actions {
+  justify-content: flex-start;
+  margin-bottom: 0;
 }
 
-.banner-creds p {
+.banner-custom-content .button {
+  white-space: nowrap;
+}
+
+.banner-rates-button {
+  color: var(--color-ivory);
+  border-color: var(--color-ivory);
+  box-shadow: inset 0 0 0 var(--rule-banner) var(--color-ivory);
+  transition:
+    background-color var(--dur-banner-micro) var(--ease-banner-out),
+    color var(--dur-banner-micro) var(--ease-banner-out),
+    transform var(--dur-banner-micro) var(--ease-banner-out);
+}
+
+#wrapper > .banner-custom .banner-rates-button:hover {
+  /* Match the theme's #wrapper-scoped selector and keep text visible. */
+  color: var(--color-brand) !important;
+  -webkit-text-fill-color: var(--color-brand) !important;
+  background-color: var(--color-ivory) !important;
+  border-color: var(--color-ivory) !important;
+  box-shadow: inset 0 0 0 var(--rule-banner) var(--color-ivory) !important;
+  opacity: 1 !important;
+  transform: translateY(-1px);
+}
+
+.banner-rates-button:focus-visible {
+  outline: var(--rule-banner-focus) solid var(--color-ivory);
+  outline-offset: var(--offset-banner-focus);
+}
+
+#wrapper > .banner-custom .banner-rates-button:active {
+  color: var(--color-brand) !important;
+  -webkit-text-fill-color: var(--color-brand) !important;
+  background-color: var(--color-ivory) !important;
+  transform: translateY(1px);
+}
+
+.banner-custom-portrait {
+  width: min(32vw, 25rem);
+  aspect-ratio: 1;
+  justify-self: center;
+  animation: bannerPortraitReveal var(--dur-banner-long) var(--ease-banner-out) both;
+}
+
+.banner-custom-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-banner-round);
+  object-fit: cover;
+  object-position: 50% 34%;
+  animation: bannerPortraitFloat var(--dur-banner-float) var(--ease-banner-in-out) 600ms infinite;
+}
+
+.banner-details {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1.5fr;
+  gap: var(--space-banner-lg);
+  align-items: start;
+  margin-top: var(--space-banner-xl);
+  padding-top: var(--space-banner-md);
+  border-top: var(--rule-banner) solid var(--color-banner-rule);
+  font-family: var(--font-body);
+}
+
+.banner-details p {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 300;
-  line-height: 1.7;
-  opacity: 0.75;
+  line-height: 1.45;
   letter-spacing: 0.02em;
 }
 
-/* Photos — right side, asymmetric scatter, scaled up ~25% */
-.banner-custom-photos {
-  flex: 0 0 auto;
-  position: relative;
-  width: 32rem;
-  height: 28rem;
-}
-
-.banner-photo {
-  position: absolute;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  opacity: 0;
-}
-
-/* Photo 7 (hero): bottom-left, largest — therapist at work */
-.banner-photo-hero {
-  --float-y: -6px;
-  width: 17rem;
-  height: 17rem;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  animation:
-    fadeScaleIn 0.6s ease-out 0.4s forwards,
-    float 6s ease-in-out 2s infinite;
-}
-
-/* Photo 1: top-centre-left — books & plant */
-.banner-photo-1 {
-  --float-y: -4px;
-  width: 11rem;
-  height: 11rem;
-  top: 0;
-  left: 8rem;
-  animation:
-    fadeIn 0.5s ease-out 0.7s forwards,
-    float 5s ease-in-out 2s infinite;
-}
-
-/* Photo 2: top-right, smaller — plants & notebook */
-.banner-photo-2 {
-  --float-y: -5px;
-  width: 8.5rem;
-  height: 8.5rem;
-  top: 1.5rem;
-  right: 0;
-  animation:
-    fadeIn 0.5s ease-out 1.0s forwards,
-    float 4s ease-in-out 2s infinite;
-}
-
-/* Photo 3: mid-right — journal & greenery */
-.banner-photo-3 {
-  --float-y: -3px;
-  width: 10rem;
-  height: 10rem;
-  bottom: 2rem;
-  right: 1rem;
-  animation:
-    fadeIn 0.5s ease-out 1.3s forwards,
-    float 5.5s ease-in-out 2s infinite;
-}
-
-/* ── Tablet (<=980px) ── */
 @media screen and (max-width: 980px) {
   .banner-custom {
-    padding: 3rem 2rem;
+    padding-right: var(--space-banner-lg);
+    padding-left: var(--space-banner-lg);
   }
 
   .banner-custom-inner {
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1.2fr) minmax(14rem, 0.8fr);
+    gap: var(--space-banner-xl);
   }
 
-  .banner-custom-photos {
-    width: 24rem;
-    height: 22rem;
+  .banner-custom-portrait {
+    width: min(30vw, 18rem);
   }
 
-  .banner-photo-hero {
-    width: 13rem;
-    height: 13rem;
-  }
-
-  .banner-photo-1 {
-    width: 8.5rem;
-    height: 8.5rem;
-    left: 6rem;
-  }
-
-  .banner-photo-2 {
-    width: 6.5rem;
-    height: 6.5rem;
-  }
-
-  .banner-photo-3 {
-    width: 7.5rem;
-    height: 7.5rem;
+  .banner-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* ── Mobile (<=736px) — stack vertically ── */
 @media screen and (max-width: 736px) {
   .banner-custom {
-    padding: 5rem 1.5rem 3rem;
-    min-height: auto;
+    padding: var(--space-banner-3xl) var(--space-banner-lg) var(--space-banner-xl);
   }
 
   .banner-custom-inner {
-    flex-direction: column;
-    text-align: center;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-banner-xl) var(--space-banner-sm);
+    align-items: start;
   }
 
   .banner-custom-content {
-    text-align: center;
+    display: contents;
     max-width: 100%;
-    flex-basis: auto;
+    text-align: left;
   }
 
-  .banner-custom-photos {
-    width: 100%;
-    height: 14rem;
+  .banner-custom-content h1 {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    margin-bottom: 0;
+    font-size: 2rem;
   }
 
-  /* Reset all absolute positions, then set per-photo */
-  .banner-photo {
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
+  .banner-body {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-bottom: 0;
   }
 
-  .banner-photo-hero {
-    width: 8rem;
-    height: 8rem;
-    bottom: 0;
-    left: 8%;
-    z-index: 2;
+  .banner-custom-content .actions {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    justify-content: flex-start;
   }
 
-  .banner-photo-1 {
-    width: 6rem;
-    height: 6rem;
-    top: 0;
-    left: 32%;
+  .banner-custom-portrait {
+    grid-column: 2;
+    grid-row: 1;
+    width: clamp(7rem, 30vw, 8.5rem);
+    justify-self: end;
   }
 
-  .banner-photo-2 {
-    width: 4.5rem;
-    height: 4.5rem;
-    top: 0.5rem;
-    right: 8%;
+  .banner-custom-portrait img {
+    animation: none;
   }
 
-  .banner-photo-3 {
-    width: 5.5rem;
-    height: 5.5rem;
-    bottom: 0.5rem;
-    right: 12%;
+  .banner-details {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-banner-xs);
+    margin-top: var(--space-banner-xl);
   }
 
-  /* Disable continuous float on mobile — preserve battery */
-  .banner-photo-hero {
-    animation: fadeScaleIn 0.6s ease-out 0.4s forwards;
-  }
-
-  .banner-photo-1 {
-    animation: fadeIn 0.5s ease-out 0.7s forwards;
-  }
-
-  .banner-photo-2 {
-    animation: fadeIn 0.5s ease-out 1.0s forwards;
-  }
-
-  .banner-photo-3 {
-    animation: fadeIn 0.5s ease-out 1.3s forwards;
-  }
 }
 
 /* ── Spotlight circle images — static (float animation removed for performance) ── */
@@ -824,8 +818,7 @@ html {
   scroll-snap-align: start;
 }
 
-/* Sections should fill at least viewport for clean snapping */
-.banner-custom,
+/* Spotlights fill the viewport; the banner follows its content height. */
 .spotlight {
   min-height: 100vh;
 }
@@ -866,12 +859,10 @@ html {
     scroll-behavior: auto;
   }
 
-  .banner-custom-content,
-  .banner-photo-hero,
-  .banner-photo-1,
-  .banner-photo-2,
-  .banner-photo-3,
-  .spotlight.style2 .image {
+  .banner-custom-portrait,
+  .banner-custom-portrait img,
+  .spotlight.style2 .image,
+  .spotlight.style2 .image img {
     animation: none;
     opacity: 1;
   }
